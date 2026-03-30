@@ -21,6 +21,8 @@ Before public package publication:
 3. verify `./get-hbn` on a clean local checkout
 4. confirm the public package name strategy
 5. confirm release notes and changelog
+6. confirm domain configuration for `usehbn.org`
+7. confirm redirect behavior for `usehbn.com`
 
 ## Name Strategy
 

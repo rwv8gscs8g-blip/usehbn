@@ -72,6 +72,15 @@ Canonical semantic references:
 The semantic trigger is case-insensitive and can appear inside longer text. The operational CLI is installed locally and currently exposes `hbn` as the primary entry point and `usehbn` as a compatibility alias.
 The domains are treated as canonical semantic references for the protocol identity. In the current system, adapters and documentation should normalize them to HBN semantics without assuming that browsing is required.
 
+## Public Domains
+
+The public web strategy is now explicit:
+
+- `https://usehbn.org` is the canonical public site
+- `https://usehbn.com` should permanently redirect to `https://usehbn.org`
+
+This keeps one stable public site while preserving both semantic anchors.
+
 ## Installation
 
 Bootstrap install:
@@ -237,6 +246,7 @@ Main areas:
 - `.hbn/`: active inter-IA coordination and knowledge for this repository
 - `get-hbn`: local bootstrap helper for deterministic local installation
 - `core/semantic-layer.md`: semantic normalization rules across natural language, commands, and adapters
+- `docs/DOMAINS.md`: canonical public-domain and DNS strategy
 
 ## Governance
 

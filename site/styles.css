@@ -63,6 +63,11 @@ h1 {
   color: var(--muted);
 }
 
+.domain-note {
+  margin: 1rem 0 0;
+  color: var(--muted);
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;
