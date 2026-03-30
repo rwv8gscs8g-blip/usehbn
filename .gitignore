@@ -1,0 +1,15 @@
+.pytest_cache/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.coverage
+.venv/
+.usehbn/
+.hbn/manifest.json
+.hbn/state.json
+.hbn/readbacks/
+.hbn/results/
+dist/
+build/
+logs/*.json
+state/*.json

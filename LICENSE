@@ -1,0 +1,27 @@
+GNU Affero General Public License v3.0
+
+Copyright (C) 2026 Luis Mauricio Junqueira Zanin
+
+This repository is licensed under the GNU Affero General Public License,
+version 3, as published by the Free Software Foundation on 19 November 2007.
+Source files in this repository may state "version 3 or later"; where present,
+that notice grants the recipient the corresponding AGPL option.
+
+The authoritative license text is available at:
+https://www.gnu.org/licenses/agpl-3.0.txt
+
+This project is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
+details.
+
+For practical use in this repository:
+
+1. You may study, run, copy, and modify this work under AGPLv3.
+2. If you convey modified versions, you must preserve the same license terms.
+3. If you run modified versions for users over a network, you must provide
+   access to the corresponding source code under AGPLv3.
+4. There is no warranty except where required by applicable law.
+
+The upstream license text published by the Free Software Foundation governs in
+case of any ambiguity between this summary and the full AGPLv3 license.
