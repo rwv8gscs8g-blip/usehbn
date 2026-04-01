@@ -122,6 +122,12 @@ Initialize HBN protocol state in a target repository:
 hbn init
 ```
 
+Initialize and auto-detect the runtime adapter based on environment signals:
+
+```bash
+hbn init --runtime auto
+```
+
 Inspect the current protocol state:
 
 ```bash
@@ -140,6 +146,30 @@ Generate a runtime adapter:
 hbn install --runtime claude-code
 ```
 
+Refresh all installed runtime adapters in a target after updating HBN:
+
+```bash
+hbn refresh --target /path/to/project
+```
+
+Check relay baton status:
+
+```bash
+hbn relay status --target /path/to/project
+```
+
+Handoff the relay baton to another agent:
+
+```bash
+hbn handoff --to claude --summary "DEV passed. Review needed."
+```
+
+Confirm the most recent pending readback:
+
+```bash
+hbn hearback --last --status confirmed
+```
+
 Backward-compatible alias:
 
 ```bash
@@ -151,6 +181,13 @@ Each execution writes:
 - a structured execution log to `logs/`
 - persistent state to `state/hbn-state.json`
 - protocol-local coordination artifacts to `.hbn/` after `hbn init`
+
+Inside `.hbn/`, the current local contract now distinguishes:
+
+- `relay/` for active coordination
+- `relay-archive/` for resolved iterations
+- `knowledge/` for reusable discoveries between IAs
+- `reports/` for concise human-facing output documents
 
 ## Protocol Flow
 
@@ -168,17 +205,41 @@ The current local flow is:
 
 `safe_track` work requires readback plus hearback confirmation before ERP creation. `fast_track` work can remain lighter, but classification is still explicit.
 
+For human attention during blocked or approval-gated cycles, local targets can now store an alert preference in `.hbn/attention.json` and use:
+
+```bash
+hbn attention --mode sound
+hbn notify --event human_decision
+```
+
+Available modes:
+
+- `sound`
+- `flash`
+- `silent`
+
+Shortcut for humans during a live cycle:
+
+```text
+Digite A para retirar o aviso sonoro ou digite B para apenas piscar a tela quando terminar.
+```
+
 ## CLI Surface
 
 ```bash
 hbn version
-hbn init [--target <path>]
+hbn init [--target <path>] [--runtime <auto|claude-code|codex|copilot|cursor>]
 hbn inspect [--target <path>]
-hbn install --runtime <claude-code|codex|copilot|cursor> [--target <path>]
+hbn install --runtime <claude-code|codex|copilot|cursor> [--target <path>] [--force]
+hbn refresh [--target <path>]
+hbn relay status [--target <path>]
+hbn handoff --to <agent_id> --summary <text> [--target <path>]
+hbn attention --mode <sound|flash|silent> [--target <path>]
+hbn notify --event <security_blocked_suggestion|human_decision> [--target <path>]
 hbn run "<sentence>"
 hbn readback <exec_id> --agent-id <id> --intent-json <json> --understanding <text> --invariant <text> --plan-step <text>
-hbn hearback <exec_id> --status confirmed
-hbn result <exec_id> --agent-id <id> --action <text> --outcome <value> --human-status <value>
+hbn hearback [<exec_id>] --status <confirmed|rejected|pending> [--last]
+hbn result <exec_id> --agent-id <id> --action <text> --outcome <value> --human-status <value> [--env-key key=value]
 ```
 
 ## Example Usage
@@ -247,6 +308,7 @@ Main areas:
 - `get-hbn`: local bootstrap helper for deterministic local installation
 - `core/semantic-layer.md`: semantic normalization rules across natural language, commands, and adapters
 - `docs/DOMAINS.md`: canonical public-domain and DNS strategy
+- `docs/ANALYTICS.md`: visit tracking strategy for the canonical public site
 
 ## Governance
 
@@ -278,14 +340,21 @@ The repository currently provides a real local runtime for:
 - truth barrier and guardian warnings
 - execution logging and JSON state persistence
 - semantic readback with hearback gating
-- ERP result recording linked to readbacks
-- `hbn init` for repository-local protocol state
+- ERP result recording linked to readbacks with optional environment capture
+- `hbn init` for repository-local protocol state with optional `--runtime auto` detection
 - `hbn inspect` for repository-local protocol inspection
 - `hbn install` for runtime adapter file generation
+- `hbn refresh` for batch adapter refresh across all installed runtimes
+- `hbn relay status` for baton ownership and active iteration visibility
+- `hbn handoff` for validated relay baton transfer with archive enforcement
+- `hbn hearback --last` for quick confirmation of the most recent pending readback
+- self-describing adapter fallback that works without CLI installed
 - compatibility alias `usehbn`
 - `.hbn/relay/` and `.hbn/knowledge/` as the basis for inter-IA continuity
+- `.hbn/relay/state.json` as structured relay state for baton tracking
 - local bootstrap via `get-hbn`
 - packaging metadata prepared through `pyproject.toml`
+- clean sdist and wheel build ready for PyPI
 
 ## What Does Not Work Yet
 
@@ -293,10 +362,15 @@ This repository does not yet provide:
 
 - native execution inside Codex, Claude Code, Copilot, or Cursor without local adapter installation
 - packaged distribution on PyPI
-- multi-agent orchestration runtime
-- SaaS or hosted coordination
 - remote or one-command cross-platform installers
+- SaaS or hosted coordination
+- relay query or search across knowledge entries
 
 ## Current Status
 
-HBN is now beyond a documentation-only scaffold, but it is still early-stage. The present target is an honest L3-to-L4 transition: installable, inspectable, protocolized, traceable, and able to generate local adapter files for multiple AI runtimes. Public distribution, true runtime-native orchestration, and broader platform behavior remain future work.
+HBN is now at a solid L4 level: installable, inspectable, protocolized, traceable, and able to generate local adapter files for multiple AI runtimes. The relay system now includes structured baton tracking and validated handoff. Adapters include a self-describing fallback block for graceful operation without the CLI.
+
+The repository is currently being managed as a hardened `0.2.x` runtime. Long-
+range `v0.3` ideas are being treated as a research and architecture track, not
+as immediate implementation commitments. Public distribution via PyPI is the
+next delivery milestone. See `docs/EXECUTION-DECISION.md` and `ROADMAP.md`.

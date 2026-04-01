@@ -12,3 +12,7 @@ HBN exists to make AI-assisted engineering:
 - safer to evolve across teams and tools
 
 The long-term objective is to establish a durable protocol foundation that can support stronger tooling, documentation systems, and eventually hosted products without losing human control or protocol clarity.
+
+This vision document is directional, not self-executing. Immediate repository
+work is governed by the current delivery track in `ROADMAP.md` and the explicit
+scope boundaries recorded in `docs/EXECUTION-DECISION.md`.

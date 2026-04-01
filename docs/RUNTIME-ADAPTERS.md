@@ -31,9 +31,72 @@ Each adapter currently tells the runtime to:
 1. initialize `.hbn/` if missing
 2. read `.hbn/relay/INDEX.md`
 3. consult `.hbn/knowledge/INDEX.md` when prior decisions matter
-4. use `hbn run` for request structuring
-5. respect readback/hearback for `safe_track`
-6. record ERP outcomes
+4. consult `.hbn/reports/INDEX.md` when prior output documents matter
+5. use `hbn run` for request structuring
+6. respect readback/hearback for `safe_track`
+7. record ERP outcomes
+
+The adapter also now instructs the runtime to make HBN visibly legible to the human:
+
+- `✅ HBN ACTIVE`
+- `❌ HBN SECURITY BLOCKED SUGGESTION`
+- `🟡 HBN NEEDS HUMAN DECISION`
+
+These markers distinguish HBN-governed output from ordinary assistant narration.
+
+The visible HBN response is now also expected to use stable titled sections:
+
+- `🧠 Entendimento e Escopo`
+- `🧭 Caminho Oficial`
+- `🛠️ Ação Executada`
+- `👨‍💻 Resultado DEV` (or the equivalent stage result)
+- `🚦 Aprovação ou Bloqueio`
+- `➡️ Próximo Passo`
+- `📝 Documentado em`
+
+For human attention, the local HBN runtime now supports:
+
+- `hbn attention --mode sound`
+- `hbn attention --mode flash`
+- `hbn attention --mode silent`
+- `hbn notify --event security_blocked_suggestion`
+- `hbn notify --event human_decision`
+
+The default mode is `sound`, with a light terminal bell intended to work like a soft leak/ping. The runtime also returns these human-facing options:
+
+- `Digite A para retirar o aviso sonoro ou digite B para apenas piscar a tela quando terminar.`
+
+If the terminal host does not render the bell, prefer `flash` or switch explicitly with:
+
+```bash
+hbn attention --choice b
+```
+
+For blocked cycles, the adapter now standardizes a stronger closing notice:
+
+```text
+❌ HBN SECURITY BLOCKED SUGGESTION
+
+Para sua segurança e conformidade, a ação da IA foi bloqueada provisoriamente pelo Human Brain Net ao aplicar pensamento humano associado ao contexto.
+O ciclo não deve prosseguir sem passar por análise humana.
+Isso evita promoção por caminho inseguro, interpretação incompleta ou execução fora das regras do projeto.
+Digite A para retirar o aviso sonoro ou digite B para apenas piscar a tela quando terminar.
+```
+
+The adapter also tells the runtime to:
+
+- present a short readback before acting
+- prefer a grouped read-only scan approval when the environment supports it
+- keep active coordination in `.hbn/relay/`
+- move resolved relay files to `.hbn/relay-archive/`
+- write reusable discoveries to `.hbn/knowledge/`
+- write concise human-facing output documents to `.hbn/reports/`
+- perform a cleanup/handoff step before passing the baton:
+  - summarize the cycle
+  - archive resolved relay files
+  - keep only active context in `.hbn/relay/`
+  - preserve reusable learning in `.hbn/knowledge/`
+  - update `.hbn/relay/INDEX.md` with baton owner and next action
 
 The adapters now also encode the semantic anchors:
 
@@ -44,6 +107,39 @@ The adapters now also encode the semantic anchors:
 
 These anchors should be interpreted by the runtime as references to the HBN protocol layer and normalized into the correct local command path.
 
+## Refreshing an Adapter
+
+After updating the local `usehbn` repository, refresh all installed runtime adapters at once with:
+
+```bash
+hbn refresh --target <path>
+```
+
+Or refresh a single adapter with:
+
+```bash
+hbn install --runtime <runtime> --target <path> --force
+```
+
+For initialized repositories, this refresh also reinforces missing guidance files inside `.hbn/` without wiping active relay or knowledge content.
+
+## Auto-Detection During Init
+
+When initializing a repository with `hbn init --runtime auto`, HBN detects the most likely runtime from environment signals:
+
+- `CODEX_SANDBOX` env var → `codex`
+- `.claude/` directory → `claude-code`
+- `.cursor/` directory → `cursor`
+- `.github/` directory → `copilot` (weakest signal)
+
+If a runtime is detected, the corresponding adapter is installed automatically during init.
+
+## Self-Describing Fallback
+
+Each adapter now includes a fallback section at the end that describes how to follow the HBN protocol without the CLI installed. This enables degraded-mode protocol compliance when `hbn` is not on PATH — the AI can still create `.hbn/` artifacts, write readback records, and follow relay conventions using only filesystem operations and the inline rules.
+
+The fallback is intentionally slim (7 rules) to reduce maintenance coupling while covering the critical protocol gates.
+
 ## Limits
 
-The adapters are filesystem artifacts, not full plugins. They are the first distribution-safe layer for cross-runtime continuity.
+The adapters are filesystem artifacts, not full plugins. They are the first distribution-safe layer for cross-runtime continuity. The self-describing fallback extends their reach to environments where the CLI has not been installed, but full protocol enforcement still requires the CLI.

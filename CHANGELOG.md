@@ -4,6 +4,19 @@ All notable changes to HBN will be documented in this file.
 
 ## Unreleased
 
+- Add explicit execution governance separating the hardened `0.2.x` delivery track from the `v0.3` research track
+- Add `docs/EXECUTION-DECISION.md` to define source-of-truth order, scope boundaries, and the approved three-block execution plan
+
+- Add `hbn relay status` for structured baton ownership and active iteration visibility
+- Add `hbn handoff --to <agent> --summary <text>` for validated relay baton transfer with pending-readback gate and automatic archive of resolved relay files
+- Add `hbn refresh` for batch refresh of all installed runtime adapters in a target
+- Add `hbn init --runtime auto|<runtime>` for auto-detection of AI runtime from environment signals during initialization
+- Add `hbn hearback --last --status <status>` convenience for confirming the most recent pending readback without needing to copy exec_id
+- Add `hbn result --env-key key=value` for capturing environment conditions in ERP records
+- Add optional `environment` field to `result.schema.json` for machine-readable diagnostic context
+- Add self-describing fallback section to adapter body so adapters work in degraded mode without CLI
+- Add `.gitignore` suggestions during `hbn init` for ephemeral protocol artifacts
+- Add `.hbn/relay/state.json` as structured relay state file for baton tracking
 - Prepare public packaging via `pyproject.toml`
 - Add `hbn inspect` for local protocol-state inspection
 - Add `hbn install --runtime <runtime>` for runtime adapter generation

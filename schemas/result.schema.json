@@ -136,6 +136,18 @@
     "created_at": {
       "type": "string",
       "minLength": 1
+    },
+    "environment": {
+      "type": "object",
+      "description": "Optional environment conditions that contributed to the result outcome.",
+      "properties": {
+        "node_version": { "type": "string" },
+        "python_version": { "type": "string" },
+        "os": { "type": "string" },
+        "network_available": { "type": "boolean" },
+        "custom": { "type": "object" }
+      },
+      "additionalProperties": true
     }
   }
 }

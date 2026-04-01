@@ -41,6 +41,14 @@ def test_hbn_install_runtime_adapter(tmp_path):
     assert "HBN Runtime Adapter" in contents
     assert "usehbn.com" in contents
     assert "usehbn.org" in contents
+    assert "✅ HBN ACTIVE" in contents
+    assert "❌ HBN SECURITY BLOCKED SUGGESTION" in contents
+    assert "🧠 Entendimento e Escopo" in contents
+    assert "hbn notify --event security_blocked_suggestion" in contents
+    assert "hbn attention --mode sound|flash|silent" in contents
+    assert "Digite A para retirar o aviso sonoro" in contents
+    assert "Before handing the baton" in contents
+    assert "read-only scan approval" in contents
 
 
 def test_hbn_install_runtime_adapter_is_idempotent_without_force(tmp_path):
@@ -63,6 +71,20 @@ def test_hbn_inspect_reports_installed_runtimes(tmp_path):
             "path": str(tmp_path / ".cursor" / "rules" / "hbn.mdc"),
         }
     ]
+    assert inspection["inspection"]["reports_entries"] == []
+
+
+def test_hbn_install_refreshes_existing_hbn_guidance_files(tmp_path):
+    run_init(argparse.Namespace(target=str(tmp_path), indent=2))
+    relay_index = tmp_path / ".hbn" / "relay" / "INDEX.md"
+    relay_index.write_text("# HBN Relay — Estado Atual\n\nNenhuma.\n", encoding="utf-8")
+
+    run_install(argparse.Namespace(runtime="codex", target=str(tmp_path), force=True, indent=2))
+
+    assert (tmp_path / ".hbn" / "README.md").exists()
+    assert (tmp_path / ".hbn" / "reports" / "INDEX.md").exists()
+    refreshed = relay_index.read_text(encoding="utf-8")
+    assert "Leitura Obrigatoria Para Novas IAs" in refreshed
 
 
 def test_hbn_inspect_reports_packaging_metadata_for_repo(tmp_path):

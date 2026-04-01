@@ -47,6 +47,7 @@ def create_result_record(
     evidence: Optional[List[Dict[str, str]]] = None,
     other_emergent_risk: str = "",
     readback_id: Optional[str] = None,
+    environment: Optional[Dict[str, Any]] = None,
     storage_dir: Optional[Path] = None,
 ) -> Dict[str, Any]:
     readback = find_readback_by_execution(execution_id, storage_dir)
@@ -84,6 +85,8 @@ def create_result_record(
         record["evidence"] = evidence
     if readback_id:
         record["readback_id"] = readback_id
+    if environment:
+        record["environment"] = environment
 
     assert_valid_payload(record, "result.schema.json")
 
