@@ -2,9 +2,12 @@
 
 ## Purpose
 
-The HBN universal translator is the layer responsible for carrying a natural
-HBN entry across different environments without forcing the human to learn the
-machine path first.
+O Universal Translator é hoje, em v0.3.0, um Environment Router + Connector
+Resolver. Ele detecta a tecnologia, roteia para o adapter correto e produz um
+machine path executável. NÃO realiza tradução semântica entre línguas humanas
+ou entre tecnologias. O nome "Universal Translator" é mantido por decisão
+humana porque descreve a visão de longo prazo, e a evolução real é descrita em
+`docs/PHAGOCYTOSIS.md`.
 
 Its job is to interpret canonical HBN semantic anchors such as:
 
@@ -14,6 +17,22 @@ Its job is to interpret canonical HBN semantic anchors such as:
 - `usehbn.com`
 
 and translate them into the correct machine path for the active environment.
+
+## Estágios de Phagocytosis aplicados ao Translator
+
+O Universal Translator evolui por Phagocytosis, tecnologia por tecnologia:
+
+| Estagio | Estado | O que o Translator pode afirmar |
+|---|---|---|
+| Routed | Hoje | Detecta sinais, escolhe adapter/connector e roteia a execucao. |
+| Studied | Futuro | Roteia e cita conhecimento canonico documentado para a tecnologia. |
+| Digested | Futuro | Roteia e valida regras testadas para a tecnologia. |
+| Mastered | Futuro | Roteia, valida, gera e verifica artefatos da tecnologia. |
+| Contributed | Futuro | Despacha para pacote externo especializado e governado pelo HBN. |
+
+Em v0.3.0, qualquer linguagem sobre Studied, Digested, Mastered ou
+Contributed deve ser tratada como direcao de evolucao, nao como capacidade
+presente.
 
 ## Problem It Solves
 

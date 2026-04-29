@@ -4,6 +4,17 @@ All notable changes to HBN will be documented in this file.
 
 ## Unreleased
 
+## [Unreleased] — Onda 1: Honestidade Narrativa
+
+### Changed
+
+- README, ARCHITECTURE, UNIVERSAL-TRANSLATOR, CONNECTORS,
+  RUNTIME-ADAPTERS alinhados a docs/MATURITY-MATRIX.md.
+- Universal Translator descrito honestamente como Environment
+  Router + Connector Resolver em estágio Routed da Phagocytosis.
+- Truth Barrier e Guardian descritos como advisory (RFC-0001
+  aberta, alvo v0.4.0).
+
 - Add `docs/EVOLUTION-POLICY.md` — formal contract for incorporating
   external protocols (categories A/B/C, hard limits, versioning rules)
 - Add `docs/INTEGRATION-DIATAXIS.md` — category A integration with the

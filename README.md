@@ -8,6 +8,39 @@ HBN starts from a simple discipline: AI-assisted work should remain legible, rev
 
 This repository is not a hosted orchestration platform. It is the local, inspectable runtime and documentation base for an operable HBN scaffold that can now also generate repository-local runtime adapters.
 
+## Maturidade por Componente
+
+Fonte canonica: [`docs/MATURITY-MATRIX.md`](docs/MATURITY-MATRIX.md). README e docs publicos nao devem afirmar capacidades acima do estado registrado nessa matriz.
+
+| Componente | Estado v0.3.0 | Resumo publico permitido |
+|---|---|---|
+| CLI | Implementado | Funciona hoje; superficie publica congelada em v0.3.0. |
+| Trigger / Ativacao semantica | Implementado | Funciona hoje para ativacao por `usehbn` e `use hbn`. |
+| Intent (estruturacao) | Parcial | Funciona com limites conhecidos em PT, multi-clausulas e dominios fora do ingles. |
+| Truth Barrier | Parcial (advisory) | Emite warnings; nao bloqueia o pipeline hoje. |
+| Guardian | Parcial (advisory) | Emite/loga warnings; nao bloqueia o pipeline hoje. |
+| Consent (CCP) | Implementado | Funciona hoje para captura local de consentimento. |
+| Readback | Implementado | Funciona via CLI; limite atual: nao e chamado automaticamente pelo engine. |
+| Hearback | Implementado | Funciona como gate quando ha Readback associado. |
+| ERP (Result) | Implementado | Funciona hoje com gates de Hearback e Readback em `safe_track`. |
+| Relay | Parcial | Convencoes e comandos existem; invariantes ainda nao sao validadas em runtime. |
+| Baton | Parcial | Campo de dono existe; sem timeout ou audit trail completo. |
+| Handoff | Implementado | Funciona hoje para transferencia validada e arquivamento. |
+| Universal Translator | Scaffold | Hoje e roteador honesto: detecta ambiente/tecnologia e resolve connector; nao traduz semanticamente. |
+| Runtime Adapters | Implementado | Gera arquivos de instrucao em filesystem para runtimes suportados. |
+| Connectors (resolver) | Parcial | Resolve estrategia; "active" por presenca de arquivo e provisoriamente convencional. |
+| Connectors (lifecycle) | Visao em v0.3.0 | Lifecycle formal ainda e linha planejada; Onda 4 registra estado sem enforcement. |
+| Connectors (verify) | Stub | Apenas placeholder; sem verificacao funcional. |
+| Connectors (remote lookup) | Scaffold | Estrutura existe; registry remoto real nao existe e default e off. |
+| State (json append-only) | Parcial | Funciona com lacunas de compactacao, versionamento e fragmentacao de diretorios. |
+| Schemas | Implementado | Schemas e validador customizado funcionam hoje. |
+| Privacy Contract | Parcial / declarativo | Parte e codificada; parte ainda e declarativa, sem certificacao legal. |
+| Bridge generation (legado) | Stub | Produz scaffold documental; nao gera bridges executaveis. |
+| Tests | Parcial | Suite existe e passa; cobertura adversarial ainda e limitada. |
+| Distribuicao | Parcial | Metadata existe; pacote ainda nao foi publicado em PyPI. |
+| Phagocytosis (doutrina) | Visao | Doutrina canonica; sem codigo associado em v0.3.0. |
+| Credenciamento (caso de uso) | Visao / referencia externa | Referencia externa; nenhum codigo de Credenciamento neste repo. |
+
 ## What HBN Is
 
 HBN is a protocol and working language for AI-assisted software engineering. In this repository it currently provides:
@@ -80,6 +113,8 @@ The public web strategy is now explicit:
 - `https://usehbn.com` should permanently redirect to `https://usehbn.org`
 
 This keeps one stable public site while preserving both semantic anchors.
+
+Conforme [`docs/PUBLISHING-DECISION.md`](docs/PUBLISHING-DECISION.md), `usehbn` e `hbn` sao nomes igualmente canonicos no CLI. `usehbn` e a forma semantica humana e tem prioridade sobre tecnologia. `usehbn.org` e o site canonico.
 
 ## Installation
 
@@ -182,6 +217,16 @@ The connector strategy now distinguishes:
 - whether the bridge should be embedded in target code or installed in the host
 - whether HBN can assume the process immediately or must ask for approval/manual input
 - the local-only privacy contract for connector discovery and bridge construction
+
+## Universal Translator (estado atual)
+
+Em v0.3.0, o Universal Translator esta em estagio Routed da Phagocytosis. Ele reconhece a tecnologia como alvo possivel, detecta sinais de ambiente e direciona a execucao para o runtime adapter ou connector apropriado. Ele nao carrega conhecimento profundo sobre como cada tecnologia se comporta e nao realiza traducao semantica entre linguas humanas ou entre tecnologias.
+
+O nome Universal Translator e mantido por decisao humana porque descreve a visao de longo prazo. O estado atual honesto e: roteador de ambiente + resolvedor de connector, com evolucao documentada em [`docs/PHAGOCYTOSIS.md`](docs/PHAGOCYTOSIS.md).
+
+## Phagocytosis: como o HBN aprende novas tecnologias
+
+Phagocytosis e a doutrina canonica para incorporar tecnologias ao HBN de forma progressiva, reversivel e sob controle humano. O caminho e `routed` -> `studied` -> `digested` -> `mastered` -> `contributed`. Cada tecnologia deve avancar por PR, evidencia e Hearback humano; saltar estagios nao e permitido. Em `routed`, HBN apenas detecta e roteia. Em estagios posteriores, pode passar a citar docs, validar regras, gerar artefatos verificaveis e delegar para pacotes externos. O detalhe normativo esta em [`docs/PHAGOCYTOSIS.md`](docs/PHAGOCYTOSIS.md).
 
 Inspect the current protocol state:
 
@@ -442,13 +487,13 @@ The repository currently provides a real local runtime for:
 - `hbn handoff` for validated relay baton transfer with archive enforcement
 - `hbn hearback --last` for quick confirmation of the most recent pending readback
 - self-describing adapter fallback that works without CLI installed
-- explicit connector resolution across runtime, device, target technology, and human language
+- connector strategy resolution across runtime, device, target technology, and human language, with lifecycle and verify limits documented in `docs/MATURITY-MATRIX.md`
 - compatibility alias `usehbn`
 - `.hbn/relay/` and `.hbn/knowledge/` as the basis for inter-IA continuity
 - `.hbn/relay/state.json` as structured relay state for baton tracking
 - local bootstrap via `get-hbn`
 - packaging metadata prepared through `pyproject.toml`
-- clean sdist and wheel build ready for PyPI
+- distribution metadata prepared for the TestPyPI-first path described in `docs/PUBLISHING-DECISION.md`
 
 ## What Does Not Work Yet
 
@@ -459,6 +504,10 @@ This repository does not yet provide:
 - remote or one-command cross-platform installers
 - SaaS or hosted coordination
 - relay query or search across knowledge entries
+- semantic translation between human languages or between technologies by the Universal Translator
+- executable legacy bridge generation; current legacy bridge generation is Stub/scaffold documental
+- connector lifecycle enforcement or automatic connector verification
+- Guardian or Truth Barrier blocking; both are advisory until a future accepted RFC enables opt-in enforcement
 
 ## Current Status
 

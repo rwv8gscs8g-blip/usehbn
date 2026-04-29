@@ -35,6 +35,10 @@ These layers are intentionally small so that protocol meaning remains visible in
 
 ## Components
 
+Component state is governed by `docs/MATURITY-MATRIX.md`. If this architecture
+document and the matrix ever diverge, the matrix is the canonical source for
+what is Implementado, Parcial, Scaffold, Stub, or Visao in v0.3.0.
+
 - `trigger.py`
   Detects case-insensitive semantic activation.
 - `protocol/intent.py`
@@ -50,15 +54,6 @@ These layers are intentionally small so that protocol meaning remains visible in
 - `connectors/contracts.py`
   Produces the explicit operating contract for bridge activation, discovery, manual entry, and privacy.
 
-## Storage Model
-
-This release stores only local artifacts:
-
-- consent records in `.usehbn/consents/`
-- guardian warnings in `.usehbn/logs/guardian.jsonl`
-
-There is no hidden processing, remote worker, distributed runtime, or background execution loop in this codebase.
-
 ## Current Non-Goals
 
 This release does not provide:
@@ -68,3 +63,29 @@ This release does not provide:
 - autonomous deployment behavior
 - formal verification
 - claims of comprehensive safety
+- semantic translation between human languages or between technologies
+- executable legacy bridge generation
+- connector lifecycle enforcement or automatic connector verification
+
+These limits follow `docs/MATURITY-MATRIX.md`: Universal Translator is
+Scaffold, legacy bridge generation and connector verify are Stub, and
+Phagocytosis plus connector lifecycle are still Visao in v0.3.0.
+
+## Truth Barrier e Guardian: estado atual e direção
+
+Truth Barrier and Guardian are Parcial and advisory in v0.3.0. They emit and
+record warnings that deserve human attention, but the current engine does not
+block execution because of those warnings.
+
+`docs/rfc/RFC-0001-enforce-mode.md` is open for human comment and targets
+v0.4.0. It documents a possible opt-in `--enforce` path, but it does not
+authorize implementation or default blocking in v0.3.0.
+
+## Storage Model
+
+This release stores only local artifacts:
+
+- consent records in `.usehbn/consents/`
+- guardian warnings in `.usehbn/logs/guardian.jsonl`
+
+There is no hidden processing, remote worker, distributed runtime, or background execution loop in this codebase.

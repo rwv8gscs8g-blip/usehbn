@@ -1,44 +1,44 @@
 # HBN Relay — Estado Atual
 
-**Bastao atual:** codex
-**Bastao desde:** 2026-04-29T06:34:00Z
-**Ultima atualizacao:** 2026-04-29T06:34:00Z
+**Bastao atual:** humano
+**Bastao desde:** 2026-04-29T06:47:39Z
+**Ultima atualizacao:** 2026-04-29T06:56:32Z
 
 ## Iteracoes Ativas
 
 | # | Assunto | Estado | Bastao |
 |---|---------|--------|--------|
-| 0003 | onda-1-honestidade-narrativa | aguardando-readback-do-codex | codex |
+| — | nenhuma | aguardando-decisao-humana | humano |
 
 ## Ultimo Handoff
 
 | Campo | Valor |
 |-------|-------|
-| De | claude-opus-4.7 (architect) |
-| Para | codex |
-| Em | 2026-04-29T06:34:00Z |
+| De | codex |
+| Para | humano |
+| Em | 2026-04-29T06:56:32Z |
 | Aprovador | humano:luis-mauricio |
-| Hearback | confirmado para iteracao 0002 (architect deposit) e Onda 1 |
+| Hearback | final confirmado para Onda 1 (`exec-20260429T064721Z-onda1`) |
 
 ## Iteracoes Arquivadas Recentemente
 
+- `20260429T065632Z-0003-onda-1-honestidade-narrativa.md` (Onda 1 concluida; honestidade narrativa alinhada a `docs/MATURITY-MATRIX.md`; ERP `exec-20260429T064721Z-onda1`).
 - `20260429T0530-0002-onda-bastao-claude-v0.3.0-foundation.md` (architect deposit concluido; 6 artefatos doutrinarios depositados sem tocar em codigo).
 
 ## Pendencias Globais
 
-- **Onda 1 — Codex**: criar Readback `.hbn/relay/0003-onda-1-honestidade-narrativa.md`, parar, aguardar Hearback humano sobre o plano de diff, executar conforme superprompt, gravar ERP, devolver bastao para `humano`.
+- **Onda 2 — Humano**: decidir se a proxima onda inicia agora ou fica pausada.
+- **Observacao menor — CHANGELOG dual-header**: decidir se a estrutura `## Unreleased` + `## [Unreleased] — Onda 1` deve ser ajustada em onda futura.
+- **Observacao menor — README Current Status**: decidir se o texto de status atual deve ser atualizado em onda futura para eliminar referencias residuais ao track `0.2.x`/`v0.3`.
 - **RFC-0001** (`--enforce`): aberta em `docs/rfc/RFC-0001-enforce-mode.md` para janela de comentarios humanos. Implementacao apenas em v0.4.0.
 - **Decisao Q13** (TestPyPI primeiro): documentada em `docs/PUBLISHING-DECISION.md`. Hearback explicito necessario antes de cada gate G6.
 
 ## Proxima Acao
 
-`codex` deve:
-1. Ler `agents/wave-protocol.md` e os arquivos da `Lista de Leitura Obrigatoria` do superprompt da Onda 1.
-2. Criar `.hbn/relay/0003-onda-1-honestidade-narrativa.md` (Readback inicial).
-3. PARAR. Aguardar Hearback humano explicito sobre o diff planejado.
-4. Apos Hearback `confirmed`: executar Passos 2-5 do superprompt.
-5. NAO fazer commit, NAO fazer push, NAO abrir PR.
-6. Devolver bastao para `humano` no fim.
+`humano` mantem o bastao e decide:
+1. Se abre Onda 2.
+2. Se cria onda pequena para as observacoes CHANGELOG dual-header e README Current Status.
+3. Se pausa o ciclo.
 
 ## Leitura Obrigatoria Para Novas IAs
 

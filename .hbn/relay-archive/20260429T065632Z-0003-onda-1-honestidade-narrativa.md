@@ -1,7 +1,9 @@
 # 0003 — Onda 1: Honestidade Narrativa
 **Bastão:** codex
-**Estado:** ativo
+**Estado:** resolvido
 **Criado:** 2026-04-29T06:36:41Z
+**Resolvido:** 2026-04-29T06:47:39Z
+**Execution ID:** exec-20260429T064721Z-onda1
 
 ## Contexto Recebido
 Bastão recebido de claude-opus-4.7 após iteração 0002. Onda 1 aprovada por Hearback humano em `.hbn/relay/INDEX.md`, que registra: "Hearback | confirmado para iteracao 0002 (architect deposit) e Onda 1". Objetivo: alinhar README, ARCHITECTURE, UNIVERSAL-TRANSLATOR, CONNECTORS e RUNTIME-ADAPTERS à MATURITY-MATRIX.md sem tocar em código.
@@ -76,4 +78,4 @@ Após Hearback humano explícito sobre este Readback, o diff planejado é:
 - Risco 4: confundir documentação de RFC aberta com autorização de implementação. Mitigação: citar RFC-0001 apenas como direção v0.4.0 e manter a onda como documentação somente.
 
 ## Próximo Passo após onda
-Aguardar Hearback humano sobre este Readback. Após Hearback explícito, executar apenas os passos documentais autorizados, rodar verificações, gravar ERP, atualizar relay e devolver bastão ao humano.
+Aguardar Hearback humano sobre o resultado final. Bastão devolvido para humano. O arquivo permanece em `.hbn/relay/` até Hearback humano final; só então deve ser movido para `.hbn/relay-archive/`.

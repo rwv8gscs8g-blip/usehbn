@@ -1,5 +1,11 @@
 # Connectors
 
+Nota de estado v0.3.0: Connectors operam em estagio Routed (ver
+`docs/PHAGOCYTOSIS.md`). Lifecycle states formais
+(`detected`/`resolved`/`installed`/`verified`/`active`/`revoked`) começam a ser
+registrados na Onda 4 sem enforcement. "Active" por presença de arquivo é
+convenção provisória, não prova de funcionamento.
+
 ## Purpose
 
 HBN connectors are the explicit bridge layer between:
@@ -96,6 +102,10 @@ The resolver now makes that explicit by producing:
 - `prefer_embedded_delivery`
 
 ## Approval Rules
+
+Aviso de maturidade: estas regras descrevem o contrato operacional e a
+politica esperada. Enforcement real depende de `docs/rfc/RFC-0001-enforce-mode.md`
+e fica em v0.4+; em v0.3.0, Guardian e Truth Barrier continuam advisory.
 
 ### Approved first-party connectors
 
