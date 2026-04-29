@@ -4,6 +4,35 @@
 > protocolada em `agents/wave-protocol.md`. Nenhuma onda comeca sem Hearback
 > humano explicito. Nenhuma onda termina sem ERP gravado e Readback arquivado.
 
+## Revisao 2026-04-29 — Ondas 2-4 ja implementadas
+
+Auditoria pre-execucao do architect (claude-opus-4.7) descobriu que TODAS as
+6 correcoes do `reports/HBN-ERP-HARDENING-AUDIT.md` ja estao aplicadas no
+codigo atual, provavelmente no commit `b2b5f09 feat: harden HBN runtime and
+governance flow`. Em consequencia:
+
+- **Onda 2 original** (ERP Hardening Batch 1) -> JA IMPLEMENTADA. PULAR.
+- **Onda 3 original** (ERP Hardening Batch 2) -> JA IMPLEMENTADA. PULAR.
+- **Onda 4 original** (ERP Hardening Batch 3) -> JA IMPLEMENTADA. PULAR.
+- Ondas restantes renumeradas: nova Onda 2 = Schema Versioning;
+  nova Onda 3 = Relay Invariants; nova Onda 4 = Connector Lifecycle Registry;
+  nova Onda 5 = Cleanup + state/ Migration; nova Onda 6 = Vitrine + Release.
+
+Detalhes da auditoria preservados em
+`.hbn/relay-archive/20260429T072700Z-0005-onda-2-cancelada-redundante.md` e
+`.hbn/relay-archive/<TIMESTAMP>-0006-onda-bastao-claude-revisao-plano-v0.3.0.md`
+(quando arquivado).
+
+### Lico aprendida (architect)
+
+Architect deve verificar estado atual do codigo antes de planejar ondas
+baseadas em relatorios de auditoria. Relatorio de auditoria descreve estado
+em data X; codigo pode ter sido remediado depois sem que o relatorio fosse
+atualizado. Em ondas futuras, architect deve incluir um passo "verificacao
+de estado pre-deposit" antes de assinar o plano. Esta lico sera incorporada
+em `agents/wave-protocol.md` em onda futura dedicada (provavelmente nova
+Onda 5 ou nova onda especifica de protocolo).
+
 ## Objetivo do Ciclo
 
 Transformar o HBN de scaffold honesto em **fundacao publicavel honesta**:
@@ -35,29 +64,32 @@ doutrinarios. Compatibilidade dual com `state/` legado mantida (decisao Q2).
 renomear, NAO traduzir, NAO substituir em codigo, schemas ou docs sem RFC +
 bump major.
 
-## Ordem das Ondas
+## Ordem das Ondas (revisao 2026-04-29)
 
 ```
 Onda 1 — Honestidade Narrativa            [CONCLUIDA — commit 43c4c5d]
-Onda 2 — ERP Hardening Batch 1 (P0 Data Integrity)
-Onda 3 — ERP Hardening Batch 2 (P1 Input Quality)
-Onda 4 — ERP Hardening Batch 3 (P2 Schema Honesty)
-Onda 5 — Schema Versioning (protocol_version opcional)
-Onda 6 — Relay Invariants em Runtime
-Onda 7 — Connector Lifecycle Registry (sem enforcement)
-Onda 8 — Cleanup + state/ Legacy Migration Path
-Onda 9 — Vitrine + Release v0.3.0 (TestPyPI + GitHub vitrine)
+Onda 2 — Schema Versioning (protocol_version opcional)        [antiga 5]
+Onda 3 — Relay Invariants em Runtime                          [antiga 6]
+Onda 4 — Connector Lifecycle Registry (sem enforcement)       [antiga 7]
+Onda 5 — Cleanup + state/ Legacy Migration Path               [antiga 8]
+Onda 6 — Vitrine + Release v0.3.0                             [antiga 9]
 ```
 
-A ordem foi escolhida por:
+Ondas antigas 2, 3 e 4 (ERP Hardening) foram marcadas como JA IMPLEMENTADA
+e suas secoes preservadas abaixo apenas para auditoria historica.
 
-1. **Risco descendente em integridade de dados primeiro** (Ondas 2-4 fecham os
-   defeitos auditados de ERP).
-2. **Capacidade incremental antes de release** (Ondas 5-7 entregam novidades
-   bem delimitadas).
-3. **Higiene + migracao** (Onda 8 fecha pontos cosmeticos e preparara remocao
-   de legado em v0.4.0).
-4. **Vitrine apenas no final** (Onda 9), conforme decisao humana de 2026-04-29.
+A ordem revisada foi escolhida por:
+
+1. **Capacidade incremental delimitada primeiro** (nova Onda 2 = Schema
+   Versioning entrega versionamento futuro com risco quase zero).
+2. **Hardening de coordenacao em runtime** (nova Onda 3 = Relay Invariants
+   promove `Relay` de Parcial para Implementado).
+3. **Doutrina futura ja registrada sem enforcement** (nova Onda 4 = Connector
+   Lifecycle Registry preserva caminho de evolucao para v0.4.0).
+4. **Higiene + migracao + protocolo aprendido** (nova Onda 5 = Cleanup +
+   `state/` Legacy + atualizacao do `wave-protocol.md` com lico aprendida).
+5. **Vitrine apenas no final** (nova Onda 6), conforme decisao humana de
+   2026-04-29.
 
 ---
 
@@ -69,12 +101,172 @@ A ordem foi escolhida por:
 
 ---
 
-## Onda 2 — ERP Hardening Batch 1 (P0 Data Integrity)
+## Onda 2 (NOVA) — Schema Versioning (protocol_version opcional)
+
+### Objetivo
+
+Implementar decisao Q3 do diagnostico arquitetural: adicionar campo
+`protocol_version` opcional em `readback.schema.json` e `result.schema.json`.
+Setar default `"0.3.0"` em codigo. Preparar caminho para v1.0.0 onde o
+campo passara a `required` (decisao Q4 — bump major quando virar required).
+
+### Justificativa
+
+Sem `protocol_version` em records, evolucao do schema futuramente quebra
+records historicos sem caminho de migracao. Adicionar agora como opcional
+e barato e preserva audit trail. E a primeira onda de codigo do ciclo
+v0.3.0 (apos a redescoberta de que ERP Hardening ja estava feito).
+
+### Arquivos permitidos
+
+- `schemas/readback.schema.json`
+- `schemas/result.schema.json`
+- `src/usehbn/protocol/readback.py`
+- `src/usehbn/protocol/result.py`
+- `src/usehbn/__init__.py` (apenas para constante `PROTOCOL_VERSION`; NAO bumpar `__version__` ainda)
+- `tests/test_result_protocol.py`
+- `tests/test_readback.py` (apenas se ja existir; senao NAO criar — manter testes em test_result_protocol.py)
+
+### Arquivos proibidos
+
+- `src/usehbn/execution/engine.py` (congelado em v0.3.0).
+- Outros schemas (`consent.schema.json`, `intent.schema.json`, `guardian.schema.json`, `connector-*.schema.json`).
+- `pyproject.toml`, `setup.cfg`, `get-hbn`, `core/`, `docs/`, `agents/`, `.github/`.
+- Outros arquivos `.py` em `src/usehbn/`.
+
+### Diff planejado (snippets exatos)
+
+#### `src/usehbn/__init__.py`
+
+Adicionar constante `PROTOCOL_VERSION` apos a docstring e antes dos imports:
+
+```python
+PROTOCOL_VERSION = "0.3.0"
+```
+
+E exportar em `__all__`. NAO bumpar `__version__` (ainda 0.2.0; sera bumpado para `0.3.0` na Onda 6 / Vitrine).
+
+#### `schemas/readback.schema.json`
+
+Adicionar `protocol_version` em `properties` (NAO em `required`):
+
+```json
+"protocol_version": {
+  "type": "string",
+  "minLength": 1
+}
+```
+
+#### `schemas/result.schema.json`
+
+Adicionar identico em `properties` (NAO em `required`).
+
+#### `src/usehbn/protocol/readback.py`
+
+Em `create_readback_record()`, apos a construcao do dicionario `record` e antes de `assert_valid_payload`, inserir:
+
+```python
+from usehbn import PROTOCOL_VERSION
+record["protocol_version"] = PROTOCOL_VERSION
+```
+
+(Import pode ser movido para o topo do arquivo se preferivel; Codex decide com base em pep8.)
+
+#### `src/usehbn/protocol/result.py`
+
+Identico: em `create_result_record()`, apos a construcao do `record` e antes de `assert_valid_payload`:
+
+```python
+record["protocol_version"] = PROTOCOL_VERSION
+```
+
+(Adicionar `from usehbn import PROTOCOL_VERSION` no topo.)
+
+#### `tests/test_result_protocol.py`
+
+Adicionar 2 testes:
+
+```python
+def test_result_record_includes_protocol_version(tmp_path):
+    record = create_result_record(
+        execution_id="exec-pv-001",
+        agent_id="agent-codex",
+        hbn_outcome="executed",
+        human_status="approved",
+        action_taken="Protocol version field present.",
+        storage_dir=tmp_path,
+    )
+    assert record["protocol_version"] == "0.3.0"
+
+
+def test_protocol_version_optional_in_schema(tmp_path):
+    # Records carregados sem protocol_version (legados) devem permanecer validos.
+    from usehbn.utils.validators import assert_valid_payload
+    legacy_record = {
+        "traceability": {"execution_id": "exec-legacy", "agent_id": "legacy"},
+        "hbn_outcome": "executed",
+        "human_decision": {"status": "approved"},
+        "intent_risk_profile": {
+            "deception": False, "improbable": False, "random": False,
+            "herd_behavior": False, "financial_survival_risk": False,
+            "abandonment_or_resource_loss_risk": False,
+            "curiosity_driven": False, "agi_resource_shift": False,
+            "ethical_break": False,
+        },
+        "action_taken": "Legacy record without protocol_version.",
+        "created_at": "2026-01-01T00:00:00Z",
+    }
+    assert_valid_payload(legacy_record, "result.schema.json")  # nao deve levantar
+```
+
+### Tests
+
+- `pytest -q` baseline antes da onda: 88 verdes.
+- Apos a onda: minimo 90 verdes (88 + 2 novos).
+- Re-validar `test_valid_erp_creation` e `test_state_append` continuam verdes.
+
+### Gates obrigatorios
+
+- G1 (Hearback humano antes de tocar codigo).
+- **G3 (mudanca de schema)**: justificativa documentada (decisao Q3 ja
+  aprovada em `.hbn/relay-archive/20260429T0530-0002-onda-bastao-claude-v0.3.0-foundation.md`).
+  Impacto retroativo zero porque campo e opcional.
+- G7 nao se aplica (nenhum termo doutrinario tocado).
+
+### Riscos e mitigacao
+
+- **R1**: tooling externo que valide records em modo "exact match" pode
+  quebrar com campo novo. **Mitigacao**: documentar em `CHANGELOG.md` na
+  Onda 6 (Vitrine).
+- **R2**: import circular `usehbn.__init__` -> `usehbn.protocol.result` ->
+  `usehbn.__init__`. **Mitigacao**: importar `PROTOCOL_VERSION` localmente
+  dentro da funcao se import topo causar circular. Codex valida em pytest.
+- **R3**: records antigos sem `protocol_version` continuam validos? Sim,
+  campo e opcional. Test `test_protocol_version_optional_in_schema` confirma.
+
+### Rollback
+
+- `git revert` do commit unico da onda restaura comportamento anterior.
+
+### Superprompt para Codex (Onda 2 nova) — incluido na mensagem de Hearback ao Codex pelo humano.
+
+---
+
+## Onda 2 (ANTIGA) — ERP Hardening Batch 1 (P0 Data Integrity) — JA IMPLEMENTADA
+
+> Esta secao e preservada apenas para auditoria historica.
+> A Onda nao sera executada.
 
 ### Objetivo
 
 Bloquear sobrescrita silenciosa de records ERP por `execution_id` duplicado.
 Defeito P0 auditado em `reports/HBN-ERP-HARDENING-AUDIT.md` (correcoes 2 e 3).
+
+### Estado descoberto em 2026-04-29
+
+JA IMPLEMENTADA no codigo atual. Vide
+`.hbn/relay-archive/20260429T072700Z-0005-onda-2-cancelada-redundante.md`
+para evidencia detalhada. Esta secao e preservada apenas como historico.
 
 ### Justificativa
 
@@ -216,9 +408,14 @@ de qualquer arquivamento ou commit.
 
 ---
 
-## Onda 3 — ERP Hardening Batch 2 (P1 Input Quality)
+## Onda 3 (ANTIGA) — ERP Hardening Batch 2 (P1 Input Quality) — JA IMPLEMENTADA
 
-### Objetivo
+> Esta secao e preservada apenas para auditoria historica.
+> A Onda nao sera executada. Estado: JA IMPLEMENTADA conforme auditoria
+> 2026-04-29 (`utils/time.py` existe, `consent.py` e `result.py` ja usam,
+> CLI ja valida evidence parsing).
+
+### Objetivo (historico)
 
 Validar parsing de evidence no CLI e padronizar geracao de timestamp UTC
 ISO-8601 com sufixo `Z` em todos modulos do protocolo.
@@ -279,9 +476,14 @@ diferentes em um protocolo que afirma rastreabilidade.
 
 ---
 
-## Onda 4 — ERP Hardening Batch 3 (P2 Schema Honesty)
+## Onda 4 (ANTIGA) — ERP Hardening Batch 3 (P2 Schema Honesty) — JA IMPLEMENTADA
 
-### Objetivo
+> Esta secao e preservada apenas para auditoria historica.
+> A Onda nao sera executada. Estado: JA IMPLEMENTADA conforme auditoria
+> 2026-04-29 (`other_emergent_risk` ja opcional, `action_taken` ja tem
+> `maxLength: 500` enforcado por `validators.py:63-64`).
+
+### Objetivo (historico)
 
 Tornar o schema honesto: `other_emergent_risk` deve ser opcional;
 `action_taken` deve ter `maxLength` enforced. Inclui adicionar suporte a
@@ -342,44 +544,14 @@ campo como required mas sistema autopreenche com `""` = falsa exigencia.
 
 ---
 
-## Onda 5 — Schema Versioning (protocol_version opcional)
+## Onda 5 (ANTIGA) — Schema Versioning — RENUMERADA PARA NOVA ONDA 2
 
-### Objetivo
-
-Implementar decisao Q3: adicionar campo `protocol_version` opcional em
-`readback.schema.json` e `result.schema.json`. Setar default `"0.3.0"`
-em codigo. Preparar caminho para v1.0.0 onde o campo passa a `required`
-(decisao Q4).
-
-### Justificativa
-
-Sem `protocol_version` em records, evolucao do schema futuramente quebra
-records historicos sem caminho de migracao. Adicionar agora como opcional
-e barato e preserva audit trail.
-
-### Arquivos permitidos
-
-- `schemas/readback.schema.json`
-- `schemas/result.schema.json`
-- `src/usehbn/protocol/readback.py`
-- `src/usehbn/protocol/result.py`
-- `src/usehbn/__init__.py` (apenas para constante de versao do protocolo)
-- `tests/test_result_protocol.py`
-- `tests/test_readback.py` (se existir; senao nao criar)
-
-### Gates obrigatorios
-
-- G1 + **G3 (schema)**.
-
-### Riscos e mitigacao
-
-- **R1**: adicionar `protocol_version` como opcional ainda assim adiciona
-  campo em records novos. Tooling externo que validate exact match poderia
-  quebrar. **Mitigacao**: documentar em CHANGELOG; ja decidido (Q3).
+> Esta secao foi promovida para nova Onda 2 (vide acima) na revisao
+> 2026-04-29.
 
 ---
 
-## Onda 6 — Relay Invariants em Runtime
+## Onda 3 (NOVA) — Relay Invariants em Runtime  *(antiga Onda 6)*
 
 ### Objetivo
 
@@ -413,7 +585,7 @@ para `Implementado` parcial.
 
 ---
 
-## Onda 7 — Connector Lifecycle Registry (sem enforcement)
+## Onda 4 (NOVA) — Connector Lifecycle Registry (sem enforcement)  *(antiga Onda 7)*
 
 ### Objetivo
 
@@ -441,7 +613,7 @@ implementar FSM real.
 
 ---
 
-## Onda 8 — Cleanup + state/ Legacy Migration Path
+## Onda 5 (NOVA) — Cleanup + state/ Legacy Migration Path  *(antiga Onda 8)*
 
 ### Objetivo
 
@@ -466,7 +638,7 @@ ler de `.usehbn/` e `state/` se existir, mas escrever apenas em `.usehbn/`.
 
 ---
 
-## Onda 9 — Vitrine + Release v0.3.0
+## Onda 6 (NOVA) — Vitrine + Release v0.3.0  *(antiga Onda 9)*
 
 ### Objetivo
 
@@ -588,7 +760,7 @@ hbn run "use hbn analyze this system"
 [continua com as secoes existentes]
 ```
 
-### Superprompt para Codex (Onda 9)
+### Superprompt para Codex (Onda 6 nova)
 
 > [Estrutura identica as anteriores. Crucial: Codex deve PARAR antes
 > de cada gate (G1, G6) e aguardar Hearback. Codex nao executa
