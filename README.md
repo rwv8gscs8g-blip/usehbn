@@ -89,7 +89,7 @@ Bootstrap install:
 ./get-hbn
 ```
 
-This script creates or reuses a local `.venv/` and writes deterministic local `hbn` and `usehbn` wrappers against the checked-out source tree.
+This script creates or reuses a local `.venv/` and writes deterministic local `hbn`, `usehbn`, and `use` wrappers against the checked-out source tree.
 
 Development install:
 
@@ -103,6 +103,19 @@ Verify the CLI:
 
 ```bash
 hbn version
+```
+
+Safest first-time local validation:
+
+```bash
+hbn quickstart --target /tmp/hbn-sandbox --runtime auto
+hbn doctor --target /tmp/hbn-sandbox
+```
+
+Natural shell entry after bootstrap:
+
+```bash
+use hbn analyze this system
 ```
 
 If `hbn` or `usehbn` is not on your shell `PATH`, use one of:
@@ -128,6 +141,48 @@ Initialize and auto-detect the runtime adapter based on environment signals:
 hbn init --runtime auto
 ```
 
+Create a disposable local sandbox with starter guidance:
+
+```bash
+hbn quickstart --target /tmp/hbn-sandbox --runtime auto
+```
+
+Diagnose onboarding and next steps for a target:
+
+```bash
+hbn doctor --target /tmp/hbn-sandbox
+```
+
+Inspect the connector contract, privacy model, and delivery strategy:
+
+```bash
+hbn connector inspect --target . --interface shell
+```
+
+Ensure the correct bridge path with explicit approval and local records:
+
+```bash
+hbn connector ensure --target . --interface shell
+```
+
+Translate a natural HBN entry into the machine path for the current environment:
+
+```bash
+hbn translate "use hbn analyze this system" --target .
+```
+
+This translation path now also profiles human language, host device, target
+technology, and connector strategy with explicit approval policy.
+
+The connector strategy now distinguishes:
+
+- implementation language of the connector
+- delivery language chosen for the destination environment
+- coupling mode chosen for the destination environment
+- whether the bridge should be embedded in target code or installed in the host
+- whether HBN can assume the process immediately or must ask for approval/manual input
+- the local-only privacy contract for connector discovery and bridge construction
+
 Inspect the current protocol state:
 
 ```bash
@@ -145,6 +200,15 @@ Generate a runtime adapter:
 ```bash
 hbn install --runtime claude-code
 ```
+
+Other supported runtime targets now include:
+
+- `codex`
+- `chatgpt`
+- `gemini`
+- `antigravity`
+- `cursor`
+- `copilot`
 
 Refresh all installed runtime adapters in a target after updating HBN:
 
@@ -188,6 +252,7 @@ Inside `.hbn/`, the current local contract now distinguishes:
 - `relay-archive/` for resolved iterations
 - `knowledge/` for reusable discoveries between IAs
 - `reports/` for concise human-facing output documents
+- `connectors/` for local approvals, generated bridges, anonymized remote lookup requests, and connector registry records
 
 ## Protocol Flow
 
@@ -228,9 +293,12 @@ Digite A para retirar o aviso sonoro ou digite B para apenas piscar a tela quand
 
 ```bash
 hbn version
+hbn translate "<sentence>" [--target <path>] [--interface <shell|runtime_adapter>]
 hbn init [--target <path>] [--runtime <auto|claude-code|codex|copilot|cursor>]
 hbn inspect [--target <path>]
-hbn install --runtime <claude-code|codex|copilot|cursor> [--target <path>] [--force]
+hbn doctor [--target <path>]
+hbn quickstart [--target <path>] [--runtime <auto|claude-code|codex|copilot|cursor|chatgpt|gemini|antigravity>]
+hbn install --runtime <claude-code|codex|copilot|cursor|chatgpt|gemini|antigravity> [--target <path>] [--force]
 hbn refresh [--target <path>]
 hbn relay status [--target <path>]
 hbn handoff --to <agent_id> --summary <text> [--target <path>]
@@ -309,6 +377,28 @@ Main areas:
 - `core/semantic-layer.md`: semantic normalization rules across natural language, commands, and adapters
 - `docs/DOMAINS.md`: canonical public-domain and DNS strategy
 - `docs/ANALYTICS.md`: visit tracking strategy for the canonical public site
+- `docs/SAFE-TESTING.md`: safest public test path without deployment risk
+- `docs/CONTRIBUTOR-QUICKSTART.md`: contributor-oriented first-run sequence
+- `docs/UNIVERSAL-TRANSLATOR.md`: universal natural-entry translation layer
+- `docs/CONNECTORS.md`: connector and bridge contribution model
+
+## Adopted External Protocols
+
+HBN composes openly with external protocols when the integration adds
+value without diluting protocol identity. The contract for incorporation
+is in `docs/EVOLUTION-POLICY.md` (categories A/B/C, hard limits).
+
+Currently adopted as **category A integrations**:
+
+| External protocol | Document | Role |
+|---|---|---|
+| [Diataxis](https://diataxis.fr/) | `docs/INTEGRATION-DIATAXIS.md` | docs/ structure for humans (4 quadrants) |
+| [llms.txt](https://llmstxt.org/) | `docs/INTEGRATION-LLMS-TXT.md` | curated map for LLM consumption |
+| [agents.md](https://agents.md/) | `docs/INTEGRATION-AGENTS-MD.md` | unified agent contract file |
+| Glasswing-style preventive security | `docs/INTEGRATION-GLASSWING.md` | domain-specific preventive checks (composing with Truth Barrier + Guardian) |
+
+A first production-scale composition of HBN with all four is documented
+as a case study in `docs/CASE-STUDY-CREDENCIAMENTO.md`.
 
 ## Governance
 
@@ -343,12 +433,16 @@ The repository currently provides a real local runtime for:
 - ERP result recording linked to readbacks with optional environment capture
 - `hbn init` for repository-local protocol state with optional `--runtime auto` detection
 - `hbn inspect` for repository-local protocol inspection
+- `hbn doctor` for onboarding diagnostics and next-step recommendations
+- `hbn quickstart` for disposable safe test targets with starter relay guidance
+- `hbn translate` for environment-aware natural-entry translation
 - `hbn install` for runtime adapter file generation
 - `hbn refresh` for batch adapter refresh across all installed runtimes
 - `hbn relay status` for baton ownership and active iteration visibility
 - `hbn handoff` for validated relay baton transfer with archive enforcement
 - `hbn hearback --last` for quick confirmation of the most recent pending readback
 - self-describing adapter fallback that works without CLI installed
+- explicit connector resolution across runtime, device, target technology, and human language
 - compatibility alias `usehbn`
 - `.hbn/relay/` and `.hbn/knowledge/` as the basis for inter-IA continuity
 - `.hbn/relay/state.json` as structured relay state for baton tracking
@@ -374,3 +468,6 @@ The repository is currently being managed as a hardened `0.2.x` runtime. Long-
 range `v0.3` ideas are being treated as a research and architecture track, not
 as immediate implementation commitments. Public distribution via PyPI is the
 next delivery milestone. See `docs/EXECUTION-DECISION.md` and `ROADMAP.md`.
+
+For a safe first test before public distribution, use `hbn quickstart` plus
+`hbn doctor` and follow `docs/SAFE-TESTING.md`.

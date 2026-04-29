@@ -4,6 +4,20 @@ All notable changes to HBN will be documented in this file.
 
 ## Unreleased
 
+- Add `docs/EVOLUTION-POLICY.md` — formal contract for incorporating
+  external protocols (categories A/B/C, hard limits, versioning rules)
+- Add `docs/INTEGRATION-DIATAXIS.md` — category A integration with the
+  Diataxis documentation framework
+- Add `docs/INTEGRATION-LLMS-TXT.md` — category A integration with the
+  llms.txt standard for LLM-readable navigation
+- Add `docs/INTEGRATION-AGENTS-MD.md` — category A integration with the
+  agents.md format for unified agent contracts
+- Add `docs/INTEGRATION-GLASSWING.md` — category A integration of a
+  Glasswing-style preventive security layer (5 domain-specific vectors,
+  composing with Truth Barrier and Guardian)
+- Add `docs/CASE-STUDY-CREDENCIAMENTO.md` — first production-scale
+  composition of HBN with Diataxis, llms.txt, AGENTS.md, and Glasswing,
+  documented from the Brazilian municipal Credenciamento project
 - Add explicit execution governance separating the hardened `0.2.x` delivery track from the `v0.3` research track
 - Add `docs/EXECUTION-DECISION.md` to define source-of-truth order, scope boundaries, and the approved three-block execution plan
 
