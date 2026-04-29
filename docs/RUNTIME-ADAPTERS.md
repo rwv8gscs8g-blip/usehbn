@@ -14,6 +14,9 @@ They do not create native integration by themselves. They create explicit reposi
 
 - `claude-code`
 - `codex`
+- `chatgpt`
+- `gemini`
+- `antigravity`
 - `copilot`
 - `cursor`
 
@@ -21,6 +24,9 @@ They do not create native integration by themselves. They create explicit reposi
 
 - `claude-code` -> `.claude/commands/hbn.md`
 - `codex` -> `skills/hbn/SKILL.md`
+- `chatgpt` -> `.chatgpt/commands/hbn.md`
+- `gemini` -> `.gemini/commands/hbn.md`
+- `antigravity` -> `.antigravity/commands/hbn.md`
 - `copilot` -> `.github/copilot-instructions.md`
 - `cursor` -> `.cursor/rules/hbn.mdc`
 
@@ -125,12 +131,14 @@ For initialized repositories, this refresh also reinforces missing guidance file
 
 ## Auto-Detection During Init
 
-When initializing a repository with `hbn init --runtime auto`, HBN detects the most likely runtime from environment signals:
+When initializing a repository with `hbn init --runtime auto`, HBN now prefers
+target-local signals before host-environment signals:
 
-- `CODEX_SANDBOX` env var → `codex`
-- `.claude/` directory → `claude-code`
-- `.cursor/` directory → `cursor`
-- `.github/` directory → `copilot` (weakest signal)
+- existing adapter file in the target -> matching runtime
+- `.claude/` directory -> `claude-code`
+- `.cursor/` directory -> `cursor`
+- `CODEX_SANDBOX` host environment -> `codex`
+- `.github/` directory -> `copilot` (weakest signal)
 
 If a runtime is detected, the corresponding adapter is installed automatically during init.
 

@@ -1,0 +1,12 @@
+{
+  "mode": "sound",
+  "sound_name": "leak",
+  "enabled_for": [
+    "security_blocked_suggestion",
+    "human_decision"
+  ],
+  "choices": {
+    "a": "silent",
+    "b": "flash"
+  }
+}

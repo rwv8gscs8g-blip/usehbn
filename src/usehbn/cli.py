@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from usehbn import __version__
+from usehbn.connectors.discovery import ensure_connector_operation, plan_connector_operation
 from usehbn.execution.engine import execute_request
 from usehbn.protocol.consent import CONSENT_QUESTION
 from usehbn.protocol.readback import (
@@ -24,12 +25,13 @@ from usehbn.protocol.readback import (
 from usehbn.protocol.result import RISK_FLAG_NAMES, create_result_record
 from usehbn.runtime import (
     SUPPORTED_RUNTIMES,
-    detect_runtime_from_env,
+    detect_runtime_context,
     inspect_target,
     install_runtime_adapter,
     refresh_all_adapters,
 )
 from usehbn.state.store import append_result_state
+from usehbn.translation import translate_natural_entry
 from usehbn.utils.logger import write_json
 from usehbn.utils.time import utc_now_iso
 
@@ -130,6 +132,106 @@ def build_root_parser() -> argparse.ArgumentParser:
     )
     _add_protocol_arguments(run_parser, sentence_required=True)
 
+    translate_parser = subparsers.add_parser(
+        "translate",
+        help="Translate a natural HBN entry into the machine path for the current environment.",
+    )
+    translate_parser.add_argument(
+        "sentence",
+        help='Natural sentence containing an HBN anchor, for example: "use hbn analyze this system"',
+    )
+    translate_parser.add_argument(
+        "--target",
+        default=".",
+        help="Target directory whose runtime context should be used.",
+    )
+    translate_parser.add_argument(
+        "--interface",
+        default="shell",
+        help="Interface hint such as shell or runtime_adapter.",
+    )
+    translate_parser.add_argument(
+        "--indent",
+        type=int,
+        default=2,
+        help="JSON indentation level for CLI output.",
+    )
+
+    connector_parser = subparsers.add_parser(
+        "connector",
+        help="Inspect or ensure the connector/bridge path for the current target.",
+    )
+    connector_subparsers = connector_parser.add_subparsers(dest="connector_command")
+
+    connector_inspect_parser = connector_subparsers.add_parser(
+        "inspect",
+        help="Inspect the connector plan, privacy contract, and delivery strategy for a target.",
+    )
+    connector_inspect_parser.add_argument(
+        "--target",
+        default=".",
+        help="Target directory whose connector strategy should be planned.",
+    )
+    connector_inspect_parser.add_argument(
+        "--interface",
+        default="shell",
+        help="Interface hint such as shell or runtime_adapter.",
+    )
+    connector_inspect_parser.add_argument(
+        "--manual-descriptor",
+        help="Optional JSON object describing runtime, device, target technology, human language, and preferred delivery language.",
+    )
+    connector_inspect_parser.add_argument(
+        "--indent",
+        type=int,
+        default=2,
+        help="JSON indentation level for CLI output.",
+    )
+
+    connector_ensure_parser = connector_subparsers.add_parser(
+        "ensure",
+        help="Ensure the correct connector path exists with explicit approval and local registry records.",
+    )
+    connector_ensure_parser.add_argument(
+        "--target",
+        default=".",
+        help="Target directory whose connector path should be ensured.",
+    )
+    connector_ensure_parser.add_argument(
+        "--interface",
+        default="shell",
+        help="Interface hint such as shell or runtime_adapter.",
+    )
+    connector_ensure_parser.add_argument(
+        "--manual-descriptor",
+        help="Optional JSON object describing runtime, device, target technology, human language, and preferred delivery language.",
+    )
+    connector_ensure_parser.add_argument(
+        "--approve-discovery",
+        action="store_true",
+        help="Approve local environment discovery and connector build without prompting.",
+    )
+    connector_ensure_parser.add_argument(
+        "--approve-remote-lookup",
+        action="store_true",
+        help="Approve anonymized remote connector lookup without prompting.",
+    )
+    connector_ensure_parser.add_argument(
+        "--registry-file",
+        help="Optional local JSON file representing an approved connector registry snapshot.",
+    )
+    connector_ensure_parser.add_argument(
+        "--force-rebuild",
+        action="store_true",
+        help="Rebuild or refresh the connector even if one is already active.",
+    )
+    connector_ensure_parser.add_argument(
+        "--indent",
+        type=int,
+        default=2,
+        help="JSON indentation level for CLI output.",
+    )
+
     init_parser = subparsers.add_parser(
         "init",
         help="Initialize HBN protocol state in a target directory.",
@@ -172,6 +274,44 @@ def build_root_parser() -> argparse.ArgumentParser:
         help="Target directory to inspect. Defaults to the current directory.",
     )
     inspect_parser.add_argument(
+        "--indent",
+        type=int,
+        default=2,
+        help="JSON indentation level for CLI output.",
+    )
+
+    doctor_parser = subparsers.add_parser(
+        "doctor",
+        help="Diagnose HBN onboarding and protocol state for a target directory.",
+    )
+    doctor_parser.add_argument(
+        "--target",
+        default=".",
+        help="Target directory to diagnose. Defaults to the current directory.",
+    )
+    doctor_parser.add_argument(
+        "--indent",
+        type=int,
+        default=2,
+        help="JSON indentation level for CLI output.",
+    )
+
+    quickstart_parser = subparsers.add_parser(
+        "quickstart",
+        help="Create a safe local HBN test target with init, runtime detection, and starter guidance.",
+    )
+    quickstart_parser.add_argument(
+        "--target",
+        default=".",
+        help="Target directory to prepare. Created if missing.",
+    )
+    quickstart_parser.add_argument(
+        "--runtime",
+        default="auto",
+        choices=list(SUPPORTED_RUNTIMES) + ["auto"],
+        help="Runtime adapter to install during quickstart. Defaults to auto detection.",
+    )
+    quickstart_parser.add_argument(
         "--indent",
         type=int,
         default=2,
@@ -474,6 +614,11 @@ def _prompt_for_consent() -> bool:
     return answer in {"y", "yes"}
 
 
+def _prompt_yes_no(question: str) -> bool:
+    answer = input(f"{question} [yes/no]: ").strip().lower()
+    return answer in {"y", "yes"}
+
+
 def _parse_json_argument(raw_value: str, argument_name: str) -> Dict[str, Any]:
     try:
         parsed = json.loads(raw_value)
@@ -505,8 +650,111 @@ def run_protocol(args: argparse.Namespace) -> Dict[str, Any]:
     )
 
 
+def run_translate(args: argparse.Namespace) -> Dict[str, Any]:
+    translation = translate_natural_entry(
+        args.sentence,
+        target=Path(args.target).expanduser().resolve(),
+        interface_hint=args.interface,
+    )
+    return {
+        "project": "HBN — Human Brain Net",
+        "protocol_version": __version__,
+        "translation": translation,
+    }
+
+
+def run_connector_inspect(args: argparse.Namespace) -> Dict[str, Any]:
+    target = Path(args.target).expanduser().resolve()
+    manual_descriptor = (
+        _parse_json_argument(args.manual_descriptor, "--manual-descriptor")
+        if args.manual_descriptor
+        else None
+    )
+    plan = plan_connector_operation(
+        target=target,
+        interface_hint=args.interface,
+        manual_descriptor=manual_descriptor,
+    )
+    return {
+        "project": "HBN — Human Brain Net",
+        "protocol_version": __version__,
+        "connector": {
+            "target": str(target),
+            "plan": plan,
+        },
+    }
+
+
+def run_connector_ensure(args: argparse.Namespace) -> Dict[str, Any]:
+    target = Path(args.target).expanduser().resolve()
+    if not _hbn_dir(target).exists():
+        run_init(
+            argparse.Namespace(
+                target=str(target),
+                runtime="auto",
+                indent=args.indent,
+            )
+        )
+
+    manual_descriptor = (
+        _parse_json_argument(args.manual_descriptor, "--manual-descriptor")
+        if args.manual_descriptor
+        else None
+    )
+    plan = plan_connector_operation(
+        target=target,
+        interface_hint=args.interface,
+        manual_descriptor=manual_descriptor,
+    )
+
+    approve_discovery = bool(args.approve_discovery)
+    if not approve_discovery:
+        approve_discovery = _prompt_yes_no(
+            plan["connector_contract"]["user_messages"]["auto_discovery"]
+        )
+
+    approve_remote_lookup = bool(args.approve_remote_lookup)
+    if (
+        approve_discovery
+        and plan["connector_contract"]["privacy_contract"]["remote_lookup"]["required_now"]
+        and not approve_remote_lookup
+    ):
+        approve_remote_lookup = _prompt_yes_no(
+            plan["connector_contract"]["user_messages"]["remote_lookup"]
+        )
+
+    ensured = ensure_connector_operation(
+        target=target,
+        interface_hint=args.interface,
+        manual_descriptor=manual_descriptor,
+        approve_discovery=approve_discovery,
+        approve_remote_lookup=approve_remote_lookup,
+        registry_file=Path(args.registry_file).expanduser().resolve() if args.registry_file else None,
+        force_rebuild=args.force_rebuild,
+    )
+    return {
+        "project": "HBN — Human Brain Net",
+        "protocol_version": __version__,
+        "connector": {
+            "target": str(target),
+            "ensure": ensured,
+        },
+    }
+
+
 def _hbn_dir(target: Path) -> Path:
     return target / ".hbn"
+
+
+def _collect_gitignore_suggestions(target: Path) -> List[str]:
+    gitignore_suggestions: List[str] = []
+    gitignore_path = target / ".gitignore"
+    if gitignore_path.exists():
+        gitignore_content = gitignore_path.read_text(encoding="utf-8")
+        for entry in (".hbn/readbacks/", ".hbn/results/"):
+            if entry not in gitignore_content:
+                gitignore_suggestions.append(entry)
+    return gitignore_suggestions
 
 
 def _detect_system_type(target: Path) -> str:
@@ -583,6 +831,7 @@ def _hbn_readme() -> str:
         "- `attention.json`: preferencia local de atencao humana para bloqueios e decisoes.\n"
         "- `readbacks/`: registros formais de readback.\n"
         "- `results/`: registros ERP.\n"
+        "- `connectors/`: aprovacoes locais, bridges geradas, requests anonimizados e registro do tradutor universal.\n"
     )
 
 
@@ -601,7 +850,11 @@ def _ensure_hbn_guidance_files(hbn_dir: Path) -> None:
     relay_dir = hbn_dir / "relay"
     knowledge_dir = hbn_dir / "knowledge"
     reports_dir = hbn_dir / "reports"
+    connectors_dir = hbn_dir / "connectors"
     reports_dir.mkdir(parents=True, exist_ok=True)
+    (connectors_dir / "approvals").mkdir(parents=True, exist_ok=True)
+    (connectors_dir / "generated").mkdir(parents=True, exist_ok=True)
+    (connectors_dir / "requests").mkdir(parents=True, exist_ok=True)
     attention_path = hbn_dir / "attention.json"
 
     readme_path = hbn_dir / "README.md"
@@ -645,6 +898,16 @@ def _ensure_hbn_guidance_files(hbn_dir: Path) -> None:
 
     if not attention_path.exists():
         write_json(attention_path, _default_attention_preferences())
+    registry_path = connectors_dir / "registry.json"
+    if not registry_path.exists():
+        write_json(
+            registry_path,
+            {
+                "version": 1,
+                "updated_at": utc_now_iso(),
+                "records": [],
+            },
+        )
 
 
 def _default_attention_preferences() -> Dict[str, Any]:
@@ -679,6 +942,60 @@ def _emit_attention(mode: str) -> None:
         sys.stdout.flush()
 
 
+def _resolve_runtime_choice(target: Path, requested_runtime: Optional[str]) -> Dict[str, Any]:
+    detection = detect_runtime_context(target)
+    resolved_runtime = requested_runtime
+    if requested_runtime == "auto":
+        resolved_runtime = detection["runtime"]
+    return {
+        "requested_runtime": requested_runtime,
+        "resolved_runtime": resolved_runtime,
+        "detection": detection,
+    }
+
+
+def _seed_quickstart_relay(target: Path) -> Path:
+    relay_path = _hbn_dir(target) / "relay" / "0001-Quickstart.md"
+    if relay_path.exists():
+        return relay_path
+
+    relay_path.write_text(
+        (
+            "# Quickstart\n\n"
+            "Objective: validate HBN locally without touching production.\n\n"
+            "Suggested sequence:\n"
+            "1. Run `hbn doctor --target .`\n"
+            "2. Run `hbn inspect --target .`\n"
+            '3. Run `hbn run "use hbn analyze this system"`\n'
+            "4. Check baton state with `hbn relay status --target .`\n"
+        ),
+        encoding="utf-8",
+    )
+    return relay_path
+
+
+def _recommended_next_commands(
+    target: Path,
+    detection: Dict[str, Any],
+    *,
+    initialized: bool,
+    adapter_present: bool,
+) -> List[str]:
+    target_text = str(target)
+    commands: List[str] = []
+    if not initialized:
+        commands.append(f"hbn init --target {target_text} --runtime auto")
+        return commands
+
+    commands.append(f"hbn doctor --target {target_text}")
+    commands.append(f"hbn inspect --target {target_text}")
+    if detection.get("runtime") and not adapter_present:
+        commands.append(f"hbn install --runtime {detection['runtime']} --target {target_text}")
+    commands.append('hbn run "use hbn analyze this system"')
+    commands.append(f"hbn relay status --target {target_text}")
+    return commands
+
+
 def run_init(args: argparse.Namespace) -> Dict[str, Any]:
     target = Path(args.target).expanduser().resolve()
     hbn_dir = _hbn_dir(target)
@@ -698,6 +1015,9 @@ def run_init(args: argparse.Namespace) -> Dict[str, Any]:
         hbn_dir / "relay-archive",
         knowledge_dir,
         reports_dir,
+        hbn_dir / "connectors" / "approvals",
+        hbn_dir / "connectors" / "generated",
+        hbn_dir / "connectors" / "requests",
     ):
         directory.mkdir(parents=True, exist_ok=True)
 
@@ -718,35 +1038,37 @@ def run_init(args: argparse.Namespace) -> Dict[str, Any]:
     write_json(hbn_dir / "manifest.json", manifest)
     write_json(hbn_dir / "state.json", state)
     write_json(hbn_dir / "attention.json", _default_attention_preferences())
+    write_json(
+        hbn_dir / "connectors" / "registry.json",
+        {
+            "version": 1,
+            "updated_at": utc_now_iso(),
+            "records": [],
+        },
+    )
     now_iso = utc_now_iso()
     (hbn_dir / "README.md").write_text(_hbn_readme(), encoding="utf-8")
     (relay_dir / "INDEX.md").write_text(_relay_index(now_iso), encoding="utf-8")
     (knowledge_dir / "INDEX.md").write_text(_knowledge_index(), encoding="utf-8")
     (reports_dir / "INDEX.md").write_text(_reports_index(), encoding="utf-8")
     # Suggest .gitignore entries for ephemeral protocol artifacts
-    gitignore_suggestions: List[str] = []
-    gitignore_path = target / ".gitignore"
-    if gitignore_path.exists():
-        gitignore_content = gitignore_path.read_text(encoding="utf-8")
-        for entry in (".hbn/readbacks/", ".hbn/results/"):
-            if entry not in gitignore_content:
-                gitignore_suggestions.append(entry)
+    gitignore_suggestions = _collect_gitignore_suggestions(target)
 
     # Auto-detect or use specified runtime for adapter installation
     adapter_result = None
-    requested_runtime = getattr(args, "runtime", None)
-    if requested_runtime:
-        runtime_to_install = requested_runtime
-        if runtime_to_install == "auto":
-            runtime_to_install = detect_runtime_from_env(target)
-        if runtime_to_install and runtime_to_install in SUPPORTED_RUNTIMES:
-            adapter_result = install_runtime_adapter(runtime_to_install, target, force=False)
+    runtime_resolution = _resolve_runtime_choice(target, getattr(args, "runtime", None))
+    runtime_to_install = runtime_resolution["resolved_runtime"]
+    if runtime_to_install and runtime_to_install in SUPPORTED_RUNTIMES:
+        adapter_result = install_runtime_adapter(runtime_to_install, target, force=False)
 
     result: Dict[str, Any] = {
         "status": "initialized",
         "path": str(hbn_dir),
         "manifest": manifest,
+        "runtime_detection": runtime_resolution["detection"],
     }
+    if runtime_resolution["requested_runtime"] == "auto":
+        result["runtime_requested"] = "auto"
     if adapter_result:
         result["adapter_installed"] = adapter_result
     if gitignore_suggestions:
@@ -768,6 +1090,168 @@ def run_inspect(args: argparse.Namespace) -> Dict[str, Any]:
         "project": "HBN — Human Brain Net",
         "protocol_version": __version__,
         "inspection": inspection,
+    }
+
+
+def run_doctor(args: argparse.Namespace) -> Dict[str, Any]:
+    target = Path(args.target).expanduser().resolve()
+    inspection = inspect_target(target)
+    initialized = inspection["initialized"]
+    runtime_detection = inspection["runtime_detection"]
+    installed_adapters = inspection["runtime_adapters"]
+    pending_readbacks = _find_pending_readbacks(target) if initialized else []
+    gitignore_suggestions = _collect_gitignore_suggestions(target)
+
+    checks: List[Dict[str, Any]] = [
+        {
+            "id": "initialized",
+            "status": "pass" if initialized else "warn",
+            "detail": ".hbn/ is present." if initialized else ".hbn/ is missing.",
+        },
+        {
+            "id": "runtime_detection",
+            "status": "pass" if runtime_detection.get("runtime") else "warn",
+            "detail": (
+                f"Detected runtime {runtime_detection['runtime']} from {runtime_detection['signal_type']}."
+                if runtime_detection.get("runtime")
+                else "No runtime signal detected from target or host environment."
+            ),
+        },
+        {
+            "id": "runtime_adapters",
+            "status": "pass" if installed_adapters else "warn",
+            "detail": (
+                f"{len(installed_adapters)} adapter(s) installed."
+                if installed_adapters
+                else "No runtime adapters installed in this target."
+            ),
+        },
+        {
+            "id": "manifest_version",
+            "status": "pass" if (not initialized or inspection["manifest_matches_current_version"]) else "warn",
+            "detail": (
+                "Manifest version matches current CLI."
+                if (not initialized or inspection["manifest_matches_current_version"])
+                else "Manifest version differs from the current CLI version."
+            ),
+        },
+        {
+            "id": "pending_readbacks",
+            "status": "pass" if not pending_readbacks else "warn",
+            "detail": (
+                "No pending readbacks."
+                if not pending_readbacks
+                else f"{len(pending_readbacks)} pending readback(s) still require hearback."
+            ),
+        },
+    ]
+    if gitignore_suggestions:
+        checks.append(
+            {
+                "id": "gitignore_hints",
+                "status": "warn",
+                "detail": "Ephemeral HBN directories are not fully listed in .gitignore.",
+                "suggested_entries": gitignore_suggestions,
+            }
+        )
+
+    warnings: List[str] = []
+    if not initialized:
+        warnings.append("Target is not initialized for HBN yet.")
+    if initialized and not installed_adapters:
+        warnings.append("Target has no installed runtime adapter.")
+    if pending_readbacks:
+        warnings.append("Pending readbacks will block clean handoff.")
+    if initialized and not inspection["manifest_matches_current_version"]:
+        warnings.append("Manifest version drift detected.")
+
+    if not initialized:
+        status = "needs_setup"
+    elif warnings:
+        status = "attention_needed"
+    else:
+        status = "ready"
+
+    next_steps = _recommended_next_commands(
+        target,
+        runtime_detection,
+        initialized=initialized,
+        adapter_present=bool(installed_adapters),
+    )
+    if initialized and not installed_adapters and runtime_detection.get("runtime"):
+        next_steps.insert(
+            0,
+            f"hbn install --runtime {runtime_detection['runtime']} --target {target}",
+        )
+    if pending_readbacks:
+        next_steps.insert(0, "hbn hearback --last --status confirmed")
+
+    return {
+        "project": "HBN — Human Brain Net",
+        "protocol_version": __version__,
+        "doctor": {
+            "status": status,
+            "target": str(target),
+            "runtime_detection": runtime_detection,
+            "checks": checks,
+            "warnings": warnings,
+            "next_steps": next_steps,
+        },
+    }
+
+
+def run_quickstart(args: argparse.Namespace) -> Dict[str, Any]:
+    target = Path(args.target).expanduser().resolve()
+    target.mkdir(parents=True, exist_ok=True)
+    hbn_dir = _hbn_dir(target)
+
+    init_result: Optional[Dict[str, Any]] = None
+    adapter_result = None
+    if not hbn_dir.exists():
+        init_result = run_init(
+            argparse.Namespace(
+                target=str(target),
+                runtime=args.runtime,
+                indent=args.indent,
+            )
+        )
+        adapter_result = init_result.get("adapter_installed")
+
+    runtime_resolution = _resolve_runtime_choice(target, args.runtime)
+    runtime_to_install = runtime_resolution["resolved_runtime"]
+    inspection_before = inspect_target(target)
+    installed_runtimes = {item["runtime"] for item in inspection_before["runtime_adapters"]}
+    if (
+        adapter_result is None
+        and runtime_to_install
+        and runtime_to_install not in installed_runtimes
+    ):
+        adapter_result = install_runtime_adapter(runtime_to_install, target, force=False)
+
+    quickstart_note = _seed_quickstart_relay(target)
+    inspection = inspect_target(target)
+
+    return {
+        "project": "HBN — Human Brain Net",
+        "protocol_version": __version__,
+        "quickstart": {
+            "status": "ready",
+            "target": str(target),
+            "initialized": hbn_dir.exists(),
+            "init_result": init_result["status"] if init_result else "already_initialized",
+            "runtime_detection": inspection["runtime_detection"],
+            "adapter_installed": adapter_result,
+            "quickstart_note": str(quickstart_note),
+            "next_steps": _recommended_next_commands(
+                target,
+                inspection["runtime_detection"],
+                initialized=True,
+                adapter_present=bool(inspection["runtime_adapters"]),
+            ),
+            "safe_testing_note": (
+                "Use this target only for local protocol validation. No deployment is performed by quickstart."
+            ),
+        },
     }
 
 
@@ -1135,9 +1619,13 @@ def run_handoff(args: argparse.Namespace) -> Dict[str, Any]:
 def main() -> int:
     subcommands = {
         "run",
+        "translate",
+        "connector",
         "init",
         "version",
         "inspect",
+        "doctor",
+        "quickstart",
         "install",
         "attention",
         "notify",
@@ -1153,12 +1641,25 @@ def main() -> int:
         args = parser.parse_args()
         if args.command == "run":
             result = run_protocol(args)
+        elif args.command == "translate":
+            result = run_translate(args)
+        elif args.command == "connector":
+            if getattr(args, "connector_command", None) == "inspect":
+                result = run_connector_inspect(args)
+            elif getattr(args, "connector_command", None) == "ensure":
+                result = run_connector_ensure(args)
+            else:
+                result = {"error": "Unknown connector subcommand. Use: hbn connector inspect|ensure"}
         elif args.command == "init":
             result = run_init(args)
         elif args.command == "version":
             result = run_version(args)
         elif args.command == "inspect":
             result = run_inspect(args)
+        elif args.command == "doctor":
+            result = run_doctor(args)
+        elif args.command == "quickstart":
+            result = run_quickstart(args)
         elif args.command == "install":
             result = run_install(args)
         elif args.command == "attention":

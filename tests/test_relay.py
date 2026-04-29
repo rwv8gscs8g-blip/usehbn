@@ -11,9 +11,11 @@ from pathlib import Path
 
 from usehbn.cli import (
     build_root_parser,
+    run_doctor,
     run_handoff,
     run_hearback_protocol,
     run_init,
+    run_quickstart,
     run_readback_protocol,
     run_refresh,
     run_relay_status,
@@ -42,6 +44,18 @@ def test_detect_runtime_from_env_codex_sandbox():
             del os.environ["CODEX_SANDBOX"]
 
 
+def test_detect_runtime_from_env_prefers_target_signal_over_host_env():
+    with tempfile.TemporaryDirectory() as td:
+        target = Path(td)
+        (target / ".claude").mkdir()
+        os.environ["CODEX_SANDBOX"] = "1"
+        try:
+            result = detect_runtime_from_env(target)
+            assert result == "claude-code"
+        finally:
+            del os.environ["CODEX_SANDBOX"]
+
+
 def test_detect_runtime_from_env_claude():
     with tempfile.TemporaryDirectory() as td:
         target = Path(td)
@@ -66,6 +80,30 @@ def test_detect_runtime_from_env_copilot():
         assert result == "copilot"
 
 
+def test_detect_runtime_from_env_chatgpt():
+    with tempfile.TemporaryDirectory() as td:
+        target = Path(td)
+        (target / ".chatgpt").mkdir()
+        result = detect_runtime_from_env(target)
+        assert result == "chatgpt"
+
+
+def test_detect_runtime_from_env_gemini():
+    with tempfile.TemporaryDirectory() as td:
+        target = Path(td)
+        (target / ".gemini").mkdir()
+        result = detect_runtime_from_env(target)
+        assert result == "gemini"
+
+
+def test_detect_runtime_from_env_antigravity():
+    with tempfile.TemporaryDirectory() as td:
+        target = Path(td)
+        (target / ".antigravity").mkdir()
+        result = detect_runtime_from_env(target)
+        assert result == "antigravity"
+
+
 def test_detect_runtime_from_env_none():
     with tempfile.TemporaryDirectory() as td:
         target = Path(td)
@@ -82,6 +120,7 @@ def test_hbn_init_with_runtime_auto():
         assert result["status"] == "initialized"
         assert "adapter_installed" in result
         assert result["adapter_installed"]["runtime"] == "copilot"
+        assert result["runtime_detection"]["runtime"] == "copilot"
 
 
 def test_hbn_init_with_explicit_runtime():
@@ -247,6 +286,37 @@ def test_adapter_body_contains_fallback_section():
         content = adapter_path.read_text(encoding="utf-8")
         assert "Fallback: If `hbn` CLI is not available" in content
         assert "readback JSON" in content
+
+
+def test_doctor_reports_uninitialized_target():
+    with tempfile.TemporaryDirectory() as td:
+        args = _parse_args(["doctor", "--target", str(td)])
+        result = run_doctor(args)
+        assert result["doctor"]["status"] == "needs_setup"
+        assert result["doctor"]["warnings"] == ["Target is not initialized for HBN yet."]
+        assert result["doctor"]["next_steps"][0].startswith("hbn init --target")
+
+
+def test_doctor_recommends_runtime_install_when_detected_but_missing():
+    with tempfile.TemporaryDirectory() as td:
+        target = Path(td).resolve()
+        (target / ".claude").mkdir()
+        run_init(_parse_args(["init", "--target", str(target)]))
+        result = run_doctor(_parse_args(["doctor", "--target", str(target)]))
+        assert result["doctor"]["status"] == "attention_needed"
+        assert result["doctor"]["runtime_detection"]["runtime"] == "claude-code"
+        assert result["doctor"]["next_steps"][0] == f"hbn install --runtime claude-code --target {target}"
+
+
+def test_quickstart_initializes_target_and_creates_note():
+    with tempfile.TemporaryDirectory() as td:
+        target = (Path(td) / "sandbox").resolve()
+        args = _parse_args(["quickstart", "--target", str(target), "--runtime", "codex"])
+        result = run_quickstart(args)
+        assert result["quickstart"]["status"] == "ready"
+        assert result["quickstart"]["initialized"] is True
+        assert result["quickstart"]["adapter_installed"]["runtime"] == "codex"
+        assert (target / ".hbn" / "relay" / "0001-Quickstart.md").exists()
 
 
 def test_result_with_environment():

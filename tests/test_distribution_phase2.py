@@ -51,6 +51,21 @@ def test_hbn_install_runtime_adapter(tmp_path):
     assert "read-only scan approval" in contents
 
 
+def test_hbn_install_runtime_adapter_for_gemini(tmp_path):
+    result = run_install(
+        argparse.Namespace(
+            runtime="gemini",
+            target=str(tmp_path),
+            force=False,
+            indent=2,
+        )
+    )
+
+    adapter_path = tmp_path / ".gemini" / "commands" / "hbn.md"
+    assert result["adapter_installation"]["status"] == "installed"
+    assert adapter_path.exists()
+
+
 def test_hbn_install_runtime_adapter_is_idempotent_without_force(tmp_path):
     args = argparse.Namespace(runtime="codex", target=str(tmp_path), force=False, indent=2)
     first = run_install(args)

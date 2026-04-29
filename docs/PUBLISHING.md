@@ -17,12 +17,13 @@ This means HBN is prepared for packaging review, but not yet claiming that the p
 Before public package publication:
 
 1. run the full test suite
-2. verify `hbn version`, `hbn inspect`, and `hbn install --runtime ...`
+2. verify `hbn version`, `hbn doctor`, `hbn inspect`, and `hbn install --runtime ...`
 3. verify `./get-hbn` on a clean local checkout
-4. confirm the public package name strategy
-5. confirm release notes and changelog
-6. confirm domain configuration for `usehbn.org`
-7. confirm redirect behavior for `usehbn.com`
+4. verify `hbn quickstart --target /tmp/hbn-sandbox --runtime auto`
+5. confirm the public package name strategy
+6. confirm release notes and changelog
+7. confirm domain configuration for `usehbn.org`
+8. confirm redirect behavior for `usehbn.com`
 
 ## Name Strategy
 

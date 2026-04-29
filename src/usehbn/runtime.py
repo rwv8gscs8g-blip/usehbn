@@ -30,6 +30,18 @@ RUNTIME_SPECS = {
         "relative_path": Path(".cursor/rules/hbn.mdc"),
         "title": "Cursor rule",
     },
+    "chatgpt": {
+        "relative_path": Path(".chatgpt/commands/hbn.md"),
+        "title": "ChatGPT command",
+    },
+    "gemini": {
+        "relative_path": Path(".gemini/commands/hbn.md"),
+        "title": "Gemini command",
+    },
+    "antigravity": {
+        "relative_path": Path(".antigravity/commands/hbn.md"),
+        "title": "Antigravity command",
+    },
 }
 SUPPORTED_RUNTIMES = tuple(RUNTIME_SPECS.keys())
 SEMANTIC_ANCHORS = (
@@ -46,25 +58,105 @@ HBN_STATUS_MARKERS = (
 )
 
 
-def detect_runtime_from_env(target: Path) -> Optional[str]:
-    """Detect the most likely AI runtime from environment signals.
-
-    Detection order (strongest signal first):
-    - CODEX_SANDBOX env var → codex
-    - .claude/ directory in target → claude-code
-    - .cursor/ directory in target → cursor
-    - .github/ directory in target → copilot (weakest signal)
-    """
+def detect_runtime_context(target: Path) -> Dict[str, Any]:
+    """Explain the most likely runtime from target-local and host signals."""
     resolved = Path(target).expanduser().resolve()
-    if os.environ.get("CODEX_SANDBOX"):
-        return "codex"
-    if (resolved / ".claude").is_dir():
-        return "claude-code"
-    if (resolved / ".cursor").is_dir():
-        return "cursor"
-    if (resolved / ".github").is_dir():
-        return "copilot"
-    return None
+    explicit_signals = [
+        ("claude-code", resolved / ".claude" / "commands" / "hbn.md", "adapter_file"),
+        ("codex", resolved / "skills" / "hbn" / "SKILL.md", "adapter_file"),
+        ("cursor", resolved / ".cursor" / "rules" / "hbn.mdc", "adapter_file"),
+        ("copilot", resolved / ".github" / "copilot-instructions.md", "adapter_file"),
+        ("chatgpt", resolved / ".chatgpt" / "commands" / "hbn.md", "adapter_file"),
+        ("gemini", resolved / ".gemini" / "commands" / "hbn.md", "adapter_file"),
+        ("antigravity", resolved / ".antigravity" / "commands" / "hbn.md", "adapter_file"),
+    ]
+    target_signals = [
+        ("claude-code", resolved / ".claude", "target_directory"),
+        ("cursor", resolved / ".cursor", "target_directory"),
+        ("chatgpt", resolved / ".chatgpt", "target_directory"),
+        ("gemini", resolved / ".gemini", "target_directory"),
+        ("antigravity", resolved / ".antigravity", "target_directory"),
+    ]
+    weak_target_signals = [
+        ("copilot", resolved / ".github", "target_directory_weak"),
+    ]
+
+    candidates: List[Dict[str, str]] = []
+
+    for runtime, path, signal_type in explicit_signals:
+        if path.exists():
+            candidates.append(
+                {
+                    "runtime": runtime,
+                    "signal_type": signal_type,
+                    "source": str(path),
+                }
+            )
+            return {
+                "runtime": runtime,
+                "signal_type": signal_type,
+                "source": str(path),
+                "candidates": candidates,
+            }
+
+    for runtime, path, signal_type in target_signals:
+        if path.is_dir():
+            candidates.append(
+                {
+                    "runtime": runtime,
+                    "signal_type": signal_type,
+                    "source": str(path),
+                }
+            )
+            return {
+                "runtime": runtime,
+                "signal_type": signal_type,
+                "source": str(path),
+                "candidates": candidates,
+            }
+
+    if "CODEX_SANDBOX" in os.environ:
+        candidates.append(
+            {
+                "runtime": "codex",
+                "signal_type": "host_environment",
+                "source": "CODEX_SANDBOX",
+            }
+        )
+        return {
+            "runtime": "codex",
+            "signal_type": "host_environment",
+            "source": "CODEX_SANDBOX",
+            "candidates": candidates,
+        }
+
+    for runtime, path, signal_type in weak_target_signals:
+        if path.is_dir():
+            candidates.append(
+                {
+                    "runtime": runtime,
+                    "signal_type": signal_type,
+                    "source": str(path),
+                }
+            )
+            return {
+                "runtime": runtime,
+                "signal_type": signal_type,
+                "source": str(path),
+                "candidates": candidates,
+            }
+
+    return {
+        "runtime": None,
+        "signal_type": "none",
+        "source": "",
+        "candidates": candidates,
+    }
+
+
+def detect_runtime_from_env(target: Path) -> Optional[str]:
+    """Detect the most likely AI runtime from target-local and host signals."""
+    return detect_runtime_context(target)["runtime"]
 
 
 def runtime_adapter_path(runtime: str, target: Path) -> Path:
@@ -167,6 +259,7 @@ def _adapter_body(runtime: str) -> str:
 def install_runtime_adapter(runtime: str, target: Path, *, force: bool = False) -> Dict[str, Any]:
     resolved_target = Path(target).expanduser().resolve()
     adapter_path = runtime_adapter_path(runtime, resolved_target)
+    existed_before = adapter_path.exists()
     if adapter_path.exists() and not force:
         return {
             "status": "already_installed",
@@ -178,7 +271,7 @@ def install_runtime_adapter(runtime: str, target: Path, *, force: bool = False) 
     adapter_path.parent.mkdir(parents=True, exist_ok=True)
     adapter_path.write_text(_adapter_body(runtime), encoding="utf-8")
     return {
-        "status": "force_updated" if adapter_path.exists() and force else "installed",
+        "status": "force_updated" if existed_before and force else "installed",
         "runtime": runtime,
         "path": str(adapter_path),
         "target_path": str(resolved_target),
@@ -273,6 +366,7 @@ def inspect_target(target: Path) -> Dict[str, Any]:
         "archived_iterations": archived_iterations,
         "knowledge_entries": knowledge_entries,
         "reports_entries": reports_entries,
+        "runtime_detection": detect_runtime_context(resolved_target),
         "runtime_adapters": detect_installed_runtimes(resolved_target),
         "logs_count": logs_count,
         "state_path": str(state_path),

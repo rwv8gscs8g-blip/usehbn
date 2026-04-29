@@ -6,6 +6,7 @@ VENV_DIR="$SCRIPT_DIR/.venv"
 PYTHON_BIN="$VENV_DIR/bin/python"
 HBN_BIN="$VENV_DIR/bin/hbn"
 USEHBN_BIN="$VENV_DIR/bin/usehbn"
+USE_BIN="$VENV_DIR/bin/use"
 
 if ! command -v python3 >/dev/null 2>&1; then
   echo "python3 is required to bootstrap HBN locally." >&2
@@ -26,7 +27,31 @@ cat > "$USEHBN_BIN" <<EOF
 exec "$HBN_BIN" "\$@"
 EOF
 
-chmod +x "$HBN_BIN" "$USEHBN_BIN"
+cat > "$USE_BIN" <<EOF
+#!/usr/bin/env sh
+set -eu
+
+if [ "\$#" -lt 1 ]; then
+  echo "Usage: use hbn <natural instruction>" >&2
+  exit 1
+fi
+
+if [ "\$1" = "hbn" ]; then
+  shift
+  if [ "\$#" -eq 0 ]; then
+    echo "Usage: use hbn <natural instruction>" >&2
+    exit 1
+  fi
+  exec "$HBN_BIN" run "use hbn \$*"
+fi
+
+echo "Unsupported semantic namespace: \$1" >&2
+echo "Try: use hbn analyze this system" >&2
+exit 1
+EOF
+
+chmod +x "$HBN_BIN" "$USEHBN_BIN" "$USE_BIN"
 
 echo "HBN bootstrap complete."
 echo "Try: $HBN_BIN version"
+echo "Try: $USE_BIN hbn analyze this system"

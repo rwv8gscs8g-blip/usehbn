@@ -14,6 +14,14 @@ The current architecture is organized into five protocol layers:
 4. truth barrier
 5. guardian monitoring
 
+Around those layers, the current runtime now also includes a connector contract
+layer for the universal translator. That layer decides:
+
+- whether an existing bridge can be assumed immediately
+- whether HBN must ask for approval before discovery/build
+- whether manual environment input should be offered
+- which privacy and remote-resolution constraints apply
+
 These layers are intentionally small so that protocol meaning remains visible in code and documentation.
 
 ## Runtime Flow
@@ -39,6 +47,8 @@ These layers are intentionally small so that protocol meaning remains visible in
   Detects validation gaps and risk-sensitive outputs, then logs warnings locally.
 - `bridge/vba.py`
   Describes how HBN concepts can be applied to Excel/VBA systems without automating them.
+- `connectors/contracts.py`
+  Produces the explicit operating contract for bridge activation, discovery, manual entry, and privacy.
 
 ## Storage Model
 
