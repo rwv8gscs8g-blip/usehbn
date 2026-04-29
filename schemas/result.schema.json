@@ -148,6 +148,10 @@
         "custom": { "type": "object" }
       },
       "additionalProperties": true
+    },
+    "protocol_version": {
+      "type": "string",
+      "minLength": 1
     }
   }
 }

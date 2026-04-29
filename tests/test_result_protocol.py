@@ -39,6 +39,38 @@ def test_valid_erp_creation(tmp_path):
     assert persisted["action_taken"] == "Created ERP ledger entry."
 
 
+def test_result_record_includes_protocol_version(tmp_path):
+    record = create_result_record(
+        execution_id="exec-pv-001",
+        agent_id="agent-codex",
+        hbn_outcome="executed",
+        human_status="approved",
+        action_taken="Protocol version field present.",
+        storage_dir=tmp_path,
+    )
+    assert record["protocol_version"] == "0.3.0"
+
+
+def test_protocol_version_optional_in_schema(tmp_path):
+    # Records carregados sem protocol_version (legados) devem permanecer validos.
+    from usehbn.utils.validators import assert_valid_payload
+    legacy_record = {
+        "traceability": {"execution_id": "exec-legacy", "agent_id": "legacy"},
+        "hbn_outcome": "executed",
+        "human_decision": {"status": "approved"},
+        "intent_risk_profile": {
+            "deception": False, "improbable": False, "random": False,
+            "herd_behavior": False, "financial_survival_risk": False,
+            "abandonment_or_resource_loss_risk": False,
+            "curiosity_driven": False, "agi_resource_shift": False,
+            "ethical_break": False,
+        },
+        "action_taken": "Legacy record without protocol_version.",
+        "created_at": "2026-01-01T00:00:00Z",
+    }
+    assert_valid_payload(legacy_record, "result.schema.json")  # nao deve levantar
+
+
 def test_outcome_enum_rejection(tmp_path):
     with pytest.raises(ValueError):
         create_result_record(

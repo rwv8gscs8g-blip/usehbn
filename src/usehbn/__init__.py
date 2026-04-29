@@ -8,6 +8,8 @@ by the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 """
 
+PROTOCOL_VERSION = "0.3.0"
+
 from usehbn.protocol.consent import CONSENT_QUESTION, create_consent_record
 from usehbn.protocol.guardian import assess_guardian
 from usehbn.protocol.intent import structure_intent
@@ -16,6 +18,7 @@ from usehbn.trigger import detect_activation
 
 __all__ = [
     "CONSENT_QUESTION",
+    "PROTOCOL_VERSION",
     "assess_guardian",
     "create_consent_record",
     "detect_activation",

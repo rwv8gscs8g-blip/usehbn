@@ -99,6 +99,10 @@
     "created_at": {
       "type": "string",
       "minLength": 1
+    },
+    "protocol_version": {
+      "type": "string",
+      "minLength": 1
     }
   }
 }

@@ -10,6 +10,7 @@ import json
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
+from usehbn import PROTOCOL_VERSION
 from usehbn.utils.config import default_state_dir
 from usehbn.utils.logger import write_json
 from usehbn.utils.time import utc_now_iso
@@ -79,6 +80,7 @@ def create_readback_record(
     }
     if out_of_scope:
         record["out_of_scope"] = out_of_scope
+    record["protocol_version"] = PROTOCOL_VERSION
     assert_valid_payload(record, "readback.schema.json")
 
     path = _readbacks_dir(storage_dir) / f"{execution_id}.json"

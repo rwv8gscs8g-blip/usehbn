@@ -10,6 +10,7 @@ import json
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
+from usehbn import PROTOCOL_VERSION
 from usehbn.protocol.readback import find_readback_by_execution
 from usehbn.utils.config import default_state_dir
 from usehbn.utils.logger import write_json
@@ -87,6 +88,7 @@ def create_result_record(
         record["readback_id"] = readback_id
     if environment:
         record["environment"] = environment
+    record["protocol_version"] = PROTOCOL_VERSION
 
     assert_valid_payload(record, "result.schema.json")
 
