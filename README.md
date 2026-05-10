@@ -1,12 +1,28 @@
 # HBN — Human Brain Net
 
-Created by Luis Mauricio Junqueira Zanin
+> **An open protocol for safe, structured, and evolvable AI-assisted software engineering.**
+> v0.3.0 — Honest Foundation. Created by Luis Mauricio Junqueira Zanin.
+> License: Apache 2.0 + DCO. Tests: 114/114.
 
-HBN is an open protocol for safe, structured, and evolvable AI-assisted software engineering.
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE) [![Python: 3.9+](https://img.shields.io/badge/Python-3.9+-blue.svg)](setup.cfg) [![Tests](https://img.shields.io/badge/Tests-114%2F114-brightgreen)](tests/) [![Status: alpha](https://img.shields.io/badge/Status-alpha-orange)](methodology/MATURITY-MATRIX.md) [![Principles: 13](https://img.shields.io/badge/Principles-13-purple)](methodology/PRINCIPIOS-CONSTITUCIONAIS.md)
+
+## Quickstart in 60 seconds
+
+```bash
+git clone https://github.com/rwv8gscs8g-blip/usehbn
+cd usehbn
+./get-hbn
+hbn version
+hbn run "use hbn analyze this system"
+```
+
+## Why HBN exists
 
 HBN starts from a simple discipline: AI-assisted work should remain legible, reviewable, and governable by humans. Intent should be explicit. Validation expectations should be visible. Safety-related uncertainty should not disappear behind convenience.
 
-This repository is not a hosted orchestration platform. It is the local, inspectable runtime and documentation base for an operable HBN scaffold that can now also generate repository-local runtime adapters.
+This repository is not a hosted orchestration platform. It is the local, inspectable runtime and documentation base for an operable HBN scaffold that can also generate repository-local runtime adapters for 7 AI runtimes (Claude Code, Codex, ChatGPT, Gemini, Antigravity, Copilot, Cursor).
+
+> The Credenciamento system was the foundry where HBN was forged; today it is just its first consumer (per [ADR-002](methodology/adr/ADR-002-tipologia-founding-consuming.md) — Founding/Consuming Application typology).
 
 ## Maturidade por Componente
 
@@ -23,16 +39,16 @@ Fonte canônica: [`methodology/MATURITY-MATRIX.md`](methodology/MATURITY-MATRIX.
 | Readback | Implementado | Funciona via CLI; limite atual: nao e chamado automaticamente pelo engine. |
 | Hearback | Implementado | Funciona como gate quando ha Readback associado. |
 | ERP (Result) | Implementado | Funciona hoje com gates de Hearback e Readback em `safe_track`. |
-| Relay | Parcial | Convencoes e comandos existem; invariantes ainda nao sao validadas em runtime. |
-| Baton | Parcial | Campo de dono existe; sem timeout ou audit trail completo. |
+| Relay | Parcial honesto (Onda 3) | Path-mismatch fix aplicado; lê pendentes em `.hbn/readbacks/` e `.usehbn/readbacks/` com dedup. |
+| Baton | Parcial honesto (Onda 3) | `audit_trail` (cap 10 entries) + `baton_stale` advisory (opt-in via `baton_staleness_seconds`). |
 | Handoff | Implementado | Funciona hoje para transferencia validada e arquivamento. |
 | Universal Translator | Scaffold | Hoje e roteador honesto: detecta ambiente/tecnologia e resolve connector; nao traduz semanticamente. |
-| Runtime Adapters | Implementado | Gera arquivos de instrucao em filesystem para runtimes suportados. |
+| Runtime Adapters | Implementado | Gera arquivos de instrucao em filesystem para 7 runtimes suportados; corpo inclui as 16 marcadores HBN (10 single-repo + 6 multi-repo). |
 | Connectors (resolver) | Parcial | Resolve estrategia; "active" por presenca de arquivo e provisoriamente convencional. |
-| Connectors (lifecycle) | Visao em v0.3.0 | Lifecycle formal ainda e linha planejada; Onda 4 registra estado sem enforcement. |
+| Connectors (lifecycle) | Scaffold (Onda 4 aplicada) | 6 estados canônicos registrados (`detected/resolved/installed/verified/active/revoked`); migração tolerante; sem FSM ainda. |
 | Connectors (verify) | Stub | Apenas placeholder; sem verificacao funcional. |
 | Connectors (remote lookup) | Scaffold | Estrutura existe; registry remoto real nao existe e default e off. |
-| State (json append-only) | Parcial | Funciona com lacunas de compactacao, versionamento e fragmentacao de diretorios. |
+| State (json append-only) | Parcial honesto (Onda 5 aplicada) | Canonical em `.usehbn/hbn-state.json`; dual-read com merge dedup do legacy `state/hbn-state.json` para back-compat. |
 | Schemas | Implementado | Schemas e validador customizado funcionam hoje. |
 | Privacy Contract | Parcial / declarativo | Parte e codificada; parte ainda e declarativa, sem certificacao legal. |
 | Bridge generation (legado) | Stub | Produz scaffold documental; nao gera bridges executaveis. |
