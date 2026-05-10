@@ -368,16 +368,12 @@ def test_two_agent_handoff_cycle():
         readback_result = run_readback_protocol(readback_args)
         assert readback_result["readback_record"]["hearback_status"] == "pending"
 
-        # Step 4: Attempt handoff with pending readback → must fail
-        # Note: handoff checks .hbn/readbacks/, not .usehbn/readbacks/
-        # So we need to copy readback to .hbn/readbacks/ for the validation
-        hbn_readbacks = target / ".hbn" / "readbacks"
-        hbn_readbacks.mkdir(parents=True, exist_ok=True)
-        usehbn_readback = target / ".usehbn" / "readbacks" / "exec-cycle-001.json"
-        if usehbn_readback.exists():
-            import shutil
-            shutil.copy2(str(usehbn_readback), str(hbn_readbacks / "exec-cycle-001.json"))
-
+        # Step 4: Attempt handoff with pending readback → must fail.
+        # Onda 3 (Relay Invariants) — _find_pending_readbacks now reads BOTH
+        # .hbn/readbacks/ AND default_state_dir(target)/readbacks/ (typically
+        # .usehbn/readbacks/), so the manual copy hack that was needed
+        # pre-Onda-3 is no longer required. The pending readback in
+        # .usehbn/readbacks/ is detected directly.
         handoff_fail_args = _parse_args([
             "handoff", "--to", "claude", "--summary", "Should fail",
             "--target", str(target)
@@ -393,14 +389,8 @@ def test_two_agent_handoff_cycle():
         hearback_result = run_hearback_protocol(hearback_args)
         assert hearback_result["readback_record"]["hearback_status"] == "confirmed"
 
-        # Also update the .hbn/ copy
-        if (hbn_readbacks / "exec-cycle-001.json").exists():
-            confirmed_record = json.loads(
-                (target / ".usehbn" / "readbacks" / "exec-cycle-001.json").read_text(encoding="utf-8")
-            )
-            (hbn_readbacks / "exec-cycle-001.json").write_text(
-                json.dumps(confirmed_record), encoding="utf-8"
-            )
+        # Onda 3: dual-read elimina a necessidade de duplicar o readback em
+        # .hbn/readbacks/ — _find_pending_readbacks lê ambos os diretórios.
 
         # Step 6: Handoff to claude → should succeed
         handoff_ok_args = _parse_args([
@@ -423,3 +413,152 @@ def test_two_agent_handoff_cycle():
         ])
         final_result = run_handoff(final_args)
         assert final_result["handoff"]["to"] == "human"
+
+
+# ----------------------------------------------------------------------------
+# Onda 3 (Relay Invariants em Runtime) — 6 new tests per .hbn/relay/0009-*.md
+# ----------------------------------------------------------------------------
+
+
+def test_handoff_blocks_on_pending_usehbn_readback():
+    """Pending readback in .usehbn/readbacks/ must block handoff (path mismatch fix)."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        target = Path(tmpdir)
+        init_args = _parse_args(["init", "--target", str(target)])
+        run_init(init_args)
+
+        readback_args = _parse_args([
+            "readback", "exec-pending-001",
+            "--agent-id", "test-agent",
+            "--intent-json", json.dumps({
+                "objective": "test",
+                "constraints": [],
+                "risks": [],
+                "validation_requirements": [],
+            }),
+            "--guardian-json", json.dumps({"status": "ok", "warnings": []}),
+            "--understanding", "x",
+            "--invariant", "y",
+            "--plan-step", "z",
+            "--storage-dir", str(target),
+        ])
+        run_readback_protocol(readback_args)
+
+        usehbn_readbacks = target / ".usehbn" / "readbacks"
+        assert (usehbn_readbacks / "readback-exec-pending-001.json").exists() or \
+               any(usehbn_readbacks.glob("*.json")), \
+               "Readback should land in .usehbn/readbacks/"
+
+        # Sanity: nothing in .hbn/readbacks/ pre-Onda-3 (no manual copy hack).
+        hbn_readbacks = target / ".hbn" / "readbacks"
+        if hbn_readbacks.exists():
+            assert not list(hbn_readbacks.glob("*.json")), \
+                "Pre-handoff: no readback should be in .hbn/readbacks/"
+
+        handoff_args = _parse_args([
+            "handoff", "--to", "claude", "--summary", "Should fail (pending)",
+            "--target", str(target)
+        ])
+        result = run_handoff(handoff_args)
+        assert "error" in result, "Handoff must fail with pending readback"
+        assert "pending" in result["error"].lower()
+
+
+def test_find_pending_readbacks_dedups_when_present_in_both_dirs():
+    """Same execution_id in both readback dirs must appear once."""
+    from usehbn.cli import _find_pending_readbacks
+    with tempfile.TemporaryDirectory() as tmpdir:
+        target = Path(tmpdir)
+        run_init(_parse_args(["init", "--target", str(target)]))
+
+        record = {"execution_id": "exec-dup-001", "hearback_status": "pending"}
+        for dir_path in [target / ".hbn" / "readbacks", target / ".usehbn" / "readbacks"]:
+            dir_path.mkdir(parents=True, exist_ok=True)
+            (dir_path / "exec-dup-001.json").write_text(json.dumps(record), encoding="utf-8")
+
+        pending = _find_pending_readbacks(target)
+        assert pending.count("exec-dup-001") == 1, f"Expected dedup; got {pending}"
+
+
+def test_handoff_audit_trail_preserves_last_ten():
+    """12 sequential handoffs leave audit_trail with exactly 10 entries (latest at end)."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        target = Path(tmpdir)
+        run_init(_parse_args(["init", "--target", str(target)]))
+
+        for i in range(12):
+            run_handoff(_parse_args([
+                "handoff", "--to", f"agent-{i}", "--summary", f"step-{i}",
+                "--target", str(target),
+            ]))
+
+        state = json.loads((target / ".hbn" / "relay" / "state.json").read_text(encoding="utf-8"))
+        audit = state.get("audit_trail")
+        assert isinstance(audit, list)
+        assert len(audit) == 10, f"Expected exactly 10 entries; got {len(audit)}"
+        # Newest at the end: agent-11 (12th handoff).
+        assert audit[-1]["to"] == "agent-11"
+        # Oldest preserved is from the 3rd handoff (agent-2), as 0 and 1 dropped.
+        assert audit[0]["to"] == "agent-2"
+
+
+def test_handoff_audit_trail_backward_compatible():
+    """state.json without audit_trail must still accept handoff and write a new entry."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        target = Path(tmpdir)
+        run_init(_parse_args(["init", "--target", str(target)]))
+
+        # Force a state.json without audit_trail (simulating pre-Onda-3 state).
+        state_path = target / ".hbn" / "relay" / "state.json"
+        legacy_state = {
+            "baton_owner": "human",
+            "baton_since": "2026-04-29T08:00:00.000000Z",
+            "active_iterations": [],
+            "pending_decisions": 0,
+            "last_handoff": None,
+        }
+        state_path.write_text(json.dumps(legacy_state), encoding="utf-8")
+
+        result = run_handoff(_parse_args([
+            "handoff", "--to", "codex", "--summary", "First post-migration handoff",
+            "--target", str(target),
+        ]))
+        assert "handoff" in result, f"Handoff should succeed; got {result}"
+
+        new_state = json.loads(state_path.read_text(encoding="utf-8"))
+        assert "audit_trail" in new_state
+        assert isinstance(new_state["audit_trail"], list)
+        assert len(new_state["audit_trail"]) == 1
+        assert new_state["audit_trail"][0]["to"] == "codex"
+
+
+def test_relay_status_baton_stale_flag_when_configured():
+    """baton_staleness_seconds=0 forces baton_stale=True (always-stale config)."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        target = Path(tmpdir)
+        run_init(_parse_args(["init", "--target", str(target)]))
+
+        state_path = target / ".hbn" / "relay" / "state.json"
+        state = {
+            "baton_owner": "agent",
+            "baton_since": "2026-04-29T08:00:00.000000Z",
+            "active_iterations": [],
+            "pending_decisions": 0,
+            "last_handoff": None,
+            "baton_staleness_seconds": 0,
+        }
+        state_path.write_text(json.dumps(state), encoding="utf-8")
+
+        result = run_relay_status(_parse_args(["relay", "status", "--target", str(target)]))
+        assert result.get("baton_stale") is True
+
+
+def test_relay_status_no_baton_stale_field_by_default():
+    """Without baton_staleness_seconds set, run_relay_status must not include baton_stale."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        target = Path(tmpdir)
+        run_init(_parse_args(["init", "--target", str(target)]))
+
+        result = run_relay_status(_parse_args(["relay", "status", "--target", str(target)]))
+        assert "baton_stale" not in result, \
+            f"baton_stale must be absent when not configured; got keys: {list(result.keys())}"

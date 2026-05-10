@@ -1484,11 +1484,20 @@ def run_refresh(args: argparse.Namespace) -> Dict[str, Any]:
     }
 
 
+_RELAY_AUDIT_TRAIL_MAX_ENTRIES = 10
+
+
 def _load_relay_state(target: Path) -> Dict[str, Any]:
     hbn_dir = _hbn_dir(target)
     state_path = hbn_dir / "relay" / "state.json"
     if state_path.exists():
-        return json.loads(state_path.read_text(encoding="utf-8"))
+        state = json.loads(state_path.read_text(encoding="utf-8"))
+        # Onda 3 (Relay Invariants): tolerar audit_trail ausente; recusar tipo inválido.
+        if "audit_trail" in state and not isinstance(state["audit_trail"], list):
+            raise ValueError(
+                "Invalid relay state: 'audit_trail' must be a list when present."
+            )
+        return state
     # Infer basic state from filesystem if state.json does not exist
     relay_dir = hbn_dir / "relay"
     active: List[str] = []
@@ -1509,6 +1518,15 @@ def _load_relay_state(target: Path) -> Dict[str, Any]:
 def _save_relay_state(target: Path, state: Dict[str, Any]) -> Path:
     hbn_dir = _hbn_dir(target)
     state_path = hbn_dir / "relay" / "state.json"
+    # Onda 3: garantir que audit_trail (quando presente) seja lista e respeite o cap.
+    audit_trail = state.get("audit_trail")
+    if audit_trail is not None:
+        if not isinstance(audit_trail, list):
+            raise ValueError(
+                "Invalid relay state: 'audit_trail' must be a list when present."
+            )
+        if len(audit_trail) > _RELAY_AUDIT_TRAIL_MAX_ENTRIES:
+            state["audit_trail"] = audit_trail[-_RELAY_AUDIT_TRAIL_MAX_ENTRIES:]
     write_json(state_path, state)
     return state_path
 
@@ -1516,24 +1534,66 @@ def _save_relay_state(target: Path, state: Dict[str, Any]) -> Path:
 def run_relay_status(args: argparse.Namespace) -> Dict[str, Any]:
     target = Path(args.target).expanduser().resolve()
     state = _load_relay_state(target)
-    return {
+    response: Dict[str, Any] = {
         "project": "HBN — Human Brain Net",
         "protocol_version": PROTOCOL_VERSION,
         "relay_status": state,
         "target": str(target),
     }
+    # Onda 3 (advisory): expose baton_stale apenas se baton_staleness_seconds estiver
+    # configurado em state. Default ausente preserva o contrato anterior.
+    staleness_seconds = state.get("baton_staleness_seconds")
+    if isinstance(staleness_seconds, int) and staleness_seconds >= 0:
+        baton_since = state.get("baton_since")
+        if not baton_since:
+            response["baton_stale"] = False
+        else:
+            try:
+                from datetime import datetime, timezone
+                # baton_since is ISO-8601 with 'Z' suffix per utc_now_iso.
+                baton_since_dt = datetime.fromisoformat(baton_since.replace("Z", "+00:00"))
+                age_seconds = (datetime.now(timezone.utc) - baton_since_dt).total_seconds()
+                response["baton_stale"] = age_seconds >= staleness_seconds
+            except (TypeError, ValueError):
+                # Malformed baton_since: report stale (conservative).
+                response["baton_stale"] = True
+    return response
 
 
 def _find_pending_readbacks(target: Path) -> List[str]:
-    hbn_dir = _hbn_dir(target)
-    readbacks_dir = hbn_dir / "readbacks"
-    pending: List[str] = []
-    if readbacks_dir.exists():
-        for path in sorted(readbacks_dir.glob("*.json")):
-            record = json.loads(path.read_text(encoding="utf-8"))
-            if record.get("hearback_status") == "pending":
-                pending.append(record["execution_id"])
-    return pending
+    """Find pending readbacks across both .hbn/readbacks/ and the default state dir.
+
+    Onda 3 (Relay Invariants) — path-mismatch fix. Pre-Onda-3, this function only
+    inspected `.hbn/readbacks/`, but `create_readback_record` writes to
+    `default_state_dir(target) / "readbacks/"` (typically `.usehbn/readbacks/`),
+    so handoff silently let pending readbacks through. We now read both dirs and
+    dedup by execution_id, preferring records still in `pending` state.
+    """
+    from usehbn.utils.config import default_state_dir
+
+    candidates: Dict[str, str] = {}  # execution_id -> hearback_status
+
+    def _scan(dir_path: Path) -> None:
+        if not dir_path.exists():
+            return
+        for path in sorted(dir_path.glob("*.json")):
+            try:
+                record = json.loads(path.read_text(encoding="utf-8"))
+            except json.JSONDecodeError:
+                continue
+            exec_id = record.get("execution_id")
+            if not exec_id:
+                continue
+            status = record.get("hearback_status", "")
+            existing = candidates.get(exec_id)
+            # Prefer "pending" if seen anywhere; otherwise keep first non-pending.
+            if existing != "pending":
+                candidates[exec_id] = status
+
+    _scan(_hbn_dir(target) / "readbacks")
+    _scan(default_state_dir(target) / "readbacks")
+
+    return sorted(exec_id for exec_id, status in candidates.items() if status == "pending")
 
 
 def run_handoff(args: argparse.Namespace) -> Dict[str, Any]:
@@ -1575,7 +1635,17 @@ def run_handoff(args: argparse.Namespace) -> Dict[str, Any]:
     now_iso = utc_now_iso()
     current_state = _load_relay_state(target)
     previous_owner = current_state.get("baton_owner", "unknown")
-    new_state = {
+    # Onda 3: preserve audit_trail across handoffs (last 10 entries).
+    audit_trail: List[Dict[str, str]] = list(current_state.get("audit_trail") or [])
+    audit_trail.append({
+        "from": previous_owner,
+        "to": args.handoff_to,
+        "at": now_iso,
+        "summary": args.summary,
+    })
+    if len(audit_trail) > _RELAY_AUDIT_TRAIL_MAX_ENTRIES:
+        audit_trail = audit_trail[-_RELAY_AUDIT_TRAIL_MAX_ENTRIES:]
+    new_state: Dict[str, Any] = {
         "baton_owner": args.handoff_to,
         "baton_since": now_iso,
         "active_iterations": [],
@@ -1586,7 +1656,11 @@ def run_handoff(args: argparse.Namespace) -> Dict[str, Any]:
             "at": now_iso,
             "summary": args.summary,
         },
+        "audit_trail": audit_trail,
     }
+    # Preserve baton_staleness_seconds across handoffs if it was configured.
+    if "baton_staleness_seconds" in current_state:
+        new_state["baton_staleness_seconds"] = current_state["baton_staleness_seconds"]
     _save_relay_state(target, new_state)
 
     # Update INDEX.md
