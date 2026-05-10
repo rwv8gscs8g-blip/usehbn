@@ -58,6 +58,30 @@ def ensure_connectors_tree(target: Path) -> Path:
     return root
 
 
+# Connector Lifecycle Registry (Onda 4 / ADR-007 §3 Connectors lifecycle)
+#
+# Registry-only — this is registration honesty, not enforcement. The states
+# below describe the *known* status of a connector, not a finite-state machine
+# that gates behavior. Lifecycle FSM with verify and transitions is reserved
+# for v0.4+ via a dedicated ADR.
+LIFECYCLE_STATES = (
+    "detected",   # signal seen but no work done yet
+    "resolved",   # connector strategy resolved (catalog match)
+    "installed",  # local artifact written (bridge / marker)
+    "verified",   # manual or scripted check passed (Stub today)
+    "active",     # currently being consumed by the runtime
+    "revoked",    # explicitly disabled by approval / human action
+)
+DEFAULT_LIFECYCLE_STATE = "detected"
+
+
+def _normalize_lifecycle_state(value: Any) -> str:
+    """Tolerant reader: anything outside LIFECYCLE_STATES coerces to default."""
+    if isinstance(value, str) and value in LIFECYCLE_STATES:
+        return value
+    return DEFAULT_LIFECYCLE_STATE
+
+
 def load_registry(target: Path) -> Dict[str, Any]:
     ensure_connectors_tree(target)
     path = registry_path(target)
@@ -65,6 +89,10 @@ def load_registry(target: Path) -> Dict[str, Any]:
     document.setdefault("version", 1)
     document.setdefault("updated_at", utc_now_iso())
     document.setdefault("records", [])
+    # Onda 4: tolerant migration — records without lifecycle_state get default.
+    for record in document["records"]:
+        if isinstance(record, dict):
+            record.setdefault("lifecycle_state", DEFAULT_LIFECYCLE_STATE)
     return document
 
 
@@ -72,6 +100,10 @@ def append_registry_record(target: Path, record: Dict[str, Any]) -> Path:
     ensure_connectors_tree(target)
     path = registry_path(target)
     document = load_registry(target)
+    # Onda 4: ensure new records carry lifecycle_state (default "detected")
+    # and reject invalid values silently with normalization.
+    record.setdefault("lifecycle_state", DEFAULT_LIFECYCLE_STATE)
+    record["lifecycle_state"] = _normalize_lifecycle_state(record["lifecycle_state"])
     document["records"].append(record)
     document["updated_at"] = utc_now_iso()
     write_json(path, document)
