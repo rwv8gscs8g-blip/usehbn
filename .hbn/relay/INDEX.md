@@ -1,14 +1,14 @@
 # HBN Relay — Estado Atual
 
-**Bastao atual:** humano
-**Bastao desde:** 2026-04-29T07:50:13Z
-**Ultima atualizacao:** 2026-04-29T08:05:02Z
+**Bastao atual:** claude-opus-4.7 (architect)
+**Bastao desde:** 2026-04-29T08:07:00Z
+**Ultima atualizacao:** 2026-04-29T08:07:00Z
 
 ## Iteracoes Ativas
 
 | # | Assunto | Estado | Bastao |
 |---|---------|--------|--------|
-| — | nenhuma | aguardando-decisao-humana | humano |
+| 0008 | architect-correcao-onda3 | aguardando-hearback-humano | claude-opus-4.7 |
 
 ## Iteracoes Canceladas
 
@@ -20,11 +20,11 @@
 
 | Campo | Valor |
 |-------|-------|
-| De | codex |
-| Para | humano |
-| Em | 2026-04-29T08:05:02Z |
+| De | humano:luis-mauricio |
+| Para | claude-opus-4.7 (architect) |
+| Em | 2026-04-29T08:07:00Z |
 | Aprovador | humano:luis-mauricio |
-| Hearback | final confirmado para Nova Onda 2 (`exec-20260429T075001Z-onda2-schema`) |
+| Hearback | "vamos seguir com a implementacao" (autorizacao para preparar Nova Onda 3) |
 
 ## Iteracoes Arquivadas Recentemente
 
@@ -37,33 +37,63 @@
 
 ## Pendencias Globais
 
-- **Nova Onda 3 — Humano**: decidir quando iniciar Relay Invariants em Runtime.
-- **Auditoria pos-execucao**: humano pode invocar `"Claude, auditar nova Onda 2 (Schema Versioning) contra docs/WAVE-PLAN-V0.3.0.md e agents/wave-protocol.md."` apos execucao.
-- **RFC-0001** (`--enforce`): aberta em `docs/rfc/RFC-0001-enforce-mode.md`. Sem implementacao em v0.3.0.
-- **Decisao Q13** (TestPyPI primeiro): documentada em `docs/PUBLISHING-DECISION.md`. Hearback explicito necessario antes da nova Onda 6 (gate G6).
-- **Lico aprendida (architect deve auditar codigo antes de planejar)**: documentada em `docs/WAVE-PLAN-V0.3.0.md` secao "Revisao 2026-04-29". Incorporacao formal em `agents/wave-protocol.md` planejada para nova Onda 5.
+- **Nova Onda 3 — Hearback humano**: aprovar correcao do escopo
+  conforme `.hbn/relay/0008-architect-correcao-onda3.md`. Sem
+  aprovacao, bastao permanece com architect.
+- **Auditoria pos-execucao da Nova Onda 3**: humano pode invocar
+  `"Claude, auditar Nova Onda 3 contra agents/wave-protocol.md,
+  docs/WAVE-PLAN-V0.3.0.md e .hbn/relay/0008-architect-correcao-onda3.md."`
+  apos execucao do Codex.
+- **RFC-0001** (`--enforce`): aberta em `docs/rfc/RFC-0001-enforce-mode.md`.
+  Sem implementacao em v0.3.0.
+- **Decisao Q13** (TestPyPI primeiro): documentada em
+  `docs/PUBLISHING-DECISION.md`. Hearback explicito necessario antes
+  da nova Onda 6 (gate G6).
+- **Lico aprendida (architect deve auditar codigo antes de planejar)**:
+  documentada em `docs/WAVE-PLAN-V0.3.0.md` secoes "Revisao 2026-04-29"
+  e "Revisao 2026-04-29 (segunda correcao)". Incorporacao formal em
+  `agents/wave-protocol.md` planejada para nova Onda 5.
 - **Observacao menor — CHANGELOG dual-header**: absorvida na nova Onda 5.
 - **Observacao menor — README Current Status**: absorvida na nova Onda 5.
 
 ## Proxima Acao
 
-`humano` deve decidir a proxima acao:
+`humano` deve decidir uma das tres alternativas:
 
-1. Abrir nova Onda 3 — Relay Invariants em Runtime.
-2. Pausar o ciclo.
-3. Solicitar auditoria adicional da Nova Onda 2.
+1. **Aprovar correcao da Onda 3** (recomendado): confirmar Hearback;
+   bastao passa para `codex` com o superprompt do deposit 0008.
+2. **Solicitar mais auditoria**: pedir que o architect verifique
+   pontos especificos antes do bastao a Codex.
+3. **Rejeitar correcao**: definir caminho alternativo (ex.: cancelar
+   Onda 3 ou redefinir escopo).
 
 ## Leitura Obrigatoria Para Novas IAs
 
 - `agents/wave-protocol.md` (CONTRATO de execucao em ondas).
 - `docs/MATURITY-MATRIX.md` (estado canonico por componente).
 - `docs/PHAGOCYTOSIS.md` (doutrina do Universal Translator honesto).
-- `docs/WAVE-PLAN-V0.3.0.md` (plano canonico revisado de 6 ondas; ler secao "Revisao 2026-04-29" primeiro).
-- Lista doutrinaria imutavel em v0.3.0: `Readback`, `Hearback`, `Guardian`, `Truth Barrier`, `ERP`, `Relay`, `Baton`, `Consent`, `Handoff`, `Track`, `Universal Translator`, `Phagocytosis`, `usehbn`, `hbn`, `use hbn`. NAO renomear, NAO traduzir, NAO substituir.
-- `usehbn` e `hbn` sao igualmente canonicos (decisao humana Q14). `usehbn` tem prioridade semantica humana.
-- Use uma marcacao visivel de status no inicio do ciclo: `✅ HBN ACTIVE`, `❌ HBN SECURITY BLOCKED SUGGESTION` ou `🟡 HBN NEEDS HUMAN DECISION`.
-- Em bloqueios ou decisoes humanas, use `hbn notify` quando houver execucao local disponivel.
+- `docs/WAVE-PLAN-V0.3.0.md` (plano canonico revisado de 6 ondas; ler
+  ambas as secoes "Revisao 2026-04-29" antes de planejar).
+- Lista doutrinaria imutavel em v0.3.0: `Readback`, `Hearback`,
+  `Guardian`, `Truth Barrier`, `ERP`, `Relay`, `Baton`, `Consent`,
+  `Handoff`, `Track`, `Universal Translator`, `Phagocytosis`,
+  `usehbn`, `hbn`, `use hbn`. NAO renomear, NAO traduzir, NAO
+  substituir.
+- `usehbn` e `hbn` sao igualmente canonicos (decisao humana Q14).
+  `usehbn` tem prioridade semantica humana.
+- Use uma marcacao visivel de status no inicio do ciclo:
+  `✅ HBN ACTIVE`, `❌ HBN SECURITY BLOCKED SUGGESTION` ou
+  `🟡 HBN NEEDS HUMAN DECISION`.
+- Em bloqueios ou decisoes humanas, use `hbn notify` quando houver
+  execucao local disponivel.
 - Arquivos ativos de coordenacao usam o padrao `0001-Assunto.md`.
-- Arquivos resolvidos saem de `.hbn/relay/` e vao para `.hbn/relay-archive/` com prefixo de timestamp.
-- Mantenha em `.hbn/relay/` apenas o contexto operacional realmente ativo.
-- Codex e cirurgiao, nao arquiteto. Em duvida, PARAR e pedir Hearback. **Quando Codex detectar sobreposicao significativa entre plano e estado atual do codigo, deve PARAR e pedir Hearback adicional, nao tentar alinhar cosmeticamente.**
+- Arquivos resolvidos saem de `.hbn/relay/` e vao para
+  `.hbn/relay-archive/` com prefixo de timestamp.
+- Mantenha em `.hbn/relay/` apenas o contexto operacional realmente
+  ativo.
+- **Architect deve auditar codigo antes de planejar onda** (licao
+  aprendida 2026-04-29).
+- Codex e cirurgiao, nao arquiteto. Em duvida, PARAR e pedir
+  Hearback. **Quando Codex detectar sobreposicao significativa entre
+  plano e estado atual do codigo, deve PARAR e pedir Hearback
+  adicional, nao tentar alinhar cosmeticamente.**

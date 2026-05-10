@@ -33,6 +33,28 @@ de estado pre-deposit" antes de assinar o plano. Esta lico sera incorporada
 em `agents/wave-protocol.md` em onda futura dedicada (provavelmente nova
 Onda 5 ou nova onda especifica de protocolo).
 
+### Revisao 2026-04-29 (segunda correcao) — escopo da Onda 3
+
+Auditoria pre-bastao da Nova Onda 3 (architect, iteracao 0008) detectou
+duas divergencias entre plano e codigo:
+
+1. Plano listava `src/usehbn/relay/*.py` como arquivo permitido. Esse
+   modulo nao existe; toda a logica de relay vive em `src/usehbn/cli.py`
+   (funcoes `_load_relay_state`, `_save_relay_state`,
+   `_find_pending_readbacks`, `run_relay_status`, `run_handoff`).
+2. Invariante (a) ("handoff falha com Readback pending") esta MAIS
+   quebrada do que o plano original sugeria: `_find_pending_readbacks`
+   le apenas `.hbn/readbacks/`, mas `create_readback_record` escreve em
+   `.usehbn/readbacks/` por padrao. O proprio teste integrado
+   (`test_two_agent_handoff_cycle`) precisa copiar manualmente o
+   readback entre dirs para o handoff falhar.
+
+A secao "Onda 3 (NOVA)" foi reescrita para refletir esses fatos, com
+escopo cirurgico em `cli.py` e teste explicito do path mismatch como
+prioridade. Detalhes preservados em
+`.hbn/relay-archive/<TIMESTAMP>-0008-architect-correcao-onda3.md` quando
+arquivado.
+
 ## Objetivo do Ciclo
 
 Transformar o HBN de scaffold honesto em **fundacao publicavel honesta**:
@@ -553,35 +575,133 @@ campo como required mas sistema autopreenche com `""` = falsa exigencia.
 
 ## Onda 3 (NOVA) — Relay Invariants em Runtime  *(antiga Onda 6)*
 
+> **Revisao 2026-04-29 (architect):** descricao original assumia
+> `src/usehbn/relay/*.py` como modulo separado; auditoria confirmou que
+> toda a logica de relay vive em `src/usehbn/cli.py`. Auditoria tambem
+> confirmou um bug real e silencioso: `_find_pending_readbacks` le apenas
+> de `.hbn/readbacks/`, mas `create_readback_record` escreve em
+> `.usehbn/readbacks/` por padrao. O proprio `tests/test_relay.py:374-379`
+> documenta o sintoma copiando manualmente o readback entre os dois
+> diretorios. Em uso real, o handoff NAO bloqueia readbacks pendentes
+> do `usehbn`. Esta correcao de plano alinha o escopo da Onda 3 ao codigo
+> real e prioriza a invariante quebrada.
+
 ### Objetivo
 
-Validar invariantes do relay em runtime: (a) `handoff` deve falhar se
-existir Readback pending sem Hearback; (b) registrar `audit_trail` simples
-em `.hbn/relay/state.json` (last 10 transitions); (c) timeout configuravel
-de baton (default infinito = mantem comportamento atual).
+Promover Relay/Baton de Parcial para "Implementado parcial honesto",
+endurecendo tres invariantes em runtime:
+
+- **(a) Path mismatch fix**: `_find_pending_readbacks` deve detectar
+  readbacks pendentes em **ambos** `.hbn/readbacks/` e `.usehbn/readbacks/`
+  (ou na `default_state_dir()` apropriada), com dedup por
+  `execution_id`. Sem isso, a invariante "handoff falha com readback
+  pendente" nao se sustenta na pratica.
+- **(b) Audit trail das transicoes**: campo `audit_trail` (lista) em
+  `.hbn/relay/state.json` mantendo as ultimas 10 transicoes
+  (`{from, to, at, summary}`). Compatibilidade backward: se `audit_trail`
+  nao existe, leitura aceita ausencia e cria lista vazia no proximo
+  write.
+- **(c) Baton staleness check (advisory, default off)**: campo opcional
+  `baton_staleness_seconds` em `state.json`. Se setado, `run_relay_status`
+  inclui `baton_stale: true|false` no retorno. **NAO bloqueia handoff**
+  e **NAO emite warning estridente** — apenas reporta. Default ausente
+  preserva comportamento atual.
 
 ### Justificativa
 
-Maturity matrix marca Relay como Parcial: "Convencoes e comandos existem;
-invariantes ainda nao sao validadas em runtime". Esta onda promove Relay
-para `Implementado` parcial.
+`MATURITY-MATRIX.md` marca Relay como `Parcial` e Baton como `Parcial`
+("sem timeout, sem audit trail completo"; "convencoes nao validadas em
+runtime"). Sem (a), a invariante chave do protocolo (Readback pendente
+bloqueia bastao) e ficcao em uso real. (b) e (c) sao reportes mensuraveis
+sem enforcement, alinhados a doutrina "honest foundation": ver antes de
+bloquear.
 
 ### Arquivos permitidos
 
-- `src/usehbn/relay/*.py` (apenas funcoes existentes; nao criar arquivos)
-- `tests/test_relay.py`
+- `src/usehbn/cli.py` — **apenas as funcoes**:
+  `_load_relay_state`, `_save_relay_state`, `_find_pending_readbacks`,
+  `run_relay_status`, `run_handoff`. Nada fora desse perimetro.
+- `tests/test_relay.py` — adicionar testes; pode ajustar
+  `test_two_agent_handoff_cycle` para nao depender mais do hack de
+  copia manual entre `.usehbn/readbacks/` e `.hbn/readbacks/`.
 
 ### Arquivos proibidos
 
-- `engine.py`. Schemas (relay state nao tem schema externo). CLI (sem
-  novos subcomandos nesta onda).
+- `src/usehbn/protocol/*` (Readback continua escrevendo em `default_state_dir()`).
+- `src/usehbn/engine/*`. `schemas/` (relay state nao tem schema externo
+  em v0.3.0; gate G3 nao se aplica).
+- Novos subcomandos CLI (sem nova superficie publica nesta onda).
+- Criacao de novos modulos. **PROIBIDO criar `src/usehbn/relay/`**;
+  extracao do codigo do `cli.py` e trabalho de v0.4.0 (refator
+  god-object), nao desta onda.
+
+### Tests obrigatorios
+
+Nesta ordem:
+
+1. `test_handoff_blocks_on_pending_usehbn_readback`: criar readback
+   `pending` em `.usehbn/readbacks/` (via `create_readback_record` ou
+   escrita direta), tentar `run_handoff` -> deve retornar `error`
+   contendo `"pending readbacks"`.
+2. `test_find_pending_readbacks_dedups_when_present_in_both_dirs`:
+   mesmo `execution_id` em `.hbn/readbacks/` e `.usehbn/readbacks/`
+   -> retorno deve listar uma unica vez.
+3. `test_handoff_audit_trail_preserves_last_ten`: 12 handoffs sequenciais
+   -> `state.json["audit_trail"]` deve ter exatamente 10 entradas, com
+   a mais antiga descartada e a mais recente ao final.
+4. `test_handoff_audit_trail_backward_compatible`: criar `state.json`
+   sem `audit_trail`, executar handoff -> nao deve falhar; `audit_trail`
+   deve aparecer com 1 entrada apos o write.
+5. `test_relay_status_baton_stale_flag_when_configured`: setar
+   `baton_staleness_seconds=0` (sempre stale), checar
+   `run_relay_status` -> retorno inclui `baton_stale: true`.
+6. `test_relay_status_no_baton_stale_field_by_default`: sem
+   `baton_staleness_seconds` -> retorno NAO contem chave `baton_stale`
+   (manter superficie minima quando nao configurada).
+7. **Atualizar (nao remover)** `test_two_agent_handoff_cycle`: o hack
+   `shutil.copy2` entre `.usehbn/readbacks/` e `.hbn/readbacks/` (linhas
+   ~374-379 hoje) deixa de ser necessario. Substituir por comentario
+   explicando o fix ou remover o copy. Comportamento esperado: o teste
+   continua passando.
+
+### Gates obrigatorios
+
+- **G1 (escopo)**: Hearback humano explicito sobre esta correcao de plano.
+- **G2 (codigo)**: pre-deposit check obriga Codex a confirmar via grep
+  que `audit_trail`, `baton_staleness_seconds`, `baton_stale` nao
+  existem hoje em `src/usehbn/cli.py` antes de comecar (licao aprendida
+  da Onda 2 nova).
+- **G3 (schemas)**: nao se aplica (sem schema externo de relay state em
+  v0.3.0). Codex deve registrar isso explicitamente no Readback.
+- **G4 (CLI publica)**: contrato dos subcomandos `relay status` e
+  `handoff` permanece igual; apenas o conteudo do JSON retornado pode
+  ganhar campos opcionais novos (`audit_trail`, `baton_stale`). Sem
+  remover ou renomear campos existentes.
+- **G5 (doutrina)**: termos imutaveis intactos.
 
 ### Riscos e mitigacao
 
-- **R1**: enforcement de "Readback pending bloqueia handoff" pode quebrar
-  fluxos atuais. **Mitigacao**: Codex deve verificar `.hbn/readbacks/`
-  estado atual antes de implementar; se ha pending, decidir com humano
-  se invalida-os primeiro ou se enforcement so vale para novos handoffs.
+- **R1**: dual-read pode introduzir duplicidade real se mesmo readback
+  existe em ambos os dirs. **Mitigacao**: dedup por `execution_id`
+  preferindo a entrada `pending`; teste 2 cobre.
+- **R2**: leitura tolerante de `audit_trail` ausente pode mascarar
+  state.json corrompido. **Mitigacao**: distinguir "campo ausente"
+  (compativel) de "tipo invalido" (raise). Codex documenta a
+  distincao no Readback.
+- **R3**: mudanca em `_find_pending_readbacks` pode mudar
+  comportamento do `test_two_agent_handoff_cycle` ja existente.
+  **Mitigacao**: teste 7 ajusta explicitamente; se Codex detectar
+  outras quebras de teste, PARAR e pedir Hearback.
+- **R4**: extensao de `state.json` impacta runtimes externos que
+  consomem o JSON. **Mitigacao**: campos novos sao adicionados, nunca
+  removidos; chave `baton_stale` so aparece quando `baton_staleness_seconds`
+  esta configurado.
+
+### Rollback
+
+- `git revert` da onda. `state.json` com `audit_trail` continua valido
+  para versoes pre-Onda 3 porque a leitura ja seria tolerante a campos
+  desconhecidos via `json.loads`.
 
 ---
 
