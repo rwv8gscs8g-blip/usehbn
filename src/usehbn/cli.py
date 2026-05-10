@@ -12,7 +12,7 @@ import sys
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from usehbn import __version__
+from usehbn import PROTOCOL_VERSION, __version__
 from usehbn.connectors.discovery import ensure_connector_operation, plan_connector_operation
 from usehbn.execution.engine import execute_request
 from usehbn.protocol.consent import CONSENT_QUESTION
@@ -658,7 +658,7 @@ def run_translate(args: argparse.Namespace) -> Dict[str, Any]:
     )
     return {
         "project": "HBN — Human Brain Net",
-        "protocol_version": __version__,
+        "protocol_version": PROTOCOL_VERSION,
         "translation": translation,
     }
 
@@ -677,7 +677,7 @@ def run_connector_inspect(args: argparse.Namespace) -> Dict[str, Any]:
     )
     return {
         "project": "HBN — Human Brain Net",
-        "protocol_version": __version__,
+        "protocol_version": PROTOCOL_VERSION,
         "connector": {
             "target": str(target),
             "plan": plan,
@@ -734,7 +734,7 @@ def run_connector_ensure(args: argparse.Namespace) -> Dict[str, Any]:
     )
     return {
         "project": "HBN — Human Brain Net",
-        "protocol_version": __version__,
+        "protocol_version": PROTOCOL_VERSION,
         "connector": {
             "target": str(target),
             "ensure": ensured,
@@ -1023,7 +1023,7 @@ def run_init(args: argparse.Namespace) -> Dict[str, Any]:
 
     manifest = {
         "project": "HBN — Human Brain Net",
-        "protocol_version": __version__,
+        "protocol_version": PROTOCOL_VERSION,
         "initialized_at": utc_now_iso(),
         "target_path": str(target),
         "system_type": _detect_system_type(target),
@@ -1079,7 +1079,8 @@ def run_init(args: argparse.Namespace) -> Dict[str, Any]:
 def run_version(_: argparse.Namespace) -> Dict[str, Any]:
     return {
         "project": "HBN — Human Brain Net",
-        "protocol_version": __version__,
+        "package_version": __version__,
+        "protocol_version": PROTOCOL_VERSION,
         "cli": "hbn",
     }
 
@@ -1088,7 +1089,7 @@ def run_inspect(args: argparse.Namespace) -> Dict[str, Any]:
     inspection = inspect_target(Path(args.target))
     return {
         "project": "HBN — Human Brain Net",
-        "protocol_version": __version__,
+        "protocol_version": PROTOCOL_VERSION,
         "inspection": inspection,
     }
 
@@ -1188,7 +1189,7 @@ def run_doctor(args: argparse.Namespace) -> Dict[str, Any]:
 
     return {
         "project": "HBN — Human Brain Net",
-        "protocol_version": __version__,
+        "protocol_version": PROTOCOL_VERSION,
         "doctor": {
             "status": status,
             "target": str(target),
@@ -1233,7 +1234,7 @@ def run_quickstart(args: argparse.Namespace) -> Dict[str, Any]:
 
     return {
         "project": "HBN — Human Brain Net",
-        "protocol_version": __version__,
+        "protocol_version": PROTOCOL_VERSION,
         "quickstart": {
             "status": "ready",
             "target": str(target),
@@ -1267,7 +1268,7 @@ def run_install(args: argparse.Namespace) -> Dict[str, Any]:
     )
     return {
         "project": "HBN — Human Brain Net",
-        "protocol_version": __version__,
+        "protocol_version": PROTOCOL_VERSION,
         "adapter_installation": result,
     }
 
@@ -1286,7 +1287,7 @@ def run_attention(args: argparse.Namespace) -> Dict[str, Any]:
     write_json(_attention_preferences_path(target), prefs)
     return {
         "project": "HBN — Human Brain Net",
-        "protocol_version": __version__,
+        "protocol_version": PROTOCOL_VERSION,
         "attention_preferences": prefs,
         "human_prompt": (
             "Digite A para retirar o aviso sonoro ou digite B para apenas piscar a tela quando terminar."
@@ -1316,7 +1317,7 @@ def run_notify(args: argparse.Namespace) -> Dict[str, Any]:
     )
     return {
         "project": "HBN — Human Brain Net",
-        "protocol_version": __version__,
+        "protocol_version": PROTOCOL_VERSION,
         "notification": {
             "event": event,
             "label": event_label,
@@ -1403,7 +1404,7 @@ def run_readback_protocol(args: argparse.Namespace) -> Dict[str, Any]:
     )
     return {
         "project": "HBN — Human Brain Net",
-        "protocol_version": __version__,
+        "protocol_version": PROTOCOL_VERSION,
         "readback_record": record,
     }
 
@@ -1416,13 +1417,13 @@ def run_hearback_protocol(args: argparse.Namespace) -> Dict[str, Any]:
         if exec_id is None:
             return {
                 "project": "HBN — Human Brain Net",
-                "protocol_version": __version__,
+                "protocol_version": PROTOCOL_VERSION,
                 "error": "No pending readback found.",
             }
     if not exec_id:
         return {
             "project": "HBN — Human Brain Net",
-            "protocol_version": __version__,
+            "protocol_version": PROTOCOL_VERSION,
             "error": "exec_id is required. Use --last to operate on the most recent pending readback.",
         }
     record = update_hearback_status(
@@ -1432,7 +1433,7 @@ def run_hearback_protocol(args: argparse.Namespace) -> Dict[str, Any]:
     )
     return {
         "project": "HBN — Human Brain Net",
-        "protocol_version": __version__,
+        "protocol_version": PROTOCOL_VERSION,
         "readback_record": record,
     }
 
@@ -1466,7 +1467,7 @@ def run_result_protocol(args: argparse.Namespace) -> Dict[str, Any]:
     state_path = append_result_state(result_record, base_dir=storage_dir)
     return {
         "project": "HBN — Human Brain Net",
-        "protocol_version": __version__,
+        "protocol_version": PROTOCOL_VERSION,
         "erp_record": result_record,
         "state_path": str(state_path),
     }
@@ -1477,7 +1478,7 @@ def run_refresh(args: argparse.Namespace) -> Dict[str, Any]:
     results = refresh_all_adapters(target)
     return {
         "project": "HBN — Human Brain Net",
-        "protocol_version": __version__,
+        "protocol_version": PROTOCOL_VERSION,
         "refreshed_adapters": results,
         "target": str(target),
     }
@@ -1517,7 +1518,7 @@ def run_relay_status(args: argparse.Namespace) -> Dict[str, Any]:
     state = _load_relay_state(target)
     return {
         "project": "HBN — Human Brain Net",
-        "protocol_version": __version__,
+        "protocol_version": PROTOCOL_VERSION,
         "relay_status": state,
         "target": str(target),
     }
@@ -1541,7 +1542,7 @@ def run_handoff(args: argparse.Namespace) -> Dict[str, Any]:
     if not hbn_dir.exists():
         return {
             "project": "HBN — Human Brain Net",
-            "protocol_version": __version__,
+            "protocol_version": PROTOCOL_VERSION,
             "error": ".hbn/ does not exist. Run hbn init first.",
         }
 
@@ -1550,7 +1551,7 @@ def run_handoff(args: argparse.Namespace) -> Dict[str, Any]:
     if pending:
         return {
             "project": "HBN — Human Brain Net",
-            "protocol_version": __version__,
+            "protocol_version": PROTOCOL_VERSION,
             "error": "Cannot handoff: pending readbacks require hearback confirmation.",
             "pending_readbacks": pending,
         }
@@ -1605,7 +1606,7 @@ def run_handoff(args: argparse.Namespace) -> Dict[str, Any]:
 
     return {
         "project": "HBN — Human Brain Net",
-        "protocol_version": __version__,
+        "protocol_version": PROTOCOL_VERSION,
         "handoff": {
             "from": previous_owner,
             "to": args.handoff_to,

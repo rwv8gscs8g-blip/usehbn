@@ -21,7 +21,7 @@
 | [ADR-001](ADR-001-quarta-de-sanitizacao.md) | Quarta de Sanitização — janela 12h BRT + manual | P0 | **ACCEPTED v1.1** (ratificado 2026-05-10) | ✅ concluído | depende de 002, 003, 004, 005, 006, 009 |
 | [ADR-002](ADR-002-tipologia-founding-consuming.md) | Tipologia Founding/Consuming Application vs Module | P0 | **ACCEPTED v1.1** (ratificado 2026-05-10) | ✅ concluído | — |
 | [ADR-003](ADR-003-topologia-repos-relay.md) | Topologia mono-repo modular + relay multi-camada | P0 | **ACCEPTED v1.2** (ratificado 2026-05-10; v1.2 absorve decisões topologia) | ✅ concluído | depende de 002 |
-| [ADR-004](ADR-004-semver-protocolo.md) | SemVer do protocolo + sinalização para apps consumidoras | P0 | **NÃO_RATIFICAR** — bloqueado por MD-H | ✅ concluído — Codex REPROVOU | **MD-H pendente (Codex)** |
+| [ADR-004](ADR-004-semver-protocolo.md) | SemVer do protocolo + sinalização para apps consumidoras | P0 | **ACCEPTED v2** (re-deposit 2026-05-10 absorvendo MD-H; PACKAGE_VERSION vs PROTOCOL_VERSION distinção) | ✅ concluído | depende de 002, 003 |
 | [ADR-005](ADR-005-licenciamento-apache-cla.md) | Licenciamento — AGPLv3 → Apache 2.0 + DCO | P1 | **ACCEPTED v1.1** (ratificado 2026-05-10) | ✅ concluído | direção decidida 2026-05-09 |
 | [ADR-006](ADR-006-sinais-multi-repo.md) | Sinais HBN multi-repo (🌐, ⛓️, 🧊, 🪞, ⏳, 🔍) | P1 | **ACCEPTED v1.1** (ratificado 2026-05-10) | ✅ concluído | — |
 | [ADR-007](ADR-007-metricas-saude.md) | Métricas de saúde do protocolo + alarmes | P2 | **ACCEPTED v1.1** (ratificado 2026-05-10) | ✅ concluído | implementação `hbn doctor --health` pós-v0.3.0 |
@@ -68,6 +68,13 @@ final do Credenciamento independente da ordem dos demais.
   decisões de topologia (radar/ standalone, study-plans/ em methodology/,
   templates/ em methodology/). ADR-004 e ADR-008 mantêm-se NÃO_RATIFICAR
   até specs (MD-H/MD-I) virarem código + v204 final.
+- 2026-05-10 — **Iteração 2 do cronograma autônomo (MD-H aplicado)**:
+  patch em `__init__.py` + `cli.py` + `setup.cfg` separa `PACKAGE_VERSION`
+  de `PROTOCOL_VERSION`; bug em `cli.py:1079` corrigido (records publicam
+  PROTOCOL_VERSION agora); ambas constantes alinhadas em `0.3.0` mas
+  semanticamente independentes. ADR-004 re-depositado como v2 e
+  ratificado. 93 testes passing (+3 novos em `test_version_constants.py`).
+  ADR-008 segue NÃO_RATIFICAR (aguarda MD-I + v204 final).
 
 ## Como adicionar novo ADR
 
