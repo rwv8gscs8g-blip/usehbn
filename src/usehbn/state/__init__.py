@@ -1,7 +1,7 @@
 """Persistence layer for HBN execution state.
 
 Copyright (C) 2026 Luis Mauricio Junqueira Zanin
-Licensed under the GNU Affero General Public License v3.0 or later.
+Licensed under the Apache License, Version 2.0 (the "License"); see LICENSE for details.
 """
 
 from usehbn.state.store import append_execution_state, load_state_document, state_file_path

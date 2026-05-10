@@ -463,9 +463,23 @@ Start with `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, and `SECURITY.md`.
 
 ## License
 
-HBN is released under the GNU Affero General Public License v3.0.
+HBN is released under the **Apache License, Version 2.0**.
 
-AGPLv3 is used because HBN is intended to remain open and inspectable even when adapted into network-facing systems. Modified network-facing deployments must still make corresponding source available. That protects the protocol from disappearing behind closed operational layers.
+Apache 2.0 was chosen as the canonical license for the protocol so that
+useHBN can be adopted as a universal coordination standard alongside
+peers like the Model Context Protocol (MCP), Language Server Protocol
+(LSP), OpenTelemetry, and Diataxis — all Apache- or MIT-licensed
+projects in the same "open protocol" stratum. Apache 2.0 grants an
+explicit patent license, protects contributors against patent
+litigation, and removes the corporate-adoption friction that AGPLv3
+created. See `methodology/adr/ADR-005-licenciamento-apache-cla.md` for
+the full decision and the migration history (the project was AGPLv3
+before 2026-05-10 — see CHANGELOG.md).
+
+Contributions follow the **Developer Certificate of Origin (DCO)** —
+each commit must carry a `Signed-off-by:` trailer (use `git commit -s`).
+This is a lightweight contributor agreement, the same model used by
+the Linux kernel and CNCF projects. See `CONTRIBUTING.md` for details.
 
 See `LICENSE` and `docs/LICENSING.md`.
 

@@ -1,7 +1,7 @@
 """Protocol primitives for HBN.
 
 Copyright (C) 2026 Luis Mauricio Junqueira Zanin
-Licensed under the GNU Affero General Public License v3.0 or later.
+Licensed under the Apache License, Version 2.0 (the "License"); see LICENSE for details.
 """
 
 from usehbn.protocol.consent import create_consent_record

@@ -2,7 +2,65 @@
 
 All notable changes to HBN will be documented in this file.
 
-## Unreleased
+## [Unreleased] — towards v0.3.0
+
+### Changed (BREAKING — license migration)
+
+- **License: AGPLv3 → Apache License 2.0** (2026-05-10).
+  Per `methodology/adr/ADR-005-licenciamento-apache-cla.md`, the
+  project migrates to Apache 2.0 to align with the open-protocol
+  stratum (MCP, LSP, OpenTelemetry, Diataxis) and remove
+  corporate-adoption friction. The patent grant of Apache 2.0
+  preserves the protection against patent trolling that was a
+  motivation for the earlier AGPLv3 choice. All `LICENSE`, `setup.cfg`,
+  `pyproject.toml`, source headers in `src/usehbn/**` and `tests/`,
+  README, CONTRIBUTING, and `docs/LICENSING.md` updated in a single
+  atomic transition (no AGPL/Apache mixture). Historical references
+  to AGPLv3 in `auditoria/`, `reports/`, and prior CHANGELOG entries
+  are preserved as historical record.
+- **Contributor agreement: Developer Certificate of Origin (DCO)**.
+  Contributions must include `Signed-off-by:` in commit messages
+  (`git commit -s`). DCO enforcement in CI is phase 2; phase 1 is
+  documental only.
+
+### Changed (version constants — MD-H)
+
+- **`PACKAGE_VERSION` and `PROTOCOL_VERSION` are now distinct constants.**
+  Previously, `cli.py` published `protocol_version` in records using
+  `__version__` (the package version), producing inconsistent records
+  whenever the two values diverged. Both constants are exposed in
+  `src/usehbn/__init__.py` and currently aligned at `0.3.0`. Future
+  releases may diverge them legitimately (e.g., a `0.3.1` patch fixing
+  only the CLI keeps `PROTOCOL_VERSION` at `0.3.0`). `hbn version`
+  now publishes both `package_version` and `protocol_version`.
+  See ADR-004 v2 and `auditoria/00_status/06_MD_H_RESOLUCAO_VERSAO.md`.
+- Bump `__version__` and `setup.cfg version`: `0.2.0 → 0.3.0`.
+
+### Added (governance + methodology)
+
+- `methodology/PRINCIPIOS-CONSTITUCIONAIS.md` — single canonical source
+  for the 13 constitutional principles (P1-P10 founders + P11-P13
+  operational, with identical constitutional weight).
+- `methodology/ADR-AND-MD-PRIMER.md` — didactic explanation of the
+  Architecture Decision Record (ADR) and Microdelta (MD) units of
+  evolution, with reusable templates in `methodology/templates/`.
+- `methodology/adr/` — first 9 ADRs depositing post-2026-05-09
+  architectural decisions: Quarta de Sanitização, Founding/Consuming
+  typology, monolithic mono-repo modular topology with separate
+  `radar/`, SemVer, Apache 2.0 migration, multi-repo signals, health
+  metrics, snapshot migration plan, P1-P13 constitution.
+- `auditoria/` partition for protocol meta-history (bootstrap, cross-IA
+  prompts and consolidation, microdelta specs).
+- 6 new HBN signals: 🌐 (cross-repo lock), ⛓️ (protocol dep change),
+  🧊 (app frozen), 🪞 (mirror drift), ⏳ (billing window drift —
+  resolved 🟠 collision with SOURCE DRIFT), 🔍 (groupthink alarm).
+
+### Marked SUPERSEDED
+
+- `docs/PRINCIPLES.md` (8 generic items inherited from v0.2.x) is now
+  superseded by `methodology/PRINCIPIOS-CONSTITUCIONAIS.md` (13
+  principles). The legacy file is preserved with a banner pointing to
+  the canonical source (P7 — preserve history).
 
 ## [Unreleased] — Onda 1: Honestidade Narrativa
 
