@@ -1,0 +1,59 @@
+{
+  "esteira": "5-usehbn-phago-skeleton",
+  "status": "ok",
+  "artefatos": [
+    {
+      "path": "/Users/macbookpro/Projetos/usehbn-phago/README.md",
+      "sha256": "e7a032874bcfe5df1327753a9a07609af252ee06ccdec3449f9bf212f34b44ca"
+    },
+    {
+      "path": "/Users/macbookpro/Projetos/usehbn-phago/pyproject.toml",
+      "sha256": "56b2313ba364a766105cb7b1c865a5c5f4430331f0e1c373297afaf25d2d47d5"
+    },
+    {
+      "path": "/Users/macbookpro/Projetos/usehbn-phago/.gitignore",
+      "sha256": "ce2a25bb9d1b4147282bf52dcf562d32372a28da972f021f42f727d10d3b9121"
+    },
+    {
+      "path": "/Users/macbookpro/Projetos/usehbn-phago/modules",
+      "sha256": "049cc43c8bece41b1eb008931caee5d6e512153211c221f05f59197ac1ec6957"
+    },
+    {
+      "path": "/Users/macbookpro/Projetos/usehbn-phago/modules/**/.gitkeep",
+      "sha256": "343a718a97995fd749aad7d300a84a575c852bb11f9a9c2e73640b21cfd8e5b2"
+    },
+    {
+      "path": "/Users/macbookpro/Projetos/usehbn/README.md",
+      "sha256": "5d87bb6d966c6434344c013f78584371825810adafbcb49c97c4d204ed734076"
+    }
+  ],
+  "gates": {
+    "estrutura_modules_criada": "ok",
+    "pastas_vazias_preservadas_com_gitkeep": "ok",
+    "readme_root_usehbn_phago": "ok",
+    "link_repo_mae_no_usehbn_phago": "ok",
+    "link_bidirecional_no_repo_mae": "ok",
+    "pyproject_minimo_workspace": "ok",
+    "gitignore_python_rust": "ok"
+  },
+  "glasswing_checks": {
+    "G1": "ok",
+    "G2": "ok",
+    "G3": "ok",
+    "G4": "ok",
+    "G5": "ok",
+    "G6": "ok",
+    "G7": "ok",
+    "G8": "ok"
+  },
+  "marker_atual": "🌳 HBN MODULE BOUNDARY",
+  "marker_proposto_pos_aprovacao": "🔵 HBN HANDOFF READY",
+  "decision_needed": "no",
+  "questao_para_mauricio": "",
+  "readback": {
+    "pull_before_write": "ok",
+    "relay_index_lido": "ok",
+    "messages_lidas": "nao_aplicavel: .hbn/messages/ inexistente neste checkout",
+    "observacao": "Prompt humano 2026-05-09 usado como direcionamento operacional para Esteira 5."
+  }
+}
