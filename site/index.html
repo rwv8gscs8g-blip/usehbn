@@ -3,11 +3,24 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>HBN — Human Brain Net</title>
+    <title>HBN — Human Brain Net (v0.3.0 Honest Foundation)</title>
     <link rel="canonical" href="https://usehbn.org/" />
     <meta
       name="description"
-      content="HBN is an open protocol for safe, structured, and evolvable AI-assisted software engineering."
+      content="useHBN — open protocol for safe, structured, evolvable AI-assisted software engineering. v0.3.0 Honest Foundation, Apache 2.0 + DCO."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="HBN — Human Brain Net" />
+    <meta
+      property="og:description"
+      content="An open protocol for safe, structured, evolvable AI-assisted software engineering. 13 constitutional principles, 16 HBN signals, ADR-driven evolution."
+    />
+    <meta property="og:url" content="https://usehbn.org/" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="HBN — Human Brain Net" />
+    <meta
+      name="twitter:description"
+      content="Open protocol for safe AI-assisted software engineering. v0.3.0 Honest Foundation."
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
@@ -37,23 +50,29 @@
           <div class="actions">
             <a href="https://github.com/rwv8gscs8g-blip/usehbn">Read the repository</a>
             <a href="https://github.com/rwv8gscs8g-blip/usehbn/blob/main/README.md">Read the release</a>
-            <a href="https://github.com/rwv8gscs8g-blip/usehbn/blob/main/core/protocol.md">Read the protocol</a>
+            <a href="https://github.com/rwv8gscs8g-blip/usehbn/blob/main/methodology/PRINCIPIOS-CONSTITUCIONAIS.md">Read the 13 principles</a>
           </div>
         </div>
 
         <aside class="hero-panel">
-          <p class="panel-kicker">Current Status</p>
-          <h2>Initial public runtime</h2>
+          <p class="panel-kicker">Current Status — v0.3.0 Honest Foundation</p>
+          <h2>What works today</h2>
           <ul class="status-list">
             <li>Local bootstrap with <code>get-hbn</code></li>
-            <li>Primary CLI: <code>hbn</code></li>
-            <li>Compatibility alias: <code>usehbn</code></li>
-            <li>Readback, hearback, and ERP ledger</li>
-            <li>GitHub Pages deployment on <code>usehbn.org</code></li>
+            <li>Primary CLI: <code>hbn</code> + alias <code>usehbn</code></li>
+            <li>Readback, Hearback, ERP ledger (gates enforced for safe_track)</li>
+            <li>Relay with audit_trail (last 10) + dual-read of pending readbacks</li>
+            <li>16 HBN signals (10 single-repo + 6 multi-repo per ADR-006)</li>
+            <li>Connector lifecycle registry (6 states, registration only)</li>
+            <li>7 runtime adapters: Claude Code, Codex, ChatGPT, Gemini, Antigravity, Copilot, Cursor</li>
+            <li>License: Apache 2.0 + DCO (migrated 2026-05-10)</li>
           </ul>
           <div class="mini-note">
-            HBN is not yet a native multi-agent runtime. It is a real, local protocol scaffold with
-            explicit semantics and public documentation.
+            HBN is not yet a native multi-agent runtime. It is a real, local
+            protocol scaffold with explicit semantics, 13 constitutional
+            principles, and ADR-driven evolution. See the
+            <a href="https://github.com/rwv8gscs8g-blip/usehbn/blob/main/methodology/MATURITY-MATRIX.md">Maturity Matrix</a>
+            for the honest state of every component.
           </div>
         </aside>
       </div>
