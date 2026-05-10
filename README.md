@@ -41,6 +41,10 @@ Fonte canonica: [`docs/MATURITY-MATRIX.md`](docs/MATURITY-MATRIX.md). README e d
 | Phagocytosis (doutrina) | Visao | Doutrina canonica; sem codigo associado em v0.3.0. |
 | Credenciamento (caso de uso) | Visao / referencia externa | Referencia externa; nenhum codigo de Credenciamento neste repo. |
 
+## Repositórios Operacionais
+
+- `usehbn-phago`: skeleton operacional dos módulos técnicos multi-braco. Link: https://github.com/rwv8gscs8g-blip/usehbn-phago
+
 ## What HBN Is
 
 HBN is a protocol and working language for AI-assisted software engineering. In this repository it currently provides:
