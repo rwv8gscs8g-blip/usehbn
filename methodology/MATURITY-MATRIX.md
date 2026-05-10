@@ -1,21 +1,5 @@
 # HBN — Maturity Matrix
 
-> **Status: SUPERSEDED desde 2026-05-10 pela Iteração 9 do cronograma autônomo.**
->
-> A fonte canônica desta matriz vive agora em
-> [`methodology/MATURITY-MATRIX.md`](../methodology/MATURITY-MATRIX.md), conforme
-> ADR-003 §B "Plano de compatibilidade core/ → modules/". Este arquivo é mantido
-> aqui como redirect (P7 — preserva história) por ≥1 release antes de ser
-> removido.
->
-> **Toda comunicação pública deve apontar para `methodology/MATURITY-MATRIX.md`.**
->
-> A versão original abaixo retrata o estado v0.3.0 pre-Onda-3/Onda-4/Onda-5;
-> o estado pós-aplicação dessas ondas (Relay/Baton "Parcial honesto",
-> Connectors lifecycle "Scaffold", State "Parcial honesto", Tests 114/114)
-> está refletido apenas na fonte canônica. Para o estado vigente, leia o
-> arquivo em `methodology/`.
-
 > Tabela viva por componente. Locked em v0.3.0 para fins de honestidade publica.
 > Aberta para evoluir em versoes posteriores via Pull Request com evidencia.
 > Documento normativo: o README e os docs publicos NAO podem afirmar nada que
@@ -55,6 +39,14 @@ Um componente sobe de estado APENAS quando:
 Nao se promove componente por consenso ou por "esta quase la". A transicao e
 ato registrado.
 
+## Localização canônica
+
+A partir de 2026-05-10 (Iteração 9 do cronograma autônomo, ADR-003 §B
+"Plano de compatibilidade core/ → modules/"), a fonte canônica desta
+matriz vive em `methodology/MATURITY-MATRIX.md` (este arquivo). O
+arquivo `docs/MATURITY-MATRIX.md` permanece com banner SUPERSEDED
+apontando para cá, preservado pelo P7.
+
 ## Tabela canonica v0.3.0
 
 | Componente | Estado | Evidencia (codigo / teste) | Risco principal | O que precisa para subir de estado |
@@ -68,20 +60,20 @@ ato registrado.
 | **Readback** | Implementado | `src/usehbn/protocol/readback.py`; campos `understanding`, `invariants_preserved`, `action_plan`, `out_of_scope`, `residual_risks`; schema `readback.schema.json` completo. | Nao chamado pelo `engine.py`; criado manualmente via CLI. | Documentar limite. Nao mudar contrato em v0.3.0. |
 | **Hearback** | Implementado | `update_hearback_status` + `find_readback_by_execution`; bloqueia ERP se `hearback_status != "confirmed"` (ver `result.py:54`). | Efetivo apenas quando ha Readback associado. | Manter. |
 | **ERP (Result)** | Implementado | `src/usehbn/protocol/result.py`; gates de hearback, readback_id em safe_track, bloqueio de overwrite, schema completo. | Lista fixa de risk_flags. | Onda futura: `protocol_version` obrigatorio (bump major). |
-| **Relay** | Parcial | `cli.py:run_relay_status`, `run_handoff`; `.hbn/relay/INDEX.md` e `state.json`. | Convencoes nao validadas em runtime. | Validador de invariantes do relay (Onda futura). |
-| **Baton** | Parcial | Campo `baton_owner` em `relay/state.json`; handoff valida ausencia de readbacks pendentes. | Sem timeout, sem audit trail completo. | Audit trail (Onda futura). |
+| **Relay** | Parcial honesto (Onda 3) | `cli.py:_find_pending_readbacks` lê `.hbn/readbacks/` E `.usehbn/readbacks/` com dedup; `cli.py:_load_relay_state` tolera `audit_trail` ausente; testes `tests/test_relay.py` cobrem path-mismatch fix e backward compatibility. | Path-mismatch fix endereça o caso central; lacunas restantes: nenhum sistema de notificação multi-repo unificado em runtime (sinais multi-repo são marcadores, não daemons). | Implementação de schema mínimo para `signals-log.jsonl` em onda futura (já documentado em ADR-006). |
+| **Baton** | Parcial honesto (Onda 3) | `relay/state.json` carrega `audit_trail` (capped 10 entries) com `{from, to, at, summary}`; `baton_staleness_seconds` opcional gera `baton_stale: bool` advisory em `run_relay_status`. | Sem alarme automático de staleness; `baton_stale` é apenas reportado. | Notificação automática quando `baton_stale: true` ultrapassa N reports (onda futura). |
 | **Handoff** | Implementado | `cli.py:run_handoff` arquiva relay, atualiza state/INDEX. | Rename sem rollback automatico. | Dry-run + backup (Onda futura). |
 | **Universal Translator** | Scaffold (com nome canonico de visao mantido) | `src/usehbn/translation/universal.py` + `connectors/`. Hoje: deteccao de ancora + perfil de ambiente + connector strategy. NAO traduz semanticamente entre linguas humanas ou tecnologias. | Promessa publica vs realidade. | Acompanhar `docs/PHAGOCYTOSIS.md`: o tradutor cresce com a fagocitose progressiva de cada tecnologia. |
 | **Runtime Adapters** | Implementado | `src/usehbn/runtime.py:_adapter_body`; 7 runtimes (claude-code, codex, chatgpt, gemini, antigravity, copilot, cursor). | Body monolitico (string de ~250 LOC); mistura PT/EN. | Templating em onda futura. |
 | **Connectors (resolver)** | Parcial | `src/usehbn/connectors/{catalog,profiles,resolver,contracts,storage,discovery,remote,trust}.py`; testes cobrindo VBA, COBOL, Java, C#. | "active" por mera presenca de arquivo. | Lifecycle FSM (Onda 4). |
-| **Connectors (lifecycle)** | Visao (em v0.3.0); Scaffold (apos Onda 4) | Hoje: marker file por presenca. Onda 4: campo `lifecycle_state` apenas registrado, sem enforcement. | Codex pode confundir registro com enforcement. | Onda 4 entrega registro; verify automatico fica para v0.4+. |
+| **Connectors (lifecycle)** | Scaffold (Onda 4 ratificada e aplicada) | `src/usehbn/connectors/storage.py:LIFECYCLE_STATES` (6 estados: detected/resolved/installed/verified/active/revoked); `load_registry`/`append_registry_record` aplicam migração tolerante e normalização para o default `detected`. Sem FSM ainda; sem transições automáticas. | Risco de Codex/IA confundir registro com enforcement. | FSM com verify por tecnologia em v0.4+ (sub-ADR dedicado). |
 | **Connectors (verify)** | Stub | Sem implementacao. | Falsa ativacao. | Bridge Contributor Interface (BCI) + verify por tecnologia (v0.4+). |
 | **Connectors (remote lookup)** | Scaffold | `src/usehbn/connectors/remote.py`; sem registry remoto real; default off em v0.3.0. | Promessa nao cumprida. | Registry GitHub-based em v0.5+. |
-| **State (json append-only)** | Parcial | `src/usehbn/state/store.py`; anti-duplicate em `results`; sem compactacao; sem versionamento de wire format. | Crescimento ilimitado. Fragmentacao `state/` x `.hbn/`. | Onda 2 introduz `protocol_version` opcional. Onda 3 introduz dual-read + write em `.hbn/state/`. |
+| **State (json append-only)** | Parcial honesto (Onda 5 ratificada e aplicada) | `src/usehbn/state/store.py` agora escreve em `.usehbn/hbn-state.json` (canônico); `load_state_document` faz dual-read com merge dedup por `traceability.execution_id`, preferindo canônico; legacy `state/hbn-state.json` permanece read-only. `protocol_version` opcional gravado nos records (Onda 2 ratificada e aplicada). | Crescimento ilimitado de records ainda existe — sem compactação/snapshot ainda. | `protocol_version` required + compactação periódica em v1.0.0 (decisão Q4 do plano v0.3.0). |
 | **Schemas** | Implementado | 7 schemas em `schemas/`; `src/usehbn/utils/validators.py` suporta `minLength`, `maxLength`, `enum`, `required`, `properties`. | Validador customizado (nao jsonschema). | Manter em v0.3.0. Avaliar `jsonschema` em v0.5+. |
 | **Privacy Contract** | Parcial / declarativo | `src/usehbn/connectors/contracts.py` + `connectors/remote.py:build_remote_lookup_descriptor` filtra payload. Demais campos sao declarativos. | Discrepancia promessa x runtime. | Onda 8: `hbn doctor --privacy` reporta inventario; sem alterar comportamento. |
 | **Bridge generation (legado)** | Stub | `src/usehbn/bridge/vba.py` retorna dict descritivo. Conectores geram `.bas`, `.cbl`, `.java`, `.cs` com header "HBN bridge scaffold" sem logica funcional. | Promessa de bridge executavel. | `docs/PHAGOCYTOSIS.md` define caminho de evolucao por tecnologia. v0.4+: BCI por tecnologia. |
-| **Tests** | Parcial | Suite verde, focada em happy-path. | Sem testes adversariais, concorrencia, malformados, property-based. | Cada onda v0.3.0 obriga teste novo se tocar componente. |
+| **Tests** | Parcial | Suite verde 114/114 (era 90 pre-v0.3.0; +24 testes em v0.3.0 — version split, signals multi-repo, connector lifecycle, dual-read state, relay invariants). Foco em happy-path mais regressões dirigidas; sem testes adversariais sistemáticos ainda. | Sem testes adversariais, concorrência, malformados, property-based. | Cada onda v0.3.0 obriga teste novo se tocar componente; testes adversariais sistemáticos em v0.4+. |
 | **Distribuicao** | Parcial | `pyproject.toml` + `setup.cfg`; nao publicado em PyPI. `get-hbn` para bootstrap local. | Friccao de adocao. | Onda 5: TestPyPI primeiro (ver `docs/PUBLISHING-DECISION.md`). |
 | **Phagocytosis (doutrina)** | Visao (doutrina canonica em v0.3.0) | `docs/PHAGOCYTOSIS.md`. | Conceito sem codigo associado. | Tornar-se Scaffold quando primeiro estagio de uma tecnologia for documentado em `.hbn/knowledge/by-tech/`. |
 | **Credenciamento (caso de uso)** | Visao / referencia externa | `docs/CASE-STUDY-CREDENCIAMENTO.md`; nenhum codigo de Credenciamento neste repo. | Tratar como prova social externa. | Push publico de V12.0.0203 + autorizacao dos autores. |

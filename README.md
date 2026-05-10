@@ -10,7 +10,7 @@ This repository is not a hosted orchestration platform. It is the local, inspect
 
 ## Maturidade por Componente
 
-Fonte canonica: [`docs/MATURITY-MATRIX.md`](docs/MATURITY-MATRIX.md). README e docs publicos nao devem afirmar capacidades acima do estado registrado nessa matriz.
+Fonte canônica: [`methodology/MATURITY-MATRIX.md`](methodology/MATURITY-MATRIX.md) (estado por componente). README e docs públicos não devem afirmar capacidades acima do estado registrado nessa matriz. A fonte canônica dos **13 princípios constitucionais** que governam a evolução do protocolo é [`methodology/PRINCIPIOS-CONSTITUCIONAIS.md`](methodology/PRINCIPIOS-CONSTITUCIONAIS.md).
 
 | Componente | Estado v0.3.0 | Resumo publico permitido |
 |---|---|---|
