@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "adr_id": "ADR-007",
+  "auditor": "codex-cli",
+  "session_role": "cross-ia-review-usehbn",
+  "reviewed_at": "2026-05-10T02:45:07Z",
+  "veredito_tecnico": "APROVADO_COM_RESSALVA",
+  "ressalvas_bloqueantes": [
+    {
+      "tema": "Metrica depende de comandos e diretorios que ainda nao existem",
+      "evidencia": "ADR-007:46 define bin/hbn-health.sh; ls bin falha com 'No such file or directory'; ADR-007:50 cita hbn doctor --health, mas src/usehbn/cli.py:283-297 nao define --health",
+      "remediacao_proposta": "Antes de ACCEPTED operacional, declarar ADR-007 como contrato futuro ou incluir MD minimo que cria bin/, .hbn/meta/ e extensao doctor --health."
+    }
+  ],
+  "ressalvas_nao_bloqueantes": [
+    "total_docs_canonicos exclui docs/, mas o repo ainda tem docs/ como fonte publica; a metrica pode subcontar hipertrofia durante a transicao.",
+    "cross_ia_divergencia_pct precisa formato padrao de pareceres; os JSONs deste ciclo podem servir de semente.",
+    "A expressao MIRROR-PROPAGATE force-push em ADR-007:42 deve ser substituida por linguagem menos destrutiva e mais auditavel.",
+    "Risco de Goodhart fica deferido a Antigravity."
+  ],
+  "factibilidade_tecnica": {
+    "implementavel_em_v0_3_0": true,
+    "dependencias_externas_necessarias": ["script bin/hbn-health.sh ou subcomando hbn doctor --health"],
+    "blast_radius_estimado": {
+      "arquivos_afetados": 6,
+      "testes_a_atualizar": 2,
+      "cli_surface_impactada": true
+    }
+  },
+  "conflitos_com_codigo_existente": [
+    {
+      "arquivo": "src/usehbn/cli.py:283",
+      "natureza": "contrato divergente",
+      "severidade": "P1"
+    },
+    {
+      "arquivo": "README.md:396",
+      "natureza": "termo doutrinario divergente",
+      "severidade": "P2"
+    }
+  ],
+  "riscos_nao_declarados_no_adr": [
+    {
+      "descricao": "Durante transicao core/docs -> modules/methodology, contar apenas methodology/modules pode mascarar docs canonicos ainda vivos.",
+      "evidencia": "README.md:396-432 lista core/ e docs/ como main areas; ADR-007:37 conta apenas methodology/ + modules/."
+    },
+    {
+      "descricao": "Alarme de drift depende de ADR-006 e ADR-008, ambos sem implementacao runtime no momento.",
+      "evidencia": "ADR-007:42 usa HBN MIRROR DRIFT; src/usehbn/cli.py:1096-1199 doctor nao verifica snapshot."
+    }
+  ],
+  "alinhamento_com_p1_p13": {
+    "principios_apoiados": ["P2", "P4", "P10", "P11"],
+    "principios_em_tensao": ["P9"],
+    "comentario": "Metricas ajudam governanca, mas o conjunto inicial precisa ser simples o bastante para nao virar dependencia ritual pesada."
+  },
+  "recomendacao_para_humano": "RATIFICAR_APOS_RESSALVAS",
+  "comentario_livre": "ADR-007 e implementavel, mas ainda e contrato futuro. O ponto pratico e escolher uma superficie: shell script em bin/ ou subcomando Python. Como hbn doctor ja existe, eu favoreceria doctor --health para reduzir scripts paralelos. Enquanto docs/ ainda for vivo, a metrica de documentos precisa contar tambem docs/ ou marcar a fase de transicao."
+}

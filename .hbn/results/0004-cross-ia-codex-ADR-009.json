@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "adr_id": "ADR-009",
+  "auditor": "codex-cli",
+  "session_role": "cross-ia-review-usehbn",
+  "reviewed_at": "2026-05-10T02:45:07Z",
+  "veredito_tecnico": "APROVADO_COM_RESSALVA",
+  "ressalvas_bloqueantes": [],
+  "ressalvas_nao_bloqueantes": [
+    "README.md ainda aponta a fonte canonica de maturidade para docs/MATURITY-MATRIX.md e nao para methodology/PRINCIPIOS-CONSTITUCIONAIS.md quando fala de principios.",
+    "P12 define Rust como substrato, mas o runtime atual e Python; o ADR deve deixar claro que isso nao invalida o CLI Python atual nem obriga rewrite imediato.",
+    "O caminho auditoria/cápsulas usa acento; tecnicamente funciona, mas para tooling cross-platform seria mais seguro padronizar ascii em paths futuros.",
+    "Pontos filosoficos de cardinalidade e sinal cultural dos 13 principios ficam deferidos a Antigravity."
+  ],
+  "factibilidade_tecnica": {
+    "implementavel_em_v0_3_0": true,
+    "dependencias_externas_necessarias": [],
+    "blast_radius_estimado": {
+      "arquivos_afetados": 5,
+      "testes_a_atualizar": 1,
+      "cli_surface_impactada": false
+    }
+  },
+  "conflitos_com_codigo_existente": [
+    {
+      "arquivo": "README.md:13",
+      "natureza": "termo doutrinario divergente",
+      "severidade": "P2"
+    },
+    {
+      "arquivo": "docs/MATURITY-MATRIX.md:10",
+      "natureza": "termo doutrinario divergente",
+      "severidade": "P2"
+    }
+  ],
+  "riscos_nao_declarados_no_adr": [
+    {
+      "descricao": "P12 pode ser interpretado como mandato imediato de migrar o runtime Python para Rust.",
+      "evidencia": "methodology/PRINCIPIOS-CONSTITUCIONAIS.md:273-284 define Rust como escolha de substrato; src/usehbn/cli.py:1-1696 e runtime.py:1-381 sao Python."
+    },
+    {
+      "descricao": "Refs herdadas do Credenciamento para documentos ainda nao migrados podem criar links quebrados ate a Onda Documental Sanitization.",
+      "evidencia": "methodology/PRINCIPIOS-CONSTITUCIONAIS.md:351-354 lista docs a migrar."
+    }
+  ],
+  "alinhamento_com_p1_p13": {
+    "principios_apoiados": ["P1", "P2", "P5", "P7", "P8", "P10"],
+    "principios_em_tensao": ["P9", "P12"],
+    "comentario": "A migracao canonica fortalece rastreabilidade; a tensao tecnica esta em preservar implementacao Python enquanto P12 mira substrato Rust."
+  },
+  "recomendacao_para_humano": "RATIFICAR_APOS_RESSALVAS",
+  "comentario_livre": "Do ponto de vista mecanico, ADR-009 esta bem mais solido apos o addendum: a fonte P1-P13 ja existe no repo e docs/PRINCIPLES.md tem banner superseded. A ressalva tecnica e evitar que P12 vire mandato operacional ambiguo contra o runtime Python atual. A ratificacao deve declarar explicitamente que P12 orienta o substrato estavel futuro, sem invalidar a entrega Python v0.3.0."
+}

@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "adr_id": "ADR-005",
+  "auditor": "codex-cli",
+  "session_role": "cross-ia-review-usehbn",
+  "reviewed_at": "2026-05-10T02:45:07Z",
+  "veredito_tecnico": "APROVADO_COM_RESSALVA",
+  "ressalvas_bloqueantes": [
+    {
+      "tema": "Mudanca de licenca tem muitos pontos AGPL versionados e headers de codigo",
+      "evidencia": "LICENSE:1, setup.cfg:8, README.md:466, CONTRIBUTING.md:60 e headers em src/usehbn/*.py declaram AGPLv3",
+      "remediacao_proposta": "Antes de ACCEPTED operacional, anexar checklist exato de arquivos a atualizar e confirmar se headers serao alterados em massa ou apenas LICENSE/metadata."
+    },
+    {
+      "tema": "DCO como CLA leve precisa de enforcement ou declaracao de nao-enforcement inicial",
+      "evidencia": "ADR-005:67 recomenda GitHub Action DCO check; repo atual nao mostra workflow DCO e CONTRIBUTING.md:60 ainda fala apenas AGPL",
+      "remediacao_proposta": "Definir se ACCEPTED exige DCO check no CI ou se a primeira fase e apenas texto em CONTRIBUTING.md."
+    }
+  ],
+  "ressalvas_nao_bloqueantes": [
+    "git log --format=%an retornou apenas Luis Mauricio Junqueira Zanin nesta copia local, mas a verificacao antes do relicenciamento deve incluir email e repos relacionados.",
+    "Analise legal e sinal cultural ficam deferidos a Antigravity e ao humano; este parecer cobre so impacto mecanico."
+  ],
+  "factibilidade_tecnica": {
+    "implementavel_em_v0_3_0": true,
+    "dependencias_externas_necessarias": ["possivel GitHub Action de DCO"],
+    "blast_radius_estimado": {
+      "arquivos_afetados": 35,
+      "testes_a_atualizar": 1,
+      "cli_surface_impactada": false
+    }
+  },
+  "conflitos_com_codigo_existente": [
+    {
+      "arquivo": "LICENSE:1",
+      "natureza": "contrato divergente",
+      "severidade": "P1"
+    },
+    {
+      "arquivo": "setup.cfg:8",
+      "natureza": "contrato divergente",
+      "severidade": "P1"
+    },
+    {
+      "arquivo": "CONTRIBUTING.md:60",
+      "natureza": "contrato divergente",
+      "severidade": "P1"
+    },
+    {
+      "arquivo": "src/usehbn/cli.py:4",
+      "natureza": "contrato divergente",
+      "severidade": "P2"
+    }
+  ],
+  "riscos_nao_declarados_no_adr": [
+    {
+      "descricao": "Atualizacao parcial de licenca pode deixar LICENSE Apache e headers AGPL, criando ambiguidade para consumidores.",
+      "evidencia": "rg AGPL encontrou referencias em LICENSE, README, CONTRIBUTING, docs/LICENSING e multiplos arquivos src/usehbn."
+    },
+    {
+      "descricao": "DCO check pode bloquear contribuicoes se ativado antes de documentacao e exemplos de git commit -s.",
+      "evidencia": "CONTRIBUTING.md:60 nao menciona DCO."
+    }
+  ],
+  "alinhamento_com_p1_p13": {
+    "principios_apoiados": ["P2", "P5", "P7", "P8", "P9"],
+    "principios_em_tensao": ["P10"],
+    "comentario": "A transicao e reversivel no plano documental, mas precisa evitar ambiguidade legal durante a janela de mudanca."
+  },
+  "recomendacao_para_humano": "RATIFICAR_APOS_RESSALVAS",
+  "comentario_livre": "Mecanicamente, migrar para Apache 2.0 + DCO e simples, mas espalhado. A ressalva e nao subestimar o blast radius: LICENSE, setup.cfg, docs, README, CONTRIBUTING e headers entram no mesmo MD. Como ha sensibilidade legal, minha recomendacao tecnica e ratificar so com checklist fechado e decisao clara sobre enforcement de DCO."
+}

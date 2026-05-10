@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "adr_id": "ADR-008",
+  "auditor": "codex-cli",
+  "session_role": "cross-ia-review-usehbn",
+  "reviewed_at": "2026-05-10T02:45:07Z",
+  "veredito_tecnico": "REPROVADO",
+  "ressalvas_bloqueantes": [
+    {
+      "tema": "Scripts de fetch/verify e bin/ nao existem",
+      "evidencia": "ausencia explicita: /Users/macbookpro/Projetos/usehbn/bin nao existe; rg nao encontrou usehbn-fetch.sh nem usehbn-verify.sh fora dos ADRs",
+      "remediacao_proposta": "Antes de ACCEPTED, especificar e implementar bin/usehbn-fetch.sh e bin/usehbn-verify.sh ou rebaixar ADR para desenho bloqueado ate MD tecnico."
+    },
+    {
+      "tema": "Checksum de pasta nao tem algoritmo deterministico",
+      "evidencia": "ADR-008:108-111 diz calcular sha256 da pasta e comparar com PROTOCOL_SHA256.txt, mas nao define ordenacao, exclusoes, normalizacao de path, line endings, permissoes, ou se PROTOCOL_SHA256.txt entra no hash",
+      "remediacao_proposta": "Definir manifest deterministico por arquivo: path relativo normalizado, tamanho, sha256 por arquivo, hash final do manifest; excluir PROTOCOL_SHA256.txt do calculo ou derivar de PROTOCOL_MANIFEST.json."
+    },
+    {
+      "tema": "hbn doctor nao verifica snapshot nem checksum",
+      "evidencia": "ADR-008:175 promete hbn doctor --target <app> checar checksum; src/usehbn/cli.py:1096-1199 implementa checks de init, runtime, adapters, manifest, readbacks e gitignore, sem .usehbn-snapshot",
+      "remediacao_proposta": "Adicionar check snapshot_version, snapshot_checksum e mirror_drift ao doctor antes de usar ADR-008 como gate."
+    },
+    {
+      "tema": "Conteudo canonico do Credenciamento/usehbn ainda nao foi migrado",
+      "evidencia": "/Users/macbookpro/Projetos/Credenciamento/usehbn contem methodology/, modules/, radar/, audits/, site/ e study-plans/; ADR-008:59-64 marca varios itens pendentes",
+      "remediacao_proposta": "Executar auditoria pre-migracao com matriz origem->destino antes de qualquer remocao/substituicao no Credenciamento."
+    }
+  ],
+  "ressalvas_nao_bloqueantes": [
+    "Credenciamento ja tem AGENTS.md, mas sem secao useHBN-version; o ADR deve tratar como atualizacao, nao criacao do zero.",
+    "A substituicao de Credenciamento/usehbn por README deve ser commit dedicado e reversivel, com backup ou tag antes da remocao.",
+    "Nao submodule e uma decisao plausivel; o ponto fraco esta na verificacao do snapshot."
+  ],
+  "factibilidade_tecnica": {
+    "implementavel_em_v0_3_0": false,
+    "dependencias_externas_necessarias": ["bin/usehbn-fetch.sh", "bin/usehbn-verify.sh", "extensao hbn doctor snapshot", "manifest deterministico de checksum"],
+    "blast_radius_estimado": {
+      "arquivos_afetados": 18,
+      "testes_a_atualizar": 6,
+      "cli_surface_impactada": true
+    }
+  },
+  "conflitos_com_codigo_existente": [
+    {
+      "arquivo": "src/usehbn/cli.py:1096",
+      "natureza": "contrato divergente",
+      "severidade": "P0"
+    },
+    {
+      "arquivo": "ausencia: bin/usehbn-fetch.sh",
+      "natureza": "contrato divergente",
+      "severidade": "P0"
+    },
+    {
+      "arquivo": "ausencia: bin/usehbn-verify.sh",
+      "natureza": "contrato divergente",
+      "severidade": "P0"
+    },
+    {
+      "arquivo": "/Users/macbookpro/Projetos/Credenciamento/AGENTS.md:1",
+      "natureza": "contrato divergente",
+      "severidade": "P1"
+    }
+  ],
+  "riscos_nao_declarados_no_adr": [
+    {
+      "descricao": "Um hash de concatenacao simples e vulneravel a ambiguidades de path/ordem e pode mudar entre sistemas por metadados nao normalizados.",
+      "evidencia": "ADR-008 nao define algoritmo alem de 'sha256 da pasta'."
+    },
+    {
+      "descricao": "Remover Credenciamento/usehbn antes de migrar radar/modules/audits pode apagar contexto canonico do working tree.",
+      "evidencia": "find /Users/macbookpro/Projetos/Credenciamento/usehbn -maxdepth 3 mostra modules/, radar/, audits/ e methodology/ ainda presentes."
+    },
+    {
+      "descricao": "O protocolo useHBN ainda nao tem VERSION raiz para alimentar snapshot.",
+      "evidencia": "find . -maxdepth 2 -name VERSION nao retornou arquivo no repo usehbn."
+    }
+  ],
+  "alinhamento_com_p1_p13": {
+    "principios_apoiados": ["P1", "P2", "P5", "P6", "P7", "P8", "P10"],
+    "principios_em_tensao": ["P11"],
+    "comentario": "A ideia preserva fonte de verdade e reversibilidade, mas a mecanica atual ainda nao satisfaz P1/P6 com seguranca operacional suficiente."
+  },
+  "recomendacao_para_humano": "NAO_RATIFICAR_AGORA",
+  "comentario_livre": "ADR-008 deve permanecer bloqueado. A direcao snapshot read-only e boa, mas ainda faltam os tres pilares tecnicos: scripts, checksum deterministico e doctor verificando drift. Alem disso, o Credenciamento/usehbn contem muito mais que o principio ja migrado. Sem matriz origem/destino, a substituicao por README seria arriscada."
+}

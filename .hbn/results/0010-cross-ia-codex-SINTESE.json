@@ -1,0 +1,255 @@
+{
+  "schema_version": "1.0",
+  "auditor": "codex-cli",
+  "session_role": "cross-ia-review-usehbn",
+  "reviewed_at": "2026-05-10T02:45:07Z",
+  "pareceres": [
+    ".hbn/results/0001-cross-ia-codex-ADR-002.json",
+    ".hbn/results/0002-cross-ia-codex-ADR-003.json",
+    ".hbn/results/0003-cross-ia-codex-ADR-004.json",
+    ".hbn/results/0004-cross-ia-codex-ADR-009.json",
+    ".hbn/results/0005-cross-ia-codex-ADR-001.json",
+    ".hbn/results/0006-cross-ia-codex-ADR-005.json",
+    ".hbn/results/0007-cross-ia-codex-ADR-006.json",
+    ".hbn/results/0008-cross-ia-codex-ADR-007.json",
+    ".hbn/results/0009-cross-ia-codex-ADR-008.json"
+  ],
+  "top_3_adrs_maior_risco_operacional": [
+    {
+      "adr_id": "ADR-008",
+      "motivo": "Migra conteudo entre repos e remove Credenciamento/usehbn, mas scripts, checksum deterministico e doctor snapshot ainda nao existem."
+    },
+    {
+      "adr_id": "ADR-004",
+      "motivo": "SemVer e base para consumidores, mas repo atual diverge entre PROTOCOL_VERSION 0.3.0, __version__ 0.2.0 e setup.cfg 0.2.0."
+    },
+    {
+      "adr_id": "ADR-006",
+      "motivo": "Sinais multi-repo sao o mecanismo de coordenacao, mas runtime adapters, core/protocol e wave-protocol ainda nao conhecem os novos sinais."
+    }
+  ],
+  "top_3_adrs_mais_ressalvas_bloqueantes": [
+    {
+      "adr_id": "ADR-008",
+      "ressalvas_bloqueantes": 4
+    },
+    {
+      "adr_id": "ADR-004",
+      "ressalvas_bloqueantes": 3
+    },
+    {
+      "adr_id": "ADR-002",
+      "ressalvas_bloqueantes": 2,
+      "observacao": "Empatado em contagem com ADR-005 e ADR-006; escolhido por bloquear a cadeia 003/004/008."
+    }
+  ],
+  "lista_cumulativa_conflitos_codigo_existente_x_adr": [
+    {
+      "adr_id": "ADR-002",
+      "arquivo": "docs/INTEGRATION-AGENTS-MD.md:105",
+      "natureza": "contrato divergente",
+      "severidade": "P1"
+    },
+    {
+      "adr_id": "ADR-002",
+      "arquivo": "src/usehbn/runtime.py:168",
+      "natureza": "contrato divergente",
+      "severidade": "P2"
+    },
+    {
+      "adr_id": "ADR-002",
+      "arquivo": "README.md:42",
+      "natureza": "termo doutrinario divergente",
+      "severidade": "P2"
+    },
+    {
+      "adr_id": "ADR-003",
+      "arquivo": "README.md:406",
+      "natureza": "contrato divergente",
+      "severidade": "P1"
+    },
+    {
+      "adr_id": "ADR-003",
+      "arquivo": "site/index.html:40",
+      "natureza": "contrato divergente",
+      "severidade": "P1"
+    },
+    {
+      "adr_id": "ADR-003",
+      "arquivo": "src/usehbn/cli.py:1013",
+      "natureza": "schema divergente",
+      "severidade": "P2"
+    },
+    {
+      "adr_id": "ADR-004",
+      "arquivo": "src/usehbn/__init__.py:11",
+      "natureza": "schema divergente",
+      "severidade": "P0"
+    },
+    {
+      "adr_id": "ADR-004",
+      "arquivo": "src/usehbn/__init__.py:29",
+      "natureza": "contrato divergente",
+      "severidade": "P0"
+    },
+    {
+      "adr_id": "ADR-004",
+      "arquivo": "setup.cfg:3",
+      "natureza": "contrato divergente",
+      "severidade": "P0"
+    },
+    {
+      "adr_id": "ADR-004",
+      "arquivo": "src/usehbn/cli.py:1079",
+      "natureza": "contrato divergente",
+      "severidade": "P0"
+    },
+    {
+      "adr_id": "ADR-009",
+      "arquivo": "README.md:13",
+      "natureza": "termo doutrinario divergente",
+      "severidade": "P2"
+    },
+    {
+      "adr_id": "ADR-009",
+      "arquivo": "docs/MATURITY-MATRIX.md:10",
+      "natureza": "termo doutrinario divergente",
+      "severidade": "P2"
+    },
+    {
+      "adr_id": "ADR-001",
+      "arquivo": "src/usehbn/cli.py:1620",
+      "natureza": "contrato divergente",
+      "severidade": "P2"
+    },
+    {
+      "adr_id": "ADR-001",
+      "arquivo": "methodology/adr/ADR-001-quarta-de-sanitizacao.md:152",
+      "natureza": "contrato divergente",
+      "severidade": "P2"
+    },
+    {
+      "adr_id": "ADR-005",
+      "arquivo": "LICENSE:1",
+      "natureza": "contrato divergente",
+      "severidade": "P1"
+    },
+    {
+      "adr_id": "ADR-005",
+      "arquivo": "setup.cfg:8",
+      "natureza": "contrato divergente",
+      "severidade": "P1"
+    },
+    {
+      "adr_id": "ADR-005",
+      "arquivo": "CONTRIBUTING.md:60",
+      "natureza": "contrato divergente",
+      "severidade": "P1"
+    },
+    {
+      "adr_id": "ADR-005",
+      "arquivo": "src/usehbn/cli.py:4",
+      "natureza": "contrato divergente",
+      "severidade": "P2"
+    },
+    {
+      "adr_id": "ADR-006",
+      "arquivo": "src/usehbn/runtime.py:54",
+      "natureza": "contrato divergente",
+      "severidade": "P1"
+    },
+    {
+      "adr_id": "ADR-006",
+      "arquivo": "agents/wave-protocol.md:96",
+      "natureza": "contrato divergente",
+      "severidade": "P1"
+    },
+    {
+      "adr_id": "ADR-006",
+      "arquivo": "core/protocol.md:17",
+      "natureza": "contrato divergente",
+      "severidade": "P1"
+    },
+    {
+      "adr_id": "ADR-006",
+      "arquivo": "src/usehbn/cli.py:999",
+      "natureza": "schema divergente",
+      "severidade": "P2"
+    },
+    {
+      "adr_id": "ADR-007",
+      "arquivo": "src/usehbn/cli.py:283",
+      "natureza": "contrato divergente",
+      "severidade": "P1"
+    },
+    {
+      "adr_id": "ADR-007",
+      "arquivo": "README.md:396",
+      "natureza": "termo doutrinario divergente",
+      "severidade": "P2"
+    },
+    {
+      "adr_id": "ADR-008",
+      "arquivo": "src/usehbn/cli.py:1096",
+      "natureza": "contrato divergente",
+      "severidade": "P0"
+    },
+    {
+      "adr_id": "ADR-008",
+      "arquivo": "ausencia: bin/usehbn-fetch.sh",
+      "natureza": "contrato divergente",
+      "severidade": "P0"
+    },
+    {
+      "adr_id": "ADR-008",
+      "arquivo": "ausencia: bin/usehbn-verify.sh",
+      "natureza": "contrato divergente",
+      "severidade": "P0"
+    },
+    {
+      "adr_id": "ADR-008",
+      "arquivo": "/Users/macbookpro/Projetos/Credenciamento/AGENTS.md:1",
+      "natureza": "contrato divergente",
+      "severidade": "P1"
+    }
+  ],
+  "recomendacao_final_consolidada_por_adr": [
+    {
+      "adr_id": "ADR-002",
+      "recomendacao": "RATIFICAR_APOS_RESSALVAS"
+    },
+    {
+      "adr_id": "ADR-003",
+      "recomendacao": "RATIFICAR_APOS_RESSALVAS"
+    },
+    {
+      "adr_id": "ADR-004",
+      "recomendacao": "NAO_RATIFICAR_AGORA"
+    },
+    {
+      "adr_id": "ADR-009",
+      "recomendacao": "RATIFICAR_APOS_RESSALVAS"
+    },
+    {
+      "adr_id": "ADR-001",
+      "recomendacao": "RATIFICAR_APOS_RESSALVAS"
+    },
+    {
+      "adr_id": "ADR-005",
+      "recomendacao": "RATIFICAR_APOS_RESSALVAS"
+    },
+    {
+      "adr_id": "ADR-006",
+      "recomendacao": "RATIFICAR_APOS_RESSALVAS"
+    },
+    {
+      "adr_id": "ADR-007",
+      "recomendacao": "RATIFICAR_APOS_RESSALVAS"
+    },
+    {
+      "adr_id": "ADR-008",
+      "recomendacao": "NAO_RATIFICAR_AGORA"
+    }
+  ],
+  "comentario_livre": "A cadeia operacional esta quase toda ratificavel com ressalvas, exceto ADR-004 e ADR-008. ADR-004 precisa resolver versao de pacote versus versao de protocolo antes de virar contrato publico. ADR-008 precisa scripts, checksum deterministico e doctor snapshot antes de tocar Credenciamento/usehbn. ADR-002/003/006 sao bons como direcao, mas precisam transformar convencoes documentais em pontos de leitura claros para runtime adapters e hbn doctor."
+}

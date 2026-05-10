@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "adr_id": "ADR-002",
+  "auditor": "codex-cli",
+  "session_role": "cross-ia-review-usehbn",
+  "reviewed_at": "2026-05-10T02:45:07Z",
+  "veredito_tecnico": "APROVADO_COM_RESSALVA",
+  "ressalvas_bloqueantes": [
+    {
+      "tema": "Contrato AGENTS.md/useHBN-version ainda nao e operacional no useHBN",
+      "evidencia": "ausencia explicita: /Users/macbookpro/Projetos/usehbn/AGENTS.md nao existe; docs/INTEGRATION-AGENTS-MD.md:105 diz que HBN nao parseia AGENTS.md; schemas/*.json nao possuem campo useHBN-version; src/usehbn/runtime.py:168-255 gera adapters sem esse contrato",
+      "remediacao_proposta": "Antes de ACCEPTED, ajustar o ADR para declarar que useHBN-version e contrato documental inicial, ou criar AGENTS.md raiz e um plano de validacao via hbn doctor/schema futuro."
+    },
+    {
+      "tema": "ADR afirma que nenhum dos dois repos tem AGENTS.md, mas o Credenciamento tem",
+      "evidencia": "/Users/macbookpro/Projetos/Credenciamento/AGENTS.md:1 existe; methodology/adr/ADR-002-tipologia-founding-consuming.md:83 afirma que AGENTS.md raiz nao existe ainda em nenhum dos dois repos",
+      "remediacao_proposta": "Corrigir o texto: useHBN nao tem AGENTS.md raiz; Credenciamento tem AGENTS.md, mas ainda sem secao de dependencia useHBN-version."
+    }
+  ],
+  "ressalvas_nao_bloqueantes": [
+    "A tipologia Founding/Consuming e tecnicamente consistente com a ausencia de codigo do Credenciamento neste repo, mas README.md:42 ainda chama Credenciamento de 'Visao / referencia externa'.",
+    "A atualizacao de CASE-STUDY e MATURITY-MATRIX deve ser MD separado, porque docs/CASE-STUDY-CREDENCIAMENTO.md tem gate G5 em agents/wave-protocol.md:32.",
+    "O contrato deveria padronizar casing: ADR usa useHBN-version, enquanto comandos e pacote usam usehbn/hbn."
+  ],
+  "factibilidade_tecnica": {
+    "implementavel_em_v0_3_0": true,
+    "dependencias_externas_necessarias": [],
+    "blast_radius_estimado": {
+      "arquivos_afetados": 6,
+      "testes_a_atualizar": 1,
+      "cli_surface_impactada": true
+    }
+  },
+  "conflitos_com_codigo_existente": [
+    {
+      "arquivo": "docs/INTEGRATION-AGENTS-MD.md:105",
+      "natureza": "contrato divergente",
+      "severidade": "P1"
+    },
+    {
+      "arquivo": "src/usehbn/runtime.py:168",
+      "natureza": "contrato divergente",
+      "severidade": "P2"
+    },
+    {
+      "arquivo": "README.md:42",
+      "natureza": "termo doutrinario divergente",
+      "severidade": "P2"
+    }
+  ],
+  "riscos_nao_declarados_no_adr": [
+    {
+      "descricao": "Apps consumidoras podem declarar uma versao que nenhuma ferramenta valida, criando falsa sensacao de compatibilidade.",
+      "evidencia": "src/usehbn/cli.py:1096-1199 implementa doctor, mas nao inspeciona AGENTS.md nem useHBN-version."
+    },
+    {
+      "descricao": "Casing e hifenizacao do campo podem divergir entre humanos e ferramentas.",
+      "evidencia": "ADR-004 usa useHBN-version em methodology/adr/ADR-004-semver-protocolo.md:63; CLI e pacote usam usehbn/hbn em README.md:98-109."
+    }
+  ],
+  "alinhamento_com_p1_p13": {
+    "principios_apoiados": ["P2", "P5", "P7", "P8"],
+    "principios_em_tensao": ["P4"],
+    "comentario": "A separacao conceitual preserva identidade e fonte de verdade, mas precisa explicitar o que e automatizado e o que e apenas contrato documental."
+  },
+  "recomendacao_para_humano": "RATIFICAR_APOS_RESSALVAS",
+  "comentario_livre": "A decisao de tipologia e factivel e reduz o maior risco operacional: uma IA em CWD do Credenciamento voltar a tratar a app como modulo. O ponto fraco tecnico e o contrato AGENTS.md: hoje ele nao existe na raiz do useHBN, nao e parseado, nao tem schema e nao aparece nos runtime adapters. Portanto a ratificacao deve separar claramente a decisao semantica, que pode ser aceita, da mecanica de enforcement, que precisa de MD proprio."
+}
