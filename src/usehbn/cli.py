@@ -1008,6 +1008,7 @@ def run_init(args: argparse.Namespace) -> Dict[str, Any]:
     relay_dir = hbn_dir / "relay"
     knowledge_dir = hbn_dir / "knowledge"
     reports_dir = hbn_dir / "reports"
+    meta_dir = hbn_dir / "meta"
     for directory in (
         hbn_dir / "readbacks",
         hbn_dir / "results",
@@ -1015,6 +1016,7 @@ def run_init(args: argparse.Namespace) -> Dict[str, Any]:
         hbn_dir / "relay-archive",
         knowledge_dir,
         reports_dir,
+        meta_dir,  # Per ADR-006 — hosts signals-log.jsonl and cross-repo coordination
         hbn_dir / "connectors" / "approvals",
         hbn_dir / "connectors" / "generated",
         hbn_dir / "connectors" / "requests",

@@ -52,9 +52,24 @@ SEMANTIC_ANCHORS = (
 )
 
 HBN_STATUS_MARKERS = (
+    # Single-repo signals
     "✅ HBN ACTIVE",
     "❌ HBN SECURITY BLOCKED SUGGESTION",
     "🟡 HBN NEEDS HUMAN DECISION",
+    "🔵 HBN HANDOFF READY",
+    "🟣 HBN PEER REVIEW",
+    "⚪ HBN AUDIT-ONLY",
+    "🟠 HBN SOURCE DRIFT",
+    "🔴 HBN RELEASE BLOCKER",
+    "🟢 HBN CHECKPOINT CLEAN",
+    "🟤 HBN LICENSE SPLIT REQUIRED",
+    # Multi-repo signals (per ADR-006 ACCEPTED 2026-05-10)
+    "🌐 HBN CROSS-REPO LOCK",
+    "⛓️ HBN PROTOCOL DEP CHANGE",
+    "🧊 HBN APP FROZEN",
+    "🪞 HBN MIRROR DRIFT",
+    "⏳ HBN BILLING WINDOW DRIFT",
+    "🔍 HBN GROUPTHINK ALARM",
 )
 
 
@@ -183,10 +198,25 @@ def _adapter_body(runtime: str) -> str:
             "Normalize them internally to `usehbn` before selecting the correct local command path.",
             "The domains are canonical semantic references, not a requirement to browse the web.",
             "",
-            "Visible HBN response modes:",
+            "Visible HBN response modes (10 single-repo + 6 multi-repo signals):",
+            "Single-repo signals:",
             "- `✅ HBN ACTIVE` when the protocol is engaged and work may proceed.",
             "- `❌ HBN SECURITY BLOCKED SUGGESTION` when a protocol gate, validation, or environment dependency blocks progress provisionally for safety and conformity.",
             "- `🟡 HBN NEEDS HUMAN DECISION` when approval or a policy choice is required before continuing.",
+            "- `🔵 HBN HANDOFF READY` when the package is complete and ready for the next actor.",
+            "- `🟣 HBN PEER REVIEW` when cross-IA review is required before merge.",
+            "- `⚪ HBN AUDIT-ONLY` when in read-only mode over a scope.",
+            "- `🟠 HBN SOURCE DRIFT` when source and mirror diverge.",
+            "- `🔴 HBN RELEASE BLOCKER` when an issue blocks release.",
+            "- `🟢 HBN CHECKPOINT CLEAN` when gates are green.",
+            "- `🟤 HBN LICENSE SPLIT REQUIRED` when license unification is needed (resolved by ADR-005 in 2026-05).",
+            "Multi-repo signals (per ADR-006):",
+            "- `🌐 HBN CROSS-REPO LOCK` when touching files mirrored across repos; wait.",
+            "- `⛓️ HBN PROTOCOL DEP CHANGE` when the protocol bumped MAJOR/MINOR; consuming apps revise.",
+            "- `🧊 HBN APP FROZEN` when a consuming app is in a release window; do not touch.",
+            "- `🪞 HBN MIRROR DRIFT` when a `.usehbn-snapshot/` in an app diverged from canonical.",
+            "- `⏳ HBN BILLING WINDOW DRIFT` when Quarta de Sanitização parameters need adjustment.",
+            "- `🔍 HBN GROUPTHINK ALARM` when cross-IA convergence is too high (`<10%` divergence).",
             "",
             "At the start of each HBN-governed cycle, present a short visible readback containing:",
             "1. HBN status marker.",
