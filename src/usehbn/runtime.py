@@ -346,7 +346,10 @@ def inspect_target(target: Path) -> Dict[str, Any]:
     knowledge_dir = hbn_dir / "knowledge"
     reports_dir = hbn_dir / "reports"
     logs_dir = resolved_target / "logs"
-    state_path = resolved_target / "state" / "hbn-state.json"
+    # Onda 5 dual-read: canonical is .usehbn/hbn-state.json; fall back to legacy state/.
+    canonical_state_path = resolved_target / ".usehbn" / "hbn-state.json"
+    legacy_state_path = resolved_target / "state" / "hbn-state.json"
+    state_path = canonical_state_path if canonical_state_path.exists() else legacy_state_path
     pyproject_path = resolved_target / "pyproject.toml"
     setup_cfg_path = resolved_target / "setup.cfg"
 

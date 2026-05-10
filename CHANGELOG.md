@@ -62,9 +62,15 @@ All notable changes to HBN will be documented in this file.
   principles). The legacy file is preserved with a banner pointing to
   the canonical source (P7 — preserve history).
 
-## [Unreleased] — Onda 1: Honestidade Narrativa
+### Earlier in this cycle — Onda 1: Honestidade Narrativa (2026-04-29)
 
-### Changed
+The Onda 1 entries below were captured under a separate `[Unreleased]`
+header in earlier drafts; they are part of the same v0.3.0 cycle and
+have been folded into this section to remove the dual-Unreleased
+artifact that existed in the file pre-Onda-5 cleanup (per autonomous
+roadmap iteration 8).
+
+### Changed (Onda 1)
 
 - README, ARCHITECTURE, UNIVERSAL-TRANSLATOR, CONNECTORS,
   RUNTIME-ADAPTERS alinhados a docs/MATURITY-MATRIX.md.

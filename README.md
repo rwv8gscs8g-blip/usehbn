@@ -292,7 +292,7 @@ usehbn "use hbn analyze this system"
 Each execution writes:
 
 - a structured execution log to `logs/`
-- persistent state to `state/hbn-state.json`
+- persistent state to `.usehbn/hbn-state.json` (canonical from v0.3.0; legacy `state/hbn-state.json` still readable for backward compatibility — Onda 5 dual-read)
 - protocol-local coordination artifacts to `.hbn/` after `hbn init`
 
 Inside `.hbn/`, the current local contract now distinguishes:
@@ -529,12 +529,9 @@ This repository does not yet provide:
 
 ## Current Status
 
-HBN is now at a solid L4 level: installable, inspectable, protocolized, traceable, and able to generate local adapter files for multiple AI runtimes. The relay system now includes structured baton tracking and validated handoff. Adapters include a self-describing fallback block for graceful operation without the CLI.
+HBN is now at a solid L4 level: installable, inspectable, protocolized, traceable, and able to generate local adapter files for multiple AI runtimes. The relay system now includes structured baton tracking, validated handoff, dual-read of pending readbacks (Onda 3 — `.hbn/readbacks/` and `.usehbn/readbacks/`), audit trail of last 10 handoffs, and an advisory baton-staleness flag. Adapters include a self-describing fallback block for graceful operation without the CLI plus the full 16-signal HBN vocabulary (10 single-repo + 6 multi-repo per ADR-006).
 
-The repository is currently being managed as a hardened `0.2.x` runtime. Long-
-range `v0.3` ideas are being treated as a research and architecture track, not
-as immediate implementation commitments. Public distribution via PyPI is the
-next delivery milestone. See `docs/EXECUTION-DECISION.md` and `ROADMAP.md`.
+The repository is currently in the **v0.3.0 "Honest Foundation"** cycle. Pre-v0.3.0 builds were managed as a hardened `0.2.x` runtime; the v0.3.0 cycle materializes the post-2026-05-09 architectural decisions (9 ADRs in `methodology/adr/`, license migrated to Apache 2.0 + DCO, package and protocol versions split, Onda 3 Relay Invariants applied, Connector Lifecycle Registry registered, Onda 5 cleanup with `.usehbn/` as canonical state location). Public distribution via PyPI is the next delivery milestone. See [`auditoria/00_status/09_PROPOSTA_CRONOGRAMA_AUTONOMO_2026_05_10.md`](auditoria/00_status/09_PROPOSTA_CRONOGRAMA_AUTONOMO_2026_05_10.md), `docs/EXECUTION-DECISION.md`, and `ROADMAP.md`.
 
 For a safe first test before public distribution, use `hbn quickstart` plus
 `hbn doctor` and follow `docs/SAFE-TESTING.md`.
