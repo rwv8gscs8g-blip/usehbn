@@ -2,7 +2,13 @@
 
 All notable changes to HBN will be documented in this file.
 
-## [Unreleased] — towards v0.3.0
+## v0.3.0 — Honest Foundation (2026-05-10, prepared; awaits human-gated tag + publish)
+
+This is the v0.3.0 release block, prepared by iteration 12 of the
+autonomous roadmap (proposal 09). The actual `git tag v0.3.0`, the
+`twine upload --repository testpypi`, and the `git push` to
+`origin/main` are deferred to operator-gated iterations 13 (validation)
+and post-13 (publish), per §B.2 of the proposal.
 
 ### Changed (BREAKING — license migration)
 
