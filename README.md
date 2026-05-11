@@ -16,6 +16,17 @@ hbn version
 hbn run "use hbn analyze this system"
 ```
 
+## Validating a release
+
+For maintainers and reviewers walking through the v0.3.0 release
+acceptance, follow the human-friendly script at
+[`docs/HUMAN-VALIDATION-v0.3.0.md`](docs/HUMAN-VALIDATION-v0.3.0.md).
+It covers macOS / Linux / Windows smoke tests, targeted checks for
+every architectural decision that landed in this release, the build
+and TestPyPI walk-through, and the publication gates. Record your
+results in the log template at
+[`auditoria/post-implementation/v0.3.0-validation-log-template.md`](auditoria/post-implementation/v0.3.0-validation-log-template.md).
+
 ## Why HBN exists
 
 HBN starts from a simple discipline: AI-assisted work should remain legible, reviewable, and governable by humans. Intent should be explicit. Validation expectations should be visible. Safety-related uncertainty should not disappear behind convenience.
