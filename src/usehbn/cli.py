@@ -606,6 +606,13 @@ def build_root_parser() -> argparse.ArgumentParser:
         help="JSON indentation level for CLI output.",
     )
 
+    # autoevolve is dispatched early in main() and uses its own parser
+    # (usehbn.autoevolve.cli). We expose a stub here so `hbn --help` lists it.
+    subparsers.add_parser(
+        "autoevolve",
+        help="Run microdelta cycles (status, audit, approve, rollback).",
+    )
+
     return parser
 
 
