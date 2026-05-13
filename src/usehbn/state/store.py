@@ -96,6 +96,21 @@ def load_state_document(base_dir: Optional[Path] = None) -> Dict[str, Any]:
     }
 
 
+def summarize_state_document(document: Dict[str, Any]) -> Dict[str, Any]:
+    """Aggregate counts for the four canonical state arrays — pure, no I/O.
+
+    Useful for `hbn doctor`, the autoevolve audit report, and any UI surface
+    that wants a fast health snapshot without parsing the whole document.
+    """
+    empty = _empty_state()
+    out: Dict[str, Any] = {}
+    for key in empty:
+        value = document.get(key) if isinstance(document, dict) else None
+        out[key] = len(value) if isinstance(value, list) else 0
+    out["total_records"] = sum(out.values())
+    return out
+
+
 def append_execution_state(
     execution: Dict[str, Any],
     decisions: List[Dict[str, Any]],
