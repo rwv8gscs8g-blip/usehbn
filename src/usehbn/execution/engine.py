@@ -70,6 +70,32 @@ def _validation_summary(
     }
 
 
+def _activation_reason(activated: bool) -> str:
+    return (
+        "HBN trigger token detected in the input sentence."
+        if activated
+        else "No HBN trigger token detected; pipeline remained idle."
+    )
+
+
+def _validation_reason(validation: Dict[str, Any]) -> str:
+    warnings = validation.get("warnings") or []
+    status = validation.get("status", "idle")
+    if status == "idle":
+        return "Activation was not triggered; no validation performed."
+    if not warnings:
+        return "Truth Barrier and Guardian produced no warnings on the structured request."
+    return f"Validation flagged {len(warnings)} advisory warning(s); not enforced in v0.3.0."
+
+
+def _consent_reason(status: str) -> str:
+    return {
+        "granted": "User opted in; consent record persisted with scope and duration.",
+        "declined": "User declined explicitly; no consent record persisted.",
+        "not_available": "Trigger not active; consent question not offered.",
+    }.get(status, f"Consent status reported as {status}.")
+
+
 def _decision_records(
     execution_id: str,
     result: Dict[str, Any],
@@ -80,6 +106,7 @@ def _decision_records(
             "category": "activation",
             "decision": "activated" if result["hbn_activated"] else "ignored",
             "stage": result["stage"],
+            "reason": _activation_reason(result["hbn_activated"]),
         },
         {
             "execution_id": execution_id,
@@ -87,11 +114,13 @@ def _decision_records(
             "decision": result["validation"]["status"],
             "truth_barrier_status": result["truth_barrier"]["status"],
             "guardian_status": result["guardian"]["status"],
+            "reason": _validation_reason(result["validation"]),
         },
         {
             "execution_id": execution_id,
             "category": "consent",
             "decision": result["contribution_consent_protocol"]["status"],
+            "reason": _consent_reason(result["contribution_consent_protocol"]["status"]),
         },
     ]
 
