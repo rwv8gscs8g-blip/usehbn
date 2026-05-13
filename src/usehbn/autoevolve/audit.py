@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Iterable, List
 
 from usehbn.autoevolve.contract import MicrodeltaResult
+from usehbn.signals import OPERATIONAL_SIGNALS
 
 
 CYCLE_SIGNALS = (
@@ -20,8 +21,7 @@ CYCLE_SIGNALS = (
     "EXECUTION_START",
     "EXECUTION_END",
     "AUDIT_SEALED",
-    "AUTOEVOLVE_TICK",
-)
+) + OPERATIONAL_SIGNALS
 
 
 def audit_path_for_cycle(cycle_id: str, root: Path | None = None) -> Path:
