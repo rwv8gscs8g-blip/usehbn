@@ -1712,7 +1712,11 @@ def main() -> int:
         "refresh",
         "relay",
         "handoff",
+        "autoevolve",
     }
+    if len(sys.argv) > 1 and sys.argv[1] == "autoevolve":
+        from usehbn.autoevolve.cli import main as autoevolve_main
+        return autoevolve_main(sys.argv[2:])
     if len(sys.argv) > 1 and sys.argv[1] in subcommands:
         parser = build_root_parser()
         args = parser.parse_args()
