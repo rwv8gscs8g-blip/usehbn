@@ -1544,21 +1544,13 @@ def run_relay_status(args: argparse.Namespace) -> Dict[str, Any]:
     }
     # Onda 3 (advisory): expose baton_stale apenas se baton_staleness_seconds estiver
     # configurado em state. Default ausente preserva o contrato anterior.
-    staleness_seconds = state.get("baton_staleness_seconds")
-    if isinstance(staleness_seconds, int) and staleness_seconds >= 0:
-        baton_since = state.get("baton_since")
-        if not baton_since:
-            response["baton_stale"] = False
-        else:
-            try:
-                from datetime import datetime, timezone
-                # baton_since is ISO-8601 with 'Z' suffix per utc_now_iso.
-                baton_since_dt = datetime.fromisoformat(baton_since.replace("Z", "+00:00"))
-                age_seconds = (datetime.now(timezone.utc) - baton_since_dt).total_seconds()
-                response["baton_stale"] = age_seconds >= staleness_seconds
-            except (TypeError, ValueError):
-                # Malformed baton_since: report stale (conservative).
-                response["baton_stale"] = True
+    from usehbn.runtime import compute_baton_staleness
+    stale = compute_baton_staleness(
+        baton_since=state.get("baton_since"),
+        staleness_seconds=state.get("baton_staleness_seconds"),
+    )
+    if stale is not None:
+        response["baton_stale"] = stale
     return response
 
 

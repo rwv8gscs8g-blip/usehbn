@@ -8,10 +8,37 @@ from __future__ import annotations
 
 import json
 import os
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from usehbn import __version__
+
+
+def compute_baton_staleness(
+    *,
+    baton_since: Optional[str],
+    staleness_seconds: Optional[int],
+    now: Optional[datetime] = None,
+) -> Optional[bool]:
+    """Decide whether the relay baton is stale.
+
+    Returns:
+      None  — no policy configured (staleness_seconds is None or negative);
+      False — policy configured but never claimed (baton_since is None);
+      True  — claimed and age >= policy, or baton_since is unparseable
+              (conservative report).
+    """
+    if not isinstance(staleness_seconds, int) or staleness_seconds < 0:
+        return None
+    if not baton_since:
+        return False
+    try:
+        since = datetime.fromisoformat(baton_since.replace("Z", "+00:00"))
+    except (TypeError, ValueError):
+        return True
+    reference = now or datetime.now(timezone.utc)
+    return (reference - since).total_seconds() >= staleness_seconds
 
 RUNTIME_SPECS = {
     "claude-code": {
