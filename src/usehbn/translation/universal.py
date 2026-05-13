@@ -64,6 +64,26 @@ def detect_environment_profile(
     }
 
 
+DEFAULT_FALLBACK_LANGUAGE_FAMILY = "en"
+
+
+def resolve_language_fallback(human_language_profile: Mapping[str, Any]) -> Dict[str, Any]:
+    """Deterministic fallback for translation when locale is unknown.
+
+    Returns the effective language family the translator should assume, and a
+    boolean indicating whether the value came from a real detection or from
+    the deterministic fallback. Pure: no I/O.
+    """
+    family = (human_language_profile or {}).get("language_family") or "unknown"
+    detected = (human_language_profile or {}).get("detected_language") or "unknown"
+    is_fallback = family in ("unknown", "") or detected == "unknown"
+    return {
+        "effective_language_family": DEFAULT_FALLBACK_LANGUAGE_FAMILY if is_fallback else family,
+        "is_fallback": is_fallback,
+        "source": "deterministic_fallback" if is_fallback else "env_locale",
+    }
+
+
 def translate_natural_entry(
     text: str,
     *,
@@ -78,6 +98,7 @@ def translate_natural_entry(
         env=env,
         interface_hint=interface_hint,
     )
+    language_fallback = resolve_language_fallback(environment["human_language_profile"])
     connector_strategy = resolve_connector_strategy(
         environment=environment,
         technology_fingerprint=environment["technology_fingerprint"],
@@ -93,6 +114,7 @@ def translate_natural_entry(
             "reason": "No HBN semantic anchor detected.",
             "activation": activation,
             "environment": environment,
+            "language_fallback": language_fallback,
             "connector_strategy": connector_strategy,
             "connector_contract": connector_contract,
             "recommended_machine_path": None,
@@ -116,6 +138,7 @@ def translate_natural_entry(
         "status": "translated",
         "activation": activation,
         "environment": environment,
+        "language_fallback": language_fallback,
         "recommended_machine_path": recommended_machine_path,
         "bootstrap_actions": bootstrap_actions,
         "connector_strategy": connector_strategy,
