@@ -15,7 +15,7 @@ import json
 from pathlib import Path
 from typing import List
 
-from usehbn.autoevolve.audit import AuditWriter, audit_path_for_cycle
+from usehbn.autoevolve.audit import AuditWriter, aggregate_audit, audit_path_for_cycle, render_html_fragment
 from usehbn.autoevolve.approval import HUMAN_GATE_FILE, human_gate_active
 
 
@@ -42,17 +42,23 @@ def _cmd_audit(args) -> int:
     path = audit_path_for_cycle(args.cycle)
     audit = AuditWriter(path)
     rows = audit.read_all()
-    out: List[str] = []
-    out.append(f"# Autoevolve cycle audit — {args.cycle}\n")
-    out.append(f"Entries: **{len(rows)}**\n")
-    if rows:
-        out.append("| arm | slug | status | tests | commit |")
-        out.append("|---|---|---|---|---|")
-        for r in rows:
-            tests = "✅" if r.get("tests_passed") else "❌"
-            commit = (r.get("commit") or "")[:10]
-            out.append(f"| {r.get('arm','')} | {r.get('slug','')} | {r.get('status','')} | {tests} | `{commit}` |")
-    report = "\n".join(out) + "\n"
+    summary = aggregate_audit(rows)
+
+    if args.html:
+        report = render_html_fragment(rows, cycle_id=args.cycle)
+    else:
+        out: List[str] = []
+        out.append(f"# Autoevolve cycle audit — {args.cycle}\n")
+        out.append(f"Entries: **{summary['total']}**  ·  by status: `{summary['by_status']}`  ·  failed: {len(summary['failed'])}\n")
+        if rows:
+            out.append("| arm | slug | status | tests | commit |")
+            out.append("|---|---|---|---|---|")
+            for r in rows:
+                tests = "✅" if r.get("tests_passed") else "❌"
+                commit = (r.get("commit") or "")[:10]
+                out.append(f"| {r.get('arm','')} | {r.get('slug','')} | {r.get('status','')} | {tests} | `{commit}` |")
+        report = "\n".join(out) + "\n"
+
     if args.output:
         Path(args.output).write_text(report, encoding="utf-8")
         print(f"wrote {args.output}")
@@ -96,6 +102,7 @@ def build_parser() -> argparse.ArgumentParser:
     a = sub.add_parser("audit", help="render markdown audit report")
     a.add_argument("--cycle", required=True)
     a.add_argument("--output", default=None)
+    a.add_argument("--html", action="store_true", help="render an HTML fragment instead of markdown")
     a.set_defaults(func=_cmd_audit)
 
     g = sub.add_parser("approve", help="manage human gate")

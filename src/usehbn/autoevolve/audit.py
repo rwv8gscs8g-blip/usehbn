@@ -52,3 +52,53 @@ class AuditWriter:
                 if line:
                     out.append(json.loads(line))
         return out
+
+
+def aggregate_audit(rows: List[dict]) -> dict:
+    """Pure aggregator over a list of audit records (from one or many cycles).
+
+    Returns counts by status, by arm, and the list of failed slugs — enough
+    to render either a markdown report or an HTML fragment without touching
+    disk again.
+    """
+    by_status: dict[str, int] = {}
+    by_arm: dict[str, int] = {}
+    failed: List[dict] = []
+    for r in rows:
+        if not isinstance(r, dict):
+            continue
+        status = r.get("status", "unknown")
+        arm = r.get("arm", "unknown")
+        by_status[status] = by_status.get(status, 0) + 1
+        by_arm[arm] = by_arm.get(arm, 0) + 1
+        if status in ("failed", "oversized") or not r.get("tests_passed"):
+            failed.append({"arm": arm, "slug": r.get("slug", ""), "status": status})
+    return {
+        "total": sum(by_status.values()),
+        "by_status": by_status,
+        "by_arm": by_arm,
+        "failed": failed,
+    }
+
+
+def render_html_fragment(rows: List[dict], *, cycle_id: str) -> str:
+    """Render an HTML fragment usable by site/autoevolve.html."""
+    if not rows:
+        return f'<p class="empty">No entries for cycle <code>{cycle_id}</code>.</p>\n'
+    parts: List[str] = []
+    parts.append('<table class="autoevolve-table">')
+    parts.append('<thead><tr><th>#</th><th>Braço</th><th>Slug</th><th>Status</th>'
+                 '<th>Testes</th><th>Commit</th></tr></thead>')
+    parts.append('<tbody>')
+    for i, r in enumerate(rows, start=1):
+        status = r.get("status", "unknown")
+        klass = f"status-{status}"
+        tests = "✅" if r.get("tests_passed") else "❌"
+        commit = (r.get("commit") or "")[:10]
+        parts.append(
+            f'<tr><td>{i}</td><td class="arm">{r.get("arm","")}</td>'
+            f'<td>{r.get("slug","")}</td><td class="{klass}">{status}</td>'
+            f'<td>{tests}</td><td><code>{commit}</code></td></tr>'
+        )
+    parts.append('</tbody></table>')
+    return "\n".join(parts) + "\n"
