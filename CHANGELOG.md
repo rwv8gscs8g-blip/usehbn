@@ -2,6 +2,67 @@
 
 All notable changes to HBN will be documented in this file.
 
+## Unreleased — Quarta 2026-05-13 (Autoevolve cycle, awaits human afternoon validation + v0.4.0 vote)
+
+Autonomous Autoevolve cycle inside the Quarta de Sanitização window
+(06:00–12:00 BRT, 2026-05-13). 16 microdeltas applied across 14 arms of
+the system, each as a separate commit with mandatory pytest. Total tests
+grew from 114 → **182 passing**.
+
+### Added
+
+- `src/usehbn/autoevolve/` — local-first microdelta orchestrator with
+  JSON-serializable `MicrodeltaTask`/`MicrodeltaResult` contracts (v1.0.0),
+  `FileQueue`, `LocalWorker`, `Orchestrator`, `AuditWriter`, and an
+  approval gate (`HUMAN_GATE` file override). Interfaces shaped so a
+  future distributed pool plugs in without API changes (5cd54d7).
+- `hbn autoevolve {status, audit, approve, rollback}` CLI surface, with
+  markdown and HTML report renderers (c260a67).
+- `src/usehbn/signals.py` — canonical HBN signal registry (16 user-facing
+  + 1 operational `AUTOEVOLVE_TICK`) — `54f6c7a`.
+- `methodology/adr/ADR-010-autoevolve-cycle.md` — PROPOSED. Doctrine of
+  the autoevolve cycle, dependencies on ADR-001/007, 14-arm map,
+  approval criteria (ecc3d54).
+- `schemas/autoevolve-cycle.schema.json` — Draft 2020-12, validates each
+  JSONL record (5fc15b5).
+- Pure helpers reusable downstream: `compute_baton_staleness`,
+  `summarize_registry`, `summarize_state_document`,
+  `resolve_language_fallback`, `get_protocol_invariant`,
+  `aggregate_audit`, `render_html_fragment`, `_classify_trigger_origin`.
+- `docs/feynman/USEHBN-EXPLICADO.md` + `.docx` — Feynman-style honest
+  explainer of what is functional/tested vs what is future promise
+  (83cb165).
+- `docs/HUMAN-INTERFACE-AUTOEVOLVE.md` — human guide for status, audit,
+  rollback, gate.
+- `docs/PROPOSAL-V0.4.0.md` — formal proposal to promote PROTOCOL_VERSION
+  0.3.0 → 0.4.0 conditional on afternoon human validation + Hearback.
+- `site/autoevolve.html` — public showcase page rendering the cycle
+  table from the real JSONL (b97ad0f).
+- `.hbn/autoevolve/cycle-2026-05-13.jsonl` — sealed audit trail of all
+  16 microdeltas with HBN signals.
+
+### Changed (additive — no breaking change)
+
+- `describe_vba_bridge` now reports `maturity: stub` + canonical
+  disclaimers list (e008f4d).
+- `decision_records` carry a human-readable `reason` field
+  (ecccf5d).
+- `translate_natural_entry` exposes a `language_fallback` block when
+  locale is unknown (68f6c83).
+- `detect_activation` classifies `trigger_origin` as
+  `shorthand_token` vs `natural_phrase` (fc026af).
+- `hbn --help` lists the `autoevolve` subcommand (c198cab).
+- `cli.run_relay_status` delegates baton-staleness to the new pure
+  helper `runtime.compute_baton_staleness` (8c32ec3).
+
+### Not done (deferred to operator gates)
+
+- No tag, no PyPI/TestPyPI upload, no push to `origin/main`.
+- ADR-010 stays PROPOSED until cross-IA review + Hearback.
+- Credenciamento untouched (V204 freeze respected).
+- v0.3.0 release block below remains the canonical release target until
+  operator promotes v0.4.0 per `docs/PROPOSAL-V0.4.0.md`.
+
 ## v0.3.0 — Honest Foundation (2026-05-10, prepared; awaits human-gated tag + publish)
 
 This is the v0.3.0 release block, prepared by iteration 12 of the
