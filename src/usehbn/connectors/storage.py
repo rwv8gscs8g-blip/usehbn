@@ -82,6 +82,28 @@ def _normalize_lifecycle_state(value: Any) -> str:
     return DEFAULT_LIFECYCLE_STATE
 
 
+def summarize_registry(document: Dict[str, Any]) -> Dict[str, Any]:
+    """Aggregate registry records by lifecycle_state — pure, no I/O.
+
+    Returns a dict with the total record count plus a per-state count for
+    every canonical lifecycle state (zero-filled). Useful for doctor and
+    autoevolve audit reports.
+    """
+    records = document.get("records") if isinstance(document, dict) else None
+    if not isinstance(records, list):
+        records = []
+    counts = {state: 0 for state in LIFECYCLE_STATES}
+    for record in records:
+        if not isinstance(record, dict):
+            continue
+        state = _normalize_lifecycle_state(record.get("lifecycle_state"))
+        counts[state] = counts.get(state, 0) + 1
+    return {
+        "total": sum(counts.values()),
+        "by_lifecycle_state": counts,
+    }
+
+
 def load_registry(target: Path) -> Dict[str, Any]:
     ensure_connectors_tree(target)
     path = registry_path(target)
