@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HBN Autoevolve — vitrine pública dos ciclos</title>
+    <link rel="canonical" href="https://usehbn.org/autoevolve.html" />
+    <meta
+      name="description"
+      content="Página pública de auditoria dos ciclos Autoevolve do HBN. Cada microdelta é exibido aqui com braço, slug, status, commit e teste."
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .autoevolve-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+        margin: 24px 0;
+      }
+      .autoevolve-table th,
+      .autoevolve-table td {
+        text-align: left;
+        padding: 8px 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .autoevolve-table th {
+        font-weight: 600;
+        opacity: 0.8;
+      }
+      .status-ok { color: #6dd28b; }
+      .status-failed { color: #e57373; }
+      .status-skipped, .status-oversized { color: #d4b85a; }
+      .arm { font-family: 'JetBrains Mono', monospace; }
+      .empty {
+        opacity: 0.7;
+        font-style: italic;
+        padding: 24px 0;
+      }
+      .meta {
+        font-size: 13px;
+        opacity: 0.8;
+        margin-top: 8px;
+      }
+      .cycle-pill {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-glow"></div>
+    <header class="hero">
+      <div class="shell">
+        <p class="eyebrow"><a href="index.html">← HBN home</a></p>
+        <h1>Autoevolve — vitrine pública dos ciclos</h1>
+        <p class="lede">
+          Cada Quarta de Sanitização, o HBN executa um ciclo de microdeltas auditáveis
+          (ADR-010). Esta página renderiza os ciclos a partir de
+          <code>.hbn/autoevolve/cycle-*.jsonl</code>.
+        </p>
+        <p class="meta">
+          Esta página é estática. Para gerar a tabela com os dados reais de um ciclo,
+          rode <code>hbn autoevolve audit --cycle &lt;id&gt; --output site/autoevolve-fragment.html</code>
+          e cole o conteúdo do fragmento no bloco abaixo.
+        </p>
+      </div>
+    </header>
+
+    <main class="shell">
+      <section>
+        <h2>Ciclo de exemplo — 2026-05-13</h2>
+        <p class="cycle-pill">cycle 2026-05-13</p>
+
+        <table class="autoevolve-table" id="cycle-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Braço</th>
+              <th>Microdelta (slug)</th>
+              <th>Status</th>
+              <th>Testes</th>
+              <th>Commit</th>
+            </tr>
+          </thead>
+          <tbody id="cycle-rows">
+            <tr><td colspan="6" class="empty">
+              Carregue um fragmento gerado por <code>hbn autoevolve audit --output ...</code>
+              ou utilize JavaScript no cliente para hidratar a partir de um JSON exportado.
+            </td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>Como funciona em três frases</h2>
+        <ol>
+          <li>Cada microdelta é uma alteração pequena (≤80 linhas de diff) com teste obrigatório.</li>
+          <li>O ciclo aplica microdeltas em todos os 14 braços do sistema na janela 06–12h BRT.</li>
+          <li>O resultado é selado em JSONL com 6 sinais HBN canônicos, incluindo AUTOEVOLVE_TICK.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Para humanos curiosos</h2>
+        <p>
+          Leia o documento Feynman desse repositório
+          (<a href="../docs/feynman/USEHBN-EXPLICADO.md"><code>docs/feynman/USEHBN-EXPLICADO.md</code></a>)
+          para uma explicação simples e honesta sobre o que o HBN faz hoje
+          e o que ainda é promessa de futuro. A versão Word do mesmo documento está em
+          <code>docs/feynman/USEHBN-EXPLICADO.docx</code>.
+        </p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="shell">
+        <p>HBN — Apache 2.0 + DCO. Vitrine de software livre.</p>
+      </div>
+    </footer>
+  </body>
+</html>
