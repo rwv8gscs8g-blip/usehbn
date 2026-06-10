@@ -148,3 +148,29 @@ conforme inbox/README.md. Saídas esperadas dos auditores externos:
 0024-cross-ia-codex-seguranca.json (frios ao nascer; entram no REGISTRY
 quando depositados). Nenhum valor de segredo transcrito em artefato algum
 desta corrente (regra dura). Tier: T2, rito readback→hearback em lote.
+
+## Corrente E (2026-06-10) — anti-teatro — TUDO status: proposed, hearback pendente
+
+| id | artefato (path) | tipo | temperatura | superseded_by |
+|---|---|---|---|---|
+| 20260610-64 | methodology/adr/ADR-020-anti-validacao-de-teatro.md | adr | quente | — |
+| 20260610-65 | guards/tests/run-guard-tests.sh | guard-test | quente | — |
+| 20260610-66 | .hbn/hearbacks/0002-excecao-fable-opus.json | hearback | quente | — |
+| 20260610-67 | .hbn/messages/20260610-03-handoff-corrente-e-50pct-fable5.md | handoff | quente | — |
+
+Nota corrente E: guards 35/43/47 ALTERADOS in loco (endurecidos por ADR-020
+contra os bugs F-01/F-02/F-03 das auditorias 0021/0022); fixtures sintéticas
+em guards/tests/fixtures/ (sem id próprio — cobertas pela linha 65). O
+hearback 66 nasce QUENTE como exceção à regra "frio ao nascer": é DRAFT
+status=pendente aguardando assinatura (vira frio ao ser confirmado/recusado).
+Alterações menores: perfis fable-5/codex ganham papéis exercidos de fato
+(proposed — o G-FAM endurecido expôs os perfis desatualizados);
+core/dual-run-spec.md ganha nota "schema-válido ≠ gate-aprovado" (0021/F-06);
+core/cadence-d.md troca "<50%" hard-coded por handoff_threshold do perfil
+(0021/F-08); STATE corrigido no F-04 (opus-4-8 fora do campo mecânico
+auditores até hearback 0002 confirmado). Suíte guards/tests 15/15 verde em
+sandbox (informativa — rodada conclusiva no Terminal). NENHUM guard ativado
+no runner (ADR-020 Decisão 2: ativação exige suíte verde + hearback).
+Blocos 3-4 da corrente E (auto-localização `path:` em template ADR-011 +
+guard leve; saída de auditoria legível por humano) ficam para a próxima
+janela — handoff 67.

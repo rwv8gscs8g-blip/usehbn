@@ -6,16 +6,16 @@
   "context_window_tokens": 1000000,
   "handoff_threshold": 0.5,
   "hearback_ref": null,
-  "papeis_aptos": ["auditor-arquiteto"],
+  "papeis_aptos": ["auditor-arquiteto", "implementador"],
   "modos": ["chat-desktop", "agentic-tools"],
   "verificado": {
     "context_window_tokens": "env da sessão de 2026-06-10: 'claude-fable-5[1m]' (correntes C1–C7 do canônico)",
-    "papeis_aptos": "correntes C1–C7 exercidas como arquiteto do protocolo (REGISTRY 20260610-01..27)",
+    "papeis_aptos": "correntes C1–C7 exercidas como arquiteto do protocolo (REGISTRY 20260610-01..27); 'implementador' exercido de fato nas correntes D (REGISTRY 35–50) e E — adição PROPOSED pela corrente E (hearback lote E pendente; o G-FAM endurecido expôs que a atribuição do STATE dependia de hearback_ref de teatro para passar)",
     "modos": "esta sessão roda em desktop com ferramentas agênticas (Read/Write/bash)"
   },
   "nao_verificado": [
     "modos: cli (não exercido neste protocolo)",
-    "papeis: implementador/consolidador (nunca exercidos sob este protocolo)",
+    "papeis: consolidador (nunca exercido sob este protocolo)",
     "limites de output por turno"
   ],
   "observacoes": "Janela 1M: o default 0.5 (500K tokens) é deliberadamente conservador. Relaxamento para 0.7 será proposto SOMENTE após a 0017 paramétrica ser adotada e com hearback explícito (o schema exige hearback_ref para >0.5). Gatilhos secundários da 0017 (turnos >30, sinais subjetivos de degradação) permanecem ativos independentemente do threshold.",

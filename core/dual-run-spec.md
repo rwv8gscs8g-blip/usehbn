@@ -58,6 +58,14 @@ Caso sem registro conta como FALHA (corpus é contrato, não amostra).
 Veredicto final + lista de falhas = saída obrigatória de qualquer
 implementação do gate.
 
+**Nota (auditoria 0021/F-06, corrente E): schema-válido ≠ gate-aprovado.**
+O schema (`schemas/dual-run-result.schema.json`) valida a FORMA do registro;
+o veredicto do gate é a função acima — em particular, `diferente` passa no
+schema sem `hearback_ref`, mas FALHA no gate. Antes do primeiro uso
+operacional de substituição, deve existir script/fixture versionado do gate
+(backlog corrente E); até lá, nenhum "validou no schema" conta como
+aprovação (ADR-020, anti-teatro).
+
 ## §5 Cobertura mínima e regra de produção
 
 Corpus mínimo: 1 caso por relatório/tela/fluxo de saída do motor + 1 caso por

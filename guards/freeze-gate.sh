@@ -7,8 +7,12 @@
 # status: proposed (corrente D, 2026-06-10) — NÃO está no runner de pre-commit
 #   (não é guard de commit: é gate de release, invocado sob demanda):
 #     bash guards/freeze-gate.sh <caminho/do/checklist.json>
-# Regras (ADR-017): obrigatorio=true precisa ok; ok exige evidencia;
+# Regras (ADR-017 + spec §2): obrigatorio=true precisa ok; ok exige evidencia;
 #   na exige justificativa; bloqueadores_abertos > 0 = veto.
+# ADR-020 (anti-teatro, corrente E; bug F-01 das auditorias 0021/0022):
+#   critério OBRIGATÓRIO pode ser na SOMENTE se a justificativa cita hearback
+#   VERIFICÁVEL — path .json que existe no repo e tem status=confirmed
+#   (alinha guard×spec×schema no contrato da spec §2.4).
 # Usa python3 só para parsear JSON (mesmo precedente do assert-scope-lock).
 # Knowledge 0021: em sandbox informativo; conclusivo no Terminal do operador.
 # =============================================================================
@@ -25,11 +29,13 @@ if [[ -z "$CHECKLIST" || ! -f "$CHECKLIST" ]]; then
     exit 2
 fi
 
-set +e
-python3 - "$CHECKLIST" <<'PYEOF'
-import json, sys
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 
-path = sys.argv[1]
+set +e
+python3 - "$CHECKLIST" "$REPO_ROOT" <<'PYEOF'
+import json, os, re, sys
+
+path, repo_root = sys.argv[1], sys.argv[2]
 try:
     c = json.load(open(path))
 except Exception as e:
@@ -48,13 +54,38 @@ criterios = c.get("criterios") or []
 if not criterios:
     faltas.append("checklist sem critérios")
 
+def hearback_verificavel(texto):
+    """Procura na justificativa um path .json que EXISTE e tem status=confirmed.
+    Anti-teatro (ADR-020): citar hearback é dereferenciável, não decorativo."""
+    for cand in re.findall(r"[A-Za-z0-9_./-]+\.json", texto or ""):
+        p = cand if os.path.isabs(cand) else os.path.join(repo_root, cand)
+        if os.path.isfile(p):
+            try:
+                h = json.load(open(p))
+            except Exception:
+                continue
+            if h.get("status") == "confirmed":
+                return cand
+    return None
+
 for cr in criterios:
     cid = cr.get("id", "<sem-id>")
     st = cr.get("status")
     if st == "ok" and not cr.get("evidencia"):
         faltas.append(f"critério '{cid}': ok SEM evidência (Truth Barrier)")
-    elif st == "na" and not cr.get("justificativa"):
-        faltas.append(f"critério '{cid}': na SEM justificativa")
+    elif st == "na":
+        just = cr.get("justificativa")
+        if not just:
+            faltas.append(f"critério '{cid}': na SEM justificativa")
+        elif cr.get("obrigatorio"):
+            hb = hearback_verificavel(just)
+            if hb:
+                print(f"  • critério obrigatório '{cid}' = na coberto por hearback confirmado: {hb}")
+            else:
+                faltas.append(
+                    f"critério obrigatório '{cid}' = na sem hearback VERIFICÁVEL na "
+                    f"justificativa (path .json existente com status=confirmed — spec §2.4, ADR-020)"
+                )
     elif cr.get("obrigatorio") and st != "ok":
         desc = cr.get("descricao", "")
         faltas.append(f"critério obrigatório '{cid}' está '{st}': {desc}")

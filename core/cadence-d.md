@@ -17,7 +17,8 @@ Meta-protocolo transversal a todos os projetos. Casa canônica: este arquivo.
 
 ## Papéis por ciclo de estabilização (P1, modificada)
 
-1 IMPLEMENTADOR por onda (continuidade preferencial enquanto contexto <50%;
+1 IMPLEMENTADOR por onda (continuidade preferencial enquanto o contexto não
+excede o `handoff_threshold` do perfil do modelo — ADR-015, default 0.5;
 handoff obrigatório ao exceder — em chat novo + handoff escrito). 2 AUDITORES
 CRUZADOS em contexto novo a cada gate relevante. Humano (Maurício): hearback
 final + executor operacional. Invioláveis: implementador NÃO audita o próprio

@@ -1,0 +1,18 @@
+{
+  "hearback_id": "0002-excecao-fable-opus",
+  "path": ".hbn/hearbacks/0002-excecao-fable-opus.json",
+  "readback_id": null,
+  "status": "pendente",
+  "signed_by": null,
+  "signed_at": null,
+  "excecoes_cobertas": [
+    {
+      "tipo": "familia",
+      "entre": ["fable-5", "opus-4-8"],
+      "escopo": "opus-4-8 atua como auditor/validador fixo de trabalho implementado por fable-5 (ADR-018 Decisão 3), apesar de ambos serem família Anthropic",
+      "fundamento": "checkpoints distintos; decisão consciente de Maurício na corrente D; vigiada por auditores externos (Codex/OpenAI, Antigravity/Google) conforme parecer 0022 §Tensões",
+      "vigencia": "fase corrente (D/E); revogável por novo hearback"
+    }
+  ],
+  "notes": "DRAFT preparado pela corrente E para fechar o gap F-04 (auditoria 0021): o STATE afirmava que a exceção fable×opus estava coberta pelo hearback 0001, mas o 0001 cobre C1-C7 e não menciona ADR-018 nem a exceção. Este hearback cerca a exceção de forma estruturada e DEREFERENCIÁVEL pelo guard endurecido (ADR-020: excecoes_cobertas com entrada exata). Enquanto status='pendente', a exceção NÃO está coberta: por isso o STATE da corrente E removeu opus-4-8 do campo mecânico atribuicao.auditores, mantendo-o em prosa como validador fixo. Para confirmar: Maurício preenche signed_by/signed_at, muda status para 'confirmed' — só então opus-4-8 pode voltar ao campo mecânico com hearback_ref apontando para este arquivo (o G-FAM endurecido valida: bash guards/tests/run-guard-tests.sh)."
+}

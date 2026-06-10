@@ -14,6 +14,13 @@
 # Knowledge 0021: em sandbox o guard é informativo; conclusivo no Terminal.
 # Escopo: só arquivos ADICIONADOS (diff-filter=A). Tocar arquivo legado
 #   existente não dispara — o legado é mapeado pela seção "Legado" do REGISTRY.
+# ADR-020 (anti-teatro, corrente E):
+#   (a) casamento de path no REGISTRY é EXATO por coluna de tabela (| path |),
+#       nunca substring (bug F-02 da auditoria 0022 — 'ADR-01' casava 'ADR-011');
+#       consequência: artefato novo exige a SUA linha, 1 artefato por linha;
+#   (b) cobertura ampliada: core/*.md, .hbn/models/*.json, .github/workflows/*
+#       (bug F-01 da auditoria 0021 — spec-core novo passava sem REGISTRY);
+#   (c) órfãos também em docs/prompts/ (F-04 marginal da 0022).
 # =============================================================================
 set -euo pipefail
 
@@ -63,6 +70,9 @@ is_numbered_artifact() {
         docs/prompts/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9]-*) return 0 ;;
         schemas/*.schema.json) return 0 ;;
         guards/*.sh) return 0 ;;
+        core/*.md) return 0 ;;
+        .hbn/models/*.json) return 0 ;;
+        .github/workflows/*) return 0 ;;
     esac
     # Qualquer arquivo já nomeado com id global em qualquer pasta:
     if [[ "$(basename "$f")" =~ ^[0-9]{8}-[0-9]{2}- ]]; then
@@ -71,16 +81,24 @@ is_numbered_artifact() {
     return 1
 }
 
+# Casamento EXATO: o path precisa ser uma coluna inteira da tabela do
+# REGISTRY (| <path> |) — substring NÃO conta (ADR-020; bug F-02).
+registry_has_exact() {
+    local f="$1" esc
+    esc="$(printf '%s' "$f" | sed 's/[][\.^$*+?(){}|]/\\&/g')"
+    grep -qE "\|[[:space:]]*${esc}[[:space:]]*\|" "${REPO_ROOT}/${REGISTRY}"
+}
+
 FAIL=0
 while IFS= read -r f; do
     [[ -z "$f" ]] && continue
     if is_numbered_artifact "$f"; then
-        # REGISTRY precisa estar no mesmo diff E conter o path.
+        # REGISTRY precisa estar no mesmo diff E conter o path como coluna exata.
         if ! grep -qxF "$REGISTRY" <<< "$ALL_CHANGED"; then
-            guard_fail "Artefato numerado novo '${f}' sem ${REGISTRY} no mesmo commit (ADR-011 Decisão 4: linha de nascimento no mesmo commit do depósito)."
+            guard_fail "Artefato governado novo '${f}' sem ${REGISTRY} no mesmo commit (ADR-011 Decisão 4: linha de nascimento no mesmo commit do depósito)."
             FAIL=1
-        elif ! grep -qF "$f" "${REPO_ROOT}/${REGISTRY}"; then
-            guard_fail "Artefato numerado novo '${f}' não aparece em nenhuma linha do ${REGISTRY} (ADR-011 Decisão 4)."
+        elif ! registry_has_exact "$f"; then
+            guard_fail "Artefato governado novo '${f}' não aparece como coluna exata (| path |) em nenhuma linha do ${REGISTRY} (ADR-011 Decisão 4 + ADR-020: substring não conta)."
             FAIL=1
         fi
     fi
@@ -92,6 +110,14 @@ ROOT_ALLOWLIST="README.md CHANGELOG.md REGISTRY.md AGENTS.md CLAUDE.md CONTRIBUT
 
 while IFS= read -r f; do
     [[ -z "$f" ]] && continue
+    # docs/prompts/ também não aceita prompt sem id (ADR-011 Decisão 2; ADR-020)
+    if [[ "$f" == docs/prompts/*.md ]]; then
+        if [[ ! "$(basename "$f")" =~ ^[0-9]{8}-[0-9]{2}- ]]; then
+            guard_fail "Prompt órfão em docs/prompts/: '${f}' sem id AAAAMMDD-NN (ADR-011 Decisão 2)."
+            FAIL=1
+        fi
+        continue
+    fi
     # só raiz (sem "/" no path) e só .md
     [[ "$f" == */* ]] && continue
     [[ "$f" != *.md ]] && continue
