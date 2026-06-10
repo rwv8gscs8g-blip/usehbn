@@ -3,6 +3,9 @@ adr-id: ADR-NNN
 titulo: <Título curto e único>
 status: PROPOSED
 data-deposito: YYYY-MM-DD
+id-global: AAAAMMDD-NN          # ADR-011 Decisão 1 (linha de nascimento no REGISTRY)
+path: methodology/adr/ADR-NNN-<kebab-slug>.md   # ADR-021: caminho REAL — o guard compara
+temperatura: quente             # ADR-011 Decisão 3 (quente | frio | ultrapassado)
 autor: <quem depositou>
 cross-ia-required: <ex.: Opus + Codex; Opus + Antigravity; 3 IAs se constitucional>
 hearback-status: aguardando humano

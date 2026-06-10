@@ -195,3 +195,28 @@ ativação futura exige testes negativos de todos os guards, inclusive os 5
 legados. Backlog explícito, sem correção nesta onda: decidir se
 `.hbn/readbacks/` deve deixar de ser ignorado e resolver a colisão de série
 local entre readback 0002 de adoção e hearback 0002 da exceção fable×opus.
+
+| 20260610-79 | methodology/adr/ADR-021-documentos-auto-localizaveis.md | adr | quente | — |
+| 20260610-80 | guards/assert-self-path.sh | guard | quente | — |
+| 20260610-81 | methodology/adr/ADR-022-saida-de-auditoria-legivel.md | adr | quente | — |
+| 20260610-82 | methodology/adr/ADR-023-integridade-de-hearback.md | adr | quente | — |
+| 20260610-83 | guards/assert-hearback-integrity.sh | guard | quente | — |
+| 20260610-84 | .hbn/messages/20260610-04-handoff-corrente-e-fechada-fable5.md | handoff | quente | — |
+
+Nota fechamento corrente E (Blocos 3-6 — status: proposed, não adotado):
+ADR-021 (auto-localização `path:`), ADR-022 (saída de auditoria legível por
+humano) e ADR-023 (integridade de hearback / anti-auto-assinatura, F-05 da
+0026) depositados PROPOSED; guards novos G-SLF (80) e G-HRB (83) nascem FORA
+do runner (ADR-020 Decisão 2). Alterações in loco, sem id próprio:
+methodology/templates/{ADR,MD}-TEMPLATE.md ganham id-global/path/temperatura
+(ADR-021 Decisão 3); guards/assert-registry-line.sh endurecido
+(diff-filter=AR p/ renames — 0026/F-01; órfãos também em docs/** e
+methodology/** — 0026/F-04; nota provando cobertura de guards aninhados —
+0026/F-02); core/freeze-gate-spec.md regra §2.2 explicitada (0025/E-RE-02);
+guards/tests/run-guard-tests.sh ampliado de 15 para 29 casos (inclui os
+negativos que faltavam de .hbn/models/ e .github/workflows/ — 0025/E-RE-01);
+methodology/adr/INDEX.md atualizado (linhas ADR-016–023: depósitos novos +
+reparo do drift 016–020 ausentes). Suíte 29/29 verde em sandbox
+(informativa — rodada conclusiva no Terminal). Backlog explícito: assinatura
+GPG/SSH de hearbacks (ADR-023 Decisão 4) e testes negativos dos 5 guards
+legados ficam para a onda de ativação do runner.

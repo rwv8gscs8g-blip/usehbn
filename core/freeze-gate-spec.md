@@ -25,10 +25,14 @@ status = T1, 1 commit + linha de audit).
 
 1. `bloqueadores_abertos > 0` → não congelável, sem exceção (veto da
    cadência D; nenhuma IA fecha BLOQUEADOR de outra).
-2. Todo critério `obrigatorio: true` precisa `status: ok`.
+2. Todo critério `obrigatorio: true` precisa `status: ok` — com UMA única
+   exceção: `status: na` acompanhado de hearback VERIFICÁVEL citado na
+   justificativa (regra 4 abaixo; ADR-020 Decisão 3). Não há terceira via.
+   (Redação explicitada no fechamento da corrente E — E-RE-02 da 0025.)
 3. `ok` sem `evidencia` NÃO conta — vale como falta (Truth Barrier).
 4. `na` exige `justificativa`; critério obrigatório só pode ser `na` com
-   hearback citado na justificativa.
+   hearback citado na justificativa (hearback verificável: arquivo existe,
+   status confirmed — é o que `guards/freeze-gate.sh` dereferencia).
 5. Saída sempre lista as faltas — o gate é também o relatório do que resta.
 
 ## §3 Critérios canônicos (perfil app de domínio — V206 é a instância)

@@ -13,8 +13,10 @@
 #   negativos de TODOS os guards (inclusive os 5 legados).
 # Padrão C3: usa guard_diff_files (staged local; HBN_DIFF_BASE...HEAD em CI).
 # Knowledge 0021: em sandbox o guard é informativo; conclusivo no Terminal.
-# Escopo: só arquivos ADICIONADOS (diff-filter=A). Tocar arquivo legado
-#   existente não dispara — o legado é mapeado pela seção "Legado" do REGISTRY.
+# Escopo: arquivos ADICIONADOS ou RENOMEADOS (diff-filter=AR — rename gera
+#   path novo que re-paga a linha; F-01 marginal da re-auditoria 0026).
+#   Tocar arquivo legado existente (M) não dispara — o legado é mapeado pela
+#   seção "Legado" do REGISTRY.
 # ADR-020 (anti-teatro, corrente E):
 #   (a) casamento de path no REGISTRY é EXATO por coluna de tabela (| path |),
 #       nunca substring (bug F-02 da auditoria 0022 — 'ADR-01' casava 'ADR-011');
@@ -22,6 +24,14 @@
 #   (b) cobertura ampliada: core/*.md, .hbn/models/*.json, .github/workflows/*
 #       (bug F-01 da auditoria 0021 — spec-core novo passava sem REGISTRY);
 #   (c) órfãos também em docs/prompts/ (F-04 marginal da 0022).
+# Fechamento corrente E (re-auditorias 0025/0026):
+#   (d) NOTA guards aninhados (F-02 da 0026): em `case` bash o `*` cruza `/`,
+#       logo o padrão guards/*.sh JÁ casa guards/tests/x.sh e subpastas —
+#       comportamento PROVADO por teste negativo na suíte (não era bug, mas
+#       agora há prova em vez de fé);
+#   (e) doc órfão também em docs/** e methodology/** (F-04 da 0026): .md novo
+#       nessas pastas exige id AAAAMMDD-NN OU linha exata no REGISTRY (nome
+#       estável registrado ao nascer — ADR-011 Decisão 2).
 # =============================================================================
 set -euo pipefail
 
@@ -37,12 +47,13 @@ fi
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 REGISTRY="REGISTRY.md"
 
-# Só arquivos ADICIONADOS neste diff (não M/R: histórico tocado não re-paga).
+# Arquivos ADICIONADOS ou RENOMEADOS neste diff (AR: rename gera path novo
+# que precisa de linha própria — 0026/F-01; M não re-paga: histórico tocado).
 guard_added_files() {
     if [[ -n "${HBN_DIFF_BASE:-}" ]]; then
-        git diff --name-only --diff-filter=A "${HBN_DIFF_BASE}...HEAD" 2>/dev/null || true
+        git diff --name-only --diff-filter=AR "${HBN_DIFF_BASE}...HEAD" 2>/dev/null || true
     else
-        git diff --cached --name-only --diff-filter=A 2>/dev/null || true
+        git diff --cached --name-only --diff-filter=AR 2>/dev/null || true
     fi
 }
 
@@ -70,6 +81,8 @@ is_numbered_artifact() {
         inbox/*/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9]-*) return 0 ;;
         docs/prompts/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9]-*) return 0 ;;
         schemas/*.schema.json) return 0 ;;
+        # NOTA (0026/F-02): em `case` bash o `*` cruza `/` — guards/*.sh casa
+        # também guards/tests/x.sh e qualquer subpasta. Provado na suíte.
         guards/*.sh) return 0 ;;
         core/*.md) return 0 ;;
         .hbn/models/*.json) return 0 ;;
@@ -117,6 +130,24 @@ while IFS= read -r f; do
             guard_fail "Prompt órfão em docs/prompts/: '${f}' sem id AAAAMMDD-NN (ADR-011 Decisão 2)."
             FAIL=1
         fi
+        continue
+    fi
+    # docs/** e methodology/** não aceitam doc órfão novo (0026/F-04):
+    # ou o basename tem id AAAAMMDD-NN, ou é nome estável REGISTRADO ao
+    # nascer (linha exata no REGISTRY — ADR-011 Decisão 2: specs/endereços
+    # "entram no REGISTRY"). Artefatos numerados já pagam na regra 1.
+    if [[ "$f" == docs/*.md || "$f" == methodology/*.md ]]; then
+        if is_numbered_artifact "$f"; then
+            continue
+        fi
+        case "$(basename "$f")" in
+            README.md|INDEX.md) continue ;;
+        esac
+        if registry_has_exact "$f"; then
+            continue
+        fi
+        guard_fail "Doc órfão em pasta de documentação: '${f}' sem id AAAAMMDD-NN e sem linha exata no ${REGISTRY} (ADR-011 Decisão 2; 0026/F-04)."
+        FAIL=1
         continue
     fi
     # só raiz (sem "/" no path) e só .md

@@ -7,9 +7,11 @@
 # Os casos-ruins incluem os 3 bugs provados pela auditoria cruzada 0021/0022:
 #   F-03 hearback_ref inexistente · F-02 substring de path · F-01 na-sem-hearback.
 # Hermética: perfis de modelo sintéticos em fixtures/models (HBN_MODELS_DIR);
-# G-REG roda em repo git descartável (mktemp). Não toca o repo real.
+# G-REG/G-SLF/G-HRB rodam em repo git descartável (mktemp). Não toca o repo real.
 # Uso: bash guards/tests/run-guard-tests.sh   (exit 0 = suíte verde)
-# status: accepted (corrente E 50%, hearback humano no readback 0002)
+# status: accepted (corrente E 50%, hearback humano no readback 0002);
+#   seções do FECHAMENTO da corrente E (G-REG novos casos, G-SLF, G-HRB):
+#   proposed — cobrem E-RE-01 (0025), F-01/F-02/F-04 (0026), ADR-021, ADR-023.
 # =============================================================================
 set -uo pipefail
 
@@ -68,7 +70,8 @@ make_repo() {
         git init -q
         git config user.email "tests@hbn.local"
         git config user.name "hbn-guard-tests"
-        mkdir -p methodology/adr core docs/prompts reports
+        mkdir -p methodology/adr core docs/prompts reports \
+            .hbn/models .hbn/hearbacks .github/workflows guards/sub
         cat > REGISTRY.md <<'EOF'
 | id | artefato (path) | tipo | temperatura | superseded_by |
 |---|---|---|---|---|
@@ -112,6 +115,129 @@ d="$(make_repo)"
     git add -A
 ) >/dev/null 2>&1
 check "reg: depósito correto com linha exata"           pass  "$(run_reg "$d")"
+rm -rf "$d"
+
+# --- G-REG: casos do fechamento da corrente E (E-RE-01 + 0026 F-01/F-02/F-04) -
+# caso-ruim E-RE-01: .hbn/models/*.json novo sem linha exata no REGISTRY
+d="$(make_repo)"
+( cd "$d" && echo '{}' > .hbn/models/novo-modelo.json && echo "" >> REGISTRY.md && git add -A ) >/dev/null 2>&1
+check "reg: .hbn/models/*.json sem REGISTRY (E-RE-01)"  block "$(run_reg "$d")"
+rm -rf "$d"
+
+# caso-ruim E-RE-01: .github/workflows/* novo sem linha exata no REGISTRY
+d="$(make_repo)"
+( cd "$d" && echo 'on: push' > .github/workflows/ci.yml && echo "" >> REGISTRY.md && git add -A ) >/dev/null 2>&1
+check "reg: .github/workflows/* sem REGISTRY (E-RE-01)" block "$(run_reg "$d")"
+rm -rf "$d"
+
+# caso-ruim 0026/F-01: RENAME de artefato numerado sem nova linha (diff-filter=AR)
+d="$(make_repo)"
+( cd "$d" && git mv methodology/adr/ADR-011-exemplo.md methodology/adr/ADR-012-renomeado.md ) >/dev/null 2>&1
+check "reg: rename sem nova linha no REGISTRY (0026/F-01)" block "$(run_reg "$d")"
+rm -rf "$d"
+
+# caso-ruim 0026/F-02: guard ANINHADO sem REGISTRY (prova que guards/*.sh cruza /)
+d="$(make_repo)"
+( cd "$d" && echo '#!/bin/bash' > guards/sub/novo-util.sh && echo "" >> REGISTRY.md && git add -A ) >/dev/null 2>&1
+check "reg: guard aninhado guards/sub/*.sh sem REGISTRY (0026/F-02)" block "$(run_reg "$d")"
+rm -rf "$d"
+
+# caso-ruim 0026/F-04: doc órfão em docs/ (fora de docs/prompts/), sem id nem REGISTRY
+d="$(make_repo)"
+( cd "$d" && echo "solto" > docs/nota-solta.md && git add -A ) >/dev/null 2>&1
+check "reg: doc órfão em docs/ sem id nem REGISTRY (0026/F-04)" block "$(run_reg "$d")"
+rm -rf "$d"
+
+# caso-bom: nome estável em methodology/ REGISTRADO ao nascer (linha exata)
+d="$(make_repo)"
+(
+    cd "$d"
+    echo "pratica" > methodology/pratica-nova.md
+    echo "| 20260101-03 | methodology/pratica-nova.md | spec | quente | — |" >> REGISTRY.md
+    git add -A
+) >/dev/null 2>&1
+check "reg: doc estável em methodology/ com linha exata" pass "$(run_reg "$d")"
+rm -rf "$d"
+
+# --- G-SLF: assert-self-path (ADR-021 — repo git descartável por caso) -------
+echo "== assert-self-path (G-SLF) =="
+run_slf() {
+    ( cd "$1" && bash "$GUARDS_DIR/assert-self-path.sh" >/dev/null 2>&1 )
+    echo $?
+}
+
+# caso-bom: artefato declara path: idêntico ao caminho real
+d="$(make_repo)"
+( cd "$d" && printf -- '---\npath: methodology/adr/ADR-099-teste.md\n---\ncorpo\n' > methodology/adr/ADR-099-teste.md && git add -A ) >/dev/null 2>&1
+check "slf: path: declarado == caminho real"            pass  "$(run_slf "$d")"
+rm -rf "$d"
+
+# caso-ruim canônico ADR-021: path: declarado ≠ caminho real
+d="$(make_repo)"
+( cd "$d" && printf -- '---\npath: docs/outro-lugar.md\n---\ncorpo\n' > methodology/adr/ADR-099-teste.md && git add -A ) >/dev/null 2>&1
+check "slf: path: declarado ≠ real (auto-localização mentirosa)" block "$(run_slf "$d")"
+rm -rf "$d"
+
+# caso-ruim: artefato governado novo SEM path: no front-matter
+d="$(make_repo)"
+( cd "$d" && printf -- '---\ntitulo: sem path\n---\ncorpo\n' > methodology/adr/ADR-099-teste.md && git add -A ) >/dev/null 2>&1
+check "slf: artefato governado sem path: declarado"     block "$(run_slf "$d")"
+rm -rf "$d"
+
+# caso-ruim: hearback .json novo sem chave "path"
+d="$(make_repo)"
+( cd "$d" && echo '{"status":"pendente"}' > .hbn/hearbacks/0009-sem-path.json && git add -A ) >/dev/null 2>&1
+check "slf: hearback .json sem campo path"              block "$(run_slf "$d")"
+rm -rf "$d"
+
+# --- G-HRB: assert-hearback-integrity (ADR-023 — anti-auto-assinatura F-05) --
+echo "== assert-hearback-integrity (G-HRB) =="
+make_hrb_repo() {
+    local d; d="$(mktemp -d)"
+    (
+        cd "$d"
+        git init -q
+        git config user.email "tests@hbn.local"
+        git config user.name "hbn-guard-tests"
+        mkdir -p .hbn/hearbacks docs
+        echo base > docs/base.md
+        git add -A
+        git commit -qm "init"
+    ) >/dev/null 2>&1
+    echo "$d"
+}
+run_hrb() { # <repo> <hearback> [change=HEAD]
+    ( cd "$1" && bash "$GUARDS_DIR/assert-hearback-integrity.sh" "$2" "${3:-HEAD}" >/dev/null 2>&1 )
+    echo $?
+}
+
+# caso-bom: hearback em commit PURO anterior; mudança em commit posterior
+d="$(make_hrb_repo)"
+( cd "$d" && echo '{"status":"confirmed","path":".hbn/hearbacks/0009-ok.json"}' > .hbn/hearbacks/0009-ok.json \
+    && git add -A && git commit -qm "hearback puro do humano" \
+    && echo mudou >> docs/base.md && git add -A && git commit -qm "mudanca autorizada" ) >/dev/null 2>&1
+check "hrb: commit puro anterior à mudança"             pass  "$(run_hrb "$d" ".hbn/hearbacks/0009-ok.json")"
+rm -rf "$d"
+
+# caso-ruim canônico F-05: hearback nasce no MESMO commit da mudança
+d="$(make_hrb_repo)"
+( cd "$d" && echo '{"status":"confirmed","signed_by":"Mauricio"}' > .hbn/hearbacks/0009-fake.json \
+    && echo mudou >> docs/base.md && git add -A && git commit -qm "obra + autorizacao juntas" ) >/dev/null 2>&1
+check "hrb: hearback no MESMO commit da mudança (0026/F-05)" block "$(run_hrb "$d" ".hbn/hearbacks/0009-fake.json")"
+rm -rf "$d"
+
+# caso-ruim: commit do hearback IMPURO (mistura obra com autorização)
+d="$(make_hrb_repo)"
+( cd "$d" && echo '{"status":"confirmed"}' > .hbn/hearbacks/0009-mix.json \
+    && echo outra > docs/outra.md && git add -A && git commit -qm "hearback misturado" \
+    && echo mudou >> docs/base.md && git add -A && git commit -qm "mudanca" ) >/dev/null 2>&1
+check "hrb: commit do hearback impuro (mistura obra)"   block "$(run_hrb "$d" ".hbn/hearbacks/0009-mix.json")"
+rm -rf "$d"
+
+# caso-ruim: hearback apenas staged — não pré-existe à mudança
+d="$(make_hrb_repo)"
+( cd "$d" && echo '{"status":"confirmed"}' > .hbn/hearbacks/0009-staged.json && git add -A ) >/dev/null 2>&1
+check "hrb: hearback staged/untracked (não commitado)"  block "$(run_hrb "$d" ".hbn/hearbacks/0009-staged.json")"
 rm -rf "$d"
 
 # --- Resumo humano (Bloco 4 dogfood) -----------------------------------------

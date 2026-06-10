@@ -1,0 +1,218 @@
+{
+  "schema_version": "1.0",
+  "path": ".hbn/results/0027-cross-ia-codex-corrente-e-fechamento.json",
+  "human_readable_path": ".hbn/results/0027-cross-ia-codex-corrente-e-fechamento.md",
+  "auditor": "codex-openai",
+  "session_role": "cross-ia-re-audit-corrente-e-fechamento-blocos-3-6",
+  "reviewed_at": "2026-06-10T15:07:37-03:00",
+  "signals": ["HBN AUDIT-ONLY", "HBN PEER REVIEW", "HBN RELEASE BLOCKER"],
+  "parecer_independente": true,
+  "observacao_independencia": "Li 0026 somente porque estava na read-list do prompt, como fonte dos marginais que o fechamento dizia resolver; nao li parecer concorrente deste fechamento nem herdei bastao.",
+  "preflight": {
+    "pwd": "/Users/macbookpro/Projetos/usehbn",
+    "git_status_short": [
+      "AM .hbn/messages/20260610-04-handoff-corrente-e-fechada-fable5.md",
+      "MM .hbn/relay/STATE.md",
+      "M  REGISTRY.md",
+      "M  core/freeze-gate-spec.md",
+      "A  guards/assert-hearback-integrity.sh",
+      "M  guards/assert-registry-line.sh",
+      "A  guards/assert-self-path.sh",
+      "M  guards/tests/run-guard-tests.sh",
+      "A  methodology/adr/ADR-021-documentos-auto-localizaveis.md",
+      "A  methodology/adr/ADR-022-saida-de-auditoria-legivel.md",
+      "A  methodology/adr/ADR-023-integridade-de-hearback.md",
+      "M  methodology/adr/INDEX.md",
+      "M  methodology/templates/ADR-TEMPLATE.md",
+      "M  methodology/templates/MD-TEMPLATE.md"
+    ],
+    "head": "e876060 release(protocol): adopt corrente E 50% anti-teatro (ADR-020 + 3 guards + suite) — hearback mauricio; guards fora do runner; 0002 pendente",
+    "head_e_checkpoint_do_fechamento": false,
+    "index_lock": ".git/index.lock existe com 0 bytes no canonico; nao removido por esta auditoria.",
+    "nnnn_escolhido": "0027"
+  },
+  "tmp_execution": {
+    "copy_path": "/tmp/usehbn-audit-codex-OIeopy/usehbn",
+    "canonical_mutation": "nenhuma alteracao canonica exceto estes dois artefatos de resultado",
+    "copied_lock_removed": "/tmp/usehbn-audit-codex-OIeopy/usehbn/.git/index.lock",
+    "suite": {
+      "command": "bash guards/tests/run-guard-tests.sh",
+      "exit_code": 0,
+      "summary": "29 passaram, 0 falharam; SUITE VERDE"
+    },
+    "direct_cases": [
+      {
+        "case": "G-SLF path correto",
+        "expected": "pass",
+        "exit_code": 0
+      },
+      {
+        "case": "G-SLF path mentiroso",
+        "expected": "block",
+        "exit_code": 1
+      },
+      {
+        "case": "G-REG rename AR sem REGISTRY",
+        "expected": "block",
+        "exit_code": 1
+      },
+      {
+        "case": "G-REG guard aninhado sem REGISTRY",
+        "expected": "block",
+        "exit_code": 1
+      },
+      {
+        "case": "G-REG docs/sub orfao sem REGISTRY",
+        "expected": "block",
+        "exit_code": 1
+      },
+      {
+        "case": "G-REG methodology orfao sem REGISTRY",
+        "expected": "block",
+        "exit_code": 1
+      },
+      {
+        "case": "G-REG .hbn/models sem REGISTRY",
+        "expected": "block",
+        "exit_code": 1
+      },
+      {
+        "case": "G-REG workflow sem REGISTRY",
+        "expected": "block",
+        "exit_code": 1
+      },
+      {
+        "case": "G-HRB hearback no mesmo commit",
+        "expected": "block",
+        "exit_code": 1
+      },
+      {
+        "case": "G-HRB mesmo autor de commit",
+        "expected_by_prompt": "block",
+        "exit_code": 0,
+        "observed": "warn + pass"
+      },
+      {
+        "case": "G-SLF staged ruim + working tree corrigida",
+        "expected_by_contract": "block",
+        "exit_code": 0,
+        "observed": "passou lendo working tree; staged path continuava errado"
+      },
+      {
+        "case": "G-REG staged REGISTRY sem linha + working tree com linha",
+        "expected_by_contract": "block",
+        "exit_code": 0,
+        "observed": "passou lendo working tree; staged REGISTRY continuava sem linha"
+      }
+    ]
+  },
+  "scope_verdict": {
+    "1_g_slf": {
+      "verdict": "parcial_com_bloqueador",
+      "evidence": [
+        "Caso direto path correto: exit 0.",
+        "Caso direto path mentiroso: exit 1.",
+        "Bypass de index/worktree: staged path=docs/outro-lugar.md, working tree path=methodology/adr/ADR-099-teste.md, guard exit 0.",
+        "Codigo lista arquivos staged em guards/assert-self-path.sh:34-39, mas le conteudo do filesystem em guards/assert-self-path.sh:86-95."
+      ]
+    },
+    "2_g_hrb": {
+      "verdict": "mesmo_commit_bloqueia; mesmo_autor_nao_bloqueia",
+      "evidence": [
+        "Mesmo commit: exit 1, mensagem COMMIT BLOQUEADO.",
+        "Mesmo autor em commit puro anterior: exit 0, mensagem de aviso seguida de OK.",
+        "guards/assert-hearback-integrity.sh:77-84 rebaixa igualdade de autor a warn.",
+        "methodology/adr/ADR-023-integridade-de-hearback.md:66-74 declara o rebaixamento; methodology/adr/ADR-023-integridade-de-hearback.md:78-86 declara o limite honesto do shell compartilhado."
+      ]
+    },
+    "3_g_reg": {
+      "verdict": "casos_do_escopo_bloqueiam; contrato_same_commit_tem_bypass_local",
+      "evidence": [
+        "Rename, guard aninhado, docs/sub orfao, methodology orfao, .hbn/models e workflow: todos exit 1 nos cenarios diretos.",
+        "Bypass de index/worktree: staged REGISTRY tinha 0 linhas para o artefato, working tree tinha 1, guard exit 0.",
+        "Codigo exige REGISTRY no diff staged em guards/assert-registry-line.sh:111-116, mas registry_has_exact le o arquivo da working tree em guards/assert-registry-line.sh:100-103."
+      ]
+    },
+    "4_suite_29": {
+      "verdict": "real_mas_incompleta",
+      "evidence": [
+        "guards/tests/run-guard-tests.sh:26-35 falha se expected=block retorna rc=0.",
+        "Execucao em /tmp retornou 29 passaram, 0 falharam.",
+        "A suite nao cobre skew staged vs working tree nem o criterio do prompt 'mesmo autor deve bloquear'."
+      ]
+    },
+    "5_negativos_e_freeze": {
+      "verdict": "negativos_existem; freeze_desambiguado",
+      "evidence": [
+        "G-SLF tem negativos em guards/tests/run-guard-tests.sh:175-190.",
+        "G-HRB tem negativos em guards/tests/run-guard-tests.sh:222-240.",
+        "core/freeze-gate-spec.md:28-31 explicita a excecao unica obrigatorio=true/status=na com hearback verificavel."
+      ]
+    },
+    "6_novo_teatro_regressao": {
+      "verdict": "ha_novo_teatro_mecanico_em_guard_staged",
+      "evidence": [
+        "G-SLF e G-REG validam conteudo da working tree enquanto prometem validar o diff staged.",
+        "HEAD nao e checkpoint do fechamento; fechamento esta staged/unstaged sobre e876060.",
+        ".git/index.lock existe no canonico com 0 bytes."
+      ]
+    }
+  },
+  "findings": [
+    {
+      "id": "E-FECH-01",
+      "severity": "BLOQUEADOR",
+      "title": "G-SLF pode passar um commit com path errado se a working tree estiver corrigida mas nao staged",
+      "evidence": "guards/assert-self-path.sh:34-39 lista arquivos staged, mas guards/assert-self-path.sh:86-95 le o arquivo do filesystem. Em /tmp: STAGED_PATH=path: docs/outro-lugar.md; WORKTREE_PATH=path: methodology/adr/ADR-099-teste.md; RC=0.",
+      "impact": "A correcao de ADR-021 pode virar teatro local: o guard verde nao prova o conteudo que sera commitado.",
+      "recommendation": "No modo staged, ler blobs do index com git show :<path> ou exigir index limpo; adicionar teste negativo staged-ruim/working-tree-correta."
+    },
+    {
+      "id": "E-FECH-02",
+      "severity": "BLOQUEADOR",
+      "title": "G-REG pode aprovar linha de REGISTRY que nao esta staged",
+      "evidence": "guards/assert-registry-line.sh:111-116 exige REGISTRY no diff, mas registry_has_exact em guards/assert-registry-line.sh:100-103 grepa o REGISTRY da working tree. Em /tmp: STAGED_HAS_LINE=0; WORKTREE_HAS_LINE=1; RC=0.",
+      "impact": "A promessa 'linha no mesmo commit' pode falhar em pre-commit local; o commit pode sair sem a linha exata apesar do OK.",
+      "recommendation": "Validar a versao staged de REGISTRY.md com git show :REGISTRY.md no modo local; adicionar teste negativo para linha apenas unstaged."
+    },
+    {
+      "id": "E-FECH-03",
+      "severity": "BLOQUEADOR",
+      "title": "G-HRB nao bloqueia mesmo autor de commit, contrariando o criterio do escopo desta re-auditoria",
+      "evidence": "guards/assert-hearback-integrity.sh:77-84 emite warning e segue para OK. Em /tmp: HB_AUTHOR=hbn-guard-tests <tests@hbn.local>; CHANGE_AUTHOR=hbn-guard-tests <tests@hbn.local>; RC=0. O ADR-023 assume isso em methodology/adr/ADR-023-integridade-de-hearback.md:66-74.",
+      "impact": "O fechamento e honesto sobre o limite do shell compartilhado, mas nao satisfaz o requisito pedido de bloquear igualdade de autor.",
+      "recommendation": "Ou bloquear igualdade de autor com identidades separadas/assinatura criptografica antes de adotar, ou registrar decisao humana explicita mudando este criterio para aviso."
+    },
+    {
+      "id": "E-FECH-04",
+      "severity": "FORTE",
+      "title": "Pre-flight esperado como checkpoint do fechamento nao confere",
+      "evidence": "git log --oneline -1 retornou e876060 da adocao 50%, nao checkpoint do fechamento; git status --short mostra 14 arquivos staged/unstaged; .git/index.lock existe com 0 bytes.",
+      "impact": "O fechamento auditado existe no worktree, nao em HEAD estavel; a adocao fica dependente de re-stage/commit humano antes de qualquer verificacao de ancestralidade por commit.",
+      "recommendation": "Antes de qualquer adocao, limpar o lock no Terminal humano, re-stage, revisar diff e criar checkpoint do fechamento."
+    }
+  ],
+  "veto_adocao": true,
+  "contagem_findings": {
+    "BLOQUEADOR": 3,
+    "FORTE": 1,
+    "MARGINAL": 0
+  },
+  "checklist_anti_vies": {
+    "B1": "Li os artefatos diretamente, com evidencia arquivo:linha e execucoes em /tmp.",
+    "B2": "Reexecutei a suite 29/29 e cenarios manuais, incluindo tentativas de falso verde.",
+    "B3": "Procurei motivos para reprovar antes de aceitar os casos verdes.",
+    "B4": "Separei falha de contrato mecanico de limite honesto documentado no ADR-023.",
+    "B5": "Nao recomendo bastao para Codex nem preservo utilidade propria.",
+    "B6": "Nao implementei, nao ativei guard, nao movi artefato canonico e nao removi o lock canonico."
+  },
+  "resumo_para_humano": [
+    "A remediacao e real em varios pontos: G-SLF bloqueia path mentiroso direto; G-HRB bloqueia mesmo commit; G-REG pega rename, guard aninhado, orfaos e E-RE-01.",
+    "A suite 29/29 e real para os casos que ela cobre.",
+    "Ha veto porque G-SLF e G-REG validam working tree contra diff staged, permitindo falso verde local.",
+    "Ha veto adicional porque G-HRB nao bloqueia mesmo autor, embora o prompt exigisse esse bloqueio.",
+    "ADR-023 nao promete garantia falsa: declara honestamente o limite do shell compartilhado.",
+    "HEAD ainda nao e checkpoint do fechamento; ha lock e worktree misto.",
+    "VETO_ADOCAO: SIM."
+  ]
+}

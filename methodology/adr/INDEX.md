@@ -34,6 +34,18 @@
 | [ADR-013](ADR-013-arquiteto-autonomo-classes-a-b.md) | Arquiteto autônomo 2.0 — classes A/B, rampa Q2, commit único | P0 | **ACCEPTED** (hearback 0001, 2026-06-10) | ✅ concluído (Opus + Codex) | promove ADR-010 → ACCEPTED no mesmo hearback |
 | [ADR-014](ADR-014-cerimonia-proporcional-tiers.md) | Cerimônia proporcional ao risco — tiers T0–T3 com rito mínimo por tier | P0 | **ACCEPTED** (hearback 0001, 2026-06-10) | ✅ concluído (Opus + Codex) | refina ADR-013 |
 | [ADR-015](ADR-015-perfis-de-modelo.md) | Perfis de capacidade por modelo — doutrina paramétrica | P1 | **ACCEPTED** (hearback 0001, 2026-06-10) | ✅ concluído (Opus + Codex) | depende de ADR-014 |
+| [ADR-016](ADR-016-dual-run-caracterizacao.md) | Dual-run / teste de caracterização para reescrever legado | P1 | PROPOSED (corrente D; hearback lote H1-H6 pendente) | ✅ 0021/0022 | — |
+| [ADR-017](ADR-017-freeze-gate-executavel.md) | Freeze-gate executável — "congelável" é veredicto de máquina | P0 | PROPOSED (corrente D; hearback lote H1-H6 pendente) | ✅ 0021/0022 | — |
+| [ADR-018](ADR-018-papeis-chapeus-anti-groupthink.md) | Papéis como contrato, chapéus como atribuição, guard anti-groupthink | P0 | PROPOSED (corrente D; hearback lote H1-H6 pendente) | ✅ 0021/0022 | depende de ADR-015 |
+| [ADR-019](ADR-019-diagnostico-seguranca-defensivo-obrigatorio.md) | Diagnóstico de segurança defensivo obrigatório | P0 | PROPOSED (corrente D; hearback lote H1-H6 pendente) | ✅ 0021/0022 | — |
+| [ADR-020](ADR-020-anti-validacao-de-teatro.md) | Anti-Validação-de-Teatro — PASS só sobre substância + teste negativo obrigatório | P0 | **ACCEPTED** (readback 0002, 2026-06-10) | ✅ concluído (0025/0026, sem veto) | depende de ADR-017, ADR-018 |
+| [ADR-021](ADR-021-documentos-auto-localizaveis.md) | Documentos auto-localizáveis — `path:` obrigatório + guard G-SLF | P1 | PROPOSED (fechamento corrente E; hearback pendente) | ⏳ re-auditoria pendente | estende ADR-011 |
+| [ADR-022](ADR-022-saida-de-auditoria-legivel.md) | Saída de auditoria legível por humano — md é o veredito, json é anexo | P1 | PROPOSED (fechamento corrente E; hearback pendente) | ⏳ re-auditoria pendente | — |
+| [ADR-023](ADR-023-integridade-de-hearback.md) | Integridade de hearback — anti-auto-assinatura (F-05) + guard G-HRB | P0 | PROPOSED (fechamento corrente E; hearback pendente) | ⏳ re-auditoria pendente | depende de ADR-020 |
+
+> Reparo de drift (fechamento corrente E): as linhas ADR-016–020 estavam
+> ausentes deste índice desde as correntes D/E — adicionadas agora com o
+> status real do front-matter de cada um, sem alterar os ADRs.
 
 ### Microdeltas geradas pela cross-IA (2026-05-10)
 
@@ -85,7 +97,7 @@ final do Credenciamento independente da ordem dos demais.
 
 ## Como adicionar novo ADR
 
-1. Próximo número disponível: ADR-016 (ADR-015 ratificado 2026-06-10, lote C6/C7).
+1. Próximo número disponível: ADR-024 (ADR-021/022/023 depositados 2026-06-10, fechamento corrente E).
 2. Criar `methodology/adr/ADR-NNN-<kebab-slug>.md` seguindo o template
    dos existentes (frontmatter, contexto, decisão, consequências,
    riscos, próximo passo, versão).

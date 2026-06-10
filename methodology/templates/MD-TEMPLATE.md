@@ -1,5 +1,8 @@
 ---
 titulo: NN - MD-<letra ou número> — <tema>
+id-global: AAAAMMDD-NN          # ADR-011 Decisão 1 (linha de nascimento no REGISTRY)
+path: <caminho/real/do/arquivo.md>   # ADR-021: caminho REAL — o guard compara
+temperatura: quente             # ADR-011 Decisão 3 (quente | frio | ultrapassado)
 diataxis: how-to
 hbn-track: safe_track
 hbn-status: active
