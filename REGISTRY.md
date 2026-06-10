@@ -1,6 +1,6 @@
 ---
 titulo: REGISTRY — livro-razão de artefatos do protocolo (ADR-011 Decisão 4)
-status: proposed
+status: accepted
 temperatura: quente
 data-abertura: 2026-06-10
 autoria: claude-fable-5 (arquiteto useHBN, corrente C3/C4)
@@ -35,6 +35,11 @@ Nenhum arquivo é renomeado — esta seção só costura o passado ao livro-raz�
 | 2026-06-10 06:02 | PROMPT_C2_CHAIN_FABLE5.md | prompt | frio | — | mtime; corrente C2 encerrada |
 | 2026-06-10 06:19 | PROMPT_C3_CHAIN_FABLE5.md | prompt | quente | — | mtime; ciclo C3/C4 em curso nesta janela |
 | 2026-06-10 | PROMPT_C6C7_CHAIN_FABLE5.md | prompt | quente | — | ciclo C6/C7 em curso nesta janela (última corrente antes da consolidação) |
+| 2026-06-10 | PROMPT_C1_BASTAO_FABLE5.md | prompt | frio | — | ratificação C1-C7; hearback 0001 confirmado 2026-06-10 |
+| 2026-06-10 | PROMPT_C2_CHAIN_FABLE5.md | prompt | frio | — | ratificação C1-C7; hearback 0001 confirmado 2026-06-10 |
+| 2026-06-10 | PROMPT_C3_CHAIN_FABLE5.md | prompt | frio | — | ratificação C1-C7; hearback 0001 confirmado 2026-06-10 |
+| 2026-06-10 | PROMPT_C6C7_CHAIN_FABLE5.md | prompt | frio | — | ratificação C1-C7; hearback 0001 confirmado 2026-06-10 |
+| 2026-06-10 | /Users/macbookpro/Projetos/PROMPT_ARQUITETO_USEHBN_AUTONOMO.md | prompt-legado | ultrapassado | agents/architect-autonomous.md (20260610-16) | ratificação C4; hearback 0001 confirmado 2026-06-10 |
 
 ## Linhas (going-forward, ADR-011)
 
@@ -71,8 +76,14 @@ Nenhum arquivo é renomeado — esta seção só costura o passado ao livro-raz�
 | 20260610-29 | .hbn/readbacks/0001-consolidacao-c1-c7.json | readback | quente | — |
 | 20260610-30 | .hbn/hearbacks/0001-consolidacao-c1-c7.json | hearback | frio | — |
 | 20260610-31 | 20260610-31-prompt-consolidacao-codex.md | prompt | quente | — |
+| 20260610-32 | reports/20260610-15-proposal-bump-versao-canonico.md | proposal | quente | — |
+| 20260610-33 | 20260610-31-prompt-consolidacao-codex.md | prompt | frio | — |
+| 20260610-34 | reports/20260610-15-proposal-bump-versao-canonico.md | nota | quente | — |
 
 Nota de legado adicional: `/Users/macbookpro/Projetos/PROMPT_ARQUITETO_USEHBN_AUTONOMO.md`
-(v1.6, FORA deste repo, sem git) — quente; vira `ultrapassado` com
-`superseded_by: agents/architect-autonomous.md (20260610-16)` na ratificação
-do lote C4.
+(v1.6, FORA deste repo, sem git) — status efetivo `ultrapassado` registrado
+na linha de legado pós-ratificação do lote C4.
+
+Nota 20260610-34: bump `0.3.1` + auditoria `__version__` × `PROTOCOL_VERSION`
+(`src/usehbn/runtime.py`, `src/usehbn/execution/engine.py`, grep completo) →
+onda dedicada futura. Versão permanece `0.3.0` nesta consolidação.

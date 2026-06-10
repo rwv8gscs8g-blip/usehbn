@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "HBN Model Capability Profile",
-  "description": "Valida um perfil de capacidade de modelo em .hbn/models/<apelido>.json (ADR-015). Status: proposed (C7 2026-06-10, aguardando hearback). Regra dura embutida: handoff_threshold > 0.5 (relaxamento do default conservador) EXIGE hearback_ref — sem evidência de hearback, o schema recusa.",
+  "description": "Valida um perfil de capacidade de modelo em .hbn/models/<apelido>.json (ADR-015). Status: accepted (hearback Mauricio 2026-06-10). Regra dura embutida: handoff_threshold > 0.5 (relaxamento do default conservador) EXIGE hearback_ref — sem evidência de hearback, o schema recusa.",
   "type": "object",
   "required": [
     "profile_version",

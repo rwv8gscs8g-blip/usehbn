@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "HBN Relay STATE Record (Bastao 2.0)",
-  "description": "Valida o front-matter YAML de .hbn/relay/STATE.md (projetado para JSON). Status: proposed (C1 2026-06-10, aguardando hearback). APENAS o vigente — historico vive no relay-archive.",
+  "description": "Valida o front-matter YAML de .hbn/relay/STATE.md (projetado para JSON). Status: accepted (hearback Mauricio 2026-06-10). APENAS o vigente — historico vive no relay-archive.",
   "type": "object",
   "required": [
     "state_version",

@@ -2,8 +2,8 @@
 titulo: PROMPT — Codex consolida lotes C1–C7 (ratificação pós-hearback)
 id-global: 20260610-31
 tipo: prompt
-status: proposed
-temperatura: quente
+status: accepted
+temperatura: frio
 data: 2026-06-10
 autoria: claude-fable-5 (arquiteto useHBN) — hearback de Maurício registrado em .hbn/hearbacks/0001
 tier: T2 (executa exatamente o readback 0001; hearback confirmed)

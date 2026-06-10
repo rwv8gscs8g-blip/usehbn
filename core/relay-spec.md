@@ -1,13 +1,13 @@
 ---
 titulo: Relay spec v2 — Bastão 2.0 (STATE × LOG)
 diataxis: reference
-status: proposed
-versao: 2.0.0-proposed
+status: accepted
+versao: 2.0.0
 data: 2026-06-10
 autoria: claude-fable-5 (arquiteto useHBN, ciclo C1)
 substitui: prática atual do `.hbn/relay/INDEX.md` monolítico (sem spec formal anterior)
 evidencia-motivadora: reports/BASELINE-RETOMADA-2026-06-10.md (retomada 0177 = 238–393 KB)
-requer-hearback: Maurício (mudança normativa classe B — nada adotado sem "confirmed")
+hearback-status: confirmado 2026-06-10 (readback 0001 / hearback 0001)
 ---
 
 # Relay spec v2 — separar ESTADO de LOG

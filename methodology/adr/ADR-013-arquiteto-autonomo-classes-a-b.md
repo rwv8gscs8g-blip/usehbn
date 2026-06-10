@@ -1,11 +1,11 @@
 ---
 adr-id: ADR-013
 titulo: Arquiteto autônomo 2.0 — duas classes de mudança, rampa de confiança e regra do commit único
-status: PROPOSED
+status: ACCEPTED
 data-deposito: 2026-06-10
 autor: claude-fable-5 (arquiteto useHBN, corrente C4)
 cross-ia-required: Opus + Codex (muda o rito operacional do arquiteto)
-hearback-status: aguardando Maurício (lote C4)
+hearback-status: confirmado 2026-06-10 (readback 0001 / hearback 0001)
 prioridade: P0
 temperatura: quente
 aplica-a: ciclo do arquiteto autônomo (canônico usehbn; projetos via inbox)

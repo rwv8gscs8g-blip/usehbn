@@ -1,12 +1,12 @@
 ---
 titulo: Arquiteto autônomo do protocolo useHBN — identidade e regras (2.0)
-status: proposed
+status: accepted
 temperatura: quente
-versao: 2.0.0-proposed
+versao: 2.0.0
 data: 2026-06-10
 autoria: claude-fable-5 (corrente C4), decomposto do PROMPT_ARQUITETO_USEHBN_AUTONOMO.md v1.6 (Opus 4.7)
-substitui: PROMPT_ARQUITETO_USEHBN_AUTONOMO.md v1.6 (829 linhas, fora de git) — vira frio na adoção
-requer-hearback: Maurício (lote C4) + ratificação Codex
+substitui: PROMPT_ARQUITETO_USEHBN_AUTONOMO.md v1.6 (829 linhas, fora de git) — ultrapassado na adoção
+hearback-status: confirmado 2026-06-10 (readback 0001 / hearback 0001)
 relacionado: [ADR-013 (classes A/B), .hbn/queue/ (backlog), core/cadence-d.md, .hbn/knowledge/0001 e 0002, core/relay-spec.md]
 ---
 

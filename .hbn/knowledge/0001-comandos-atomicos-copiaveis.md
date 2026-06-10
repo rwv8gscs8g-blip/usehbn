@@ -1,7 +1,7 @@
 ---
 knowledge-id: 0001
 titulo: Comandos para humano são atômicos e copiáveis (ex-L27)
-status: proposed
+status: accepted
 temperatura: quente
 data: 2026-06-10
 origem: PROMPT_ARQUITETO v1.6 §7.1; sessão Opus×Maurício 2026-05-24 (prática real de copy/paste no Cowork)

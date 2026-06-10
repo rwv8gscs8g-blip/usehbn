@@ -1,7 +1,7 @@
 ---
 knowledge-id: 0002
 titulo: Entrega operacional ao humano é minimalista (ex-L28)
-status: proposed
+status: accepted
 temperatura: quente
 data: 2026-06-10
 origem: PROMPT_ARQUITETO v1.6 §7.2; sessão Opus×Maurício×Codex 2026-05-24, pós-Onda 37.2 (procedimento de 53 linhas burocratizou execução de 1 linha)

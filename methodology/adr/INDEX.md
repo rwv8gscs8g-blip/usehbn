@@ -14,7 +14,7 @@
   status SUPERSEDED + link para o sucessor.
 - **Hearback humano** é obrigatório para mudança de status PROPOSED → ACCEPTED.
 
-## Status atual (2026-05-10 — pós cross-IA + MD-J + Hearback humano)
+## Status atual (2026-06-10 — pós hearback 0001 C1-C7)
 
 | ADR | Título | Prioridade | Status | Cross-IA | Dependências |
 |---|---|---|---|---|---|
@@ -27,11 +27,13 @@
 | [ADR-007](ADR-007-metricas-saude.md) | Métricas de saúde do protocolo + alarmes | P2 | **ACCEPTED v1.1** (ratificado 2026-05-10) | ✅ concluído | implementação `hbn doctor --health` pós-v0.3.0 |
 | [ADR-008](ADR-008-migracao-snapshot-credenciamento.md) | Migração `Credenciamento/usehbn/` → `.usehbn-snapshot/` | P0 | **NÃO_RATIFICAR** — bloqueado por MD-I + MD-K execução + v204 final | ✅ concluído — Codex REPROVOU | **MD-I implementação + Onda Documental + v204 final** |
 | [ADR-009](ADR-009-constituicao-p1-p13.md) | Constituição P1-P13 — migração + processo de mudança | P0 | **ACCEPTED v1.1** (ratificado 2026-05-10) | ✅ concluído (3 IAs) | — |
-| [ADR-010](ADR-010-autoevolve-cycle.md) | Autoevolve — microdeltas locais com scaffold distribuído | P1 | **PROPOSED** (depositado 2026-05-13 durante o próprio ciclo) | ⏳ pendente | depende conceitualmente de 001 e 007 |
-| [ADR-008 v2](ADR-008-migracao-snapshot-credenciamento-v2.md) | Re-deposit ADR-008: gatilho DATA 2026-06-30 + dono Maurício; inbox por projeto | P0 | **PROPOSED** (2026-06-10, corrente C2; supersede v1 quando aceito) | ⏳ pendente (Opus + Codex) | C2+C3 concluídos; reusa MD-K; desacoplado do freeze V206 |
-| [ADR-011](ADR-011-enderecamento-numeracao-temperatura.md) | Endereçamento, numeração `AAAAMMDD-NN` e temperatura de artefatos | P0 | **PROPOSED** (2026-06-10, corrente C2) | ⏳ pendente (Opus + Codex) | — |
-| [ADR-012](ADR-012-naming-versoes-ondas.md) | Naming canônico de versões e ondas (mata subnomes) | P0 | **PROPOSED** (2026-06-10, corrente C2) | ⏳ pendente (Opus + Codex) | depende de 011 (vocabulário de tipo) |
-| [ADR-013](ADR-013-arquiteto-autonomo-classes-a-b.md) | Arquiteto autônomo 2.0 — classes A/B, rampa Q2, commit único | P0 | **PROPOSED** (2026-06-10, corrente C4) | ⏳ pendente (Opus + Codex) | propõe ADR-010 → ACCEPTED no mesmo hearback |
+| [ADR-010](ADR-010-autoevolve-cycle.md) | Autoevolve — microdeltas locais com scaffold distribuído | P1 | **ACCEPTED** (hearback 0001, 2026-06-10) | ✅ concluído | depende conceitualmente de 001 e 007 |
+| [ADR-008 v2](ADR-008-migracao-snapshot-credenciamento-v2.md) | Re-deposit ADR-008: gatilho DATA 2026-06-30 + dono Maurício; inbox por projeto | P0 | **ACCEPTED** (hearback 0001, 2026-06-10; supersede v1) | ✅ concluído (Opus + Codex) | C2+C3 concluídos; reusa MD-K; desacoplado do freeze V206 |
+| [ADR-011](ADR-011-enderecamento-numeracao-temperatura.md) | Endereçamento, numeração `AAAAMMDD-NN` e temperatura de artefatos | P0 | **ACCEPTED** (hearback 0001, 2026-06-10) | ✅ concluído (Opus + Codex) | — |
+| [ADR-012](ADR-012-naming-versoes-ondas.md) | Naming canônico de versões e ondas (mata subnomes) | P0 | **ACCEPTED** (hearback 0001, 2026-06-10) | ✅ concluído (Opus + Codex) | depende de 011 (vocabulário de tipo) |
+| [ADR-013](ADR-013-arquiteto-autonomo-classes-a-b.md) | Arquiteto autônomo 2.0 — classes A/B, rampa Q2, commit único | P0 | **ACCEPTED** (hearback 0001, 2026-06-10) | ✅ concluído (Opus + Codex) | promove ADR-010 → ACCEPTED no mesmo hearback |
+| [ADR-014](ADR-014-cerimonia-proporcional-tiers.md) | Cerimônia proporcional ao risco — tiers T0–T3 com rito mínimo por tier | P0 | **ACCEPTED** (hearback 0001, 2026-06-10) | ✅ concluído (Opus + Codex) | refina ADR-013 |
+| [ADR-015](ADR-015-perfis-de-modelo.md) | Perfis de capacidade por modelo — doutrina paramétrica | P1 | **ACCEPTED** (hearback 0001, 2026-06-10) | ✅ concluído (Opus + Codex) | depende de ADR-014 |
 
 ### Microdeltas geradas pela cross-IA (2026-05-10)
 
@@ -83,7 +85,7 @@ final do Credenciamento independente da ordem dos demais.
 
 ## Como adicionar novo ADR
 
-1. Próximo número disponível: ADR-014 (ADR-013 depositado 2026-06-10, corrente C4).
+1. Próximo número disponível: ADR-016 (ADR-015 ratificado 2026-06-10, lote C6/C7).
 2. Criar `methodology/adr/ADR-NNN-<kebab-slug>.md` seguindo o template
    dos existentes (frontmatter, contexto, decisão, consequências,
    riscos, próximo passo, versão).

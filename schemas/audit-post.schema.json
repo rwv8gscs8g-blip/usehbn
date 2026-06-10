@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "HBN Audit Post-Execution Record",
-  "description": "Parecer da IA auditora sobre o diff git e a saida dos gates DEPOIS da execucao. Pre-requisito para fechamento da onda. Status: proposed (C3 2026-06-10, aguardando hearback). Promovido de Credenciamento/.hbn/schemas/audit-post (v1.0.0); generalizado: auditor_agent pinado por projeto.",
+  "description": "Parecer da IA auditora sobre o diff git e a saida dos gates DEPOIS da execucao. Pre-requisito para fechamento da onda. Status: accepted (hearback Mauricio 2026-06-10). Promovido de Credenciamento/.hbn/schemas/audit-post (v1.0.0); generalizado: auditor_agent pinado por projeto.",
   "type": "object",
   "additionalProperties": false,
   "required": [

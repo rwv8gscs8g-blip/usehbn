@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "HBN Audit Pre-Execution Record",
-  "description": "Parecer de uma IA auditora adversarial sobre o readback ANTES da execucao comecar. Cobre coerencia, riscos nao declarados, violacao de invariantes, scope ambiguo. Status: proposed (C3 2026-06-10, aguardando hearback). Promovido de Credenciamento/.hbn/schemas/audit-pre (v1.0.0); generalizado: auditor_agent e string livre aqui, pinado por projeto.",
+  "description": "Parecer de uma IA auditora adversarial sobre o readback ANTES da execucao comecar. Cobre coerencia, riscos nao declarados, violacao de invariantes, scope ambiguo. Status: accepted (hearback Mauricio 2026-06-10). Promovido de Credenciamento/.hbn/schemas/audit-pre (v1.0.0); generalizado: auditor_agent e string livre aqui, pinado por projeto.",
   "type": "object",
   "additionalProperties": false,
   "required": [

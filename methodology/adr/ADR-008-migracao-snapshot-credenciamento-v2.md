@@ -2,13 +2,13 @@
 adr-id: ADR-008
 versao-adr: v2
 titulo: Migração Credenciamento/usehbn/ → .usehbn-snapshot/ — gatilho por DATA+DONO (supersede v1)
-status: PROPOSED
+status: ACCEPTED
 data-deposito: 2026-06-10
 autor: claude-fable-5 (arquiteto useHBN, corrente C2), sobre decisão Q4 de Maurício
 supersede: ADR-008-migracao-snapshot-credenciamento.md (v1, 2026-05-09 — fica ULTRAPASSADO quando este for aceito; arquivo v1 intocado, per ADR-011)
 temperatura: quente
 cross-ia-required: Opus + Codex (Codex é dono operacional do Credenciamento)
-hearback-status: aguardando Maurício (lote da corrente C2)
+hearback-status: confirmado 2026-06-10 (readback 0001 / hearback 0001)
 prioridade: P0
 gatilho: 2026-06-30 (data fixa)
 dono: Maurício

@@ -1,11 +1,11 @@
 ---
 titulo: Inbox — porta única de entrada de feedback dos projetos para o protocolo
-status: proposed
+status: accepted
 temperatura: quente
 data: 2026-06-10
 autoria: claude-fable-5 (arquiteto useHBN, corrente C2)
 origem: ADR-008 v2 §Decisão 2 + decisão Q1 de Maurício (projetos só propõem)
-requer-hearback: Maurício (lote da corrente C2)
+hearback-status: confirmado 2026-06-10 (readback 0001 / hearback 0001)
 ---
 
 # Inbox — como um projeto fala com o protocolo

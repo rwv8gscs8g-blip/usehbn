@@ -1,12 +1,12 @@
 ---
 adr-id: ADR-014
 titulo: Cerimônia proporcional ao risco — tiers T0–T3 com rito mínimo por tier e guard de path
-status: PROPOSED
+status: ACCEPTED
 data-deposito: 2026-06-10
 id-global: 20260610-23
 autor: claude-fable-5 (arquiteto useHBN, corrente C6)
 cross-ia-required: Opus + Codex (muda o rito operacional — P10)
-hearback-status: aguardando Maurício (lote C6/C7)
+hearback-status: confirmado 2026-06-10 (readback 0001 / hearback 0001)
 prioridade: P0
 temperatura: quente
 tier-desta-mudanca: T2 (normativo — ADR; rito integral readback→hearback, dogfood da própria regra)

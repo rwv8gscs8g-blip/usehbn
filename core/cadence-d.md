@@ -1,12 +1,12 @@
 ---
 titulo: Cadência D Estendida — passagem de bastão entre IAs (meta-protocolo transversal)
 diataxis: reference
-status: proposed
+status: accepted
 temperatura: quente
 data: 2026-06-10
 autoria: claude-fable-5 (corrente C4), promovido do PROMPT_ARQUITETO v1.6 §12 (Opus, onda 0112, hearback Maurício 2026-05-27)
 origem: auditoria/00_status/120 (Credenciamento) consolidado em .hbn/protocol-evolutions/20260527-1300
-requer-hearback: Maurício (lote C4)
+hearback-status: confirmado 2026-06-10 (readback 0001 / hearback 0001)
 ---
 
 # Cadência D — papéis, auditoria cruzada e severidades

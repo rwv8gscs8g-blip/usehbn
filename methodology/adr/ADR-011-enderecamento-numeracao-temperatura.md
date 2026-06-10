@@ -1,11 +1,11 @@
 ---
 adr-id: ADR-011
 titulo: Endereçamento, numeração sequencial e temperatura de artefatos — padrão único multi-projeto
-status: PROPOSED
+status: ACCEPTED
 data-deposito: 2026-06-10
 autor: claude-fable-5 (arquiteto useHBN, corrente C2)
 cross-ia-required: Opus + Codex (padrão estrutural, P10)
-hearback-status: aguardando Maurício (lote da corrente C2)
+hearback-status: confirmado 2026-06-10 (readback 0001 / hearback 0001)
 prioridade: P0 (mata classe inteira de perda de rastreabilidade)
 aplica-a: TODOS os projetos sob o protocolo (usehbn, Credenciamento, timelessphoto, futuros)
 relacionado: [ADR-012 (naming versões/ondas), core/relay-spec.md (read-list), ADR-008 v2 (inbox usa este id)]

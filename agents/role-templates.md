@@ -1,11 +1,11 @@
 ---
 titulo: Templates de entrada por papel — Bastão 2.0 (leem o STATE, não são redigidos à mão)
 diataxis: how-to
-status: proposed
+status: accepted
 data: 2026-06-10
 autoria: claude-fable-5 (arquiteto useHBN, ciclo C1)
 origem: §12.B do PROMPT_ARQUITETO_USEHBN_AUTONOMO.md v1.6, reescrito como template parametrizado
-requer-hearback: Maurício (classe B)
+hearback-status: confirmado 2026-06-10 (readback 0001 / hearback 0001)
 ---
 
 # Templates de papel — chat novo lê o STATE

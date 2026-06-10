@@ -1,11 +1,11 @@
 ---
 adr-id: ADR-012
 titulo: Naming canônico de versões, ondas e artefatos de onda — um nome por coisa
-status: PROPOSED
+status: ACCEPTED
 data-deposito: 2026-06-10
 autor: claude-fable-5 (arquiteto useHBN, corrente C2)
 cross-ia-required: Opus + Codex (Codex é dono operacional do Credenciamento, maior afetado)
-hearback-status: aguardando Maurício (lote da corrente C2)
+hearback-status: confirmado 2026-06-10 (readback 0001 / hearback 0001)
 prioridade: P0
 aplica-a: TODOS os projetos sob o protocolo
 relacionado: [ADR-011 (id global e temperatura), ADR-004 (SemVer do protocolo)]

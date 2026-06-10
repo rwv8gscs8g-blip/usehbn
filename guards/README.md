@@ -1,11 +1,11 @@
 ---
 titulo: Guards canônicos do protocolo — conjunto executável de governança
-status: proposed
+status: accepted
 temperatura: quente
 data: 2026-06-10
 autoria: claude-fable-5 (arquiteto useHBN, corrente C3)
 origem: promovido de Credenciamento/scripts/hbn-guards/ (doutrina viva, batida em campo nos incidentes de 2026-05-02 e 2026-05-24)
-requer-hearback: Maurício (lote C3)
+hearback-status: confirmado 2026-06-10 (readback 0001 / hearback 0001)
 ---
 
 # guards/ — o conjunto canônico

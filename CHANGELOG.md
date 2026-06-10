@@ -4,13 +4,18 @@ All notable changes to HBN will be documented in this file.
 
 ## Unreleased
 
-- **proposed (C6 corrente, 2026-06-10, aguarda hearback Maurício)**: `ADR-014-cerimonia-proporcional-tiers.md` — tiers T0–T3 com rito mínimo por tier (T0 nada / T1 commit+audit / T2 readback+hearback / T3 cerimônia plena humano-aplicada), tabela path→tier + guard `assert-tier-rito` especificado (na dúvida promove ao tier acima); classe A ⊆ T1 e classe B ⊆ T2∪T3 (amarração ADR-013); T3 e firewall 0022 declarados IMUTÁVEIS.
-- **proposed (C7 corrente, 2026-06-10, aguarda hearback Maurício)**: `ADR-015-perfis-de-modelo.md` + `schemas/model-profile.schema.json` + 4 perfis em `.hbn/models/` (fable-5 janela 1M verificada por env; opus-4-8/codex/gemini-3-5 com janela "não verificado") — doutrina passa a referenciar `handoff_threshold` do perfil ativo (default conservador 0.5; relaxar >0.5 exige `hearback_ref`, recusado mecanicamente pelo schema); 0017/§7 paramétricos propostos ao Credenciamento via `inbox/credenciamento/20260610-01-0017-parametrica.md` (projeto não editado).
-- **proposed (C2 corrente, 2026-06-10, hearback C1 aplicado — conservador)**: read-list canônica de retomada passa de 4 para 5 itens (~21,6 KB): knowledge 0022 (firewall) vira 5º item fixo; regra geral registrada em `core/relay-spec.md` — invariante sempre-quente só se crítico de segurança/negócio E não-coberto-por-guard-executável; `agents/role-templates.md` §T1–T3 atualizados.
-- **proposed (C2 corrente, 2026-06-10, aguarda hearback Maurício)**: `ADR-011-enderecamento-numeracao-temperatura.md` — id global `AAAAMMDD-NN`, tabela tipo→pasta→numeração→temperatura, front-matter quente/frio/ultrapassado, REGISTRY append-only por plano; migração going-forward sem rename de história.
-- **proposed (C2 corrente, 2026-06-10, aguarda hearback Maurício)**: `ADR-012-naming-versoes-ondas.md` — versão canônica `V<MAJOR>.<MINOR>.<PATCH>`, onda = `NNNN` monotônico (árvore 38.2.x rebaixada a descrição), artefato `NNNN-<tipo>-<slug>` com vocabulário fixo, build label `<versão>+<commit>`; tabela legado→canônico, história fechada intocada.
-- **proposed (C2 corrente, 2026-06-10, aguarda hearback Maurício)**: `ADR-008-...-v2.md` — gatilho vira DATA FIXA 2026-06-30 + dono Maurício (meta-regra: decisão não bloqueia em evento sem dono), desacoplado do freeze V206, reabertura obrigatória; `inbox/README.md` + `inbox/<projeto>/` como porta única de feedback dos projetos (id ADR-011, sem colisão); plano de migração reusa matriz MD-K, radar/ migra como está.
-- **proposed (C1 Bastão 2.0, 2026-06-10, aguarda hearback Maurício)**: `core/relay-spec.md` v2 (STATE ≤80 linhas × LOG archive), `schemas/state.schema.json`, `schemas/handoff.schema.json` (16 seções da knowledge 0014/onda 0177), `agents/role-templates.md` (§T1–T3 leem o STATE), guard-state-fresh especificado, baseline em `reports/BASELINE-RETOMADA-2026-06-10.md` (retomada 0177: 238–393 KB → dry-run 18,5 KB / 4 arquivos).
+- **adiado (2026-06-10)**: bump `0.3.1` fica para onda dedicada de auditoria `__version__` × `PROTOCOL_VERSION`; grep completo identificou focos em `src/usehbn/runtime.py` e `src/usehbn/execution/engine.py`.
+
+## v0.3.0 — Ratificação C1-C7 (2026-06-10; sem bump)
+
+- **adotado (ADR-010, hearback Maurício 2026-06-10)**: `ADR-010-autoevolve-cycle.md` promovido a ACCEPTED como executor da classe A do arquiteto autônomo; auditoria `__version__` × `PROTOCOL_VERSION` fica fora desta ratificação.
+- **adotado (C6 corrente, hearback Maurício 2026-06-10)**: `ADR-014-cerimonia-proporcional-tiers.md` — tiers T0–T3 com rito mínimo por tier (T0 nada / T1 commit+audit / T2 readback+hearback / T3 cerimônia plena humano-aplicada), tabela path→tier + guard `assert-tier-rito` especificado (na dúvida promove ao tier acima); classe A ⊆ T1 e classe B ⊆ T2∪T3 (amarração ADR-013); T3 e firewall 0022 declarados IMUTÁVEIS.
+- **adotado (C7 corrente, hearback Maurício 2026-06-10)**: `ADR-015-perfis-de-modelo.md` + `schemas/model-profile.schema.json` + 4 perfis em `.hbn/models/` (fable-5 janela 1M verificada por env; opus-4-8/codex/gemini-3-5 com janela "não verificado") — doutrina passa a referenciar `handoff_threshold` do perfil ativo (default conservador 0.5; relaxar >0.5 exige `hearback_ref`, recusado mecanicamente pelo schema); 0017/§7 paramétricos propostos ao Credenciamento via `inbox/credenciamento/20260610-01-0017-parametrica.md` (projeto não editado).
+- **adotado (C2 corrente, hearback Maurício 2026-06-10)**: read-list canônica de retomada passa de 4 para 5 itens (~21,6 KB): knowledge 0022 (firewall) vira 5º item fixo; regra geral registrada em `core/relay-spec.md` — invariante sempre-quente só se crítico de segurança/negócio E não-coberto-por-guard-executável; `agents/role-templates.md` §T1–T3 atualizados.
+- **adotado (C2 corrente, hearback Maurício 2026-06-10)**: `ADR-011-enderecamento-numeracao-temperatura.md` — id global `AAAAMMDD-NN`, tabela tipo→pasta→numeração→temperatura, front-matter quente/frio/ultrapassado, REGISTRY append-only por plano; migração going-forward sem rename de história.
+- **adotado (C2 corrente, hearback Maurício 2026-06-10)**: `ADR-012-naming-versoes-ondas.md` — versão canônica `V<MAJOR>.<MINOR>.<PATCH>`, onda = `NNNN` monotônico (árvore 38.2.x rebaixada a descrição), artefato `NNNN-<tipo>-<slug>` com vocabulário fixo, build label `<versão>+<commit>`; tabela legado→canônico, história fechada intocada.
+- **adotado (C2 corrente, hearback Maurício 2026-06-10)**: `ADR-008-...-v2.md` — gatilho vira DATA FIXA 2026-06-30 + dono Maurício (meta-regra: decisão não bloqueia em evento sem dono), desacoplado do freeze V206, reabertura obrigatória; `inbox/README.md` + `inbox/<projeto>/` como porta única de feedback dos projetos (id ADR-011, sem colisão); plano de migração reusa matriz MD-K, radar/ migra como está.
+- **adotado (C1 Bastão 2.0, hearback Maurício 2026-06-10)**: `core/relay-spec.md` v2 (STATE ≤80 linhas × LOG archive), `schemas/state.schema.json`, `schemas/handoff.schema.json` (16 seções da knowledge 0014/onda 0177), `agents/role-templates.md` (§T1–T3 leem o STATE), guard-state-fresh especificado, baseline em `reports/BASELINE-RETOMADA-2026-06-10.md` (retomada 0177: 238–393 KB → dry-run 18,5 KB / 4 arquivos).
 
 ## Unreleased — Quarta 2026-05-13 (Autoevolve cycle, awaits human afternoon validation + v0.4.0 vote)
 
@@ -30,9 +35,10 @@ grew from 114 → **182 passing**.
   markdown and HTML report renderers (c260a67).
 - `src/usehbn/signals.py` — canonical HBN signal registry (16 user-facing
   + 1 operational `AUTOEVOLVE_TICK`) — `54f6c7a`.
-- `methodology/adr/ADR-010-autoevolve-cycle.md` — PROPOSED. Doctrine of
-  the autoevolve cycle, dependencies on ADR-001/007, 14-arm map,
-  approval criteria (ecc3d54).
+- `methodology/adr/ADR-010-autoevolve-cycle.md` — deposited as PROPOSED
+  during this cycle and promoted to ACCEPTED on 2026-06-10. Doctrine of the
+  autoevolve cycle, dependencies on ADR-001/007, 14-arm map, approval
+  criteria (ecc3d54).
 - `schemas/autoevolve-cycle.schema.json` — Draft 2020-12, validates each
   JSONL record (5fc15b5).
 - Pure helpers reusable downstream: `compute_baton_staleness`,

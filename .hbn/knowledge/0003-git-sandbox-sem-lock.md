@@ -1,7 +1,7 @@
 ---
 knowledge: 0003
 titulo: IA em sandbox consulta git do canônico SEM tomar lock (GIT_OPTIONAL_LOCKS=0)
-status: proposed
+status: accepted
 temperatura: quente
 data: 2026-06-10
 id-global: 20260610-28

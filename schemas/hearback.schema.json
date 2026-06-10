@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "HBN Hearback Record",
-  "description": "Confirmacao humana de um readback. Sem este artefato com status='confirmed', nenhuma onda safe_track pode escrever em codigo. Status: proposed (C3 2026-06-10, aguardando hearback). Promovido de Credenciamento/.hbn/schemas/hearback (v1.0.0, doutrina viva medida em campo); generalizado: enums de agente/assinante sao pinados por projeto.",
+  "description": "Confirmacao humana de um readback. Sem este artefato com status='confirmed', nenhuma onda safe_track pode escrever em codigo. Status: accepted (hearback Mauricio 2026-06-10). Promovido de Credenciamento/.hbn/schemas/hearback (v1.0.0, doutrina viva medida em campo); generalizado: enums de agente/assinante sao pinados por projeto.",
   "type": "object",
   "additionalProperties": false,
   "required": [

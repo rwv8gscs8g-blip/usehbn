@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "HBN Session Handoff Record (Bastao 2.0)",
-  "description": "Formaliza o handoff de fim-de-sessao da knowledge 0014 (12 itens; +4 quando gatilho=bastao), ja praticado na onda 0177. Valida a projecao JSON do arquivo .hbn/messages/AAAAMMDD-HHmm-handoff-fim-sessao-<agente>[-bastao-<de>-para-<para>].md: front-matter YAML + presenca/conteudo das secoes numeradas. Status: proposed (C1 2026-06-10, aguardando hearback). Era debito tecnico declarado na propria 0014.",
+  "description": "Formaliza o handoff de fim-de-sessao da knowledge 0014 (12 itens; +4 quando gatilho=bastao), ja praticado na onda 0177. Valida a projecao JSON do arquivo .hbn/messages/AAAAMMDD-HHmm-handoff-fim-sessao-<agente>[-bastao-<de>-para-<para>].md: front-matter YAML + presenca/conteudo das secoes numeradas. Status: accepted (hearback Mauricio 2026-06-10). Era debito tecnico declarado na propria 0014.",
   "type": "object",
   "required": [
     "titulo",

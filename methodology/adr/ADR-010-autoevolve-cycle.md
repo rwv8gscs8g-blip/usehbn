@@ -1,12 +1,12 @@
 ---
 adr-id: ADR-010
 titulo: Autoevolve — ciclo de microdeltas locais com scaffold para computação distribuída
-status: PROPOSED
+status: ACCEPTED
 data-deposito: 2026-05-13
-data-ratificacao: pendente
+data-ratificacao: 2026-06-10
 autor: Claude Opus 4.7 (chat autoevolve cycle 2026-05-13)
 cross-ia-required: Opus + (Codex OU Antigravity)
-hearback-status: pendente
+hearback-status: confirmado 2026-06-10 (readback 0001 / hearback 0001)
 prioridade: P1
 ordem-cross-ia: livre — não bloqueia ADRs P0
 relacionado:
@@ -20,8 +20,8 @@ relacionado:
 
 ## Status
 
-**PROPOSED** — depositado 2026-05-13 durante o próprio ciclo descrito.
-Aguarda cross-IA + Hearback humano para promover a ACCEPTED.
+**ACCEPTED** — depositado 2026-05-13 durante o próprio ciclo descrito e
+ratificado por hearback humano em 2026-06-10.
 
 ## Contexto
 

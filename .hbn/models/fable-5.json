@@ -20,6 +20,6 @@
   ],
   "observacoes": "Janela 1M: o default 0.5 (500K tokens) é deliberadamente conservador. Relaxamento para 0.7 será proposto SOMENTE após a 0017 paramétrica ser adotada e com hearback explícito (o schema exige hearback_ref para >0.5). Gatilhos secundários da 0017 (turnos >30, sinais subjetivos de degradação) permanecem ativos independentemente do threshold.",
   "ultima_revisao": "2026-06-10",
-  "status": "proposed",
+  "status": "accepted",
   "temperatura": "quente"
 }

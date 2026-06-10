@@ -1,12 +1,12 @@
 ---
 adr-id: ADR-015
 titulo: Perfis de capacidade por modelo — doutrina paramétrica em vez de números hard-coded
-status: PROPOSED
+status: ACCEPTED
 data-deposito: 2026-06-10
 id-global: 20260610-24
 autor: claude-fable-5 (arquiteto useHBN, corrente C7)
 cross-ia-required: Opus + Codex (muda como a doutrina referencia limites de modelo — P10)
-hearback-status: aguardando Maurício (lote C6/C7)
+hearback-status: confirmado 2026-06-10 (readback 0001 / hearback 0001)
 prioridade: P1
 temperatura: quente
 tier-desta-mudanca: T2 (normativo — ADR + schema; rito integral, per ADR-014)
