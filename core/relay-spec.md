@@ -101,6 +101,18 @@ pareceres Opus/Antigravity + consolidação Codex + hearback Maurício.
 
 (38 linhas — metade do teto de 80.)
 
+## Campo `atribuicao` — chapéus checáveis por máquina (PROPOSED — corrente D 2026-06-10, ADR-018; hearback pendente)
+
+Adição opcional-na-rampa ao front-matter do STATE (obrigatória após hearback
+de adoção): bloco `atribuicao` com `chapeu_atual` (papel da janela dona do
+bastão AGORA — inequívoco), `implementador` e `auditores` (apelidos de perfis
+ADR-015), `gravada_em` e `hearback_ref`. Forma e regras:
+`core/roles-assignment-spec.md` §2; validação: `schemas/state.schema.json`
+(propriedade `atribuicao`) + `guards/assert-role-family.sh` (invariante
+anti-groupthink: auditor nunca da família do implementador sem hearback). O
+campo `papeis` em prosa permanece — humanos leem prosa; guards leem
+`atribuicao`.
+
 ## Read-list canônica de retomada (substitui os 16+ itens)
 
 Quem retoma lê, nesta ordem, e SÓ isto:

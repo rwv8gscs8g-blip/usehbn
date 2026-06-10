@@ -87,3 +87,64 @@ na linha de legado pós-ratificação do lote C4.
 Nota 20260610-34: bump `0.3.1` + auditoria `__version__` × `PROTOCOL_VERSION`
 (`src/usehbn/runtime.py`, `src/usehbn/execution/engine.py`, grep completo) →
 onda dedicada futura. Versão permanece `0.3.0` nesta consolidação.
+
+## Corrente D (2026-06-10) — TUDO status: proposed, hearback em lote pendente
+
+| id | artefato (path) | tipo | temperatura | superseded_by |
+|---|---|---|---|---|
+| 20260610-35 | guards/assert-registry-line.sh | guard | quente | — |
+| 20260610-36 | reports/20260610-36-proposal-faxina-prompts-raiz.md | proposal | quente | — |
+| 20260610-37 | methodology/adr/ADR-016-dual-run-caracterizacao.md | adr | quente | — |
+| 20260610-38 | core/dual-run-spec.md | spec-core | quente | — |
+| 20260610-39 | schemas/dual-run-result.schema.json | schema | quente | — |
+| 20260610-40 | methodology/adr/ADR-017-freeze-gate-executavel.md | adr | quente | — |
+| 20260610-41 | core/freeze-gate-spec.md | spec-core | quente | — |
+| 20260610-42 | schemas/freeze-checklist.schema.json | schema | quente | — |
+| 20260610-43 | guards/freeze-gate.sh | guard | quente | — |
+| 20260610-44 | inbox/credenciamento/20260610-44-freeze-gate-v206.md | inbox | quente | — |
+| 20260610-45 | methodology/adr/ADR-018-papeis-chapeus-anti-groupthink.md | adr | quente | — |
+| 20260610-46 | core/roles-assignment-spec.md | spec-core | quente | — |
+| 20260610-47 | guards/assert-role-family.sh | guard | quente | — |
+| 20260610-48 | core/relay-spec.md + schemas/state.schema.json (campo `atribuicao`, ADR-018) | nota | quente | — |
+| 20260610-49 | .hbn/messages/20260610-01-handoff-corrente-d-fable5.md | handoff | quente | — |
+| 20260610-50 | .hbn/relay/STATE.md (Bastão 2.0 dogfood do canônico; INDEX.md antigo vira histórico sob demanda) | nota | quente | — |
+| 20260610-51 | 20260610-51-prompt-pack-auditoria-cruzada-corrente-d.md | prompt | quente | — |
+| 20260610-52 | .hbn/messages/20260610-02-handoff-auditoria-cruzada-corrente-d-fable5.md | handoff | quente | — |
+
+Nota corrente D: guards 35/43/47 NÃO estão no runner — ativação é hearback
+(H1/H6 do handoff 49). Faxina 36 é DRY-RUN (ids 51–57 reservados para a
+execução). Tier dos depósitos: T2 (normativo, rito readback→hearback em
+lote); a faxina, quando executada, é T1.
+
+Nota auditoria cruzada: depósitos 51–52 consumiram ids da reserva da faxina;
+na execução da faxina, renumerar para 53+ (caso previsto na própria proposal
+36). Saídas esperadas dos auditores: .hbn/results/0021-cross-ia-codex-
+corrente-d.json e 0022-cross-ia-antigravity-corrente-d.md (frios ao nascer,
+série local NNNN — entram no REGISTRY quando depositados).
+
+## Corrente Segurança+Onboarding (2026-06-10) — TUDO status: proposed, hearback pendente
+
+| id | artefato (path) | tipo | temperatura | superseded_by |
+|---|---|---|---|---|
+| 20260610-53 | inbox/timelessphoto/20260610-53-onboarding-seguranca-timelessphoto.md | inbox | quente | — |
+| 20260610-54 | inbox/mauriciozanin-hub/20260610-54-onboarding-seguranca-hub.md | inbox | quente | — |
+| 20260610-55 | inbox/maiscompralocal/20260610-55-onboarding-seguranca-maiscompralocal.md | inbox | quente | — |
+| 20260610-56 | inbox/credenciamento/20260610-56-complemento-seguranca-pii.md | inbox | quente | — |
+| 20260610-57 | inbox/plataforma-concurso/20260610-57-onboarding-inicial.md | inbox | quente | — |
+| 20260610-58 | inbox/govflow/20260610-58-credenciais-orfas-descomissionamento.md | inbox | quente | — |
+| 20260610-59 | inbox/timelessnudeart/20260610-59-onboarding-minimo-estatico.md | inbox | quente | — |
+| 20260610-60 | methodology/adr/ADR-019-diagnostico-seguranca-defensivo-obrigatorio.md | adr | quente | — |
+| 20260610-61 | 20260610-61-prompt-auditoria-seguranca-antigravity.md | prompt | quente | — |
+| 20260610-62 | 20260610-62-prompt-auditoria-seguranca-codex.md | prompt | quente | — |
+| 20260610-63 | reports/20260610-63-decisao-seguranca-onboarding-2026-06-10.md | decisao | quente | — |
+
+Nota corrente Segurança: ids 53–63 consumiram o resto da reserva da faxina
+(36); na execução da faxina, usar próximos ids livres do dia/data corrente
+(mesmo caso já previsto nas notas acima). Pastas novas de inbox
+(timelessphoto, mauriciozanin-hub, maiscompralocal, plataforma-concurso,
+govflow, timelessnudeart) criadas pelo arquiteto no primeiro depósito,
+conforme inbox/README.md. Saídas esperadas dos auditores externos:
+.hbn/results/0023-cross-ia-antigravity-seguranca.md e
+0024-cross-ia-codex-seguranca.json (frios ao nascer; entram no REGISTRY
+quando depositados). Nenhum valor de segredo transcrito em artefato algum
+desta corrente (regra dura). Tier: T2, rito readback→hearback em lote.

@@ -100,6 +100,34 @@
     "atualizado_por": {
       "type": "string",
       "minLength": 1
+    },
+    "atribuicao": {
+      "type": "object",
+      "description": "PROPOSED (corrente D 2026-06-10, ADR-018; hearback pendente). Atribuição de chapéus checável por máquina — ver core/roles-assignment-spec.md §2. Opcional na rampa; obrigatória após hearback de adoção. Validável por guards/assert-role-family.sh.",
+      "additionalProperties": false,
+      "required": ["chapeu_atual", "implementador", "auditores", "gravada_em"],
+      "properties": {
+        "chapeu_atual": {
+          "type": "string",
+          "enum": ["implementador", "auditor-cruzado", "auditor-arquiteto", "consolidador", "humano"],
+          "description": "Papel da janela dona do bastão AGORA — chapéu inequívoco."
+        },
+        "implementador": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9.-]*$",
+          "description": "Apelido de perfil em .hbn/models/<apelido>.json (ADR-015)."
+        },
+        "auditores": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9.-]*$" }
+        },
+        "gravada_em": { "type": "string", "format": "date-time" },
+        "hearback_ref": {
+          "type": ["string", "null"],
+          "description": "Hearback que cobre exceções ao invariante anti-groupthink, se houver."
+        }
+      }
     }
   },
   "additionalProperties": false
