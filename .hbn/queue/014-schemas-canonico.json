@@ -1,0 +1,11 @@
+{
+  "queue_id": "014",
+  "tema": "E1 migrar schemas executaveis para usehbn/schemas/",
+  "origem": "PROMPT_ARQUITETO v1.6 §4 (decomposicao ADR-013/C4 2026-06-10)",
+  "projeto_alvo": "usehbn",
+  "classe": "B",
+  "status": "done",
+  "bloqueado_por": null,
+  "bloqueio_externo": null,
+  "nota": "entregue pela corrente C3 2026-06-10 (schemas/hearback,audit-pre,audit-post) — aguarda hearback do lote C3"
+}

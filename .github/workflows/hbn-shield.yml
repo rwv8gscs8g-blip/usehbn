@@ -1,0 +1,45 @@
+# =============================================================================
+# HBN Shield — o portão verde do protocolo canônico
+# status: proposed (C3 2026-06-10, aguardando hearback — lote C3)
+# Gate: guards de governança + pytest da implementação de referência.
+# Verde = pode mergear; vermelho = nada entra no canônico.
+# =============================================================================
+name: HBN Shield
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  guards:
+    name: Guards de governança
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: hbn-guards (modo CI — diff range, raiz canônica delegada ao local)
+        env:
+          HBN_DIFF_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: bash guards/hbn-guards-runner.sh
+
+  tests:
+    name: pytest (implementação de referência)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Instalar referência + pytest
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+          pip install -e . || true
+      - name: Rodar testes
+        run: python -m pytest tests -q

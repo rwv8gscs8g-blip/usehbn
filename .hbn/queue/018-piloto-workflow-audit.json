@@ -1,0 +1,11 @@
+{
+  "queue_id": "018",
+  "tema": "G2 EW-3 piloto gate de auditoria cruzada via workflow fast_track",
+  "origem": "PROMPT_ARQUITETO v1.6 §4 (decomposicao ADR-013/C4 2026-06-10)",
+  "projeto_alvo": "credenciamento",
+  "classe": "B",
+  "status": "pending",
+  "bloqueado_por": null,
+  "bloqueio_externo": null,
+  "entrega": "proposta canonica + mensagem; adocao e onda do projeto com hearback (Q1)"
+}

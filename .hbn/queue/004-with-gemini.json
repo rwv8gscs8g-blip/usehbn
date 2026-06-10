@@ -1,0 +1,10 @@
+{
+  "queue_id": "004",
+  "tema": "B2 scripts/with-gemini.sh (audit adversarial)",
+  "origem": "PROMPT_ARQUITETO v1.6 §4 (decomposicao ADR-013/C4 2026-06-10)",
+  "projeto_alvo": "usehbn",
+  "classe": "B",
+  "status": "pending",
+  "bloqueado_por": null,
+  "bloqueio_externo": null
+}

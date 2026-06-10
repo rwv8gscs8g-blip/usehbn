@@ -2,6 +2,14 @@
 
 All notable changes to HBN will be documented in this file.
 
+## Unreleased
+
+- **proposed (C2 corrente, 2026-06-10, hearback C1 aplicado — conservador)**: read-list canônica de retomada passa de 4 para 5 itens (~21,6 KB): knowledge 0022 (firewall) vira 5º item fixo; regra geral registrada em `core/relay-spec.md` — invariante sempre-quente só se crítico de segurança/negócio E não-coberto-por-guard-executável; `agents/role-templates.md` §T1–T3 atualizados.
+- **proposed (C2 corrente, 2026-06-10, aguarda hearback Maurício)**: `ADR-011-enderecamento-numeracao-temperatura.md` — id global `AAAAMMDD-NN`, tabela tipo→pasta→numeração→temperatura, front-matter quente/frio/ultrapassado, REGISTRY append-only por plano; migração going-forward sem rename de história.
+- **proposed (C2 corrente, 2026-06-10, aguarda hearback Maurício)**: `ADR-012-naming-versoes-ondas.md` — versão canônica `V<MAJOR>.<MINOR>.<PATCH>`, onda = `NNNN` monotônico (árvore 38.2.x rebaixada a descrição), artefato `NNNN-<tipo>-<slug>` com vocabulário fixo, build label `<versão>+<commit>`; tabela legado→canônico, história fechada intocada.
+- **proposed (C2 corrente, 2026-06-10, aguarda hearback Maurício)**: `ADR-008-...-v2.md` — gatilho vira DATA FIXA 2026-06-30 + dono Maurício (meta-regra: decisão não bloqueia em evento sem dono), desacoplado do freeze V206, reabertura obrigatória; `inbox/README.md` + `inbox/<projeto>/` como porta única de feedback dos projetos (id ADR-011, sem colisão); plano de migração reusa matriz MD-K, radar/ migra como está.
+- **proposed (C1 Bastão 2.0, 2026-06-10, aguarda hearback Maurício)**: `core/relay-spec.md` v2 (STATE ≤80 linhas × LOG archive), `schemas/state.schema.json`, `schemas/handoff.schema.json` (16 seções da knowledge 0014/onda 0177), `agents/role-templates.md` (§T1–T3 leem o STATE), guard-state-fresh especificado, baseline em `reports/BASELINE-RETOMADA-2026-06-10.md` (retomada 0177: 238–393 KB → dry-run 18,5 KB / 4 arquivos).
+
 ## Unreleased — Quarta 2026-05-13 (Autoevolve cycle, awaits human afternoon validation + v0.4.0 vote)
 
 Autonomous Autoevolve cycle inside the Quarta de Sanitização window

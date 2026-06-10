@@ -1,0 +1,11 @@
+{
+  "queue_id": "002",
+  "tema": "A5 schema bump 1.1.0 readback+hearback (insumo doc 125)",
+  "origem": "PROMPT_ARQUITETO v1.6 §4 (decomposicao ADR-013/C4 2026-06-10)",
+  "projeto_alvo": "credenciamento",
+  "classe": "B",
+  "status": "pending",
+  "bloqueado_por": null,
+  "bloqueio_externo": "V206 fechada",
+  "entrega": "proposta canonica + mensagem; adocao e onda do projeto com hearback (Q1)"
+}

@@ -18,3 +18,7 @@ state/*.json
 
 # Claude Code local-only settings (per-developer, do not commit)
 .claude/settings.local.json
+
+# junk macOS/Office
+.DS_Store
+~$*

@@ -1,0 +1,10 @@
+{
+  "queue_id": "016",
+  "tema": "E3 decidir destino do usehbn-phago (arquivar?)",
+  "origem": "PROMPT_ARQUITETO v1.6 §4 (decomposicao ADR-013/C4 2026-06-10)",
+  "projeto_alvo": "usehbn",
+  "classe": "A",
+  "status": "pending",
+  "bloqueado_por": null,
+  "bloqueio_externo": null
+}

@@ -28,6 +28,10 @@
 | [ADR-008](ADR-008-migracao-snapshot-credenciamento.md) | Migração `Credenciamento/usehbn/` → `.usehbn-snapshot/` | P0 | **NÃO_RATIFICAR** — bloqueado por MD-I + MD-K execução + v204 final | ✅ concluído — Codex REPROVOU | **MD-I implementação + Onda Documental + v204 final** |
 | [ADR-009](ADR-009-constituicao-p1-p13.md) | Constituição P1-P13 — migração + processo de mudança | P0 | **ACCEPTED v1.1** (ratificado 2026-05-10) | ✅ concluído (3 IAs) | — |
 | [ADR-010](ADR-010-autoevolve-cycle.md) | Autoevolve — microdeltas locais com scaffold distribuído | P1 | **PROPOSED** (depositado 2026-05-13 durante o próprio ciclo) | ⏳ pendente | depende conceitualmente de 001 e 007 |
+| [ADR-008 v2](ADR-008-migracao-snapshot-credenciamento-v2.md) | Re-deposit ADR-008: gatilho DATA 2026-06-30 + dono Maurício; inbox por projeto | P0 | **PROPOSED** (2026-06-10, corrente C2; supersede v1 quando aceito) | ⏳ pendente (Opus + Codex) | C2+C3 concluídos; reusa MD-K; desacoplado do freeze V206 |
+| [ADR-011](ADR-011-enderecamento-numeracao-temperatura.md) | Endereçamento, numeração `AAAAMMDD-NN` e temperatura de artefatos | P0 | **PROPOSED** (2026-06-10, corrente C2) | ⏳ pendente (Opus + Codex) | — |
+| [ADR-012](ADR-012-naming-versoes-ondas.md) | Naming canônico de versões e ondas (mata subnomes) | P0 | **PROPOSED** (2026-06-10, corrente C2) | ⏳ pendente (Opus + Codex) | depende de 011 (vocabulário de tipo) |
+| [ADR-013](ADR-013-arquiteto-autonomo-classes-a-b.md) | Arquiteto autônomo 2.0 — classes A/B, rampa Q2, commit único | P0 | **PROPOSED** (2026-06-10, corrente C4) | ⏳ pendente (Opus + Codex) | propõe ADR-010 → ACCEPTED no mesmo hearback |
 
 ### Microdeltas geradas pela cross-IA (2026-05-10)
 
@@ -79,7 +83,7 @@ final do Credenciamento independente da ordem dos demais.
 
 ## Como adicionar novo ADR
 
-1. Próximo número disponível: ADR-011 (ADR-010 depositado 2026-05-13).
+1. Próximo número disponível: ADR-014 (ADR-013 depositado 2026-06-10, corrente C4).
 2. Criar `methodology/adr/ADR-NNN-<kebab-slug>.md` seguindo o template
    dos existentes (frontmatter, contexto, decisão, consequências,
    riscos, próximo passo, versão).
