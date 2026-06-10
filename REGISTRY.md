@@ -67,6 +67,7 @@ Nenhum arquivo é renomeado — esta seção só costura o passado ao livro-raz�
 | 20260610-25 | schemas/model-profile.schema.json | schema | quente | — |
 | 20260610-26 | .hbn/models/ (4 perfis: fable-5, opus-4-8, codex, gemini-3-5) | profile | quente | — |
 | 20260610-27 | inbox/credenciamento/20260610-01-0017-parametrica.md | inbox | quente | — |
+| 20260610-28 | .hbn/knowledge/0003-git-sandbox-sem-lock.md | knowledge | quente | — |
 
 Nota de legado adicional: `/Users/macbookpro/Projetos/PROMPT_ARQUITETO_USEHBN_AUTONOMO.md`
 (v1.6, FORA deste repo, sem git) — quente; vira `ultrapassado` com
