@@ -1,13 +1,13 @@
 ---
 titulo: Freeze-gate spec — checklist executável de congelamento de versão
 diataxis: reference
-status: proposed
+status: accepted
 temperatura: quente
 id-global: 20260610-41
 versao: 0.1.0
 data: 2026-06-10
 autoria: claude-fable-5 (arquiteto useHBN, corrente D)
-hearback-status: pendente (lote corrente D)
+hearback-status: confirmado por Maurício (ajuste §2.2 adotado no readback 0003; ADR-017 segue pendente no lote D)
 relacionado: [ADR-017, schemas/freeze-checklist.schema.json, guards/freeze-gate.sh, ADR-016 (dual-run pode ser critério), core/cadence-d.md (BLOQUEADOR = veto)]
 ---
 

@@ -204,10 +204,10 @@ local entre readback 0002 de adoção e hearback 0002 da exceção fable×opus.
 | 20260610-84 | .hbn/messages/20260610-04-handoff-corrente-e-fechada-fable5.md | handoff | quente | — |
 | 20260610-85 | .hbn/messages/20260610-05-fix-staged-skew-fable5.md | handoff | quente | — |
 
-Nota fechamento corrente E (Blocos 3-6 — status: proposed, não adotado):
+Nota fechamento corrente E (Blocos 3-6 — status: accepted pelo readback 0003):
 ADR-021 (auto-localização `path:`), ADR-022 (saída de auditoria legível por
 humano) e ADR-023 (integridade de hearback / anti-auto-assinatura, F-05 da
-0026) depositados PROPOSED; guards novos G-SLF (80) e G-HRB (83) nascem FORA
+0026) depositados e depois promovidos a ACCEPTED; guards novos G-SLF (80) e G-HRB (83) nascem FORA
 do runner (ADR-020 Decisão 2). Alterações in loco, sem id próprio:
 methodology/templates/{ADR,MD}-TEMPLATE.md ganham id-global/path/temperatura
 (ADR-021 Decisão 3); guards/assert-registry-line.sh endurecido
@@ -218,11 +218,11 @@ guards/tests/run-guard-tests.sh ampliado de 15 para 29 casos (inclui os
 negativos que faltavam de .hbn/models/ e .github/workflows/ — 0025/E-RE-01);
 methodology/adr/INDEX.md atualizado (linhas ADR-016–023: depósitos novos +
 reparo do drift 016–020 ausentes). Suíte 29/29 verde em sandbox
-(informativa — rodada conclusiva no Terminal). Backlog explícito: assinatura
+(informativa — substituída pelo fix staged-skew 33/33). Backlog explícito: assinatura
 GPG/SSH de hearbacks (ADR-023 Decisão 4) e testes negativos dos 5 guards
 legados ficam para a onda de ativação do runner.
 
-Nota fix staged-skew (pós-veto 0027 — status: proposed): G-SLF e G-REG
+Nota fix staged-skew (pós-veto 0027 — status: accepted pelo readback 0003): G-SLF e G-REG
 corrigidos para validar o conteúdo STAGED (git show :path / :REGISTRY.md;
 HEAD: em CI) em vez da working tree (E-FECH-01/02). Alterações in loco:
 guards/assert-self-path.sh, guards/assert-registry-line.sh,
@@ -230,3 +230,27 @@ guards/tests/run-guard-tests.sh (29 → 33 casos: 2 negativos de skew + 2
 espelhos-bons que provam a leitura do índice). Suíte 33/33 verde em /tmp.
 E-FECH-03 não entra: critério "mesmo autor" permanece AVISO (ADR-023
 Decisão 3 — limite honesto do shell de identidade única; GPG no backlog).
+
+| 20260610-86 | .hbn/results/0029-cross-ia-codex-fix-staged-skew.json | audit-result | frio | — |
+| 20260610-87 | .hbn/results/0029-cross-ia-codex-fix-staged-skew.md | audit-result | frio | — |
+| 20260610-88 | .hbn/readbacks/0003-adocao-corrente-e-fechamento.json | readback | frio | — |
+| 20260610-89 | methodology/adr/ADR-021-documentos-auto-localizaveis.md | adr | quente | — |
+| 20260610-90 | guards/assert-self-path.sh | guard | quente | — |
+| 20260610-91 | methodology/adr/ADR-022-saida-de-auditoria-legivel.md | adr | quente | — |
+| 20260610-92 | methodology/adr/ADR-023-integridade-de-hearback.md | adr | quente | — |
+| 20260610-93 | guards/assert-hearback-integrity.sh | guard | quente | — |
+| 20260610-94 | guards/assert-registry-line.sh | guard | quente | — |
+| 20260610-95 | guards/tests/run-guard-tests.sh | guard-test | quente | — |
+| 20260610-96 | methodology/templates/ADR-TEMPLATE.md | template | quente | — |
+| 20260610-97 | methodology/templates/MD-TEMPLATE.md | template | quente | — |
+| 20260610-98 | core/freeze-gate-spec.md | spec-core | quente | — |
+| 20260610-99 | .hbn/relay/STATE.md | state | quente | — |
+
+Nota adoção fechamento Corrente E: readback 0003 confirmado por Maurício em
+2026-06-10. ADR-021/022/023 passam a ACCEPTED; G-SLF/G-HRB e o hardening
+G-REG staged-skew/AR/órfãos são adotados; suíte 33 passa a contrato aceito;
+templates ADR/MD adotam id-global/path/temperatura; freeze-gate-spec §2.2
+fica aceito para a regra de `obrigatorio=true` com `status=na` só mediante
+hearback verificável. Nenhum guard entra no runner; ativação futura exige
+testes negativos dos 5 guards legados. Hearback 0002 segue pendente e
+opus-4-8 segue fora do campo mecânico `atribuicao.auditores`.

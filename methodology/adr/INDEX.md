@@ -14,7 +14,7 @@
   status SUPERSEDED + link para o sucessor.
 - **Hearback humano** é obrigatório para mudança de status PROPOSED → ACCEPTED.
 
-## Status atual (2026-06-10 — pós hearback 0001 C1-C7)
+## Status atual (2026-06-10 — pós readback 0003 fechamento E)
 
 | ADR | Título | Prioridade | Status | Cross-IA | Dependências |
 |---|---|---|---|---|---|
@@ -39,9 +39,9 @@
 | [ADR-018](ADR-018-papeis-chapeus-anti-groupthink.md) | Papéis como contrato, chapéus como atribuição, guard anti-groupthink | P0 | PROPOSED (corrente D; hearback lote H1-H6 pendente) | ✅ 0021/0022 | depende de ADR-015 |
 | [ADR-019](ADR-019-diagnostico-seguranca-defensivo-obrigatorio.md) | Diagnóstico de segurança defensivo obrigatório | P0 | PROPOSED (corrente D; hearback lote H1-H6 pendente) | ✅ 0021/0022 | — |
 | [ADR-020](ADR-020-anti-validacao-de-teatro.md) | Anti-Validação-de-Teatro — PASS só sobre substância + teste negativo obrigatório | P0 | **ACCEPTED** (readback 0002, 2026-06-10) | ✅ concluído (0025/0026, sem veto) | depende de ADR-017, ADR-018 |
-| [ADR-021](ADR-021-documentos-auto-localizaveis.md) | Documentos auto-localizáveis — `path:` obrigatório + guard G-SLF | P1 | PROPOSED (fechamento corrente E; hearback pendente) | ⏳ re-auditoria pendente | estende ADR-011 |
-| [ADR-022](ADR-022-saida-de-auditoria-legivel.md) | Saída de auditoria legível por humano — md é o veredito, json é anexo | P1 | PROPOSED (fechamento corrente E; hearback pendente) | ⏳ re-auditoria pendente | — |
-| [ADR-023](ADR-023-integridade-de-hearback.md) | Integridade de hearback — anti-auto-assinatura (F-05) + guard G-HRB | P0 | PROPOSED (fechamento corrente E; hearback pendente) | ⏳ re-auditoria pendente | depende de ADR-020 |
+| [ADR-021](ADR-021-documentos-auto-localizaveis.md) | Documentos auto-localizáveis — `path:` obrigatório + guard G-SLF | P1 | **ACCEPTED** (readback 0003, 2026-06-10) | ✅ concluído (0027/0028/0029 + hearback 0003) | estende ADR-011 |
+| [ADR-022](ADR-022-saida-de-auditoria-legivel.md) | Saída de auditoria legível por humano — md é o veredito, json é anexo | P1 | **ACCEPTED** (readback 0003, 2026-06-10) | ✅ concluído (0027/0028/0029 + hearback 0003) | — |
+| [ADR-023](ADR-023-integridade-de-hearback.md) | Integridade de hearback — anti-auto-assinatura (F-05) + guard G-HRB | P0 | **ACCEPTED** (readback 0003, 2026-06-10) | ✅ concluído (0027/0028/0029 + hearback 0003) | depende de ADR-020 |
 
 > Reparo de drift (fechamento corrente E): as linhas ADR-016–020 estavam
 > ausentes deste índice desde as correntes D/E — adicionadas agora com o

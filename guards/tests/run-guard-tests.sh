@@ -11,7 +11,7 @@
 # Uso: bash guards/tests/run-guard-tests.sh   (exit 0 = suíte verde)
 # status: accepted (corrente E 50%, hearback humano no readback 0002);
 #   seções do FECHAMENTO da corrente E (G-REG novos casos, G-SLF, G-HRB):
-#   proposed — cobrem E-RE-01 (0025), F-01/F-02/F-04 (0026), ADR-021, ADR-023.
+#   accepted no readback 0003 — cobrem E-RE-01 (0025), F-01/F-02/F-04 (0026), ADR-021, ADR-023.
 #   FIX staged-skew (re-auditoria 0027, E-FECH-01/02): casos de skew
 #   index×worktree — staged ruim + worktree boa DEVE bloquear (e o espelho:
 #   staged boa + worktree ruim DEVE passar, provando que o guard lê o índice).

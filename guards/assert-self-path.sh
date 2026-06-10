@@ -10,7 +10,7 @@
 #   (2) Recusa artefato GOVERNADO novo (subconjunto .md da tabela do ADR-011
 #       Decisão 2 + hearbacks .json) que NÃO declara `path:`.
 #
-# status: proposed (corrente E — fechamento, 2026-06-10) — NÃO está no runner.
+# status: accepted (corrente E — fechamento, readback 0003, 2026-06-10) — NÃO está no runner.
 #   Ativação futura = onda própria (ADR-020 Decisão 2: suíte verde + hearback).
 # Padrão C3: guard_diff staged local; HBN_DIFF_BASE...HEAD em CI.
 # E-FECH-01 (re-auditoria 0027): valida o BLOB STAGED (git show :path), nunca

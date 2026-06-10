@@ -23,7 +23,7 @@
 #   backlog). LIMITE HONESTO: a trava lógica é parcial; a barreira final é a
 #   revisão humana do diff de .hbn/hearbacks/ (ADR-023 Decisão 3).
 #
-# status: proposed (corrente E — fechamento, 2026-06-10) — NÃO está no runner.
+# status: accepted (corrente E — fechamento, readback 0003, 2026-06-10) — NÃO está no runner.
 # Teste negativo: guards/tests/run-guard-tests.sh (seção G-HRB) — ADR-020.
 # =============================================================================
 set -euo pipefail

@@ -8,7 +8,7 @@
 #       id AAAAMMDD-NN (o anti-padrão dos PROMPT_*.md órfãos de 2026-06-10,
 #       criados por orquestrador ignorando a regra que ele mesmo deveria servir).
 #
-# status: accepted (correntes D/E, 2026-06-10) — NÃO está no runner.
+# status: accepted (correntes D/E + fechamento E, readbacks 0002/0003, 2026-06-10) — NÃO está no runner.
 #   Ativação futura = onda própria em hbn-guards-runner.sh, após testes
 #   negativos de TODOS os guards (inclusive os 5 legados).
 # Padrão C3: usa guard_diff_files (staged local; HBN_DIFF_BASE...HEAD em CI).

@@ -1,13 +1,13 @@
 ---
 adr-id: ADR-022
 titulo: Saída de auditoria legível por humano — markdown é o veredito, JSON é anexo de máquina
-status: PROPOSED
+status: ACCEPTED
 data-deposito: 2026-06-10
 id-global: 20260610-81
 path: methodology/adr/ADR-022-saida-de-auditoria-legivel.md
 autor: claude-fable-5 (arquiteto useHBN, corrente E — fechamento, Bloco 4)
 cross-ia-required: Codex + Antigravity (formaliza prática que eles mesmos exercem — P10)
-hearback-status: pendente (lote fechamento corrente E)
+hearback-status: confirmado por Maurício (readback 0003, 2026-06-10)
 prioridade: P1 (o gate humano só funciona se o humano consegue LER o que decide)
 temperatura: quente
 tier-desta-mudanca: T1 (formaliza convenção já exercida; nenhum código alterado)
@@ -83,4 +83,5 @@ handoff de ciclo termina com a lista de caminhos (Decisão 3).
 
 ## Versão
 
-- v1.0 — 2026-06-10 — claude-fable-5, corrente E (fechamento) — depósito inicial (PROPOSED).
+- v1.0 — 2026-06-10 — claude-fable-5, corrente E (fechamento) — depósito inicial.
+- v1.1 — 2026-06-10 — codex, consolidação — ACCEPTED por hearback humano no readback 0003.

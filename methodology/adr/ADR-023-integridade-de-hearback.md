@@ -1,13 +1,13 @@
 ---
 adr-id: ADR-023
 titulo: Integridade de hearback — anti-auto-assinatura (uma IA nunca commita a própria autorização)
-status: PROPOSED
+status: ACCEPTED
 data-deposito: 2026-06-10
 id-global: 20260610-82
 path: methodology/adr/ADR-023-integridade-de-hearback.md
 autor: claude-fable-5 (arquiteto useHBN, corrente E — fechamento, Bloco 5)
 cross-ia-required: Codex + Antigravity (responde ao FORTE F-05 da 0026 — P10)
-hearback-status: pendente (lote fechamento corrente E)
+hearback-status: confirmado por Maurício (readback 0003, 2026-06-10)
 prioridade: P0 (sem isto, todo o sistema de hearbacks pode ser forjado pela própria IA)
 temperatura: quente
 tier-desta-mudanca: T2 (normativo — ADR + guard novo com teste negativo)
@@ -111,4 +111,5 @@ anterior) → passa.
 
 ## Versão
 
-- v1.0 — 2026-06-10 — claude-fable-5, corrente E (fechamento) — depósito inicial (PROPOSED).
+- v1.0 — 2026-06-10 — claude-fable-5, corrente E (fechamento) — depósito inicial.
+- v1.1 — 2026-06-10 — codex, consolidação — ACCEPTED por hearback humano no readback 0003, mantendo mesmo autor como AVISO até identidade separada/GPG.

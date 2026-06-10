@@ -1,13 +1,13 @@
 ---
 adr-id: ADR-021
 titulo: Documentos auto-localizáveis — todo artefato declara `path:` com o caminho canônico onde mora
-status: PROPOSED
+status: ACCEPTED
 data-deposito: 2026-06-10
 id-global: 20260610-79
 path: methodology/adr/ADR-021-documentos-auto-localizaveis.md
 autor: claude-fable-5 (arquiteto useHBN, corrente E — fechamento, Bloco 3)
 cross-ia-required: Codex + Antigravity (estende ADR-011, padrão estrutural — P10)
-hearback-status: pendente (lote fechamento corrente E)
+hearback-status: confirmado por Maurício (readback 0003, 2026-06-10)
 prioridade: P1 (fecha o gap "artefato colado em chat não sabe onde mora")
 temperatura: quente
 tier-desta-mudanca: T2 (normativo — ADR + guard novo + templates)
@@ -92,4 +92,5 @@ templates).
 
 ## Versão
 
-- v1.0 — 2026-06-10 — claude-fable-5, corrente E (fechamento) — depósito inicial (PROPOSED).
+- v1.0 — 2026-06-10 — claude-fable-5, corrente E (fechamento) — depósito inicial.
+- v1.1 — 2026-06-10 — codex, consolidação — ACCEPTED por hearback humano no readback 0003, sem ativar guards no runner.
