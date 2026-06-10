@@ -68,6 +68,9 @@ Nenhum arquivo é renomeado — esta seção só costura o passado ao livro-raz�
 | 20260610-26 | .hbn/models/ (4 perfis: fable-5, opus-4-8, codex, gemini-3-5) | profile | quente | — |
 | 20260610-27 | inbox/credenciamento/20260610-01-0017-parametrica.md | inbox | quente | — |
 | 20260610-28 | .hbn/knowledge/0003-git-sandbox-sem-lock.md | knowledge | quente | — |
+| 20260610-29 | .hbn/readbacks/0001-consolidacao-c1-c7.json | readback | quente | — |
+| 20260610-30 | .hbn/hearbacks/0001-consolidacao-c1-c7.json | hearback | frio | — |
+| 20260610-31 | 20260610-31-prompt-consolidacao-codex.md | prompt | quente | — |
 
 Nota de legado adicional: `/Users/macbookpro/Projetos/PROMPT_ARQUITETO_USEHBN_AUTONOMO.md`
 (v1.6, FORA deste repo, sem git) — quente; vira `ultrapassado` com
