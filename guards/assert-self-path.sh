@@ -13,6 +13,9 @@
 # status: proposed (corrente E — fechamento, 2026-06-10) — NÃO está no runner.
 #   Ativação futura = onda própria (ADR-020 Decisão 2: suíte verde + hearback).
 # Padrão C3: guard_diff staged local; HBN_DIFF_BASE...HEAD em CI.
+# E-FECH-01 (re-auditoria 0027): valida o BLOB STAGED (git show :path), nunca
+#   a working tree — o verde tem que provar o conteúdo que entra no commit.
+#   Em CI (HBN_DIFF_BASE) lê HEAD:path, que É o conteúdo pushed.
 # Escopo: arquivos ADICIONADOS/RENOMEADOS (diff-filter=AR) — rename gera path
 #   novo carregando `path:` antigo, exatamente o caso que (1) bloqueia.
 # Teste negativo: guards/tests/run-guard-tests.sh (seção G-SLF).
@@ -29,8 +32,6 @@ if guard_check_bypass; then
     exit 0
 fi
 
-REPO_ROOT="$(git rev-parse --show-toplevel)"
-
 guard_added_files() {
     if [[ -n "${HBN_DIFF_BASE:-}" ]]; then
         git diff --name-only --diff-filter=AR "${HBN_DIFF_BASE}...HEAD" 2>/dev/null || true
@@ -45,24 +46,35 @@ if [[ -z "$ADDED" ]]; then
     exit 0
 fi
 
-# Extrai `path:` do PRIMEIRO bloco de front-matter YAML de um .md.
+# Referência do blob a validar: índice (staged) localmente; HEAD em CI.
+# E-FECH-01: NUNCA a working tree — ela não é o que será commitado.
+blob_ref() {
+    if [[ -n "${HBN_DIFF_BASE:-}" ]]; then
+        echo "HEAD:$1"
+    else
+        echo ":$1"
+    fi
+}
+
+# Extrai `path:` do PRIMEIRO bloco de front-matter YAML de um .md (stdin).
 fm_declared_path() {
-    awk 'NR==1 && $0!="---"{exit} NR>1 && $0=="---"{exit} NR>1{print}' "$1" \
+    awk 'NR==1 && $0!="---"{exit} NR>1 && $0=="---"{exit} NR>1{print}' \
         | grep -E '^path:' | head -1 \
         | sed -E 's/^path:[[:space:]]*//; s/^["'"'"']//; s/["'"'"']$//; s/[[:space:]]+$//' \
         || true
 }
 
-# Extrai chave top-level "path" de um .json (vazio se ausente/ilegível).
+# Extrai chave top-level "path" de um .json (stdin; vazio se ausente/ilegível).
+# -c em vez de heredoc: o stdin é o BLOB (heredoc roubaria o stdin do python).
 json_declared_path() {
-    python3 - "$1" <<'PYEOF' || true
+    python3 -c '
 import json, sys
 try:
-    v = json.load(open(sys.argv[1])).get("path", "")
+    v = json.load(sys.stdin).get("path", "")
     print(v if isinstance(v, str) else "")
 except Exception:
     print("")
-PYEOF
+' || true
 }
 
 # Artefatos governados que DEVEM declarar path (ADR-021 Decisão 2, regra 2):
@@ -83,16 +95,16 @@ requires_path() {
 FAIL=0
 while IFS= read -r f; do
     [[ -z "$f" ]] && continue
-    abs="${REPO_ROOT}/${f}"
-    [[ -f "$abs" ]] || continue
+    ref="$(blob_ref "$f")"
+    git cat-file -e "$ref" 2>/dev/null || continue
     declared=""
     case "$f" in
-        *.md)   declared="$(fm_declared_path "$abs")" ;;
-        *.json) declared="$(json_declared_path "$abs")" ;;
+        *.md)   declared="$(git show "$ref" 2>/dev/null | fm_declared_path)" ;;
+        *.json) declared="$(git show "$ref" 2>/dev/null | json_declared_path)" ;;
         *) continue ;;
     esac
     if [[ -n "$declared" && "$declared" != "$f" ]]; then
-        guard_fail "Auto-localização mentirosa: '${f}' declara path: '${declared}' ≠ caminho real (ADR-021 Decisão 2.1). Corrija o front-matter — ou, se moveu o arquivo, atualize o path: no MESMO commit."
+        guard_fail "Auto-localização mentirosa: '${f}' declara path: '${declared}' ≠ caminho real (ADR-021 Decisão 2.1) — no conteúdo STAGED. Corrija o front-matter E re-stage (git add) — ou, se moveu o arquivo, atualize o path: no MESMO commit."
         FAIL=1
     elif [[ -z "$declared" ]] && requires_path "$f"; then
         guard_fail "Artefato governado novo '${f}' sem campo path: declarado (ADR-021 Decisão 2.2: todo artefato governado nasce dizendo onde mora)."

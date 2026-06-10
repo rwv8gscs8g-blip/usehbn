@@ -12,6 +12,9 @@
 # status: accepted (corrente E 50%, hearback humano no readback 0002);
 #   seções do FECHAMENTO da corrente E (G-REG novos casos, G-SLF, G-HRB):
 #   proposed — cobrem E-RE-01 (0025), F-01/F-02/F-04 (0026), ADR-021, ADR-023.
+#   FIX staged-skew (re-auditoria 0027, E-FECH-01/02): casos de skew
+#   index×worktree — staged ruim + worktree boa DEVE bloquear (e o espelho:
+#   staged boa + worktree ruim DEVE passar, provando que o guard lê o índice).
 # =============================================================================
 set -uo pipefail
 
@@ -159,6 +162,33 @@ d="$(make_repo)"
 check "reg: doc estável em methodology/ com linha exata" pass "$(run_reg "$d")"
 rm -rf "$d"
 
+# --- G-REG: skew index×worktree (E-FECH-02, re-auditoria 0027) ----------------
+# caso-ruim: REGISTRY staged SEM a linha; linha exata só na working tree
+# (unstaged). O commit sairia sem a linha — DEVE bloquear.
+d="$(make_repo)"
+(
+    cd "$d"
+    echo "r" > reports/20260101-04-skew.md
+    echo "" >> REGISTRY.md
+    git add -A
+    echo "| 20260101-04 | reports/20260101-04-skew.md | report | frio | — |" >> REGISTRY.md
+) >/dev/null 2>&1
+check "reg: linha só na working tree, staged sem (E-FECH-02)" block "$(run_reg "$d")"
+rm -rf "$d"
+
+# espelho-bom: linha exata STAGED; working tree depois perde a linha.
+# O commit sairia COM a linha — deve passar (prova que o guard lê o índice).
+d="$(make_repo)"
+(
+    cd "$d"
+    echo "r" > reports/20260101-05-skew-ok.md
+    echo "| 20260101-05 | reports/20260101-05-skew-ok.md | report | frio | — |" >> REGISTRY.md
+    git add -A
+    grep -v "20260101-05" REGISTRY.md > REGISTRY.tmp && mv REGISTRY.tmp REGISTRY.md
+) >/dev/null 2>&1
+check "reg: linha staged, working tree sem (espelho E-FECH-02)" pass "$(run_reg "$d")"
+rm -rf "$d"
+
 # --- G-SLF: assert-self-path (ADR-021 — repo git descartável por caso) -------
 echo "== assert-self-path (G-SLF) =="
 run_slf() {
@@ -188,6 +218,31 @@ rm -rf "$d"
 d="$(make_repo)"
 ( cd "$d" && echo '{"status":"pendente"}' > .hbn/hearbacks/0009-sem-path.json && git add -A ) >/dev/null 2>&1
 check "slf: hearback .json sem campo path"              block "$(run_slf "$d")"
+rm -rf "$d"
+
+# --- G-SLF: skew index×worktree (E-FECH-01, re-auditoria 0027) ----------------
+# caso-ruim: artefato STAGED com path: mentiroso; working tree corrigida
+# depois, sem re-stage. O commit levaria a mentira — DEVE bloquear.
+d="$(make_repo)"
+(
+    cd "$d"
+    printf -- '---\npath: docs/outro-lugar.md\n---\ncorpo\n' > methodology/adr/ADR-099-teste.md
+    git add -A
+    printf -- '---\npath: methodology/adr/ADR-099-teste.md\n---\ncorpo\n' > methodology/adr/ADR-099-teste.md
+) >/dev/null 2>&1
+check "slf: staged mente, working tree corrigida (E-FECH-01)" block "$(run_slf "$d")"
+rm -rf "$d"
+
+# espelho-bom: STAGED correto; working tree quebrada depois, sem re-stage.
+# O commit levaria o conteúdo certo — deve passar (prova leitura do índice).
+d="$(make_repo)"
+(
+    cd "$d"
+    printf -- '---\npath: methodology/adr/ADR-099-teste.md\n---\ncorpo\n' > methodology/adr/ADR-099-teste.md
+    git add -A
+    printf -- '---\npath: docs/outro-lugar.md\n---\ncorpo\n' > methodology/adr/ADR-099-teste.md
+) >/dev/null 2>&1
+check "slf: staged correto, working tree mente (espelho E-FECH-01)" pass "$(run_slf "$d")"
 rm -rf "$d"
 
 # --- G-HRB: assert-hearback-integrity (ADR-023 — anti-auto-assinatura F-05) --

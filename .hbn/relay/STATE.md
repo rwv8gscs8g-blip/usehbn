@@ -2,17 +2,19 @@
 state_version: 1
 projeto: usehbn (canônico)
 protocolo: "HBN 0.3.0 (bump 0.3.1 adiado — nota 20260610-34)"
-onda_atual: "corrente E — FECHADA em proposed (Blocos 3-6 entregues: ADR-021/022/023 + G-SLF + G-HRB + marginais 0025/0026; aguardando re-auditoria cruzada + hearback lote EF1-EF4)"
+onda_atual: "corrente E — FIX staged-skew entregue em proposed (E-FECH-01/02 da re-auditoria 0027 corrigidos; aguardando re-auditoria curta dos 2 guards + hearback lote EF1-EF4)"
 proprietario_bastao: claude-fable-5
-papel_bastao: arquiteto-implementador (corrente E — fechamento)
+papel_bastao: arquiteto-implementador (corrente E — fix pós-veto 0027)
 papeis:
   arquiteto: "claude-fable-5 — implementou a corrente E inteira (50% + fechamento); por ADR-018 NÃO a audita"
   auditor_validador_fixo: "claude-opus-4-8 (Cowork) — validador fixo EM PROSA; fora do campo mecânico `auditores` até o hearback 0002 ser confirmado (correção F-04)"
   gate_humano: "Maurício — decide o lote EF1-EF4 após re-auditoria; mantém F-05 por revisão visual do diff de .hbn/hearbacks/ (ADR-023 Decisão 1c)"
-proxima_acao: "Maurício: rm -f .git/index.lock + suíte conclusiva + revisar diff staged + commit do checkpoint (instruções no handoff 20260610-04); depois re-auditoria cruzada dos Blocos 3-6 (Codex + Antigravity, chats limpos) e hearback do lote EF1-EF4; NENHUM guard entra no runner antes da onda de ativação"
+proxima_acao: "Maurício: revisar diff do fix staged-skew + suíte conclusiva no Terminal (bash guards/tests/run-guard-tests.sh, esperado 33/33) + commit do checkpoint do fix; depois re-auditoria CURTA (Codex, chat limpo) só de G-SLF/G-REG + casos de skew; hearback do lote EF1-EF4 destrava se o veto cair; NENHUM guard entra no runner antes da onda de ativação"
 sinais_abertos:
-  - "🔵 HBN HANDOFF READY — corrente E FECHADA em proposed; pronto para re-auditoria + adoção (handoff 20260610-04)"
-  - "🟢 SUÍTE VERDE 29/29 em sandbox (informativa — rodada conclusiva no Terminal: bash guards/tests/run-guard-tests.sh)"
+  - "🔵 HBN HANDOFF READY — fix staged-skew (E-FECH-01/02) entregue em proposed; pronto para re-auditoria curta dos 2 guards (handoff 20260610-05)"
+  - "🟢 SUÍTE VERDE 33/33 em /tmp (informativa — rodada conclusiva no Terminal: bash guards/tests/run-guard-tests.sh)"
+  - "🟢 DOGFOOD: G-SLF/G-REG corrigidos rodaram contra o diff STAGED deste fix em cópia /tmp (verde) + prova adversarial 4/4 (staged manda; worktree não salva nem condena)"
+  - "🔴 veto 0027 (Codex) sobre o FECHAMENTO segue formalmente em pé até a re-auditoria curta validar o fix — E-FECH-01/02 corrigidos; E-FECH-03 mantido como AVISO por decisão do ADR-023"
   - "🟡 lote EF1-EF4 (fechamento E) PENDENTE de re-auditoria + hearback — tudo proposed, nada adotado, nada no runner"
   - "🟡 hearback 0002 (exceção fable×opus) DRAFT pendente de assinatura — até lá opus-4-8 fora do campo mecânico auditores"
   - "🟡 hearback em lote H1–H6 da corrente D PENDENTE — pareceres 0021/0022 entregues"
@@ -20,19 +22,36 @@ sinais_abertos:
   - "🟡 inbox/credenciamento com 2 propostas não consolidadas (20260610-01-0017-parametrica, 20260610-44-freeze-gate-v206)"
   - "🟡 backlog: assinatura GPG/SSH de hearbacks (eleva aviso de autor do G-HRB a bloqueio — ADR-023 Decisão 4); testes negativos dos 5 guards legados (onda de ativação do runner); F-05 renumeração da faxina 36 antes de H2; F-07 semântica de proprietario_bastao quando próxima ação é humana; 0022/F-05 G-FAM cruzar STATE completo (bastao×chapeu); gate script versionado do dual-run (0021/F-06); decidir versionamento de .hbn/readbacks/; resolver colisão de numeração readback 0002 × hearback 0002"
 readback_ativo: ".hbn/readbacks/0002-adocao-corrente-e.json (adoção 50% — fechado); próximo readback nasce com a re-auditoria do fechamento"
-handoff_mais_recente: ".hbn/messages/20260610-04-handoff-corrente-e-fechada-fable5.md"
-ancora_rollback: "e876060"
+handoff_mais_recente: ".hbn/messages/20260610-05-fix-staged-skew-fable5.md"
+ancora_rollback: "e3c3508"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "corrente E: 50% adotada (e876060) + fechamento em proposed; corrente D segue pendente nos itens H1-H6"
-ultima_atualizacao: "2026-06-10T13:57:42-03:00"
+ciclo_ativo: "corrente E: 50% adotada (e876060) + fechamento em proposed (checkpoint e3c3508) + fix staged-skew em proposed; corrente D segue pendente nos itens H1-H6"
+ultima_atualizacao: "2026-06-10T15:26:15-03:00"
 atualizado_por: claude-fable-5
 atribuicao:
   chapeu_atual: arquiteto-implementador
   implementador: fable-5
   auditores: [codex, gemini-3-5]
-  gravada_em: "2026-06-10T13:57:42-03:00"
+  gravada_em: "2026-06-10T15:26:15-03:00"
   hearback_ref: null
 ---
+
+Nota da onda (fix staged-skew, pós-veto 0027): a re-auditoria 0027 (Codex)
+vetou o fechamento com 2 bloqueadores reais — G-SLF e G-REG validavam a
+working tree enquanto o commit leva o staged; o verde não provava o que
+seria commitado (teatro mecânico nos próprios guards anti-teatro). Fix
+cirúrgico: G-SLF lê o blob staged (git show :path; HEAD:path em CI) e
+G-REG grepa o REGISTRY staged (git show :REGISTRY.md). Suíte 29 → 33:
+2 negativos de skew (staged ruim + worktree corrigida → BLOQUEIA) + 2
+espelhos-bons (staged bom + worktree quebrada → passa, provando leitura do
+índice). 33/33 verde em /tmp. Dogfood com prova adversarial 4/4: os guards
+corrigidos rodaram contra o diff staged deste fix em cópia /tmp, e a
+inversão staged↔worktree produziu exatamente os RCs esperados. E-FECH-03
+("mesmo autor") NÃO entra: ADR-023 Decisão 3 mantém como AVISO + revisão
+humana do diff de hearbacks + GPG/SSH no backlog — limite honesto do shell
+de identidade única. Nenhum git add no canônico (knowledge 0003). Commit
+do checkpoint é do humano no Terminal; depois re-auditoria CURTA dos 2
+guards. Nota da onda anterior (fechamento) preservada abaixo.
 
 Nota da onda: o fechamento da corrente E entregou os Blocos 3-6 em proposed.
 Bloco 3 (ADR-021 + G-SLF): todo artefato novo declara `path:`; guard bloqueia

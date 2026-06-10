@@ -202,6 +202,7 @@ local entre readback 0002 de adoção e hearback 0002 da exceção fable×opus.
 | 20260610-82 | methodology/adr/ADR-023-integridade-de-hearback.md | adr | quente | — |
 | 20260610-83 | guards/assert-hearback-integrity.sh | guard | quente | — |
 | 20260610-84 | .hbn/messages/20260610-04-handoff-corrente-e-fechada-fable5.md | handoff | quente | — |
+| 20260610-85 | .hbn/messages/20260610-05-fix-staged-skew-fable5.md | handoff | quente | — |
 
 Nota fechamento corrente E (Blocos 3-6 — status: proposed, não adotado):
 ADR-021 (auto-localização `path:`), ADR-022 (saída de auditoria legível por
@@ -220,3 +221,12 @@ reparo do drift 016–020 ausentes). Suíte 29/29 verde em sandbox
 (informativa — rodada conclusiva no Terminal). Backlog explícito: assinatura
 GPG/SSH de hearbacks (ADR-023 Decisão 4) e testes negativos dos 5 guards
 legados ficam para a onda de ativação do runner.
+
+Nota fix staged-skew (pós-veto 0027 — status: proposed): G-SLF e G-REG
+corrigidos para validar o conteúdo STAGED (git show :path / :REGISTRY.md;
+HEAD: em CI) em vez da working tree (E-FECH-01/02). Alterações in loco:
+guards/assert-self-path.sh, guards/assert-registry-line.sh,
+guards/tests/run-guard-tests.sh (29 → 33 casos: 2 negativos de skew + 2
+espelhos-bons que provam a leitura do índice). Suíte 33/33 verde em /tmp.
+E-FECH-03 não entra: critério "mesmo autor" permanece AVISO (ADR-023
+Decisão 3 — limite honesto do shell de identidade única; GPG no backlog).

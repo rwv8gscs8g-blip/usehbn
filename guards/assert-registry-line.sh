@@ -24,6 +24,9 @@
 #   (b) cobertura ampliada: core/*.md, .hbn/models/*.json, .github/workflows/*
 #       (bug F-01 da auditoria 0021 — spec-core novo passava sem REGISTRY);
 #   (c) órfãos também em docs/prompts/ (F-04 marginal da 0022).
+# E-FECH-02 (re-auditoria 0027): a linha exata é procurada no REGISTRY
+#   STAGED (git show :REGISTRY.md), nunca na working tree — linha só
+#   unstaged NÃO salva o commit que sairia sem ela. Em CI lê HEAD:REGISTRY.md.
 # Fechamento corrente E (re-auditorias 0025/0026):
 #   (d) NOTA guards aninhados (F-02 da 0026): em `case` bash o `*` cruza `/`,
 #       logo o padrão guards/*.sh JÁ casa guards/tests/x.sh e subpastas —
@@ -44,8 +47,17 @@ if guard_check_bypass; then
     exit 0
 fi
 
-REPO_ROOT="$(git rev-parse --show-toplevel)"
 REGISTRY="REGISTRY.md"
+
+# Conteúdo do REGISTRY que SERÁ commitado: índice (staged) localmente;
+# HEAD em CI (E-FECH-02 — a working tree não prova nada sobre o commit).
+registry_content() {
+    if [[ -n "${HBN_DIFF_BASE:-}" ]]; then
+        git show "HEAD:${REGISTRY}" 2>/dev/null || true
+    else
+        git show ":${REGISTRY}" 2>/dev/null || true
+    fi
+}
 
 # Arquivos ADICIONADOS ou RENOMEADOS neste diff (AR: rename gera path novo
 # que precisa de linha própria — 0026/F-01; M não re-paga: histórico tocado).
@@ -97,10 +109,11 @@ is_numbered_artifact() {
 
 # Casamento EXATO: o path precisa ser uma coluna inteira da tabela do
 # REGISTRY (| <path> |) — substring NÃO conta (ADR-020; bug F-02).
+# Grepa o REGISTRY STAGED, não a working tree (E-FECH-02).
 registry_has_exact() {
     local f="$1" esc
     esc="$(printf '%s' "$f" | sed 's/[][\.^$*+?(){}|]/\\&/g')"
-    grep -qE "\|[[:space:]]*${esc}[[:space:]]*\|" "${REPO_ROOT}/${REGISTRY}"
+    registry_content | grep -qE "\|[[:space:]]*${esc}[[:space:]]*\|"
 }
 
 FAIL=0
@@ -112,7 +125,7 @@ while IFS= read -r f; do
             guard_fail "Artefato governado novo '${f}' sem ${REGISTRY} no mesmo commit (ADR-011 Decisão 4: linha de nascimento no mesmo commit do depósito)."
             FAIL=1
         elif ! registry_has_exact "$f"; then
-            guard_fail "Artefato governado novo '${f}' não aparece como coluna exata (| path |) em nenhuma linha do ${REGISTRY} (ADR-011 Decisão 4 + ADR-020: substring não conta)."
+            guard_fail "Artefato governado novo '${f}' não aparece como coluna exata (| path |) em nenhuma linha do ${REGISTRY} STAGED (ADR-011 Decisão 4 + ADR-020: substring não conta; E-FECH-02: linha só na working tree não conta — git add ${REGISTRY})."
             FAIL=1
         fi
     fi
