@@ -254,3 +254,23 @@ fica aceito para a regra de `obrigatorio=true` com `status=na` só mediante
 hearback verificável. Nenhum guard entra no runner; ativação futura exige
 testes negativos dos 5 guards legados. Hearback 0002 segue pendente e
 opus-4-8 segue fora do campo mecânico `atribuicao.auditores`.
+
+Nota onda orquestração-start (PROPOSED — nada adotado): a partir daqui as
+linhas novas usam o bloco de 6 colunas com `created_at` ISO8601 (ADR-024
+Decisão 5, dogfood proposto; as 5 primeiras colunas preservam a forma
+grepada pelo G-REG). Evidência da regra: colisão 0001-fable5 × 0001-codex
+(escrita paralela no mesmo dia) e saturação do NN de 2 dígitos
+(20260610-99 atingido num único dia). Os 3 brainstorms abaixo mantêm o
+NOME original (nunca renomear história); o id novo é só de registro, com
+`created_at` reconstruído do mtime.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260610-160252-gemini-3-5-proposal-orquestracao-start | .hbn/proposals/0042-antigravity-orquestracao-start.md | proposal | quente | — | 2026-06-10T16:02:52-03:00 |
+| 20260610-160333-fable-5-proposal-orquestracao-start | .hbn/proposals/0001-fable5-orquestracao-start.md | proposal | quente | — | 2026-06-10T16:03:33-03:00 |
+| 20260610-160342-codex-proposal-orquestracao-start | .hbn/proposals/0001-codex-orquestracao-start.md | proposal | quente | — | 2026-06-10T16:03:42-03:00 |
+| 20260610-202123-fable-5-adr-orquestracao-start | methodology/adr/ADR-024-orquestracao-start.md | adr | quente | — | 2026-06-10T20:21:23-03:00 |
+| 20260610-202410-fable-5-spec-start-rite | core/start-rite-spec.md | spec-core | quente | — | 2026-06-10T20:24:10-03:00 |
+| 20260610-202530-fable-5-spec-orchestrator-profile | core/orchestrator-profile-spec.md | spec-core | quente | — | 2026-06-10T20:25:30-03:00 |
+| 20260610-202640-fable-5-spec-pointer | core/pointer-spec.md | spec-core | quente | — | 2026-06-10T20:26:40-03:00 |
+| 20260610-202750-fable-5-spec-state-report | core/state-report-spec.md | spec-core | quente | — | 2026-06-10T20:27:50-03:00 |

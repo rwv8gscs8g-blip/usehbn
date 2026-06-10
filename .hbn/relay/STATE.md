@@ -9,11 +9,12 @@ papeis:
   arquiteto: "claude-fable-5 — implementou a corrente E inteira (50% + fechamento); por ADR-018 NÃO a audita"
   auditor_validador_fixo: "claude-opus-4-8 (Cowork) — validador fixo EM PROSA; fora do campo mecânico `auditores` até o hearback 0002 ser confirmado (correção F-04)"
   gate_humano: "Maurício — confirmou o readback 0003; mantém F-05 por revisão visual do diff de .hbn/hearbacks/ (ADR-023 Decisão 1c)"
-proxima_acao: "claude-fable-5: retomar o bastão após a adoção do fechamento E; planejar a próxima onda sem ativar guards no runner antes dos testes negativos dos 5 guards legados"
+proxima_acao: "Maurício: revisar diff proposed da onda orquestração-start (ADR-024 + 4 specs core + REGISTRY/INDEX/STATE) e commitar se aprovado; cross-IA Codex + Antigravity sobre o ADR-024 antes de hearback; metade 2 (guards .sh + suíte) só após adoção"
 sinais_abertos:
   - "🟢 HBN CHECKPOINT CLEAN — fechamento E adotado por readback 0003; suíte 33/33 verde no commit de adoção"
   - "🔵 HBN HANDOFF READY — bastão devolvido a claude-fable-5 após adoção Codex"
   - "🟢 DOGFOOD: G-SLF/G-REG corrigidos validam STAGED local e HEAD em CI; 0029 removeu E-FECH-01/02"
+  - "🟣 onda orquestração-start aos ~50% PROPOSED não commitada: ADR-024 consolidando os 3 brainstorms + start-rite/orchestrator-profile/pointer/state-report specs + guards G-STR/G-NUM/G-PTR/G-RLT especificados FORA do runner; metade 2 = implementação .sh + suíte"
   - "🟡 guards novos/endurecidos continuam fora do runner; ativação futura exige testes negativos dos 5 guards legados"
   - "🟡 hearback 0002 (exceção fable×opus) DRAFT pendente de assinatura — até lá opus-4-8 fora do campo mecânico auditores"
   - "🟡 hearback em lote H1–H6 da corrente D PENDENTE — pareceres 0021/0022 entregues"
@@ -25,8 +26,8 @@ handoff_mais_recente: ".hbn/messages/20260610-05-fix-staged-skew-fable5.md"
 ancora_rollback: "5f0aea3 (checkpoint fix staged-skew antes da adoção fechamento E)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
 ciclo_ativo: "corrente E: 50% adotada (e876060) + fechamento adotado por readback 0003; corrente D segue pendente nos itens H1-H6"
-ultima_atualizacao: "2026-06-10T20:12:24-03:00"
-atualizado_por: codex
+ultima_atualizacao: "2026-06-10T20:31:40-03:00"
+atualizado_por: claude-fable-5
 atribuicao:
   chapeu_atual: consolidador
   implementador: codex
