@@ -1,13 +1,13 @@
 ---
 titulo: Roles-assignment spec — atribuição de chapéus por onda, checável por máquina
 diataxis: reference
-status: proposed
+status: accepted
 temperatura: quente
 id-global: 20260610-46
 versao: 0.1.0
 data: 2026-06-10
 autoria: claude-fable-5 (arquiteto useHBN, corrente D)
-hearback-status: pendente (lote corrente D)
+hearback-status: confirmado por Maurício (readback 0002, 2026-06-10)
 relacionado: [ADR-018, ADR-015 (perfis), core/relay-spec.md (STATE), core/cadence-d.md (P1/P2/P4), guards/assert-role-family.sh]
 ---
 
@@ -36,8 +36,8 @@ atribuído precisa constar em `papeis_aptos` do perfil (ADR-015) — atribuir
 fora disso exige `hearback_ref`; (c) `chapeu_atual` é a resposta inequívoca
 a "que chapéu esta janela veste?" — quem retoma lê ANTES de escrever
 qualquer coisa; (d) mudança de atribuição = atualização do STATE no mesmo
-commit do handoff (rito já vigente do relay-spec). Rampa: campo OPCIONAL até
-o primeiro hearback de adoção; obrigatório nas ondas seguintes.
+commit do handoff (rito já vigente do relay-spec). O campo foi adotado no
+readback 0002; ondas seguintes devem preenchê-lo.
 
 ## §3 Invariante anti-groupthink (guard)
 

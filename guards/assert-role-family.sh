@@ -5,7 +5,7 @@
 #   família(auditor de X) ≠ família(implementador de X)
 # família = campo `fornecedor` do perfil .hbn/models/<apelido>.json (ADR-015).
 #
-# status: proposed (corrente D, 2026-06-10) — NÃO está no runner.
+# status: accepted (correntes D/E, 2026-06-10) — NÃO está no runner.
 #   Invocação sob demanda (atribuição de onda / handoff):
 #     bash guards/assert-role-family.sh <atribuicao.json>
 #   onde o JSON tem a forma do campo `atribuicao` do STATE

@@ -1,0 +1,136 @@
+{
+  "readback_id": "0002-adocao-corrente-e",
+  "execution_id": "adocao-corrente-e-50pct-anti-teatro-2026-06-10",
+  "agent_id": "codex",
+  "track": "safe_track",
+  "status": "accepted",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "understanding": "Adotar exatamente a Corrente E 50% validada pelas re-auditorias 0025 Codex e 0026 Antigravity, sem veto: ADR-020 e artefatos anti-teatro dos Blocos 1+2. O hearback humano foi confirmado por Mauricio neste readback; o commit atomico inclui as evidencias 0025/0026 e o proprio readback para evitar referencias fantasma.",
+  "invariants_preserved": [
+    "Ativacao de guards no runner fica fora desta onda; ativacao futura exige teste negativo de todos os guards, inclusive os 5 legados ja ativos no runner.",
+    ".hbn/hearbacks/0002-excecao-fable-opus.json permanece pendente; a IA nao assina, nao confirma e nao fabrica hearback.",
+    "opus-4-8 nao volta ao campo mecanico atribuicao.auditores enquanto o hearback 0002 nao estiver confirmed por ato humano.",
+    "Nenhum dominio, projeto consumidor, workflow ou codigo de produto e tocado.",
+    "Blocos 3-4 da Corrente E ainda nao existem nesta adocao.",
+    "REGISTRY permanece append-only; linhas antigas nao sao reescritas."
+  ],
+  "action_plan": [
+    "1. Aguardar hearback humano confirmado de Mauricio para este readback; sem esse ato, parar.",
+    "2. Se confirmado, flipar PROPOSED/proposed para ACCEPTED/accepted somente nos alvos da Corrente E 50%: ADR-020, os 3 guards endurecidos, suite guards/tests e campo atribuicao em STATE/relay-spec/schema.",
+    "3. Preservar guards/assert-role-family.sh, guards/assert-registry-line.sh e guards/freeze-gate.sh fora de guards/hbn-guards-runner.sh.",
+    "4. Atualizar .hbn/relay/STATE.md apenas para refletir a adocao do lote E 50% e o novo readback ativo, mantendo 0002 pendente e opus fora de atribuicao.auditores.",
+    "5. Appendar no REGISTRY.md linhas de nascimento/adocao/temperatura necessarias para o readback e para os artefatos adotados, sem editar linhas historicas.",
+    "6. Verificar: bash guards/tests/run-guard-tests.sh verde; runner sem os 3 guards novos; grep de status proposed nos alvos adotados retorna 0; 0002 segue pendente.",
+    "7. Criar um commit atomico com trailer HBN-Readback: .hbn/readbacks/0002-adocao-corrente-e.json e mensagem solicitada pelo humano.",
+    "8. Incluir .hbn/results/0025-* e .hbn/results/0026-* no mesmo commit porque este hearback humano ampliou explicitamente o escopo de evidencia."
+  ],
+  "out_of_scope": [
+    "Ativar qualquer guard novo no runner.",
+    "Assinar, confirmar ou modificar o hearback 0002 para confirmed.",
+    "Reinserir opus-4-8 no campo mecanico atribuicao.auditores.",
+    "Tocar repositorios/projetos consumidores, dominio, produto, workflows ou codigo de aplicacao.",
+    "Implementar Blocos 3-4 da Corrente E.",
+    "Corrigir findings marginais/fortes fora do escopo de adocao, incluindo diff-filter AR, cobertura dos 5 guards legados e ampliacoes de escopo de prompt/docs.",
+    "Alterar artefatos das correntes D, Seguranca+Onboarding ou backlog que nao sejam pre-condicao direta da adocao E 50%."
+  ],
+  "authorization": {
+    "cross_ia": [
+      {
+        "path": ".hbn/results/0025-cross-ia-codex-corrente-e.md",
+        "verdict": "VETO_ADOCAO: NAO",
+        "notes": "Sem bloqueador; aceita ADR-020, G-FAM, G-REG, G-FRZ e F-04, com ressalvas antes de runner."
+      },
+      {
+        "path": ".hbn/results/0026-cross-ia-antigravity-corrente-e.md",
+        "verdict": "VETO_ADOCAO: nao",
+        "notes": "Aprova a adocao da Corrente E 50%; alerta F-05 exige revisao humana visual de hearbacks."
+      }
+    ],
+    "human_hearback_required": true,
+    "human_hearback_status": "confirmed",
+    "human_hearback_rule": "F-05: hearback e ato humano; Mauricio cria/commita/revisa o diff. A IA nao fabrica confirmacao."
+  },
+  "adoption_scope": {
+    "allowed_status_flip": [
+      "methodology/adr/ADR-020-anti-validacao-de-teatro.md",
+      "guards/assert-role-family.sh",
+      "guards/assert-registry-line.sh",
+      "guards/freeze-gate.sh",
+      "guards/tests/run-guard-tests.sh",
+      "guards/tests/fixtures/**",
+      "core/relay-spec.md",
+      "schemas/state.schema.json",
+      "core/roles-assignment-spec.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/results/0025-cross-ia-codex-corrente-e.json",
+      ".hbn/results/0025-cross-ia-codex-corrente-e.md",
+      ".hbn/results/0026-cross-ia-antigravity-corrente-e.md"
+    ],
+    "adopted_semantics": [
+      "ADR-020 anti-validacao-de-teatro: Truth Barrier para guards e regra de teste negativo antes de runner.",
+      "G-FAM: hearback_ref dereferenciado, status confirmed exigido e excecoes_cobertas checadas por entrada exata.",
+      "G-REG: casamento de path por coluna exata no REGISTRY, cobertura de core/*.md, .hbn/models/*.json, .github/workflows/* e orfaos em docs/prompts/.",
+      "G-FRZ: criterio obrigatorio com status na so passa com hearback verificavel e confirmed.",
+      "Suite guards/tests: casos bons e ruins para G-FAM, G-FRZ e G-REG, mantendo ativacao futura dependente de negativos para todos os guards.",
+      "Campo atribuicao em STATE/relay-spec/schema: adocao do dado mecanico, com auditores [codex, gemini-3-5] e hearback_ref null no estado atual."
+    ]
+  },
+  "verification_plan": [
+    "bash guards/tests/run-guard-tests.sh",
+    "rg -n \"assert-role-family|assert-registry-line|freeze-gate\" guards/hbn-guards-runner.sh deve mostrar ausencia dos 3 guards novos no array GUARDS.",
+    "rg -n \"status: proposed|status: PROPOSED|PROPOSED|hearback pendente\" methodology/adr/ADR-020-anti-validacao-de-teatro.md core/relay-spec.md schemas/state.schema.json core/roles-assignment-spec.md guards/assert-role-family.sh guards/assert-registry-line.sh guards/freeze-gate.sh guards/tests/run-guard-tests.sh .hbn/relay/STATE.md deve retornar 0 para os marcadores adotados.",
+    "rg -n \"\\\"status\\\": \\\"pendente\\\"|auditores: \\[codex, gemini-3-5\\]\" .hbn/hearbacks/0002-excecao-fable-opus.json .hbn/relay/STATE.md confirma invariantes F-04."
+  ],
+  "residual_risks": [
+    "Pre-flight local mostrou os resultados 0025/0026 como untracked, embora o pedido esperasse status limpo; este readback trata esses arquivos como insumos declarados e nao os modifica.",
+    "A suite atual da Corrente E valida os 3 guards endurecidos, mas os 5 guards legados ainda precisam de testes negativos antes de qualquer nova interpretacao de runner.",
+    "Arquivos de hearback sao verificaveis por conteudo, mas continuam sujeitos a auto-assinatura se o diff humano nao for conferido."
+  ],
+  "classification_basis": {
+    "has_guardian_warnings": false,
+    "has_risks": true,
+    "has_constraints": true
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0002-adocao-corrente-e.json",
+      "methodology/adr/ADR-020-anti-validacao-de-teatro.md",
+      "guards/assert-role-family.sh",
+      "guards/assert-registry-line.sh",
+      "guards/freeze-gate.sh",
+      "guards/tests/**",
+      "core/relay-spec.md",
+      "schemas/state.schema.json",
+      "core/roles-assignment-spec.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/results/0025-cross-ia-codex-corrente-e.json",
+      ".hbn/results/0025-cross-ia-codex-corrente-e.md",
+      ".hbn/results/0026-cross-ia-antigravity-corrente-e.md"
+    ],
+    "files_forbidden": [
+      ".hbn/hearbacks/0002-excecao-fable-opus.json",
+      "guards/hbn-guards-runner.sh",
+      ".github/workflows/**",
+      "inbox/**",
+      "src/**",
+      "tests/**",
+      "docs/**",
+      "modules/**",
+      "examples/**"
+    ]
+  },
+  "preflight": {
+    "pwd": "/Users/macbookpro/Projetos/usehbn",
+    "head": "1a3a2c4 checkpoint(protocol): corrente E 50% (anti-teatro ADR-020 + 3 guards endurecidos + testes negativos + F-04 excecao fable-opus) \u2014 status: proposed, nao adotado",
+    "git_status_short_observed": [
+      "?? .hbn/results/0025-cross-ia-codex-corrente-e.json",
+      "?? .hbn/results/0025-cross-ia-codex-corrente-e.md",
+      "?? .hbn/results/0026-cross-ia-antigravity-corrente-e.md"
+    ]
+  },
+  "created_at": "2026-06-10T13:24:16-03:00",
+  "protocol_version": "0.3.0"
+}

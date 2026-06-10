@@ -1,13 +1,13 @@
 ---
 adr-id: ADR-020
 titulo: Anti-Validação-de-Teatro — guard só dá PASS sobre substância verificada, e nenhum guard ativa sem teste negativo verde
-status: PROPOSED
+status: ACCEPTED
 data-deposito: 2026-06-10
 id-global: 20260610-64
 path: methodology/adr/ADR-020-anti-validacao-de-teatro.md
 autor: claude-fable-5 (arquiteto useHBN, corrente E)
 cross-ia-required: Codex + Antigravity (endurece guards que eles mesmos auditaram — P10)
-hearback-status: pendente (lote corrente E)
+hearback-status: confirmado por Maurício (readback 0002, 2026-06-10)
 prioridade: P0 (fecha a classe de bug provada pela auditoria cruzada 0021/0022)
 temperatura: quente
 tier-desta-mudanca: T2 (normativo — ADR + alteração de 3 guards + suite de testes)
@@ -91,4 +91,5 @@ um BLOQUEADO pelo guard endurecido.
 
 ## Versão
 
-- v1.0 — 2026-06-10 — claude-fable-5, corrente E — depósito inicial (PROPOSED).
+- v1.0 — 2026-06-10 — claude-fable-5, corrente E — depósito inicial.
+- v1.1 — 2026-06-10 — codex, consolidação — ACCEPTED por hearback humano no readback 0002, sem ativar guards no runner.

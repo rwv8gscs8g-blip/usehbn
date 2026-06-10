@@ -149,7 +149,7 @@ conforme inbox/README.md. Saídas esperadas dos auditores externos:
 quando depositados). Nenhum valor de segredo transcrito em artefato algum
 desta corrente (regra dura). Tier: T2, rito readback→hearback em lote.
 
-## Corrente E (2026-06-10) — anti-teatro — TUDO status: proposed, hearback pendente
+## Corrente E (2026-06-10) — anti-teatro — status: accepted em 50%, hearback readback 0002
 
 | id | artefato (path) | tipo | temperatura | superseded_by |
 |---|---|---|---|---|
@@ -157,6 +157,17 @@ desta corrente (regra dura). Tier: T2, rito readback→hearback em lote.
 | 20260610-65 | guards/tests/run-guard-tests.sh | guard-test | quente | — |
 | 20260610-66 | .hbn/hearbacks/0002-excecao-fable-opus.json | hearback | quente | — |
 | 20260610-67 | .hbn/messages/20260610-03-handoff-corrente-e-50pct-fable5.md | handoff | quente | — |
+| 20260610-68 | .hbn/results/0025-cross-ia-codex-corrente-e.json | audit-result | frio | — |
+| 20260610-69 | .hbn/results/0025-cross-ia-codex-corrente-e.md | audit-result | frio | — |
+| 20260610-70 | .hbn/results/0026-cross-ia-antigravity-corrente-e.md | audit-result | frio | — |
+| 20260610-71 | .hbn/readbacks/0002-adocao-corrente-e.json | readback | frio | — |
+| 20260610-72 | methodology/adr/ADR-020-anti-validacao-de-teatro.md | adr | quente | — |
+| 20260610-73 | guards/assert-registry-line.sh | guard | quente | — |
+| 20260610-74 | guards/freeze-gate.sh | guard | quente | — |
+| 20260610-75 | guards/assert-role-family.sh | guard | quente | — |
+| 20260610-76 | guards/tests/run-guard-tests.sh | guard-test | quente | — |
+| 20260610-77 | core/relay-spec.md + schemas/state.schema.json (campo `atribuicao`) | nota | quente | — |
+| 20260610-78 | core/roles-assignment-spec.md | spec-core | quente | — |
 
 Nota corrente E: guards 35/43/47 ALTERADOS in loco (endurecidos por ADR-020
 contra os bugs F-01/F-02/F-03 das auditorias 0021/0022); fixtures sintéticas
@@ -174,3 +185,13 @@ no runner (ADR-020 Decisão 2: ativação exige suíte verde + hearback).
 Blocos 3-4 da corrente E (auto-localização `path:` em template ADR-011 +
 guard leve; saída de auditoria legível por humano) ficam para a próxima
 janela — handoff 67.
+
+Nota adoção Corrente E 50%: linhas 68–70 versionam as re-auditorias
+0025/0026 que autorizaram a adoção sem veto; linha 71 versiona o readback
+confirmado para evitar referência fantasma apesar de `.hbn/readbacks/`
+estar gitignored; linhas 72–78 registram a mudança de temperatura/estado dos
+artefatos adotados. Os três guards endurecidos continuam fora do runner; a
+ativação futura exige testes negativos de todos os guards, inclusive os 5
+legados. Backlog explícito, sem correção nesta onda: decidir se
+`.hbn/readbacks/` deve deixar de ser ignorado e resolver a colisão de série
+local entre readback 0002 de adoção e hearback 0002 da exceção fable×opus.

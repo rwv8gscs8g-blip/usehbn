@@ -4,7 +4,7 @@
 # Gate G-FRZ: lê um freeze-checklist (schemas/freeze-checklist.schema.json) e
 # responde "congelável: sim" (exit 0) ou "congelável: não" + o que falta (exit 1).
 #
-# status: proposed (corrente D, 2026-06-10) — NÃO está no runner de pre-commit
+# status: accepted (correntes D/E, 2026-06-10) — NÃO está no runner de pre-commit
 #   (não é guard de commit: é gate de release, invocado sob demanda):
 #     bash guards/freeze-gate.sh <caminho/do/checklist.json>
 # Regras (ADR-017 + spec §2): obrigatorio=true precisa ok; ok exige evidencia;

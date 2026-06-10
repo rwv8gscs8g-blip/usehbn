@@ -9,6 +9,7 @@
 # Hermética: perfis de modelo sintéticos em fixtures/models (HBN_MODELS_DIR);
 # G-REG roda em repo git descartável (mktemp). Não toca o repo real.
 # Uso: bash guards/tests/run-guard-tests.sh   (exit 0 = suíte verde)
+# status: accepted (corrente E 50%, hearback humano no readback 0002)
 # =============================================================================
 set -uo pipefail
 

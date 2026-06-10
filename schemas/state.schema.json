@@ -103,7 +103,7 @@
     },
     "atribuicao": {
       "type": "object",
-      "description": "PROPOSED (corrente D 2026-06-10, ADR-018; hearback pendente). Atribuição de chapéus checável por máquina — ver core/roles-assignment-spec.md §2. Opcional na rampa; obrigatória após hearback de adoção. Validável por guards/assert-role-family.sh.",
+      "description": "ACCEPTED (corrente E 50%, readback 0002, 2026-06-10). Atribuição de chapéus checável por máquina — ver core/roles-assignment-spec.md §2. Validável por guards/assert-role-family.sh.",
       "additionalProperties": false,
       "required": ["chapeu_atual", "implementador", "auditores", "gravada_em"],
       "properties": {
