@@ -34,6 +34,7 @@ Nenhum arquivo é renomeado — esta seção só costura o passado ao livro-raz�
 | 2026-06-10 05:49 | reports/BASELINE-RETOMADA-2026-06-10.md | baseline | frio | — | mtime; evidência histórica (medição 238–393 KB) |
 | 2026-06-10 06:02 | PROMPT_C2_CHAIN_FABLE5.md | prompt | frio | — | mtime; corrente C2 encerrada |
 | 2026-06-10 06:19 | PROMPT_C3_CHAIN_FABLE5.md | prompt | quente | — | mtime; ciclo C3/C4 em curso nesta janela |
+| 2026-06-10 | PROMPT_C6C7_CHAIN_FABLE5.md | prompt | quente | — | ciclo C6/C7 em curso nesta janela (última corrente antes da consolidação) |
 
 ## Linhas (going-forward, ADR-011)
 
@@ -61,6 +62,11 @@ Nenhum arquivo é renomeado — esta seção só costura o passado ao livro-raz�
 | 20260610-20 | .hbn/knowledge/0001-comandos-atomicos-copiaveis.md | knowledge | quente | — |
 | 20260610-21 | .hbn/knowledge/0002-entrega-operacional-minimalista.md | knowledge | quente | — |
 | 20260610-22 | .hbn/autoevolve/cycle-2026-06-10.jsonl | exec | frio | — |
+| 20260610-23 | methodology/adr/ADR-014-cerimonia-proporcional-tiers.md | adr | quente | — |
+| 20260610-24 | methodology/adr/ADR-015-perfis-de-modelo.md | adr | quente | — |
+| 20260610-25 | schemas/model-profile.schema.json | schema | quente | — |
+| 20260610-26 | .hbn/models/ (4 perfis: fable-5, opus-4-8, codex, gemini-3-5) | profile | quente | — |
+| 20260610-27 | inbox/credenciamento/20260610-01-0017-parametrica.md | inbox | quente | — |
 
 Nota de legado adicional: `/Users/macbookpro/Projetos/PROMPT_ARQUITETO_USEHBN_AUTONOMO.md`
 (v1.6, FORA deste repo, sem git) — quente; vira `ultrapassado` com
