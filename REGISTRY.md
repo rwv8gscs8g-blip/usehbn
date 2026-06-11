@@ -321,3 +321,5 @@ honesta de 63 checks totais, 30 checks ADR-024 e 20 negativos de bloqueio. Os
 | 20260611-155220-fable5-knowledge-0019-severidades-veto | .hbn/knowledge/0019-severidades-veto.md | knowledge | quente | — | 2026-06-11T15:52:20-03:00 |
 | 20260611-155221-fable5-knowledge-0022-firewall | .hbn/knowledge/0022-firewall-workflow-fast-track.md | knowledge | quente | — | 2026-06-11T15:52:21-03:00 |
 | 20260611-155515-fable5-adr-nome-universal | methodology/adr/ADR-025-nome-universal-artefato-ia.md | adr | quente | — | 2026-06-11T15:55:15-03:00 |
+| 20260611-110642-codex-cross-ia-ativacao-enforcement | .hbn/results/20260611-110642-codex-cross-ia-ativacao-enforcement.md | audit-result | frio | — | 2026-06-11T11:06:42-03:00 |
+| 20260611-125809-gemini-3-5-cross-ia-ativacao-enforcement | .hbn/results/20260611-125809-gemini-3-5-cross-ia-ativacao-enforcement.md | audit-result | frio | — | 2026-06-11T12:58:09-03:00 |
