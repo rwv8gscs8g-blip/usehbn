@@ -19,6 +19,15 @@
 #   ADR-024): status PROPOSED — casos das specs core/start-rite-spec.md §4-§5,
 #   core/pointer-spec.md §3, core/state-report-spec.md §4, incluindo skew
 #   E-FECH-01/02 e o caso de compatibilidade G-REG×created_at (risco R5).
+#   CONTAGEM HONESTA (FIX cross-audit 0030 F-03): a seção ADR-024 soma
+#   30 checks, dos quais 20 são negativos de bloqueio (block); os demais
+#   são casos-bons, compatibilidade G-REG e pass-com-aviso (o aviso em si
+#   não é assertado — só o rc). Antes do FIX 0030/0031: 26 checks, 17
+#   negativos de bloqueio — NÃO "26 testes negativos".
+#   FIX cross-audits 0030/0031 (3 FORTE + marginais): G-NUM token exato
+#   (0030 F-01 / 0031 F-05) + data de id serial (0031 F-01); G-RLT heading
+#   exato da cápsula (0030 F-02) + parser do chapéu por campo (0031 F-03);
+#   G-PTR ignora ⟦HBN⟧ em code-fence (0031 F-02).
 # =============================================================================
 set -uo pipefail
 
@@ -387,6 +396,19 @@ d="$(make_num_repo "[alpha-1, beta-1]")"
 check "num: agente do nome fora de escrita_paralela"          block "$(run_num "$d")"
 rm -rf "$d"
 
+# caso-ruim 0030/F-01 · 0031/F-05: colisão de PREFIXO — escrita_paralela
+# declara só `alpha`; arquivo de `alpha-1` (apelido conhecido: é o
+# implementador do STATE) NÃO pode passar como agente alpha + slug "1-…".
+d="$(make_num_repo "[alpha]")"
+(
+    cd "$d"
+    echo "ideia" > .hbn/proposals/20260610-101010-alpha-1-ideia.md
+    echo "| 20260610-101010-alpha-1-ideia | .hbn/proposals/20260610-101010-alpha-1-ideia.md | proposal | quente | — | 2026-06-10T10:10:10-03:00 |" >> REGISTRY.md
+    git add -A
+) >/dev/null 2>&1
+check "num: prefixo de apelido (alpha-1 vs alpha) NÃO passa como slug (0030/F-01·0031/F-05)" block "$(run_num "$d")"
+rm -rf "$d"
+
 # caso-ruim: linha nova do REGISTRY sem coluna created_at (5 colunas)
 d="$(make_num_repo "[alpha-1, beta-1]")"
 (
@@ -418,6 +440,17 @@ d="$(make_num_repo "[]")"
     git add -A
 ) >/dev/null 2>&1
 check "num: serial AAAAMMDD-NN segue passando fora de ciclo paralelo" pass "$(run_num "$d")"
+rm -rf "$d"
+
+# caso-ruim 0031/F-01: id SERIAL com data divergente do created_at
+d="$(make_num_repo "[]")"
+(
+    cd "$d"
+    echo "r" > reports/20260101-08-data-errada.md
+    echo "| 20260101-08 | reports/20260101-08-data-errada.md | report | frio | — | 2026-06-10T09:00:00-03:00 |" >> REGISTRY.md
+    git add -A
+) >/dev/null 2>&1
+check "num: id serial com data ≠ created_at (0031/F-01)"      block "$(run_num "$d")"
 rm -rf "$d"
 
 # caso-ruim skew (herda E-FECH-02): created_at só na working tree; staged sem
@@ -496,6 +529,20 @@ rm -rf "$d"
 d="$(make_ptr_repo)"
 ( cd "$d" && printf -- '⟦HBN⟧ [core/alvo-spec.md](file:///tmp/outra-coisa.md) · sinal: 🔵 · ação: ler\n' > .hbn/messages/20260610-90-h.md && git add -A ) >/dev/null 2>&1
 check "ptr: href divergente do path relativo (pass-com-aviso)"          pass  "$(run_ptr "$d")"
+rm -rf "$d"
+
+# caso-bom 0031/F-02: exemplo de ⟦HBN⟧ dentro de code-fence é IGNORADO
+# (path fictício de template não vira falso-positivo de ponteiro mentiroso)
+d="$(make_ptr_repo)"
+(
+    cd "$d"
+    {
+        printf -- '⟦HBN⟧ [core/alvo-spec.md](file:///x/core/alvo-spec.md) · sinal: 🔵 · ação: ler a spec\n'
+        printf -- '```\n⟦HBN⟧ [caminho/falso-exemplo.md](file:///x/caminho/falso-exemplo.md) · sinal: 🔵 · ação: exemplo de template\n```\n'
+    } > .hbn/messages/20260610-90-h.md
+    git add -A
+) >/dev/null 2>&1
+check "ptr: exemplo ⟦HBN⟧ em code-fence ignorado (0031/F-02)"           pass  "$(run_ptr "$d")"
 rm -rf "$d"
 
 # caso-ruim skew (herda E-FECH-01/02): destino bom só na working tree
@@ -586,6 +633,20 @@ rm -rf "$d"
 d="$(make_rlt_repo "$PA" "$UA")"
 ( cd "$d" && write_handoff "$PA" "$UA" n > .hbn/messages/20260610-91-h.md && git add -A ) >/dev/null 2>&1
 check "rlt: orquestrador sem seção cápsula"                            block "$(run_rlt "$d")"
+rm -rf "$d"
+
+# caso-ruim 0030/F-02: palavra "(cápsula)" solta fora do heading exato é
+# teatro de cápsula — não satisfaz a Decisão 6 do ADR-024.
+d="$(make_rlt_repo "$PA" "$UA")"
+(
+    cd "$d"
+    {
+        write_handoff "$PA" "$UA" n
+        echo "NOTA: a seção de (cápsula) ainda não existe neste handoff"
+    } > .hbn/messages/20260610-91-h.md
+    git add -A
+) >/dev/null 2>&1
+check "rlt: '(cápsula)' fora do heading exato (teatro) (0030/F-02)"    block "$(run_rlt "$d")"
 rm -rf "$d"
 
 # caso-ruim skew (E-FECH-02): STATE bom só na working tree; staged velho

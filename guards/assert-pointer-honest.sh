@@ -22,6 +22,9 @@
 #   ⟦HBN⟧ <path> · sinal: … · ação: …                (degradada, sem href)
 # `path:` do destino: front-matter YAML em .md; chave top-level em .json
 #   (mesma extração do G-SLF). Outras extensões: só regras 1, 3 e 4.
+# FIX cross-audit 0031 F-02: linhas dentro de code-fence markdown (``` ou
+#   ~~~) são IGNORADAS na varredura de ⟦HBN⟧ — exemplos/templates de
+#   ponteiro em documentação não são ponteiros reais (evita falso-positivo).
 # Teste negativo: guards/tests/run-guard-tests.sh (seção G-PTR).
 # =============================================================================
 set -euo pipefail
@@ -128,7 +131,10 @@ while IFS= read -r f; do
                 guard_warn "href '${href}' não termina no path relativo '${ptr_path}' em '${f}' (pointer-spec §3.4 — href apontando para arquivo diferente do declarado)."
             fi
         fi
-    done <<< "$(git show "$ref" 2>/dev/null | grep -F "$MARKER" || true)"
+    done <<< "$(git show "$ref" 2>/dev/null | awk -v m="$MARKER" '
+        /^[[:space:]]*(```|~~~)/ { infence = !infence; next }
+        !infence && index($0, m) { print }
+    ' || true)"
 done <<< "$CHANGED"
 
 if [[ "$FAIL" -ne 0 ]]; then

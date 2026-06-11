@@ -9,8 +9,10 @@
 #       (igualdade EXATA de string — paráfrase não conta).
 #   (3) BLOQUEADOR: ultima_atualizacao citado no relato ≠ o do STATE STAGED
 #       (valor que só existe no arquivo novo denuncia relato de memória).
-#   (4) BLOQUEADOR: chapéu orquestrador sem seção de cápsula no handoff
-#       (## Decisões informais (cápsula) — ADR-024 Decisão 6).
+#   (4) BLOQUEADOR: chapéu orquestrador sem o heading EXATO
+#       `^## Decisões informais \(cápsula\)$` (ADR-024 Decisão 6; FIX
+#       cross-audit 0030 F-02 — substring solta '(cápsula)' não conta).
+#       Header do relato fora da forma fixa §1 também BLOQUEIA (0031 F-03).
 #   (5) AVISO: bloco de relato com >10 linhas (inflação — ADR-022).
 #
 # status: proposed (metade 2 da onda orquestração-start) — FORA do runner.
@@ -119,12 +121,19 @@ while IFS= read -r f; do
     fi
 
     # Regra 4: chapéu orquestrador exige seção de cápsula no handoff.
+    # FIX 0031 F-03: parser do chapéu por campo (awk -F'·'), não por sufixo
+    # de string — header fora da forma fixa da spec §1 BLOQUEIA em vez de
+    # capturar lixo (anti-teatro: relato malformado não dribla a regra).
     header="$(grep -F 'RELATO DE ESTADO' <<< "$content" | head -1)"
-    resto="${header#*·}"
-    chapeu="$(echo "${resto%%·*}" | xargs || true)"
-    if [[ "$chapeu" == *orquestrador* ]]; then
-        if ! grep -qF '(cápsula)' <<< "$content"; then
-            guard_fail "Handoff '${f}' de chapéu '${chapeu}' sem seção '## Decisões informais (cápsula)' (ADR-024 Decisão 6: instruções informais do humano não morrem na troca de janela; vazia = 'nenhuma')."
+    chapeu="$(awk -F'·' '{ if (NF >= 3) { gsub(/^[ \t]+|[ \t]+$/, "", $2); print $2 } }' <<< "$header")"
+    if [[ -z "$chapeu" ]]; then
+        guard_fail "Header do RELATO em '${f}' fora da forma fixa '— <apelido> · <chapéu> · <carimbo>' (state-report-spec §1; 0031 F-03) — chapéu não extraível."
+        FAIL=1
+    elif [[ "$chapeu" == *orquestrador* ]]; then
+        # FIX 0030 F-02: heading EXATO, não substring — '(cápsula)' solto
+        # em qualquer linha não satisfaz a Decisão 6.
+        if ! grep -qE '^## Decisões informais \(cápsula\)$' <<< "$content"; then
+            guard_fail "Handoff '${f}' de chapéu '${chapeu}' sem o heading EXATO '## Decisões informais (cápsula)' (ADR-024 Decisão 6; state-report-spec §2.4; 0030 F-02 — menção solta a '(cápsula)' não conta; vazia = 'nenhuma')."
             FAIL=1
         fi
     fi

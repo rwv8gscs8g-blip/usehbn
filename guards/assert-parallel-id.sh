@@ -24,6 +24,14 @@
 #   - `escrita_paralela` é lida do bloco `atribuicao` do STATE staged; só a
 #     forma inline `escrita_paralela: [a, b]` é suportada (forma da
 #     start-rite-spec §3); ausente/vazia ⇒ ciclo serial.
+#   - TOKEN EXATO do agente (FIX cross-audit 0030 F-01 / 0031 F-05): o
+#     <agente> do nome é o apelido conhecido MAIS LONGO que casa o trecho
+#     após o carimbo, comparado por igualdade (==), nunca por prefixo —
+#     `alpha-1` NÃO passa como `alpha` + slug `1-…`. Universo de apelidos
+#     conhecidos: atribuicao do STATE staged (orquestrador, implementador,
+#     auditores, escrita_paralela) + perfis ${HBN_MODELS_DIR:-.hbn/models}.
+#   - Data de id SERIAL (FIX 0031 F-01): linha nova AAAAMMDD-NN exige
+#     YYYYMMDD == data do created_at da mesma linha.
 # Teste negativo: guards/tests/run-guard-tests.sh (seção G-NUM), incluindo o
 #   caso de compatibilidade G-REG (risco R5 do ADR-024).
 # =============================================================================
@@ -78,6 +86,26 @@ if [[ "$PARALELO_LINHA" =~ \[([^]]*)\] ]]; then
     PARALELO="$(echo "${BASH_REMATCH[1]}" | tr ',' ' ' | tr -d '"' | tr -d "'" | xargs || true)"
 fi
 
+# Universo de apelidos conhecidos para o casamento por TOKEN EXATO
+# (0030 F-01 / 0031 F-05): atribuicao do STATE staged + perfis de modelo.
+KNOWN="$PARALELO"
+for key in orquestrador implementador; do
+    v="$(state_content | grep -E "^[[:space:]]*${key}:" | head -1 \
+        | sed -E "s/^[[:space:]]*${key}:[[:space:]]*//; s/[[:space:]]+$//" || true)"
+    [[ -n "$v" && "$v" != "null" ]] && KNOWN="$KNOWN $v"
+done
+AUD_LINHA="$(state_content | grep -E '^[[:space:]]*auditores:' | head -1 || true)"
+if [[ "$AUD_LINHA" =~ \[([^]]*)\] ]]; then
+    KNOWN="$KNOWN $(echo "${BASH_REMATCH[1]}" | tr ',' ' ' | tr -d '"' | tr -d "'" | xargs || true)"
+fi
+MODELS_DIR="${HBN_MODELS_DIR:-.hbn/models}"
+if [[ -d "$MODELS_DIR" ]]; then
+    for p in "$MODELS_DIR"/*.json; do
+        [[ -e "$p" ]] || continue
+        KNOWN="$KNOWN $(basename "$p" .json)"
+    done
+fi
+
 ADDED="$(guard_added_files)"
 FAIL=0
 
@@ -94,18 +122,38 @@ if [[ -n "$PARALELO" && -n "$ADDED" ]]; then
         [[ -z "$f" ]] && continue
         is_parallel_series_path "$f" || continue
         base="$(basename "$f")"
+        # Captura por TOKEN EXATO (0030 F-01 / 0031 F-05): o agente do nome
+        # é o apelido conhecido MAIS LONGO que casa após o carimbo; o match
+        # final é igualdade == com escrita_paralela, nunca prefixo.
+        rest=""
+        if [[ "$base" =~ ^[0-9]{8}-[0-9]{6}-(.+)$ ]]; then
+            rest="${BASH_REMATCH[1]}"
+        fi
+        token=""
+        if [[ -n "$rest" ]]; then
+            for k in $KNOWN; do
+                [[ "$rest" == "$k"-* ]] || continue
+                slug="${rest#"$k"-}"
+                [[ "$slug" =~ ^[a-z0-9][a-z0-9-]*\. ]] || continue
+                if (( ${#k} > ${#token} )); then token="$k"; fi
+            done
+        fi
         ok=0
-        for ag in $PARALELO; do
-            if [[ "$base" =~ ^[0-9]{8}-[0-9]{6}-"$ag"-[a-z0-9][a-z0-9-]*\. ]]; then
-                ok=1
-                break
-            fi
-        done
+        if [[ -n "$token" ]]; then
+            for ag in $PARALELO; do
+                if [[ "$token" == "$ag" ]]; then
+                    ok=1
+                    break
+                fi
+            done
+        fi
         if [[ "$ok" -ne 1 ]]; then
             if [[ "$base" =~ ^[0-9]{8}-[0-9]{2}- && ! "$base" =~ ^[0-9]{8}-[0-9]{6}- ]]; then
                 guard_fail "Ciclo PARALELO (escrita_paralela: ${PARALELO}) e '${f}' usa formato serial AAAAMMDD-NN — exatamente a colisão 0001-fable5 × 0001-codex que o ADR-024 Decisão 5 proíbe. Nomeie AAAAMMDD-HHMMSS-<agente>-<slug>."
+            elif [[ -n "$token" ]]; then
+                guard_fail "Artefato paralelo '${f}': agente '${token}' (token exato mais longo) NÃO está em escrita_paralela (${PARALELO}) do STATE staged (start-rite-spec §5.1; 0030 F-01 / 0031 F-05 — prefixo de apelido não passa como slug)."
             elif [[ "$base" =~ ^[0-9]{8}-[0-9]{6}- ]]; then
-                guard_fail "Artefato paralelo '${f}' com <agente> fora de escrita_paralela (${PARALELO}) do STATE staged (start-rite-spec §5.1 — escritor paralelo não declarado no rito)."
+                guard_fail "Artefato paralelo '${f}' com <agente> fora de escrita_paralela (${PARALELO}) do STATE staged (start-rite-spec §5.1 — escritor paralelo não declarado no rito; token exato, não prefixo)."
             else
                 guard_fail "Ciclo PARALELO e '${f}' não casa ^AAAAMMDD-HHMMSS-<agente>-<slug>. (start-rite-spec §5.1)."
             fi
@@ -138,6 +186,14 @@ while IFS= read -r line; do
         ct_hms="${created:11:2}${created:14:2}${created:17:2}"
         if [[ "$id_ymd" != "$ct_ymd" || "$id_hms" != "$ct_hms" ]]; then
             guard_fail "Linha '${id_col}' do ${REGISTRY} staged: id declara ${id_ymd}-${id_hms} mas created_at é ${created} — o HHMMSS do id DERIVA do mesmo carimbo (ADR-024 Decisão 5.4); um dos dois é de memória."
+            FAIL=1
+        fi
+    elif [[ "$id_col" =~ ^([0-9]{8})-[0-9]{2}$ ]]; then
+        # FIX 0031 F-01: id SERIAL também tem data autoritativa no created_at.
+        id_ymd="${BASH_REMATCH[1]}"
+        ct_ymd="${created:0:4}${created:5:2}${created:8:2}"
+        if [[ "$id_ymd" != "$ct_ymd" ]]; then
+            guard_fail "Linha '${id_col}' do ${REGISTRY} staged: id serial declara data ${id_ymd} mas created_at é ${created} — a data do id DERIVA do mesmo carimbo (ADR-024 Decisão 5.4; cross-audit 0031 F-01); um dos dois é de memória."
             FAIL=1
         fi
     fi

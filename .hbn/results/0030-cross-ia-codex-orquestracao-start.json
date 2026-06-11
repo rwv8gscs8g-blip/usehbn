@@ -1,0 +1,117 @@
+{
+  "type": "cross-ia-audit",
+  "status": "final",
+  "path": ".hbn/results/0030-cross-ia-codex-orquestracao-start.json",
+  "markdown_path": ".hbn/results/0030-cross-ia-codex-orquestracao-start.md",
+  "auditor": {
+    "agent": "codex-openai",
+    "family": "OpenAI",
+    "role": "auditor_cruzado"
+  },
+  "scope": {
+    "adr": "methodology/adr/ADR-024-orquestracao-start.md",
+    "specs": [
+      "core/start-rite-spec.md",
+      "core/pointer-spec.md",
+      "core/state-report-spec.md",
+      "core/orchestrator-profile-spec.md"
+    ],
+    "guards": [
+      "guards/assert-start-cast.sh",
+      "guards/assert-parallel-id.sh",
+      "guards/assert-pointer-honest.sh",
+      "guards/assert-report-fresh.sh"
+    ],
+    "tests": "guards/tests/run-guard-tests.sh"
+  },
+  "preflight": {
+    "cwd": "/Users/macbookpro/Projetos/usehbn",
+    "git_status_short": "",
+    "head": "72afa1c checkpoint(protocol): ADR-024 metade 2 — 4 guards (G-STR/G-NUM/G-PTR/G-RLT) + 26 testes negativos (suite 59) — proposed, fora do runner"
+  },
+  "test_execution": {
+    "canonical_repo_mutated": false,
+    "tmp_clone": "/tmp/usehbn-cross-audit-codex-cVMarF/repo",
+    "command": "bash guards/tests/run-guard-tests.sh",
+    "exit_code": 0,
+    "summary": "59 passaram, 0 falharam"
+  },
+  "verdict": {
+    "veto_adocao": true,
+    "summary": "Suite oficial verde, mas enforcement ainda insuficiente por dois gaps fortes reproduzidos em /tmp.",
+    "counts": {
+      "bloqueador": 0,
+      "forte": 2,
+      "marginal": 2,
+      "total": 4
+    }
+  },
+  "findings": [
+    {
+      "id": "F-01",
+      "severity": "FORTE",
+      "title": "G-NUM aceita ambiguidade prefixo-agente × slug",
+      "evidence": [
+        "core/start-rite-spec.md:101-103 exige <agente> em escrita_paralela",
+        "schemas/model-profile.schema.json:29-32 permite aliases com hifen",
+        "guards/assert-parallel-id.sh:98-103 valida por prefixo textual do agente declarado",
+        "Prova /tmp/num-prefix-theater-1FTBnh: escrita_paralela [alpha], arquivo 20260610-101010-alpha-1-ideia.md, rc=0"
+      ],
+      "impact": "Alias prefixado futuro pode passar como slug de agente declarado.",
+      "recommendation": "Definir delimitador nao ambiguo, proibir aliases prefixados ou detectar ambiguidade contra a lista de perfis; adicionar teste negativo."
+    },
+    {
+      "id": "F-02",
+      "severity": "FORTE",
+      "title": "G-RLT aceita teatro de capsula por substring solta",
+      "evidence": [
+        "core/state-report-spec.md:42-44 exige secao ## Decisoes informais (capsula)",
+        "core/state-report-spec.md:60 torna a ausencia bloqueadora",
+        "guards/assert-report-fresh.sh:125-127 apenas procura '(cápsula)'",
+        "Prova /tmp/rlt-capsule-theater-XUUHh7: sem heading de capsula, substring solta em PENDENTE, rc=0"
+      ],
+      "impact": "Handoff de orquestrador pode parecer conforme sem conter a secao obrigatoria.",
+      "recommendation": "Validar heading exato e adicionar teste negativo com substring fora da secao."
+    },
+    {
+      "id": "F-03",
+      "severity": "MARGINAL",
+      "title": "A contagem '26 testes negativos' nao e literal",
+      "evidence": [
+        "guards/tests/run-guard-tests.sh:309-611 contem 26 checks ADR-024",
+        "Destes, 17 sao expected block; os demais sao pass, compatibilidade ou pass-com-aviso",
+        "guards/tests/run-guard-tests.sh:33-42 valida apenas rc, nao a presenca de warning"
+      ],
+      "impact": "Narrativa inflada sobre o que foi provado como bloqueio.",
+      "recommendation": "Declarar 26 checks adicionados, 17 negativos de bloqueio, ou assertar warnings explicitamente."
+    },
+    {
+      "id": "F-04",
+      "severity": "MARGINAL",
+      "title": "D6 log frio fica sem linha explicita de enforcement/backlog",
+      "evidence": [
+        "methodology/adr/ADR-024-orquestracao-start.md:152-154 declara log frio em logs/ e nunca em read-list",
+        "core/orchestrator-profile-spec.md:57-61 normatiza nome pela regra serial/paralela",
+        "methodology/adr/ADR-024-orquestracao-start.md:171-172 cobre D2 e capsula, mas nao log frio"
+      ],
+      "impact": "Regra normativa residual fica menos explicita que o proprio mapa de enforcement promete.",
+      "recommendation": "Adicionar linha de backlog para log frio/naming/read-list ou definir guard futuro."
+    }
+  ],
+  "positive_checks": [
+    "G-STR bloqueia groupthink sem hearback, orquestrador sem aptidao e escritor paralelo fora do elenco.",
+    "G-STR por argumento e coerente com o rito declarativo antes de haver blob staged.",
+    "G-NUM, G-PTR e G-RLT usam staged local ou HEAD:path em CI.",
+    "G-PTR cobre path inexistente, front-matter divergente e destino so na working tree.",
+    "G-RLT cobre proxima_acao divergente, ultima_atualizacao de memoria e STATE bom so na working tree.",
+    "ADR-024 consolida fielmente os tres brainstorms nas decisoes centrais."
+  ],
+  "anti_bias": {
+    "B1": "Artefatos lidos diretamente.",
+    "B2": "Suite reexecutada em /tmp.",
+    "B3": "Provas adversariais extras executadas em /tmp.",
+    "B4": "Suite verde separada de gaps de narrativa/enforcement.",
+    "B5": "Limitacao: busca ampla retornou trechos de resultado alheio; achados mantidos apenas quando reproduzidos por leitura/execucao propria.",
+    "B6": "Veto mantido apesar da suite verde."
+  }
+}

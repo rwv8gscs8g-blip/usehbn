@@ -5,7 +5,7 @@ status: proposed
 temperatura: quente
 id-global: 20260610-202640-fable-5-spec-pointer
 path: core/pointer-spec.md
-versao: 0.1.0
+versao: 0.1.1   # FIX cross-audit 0031 F-02: ⟦HBN⟧ em code-fence ignorado pelo G-PTR
 data: 2026-06-10
 autoria: claude-fable-5 (consolidação ADR-024)
 hearback-status: aguardando humano
@@ -50,7 +50,10 @@ Exemplo:
 ## §3 Guard G-PTR (`assert-pointer-honest`) — spec, FORA do runner
 
 Gatilho: arquivos staged (HEAD em CI) contendo linhas `⟦HBN⟧` (handoffs,
-relatos, prompts em `.hbn/messages/`, `docs/prompts/`).
+relatos, prompts em `.hbn/messages/`, `docs/prompts/`). Linhas dentro de
+code-fence markdown (``` ou ~~~) são IGNORADAS: exemplos e templates de
+ponteiro não são ponteiros reais (cross-audit 0031 F-02 — evita
+falso-positivo/sobre-bloqueio em documentação).
 
 1. BLOQUEADOR: path do texto do link não existe no disco (na revisão
    staged: `git cat-file -e :<path>` — herda a lição staged-skew
@@ -71,5 +74,6 @@ check "ptr: path inexistente no staged"                                 block
 check "ptr: path existe mas front-matter declara outro path:"           block
 check "ptr: linha sem ação:"                                            block
 check "ptr: href divergente do path relativo"                           pass-com-aviso
+check "ptr: exemplo ⟦HBN⟧ em code-fence ignorado"                       pass   # 0031 F-02
 check "ptr: destino bom só na working tree, ausente do staged (skew)"   block
 ```

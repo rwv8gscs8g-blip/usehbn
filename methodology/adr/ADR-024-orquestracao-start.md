@@ -72,11 +72,20 @@ consolida e dá dente. Divergências resolvidas na consolidação:
 
 ## Decisão 1 — `usehbn start`: rito declarativo de elenco
 
-`usehbn start` lê os perfis (`.hbn/models/*.json`, ADR-015), valida
+**`usehbn start` é o NOME de um RITO, não um comando de software.** Não
+existe — e esta onda decide que NÃO deve existir — subcomando `start` em
+`src/usehbn/cli.py`; afirmar o contrário seria Truth Barrier (cross-audit
+0031 F-04). Quem executa o rito é o **orquestrador conversacional** (o
+modelo, no chat), lendo o disco e imprimindo texto.
+
+O rito lê os perfis (`.hbn/models/*.json`, ADR-015), valida
 aptidão (`papeis_aptos`) e o invariante anti-groupthink — reusando a LÓGICA
 do `guards/assert-role-family.sh`, nunca uma reimplementação divergente — e
 **IMPRIME** o bloco `atribuicao` (roles-assignment-spec §2) + o elenco.
 **Quem comita é o humano**; a atribuição só vige commitada no STATE.
+A única face executável do desenho é o guard G-STR, invocado sob demanda
+(`bash guards/assert-start-cast.sh <atribuicao.json>`) — e guard não é o
+rito: ele confere o que o rito imprimiu.
 Bypass de liveness (fornecedor fora do ar) só por `hearback_ref`
 dereferenciável (ADR-020). IA nova (ex.: Jules) = novo perfil ADR-015,
 mudança T2 com evidência; o start recusa apelido sem perfil e imprime o
@@ -169,7 +178,8 @@ no escopo do G-RLT (state-report-spec §3); o CONTEÚDO da destilação é
 | D4 relato fresh (proxima_acao == STATE; ultima_atualizacao exato) | G-RLT — state-report-spec §4 | relato divergente do STATE → BLOCK | idem |
 | D5 numeração paralela + created_at no REGISTRY | G-NUM — start-rite-spec §5 | artefato paralelo sem HHMMSS-agente; linha sem created_at → BLOCK | idem |
 | D2 contrato do orquestrador | — | — | doutrina-sem-enforcement, backlog (declarado) |
-| D6 conteúdo da cápsula | — (presença da seção: G-RLT) | seção ausente → BLOCK (presença) | conteúdo: doutrina-sem-enforcement, backlog (declarado) |
+| D6 conteúdo da cápsula | — (presença da seção: G-RLT, heading exato) | seção ausente → BLOCK (presença) | conteúdo: doutrina-sem-enforcement, backlog (declarado) |
+| D6 log frio (`logs/`: naming, consulta sob demanda, NUNCA em read-list) | — | — | doutrina-sem-enforcement, backlog (declarado — cross-audit 0030 F-04 / 0031 F-06) |
 
 Nenhuma regra nasce sem linha nesta tabela. NENHUM guard entra no runner
 nesta onda; "metade 2" = onda de implementação (.sh + casos na suíte
@@ -217,3 +227,4 @@ por IA.
 ## Versão
 
 - v1.0 — 2026-06-10 — claude-fable-5 — consolidação dos 3 brainstorms (PROPOSED).
+- v1.1 — 2026-06-10 — claude-fable-5 — FIX cross-audits 0030/0031: D1 explicitado como RITO (não comando de cli.py — 0031 F-04); linha D6 log frio no mapa (0030 F-04 / 0031 F-06); cápsula com heading exato (0030 F-02).

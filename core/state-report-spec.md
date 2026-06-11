@@ -5,7 +5,7 @@ status: proposed
 temperatura: quente
 id-global: 20260610-202750-fable-5-spec-state-report
 path: core/state-report-spec.md
-versao: 0.1.0
+versao: 0.1.1   # FIX cross-audit 0030 F-02 (heading exato) + 0031 F-03 (parser do chapéu por campo)
 data: 2026-06-10
 autoria: claude-fable-5 (consolidação ADR-024)
 hearback-status: aguardando humano
@@ -57,7 +57,11 @@ Gatilho: commit que toca handoff em `.hbn/messages/` (staged; HEAD em CI).
 2. BLOQUEADOR: `PRÓXIMA AÇÃO` do relato ≠ `proxima_acao` do STATE staged
    (`git show :.hbn/relay/STATE.md` — lição staged-skew).
 3. BLOQUEADOR: `ultima_atualizacao` citado no relato ≠ o do STATE staged.
-4. BLOQUEADOR: chapéu orquestrador sem seção de cápsula no handoff.
+4. BLOQUEADOR: chapéu orquestrador sem o heading EXATO
+   `^## Decisões informais \(cápsula\)$` no handoff — substring solta
+   `(cápsula)` em qualquer linha NÃO satisfaz (cross-audit 0030 F-02).
+   Header do relato fora da forma fixa §1 (chapéu não extraível por
+   campo `·`) também BLOQUEIA (cross-audit 0031 F-03).
 5. AVISO: bloco com >10 linhas (inflação de relato).
 
 Casos de teste (estilo `guards/tests/run-guard-tests.sh`, repo git
@@ -69,6 +73,7 @@ check "rlt: handoff sem bloco RELATO DE ESTADO"                        block
 check "rlt: proxima_acao parafraseada (≠ string do STATE)"             block
 check "rlt: ultima_atualizacao de memória (≠ STATE staged)"            block
 check "rlt: orquestrador sem seção cápsula"                            block
+check "rlt: '(cápsula)' fora do heading exato (teatro)"                block  # 0030 F-02
 check "rlt: STATE bom só na working tree; staged velho (skew)"         block
 check "rlt: relato de 12 linhas"                                       pass-com-aviso
 ```
