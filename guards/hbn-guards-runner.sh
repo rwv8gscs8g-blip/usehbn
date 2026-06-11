@@ -42,6 +42,7 @@ GUARDS=(
     "assert-no-stray-hbn.sh"
     "assert-role-family.sh"
     "assert-hearback-integrity.sh"
+    "assert-exception-traceable.sh"
 )
 
 OVERALL=0
