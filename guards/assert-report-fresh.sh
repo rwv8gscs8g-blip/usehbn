@@ -14,6 +14,10 @@
 #       cross-audit 0030 F-02 — substring solta '(cápsula)' não conta).
 #       Header do relato fora da forma fixa §1 também BLOQUEIA (0031 F-03).
 #   (5) AVISO: bloco de relato com >10 linhas (inflação — ADR-022).
+#   (6) BLOQUEADOR (onda 0006 I-10 — spec §5, rito de entrada checável):
+#       handoff com `tipo: entrada` no front-matter exige heading EXATO
+#       `## RELATO DE LEITURA` com ≥1 item, e CADA item com citação
+#       arquivo:linha (prova de leitura do disco — Truth Barrier).
 #
 # status: accepted (adoção orquestração-start, readback 0004) — FORA do runner.
 # E-FECH-01/02: handoff E STATE são lidos do blob STAGED (git show :path;
@@ -117,6 +121,31 @@ while IFS= read -r f; do
         if [[ "$ua" != "$STATE_ULTIMA" ]]; then
             guard_fail "Relato em '${f}': ultima_atualizacao citado '${ua}' ≠ '${STATE_ULTIMA}' do STATE staged — relato de MEMÓRIA (ADR-020; state-report-spec §2.1)."
             FAIL=1
+        fi
+    fi
+
+    # Regra 6 (onda 0006 I-10 — spec §5): rito de ENTRADA checável.
+    tipo_fm="$(awk 'NR==1 && $0!="---"{exit} NR>1 && $0=="---"{exit} NR>1{print}' <<< "$content" \
+        | grep -E '^tipo:' | head -1 | sed -E 's/^tipo:[[:space:]]*//; s/["'"'"']//g; s/[[:space:]]+$//' || true)"
+    if [[ "$tipo_fm" == "entrada" ]]; then
+        if ! grep -qE '^## RELATO DE LEITURA$' <<< "$content"; then
+            guard_fail "Handoff de ENTRADA '${f}' (tipo: entrada) sem o heading EXATO '## RELATO DE LEITURA' (state-report-spec §5: a entrada de janela prova a leitura da read-list)."
+            FAIL=1
+        else
+            itens="$(awk '/^## RELATO DE LEITURA$/{f=1; next} f && /^#/{exit} f' <<< "$content" \
+                | grep -E '^[[:space:]]*([-*]|[0-9]+\.)[[:space:]]' || true)"
+            if [[ -z "$itens" ]]; then
+                guard_fail "RELATO DE LEITURA vazio em '${f}' — a entrada exige ≥1 item da read-list com citação (spec §5.2)."
+                FAIL=1
+            else
+                while IFS= read -r item; do
+                    [[ -z "$item" ]] && continue
+                    if ! grep -qE '[A-Za-z0-9_./-]+\.(md|sh|json|ya?ml|txt):[0-9]+' <<< "$item"; then
+                        guard_fail "Item do RELATO DE LEITURA em '${f}' SEM citação arquivo:linha: '$(echo "$item" | cut -c1-70)…' (spec §5.2 — citação é a prova de leitura do disco, Truth Barrier)."
+                        FAIL=1
+                    fi
+                done <<< "$itens"
+            fi
         fi
     fi
 

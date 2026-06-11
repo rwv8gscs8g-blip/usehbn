@@ -50,6 +50,8 @@
 #     deadlock C-03c/G-EXC, corretor v3), G-HRB runner+
 #   assinatura SSH (+5: 3 block, 2 pass), G-FAM runner (+2: 1 block,
 #   1 pass). Total: 113.
+#   I-10 (rito de entrada, onda 0006): G-RLT regra 6 (+3: 2 block,
+#   1 pass). Total: 116.
 #   FIX cross-audits 0030/0031 (3 FORTE + marginais): G-NUM token exato
 #   (0030 F-01 / 0031 F-05) + data de id serial (0031 F-01); G-RLT heading
 #   exato da cápsula (0030 F-02) + parser do chapéu por campo (0031 F-03);
@@ -759,6 +761,34 @@ rm -rf "$d"
 d="$(make_rlt_repo "$PA" "$UA")"
 ( cd "$d" && write_handoff "$PA" "$UA" s "extra 1" "extra 2" "extra 3" "extra 4" > .hbn/messages/20260610-91-h.md && git add -A ) >/dev/null 2>&1
 check "rlt: relato de 12 linhas (pass-com-aviso)"                      pass  "$(run_rlt "$d")"
+rm -rf "$d"
+
+# --- G-RLT regra 6 (onda 0006 I-10): rito de ENTRADA checável (spec §5) ------
+write_entrada() { # $1=pa $2=ua $3=com_heading(s/n) $4=com_citacao(s/n) — handoff tipo: entrada
+    local pa="$1" ua="$2" heading="$3" citacao="$4"
+    printf -- '---\ntipo: entrada\n---\n'
+    write_handoff "$pa" "$ua" "s"
+    if [[ "$heading" == "s" ]]; then
+        echo "## RELATO DE LEITURA"
+        if [[ "$citacao" == "s" ]]; then
+            echo "- STATE lido: bastão com alpha-1 (.hbn/relay/STATE.md:3)"
+            echo "- readback ativo confirmado (docs/base.md:1)"
+        else
+            echo "- li o STATE e estava tudo certo, confia"
+        fi
+    fi
+}
+d="$(make_rlt_repo "$PA" "2026-06-10T21:00:00-03:00")"
+( cd "$d" && write_entrada "$PA" "2026-06-10T21:00:00-03:00" n n > .hbn/messages/20260611-160000-alpha-1-entrada.md && git add -A ) >/dev/null 2>&1
+check "rlt: tipo entrada sem RELATO DE LEITURA → BLOCK (I-10)"  block "$(run_rlt "$d")"
+rm -rf "$d"
+d="$(make_rlt_repo "$PA" "2026-06-10T21:00:00-03:00")"
+( cd "$d" && write_entrada "$PA" "2026-06-10T21:00:00-03:00" s n > .hbn/messages/20260611-160001-alpha-1-entrada.md && git add -A ) >/dev/null 2>&1
+check "rlt: entrada com item SEM citação arquivo:linha → BLOCK" block "$(run_rlt "$d")"
+rm -rf "$d"
+d="$(make_rlt_repo "$PA" "2026-06-10T21:00:00-03:00")"
+( cd "$d" && write_entrada "$PA" "2026-06-10T21:00:00-03:00" s s > .hbn/messages/20260611-160002-alpha-1-entrada.md && git add -A ) >/dev/null 2>&1
+check "rlt: entrada íntegra (itens com arquivo:linha) → passa"  pass  "$(run_rlt "$d")"
 rm -rf "$d"
 
 # --- Guards LEGADOS: testes negativos (pré-condição do STATE para ativar os

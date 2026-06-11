@@ -77,3 +77,28 @@ check "rlt: '(cápsula)' fora do heading exato (teatro)"                block  #
 check "rlt: STATE bom só na working tree; staged velho (skew)"         block
 check "rlt: relato de 12 linhas"                                       pass-com-aviso
 ```
+
+## §5 Relato de ENTRADA — rito de entrada checável (onda 0006 I-10; §5.3 do desenho)
+
+O contrato do warm boot já existia em DOUTRINA
+(`core/orchestrator-profile-spec.md` §3: a janela que entra LÊ o vigente).
+Este parágrafo cria o lado CHECÁVEL — a regra mora aqui, e não no
+orchestrator-profile, porque o relato de entrada é uma variante do Relato
+de Estado e o G-RLT já é o guard desta spec (decisão registrada, I-10).
+
+1. Handoff de ENTRADA de janela declara `tipo: entrada` no front-matter e
+   contém o heading EXATO `## RELATO DE LEITURA`.
+2. Sob o heading, UM item por artefato da read-list lida, e CADA item
+   contém ≥1 citação `arquivo:linha` (padrão `path:NN`) — citação é a
+   prova de leitura do disco (Truth Barrier; a regra que o Codex exerceu
+   ao PARAR na referência quebrada 0019).
+3. Enforcement: G-RLT regra 6 — `tipo: entrada` sem o heading = BLOQUEADOR;
+   heading presente com item sem citação `arquivo:linha` = BLOQUEADOR;
+   bloco vazio = BLOQUEADOR. Handoff sem `tipo: entrada` não é afetado
+   (mudança mínima; o rito de saída segue §1-§4).
+
+```
+check "rlt: tipo entrada sem RELATO DE LEITURA"                        block
+check "rlt: entrada com item sem citação arquivo:linha"                block
+check "rlt: entrada íntegra (itens com arquivo:linha)"                 pass
+```
