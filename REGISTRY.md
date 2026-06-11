@@ -327,3 +327,4 @@ honesta de 63 checks totais, 30 checks ADR-024 e 20 negativos de bloqueio. Os
 | 20260611-160745-fable5-stray-allowlist | .hbn/stray-allowlist | config-guard | quente | — | 2026-06-11T16:07:45-03:00 |
 | 20260611-161405-fable5-guard-exception-traceable | guards/assert-exception-traceable.sh | guard | quente | — | 2026-06-11T16:14:05-03:00 |
 | 20260611-161804-fable5-guard-baton-token | guards/assert-baton-token.sh | guard | quente | — | 2026-06-11T16:18:04-03:00 |
+| 20260611-162102-fable5-bateria-adversarial | guards/tests/adversarial-battery.sh | guard-test | quente | — | 2026-06-11T16:21:02-03:00 |
