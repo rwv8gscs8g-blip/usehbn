@@ -102,3 +102,48 @@ check "rlt: tipo entrada sem RELATO DE LEITURA"                        block
 check "rlt: entrada com item sem citação arquivo:linha"                block
 check "rlt: entrada íntegra (itens com arquivo:linha)"                 pass
 ```
+
+## §6 Campo `bastao_token_sha256` — token de posse do bastão (onda 0006 I-13, v2)
+
+O STATE pode declarar `bastao_token_sha256: <hex>` no front-matter: sha256
+do TOKEN DE POSSE do bastão. O token é gerado pelo HUMANO
+(`openssl rand -hex 16`), entregue SÓ à janela detentora, e vive APENAS no
+arquivo local `.git/hbn-baton-token` (dentro de `.git/` — jamais
+versionável por construção: o Git não rastreia o próprio `.git/`). O
+SEGREDO NUNCA ENTRA NO HISTÓRICO: o commit carrega só o trailer
+`HBN-Token-FP: <8 hex>` — fingerprint público (primeiros 8 hex do sha256
+do token), que rastreia QUAL token assinou cada commit sem revelá-lo.
+
+Com o campo presente (não-vazio), todo commit local exige, via guard
+`assert-baton-token.sh` no hook commit-msg (instalação no header do guard;
+hook TOLERANTE a guard ausente no worktree):
+
+1. arquivo `.git/hbn-baton-token` presente, com sha256(conteúdo) igual a
+   `bastao_token_sha256` do STATE STAGED (prova de posse);
+2. trailer `HBN-Token-FP:` igual aos primeiros 8 hex do campo (rastro).
+
+O QUE O G-TOK PROVA: que quem commitou tinha, naquele momento e naquele
+clone, o arquivo de token entregue pelo humano. Replay por leitura do log
+é impossível: o log só tem o fingerprint, e o fingerprint não abre o hook.
+
+O QUE O G-TOK NÃO PROVA: (a) posse EXCLUSIVA — qualquer processo com
+leitura de `.git/` na mesma máquina lê o token; (b) identidade do agente —
+identidade é assunto do G-HRB/assinatura SSH (ADR-023), não deste guard;
+(c) em CI (`HBN_DIFF_BASE`) prova apenas CONSISTÊNCIA do fingerprint de
+cada commit do range com o hash do STATE em HEAD — o runner de CI não tem
+(nem deve ter) o arquivo de token; rotação no meio de um push fará commits
+pré-rotação reprovarem contra o hash de HEAD (limitação declarada).
+
+Campo ausente ou VAZIO = exigência inativa (rampa de adoção; o hash entra
+no STATE na CERIMÔNIA DE TOKEN, executada APÓS o último cherry-pick —
+runbook da tabela de aprovação v2); `HBN_REQUIRE_BATON_TOKEN=1` (política
+de CI) torna o campo obrigatório. ROTAÇÃO obrigatória a cada passagem de
+bastão: arquivo novo + hash novo no MESMO commit do handoff (o token
+antigo deixa de validar no instante em que o hash novo é staged).
+
+```
+check "tok: campo presente + ARQUIVO .git/hbn-baton-token ausente"     block
+check "tok: arquivo com token ERRADO"                                  block
+check "tok: fingerprint do trailer ≠ hash do STATE"                    block
+check "tok: arquivo correto + fingerprint correto"                     pass
+```

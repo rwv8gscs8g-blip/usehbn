@@ -52,6 +52,7 @@
 #   1 pass). Total: 113.
 #   I-10 (rito de entrada, onda 0006): G-RLT regra 6 (+3: 2 block,
 #   1 pass). Total: 116.
+#   I-13 (G-TOK, onda 0006): +5 checks (3 block, 2 pass). Total: 121.
 #   FIX cross-audits 0030/0031 (3 FORTE + marginais): G-NUM token exato
 #   (0030 F-01 / 0031 F-05) + data de id serial (0031 F-01); G-RLT heading
 #   exato da cápsula (0030 F-02) + parser do chapéu por campo (0031 F-03);
@@ -1096,6 +1097,64 @@ r="$(mktemp -d)"
 ( mkdir -p "$r/teimoso" && touch "$r/teimoso/f" && chmod 555 "$r/teimoso" ) >/dev/null 2>&1
 check "cleanup: rm negado é tolerado (rc 0 da rotina de limpeza)" pass "$( ( rm -rf "$r" 2>/dev/null || true; exit 0 ); echo $? )"
 chmod -R 755 "$r" 2>/dev/null; rm -rf "$r" 2>/dev/null || true
+
+# --- G-TOK: assert-baton-token (onda 0006 I-13 — posse do bastão, v2) --------
+# v2 (correções C-01/C-02 dos pareceres 170633/172049): token vive APENAS em
+# .git/hbn-baton-token; trailer é o fingerprint público HBN-Token-FP (8 hex);
+# sha256 com fallback shasum (macOS) — compatível com Bash 3.2.
+echo "== assert-baton-token (G-TOK v2: arquivo local + fingerprint) =="
+tok_sha256() { # stdin → sha256 hex (sha256sum ou shasum -a 256, como o guard)
+    if command -v sha256sum >/dev/null 2>&1; then sha256sum | awk '{print $1}'
+    else shasum -a 256 | awk '{print $1}'; fi
+}
+TOK_TESTE="tok-de-teste-1234"
+TOK_HASH="$(printf '%s' "$TOK_TESTE" | tok_sha256)"
+TOK_FP="$(printf '%s' "$TOK_HASH" | cut -c1-8)"
+make_tok_repo() { # $1 = campo bastao_token_sha256 (vazio = sem campo)
+    local d; d="$(mktemp -d)"
+    (
+        cd "$d" && git init -q
+        git config user.email "tests@hbn.local"
+        git config user.name "hbn-guard-tests"
+        mkdir -p .hbn/relay
+        {
+            echo '---'
+            echo 'proxima_acao: "teste"'
+            [[ -n "$1" ]] && echo "bastao_token_sha256: $1"
+            echo '---'
+        } > .hbn/relay/STATE.md
+        git add -A && git commit -qm init
+    ) >/dev/null 2>&1
+    echo "$d"
+}
+write_tok_file() { # <repo> <token> → grava o arquivo local de posse
+    printf '%s\n' "$2" > "$1/.git/hbn-baton-token"
+}
+run_tok() { # <repo> <msg-conteudo> [env]
+    local d="$1" msg="$2"
+    printf '%s\n' "$msg" > "$d/msg.txt"
+    ( cd "$d" && ${3:+env "$3"} bash "$GUARDS_DIR/assert-baton-token.sh" "$d/msg.txt" >/dev/null 2>&1 )
+    echo $?
+}
+d="$(make_tok_repo "$TOK_HASH")"
+check "tok: campo presente + ARQUIVO .git/hbn-baton-token ausente → BLOCK" block "$(run_tok "$d" "feat: x
+
+HBN-Token-FP: ${TOK_FP}")"
+write_tok_file "$d" "token-errado-no-arquivo"
+check "tok: arquivo com token ERRADO → BLOCK"                   block "$(run_tok "$d" "feat: x
+
+HBN-Token-FP: ${TOK_FP}")"
+write_tok_file "$d" "$TOK_TESTE"
+check "tok: msg SEM trailer HBN-Token-FP → BLOCK"               block "$(run_tok "$d" $'feat: x\n\nHBN-Readback: 0006')"
+check "tok: fingerprint do trailer ≠ hash do STATE → BLOCK"     block "$(run_tok "$d" $'feat: x\n\nHBN-Token-FP: deadbeef')"
+check "tok: arquivo correto + fingerprint correto → passa"      pass  "$(run_tok "$d" "feat: x
+
+HBN-Token-FP: ${TOK_FP}")"
+rm -rf "$d"
+d="$(make_tok_repo "")"
+check "tok: STATE sem campo + exigência ativa → BLOCK"          block "$(run_tok "$d" $'feat: x' "HBN_REQUIRE_BATON_TOKEN=1")"
+check "tok: STATE sem campo (rampa) → passa com aviso"          pass  "$(run_tok "$d" $'feat: x')"
+rm -rf "$d"
 
 # --- Read-list viva (onda 0006 I-01 — F-08 dos cross-audits 0036/0037) -------
 # Todo path .hbn/ | core/ | guards/ | schemas/ CITADO em agents/role-templates.md
