@@ -26,7 +26,9 @@
 #   negativos de bloqueio — NÃO "26 testes negativos".
 #   SEÇÃO GUARDS LEGADOS (2026-06-11, readback 0005): 12 checks (8 block,
 #   4 pass) para G-CR/G-TMP/G-ENV/G-LEG/G-SCO — paga a pré-condição do
-#   STATE para ativar os guards novos no runner. Total da suíte: 75.
+#   STATE para ativar os guards novos no runner.
+#   SEÇÃO G-STRAY (2026-06-11, readback 0005): 4 checks (2 block, 2 pass)
+#   para o .hbn órfão (incidente opus-4-8). Total da suíte: 79.
 #   FIX cross-audits 0030/0031 (3 FORTE + marginais): G-NUM token exato
 #   (0030 F-01 / 0031 F-05) + data de id serial (0031 F-01); G-RLT heading
 #   exato da cápsula (0030 F-02) + parser do chapéu por campo (0031 F-03);
@@ -750,6 +752,27 @@ d="$(mktemp -d -p "$TESTS_DIR" tmp-pass.XXXXXX)"
 ( cd "$d" && git init -q && git config user.email t@h && git config user.name t && git commit -q --allow-empty -m i ) >/dev/null 2>&1
 check "tmp: worktree fora de áreas voláteis"            pass  "$( ( cd "$d" && bash "$GUARDS_DIR/forbid-tmp-worktree.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
+
+# --- G-STRAY: assert-no-stray-hbn (árvore sintética via HBN_SCAN_ROOT) -------
+echo "== assert-no-stray-hbn (G-STRAY) =="
+run_stray() { ( HBN_SCAN_ROOT="$1" bash "$GUARDS_DIR/assert-no-stray-hbn.sh" >/dev/null 2>&1 ); echo $?; }
+# caso-bom: .hbn dentro de raiz de repo git
+r="$(mktemp -d)"
+( mkdir -p "$r/repoA/.git" "$r/repoA/.hbn" ) >/dev/null 2>&1
+check "stray: .hbn em raiz de repo git"                 pass  "$(run_stray "$r")"
+# caso-ruim: .hbn órfão direto na raiz varrida (o incidente opus-4-8)
+( mkdir -p "$r/.hbn/results" ) >/dev/null 2>&1
+check "stray: .hbn órfão na raiz varrida"               block "$(run_stray "$r")"
+rm -rf "$r"
+# caso-ruim: .hbn órfão em subpasta que não é repo
+r="$(mktemp -d)"
+( mkdir -p "$r/projetos/soltinho/.hbn" ) >/dev/null 2>&1
+check "stray: .hbn órfão em subpasta sem .git"          block "$(run_stray "$r")"
+# caso-bom: .hbn sob backups/ é cópia fria, não órfão operacional (poda)
+rm -rf "$r"; r="$(mktemp -d)"
+( mkdir -p "$r/backups/copia-antiga/.hbn" "$r/repoB/.git" "$r/repoB/.hbn" ) >/dev/null 2>&1
+check "stray: .hbn sob backups/ é podado (cópia fria)"  pass  "$(run_stray "$r")"
+rm -rf "$r"
 
 # --- Resumo humano (Bloco 4 dogfood) -----------------------------------------
 echo ""

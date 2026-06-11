@@ -34,6 +34,7 @@ GUARDS=(
     "assert-parallel-id.sh"
     "assert-pointer-honest.sh"
     "assert-report-fresh.sh"
+    "assert-no-stray-hbn.sh"
 )
 
 OVERALL=0

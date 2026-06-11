@@ -316,3 +316,4 @@ honesta de 63 checks totais, 30 checks ADR-024 e 20 negativos de bloqueio. Os
 | 20260611-002529-codex-audit-ponte-md | .hbn/results/0034-cross-ia-codex-ponte.md | audit-result | frio | — | 2026-06-11T00:25:29-03:00 |
 | 20260611-002530-codex-audit-ponte-json | .hbn/results/0034-cross-ia-codex-ponte.json | audit-result | frio | — | 2026-06-11T00:25:30-03:00 |
 | 20260611-014200-fable-5-readback-ativacao-enforcement | .hbn/readbacks/0005-ativacao-enforcement.json | readback | frio | — | 2026-06-11T01:42:00-03:00 |
+| 20260611-101851-fable-5-guard-no-stray-hbn | guards/assert-no-stray-hbn.sh | guard | quente | — | 2026-06-11T10:18:51-03:00 |
