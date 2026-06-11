@@ -16,7 +16,7 @@
 #   index×worktree — staged ruim + worktree boa DEVE bloquear (e o espelho:
 #   staged boa + worktree ruim DEVE passar, provando que o guard lê o índice).
 #   Seções G-STR/G-NUM/G-PTR/G-RLT (metade 2 da onda orquestração-start,
-#   ADR-024): status PROPOSED — casos das specs core/start-rite-spec.md §4-§5,
+#   ADR-024): status accepted pelo readback 0004 — casos das specs core/start-rite-spec.md §4-§5,
 #   core/pointer-spec.md §3, core/state-report-spec.md §4, incluindo skew
 #   E-FECH-01/02 e o caso de compatibilidade G-REG×created_at (risco R5).
 #   CONTAGEM HONESTA (FIX cross-audit 0030 F-03): a seção ADR-024 soma

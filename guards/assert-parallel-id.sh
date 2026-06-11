@@ -12,7 +12,7 @@
 #       da mesma linha. Vale também FORA de ciclo paralelo (spec §5.4).
 #   (3) BLOQUEADOR: dois artefatos novos com id idêntico no mesmo diff.
 #
-# status: proposed (metade 2 da onda orquestração-start) — FORA do runner.
+# status: accepted (adoção orquestração-start, readback 0004) — FORA do runner.
 # E-FECH-01/02: lê SEMPRE o blob staged (git show :path local; HEAD:path em
 #   CI via HBN_DIFF_BASE), nunca a working tree — STATE e REGISTRY incluídos.
 # Interpretações registradas para cross-audit (spec §5 deixa em aberto):

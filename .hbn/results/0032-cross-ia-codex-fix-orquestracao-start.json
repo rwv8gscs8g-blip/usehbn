@@ -1,0 +1,177 @@
+{
+  "type": "cross-ia-reaudit",
+  "status": "final",
+  "path": ".hbn/results/0032-cross-ia-codex-fix-orquestracao-start.json",
+  "markdown_path": ".hbn/results/0032-cross-ia-codex-fix-orquestracao-start.md",
+  "auditor": {
+    "agent": "codex-openai",
+    "family": "OpenAI",
+    "role": "auditor_cruzado"
+  },
+  "scope": {
+    "request": "re-auditoria curta do fix dos 3 FORTE ADR-024",
+    "historical_reports_read": [
+      ".hbn/results/0030-cross-ia-codex-orquestracao-start.md",
+      ".hbn/results/0030-cross-ia-codex-orquestracao-start.json",
+      ".hbn/results/0031-cross-ia-antigravity-orquestracao-start.md"
+    ],
+    "guards": [
+      "guards/assert-parallel-id.sh",
+      "guards/assert-report-fresh.sh",
+      "guards/assert-pointer-honest.sh"
+    ],
+    "docs": [
+      "methodology/adr/ADR-024-orquestracao-start.md",
+      "core/start-rite-spec.md"
+    ],
+    "tests": "guards/tests/run-guard-tests.sh"
+  },
+  "preflight": {
+    "cwd": "/Users/macbookpro/Projetos/usehbn",
+    "git_status_short_before": "",
+    "head": "603805e checkpoint(protocol): ADR-024 fix 3 FORTE (G-NUM token exato, G-RLT heading capsula, start rito\u2260CLI) + marginais \u2014 suite 63 \u2014 proposed, fora do runner",
+    "git_status_short_after_tmp_tests": ""
+  },
+  "executions": {
+    "suite": {
+      "repo": "/tmp/usehbn-reaudit-codex-nxIvm7/repo",
+      "command": "bash guards/tests/run-guard-tests.sh",
+      "exit_code": 0,
+      "summary": "63 passaram, 0 falharam"
+    },
+    "targeted_adversarial": {
+      "root": "/tmp/usehbn-targeted-codex-j7OGmQ",
+      "exit_code": 0,
+      "summary": "targeted_pass=6 targeted_fail=0",
+      "cases": [
+        {
+          "id": "num-prefix-alpha-1",
+          "expected": "block",
+          "actual_rc": 1,
+          "reason_pattern_seen": "agente 'alpha-1'"
+        },
+        {
+          "id": "num-serial-date-mismatch",
+          "expected": "block",
+          "actual_rc": 1,
+          "reason_pattern_seen": "id serial declara data 20260101"
+        },
+        {
+          "id": "rlt-capsula-substring",
+          "expected": "block",
+          "actual_rc": 1,
+          "reason_pattern_seen": "sem o heading EXATO"
+        },
+        {
+          "id": "rlt-parser-agent-name-orquestrador-chapeu-implementador",
+          "expected": "pass",
+          "actual_rc": 0
+        },
+        {
+          "id": "rlt-malformed-header",
+          "expected": "block",
+          "actual_rc": 1,
+          "reason_pattern_seen": "fora da forma fixa"
+        },
+        {
+          "id": "ptr-code-fence-fake-pointer",
+          "expected": "pass",
+          "actual_rc": 0
+        }
+      ]
+    },
+    "counts": {
+      "suite_total": 63,
+      "suite_block": 43,
+      "suite_pass_or_warning": 20,
+      "adr024_total": 30,
+      "adr024_block": 20,
+      "adr024_pass_or_warning": 10
+    },
+    "cli_start_probe": {
+      "repo": "/tmp/usehbn-reaudit-codex-nxIvm7/repo",
+      "command": "PYTHONPATH=src python3 -m usehbn.cli start",
+      "exit_code": 0,
+      "result": "generic free-sentence runner, hbn_activated=false; no ADR-024 start subcommand materialized",
+      "note": "non-veto observation: the generic fallback writes logs for any free sentence, including 'start'."
+    }
+  },
+  "verdict": {
+    "veto_adocao": false,
+    "summary": "Os 3 FORTE foram corrigidos; nenhuma severidade nova encontrada no escopo reexecutado.",
+    "counts": {
+      "bloqueador": 0,
+      "forte": 0,
+      "marginal": 0,
+      "total": 0
+    }
+  },
+  "checks": [
+    {
+      "id": "G-NUM-token-exato",
+      "status": "passed",
+      "evidence": [
+        "guards/assert-parallel-id.sh:89-149",
+        "guards/tests/run-guard-tests.sh:399-409",
+        "targeted rc=1 for alpha-1 vs alpha"
+      ]
+    },
+    {
+      "id": "G-NUM-serial-date",
+      "status": "passed",
+      "evidence": [
+        "guards/assert-parallel-id.sh:191-199",
+        "guards/tests/run-guard-tests.sh:445-453",
+        "targeted rc=1 for serial date mismatch"
+      ]
+    },
+    {
+      "id": "G-RLT-heading-exato-parser",
+      "status": "passed",
+      "evidence": [
+        "guards/assert-report-fresh.sh:123-136",
+        "guards/tests/run-guard-tests.sh:638-649",
+        "targeted rc=1 for capsula substring; rc=0 for agent-name-orquestrador with chapeu implementador; rc=1 for malformed header"
+      ]
+    },
+    {
+      "id": "start-rite-not-cli",
+      "status": "passed",
+      "evidence": [
+        "methodology/adr/ADR-024-orquestracao-start.md:73-88",
+        "core/start-rite-spec.md:17-28",
+        "src/usehbn/cli.py:1695-1715 does not include start in subcommands"
+      ]
+    },
+    {
+      "id": "G-PTR-code-fence",
+      "status": "passed",
+      "evidence": [
+        "guards/assert-pointer-honest.sh:134-137",
+        "targeted rc=0 with fake pointer inside code fence"
+      ]
+    },
+    {
+      "id": "honest-count-and-D6-map",
+      "status": "passed",
+      "evidence": [
+        "guards/tests/run-guard-tests.sh:22-26",
+        "methodology/adr/ADR-024-orquestracao-start.md:182",
+        "awk counts: suite 63 total / 43 block; ADR-024 30 total / 20 block"
+      ]
+    }
+  ],
+  "findings": [],
+  "observations_non_veto": [
+    "Bare CLI invocation with argument 'start' falls through to the generic free-sentence runner and writes logs in the target. This is not an ADR-024 start subcommand, but a future UX cleanup could reserve the word to reduce ambiguity.",
+    "The suite helper still treats any nonzero rc as success for block cases; targeted probes checked reason patterns for the fixed high-risk cases."
+  ],
+  "anti_bias": {
+    "B1": "Artefatos do escopo lidos diretamente.",
+    "B2": "Suite e adversariais reexecutados em /tmp.",
+    "B3": "Tentativas de reprovar cobriram prefixo, data serial, capsula solta, parser de chapeu e code fence.",
+    "B4": "Narrativa de contagem conferida por awk.",
+    "B5": "Nao li parecer corrente de outro auditor; somente 0030/0031 historicos exigidos.",
+    "B6": "Veto removido apenas apos suite 63/63 e adversariais 6/6."
+  }
+}

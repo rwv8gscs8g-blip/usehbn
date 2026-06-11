@@ -1,14 +1,14 @@
 ---
 titulo: State-report spec — Relato de Estado fixo (≤10 linhas) antes de todo bastão
 diataxis: reference
-status: proposed
+status: accepted
 temperatura: quente
 id-global: 20260610-202750-fable-5-spec-state-report
 path: core/state-report-spec.md
 versao: 0.1.1   # FIX cross-audit 0030 F-02 (heading exato) + 0031 F-03 (parser do chapéu por campo)
 data: 2026-06-10
 autoria: claude-fable-5 (consolidação ADR-024)
-hearback-status: aguardando humano
+hearback-status: confirmed
 relacionado: [ADR-024 (Decisões 4 e 6), ADR-022, core/relay-spec.md (guard-state-fresh — o G-RLT o estende), core/pointer-spec.md, knowledge 0002]
 ---
 

@@ -1,14 +1,14 @@
 ---
 titulo: Pointer spec — Ponteiro HBN de 1 linha, gerado do disco
 diataxis: reference
-status: proposed
+status: accepted
 temperatura: quente
 id-global: 20260610-202640-fable-5-spec-pointer
 path: core/pointer-spec.md
 versao: 0.1.1   # FIX cross-audit 0031 F-02: ⟦HBN⟧ em code-fence ignorado pelo G-PTR
 data: 2026-06-10
 autoria: claude-fable-5 (consolidação ADR-024)
-hearback-status: aguardando humano
+hearback-status: confirmed
 relacionado: [ADR-024 (Decisão 3), ADR-021 (path: no front-matter — o G-PTR compara com ele), ADR-022, knowledge 0002]
 ---
 

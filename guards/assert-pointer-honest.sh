@@ -12,7 +12,7 @@
 #       custo ao receptor — anti-padrão "leia estes 7 documentos").
 #   (4) AVISO: href absoluto cuja cauda não termina no path relativo do texto.
 #
-# status: proposed (metade 2 da onda orquestração-start) — FORA do runner.
+# status: accepted (adoção orquestração-start, readback 0004) — FORA do runner.
 # Escopo (pointer-spec §3, gatilho): arquivos .md staged em .hbn/messages/ e
 #   docs/prompts/ (handoffs, relatos, prompts). Specs/ADRs ficam FORA do
 #   gatilho de propósito: carregam exemplos e templates de ponteiro em code

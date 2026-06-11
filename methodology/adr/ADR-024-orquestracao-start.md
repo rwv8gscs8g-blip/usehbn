@@ -1,14 +1,14 @@
 ---
 adr-id: ADR-024
 titulo: Orquestração-start — rito de elenco, orquestrador reinicializável, Ponteiro HBN, Relato de Estado, numeração paralela e captura de tacit drift
-status: PROPOSED
+status: ACCEPTED
 data-deposito: 2026-06-10
 id-global: 20260610-202123-fable-5-adr-orquestracao-start   # regra nova (Decisão 5) — created_at autoritativo no REGISTRY
 path: methodology/adr/ADR-024-orquestracao-start.md
 temperatura: quente
 autor: claude-fable-5 (arquiteto useHBN, janela limpa pós-fechamento E)
 cross-ia-required: Codex + Antigravity (consolida brainstorm das 3 famílias; autor Anthropic NÃO audita — ADR-018)
-hearback-status: aguardando humano
+hearback-status: confirmed
 prioridade: P1
 tier-desta-mudanca: T2 (normativo — ADR + 4 specs core + 4 guard-specs; NENHUM guard ativado no runner)
 aplica-a: protocolo usehbn; apps consumidoras recebem proposta via inbox (Q1)
@@ -44,9 +44,10 @@ evidencia-motivadora: |
 
 ## Status
 
-**PROPOSED** — vira ACCEPTED por: cross-IA (Codex + Antigravity), hearback
-humano commitado (ADR-023). Guards especificados aqui NÃO entram no runner
-nem na adoção deste ADR: ativação é onda própria (ADR-020 Decisão 2).
+**ACCEPTED** — adotado pelo readback 0004 confirmado, após cross-IA
+(Codex + Antigravity) e hearback humano commitado (ADR-023). Guards
+especificados aqui NÃO entram no runner nem na adoção deste ADR: ativação é
+onda própria (ADR-020 Decisão 2).
 
 ## Contexto
 
@@ -228,3 +229,4 @@ por IA.
 
 - v1.0 — 2026-06-10 — claude-fable-5 — consolidação dos 3 brainstorms (PROPOSED).
 - v1.1 — 2026-06-10 — claude-fable-5 — FIX cross-audits 0030/0031: D1 explicitado como RITO (não comando de cli.py — 0031 F-04); linha D6 log frio no mapa (0030 F-04 / 0031 F-06); cápsula com heading exato (0030 F-02).
+- v1.2 — 2026-06-10 — codex — ACCEPTED por readback 0004 confirmado; suíte 63 verde; guards seguem FORA do runner.

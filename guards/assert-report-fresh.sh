@@ -15,7 +15,7 @@
 #       Header do relato fora da forma fixa §1 também BLOQUEIA (0031 F-03).
 #   (5) AVISO: bloco de relato com >10 linhas (inflação — ADR-022).
 #
-# status: proposed (metade 2 da onda orquestração-start) — FORA do runner.
+# status: accepted (adoção orquestração-start, readback 0004) — FORA do runner.
 # E-FECH-01/02: handoff E STATE são lidos do blob STAGED (git show :path;
 #   HEAD:path em CI), nunca da working tree — STATE bom só na working tree
 #   com staged velho DEVE bloquear (caso de skew na suíte).

@@ -279,3 +279,31 @@ NOME original (nunca renomear história); o id novo é só de registro, com
 | 20260610-205330-fable-5-guard-pointer-honest | guards/assert-pointer-honest.sh | guard | quente | — | 2026-06-10T20:53:30-03:00 |
 | 20260610-205340-fable-5-guard-report-fresh | guards/assert-report-fresh.sh | guard | quente | — | 2026-06-10T20:53:40-03:00 |
 | 20260610-205910-fable-5-handoff-guards-orquestracao-start | .hbn/messages/20260610-205910-fable-5-handoff-guards-orquestracao-start.md | handoff | quente | — | 2026-06-10T20:59:10-03:00 |
+
+Nota adoção orquestração-start (ADR-024 + 4 specs + 4 guards + suíte 63 —
+status: accepted pelo readback 0004): 0030/0031 foram vetos históricos
+pré-fix; 0032/0033 reauditaram o fix e retornaram VETO_ADOCAO: NAO, sem
+bloqueadores/fortes/marginais. ADR-024, specs core, guards G-STR/G-NUM/G-PTR/G-RLT
+e a seção ADR-024 da suíte passam a accepted; a suíte permanece com contagem
+honesta de 63 checks totais, 30 checks ADR-024 e 20 negativos de bloqueio. Os
+4 guards continuam FORA de guards/hbn-guards-runner.sh; ativação é onda futura.
+
+| 20260610-215757-codex-readback-adocao-orquestracao-start | .hbn/readbacks/0004-adocao-orquestracao-start.json | readback | frio | — | 2026-06-10T21:57:57-03:00 |
+| 20260610-212004-codex-audit-orquestracao-start-md | .hbn/results/0030-cross-ia-codex-orquestracao-start.md | audit-result | frio | — | 2026-06-10T21:20:04-03:00 |
+| 20260610-212004-codex-audit-orquestracao-start-json | .hbn/results/0030-cross-ia-codex-orquestracao-start.json | audit-result | frio | — | 2026-06-10T21:20:04-03:00 |
+| 20260610-211406-gemini-3-5-audit-orquestracao-start | .hbn/results/0031-cross-ia-antigravity-orquestracao-start.md | audit-result | frio | — | 2026-06-10T21:14:06-03:00 |
+| 20260610-215115-codex-audit-fix-orquestracao-start-md | .hbn/results/0032-cross-ia-codex-fix-orquestracao-start.md | audit-result | frio | — | 2026-06-10T21:51:15-03:00 |
+| 20260610-215115-codex-audit-fix-orquestracao-start-json | .hbn/results/0032-cross-ia-codex-fix-orquestracao-start.json | audit-result | frio | — | 2026-06-10T21:51:15-03:00 |
+| 20260610-214912-gemini-3-5-audit-fix-orquestracao-start-md | .hbn/results/0033-cross-ia-antigravity-fix-orquestracao-start.md | audit-result | frio | — | 2026-06-10T21:49:12-03:00 |
+| 20260610-214918-gemini-3-5-audit-fix-orquestracao-start-json | .hbn/results/0033-cross-ia-antigravity-fix-orquestracao-start.json | audit-result | frio | — | 2026-06-10T21:49:18-03:00 |
+| 20260610-230700-codex-adopt-adr-024 | methodology/adr/ADR-024-orquestracao-start.md | adr | quente | — | 2026-06-10T23:07:00-03:00 |
+| 20260610-230701-codex-adopt-start-rite-spec | core/start-rite-spec.md | spec-core | quente | — | 2026-06-10T23:07:01-03:00 |
+| 20260610-230702-codex-adopt-orchestrator-profile-spec | core/orchestrator-profile-spec.md | spec-core | quente | — | 2026-06-10T23:07:02-03:00 |
+| 20260610-230703-codex-adopt-pointer-spec | core/pointer-spec.md | spec-core | quente | — | 2026-06-10T23:07:03-03:00 |
+| 20260610-230704-codex-adopt-state-report-spec | core/state-report-spec.md | spec-core | quente | — | 2026-06-10T23:07:04-03:00 |
+| 20260610-230705-codex-adopt-guard-start-cast | guards/assert-start-cast.sh | guard | quente | — | 2026-06-10T23:07:05-03:00 |
+| 20260610-230706-codex-adopt-guard-parallel-id | guards/assert-parallel-id.sh | guard | quente | — | 2026-06-10T23:07:06-03:00 |
+| 20260610-230707-codex-adopt-guard-pointer-honest | guards/assert-pointer-honest.sh | guard | quente | — | 2026-06-10T23:07:07-03:00 |
+| 20260610-230708-codex-adopt-guard-report-fresh | guards/assert-report-fresh.sh | guard | quente | — | 2026-06-10T23:07:08-03:00 |
+| 20260610-230709-codex-adopt-suite-63 | guards/tests/run-guard-tests.sh | guard-test | quente | — | 2026-06-10T23:07:09-03:00 |
+| 20260610-230710-codex-state-orquestracao-start-adotada | .hbn/relay/STATE.md | state | quente | — | 2026-06-10T23:07:10-03:00 |

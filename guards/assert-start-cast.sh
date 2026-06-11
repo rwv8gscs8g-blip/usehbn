@@ -12,7 +12,7 @@
 #   (3) BLOQUEADOR: `escrita_paralela` contém apelido fora do elenco da
 #       própria atribuição (orquestrador + implementador + auditores).
 #
-# status: proposed (metade 2 da onda orquestração-start) — FORA do runner.
+# status: accepted (adoção orquestração-start, readback 0004) — FORA do runner.
 #   Ativação futura = onda própria (ADR-020 Decisão 2: suíte verde + hearback
 #   + testes negativos dos 5 guards legados).
 # Invocação sob demanda (mesmo padrão G-FAM): o insumo é o JSON IMPRESSO pelo

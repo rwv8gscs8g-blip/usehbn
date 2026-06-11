@@ -1,14 +1,14 @@
 ---
 titulo: Start-rite spec — `usehbn start` como rito declarativo de elenco
 diataxis: reference
-status: proposed
+status: accepted
 temperatura: quente
 id-global: 20260610-202410-fable-5-spec-start-rite
 path: core/start-rite-spec.md
 versao: 0.1.1   # FIX cross-audit 0030/0031: rito ≠ comando CLI (§1); token exato (§5.1); data serial (§5.2)
 data: 2026-06-10
 autoria: claude-fable-5 (consolidação ADR-024)
-hearback-status: aguardando humano
+hearback-status: confirmed
 relacionado: [ADR-024 (Decisões 1 e 5), ADR-015, ADR-018, ADR-020, core/roles-assignment-spec.md, guards/assert-role-family.sh]
 ---
 

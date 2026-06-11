@@ -1,14 +1,14 @@
 ---
 titulo: Orchestrator-profile spec — contrato reinicializável do papel conversacional-orquestrador
 diataxis: reference
-status: proposed
+status: accepted
 temperatura: quente
 id-global: 20260610-202530-fable-5-spec-orchestrator-profile
 path: core/orchestrator-profile-spec.md
 versao: 0.1.0
 data: 2026-06-10
 autoria: claude-fable-5 (consolidação ADR-024)
-hearback-status: aguardando humano
+hearback-status: confirmed
 relacionado: [ADR-024 (Decisões 2 e 6), ADR-015, ADR-018, ADR-022, ADR-023, core/relay-spec.md (read-list), knowledge 0002, knowledge 0017]
 ---
 
