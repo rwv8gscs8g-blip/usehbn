@@ -46,6 +46,10 @@
 #   2 pass; o caso backups vira allowlist) + G-SCO files_forbidden isolado
 #   (+1 block) + G-TMP worktree linkado (+1 block) + trap global de
 #   limpeza (TMPDIR=SUITE_TMP; tolera rm negado). Total: 100.
+#   I-08 (F-01, onda 0006): G-EXC (+8: 4 block, 4 pass — 2 de regressao do
+#     deadlock C-03c/G-EXC, corretor v3), G-HRB runner+
+#   assinatura SSH (+5: 3 block, 2 pass), G-FAM runner (+2: 1 block,
+#   1 pass). Total: 113.
 #   FIX cross-audits 0030/0031 (3 FORTE + marginais): G-NUM token exato
 #   (0030 F-01 / 0031 F-05) + data de id serial (0031 F-01); G-RLT heading
 #   exato da cápsula (0030 F-02) + parser do chapéu por campo (0031 F-03);
@@ -865,6 +869,139 @@ w="/tmp/hbn-wt-linked.$$"
 check "tmp: worktree LINKADO em /tmp → BLOCK"           block "$( ( cd "$w" && bash "$GUARDS_DIR/forbid-tmp-worktree.sh" >/dev/null 2>&1 ); echo $? )"
 ( cd "$m" && git worktree remove --force "$w" ) >/dev/null 2>&1 || rm -rf "$w" 2>/dev/null || true
 rm -rf "$m" 2>/dev/null || true
+
+# --- G-EXC: assert-exception-traceable (onda 0006 I-08 — F-01) ---------------
+echo "== assert-exception-traceable (G-EXC) =="
+make_exc_repo() { # $1=implementador $2=agent_id $3=com_auth(y/n) $4=state_extra
+    local d; d="$(mktemp -d)"
+    (
+        cd "$d"
+        git init -q
+        git config user.email "tests@hbn.local"
+        git config user.name "hbn-guard-tests"
+        mkdir -p .hbn/relay .hbn/readbacks docs
+        local auth=""
+        [[ "$3" == "y" ]] && auth='"authorization":{"human":"Tester Humano","evidence":"ordem em chat 2026-06-11"},'
+        cat > .hbn/readbacks/0007-t.json <<EOF
+{"readback_id":"0007-t","agent_id":"${2}",${auth}"track":"safe_track","human_status":"confirmed","scope":{"files_allowed":["**"],"files_forbidden":[]}}
+EOF
+        cat > .hbn/relay/STATE.md <<EOF
+---
+proxima_acao: "teste"
+ultima_atualizacao: "2026-06-11T10:00:00-03:00"
+sinais_abertos:
+${4}
+atribuicao:
+  chapeu_atual: implementador
+  implementador: ${1}
+  auditores: [outro-1]
+---
+EOF
+        git add -A -f
+        git commit -qm "init"
+    ) >/dev/null 2>&1
+    echo "$d"
+}
+run_exc() { ( cd "$1" && bash "$GUARDS_DIR/assert-exception-traceable.sh" ${2:+"$2"} >/dev/null 2>&1 ); echo $?; }
+SINAL_OK='  - "🔴 EXCEÇÃO F-01 ATIVA — PROPOSED_UNTIL_CROSS_AUDIT"'
+SINAL_SEM='  - "🟢 tudo normal"'
+
+# caso-bom: implementador ≠ agente do readback → sem exceção, passa
+d="$(make_exc_repo "impl-a" "agente-b" y "$SINAL_SEM")"
+check "exc: implementador ≠ agente do readback → passa"        pass  "$(run_exc "$d")"
+rm -rf "$d"
+# caso-ruim: exceção SEM authorization no readback
+d="$(make_exc_repo "mesmo-1" "mesmo-1" n "$SINAL_OK")"
+check "exc: exceção sem authorization{} no readback → BLOCK"   block "$(run_exc "$d")"
+rm -rf "$d"
+# caso-ruim: exceção SEM sinal 🔴/PROPOSED_UNTIL_CROSS_AUDIT no STATE
+d="$(make_exc_repo "mesmo-1" "mesmo-1" y "$SINAL_SEM")"
+check "exc: exceção sem sinal 🔴 no STATE staged → BLOCK"      block "$(run_exc "$d")"
+rm -rf "$d"
+# caso-bom: exceção com (a)+(d) legíveis no pre-commit
+d="$(make_exc_repo "mesmo-1" "mesmo-1" y "$SINAL_OK")"
+check "exc: exceção com authorization + sinais no STATE → passa" pass "$(run_exc "$d")"
+# modo commit-msg: mensagem SEM trailer HBN-Human-Authorization → BLOCK
+printf 'feat: x\n\nHBN-Readback: 0007\n' > "$d/msg-incompleta.txt"
+check "exc: msg sem HBN-Human-Authorization → BLOCK"           block "$(run_exc "$d" "$d/msg-incompleta.txt")"
+# modo commit-msg: mensagem com os 2 trailers → passa
+printf 'feat: x\n\nHBN-Readback: 0007\nHBN-Human-Authorization: ordem-tester\n' > "$d/msg-ok.txt"
+check "exc: msg com os 2 trailers → passa"                     pass  "$(run_exc "$d" "$d/msg-ok.txt")"
+rm -rf "$d"
+
+# REGRESSAO deadlock C-03c/G-EXC (corretor v3): no modo commit-msg o guard valida
+# SO (b)+(c). STATE SEM sinais 🔴/PROPOSED e readback SEM authorization: com (a)/(d)
+# restritos ao pre-commit, a mensagem com os 2 trailers LIBERA (antes do fix: BLOCK,
+# travando o pick de I-08 sobre a main sem 🔴 de excecao). Espelha o pick na main.
+d="$(make_exc_repo "mesmo-1" "mesmo-1" n "$SINAL_SEM")"
+printf 'feat: x\n\nHBN-Readback: 0006\nHBN-Human-Authorization: ordem-mauricio\n' > "$d/msg-cm-ok.txt"
+check "exc: commit-msg STATE SEM sinais + 2 trailers -> LIBERA (regressao deadlock)" pass  "$(run_exc "$d" "$d/msg-cm-ok.txt")"
+# commit-msg ainda EXIGE (b)+(c): mesma STATE, msg sem HBN-Human-Authorization -> BLOCK
+printf 'feat: x\n\nHBN-Readback: 0006\n' > "$d/msg-cm-bad.txt"
+check "exc: commit-msg STATE SEM sinais + msg sem trailer (c) -> BLOCK"              block "$(run_exc "$d" "$d/msg-cm-bad.txt")"
+rm -rf "$d"
+
+# --- G-HRB modo runner + assinatura SSH (onda 0006 I-08) ---------------------
+echo "== assert-hearback-integrity: runner + assinatura (I-08) =="
+run_hrb_runner() { ( cd "$1" && ${2:+env "$2"} bash "$GUARDS_DIR/assert-hearback-integrity.sh" >/dev/null 2>&1 ); echo $?; }
+# runner: hearback staged JUNTO com obra → BLOCK
+d="$(make_hrb_repo)"
+( cd "$d" && echo '{"status":"confirmed"}' > .hbn/hearbacks/0010-x.json && echo obra >> docs/base.md && git add -A ) >/dev/null 2>&1
+check "hrb-run: hearback staged junto com obra → BLOCK"        block "$(run_hrb_runner "$d")"
+rm -rf "$d"
+# runner: hearback staged PURO, sem chave registrada → passa com aviso
+d="$(make_hrb_repo)"
+( cd "$d" && echo '{"status":"confirmed"}' > .hbn/hearbacks/0010-puro.json && git add .hbn/hearbacks/0010-puro.json ) >/dev/null 2>&1
+check "hrb-run: hearback puro sem chave → passa (aviso pendente)" pass "$(run_hrb_runner "$d")"
+rm -rf "$d"
+# assinatura: chave registrada + hearback ASSINADO → passa
+kd="$(mktemp -d)"
+ssh-keygen -q -t ed25519 -N "" -f "$kd/operador" >/dev/null 2>&1
+mkdir -p "$kd/ops" && cp "$kd/operador.pub" "$kd/ops/operador.pub"
+d="$(make_hrb_repo)"
+(
+    cd "$d" && echo '{"status":"confirmed"}' > .hbn/hearbacks/0011-ass.json \
+    && ssh-keygen -Y sign -q -f "$kd/operador" -n hbn-hearback .hbn/hearbacks/0011-ass.json >/dev/null 2>&1 \
+    && git add .hbn/hearbacks/0011-ass.json .hbn/hearbacks/0011-ass.json.sig
+) >/dev/null 2>&1
+check "hrb-sig: hearback assinado por chave registrada → passa" pass "$( ( cd "$d" && HBN_OPERATORS_DIR="$kd/ops" bash "$GUARDS_DIR/assert-hearback-integrity.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+# assinatura: chave registrada + hearback SEM .sig → BLOCK
+d="$(make_hrb_repo)"
+( cd "$d" && echo '{"status":"confirmed"}' > .hbn/hearbacks/0012-semsig.json && git add .hbn/hearbacks/0012-semsig.json ) >/dev/null 2>&1
+check "hrb-sig: chave registrada e hearback sem .sig → BLOCK"   block "$( ( cd "$d" && HBN_OPERATORS_DIR="$kd/ops" bash "$GUARDS_DIR/assert-hearback-integrity.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+# assinatura: .sig de CONTEÚDO adulterado → BLOCK
+d="$(make_hrb_repo)"
+(
+    cd "$d" && echo '{"status":"confirmed"}' > .hbn/hearbacks/0013-adult.json \
+    && ssh-keygen -Y sign -q -f "$kd/operador" -n hbn-hearback .hbn/hearbacks/0013-adult.json >/dev/null 2>&1 \
+    && echo '{"status":"confirmed","escopo":"AMPLIADO DEPOIS DA ASSINATURA"}' > .hbn/hearbacks/0013-adult.json \
+    && git add .hbn/hearbacks/0013-adult.json .hbn/hearbacks/0013-adult.json.sig
+) >/dev/null 2>&1
+check "hrb-sig: conteúdo adulterado após assinar → BLOCK"       block "$( ( cd "$d" && HBN_OPERATORS_DIR="$kd/ops" bash "$GUARDS_DIR/assert-hearback-integrity.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d" "$kd"
+
+# --- G-FAM modo runner (onda 0006 I-08 — backlog 0022/F-05 mínimo) -----------
+echo "== assert-role-family: modo runner (I-08) =="
+make_fam_state_repo() { # $1=implementador $2=auditores inline
+    local d; d="$(mktemp -d)"
+    (
+        cd "$d" && git init -q
+        git config user.email "tests@hbn.local"
+        git config user.name "hbn-guard-tests"
+        mkdir -p .hbn/relay
+        printf -- '---\natribuicao:\n  implementador: %s\n  auditores: %s\n---\n' "$1" "$2" > .hbn/relay/STATE.md
+        git add -A && git commit -qm init
+    ) >/dev/null 2>&1
+    echo "$d"
+}
+d="$(make_fam_state_repo "fulano-1" "[fulano-1, beltrano-2]")"
+check "fam-run: implementador ∈ auditores no STATE staged → BLOCK" block "$( ( cd "$d" && bash "$GUARDS_DIR/assert-role-family.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+d="$(make_fam_state_repo "fulano-1" "[beltrano-2, sicrano-3]")"
+check "fam-run: implementador ∉ auditores → passa"              pass  "$( ( cd "$d" && bash "$GUARDS_DIR/assert-role-family.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
 
 # --- Bypass com nota staged (onda 0006 I-06 — F-10) --------------------------
 echo "== bypass env só com nota staged (F-10) =="

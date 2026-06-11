@@ -23,6 +23,11 @@ echo "${C_BOLD}[hbn-guards] Iniciando bateria de guards de governança…${C_END
 # G-PTR/G-RLT entram no runner. Pré-condição do STATE paga: a suíte ganhou a
 # seção "guards legados" (testes negativos dos 5 legados) — 75/75 verde.
 # G-STR fica FORA por desenho (recebe a atribuição por argumento, não por diff).
+# ONDA 0006 (readback 0006, I-08): entram G-FAM e G-HRB em modo runner
+# (sem argumento): implementador ∉ auditores no STATE staged; hearback
+# staged junto com obra = BLOCK; assinatura SSH quando houver chave em
+# .hbn/operators/. G-EXC (exceção rastreável) entra no commit I-09, junto
+# com o 4º sinal no STATE (ver header do assert-exception-traceable.sh).
 GUARDS=(
     "assert-canonical-root.sh"
     "forbid-tmp-worktree.sh"
@@ -35,6 +40,8 @@ GUARDS=(
     "assert-pointer-honest.sh"
     "assert-report-fresh.sh"
     "assert-no-stray-hbn.sh"
+    "assert-role-family.sh"
+    "assert-hearback-integrity.sh"
 )
 
 OVERALL=0

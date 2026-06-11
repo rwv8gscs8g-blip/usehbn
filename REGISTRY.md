@@ -325,3 +325,4 @@ honesta de 63 checks totais, 30 checks ADR-024 e 20 negativos de bloqueio. Os
 | 20260611-125809-gemini-3-5-cross-ia-ativacao-enforcement | .hbn/results/20260611-125809-gemini-3-5-cross-ia-ativacao-enforcement.md | audit-result | frio | — | 2026-06-11T12:58:09-03:00 |
 | 20260611-160318-fable5-alt-roots | .hbn/alt-roots | config-guard | quente | — | 2026-06-11T16:03:18-03:00 |
 | 20260611-160745-fable5-stray-allowlist | .hbn/stray-allowlist | config-guard | quente | — | 2026-06-11T16:07:45-03:00 |
+| 20260611-161405-fable5-guard-exception-traceable | guards/assert-exception-traceable.sh | guard | quente | — | 2026-06-11T16:14:05-03:00 |

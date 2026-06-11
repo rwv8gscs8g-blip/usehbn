@@ -5,8 +5,10 @@
 #   família(auditor de X) ≠ família(implementador de X)
 # família = campo `fornecedor` do perfil .hbn/models/<apelido>.json (ADR-015).
 #
-# status: accepted (correntes D/E, 2026-06-10) — NÃO está no runner.
-#   Invocação sob demanda (atribuição de onda / handoff):
+# status: accepted (correntes D/E, 2026-06-10); ENTRA NO RUNNER na onda
+#   0006 (I-08) em modo sem-argumento (invariante mínimo: implementador ∉
+#   auditores, lido do STATE staged — fecha o mínimo do backlog 0022/F-05).
+#   Invocação completa sob demanda (atribuição de onda / handoff):
 #     bash guards/assert-role-family.sh <atribuicao.json>
 #   onde o JSON tem a forma do campo `atribuicao` do STATE
 #   (core/roles-assignment-spec.md §2).
@@ -28,8 +30,44 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${SCRIPT_DIR}/lib/common.sh"
 
 ATRIB="${1:-}"
-if [[ -z "$ATRIB" || ! -f "$ATRIB" ]]; then
-    guard_fail "Uso: assert-role-family.sh <atribuicao.json> (arquivo não encontrado: '${ATRIB}')"
+
+# --- MODO RUNNER (onda 0006 I-08 — fecha o mínimo do backlog 0022/F-05): ----
+# sem argumento, lê a atribuição do STATE STAGED (HEAD em CI) e aplica o
+# invariante MÍNIMO mecanizável no pre-commit: implementador ∉ auditores.
+# (A checagem completa de famílias/papéis exige perfis e segue no modo com
+# argumento — atribuição de onda/handoff.)
+if [[ -z "$ATRIB" ]]; then
+    STATE_PATH=".hbn/relay/STATE.md"
+    if [[ -n "${HBN_DIFF_BASE:-}" ]]; then
+        SC="$(git show "HEAD:${STATE_PATH}" 2>/dev/null || true)"
+    else
+        SC="$(git show ":${STATE_PATH}" 2>/dev/null || true)"
+    fi
+    if [[ -z "$SC" ]]; then
+        guard_warn "STATE indisponível no blob staged/HEAD — repo fora do rito de atribuição; invariante mínimo sem alvo."
+        exit 0
+    fi
+    IMPL_R="$(grep -E '^[[:space:]]*implementador:' <<< "$SC" | head -1 \
+        | sed -E 's/^[[:space:]]*implementador:[[:space:]]*//; s/["'"'"']//g; s/[[:space:]]+$//' || true)"
+    AUD_R=""
+    AUD_LINE="$(grep -E '^[[:space:]]*auditores:' <<< "$SC" | head -1 || true)"
+    if [[ "$AUD_LINE" =~ \[([^]]*)\] ]]; then
+        AUD_R="$(echo "${BASH_REMATCH[1]}" | tr ',' ' ' | tr -d '"' | tr -d "'" | xargs || true)"
+    fi
+    if [[ -n "$IMPL_R" && -n "$AUD_R" ]]; then
+        for a in $AUD_R; do
+            if [[ "$a" == "$IMPL_R" ]]; then
+                guard_fail "GROUPTHINK MECÂNICO: implementador '${IMPL_R}' consta como AUDITOR na atribuição do STATE staged (ADR-018 D2; backlog 0022/F-05 — quem implementa não audita a si mesmo)."
+                exit 1
+            fi
+        done
+    fi
+    guard_ok "Atribuição do STATE staged: implementador ('${IMPL_R:-—}') ∉ auditores (${AUD_R:-—})."
+    exit 0
+fi
+
+if [[ ! -f "$ATRIB" ]]; then
+    guard_fail "Uso: assert-role-family.sh [<atribuicao.json>] (arquivo não encontrado: '${ATRIB}')"
     exit 2
 fi
 
