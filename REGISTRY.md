@@ -307,3 +307,12 @@ honesta de 63 checks totais, 30 checks ADR-024 e 20 negativos de bloqueio. Os
 | 20260610-230708-codex-adopt-guard-report-fresh | guards/assert-report-fresh.sh | guard | quente | — | 2026-06-10T23:07:08-03:00 |
 | 20260610-230709-codex-adopt-suite-63 | guards/tests/run-guard-tests.sh | guard-test | quente | — | 2026-06-10T23:07:09-03:00 |
 | 20260610-230710-codex-state-orquestracao-start-adotada | .hbn/relay/STATE.md | state | quente | — | 2026-06-10T23:07:10-03:00 |
+| 20260610-221455-antigravity-gemini-ponte-002-008 | .hbn/proposals/20260610-221455-antigravity-gemini-ponte-002-008.md | proposal | quente | — | 2026-06-10T22:14:55-03:00 |
+| 20260610-221540-codex-ponte-002-008 | .hbn/proposals/20260610-221540-codex-ponte-002-008.md | proposal | quente | — | 2026-06-10T22:15:40-03:00 |
+| 20260610-221607-fable5-ponte-002-008 | .hbn/proposals/20260610-221607-fable5-ponte-002-008.md | proposal | quente | — | 2026-06-10T22:16:07-03:00 |
+| 20260610-233218-fable5-ponte-consolidada | .hbn/proposals/20260610-233218-fable5-ponte-consolidada.md | proposal | quente | — | 2026-06-10T23:32:18-03:00 |
+| 20260610-235817-gemini-3-5-audit-ponte-json | .hbn/results/0035-cross-ia-antigravity-ponte.json | audit-result | frio | — | 2026-06-10T23:58:17-03:00 |
+| 20260610-235830-gemini-3-5-audit-ponte-md | .hbn/results/0035-cross-ia-antigravity-ponte.md | audit-result | frio | — | 2026-06-10T23:58:30-03:00 |
+| 20260611-002529-codex-audit-ponte-md | .hbn/results/0034-cross-ia-codex-ponte.md | audit-result | frio | — | 2026-06-11T00:25:29-03:00 |
+| 20260611-002530-codex-audit-ponte-json | .hbn/results/0034-cross-ia-codex-ponte.json | audit-result | frio | — | 2026-06-11T00:25:30-03:00 |
+| 20260611-014200-fable-5-readback-ativacao-enforcement | .hbn/readbacks/0005-ativacao-enforcement.json | readback | frio | — | 2026-06-11T01:42:00-03:00 |
