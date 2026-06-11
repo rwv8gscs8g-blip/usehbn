@@ -1,0 +1,172 @@
+#!/usr/bin/env bash
+# =============================================================================
+# guards/assert-parallel-id.sh
+# path: guards/assert-parallel-id.sh · id-global: 20260610-205320-fable-5-guard-parallel-id
+# Guarda G-NUM: dá dente ao ADR-024 Decisão 5 (numeração de escrita paralela).
+# Spec normativa: core/start-rite-spec.md §5.
+#   (1) BLOQUEADOR: em ciclo paralelo (STATE staged com `escrita_paralela`
+#       não-vazia), artefato novo em pasta de série não-local cujo nome não
+#       casa ^AAAAMMDD-HHMMSS-<agente>-<slug>. com <agente> ∈ escrita_paralela.
+#   (2) BLOQUEADOR: linha NOVA do REGISTRY staged sem coluna created_at
+#       ISO8601 com offset, ou com HHMMSS/data do id divergente do created_at
+#       da mesma linha. Vale também FORA de ciclo paralelo (spec §5.4).
+#   (3) BLOQUEADOR: dois artefatos novos com id idêntico no mesmo diff.
+#
+# status: proposed (metade 2 da onda orquestração-start) — FORA do runner.
+# E-FECH-01/02: lê SEMPRE o blob staged (git show :path local; HEAD:path em
+#   CI via HBN_DIFF_BASE), nunca a working tree — STATE e REGISTRY incluídos.
+# Interpretações registradas para cross-audit (spec §5 deixa em aberto):
+#   - "pasta de série não-local" (proxy de autoria paralela, já que o diff
+#     não tem autor): .hbn/proposals/, .hbn/messages/, .hbn/results/,
+#     reports/, docs/prompts/. Séries locais ESTÁVEIS seguem isentas da
+#     regra 1 (ADR-024 D5.2): methodology/adr/ADR-NNN, .hbn/knowledge/NNNN,
+#     core/*.md e demais nomes-endereço.
+#   - `escrita_paralela` é lida do bloco `atribuicao` do STATE staged; só a
+#     forma inline `escrita_paralela: [a, b]` é suportada (forma da
+#     start-rite-spec §3); ausente/vazia ⇒ ciclo serial.
+# Teste negativo: guards/tests/run-guard-tests.sh (seção G-NUM), incluindo o
+#   caso de compatibilidade G-REG (risco R5 do ADR-024).
+# =============================================================================
+set -euo pipefail
+
+GUARD_NAME="assert-parallel-id"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=lib/common.sh
+source "${SCRIPT_DIR}/lib/common.sh"
+
+if guard_check_bypass; then
+    exit 0
+fi
+
+STATE_PATH=".hbn/relay/STATE.md"
+REGISTRY="REGISTRY.md"
+
+# Blob a validar: índice (staged) localmente; HEAD em CI (E-FECH-01/02).
+blob_ref() {
+    if [[ -n "${HBN_DIFF_BASE:-}" ]]; then
+        echo "HEAD:$1"
+    else
+        echo ":$1"
+    fi
+}
+
+state_content() {
+    git show "$(blob_ref "$STATE_PATH")" 2>/dev/null || true
+}
+
+guard_added_files() {
+    if [[ -n "${HBN_DIFF_BASE:-}" ]]; then
+        git diff --name-only --diff-filter=AR "${HBN_DIFF_BASE}...HEAD" 2>/dev/null || true
+    else
+        git diff --cached --name-only --diff-filter=AR 2>/dev/null || true
+    fi
+}
+
+# Linhas ADICIONADAS ao REGISTRY neste diff (staged local; range em CI).
+registry_added_lines() {
+    if [[ -n "${HBN_DIFF_BASE:-}" ]]; then
+        git diff "${HBN_DIFF_BASE}...HEAD" -- "$REGISTRY" 2>/dev/null
+    else
+        git diff --cached -- "$REGISTRY" 2>/dev/null
+    fi | grep -E '^\+\|' | sed 's/^+//' || true
+}
+
+# escrita_paralela do STATE STAGED (forma inline [a, b]; ausente ⇒ vazio).
+PARALELO=""
+PARALELO_LINHA="$(state_content | grep -E '^[[:space:]]*escrita_paralela:' | head -1 || true)"
+if [[ "$PARALELO_LINHA" =~ \[([^]]*)\] ]]; then
+    PARALELO="$(echo "${BASH_REMATCH[1]}" | tr ',' ' ' | tr -d '"' | tr -d "'" | xargs || true)"
+fi
+
+ADDED="$(guard_added_files)"
+FAIL=0
+
+# --- Regra 1: nome de artefato paralelo (só em ciclo paralelo) ---------------
+is_parallel_series_path() {
+    case "$1" in
+        .hbn/proposals/*|.hbn/messages/*|.hbn/results/*|reports/*|docs/prompts/*) return 0 ;;
+    esac
+    return 1
+}
+
+if [[ -n "$PARALELO" && -n "$ADDED" ]]; then
+    while IFS= read -r f; do
+        [[ -z "$f" ]] && continue
+        is_parallel_series_path "$f" || continue
+        base="$(basename "$f")"
+        ok=0
+        for ag in $PARALELO; do
+            if [[ "$base" =~ ^[0-9]{8}-[0-9]{6}-"$ag"-[a-z0-9][a-z0-9-]*\. ]]; then
+                ok=1
+                break
+            fi
+        done
+        if [[ "$ok" -ne 1 ]]; then
+            if [[ "$base" =~ ^[0-9]{8}-[0-9]{2}- && ! "$base" =~ ^[0-9]{8}-[0-9]{6}- ]]; then
+                guard_fail "Ciclo PARALELO (escrita_paralela: ${PARALELO}) e '${f}' usa formato serial AAAAMMDD-NN — exatamente a colisão 0001-fable5 × 0001-codex que o ADR-024 Decisão 5 proíbe. Nomeie AAAAMMDD-HHMMSS-<agente>-<slug>."
+            elif [[ "$base" =~ ^[0-9]{8}-[0-9]{6}- ]]; then
+                guard_fail "Artefato paralelo '${f}' com <agente> fora de escrita_paralela (${PARALELO}) do STATE staged (start-rite-spec §5.1 — escritor paralelo não declarado no rito)."
+            else
+                guard_fail "Ciclo PARALELO e '${f}' não casa ^AAAAMMDD-HHMMSS-<agente>-<slug>. (start-rite-spec §5.1)."
+            fi
+            FAIL=1
+        fi
+    done <<< "$ADDED"
+fi
+
+# --- Regra 2: linha nova do REGISTRY exige created_at coerente ---------------
+ISO_RE='^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[+-][0-9]{2}:[0-9]{2}$'
+while IFS= read -r line; do
+    [[ -z "$line" ]] && continue
+    id_col="$(awk -F'|' '{gsub(/^[ \t]+|[ \t]+$/,"",$2); print $2}' <<< "$line")"
+    [[ -z "$id_col" || "$id_col" == "id" ]] && continue
+    [[ "$id_col" =~ ^:?-+:?$ ]] && continue
+    created="$(awk -F'|' '{gsub(/^[ \t]+|[ \t]+$/,"",$7); print $7}' <<< "$line")"
+    if [[ -z "$created" || "$created" == "—" ]]; then
+        guard_fail "Linha nova do ${REGISTRY} staged sem coluna created_at: '| ${id_col} | …' (ADR-024 Decisão 5.3: linhas novas usam o bloco de 6 colunas; created_at é a linha do tempo autoritativa)."
+        FAIL=1
+        continue
+    fi
+    if [[ ! "$created" =~ $ISO_RE ]]; then
+        guard_fail "Linha nova do ${REGISTRY} staged com created_at '${created}' fora de ISO8601 com offset explícito (ADR-024 Decisão 5.4 — ex.: 2026-06-10T20:52:05-03:00)."
+        FAIL=1
+        continue
+    fi
+    if [[ "$id_col" =~ ^([0-9]{8})-([0-9]{6})- ]]; then
+        id_ymd="${BASH_REMATCH[1]}" ; id_hms="${BASH_REMATCH[2]}"
+        ct_ymd="${created:0:4}${created:5:2}${created:8:2}"
+        ct_hms="${created:11:2}${created:14:2}${created:17:2}"
+        if [[ "$id_ymd" != "$ct_ymd" || "$id_hms" != "$ct_hms" ]]; then
+            guard_fail "Linha '${id_col}' do ${REGISTRY} staged: id declara ${id_ymd}-${id_hms} mas created_at é ${created} — o HHMMSS do id DERIVA do mesmo carimbo (ADR-024 Decisão 5.4); um dos dois é de memória."
+            FAIL=1
+        fi
+    fi
+done <<< "$(registry_added_lines)"
+
+# --- Regra 3: id idêntico em dois artefatos novos do mesmo diff --------------
+if [[ -n "$ADDED" ]]; then
+    DUP="$(while IFS= read -r f; do
+        [[ -z "$f" ]] && continue
+        b="$(basename "$f")"
+        if [[ "$b" =~ ^[0-9]{8}-[0-9]{6}- ]]; then
+            echo "${b%.*}"
+        elif [[ "$b" =~ ^([0-9]{8}-[0-9]{2})- ]]; then
+            echo "${BASH_REMATCH[1]}"
+        fi
+    done <<< "$ADDED" | sort | uniq -d)"
+    if [[ -n "$DUP" ]]; then
+        guard_fail "Dois artefatos novos com id idêntico no mesmo diff: $(echo "$DUP" | xargs) (start-rite-spec §5.3 — colisão de numeração)."
+        FAIL=1
+    fi
+fi
+
+if [[ "$FAIL" -ne 0 ]]; then
+    exit 1
+fi
+
+if [[ -n "$PARALELO" ]]; then
+    guard_ok "Ciclo paralelo (${PARALELO}): nomes AAAAMMDD-HHMMSS-<agente> ok; linhas novas do REGISTRY com created_at coerente; sem id duplicado."
+else
+    guard_ok "Ciclo serial: linhas novas do REGISTRY com created_at coerente; sem id duplicado."
+fi
+exit 0

@@ -274,3 +274,8 @@ NOME original (nunca renomear história); o id novo é só de registro, com
 | 20260610-202530-fable-5-spec-orchestrator-profile | core/orchestrator-profile-spec.md | spec-core | quente | — | 2026-06-10T20:25:30-03:00 |
 | 20260610-202640-fable-5-spec-pointer | core/pointer-spec.md | spec-core | quente | — | 2026-06-10T20:26:40-03:00 |
 | 20260610-202750-fable-5-spec-state-report | core/state-report-spec.md | spec-core | quente | — | 2026-06-10T20:27:50-03:00 |
+| 20260610-205310-fable-5-guard-start-cast | guards/assert-start-cast.sh | guard | quente | — | 2026-06-10T20:53:10-03:00 |
+| 20260610-205320-fable-5-guard-parallel-id | guards/assert-parallel-id.sh | guard | quente | — | 2026-06-10T20:53:20-03:00 |
+| 20260610-205330-fable-5-guard-pointer-honest | guards/assert-pointer-honest.sh | guard | quente | — | 2026-06-10T20:53:30-03:00 |
+| 20260610-205340-fable-5-guard-report-fresh | guards/assert-report-fresh.sh | guard | quente | — | 2026-06-10T20:53:40-03:00 |
+| 20260610-205910-fable-5-handoff-guards-orquestracao-start | .hbn/messages/20260610-205910-fable-5-handoff-guards-orquestracao-start.md | handoff | quente | — | 2026-06-10T20:59:10-03:00 |

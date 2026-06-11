@@ -2,19 +2,20 @@
 state_version: 1
 projeto: usehbn (canônico)
 protocolo: "HBN 0.3.0 (bump 0.3.1 adiado — nota 20260610-34)"
-onda_atual: "corrente E — fechamento Blocos 3-6 adotado (ADR-021/022/023 + G-SLF/G-HRB/G-REG + suite 33) por readback 0003"
+onda_atual: "orquestração-start — metade 2 (G-STR/G-NUM/G-PTR/G-RLT .sh + suíte 59) PROPOSED staged, não commitada"
 proprietario_bastao: claude-fable-5
 papel_bastao: arquiteto (bastão devolvido após consolidação Codex do fechamento E)
 papeis:
   arquiteto: "claude-fable-5 — implementou a corrente E inteira (50% + fechamento); por ADR-018 NÃO a audita"
   auditor_validador_fixo: "claude-opus-4-8 (Cowork) — validador fixo EM PROSA; fora do campo mecânico `auditores` até o hearback 0002 ser confirmado (correção F-04)"
   gate_humano: "Maurício — confirmou o readback 0003; mantém F-05 por revisão visual do diff de .hbn/hearbacks/ (ADR-023 Decisão 1c)"
-proxima_acao: "Maurício: revisar diff proposed da onda orquestração-start (ADR-024 + 4 specs core + REGISTRY/INDEX/STATE) e commitar se aprovado; cross-IA Codex + Antigravity sobre o ADR-024 antes de hearback; metade 2 (guards .sh + suíte) só após adoção"
+proxima_acao: "Maurício: rodar bash guards/tests/run-guard-tests.sh no Terminal, revisar o diff staged da metade 2 e commitar se aprovado; depois cross-audit Codex + Antigravity dos 4 guards (ADR-018)"
 sinais_abertos:
   - "🟢 HBN CHECKPOINT CLEAN — fechamento E adotado por readback 0003; suíte 33/33 verde no commit de adoção"
-  - "🔵 HBN HANDOFF READY — bastão devolvido a claude-fable-5 após adoção Codex"
+  - "🔵 HBN HANDOFF READY — metade 2 da orquestração-start implementada e provada; aguarda gate humano + cross-audit Codex/Antigravity"
   - "🟢 DOGFOOD: G-SLF/G-REG corrigidos validam STAGED local e HEAD em CI; 0029 removeu E-FECH-01/02"
-  - "🟣 onda orquestração-start aos ~50% PROPOSED não commitada: ADR-024 consolidando os 3 brainstorms + start-rite/orchestrator-profile/pointer/state-report specs + guards G-STR/G-NUM/G-PTR/G-RLT especificados FORA do runner; metade 2 = implementação .sh + suíte"
+  - "🟢 DOGFOOD metade 2: os 4 guards novos rodados contra o próprio diff staged desta onda (4/4 verdes); suíte 59/59 verde em sandbox — conclusivo no Terminal (knowledge 0021)"
+  - "🟣 onda orquestração-start: metade 1 (ADR-024 + 4 specs) commitada proposed em e47bd81; metade 2 (G-STR/G-NUM/G-PTR/G-RLT .sh + 26 casos na suíte) STAGED não commitada; NENHUM guard no runner; D2/D6 doutrina-sem-enforcement (backlog declarado); interpretações abertas do G-NUM (pastas de série não-local; forma inline de escrita_paralela) registradas no header do guard para cross-audit"
   - "🟡 guards novos/endurecidos continuam fora do runner; ativação futura exige testes negativos dos 5 guards legados"
   - "🟡 hearback 0002 (exceção fable×opus) DRAFT pendente de assinatura — até lá opus-4-8 fora do campo mecânico auditores"
   - "🟡 hearback em lote H1–H6 da corrente D PENDENTE — pareceres 0021/0022 entregues"
@@ -22,11 +23,11 @@ sinais_abertos:
   - "🟡 inbox/credenciamento com 2 propostas não consolidadas (20260610-01-0017-parametrica, 20260610-44-freeze-gate-v206)"
   - "🟡 backlog: assinatura GPG/SSH de hearbacks (eleva aviso de autor do G-HRB a bloqueio — ADR-023 Decisão 4); testes negativos dos 5 guards legados (onda de ativação do runner); F-05 renumeração da faxina 36 antes de H2; F-07 semântica de proprietario_bastao quando próxima ação é humana; 0022/F-05 G-FAM cruzar STATE completo (bastao×chapeu); gate script versionado do dual-run (0021/F-06); decidir versionamento de .hbn/readbacks/; resolver colisão de numeração readback 0002 × hearback 0002"
 readback_ativo: ".hbn/readbacks/0003-adocao-corrente-e-fechamento.json (adoção fechamento E — confirmado)"
-handoff_mais_recente: ".hbn/messages/20260610-05-fix-staged-skew-fable5.md"
-ancora_rollback: "5f0aea3 (checkpoint fix staged-skew antes da adoção fechamento E)"
+handoff_mais_recente: ".hbn/messages/20260610-205910-fable-5-handoff-guards-orquestracao-start.md"
+ancora_rollback: "e47bd81 (checkpoint metade 1 da orquestração-start — ADR-024 + 4 specs, proposed)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
 ciclo_ativo: "corrente E: 50% adotada (e876060) + fechamento adotado por readback 0003; corrente D segue pendente nos itens H1-H6"
-ultima_atualizacao: "2026-06-10T20:31:40-03:00"
+ultima_atualizacao: "2026-06-10T20:59:10-03:00"
 atualizado_por: claude-fable-5
 atribuicao:
   chapeu_atual: consolidador
