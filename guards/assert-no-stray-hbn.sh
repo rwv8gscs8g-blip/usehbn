@@ -19,14 +19,20 @@
 #      (mesma checagem, saída verbosa; rode após qualquer sessão de IA).
 #
 # Parâmetros (env):
-#   HBN_SCAN_ROOT  — raiz da varredura. Default: pai da raiz canônica
-#                    (.hbn/canonical-root); se esse caminho não existir na
-#                    máquina atual (ex.: sandbox), pai do git toplevel.
-#   Profundidade: 4 níveis. Podas: .git, node_modules, .venv, backups
-#                 (backup pode conter .hbn históricos sem .git — não é órfão
-#                 operacional, é cópia fria).
+#   HBN_SCAN_ROOT       — raiz da varredura. Default: pai da raiz canônica
+#                         (.hbn/canonical-root); senão, pai do git toplevel.
+#   HBN_STRAY_ALLOWLIST — arquivo de globs permitidos (default:
+#                         <toplevel>/.hbn/stray-allowlist, VERSIONADO).
 #
-# status: accepted (onda ativação-enforcement, readback 0005, 2026-06-11).
+# v2 (onda 0006 I-07 — F-04 dos cross-audits 0036 P4 / 0037 P4):
+#   - fail-CLOSED: SCAN_ROOT indeterminado/inexistente = exit 1 no modo
+#     guard (era exit 0 com aviso = bypass ambiental); --sweep mantém aviso.
+#   - profundidade 6 (era 4 — órfão fundo passava).
+#   - symlink chamado .hbn também é detectado (-type l).
+#   - poda hardcoded de `backups` REMOVIDA → .hbn/stray-allowlist
+#     (globs versionados, mudança com hearback; default */backups/*).
+#
+# status: accepted (readback 0005); v2 = onda 0006 (readback 0006).
 # Teste negativo: guards/tests/run-guard-tests.sh (seção G-STRAY), com
 #   HBN_SCAN_ROOT apontando para árvore sintética (ADR-020).
 # =============================================================================
@@ -60,20 +66,43 @@ if [[ -z "$SCAN_ROOT" ]]; then
 fi
 
 if [[ -z "$SCAN_ROOT" || ! -d "$SCAN_ROOT" ]]; then
-    guard_warn "Raiz de varredura indeterminada (HBN_SCAN_ROOT/canonical-root/toplevel). Varredura pulada — rode o sweep no Terminal do operador."
-    exit 0
+    if [[ "$MODE" == "sweep" ]]; then
+        guard_warn "Raiz de varredura indeterminada (HBN_SCAN_ROOT/canonical-root/toplevel). Varredura pulada — rode o sweep no Terminal do operador."
+        exit 0
+    fi
+    guard_fail "Raiz de varredura indeterminada ou inexistente (HBN_SCAN_ROOT='${HBN_SCAN_ROOT:-}'). Fail-CLOSED no modo guard (F-04: SCAN_ROOT inválido era bypass ambiental). Corrija o ambiente ou rode --sweep no Terminal do operador."
+    exit 1
 fi
+
+# Allowlist de globs (substitui a poda hardcoded de backups/ — F-04):
+ALLOWLIST_FILE="${HBN_STRAY_ALLOWLIST:-}"
+if [[ -z "$ALLOWLIST_FILE" ]]; then
+    _TOP="$(git rev-parse --show-toplevel 2>/dev/null || echo "")"
+    [[ -n "$_TOP" && -f "${_TOP}/.hbn/stray-allowlist" ]] && ALLOWLIST_FILE="${_TOP}/.hbn/stray-allowlist"
+fi
+is_allowlisted() {
+    local d="$1" pat
+    [[ -n "$ALLOWLIST_FILE" && -f "$ALLOWLIST_FILE" ]] || return 1
+    while IFS= read -r pat; do
+        [[ -z "$pat" || "$pat" =~ ^[[:space:]]*# ]] && continue
+        pat="$(echo "$pat" | xargs)"
+        # shellcheck disable=SC2053
+        [[ "$d" == $pat ]] && return 0
+    done < "$ALLOWLIST_FILE"
+    return 1
+}
 
 STRAYS=()
 while IFS= read -r d; do
     [[ -z "$d" ]] && continue
+    is_allowlisted "$d" && continue
     parent="$(dirname "$d")"
     if [[ ! -e "${parent}/.git" ]]; then
         STRAYS+=("$d")
     fi
-done < <(find "$SCAN_ROOT" -maxdepth 4 \
-            \( -name .git -o -name node_modules -o -name .venv -o -name backups \) -prune \
-            -o -type d -name ".hbn" -print 2>/dev/null)
+done < <(find "$SCAN_ROOT" -maxdepth 6 \
+            \( -name .git -o -name node_modules -o -name .venv \) -prune \
+            -o \( -type d -o -type l \) -name ".hbn" -print 2>/dev/null)
 
 if [[ ${#STRAYS[@]} -eq 0 ]]; then
     guard_ok "Nenhum .hbn órfão sob ${SCAN_ROOT} (todo .hbn mora em raiz de repo git)."

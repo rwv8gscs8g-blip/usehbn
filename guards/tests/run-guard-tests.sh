@@ -41,6 +41,11 @@
 #   pass; alt-root autorizada pass; alt-roots vazio block). Total: 89.
 #   I-06 (F-10, onda 0006): +3 checks bypass (2 env sem nota → block;
 #   env com nota staged → pass). Total: 92.
+#   I-07 (F-04+F-09, onda 0006): G-STRAY v2 (+6: órfão fundo, symlink,
+#   backups2, fail-closed → 4 block; sweep-aviso, rm-negado-tolerado →
+#   2 pass; o caso backups vira allowlist) + G-SCO files_forbidden isolado
+#   (+1 block) + G-TMP worktree linkado (+1 block) + trap global de
+#   limpeza (TMPDIR=SUITE_TMP; tolera rm negado). Total: 100.
 #   FIX cross-audits 0030/0031 (3 FORTE + marginais): G-NUM token exato
 #   (0030 F-01 / 0031 F-05) + data de id serial (0031 F-01); G-RLT heading
 #   exato da cápsula (0030 F-02) + parser do chapéu por campo (0031 F-03);
@@ -53,6 +58,21 @@ GUARDS_DIR="$(dirname "$TESTS_DIR")"
 REPO_ROOT="$(cd "$GUARDS_DIR/.." && pwd)"
 FIX="$TESTS_DIR/fixtures"
 unset HBN_GUARDS_BYPASS GLASSWING_BYPASS HBN_DIFF_BASE 2>/dev/null || true
+
+# Trap GLOBAL de limpeza (onda 0006 I-07 — F-09/0037 P3): todo mktemp -d sem
+# -p cai em SUITE_TMP (via TMPDIR); crash/abort não deixa lixo. TOLERANTE a
+# rm negado (sandbox pode negar unlink — ordem do gate 2026-06-11): nunca
+# derruba o exit code da suíte.
+SUITE_TMP="$(mktemp -d "${TMPDIR:-/tmp}/hbn-suite.XXXXXX")"
+export TMPDIR="$SUITE_TMP"
+suite_cleanup() {
+    rm -rf "$SUITE_TMP" \
+        "$TESTS_DIR"/cr-pass.* "$TESTS_DIR"/tmp-pass.* "$TESTS_DIR"/cr-alt.* \
+        "$TESTS_DIR"/wt-main.* /tmp/hbn-tmp-worktree-test.* /tmp/hbn-wt-linked.* \
+        2>/dev/null || true
+    return 0
+}
+trap suite_cleanup EXIT INT TERM
 
 PASS=0; FAIL=0; FALHAS=()
 
@@ -765,10 +785,10 @@ check "leg: lista presente, nada casa"                  pass  "$( ( cd "$d" && b
 rm -rf "$d"
 
 # G-SCO: assert-scope-lock (readback ativo governa o staged)
-make_sco_repo() { # $1=track $2=human_status $3=allowed (JSON array)
-    local d; d="$(make_repo)"
+make_sco_repo() { # $1=track $2=human_status $3=allowed $4=forbidden (JSON arrays)
+    local d forb; d="$(make_repo)"; forb="${4:-[]}"
     ( cd "$d" && mkdir -p .hbn/readbacks && cat > .hbn/readbacks/0001-t.json <<EOF
-{"readback_id":"0001-t","track":"${1}","human_status":"${2}","scope":{"files_allowed":${3},"files_forbidden":[]}}
+{"readback_id":"0001-t","track":"${1}","human_status":"${2}","scope":{"files_allowed":${3},"files_forbidden":${forb}}}
 EOF
     ) >/dev/null 2>&1
     echo "$d"
@@ -789,6 +809,12 @@ rm -rf "$d"
 d="$(make_sco_repo safe_track confirmed '["docs/**"]')"
 ( cd "$d" && echo x > docs/dentro.md && git add docs/dentro.md ) >/dev/null 2>&1
 check "sco: staged dentro do files_allowed"             pass  "$(run_sco "$d")"
+rm -rf "$d"
+# I-07 (F-09/0037 P2): files_forbidden ISOLADO — staged permitido pelo
+# allowed mas listado no forbidden → violação direta, BLOCK
+d="$(make_sco_repo safe_track confirmed '["docs/**"]' '["docs/segredo/**"]')"
+( cd "$d" && mkdir -p docs/segredo && echo x > docs/segredo/oculto.md && git add docs/segredo/oculto.md ) >/dev/null 2>&1
+check "sco: staged em files_forbidden → BLOCK (isolado, F-09)" block "$(run_sco "$d")"
 rm -rf "$d"
 
 # G-CR: assert-canonical-root
@@ -828,6 +854,17 @@ d="$(mktemp -d -p "$TESTS_DIR" tmp-pass.XXXXXX)"
 ( cd "$d" && git init -q && git config user.email t@h && git config user.name t && git commit -q --allow-empty -m i ) >/dev/null 2>&1
 check "tmp: worktree fora de áreas voláteis"            pass  "$( ( cd "$d" && bash "$GUARDS_DIR/forbid-tmp-worktree.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
+# I-07 (0036 P2): worktree LINKADO em /tmp — a promessa "QUALQUER worktree"
+# do guard agora tem prova (antes só o worktree principal era testado).
+m="$(mktemp -d -p "$TESTS_DIR" wt-main.XXXXXX)"
+w="/tmp/hbn-wt-linked.$$"
+(
+    cd "$m" && git init -q && git config user.email t@h && git config user.name t \
+    && git commit -q --allow-empty -m i && git worktree add -q "$w" -b teste-wt
+) >/dev/null 2>&1
+check "tmp: worktree LINKADO em /tmp → BLOCK"           block "$( ( cd "$w" && bash "$GUARDS_DIR/forbid-tmp-worktree.sh" >/dev/null 2>&1 ); echo $? )"
+( cd "$m" && git worktree remove --force "$w" ) >/dev/null 2>&1 || rm -rf "$w" 2>/dev/null || true
+rm -rf "$m" 2>/dev/null || true
 
 # --- Bypass com nota staged (onda 0006 I-06 — F-10) --------------------------
 echo "== bypass env só com nota staged (F-10) =="
@@ -856,11 +893,42 @@ rm -rf "$r"
 r="$(mktemp -d)"
 ( mkdir -p "$r/projetos/soltinho/.hbn" ) >/dev/null 2>&1
 check "stray: .hbn órfão em subpasta sem .git"          block "$(run_stray "$r")"
-# caso-bom: .hbn sob backups/ é cópia fria, não órfão operacional (poda)
+# caso-bom: .hbn sob backups/ agora passa pela ALLOWLIST (*/backups/* em
+# .hbn/stray-allowlist — v2 I-07; a poda hardcoded morreu)
 rm -rf "$r"; r="$(mktemp -d)"
 ( mkdir -p "$r/backups/copia-antiga/.hbn" "$r/repoB/.git" "$r/repoB/.hbn" ) >/dev/null 2>&1
-check "stray: .hbn sob backups/ é podado (cópia fria)"  pass  "$(run_stray "$r")"
+check "stray: .hbn sob backups/ é allowlisted (cópia fria)" pass "$(run_stray "$r")"
 rm -rf "$r"
+
+# v2 I-07 (F-04): órfão FUNDO (5 níveis) agora é detectado (maxdepth 6)
+r="$(mktemp -d)"
+( mkdir -p "$r/a/b/c/d/.hbn" ) >/dev/null 2>&1
+check "stray: .hbn órfão a 5 níveis → BLOCK (era falso negativo)" block "$(run_stray "$r")"
+rm -rf "$r"
+
+# v2 I-07 (F-04): SYMLINK chamado .hbn órfão é detectado
+r="$(mktemp -d)"
+( mkdir -p "$r/alvo-longe" "$r/proj" && ln -s "$r/alvo-longe" "$r/proj/.hbn" ) >/dev/null 2>&1
+check "stray: symlink .hbn órfão → BLOCK (era invisível)"        block "$(run_stray "$r")"
+rm -rf "$r"
+
+# v2 I-07 (F-04): pasta 'backups2' NÃO está na allowlist → órfão detectado
+r="$(mktemp -d)"
+( mkdir -p "$r/backups2/x/.hbn" ) >/dev/null 2>&1
+check "stray: .hbn sob backups2/ (fora da allowlist) → BLOCK"    block "$(run_stray "$r")"
+rm -rf "$r"
+
+# v2 I-07 (F-04): SCAN_ROOT inválido = fail-CLOSED no modo guard…
+check "stray: HBN_SCAN_ROOT inválido → BLOCK (fail-closed)"      block "$(run_stray "/caminho/que/nao/existe")"
+# …mas --sweep mantém o aviso informativo (rc 0)
+check "stray: HBN_SCAN_ROOT inválido em --sweep → aviso, passa"  pass  "$( ( HBN_SCAN_ROOT=/caminho/que/nao/existe bash "$GUARDS_DIR/assert-no-stray-hbn.sh" --sweep >/dev/null 2>&1 ); echo $? )"
+
+# I-07 (ordem do gate 2026-06-11): limpeza tolera rm NEGADO sem derrubar a
+# suíte — sub-dir sem permissão de escrita simula o sandbox que nega unlink.
+r="$(mktemp -d)"
+( mkdir -p "$r/teimoso" && touch "$r/teimoso/f" && chmod 555 "$r/teimoso" ) >/dev/null 2>&1
+check "cleanup: rm negado é tolerado (rc 0 da rotina de limpeza)" pass "$( ( rm -rf "$r" 2>/dev/null || true; exit 0 ); echo $? )"
+chmod -R 755 "$r" 2>/dev/null; rm -rf "$r" 2>/dev/null || true
 
 # --- Read-list viva (onda 0006 I-01 — F-08 dos cross-audits 0036/0037) -------
 # Todo path .hbn/ | core/ | guards/ | schemas/ CITADO em agents/role-templates.md

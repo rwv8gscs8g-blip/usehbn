@@ -1,0 +1,7 @@
+# .hbn/stray-allowlist — globs de caminhos onde um .hbn SEM .git ao lado
+# NÃO é órfão operacional (guards/assert-no-stray-hbn.sh v2, onda 0006
+# I-07, F-04). Um glob bash por linha; linha vazia/# ignorada.
+# Arquivo VERSIONADO: mudança só com hearback humano — era a poda
+# hardcoded de `backups` no find, que os auditores apontaram como vetor
+# de ocultação (0036 P4 / 0037 P4); agora é explícita e auditável.
+*/backups/*
