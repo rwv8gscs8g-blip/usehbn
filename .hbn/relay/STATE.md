@@ -2,51 +2,57 @@
 state_version: 1
 projeto: usehbn (canônico)
 protocolo: "HBN 0.3.0 (bump 0.3.1 adiado — nota 20260610-34)"
-onda_atual: "orquestração-start adotada — ADR-024 + 4 specs core + 4 guards + suíte 63; guards novos FORA do runner"
+onda_atual: "ativação-enforcement — hook pre-commit INSTALADO; G-SLF/G-REG/G-NUM/G-PTR/G-RLT ATIVOS no runner; suíte 75; onda-ponte regularizada no REGISTRY (readback 0005, ordem direta Maurício)"
 proprietario_bastao: claude-fable-5
-papel_bastao: arquiteto (bastão devolvido após adoção Codex da orquestração-start)
+papel_bastao: "orquestrador-implementador (EXCEÇÃO: ordem direta de Maurício 2026-06-11 'ligar na tomada'; registrada em authorization do readback 0005)"
 papeis:
-  arquiteto: "claude-fable-5 — dono do desenho da orquestração-start; por ADR-018 NÃO audita a própria onda"
+  arquiteto: "claude-fable-5 — também implementador desta onda por exceção autorizada; cross-audit posterior por Codex+Antigravity recomendado"
   auditor_validador_fixo: "claude-opus-4-8 (Cowork) — validador fixo EM PROSA; fora do campo mecânico `auditores` até o hearback 0002 ser confirmado (correção F-04)"
-  gate_humano: "Maurício — confirmou o readback 0004; mantém o gate humano para adoções safe_track"
-proxima_acao: "claude-fable-5: receber o bastão pós-adoção da orquestração-start, conferir o commit e decidir a próxima onda sem ativar guards novos no runner"
+  gate_humano: "Maurício — autorizou a onda de enforcement por ordem direta; valida com o roteiro de verificação no Terminal"
+proxima_acao: "Maurício: rodar o roteiro de verificação no Terminal (canonical-root e hook só são conclusivos lá); depois, onda do adendo ADR-011×ADR-024 (numeração multi-família em results + consistência de relógio) com cross-audit Codex+Antigravity"
 sinais_abertos:
-  - "🟢 HBN ADOÇÃO ORQUESTRAÇÃO-START — ADR-024, 4 specs, 4 guards e suíte 63 adotados por readback 0004 confirmado"
-  - "🟢 REAUDITORIA SEM VETO — 0032 Codex e 0033 Antigravity/Gemini retornaram VETO_ADOCAO: NAO; 0 bloqueadores, 0 fortes, 0 marginais"
-  - "🟢 SUÍTE 63 — guards/tests/run-guard-tests.sh: 63 checks totais; seção ADR-024 com 30 checks e 20 negativos de bloqueio"
-  - "🟡 G-STR/G-NUM/G-PTR/G-RLT continuam FORA de guards/hbn-guards-runner.sh; ativação futura exige onda própria e testes negativos dos 5 guards legados"
-  - "🟡 D2 contrato do orquestrador e D6 log frio/read-list seguem doutrina-sem-enforcement/backlog; adoção não cria subcomando CLI start"
+  - "🟢 ENFORCEMENT LIGADO — .git/hooks/pre-commit instalado (2026-06-11) chamando guards/hbn-guards-runner.sh; commits A/B/C desta onda nasceram fiscalizados"
+  - "🟢 G-SLF/G-REG/G-NUM/G-PTR/G-RLT ATIVOS no runner — pré-condição paga: suíte ganhou seção 'guards legados' (12 checks negativos G-CR/G-TMP/G-ENV/G-LEG/G-SCO); 75/75 verde"
+  - "🟢 ONDA-PONTE REGULARIZADA — 4 proposals + pareceres 0034/0035 commitados com linha de nascimento no REGISTRY (estavam untracked e sem linha)"
+  - "🔴 PONTE VETADA — 0034 (Codex) e 0035 (Antigravity) retornaram VETO_ADOCAO: SIM; descongelar só após corrigir bloqueadores (vendorização do verify; aritmética de migração; texto verbatim do split 0022)"
+  - "🟡 VERIFICAÇÃO TERMINAL PENDENTE — commits da onda nasceram em sandbox Cowork com CI=true (canonical-root delegado por desenho próprio do guard, linhas 20-23); Maurício valida com o roteiro entregue no chat"
+  - "🟡 RELÓGIO — salto observado no relógio do sandbox durante a onda (01:42→10:17 -03:00); created_at do readback 0005 segue o carimbo interno coerente; fixar regra de relógio no adendo ADR-011×ADR-024"
+  - "🟡 G-STR fora do runner POR DESENHO (atribuição via argumento); G-COM/Carta de Compromisso rebaixada a doutrina-sem-enforcement por decisão de Maurício (2026-06-11)"
   - "🟡 hearback 0002 (exceção fable×opus) DRAFT pendente de assinatura — até lá opus-4-8 fora do campo mecânico auditores"
   - "🟡 hearback em lote H1–H6 da corrente D PENDENTE — pareceres 0021/0022 entregues"
   - "🟡 bump 0.3.1 adiado para onda de auditoria __version__×PROTOCOL_VERSION (nota 20260610-34)"
   - "🟡 inbox/credenciamento com 2 propostas não consolidadas (20260610-01-0017-parametrica, 20260610-44-freeze-gate-v206)"
-  - "🟡 backlog: assinatura GPG/SSH de hearbacks (eleva aviso de autor do G-HRB a bloqueio — ADR-023 Decisão 4); ativação futura dos guards novos no runner; F-05 renumeração da faxina 36 antes de H2; F-07 semântica de proprietario_bastao quando próxima ação é humana; 0022/F-05 G-FAM cruzar STATE completo (bastao×chapeu); gate script versionado do dual-run (0021/F-06); decidir versionamento de .hbn/readbacks/; resolver colisão de numeração readback 0002 × hearback 0002"
-readback_ativo: ".hbn/readbacks/0004-adocao-orquestracao-start.json (adoção orquestração-start — confirmed)"
+  - "🟡 backlog: assinatura GPG/SSH de hearbacks; F-05 renumeração da faxina 36 antes de H2; F-07 semântica de proprietario_bastao quando próxima ação é humana; 0022/F-05 G-FAM cruzar STATE completo; gate script do dual-run (0021/F-06); versionamento de .hbn/readbacks/; colisão readback 0002 × hearback 0002; autoexclusão do canonical-root em CI (desenho pendente)"
+readback_ativo: ".hbn/readbacks/0005-ativacao-enforcement.json (ativação enforcement — human_status confirmed por ordem direta)"
 handoff_mais_recente: ".hbn/messages/20260610-205910-fable-5-handoff-guards-orquestracao-start.md"
-ancora_rollback: "603805e (checkpoint protocol fix 3 FORTE — antes da adoção orquestração-start)"
+ancora_rollback: "27775bd (commit A da onda enforcement — antes da ativação dos guards no runner)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "corrente E adotada; orquestração-start adotada por readback 0004; corrente D segue pendente nos itens H1-H6"
-ultima_atualizacao: "2026-06-10T23:07:10-03:00"
-atualizado_por: codex
+ciclo_ativo: "onda ativação-enforcement em execução (commits A/B/C); corrente D segue pendente nos itens H1-H6; ponte congelada por veto 0034/0035"
+ultima_atualizacao: "2026-06-11T10:17:06-03:00"
+atualizado_por: claude-fable-5
 atribuicao:
-  chapeu_atual: consolidador
-  implementador: codex
+  chapeu_atual: implementador
+  implementador: claude-fable-5
   auditores: [codex, gemini-3-5]
-  gravada_em: "2026-06-10T23:07:10-03:00"
-  hearback_ref: ".hbn/readbacks/0004-adocao-orquestracao-start.json"
+  gravada_em: "2026-06-11T10:17:06-03:00"
+  hearback_ref: ".hbn/readbacks/0005-ativacao-enforcement.json"
 ---
 
-Nota da onda (adoção orquestração-start, readback 0004): Maurício confirmou
-o readback 0004; Codex executou a adoção documental de ADR-024, 4 specs core
-(start-rite, orchestrator-profile, pointer, state-report), 4 guards
-(G-STR/G-NUM/G-PTR/G-RLT) e a seção ADR-024 da suíte 63. A cadeia de auditoria
-fica preservada: 0030/0031 vetaram o pré-fix; 603805e corrigiu os 3 FORTE
-(G-NUM token exato + data serial, G-RLT heading/cápsula, rito start≠CLI);
-0032/0033 removeram o veto com 0 findings. Nenhum guard novo entra no runner.
-`usehbn start` permanece rito declarativo textual, não subcomando CLI.
+Nota da onda (ativação-enforcement, readback 0005): Maurício, após análise
+que constatou 4 camadas de vão (hook pre-commit inexistente; canonical-root
+autoexcluído em CI; guards novos fora do runner; cegueira write-time),
+ordenou execução direta: "pare as orientações anteriores e dispare um
+processo de como ligar na tomada". Esta onda: (A) regularizou a onda-ponte
+no REGISTRY, abriu o readback 0005 e instalou o hook; (B) pagou a
+pré-condição dos testes negativos legados e ativou G-SLF/G-REG/G-NUM/G-PTR/
+G-RLT no runner; (C) cria G-STRAY (assert-no-stray-hbn) para o vão
+write-time. O scope vazio do readback 0004 foi documentado como caso de
+teste da suíte (sco: files_allowed VAZIO é inválido). A regra firewall
+continua vigente: nenhuma escrita de domínio, VBA, Excel, src/ de produto,
+workflows de produto, examples ou inbox nesta onda.
 
-Nota de continuidade: o fechamento da corrente E segue adotado por readback
-0003, com G-SLF/G-HRB e hardening G-REG fora do runner. A regra firewall
-continua vigente: esta adoção é doc-only no canônico; nenhuma escrita de
-domínio, VBA, Excel, src/, tests/ de produto, workflows, modules, examples,
-inbox, auditoria ou radar foi autorizada por esta onda.
+Nota de continuidade: a ponte usehbn⇄Credenciamento permanece VETADA
+(0034/0035) e fora do escopo desta onda; o fechamento da corrente E segue
+adotado por readback 0003; a adoção orquestração-start segue por readback
+0004 — apenas o ESTADO de ativação dos guards mudou, nada do conteúdo
+normativo do ADR-024 foi alterado.

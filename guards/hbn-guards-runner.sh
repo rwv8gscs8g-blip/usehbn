@@ -19,12 +19,21 @@ fi
 echo "${C_BOLD}[hbn-guards] Iniciando bateria de guards de governança…${C_END}" >&2
 
 # Ordem importa: raiz canônica primeiro (se errada, nada do resto faz sentido).
+# ATIVAÇÃO 2026-06-11 (readback 0005, ordem Maurício): G-SLF/G-REG/G-NUM/
+# G-PTR/G-RLT entram no runner. Pré-condição do STATE paga: a suíte ganhou a
+# seção "guards legados" (testes negativos dos 5 legados) — 75/75 verde.
+# G-STR fica FORA por desenho (recebe a atribuição por argumento, não por diff).
 GUARDS=(
     "assert-canonical-root.sh"
     "forbid-tmp-worktree.sh"
     "forbid-env-files.sh"
     "forbid-legacy-paths.sh"
     "assert-scope-lock.sh"
+    "assert-self-path.sh"
+    "assert-registry-line.sh"
+    "assert-parallel-id.sh"
+    "assert-pointer-honest.sh"
+    "assert-report-fresh.sh"
 )
 
 OVERALL=0

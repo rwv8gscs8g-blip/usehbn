@@ -24,6 +24,9 @@
 #   são casos-bons, compatibilidade G-REG e pass-com-aviso (o aviso em si
 #   não é assertado — só o rc). Antes do FIX 0030/0031: 26 checks, 17
 #   negativos de bloqueio — NÃO "26 testes negativos".
+#   SEÇÃO GUARDS LEGADOS (2026-06-11, readback 0005): 12 checks (8 block,
+#   4 pass) para G-CR/G-TMP/G-ENV/G-LEG/G-SCO — paga a pré-condição do
+#   STATE para ativar os guards novos no runner. Total da suíte: 75.
 #   FIX cross-audits 0030/0031 (3 FORTE + marginais): G-NUM token exato
 #   (0030 F-01 / 0031 F-05) + data de id serial (0031 F-01); G-RLT heading
 #   exato da cápsula (0030 F-02) + parser do chapéu por campo (0031 F-03);
@@ -670,6 +673,82 @@ rm -rf "$d"
 d="$(make_rlt_repo "$PA" "$UA")"
 ( cd "$d" && write_handoff "$PA" "$UA" s "extra 1" "extra 2" "extra 3" "extra 4" > .hbn/messages/20260610-91-h.md && git add -A ) >/dev/null 2>&1
 check "rlt: relato de 12 linhas (pass-com-aviso)"                      pass  "$(run_rlt "$d")"
+rm -rf "$d"
+
+# --- Guards LEGADOS: testes negativos (pré-condição do STATE para ativar os
+# guards novos no runner — sinal 🟡 de 2026-06-10; pagos em 2026-06-11,
+# readback 0005). Cada legado ganha ≥1 caso-ruim (block) + 1 caso-bom (pass).
+# G-CR e G-TMP usam repo FORA de /tmp (mktemp -p $TESTS_DIR) no caso-bom,
+# porque ambos recusam /tmp por construção. -----------------------------------
+echo "== guards legados (G-CR/G-TMP/G-ENV/G-LEG/G-SCO) =="
+
+# G-ENV: forbid-env-files
+d="$(make_repo)"
+( cd "$d" && echo "SECRET=x" > .env && git add .env ) >/dev/null 2>&1
+check "env: .env staged"                                block "$( ( cd "$d" && bash "$GUARDS_DIR/forbid-env-files.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+d="$(make_repo)"
+( cd "$d" && echo "ok" > nota-comum.txt && git add nota-comum.txt ) >/dev/null 2>&1
+check "env: arquivo comum passa"                        pass  "$( ( cd "$d" && bash "$GUARDS_DIR/forbid-env-files.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+# G-LEG: forbid-legacy-paths (lista em .hbn/forbidden-paths.txt)
+d="$(make_repo)"
+( cd "$d" && mkdir -p .hbn legacy && printf 'legacy/*\n' > .hbn/forbidden-paths.txt && echo x > legacy/velho.md && git add -A ) >/dev/null 2>&1
+check "leg: arquivo em path proibido staged"            block "$( ( cd "$d" && bash "$GUARDS_DIR/forbid-legacy-paths.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+d="$(make_repo)"
+( cd "$d" && mkdir -p .hbn && printf 'legacy/*\n' > .hbn/forbidden-paths.txt && echo ok > core/livre.md && git add -A ) >/dev/null 2>&1
+check "leg: lista presente, nada casa"                  pass  "$( ( cd "$d" && bash "$GUARDS_DIR/forbid-legacy-paths.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+# G-SCO: assert-scope-lock (readback ativo governa o staged)
+make_sco_repo() { # $1=track $2=human_status $3=allowed (JSON array)
+    local d; d="$(make_repo)"
+    ( cd "$d" && mkdir -p .hbn/readbacks && cat > .hbn/readbacks/0001-t.json <<EOF
+{"readback_id":"0001-t","track":"${1}","human_status":"${2}","scope":{"files_allowed":${3},"files_forbidden":[]}}
+EOF
+    ) >/dev/null 2>&1
+    echo "$d"
+}
+run_sco() { ( cd "$1" && bash "$GUARDS_DIR/assert-scope-lock.sh" >/dev/null 2>&1 ); echo $?; }
+d="$(make_sco_repo safe_track confirmed '["docs/**"]')"
+( cd "$d" && echo fora > core/fora-do-escopo.md && git add core/fora-do-escopo.md ) >/dev/null 2>&1
+check "sco: staged FORA do files_allowed"               block "$(run_sco "$d")"
+rm -rf "$d"
+d="$(make_sco_repo safe_track pendente '["docs/**"]')"
+( cd "$d" && echo x > docs/dentro.md && git add docs/dentro.md ) >/dev/null 2>&1
+check "sco: safe_track sem human_status=confirmed"      block "$(run_sco "$d")"
+rm -rf "$d"
+d="$(make_sco_repo safe_track confirmed '[]')"
+( cd "$d" && echo x > docs/dentro.md && git add docs/dentro.md ) >/dev/null 2>&1
+check "sco: files_allowed VAZIO é inválido (caso 0004)" block "$(run_sco "$d")"
+rm -rf "$d"
+d="$(make_sco_repo safe_track confirmed '["docs/**"]')"
+( cd "$d" && echo x > docs/dentro.md && git add docs/dentro.md ) >/dev/null 2>&1
+check "sco: staged dentro do files_allowed"             pass  "$(run_sco "$d")"
+rm -rf "$d"
+
+# G-CR: assert-canonical-root
+d="$(mktemp -d)"
+( cd "$d" && git init -q && mkdir .hbn && echo "/outro/lugar/canonico" > .hbn/canonical-root ) >/dev/null 2>&1
+check "cr: toplevel ≠ canonical-root (e em /tmp)"       block "$( ( cd "$d" && bash "$GUARDS_DIR/assert-canonical-root.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+d="$(mktemp -d -p "$TESTS_DIR" cr-pass.XXXXXX)"
+( cd "$d" && git init -q && mkdir .hbn && pwd -P > .hbn/canonical-root ) >/dev/null 2>&1
+check "cr: toplevel == canonical-root (fora de /tmp)"   pass  "$( ( cd "$d" && bash "$GUARDS_DIR/assert-canonical-root.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+# G-TMP: forbid-tmp-worktree — caso-ruim FORÇA /tmp literal (mktemp honra
+# TMPDIR e pode cair fora de /tmp — ex.: sandbox/macOS), o guard cobre
+# /tmp/* e /private/tmp/* (symlink macOS).
+d="/tmp/hbn-tmp-worktree-test.$$"
+( mkdir -p "$d" && cd "$d" && git init -q && git config user.email t@h && git config user.name t && git commit -q --allow-empty -m i ) >/dev/null 2>&1
+check "tmp: worktree principal em /tmp"                 block "$( ( cd "$d" && bash "$GUARDS_DIR/forbid-tmp-worktree.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+d="$(mktemp -d -p "$TESTS_DIR" tmp-pass.XXXXXX)"
+( cd "$d" && git init -q && git config user.email t@h && git config user.name t && git commit -q --allow-empty -m i ) >/dev/null 2>&1
+check "tmp: worktree fora de áreas voláteis"            pass  "$( ( cd "$d" && bash "$GUARDS_DIR/forbid-tmp-worktree.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
 # --- Resumo humano (Bloco 4 dogfood) -----------------------------------------
