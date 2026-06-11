@@ -88,6 +88,15 @@ requires_path() {
         reports/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9]-*.md) return 0 ;;
         docs/prompts/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9]-*.md) return 0 ;;
         .hbn/hearbacks/[0-9][0-9][0-9][0-9]-*.json) return 0 ;;
+        # ADR-025 (onda 0006 I-03): formato carimbo AAAAMMDD-HHMMSS-<agente>
+        # nas séries de evento também é artefato governado — exige path:.
+        # Os padrões seriais acima ficam como LEITURA de legado (arquivo novo
+        # serial nessas séries é bloqueado pelo G-NUM antes de chegar aqui).
+        .hbn/results/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9][0-9][0-9]-*.md) return 0 ;;
+        .hbn/proposals/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9][0-9][0-9]-*.md) return 0 ;;
+        .hbn/messages/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9][0-9][0-9]-*.md) return 0 ;;
+        reports/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9][0-9][0-9]-*.md) return 0 ;;
+        docs/prompts/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9][0-9][0-9]-*.md) return 0 ;;
     esac
     return 1
 }

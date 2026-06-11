@@ -32,6 +32,11 @@
 #   SEÇÃO READ-LIST VIVA (onda 0006 I-01, readback 0006): 2 checks
 #   (1 pass, 1 block) — F-08: path citado em template/spec deve existir.
 #   Total da suíte após I-01: 81.
+#   I-03 (ADR-025, onda 0006): +4 checks G-NUM (serial novo em results,
+#   agente desconhecido em ciclo serial, created_at UTC → 3 block; legado
+#   serial modificado → 1 pass) e o caso "serial fora de paralelo passa"
+#   foi CONVERTIDO de pass→block (a condicionalidade D5.1 morreu).
+#   Total da suíte após I-03: 85.
 #   FIX cross-audits 0030/0031 (3 FORTE + marginais): G-NUM token exato
 #   (0030 F-01 / 0031 F-05) + data de id serial (0031 F-01); G-RLT heading
 #   exato da cápsula (0030 F-02) + parser do chapéu por campo (0031 F-03);
@@ -439,7 +444,8 @@ d="$(make_num_repo "[alpha-1, beta-1]")"
 check "num: created_at diverge do HHMMSS do id"               block "$(run_num "$d")"
 rm -rf "$d"
 
-# caso-bom: serial AAAAMMDD-NN segue passando fora de ciclo paralelo
+# caso-ruim (ADR-025, onda 0006 I-03 — antes era caso-bom): serial AAAAMMDD-NN
+# NOVO em série de evento é BLOQUEADO mesmo fora de ciclo paralelo (F-03).
 d="$(make_num_repo "[]")"
 (
     cd "$d"
@@ -447,15 +453,62 @@ d="$(make_num_repo "[]")"
     echo "| 20260101-07 | reports/20260101-07-relatorio.md | report | frio | — | 2026-01-01T09:00:00-03:00 |" >> REGISTRY.md
     git add -A
 ) >/dev/null 2>&1
-check "num: serial AAAAMMDD-NN segue passando fora de ciclo paralelo" pass "$(run_num "$d")"
+check "num: serial NOVO em série de evento → BLOCK (ADR-025 F-03)" block "$(run_num "$d")"
 rm -rf "$d"
 
-# caso-ruim 0031/F-01: id SERIAL com data divergente do created_at
+# caso-ruim (ADR-025): serial NNNN novo em .hbn/results/ (o caso 0036/0037)
 d="$(make_num_repo "[]")"
 (
     cd "$d"
-    echo "r" > reports/20260101-08-data-errada.md
-    echo "| 20260101-08 | reports/20260101-08-data-errada.md | report | frio | — | 2026-06-10T09:00:00-03:00 |" >> REGISTRY.md
+    mkdir -p .hbn/results
+    echo "parecer" > .hbn/results/0099-parecer-novo.md
+    git add -A
+) >/dev/null 2>&1
+check "num: serial NNNN novo em results → BLOCK (caso 0036/0037)"  block "$(run_num "$d")"
+rm -rf "$d"
+
+# caso-ruim (ADR-025): agente desconhecido em ciclo SERIAL
+d="$(make_num_repo "[]")"
+(
+    cd "$d"
+    mkdir -p .hbn/results
+    echo "parecer" > .hbn/results/20260611-101010-zeta-9-parecer.md
+    git add -A
+) >/dev/null 2>&1
+check "num: agente desconhecido em série de evento → BLOCK"        block "$(run_num "$d")"
+rm -rf "$d"
+
+# caso-ruim (ADR-025 D2.2): created_at em UTC na linha nova do REGISTRY
+d="$(make_num_repo "[]")"
+(
+    cd "$d"
+    echo "x" > docs/20260611-101010-alpha-1-nota.md
+    echo "| 20260611-101010-alpha-1-nota | docs/20260611-101010-alpha-1-nota.md | doc | frio | — | 2026-06-11T10:10:10Z |" >> REGISTRY.md
+    git add -A
+) >/dev/null 2>&1
+check "num: created_at UTC (sufixo Z) → BLOCK (ADR-025/F-02)"      block "$(run_num "$d")"
+rm -rf "$d"
+
+# caso-bom (ADR-025): legado serial MODIFICADO (não-adicionado) é só-leitura
+d="$(make_num_repo "[]")"
+(
+    cd "$d"
+    mkdir -p .hbn/results
+    echo "legado" > .hbn/results/0001-legado.md
+    git add -A && git commit -qm "legado"
+    echo "anotacao nova" >> .hbn/results/0001-legado.md
+    git add -A
+) >/dev/null 2>&1
+check "num: legado serial modificado (M) segue passando"           pass  "$(run_num "$d")"
+rm -rf "$d"
+
+# caso-ruim 0031/F-01: id SERIAL com data divergente do created_at (linha do
+# REGISTRY; arquivo fora de série de evento para isolar a regra 2)
+d="$(make_num_repo "[]")"
+(
+    cd "$d"
+    echo "r" > docs/20260101-08-data-errada.md
+    echo "| 20260101-08 | docs/20260101-08-data-errada.md | doc | frio | — | 2026-06-10T09:00:00-03:00 |" >> REGISTRY.md
     git add -A
 ) >/dev/null 2>&1
 check "num: id serial com data ≠ created_at (0031/F-01)"      block "$(run_num "$d")"

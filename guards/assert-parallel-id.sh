@@ -2,14 +2,20 @@
 # =============================================================================
 # guards/assert-parallel-id.sh
 # path: guards/assert-parallel-id.sh · id-global: 20260610-205320-fable-5-guard-parallel-id
-# Guarda G-NUM: dá dente ao ADR-024 Decisão 5 (numeração de escrita paralela).
-# Spec normativa: core/start-rite-spec.md §5.
-#   (1) BLOQUEADOR: em ciclo paralelo (STATE staged com `escrita_paralela`
-#       não-vazia), artefato novo em pasta de série não-local cujo nome não
-#       casa ^AAAAMMDD-HHMMSS-<agente>-<slug>. com <agente> ∈ escrita_paralela.
+# Guarda G-NUM: dá dente ao ADR-024 Decisão 5 e ao ADR-025 (nome universal).
+# Spec normativa: core/start-rite-spec.md §5 + ADR-025 Decisão 1-3.
+#   (1) BLOQUEADOR (ADR-025, onda 0006 I-03 — INCONDICIONAL, revoga a
+#       condição de `escrita_paralela` do ADR-024 D5.1): artefato NOVO em
+#       série de EVENTO (.hbn/proposals|messages|results, reports/,
+#       docs/prompts/) cujo nome não casa ^AAAAMMDD-HHMMSS-<agente>-<slug>.
+#       com <agente> conhecido (perfis .hbn/models/ + atribuição do STATE
+#       staged). Nome serial NOVO nessas séries = BLOCK. Em ciclo paralelo,
+#       adicionalmente <agente> ∈ escrita_paralela. Legado serial é
+#       SÓ-LEITURA: arquivo modificado (M) não dispara (diff-filter=AR).
 #   (2) BLOQUEADOR: linha NOVA do REGISTRY staged sem coluna created_at
-#       ISO8601 com offset, ou com HHMMSS/data do id divergente do created_at
-#       da mesma linha. Vale também FORA de ciclo paralelo (spec §5.4).
+#       ISO8601 com offset, com sufixo Z/UTC (ADR-025 Decisão 2.2 — relógio
+#       único é o do OPERADOR), ou com HHMMSS/data do id divergente do
+#       created_at da mesma linha. Vale também FORA de ciclo paralelo.
 #   (3) BLOQUEADOR: dois artefatos novos com id idêntico no mesmo diff.
 #
 # status: accepted (adoção orquestração-start, readback 0004) — FORA do runner.
@@ -109,22 +115,22 @@ fi
 ADDED="$(guard_added_files)"
 FAIL=0
 
-# --- Regra 1: nome de artefato paralelo (só em ciclo paralelo) ---------------
-is_parallel_series_path() {
+# --- Regra 1 (ADR-025 D1, INCONDICIONAL): nome universal em série de evento --
+is_event_series_path() {
     case "$1" in
         .hbn/proposals/*|.hbn/messages/*|.hbn/results/*|reports/*|docs/prompts/*) return 0 ;;
     esac
     return 1
 }
 
-if [[ -n "$PARALELO" && -n "$ADDED" ]]; then
+if [[ -n "$ADDED" ]]; then
     while IFS= read -r f; do
         [[ -z "$f" ]] && continue
-        is_parallel_series_path "$f" || continue
+        is_event_series_path "$f" || continue
         base="$(basename "$f")"
         # Captura por TOKEN EXATO (0030 F-01 / 0031 F-05): o agente do nome
-        # é o apelido conhecido MAIS LONGO que casa após o carimbo; o match
-        # final é igualdade == com escrita_paralela, nunca prefixo.
+        # é o apelido conhecido MAIS LONGO que casa após o carimbo; match
+        # por igualdade ==, nunca prefixo.
         rest=""
         if [[ "$base" =~ ^[0-9]{8}-[0-9]{6}-(.+)$ ]]; then
             rest="${BASH_REMATCH[1]}"
@@ -138,26 +144,24 @@ if [[ -n "$PARALELO" && -n "$ADDED" ]]; then
                 if (( ${#k} > ${#token} )); then token="$k"; fi
             done
         fi
-        ok=0
-        if [[ -n "$token" ]]; then
+        if [[ -z "$rest" ]]; then
+            guard_fail "Artefato NOVO em série de evento '${f}' sem nome ^AAAAMMDD-HHMMSS-<agente>-<slug> (ADR-025 Decisão 1 — regra INCONDICIONAL, F-03 dos cross-audits 0036/0037: nome serial novo nessas séries = BLOCK; legado serial é só-leitura e não se renomeia)."
+            FAIL=1
+        elif [[ -z "$token" ]]; then
+            guard_fail "Artefato NOVO em série de evento '${f}': <agente> não reconhecido após o carimbo (universo: perfis ${MODELS_DIR} + atribuição do STATE staged; token exato, não prefixo — 0030 F-01 / 0031 F-05). ADR-025 Decisão 1."
+            FAIL=1
+        elif [[ -n "$PARALELO" ]]; then
+            ok=0
             for ag in $PARALELO; do
                 if [[ "$token" == "$ag" ]]; then
                     ok=1
                     break
                 fi
             done
-        fi
-        if [[ "$ok" -ne 1 ]]; then
-            if [[ "$base" =~ ^[0-9]{8}-[0-9]{2}- && ! "$base" =~ ^[0-9]{8}-[0-9]{6}- ]]; then
-                guard_fail "Ciclo PARALELO (escrita_paralela: ${PARALELO}) e '${f}' usa formato serial AAAAMMDD-NN — exatamente a colisão 0001-fable5 × 0001-codex que o ADR-024 Decisão 5 proíbe. Nomeie AAAAMMDD-HHMMSS-<agente>-<slug>."
-            elif [[ -n "$token" ]]; then
-                guard_fail "Artefato paralelo '${f}': agente '${token}' (token exato mais longo) NÃO está em escrita_paralela (${PARALELO}) do STATE staged (start-rite-spec §5.1; 0030 F-01 / 0031 F-05 — prefixo de apelido não passa como slug)."
-            elif [[ "$base" =~ ^[0-9]{8}-[0-9]{6}- ]]; then
-                guard_fail "Artefato paralelo '${f}' com <agente> fora de escrita_paralela (${PARALELO}) do STATE staged (start-rite-spec §5.1 — escritor paralelo não declarado no rito; token exato, não prefixo)."
-            else
-                guard_fail "Ciclo PARALELO e '${f}' não casa ^AAAAMMDD-HHMMSS-<agente>-<slug>. (start-rite-spec §5.1)."
+            if [[ "$ok" -ne 1 ]]; then
+                guard_fail "Ciclo PARALELO (escrita_paralela: ${PARALELO}) e '${f}' tem agente '${token}' fora de escrita_paralela do STATE staged (start-rite-spec §5.1 — escritor paralelo não declarado no rito)."
+                FAIL=1
             fi
-            FAIL=1
         fi
     done <<< "$ADDED"
 fi
@@ -172,6 +176,11 @@ while IFS= read -r line; do
     created="$(awk -F'|' '{gsub(/^[ \t]+|[ \t]+$/,"",$7); print $7}' <<< "$line")"
     if [[ -z "$created" || "$created" == "—" ]]; then
         guard_fail "Linha nova do ${REGISTRY} staged sem coluna created_at: '| ${id_col} | …' (ADR-024 Decisão 5.3: linhas novas usam o bloco de 6 colunas; created_at é a linha do tempo autoritativa)."
+        FAIL=1
+        continue
+    fi
+    if [[ "$created" =~ (Z|z|[+-]00:00)$ ]]; then
+        guard_fail "Linha nova do ${REGISTRY} staged com created_at '${created}' em UTC — relógio único é a hora LOCAL do OPERADOR com offset explícito (ADR-025 Decisão 2.2; F-02 do cross-audit: o 0035 nasceu em Z e divergiu do REGISTRY)."
         FAIL=1
         continue
     fi
@@ -223,6 +232,6 @@ fi
 if [[ -n "$PARALELO" ]]; then
     guard_ok "Ciclo paralelo (${PARALELO}): nomes AAAAMMDD-HHMMSS-<agente> ok; linhas novas do REGISTRY com created_at coerente; sem id duplicado."
 else
-    guard_ok "Ciclo serial: linhas novas do REGISTRY com created_at coerente; sem id duplicado."
+    guard_ok "Nomes de série de evento conformes (ADR-025, incondicional); linhas novas do REGISTRY com created_at coerente (sem UTC); sem id duplicado."
 fi
 exit 0

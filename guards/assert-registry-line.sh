@@ -100,8 +100,10 @@ is_numbered_artifact() {
         .hbn/models/*.json) return 0 ;;
         .github/workflows/*) return 0 ;;
     esac
-    # Qualquer arquivo já nomeado com id global em qualquer pasta:
-    if [[ "$(basename "$f")" =~ ^[0-9]{8}-[0-9]{2}- ]]; then
+    # Qualquer arquivo já nomeado com id global em qualquer pasta — formato
+    # serial legado (AAAAMMDD-NN, leitura) OU carimbo ADR-025
+    # (AAAAMMDD-HHMMSS, obrigatório para evento novo desde a onda 0006):
+    if [[ "$(basename "$f")" =~ ^[0-9]{8}-([0-9]{2}|[0-9]{6})- ]]; then
         return 0
     fi
     return 1
@@ -139,8 +141,8 @@ while IFS= read -r f; do
     [[ -z "$f" ]] && continue
     # docs/prompts/ também não aceita prompt sem id (ADR-011 Decisão 2; ADR-020)
     if [[ "$f" == docs/prompts/*.md ]]; then
-        if [[ ! "$(basename "$f")" =~ ^[0-9]{8}-[0-9]{2}- ]]; then
-            guard_fail "Prompt órfão em docs/prompts/: '${f}' sem id AAAAMMDD-NN (ADR-011 Decisão 2)."
+        if [[ ! "$(basename "$f")" =~ ^[0-9]{8}-([0-9]{2}|[0-9]{6})- ]]; then
+            guard_fail "Prompt órfão em docs/prompts/: '${f}' sem id AAAAMMDD-NN (legado) nem carimbo AAAAMMDD-HHMMSS-<agente> (ADR-025 — formato obrigatório para evento novo)."
             FAIL=1
         fi
         continue
@@ -169,8 +171,8 @@ while IFS= read -r f; do
     if grep -qw "$f" <<< "$ROOT_ALLOWLIST"; then
         continue
     fi
-    if [[ ! "$f" =~ ^[0-9]{8}-[0-9]{2}- ]]; then
-        guard_fail "Doc/prompt órfão na raiz: '${f}' sem id AAAAMMDD-NN (ADR-011 Decisão 1). Deposite como AAAAMMDD-NN-<tipo>-<slug>.md ou em docs/prompts/."
+    if [[ ! "$f" =~ ^[0-9]{8}-([0-9]{2}|[0-9]{6})- ]]; then
+        guard_fail "Doc/prompt órfão na raiz: '${f}' sem id AAAAMMDD-NN (ADR-011 Decisão 1) nem carimbo AAAAMMDD-HHMMSS-<agente> (ADR-025). Deposite com id ou em docs/prompts/."
         FAIL=1
     fi
 done <<< "$ADDED"

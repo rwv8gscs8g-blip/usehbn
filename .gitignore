@@ -11,6 +11,9 @@ __pycache__/
 .hbn/results/*
 # Preserve cross-IA review evidence (audit-permanent), keep runtime ERPs ignored
 !.hbn/results/*-cross-ia-*
+# ADR-025 (onda 0006 I-03): resultado governado no formato carimbo
+# AAAAMMDD-HHMMSS-<agente>-<slug> NUNCA fica invisível ao git
+!.hbn/results/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9][0-9][0-9]-*
 dist/
 build/
 logs/*.json
