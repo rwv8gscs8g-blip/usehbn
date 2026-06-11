@@ -58,16 +58,36 @@ guard_canonical_root() {
 
 # Bypass de emergência — alinhado com a convenção GLASSWING_BYPASS já existente.
 # Parâmetro opcional: nome do guard (usado apenas em logs).
+#
+# F-10 (onda 0006 I-06, cross-audit 0036 P1 / 0037 P1): a env de bypass só
+# surte efeito se houver NOTA ADICIONADA em .hbn/bypasses/ no MESMO diff
+# staged (formato <AAAAMMDD-HHMMSS>-<agente>-<motivo>.md). Env sem nota =
+# bypass IGNORADO: os guards rodam normalmente, com aviso. Era a ironia
+# apontada pelos auditores: o mecanismo da auditoria anti-burla (Glasswing)
+# era ele mesmo uma burla silenciosa. CI: nota de bypass sem hearback
+# correspondente = achado (auditoria de trailers, runbook).
 guard_check_bypass() {
     local name="${1:-${GUARD_NAME:-hbn-guard}}"
+    local envname=""
     if [[ "${HBN_GUARDS_BYPASS:-0}" == "1" ]]; then
-        guard_warn "BYPASS ATIVO (HBN_GUARDS_BYPASS=1) em $name. Justifique no commit msg com [bypass-hbn-guards] e abra nota em .hbn/bypasses/."
+        envname="HBN_GUARDS_BYPASS"
+    elif [[ "${GLASSWING_BYPASS:-0}" == "1" ]]; then
+        envname="GLASSWING_BYPASS"
+    fi
+    [[ -z "$envname" ]] && return 1
+    local notes
+    if [[ -n "${HBN_DIFF_BASE:-}" ]]; then
+        notes="$(git diff --name-only --diff-filter=A "${HBN_DIFF_BASE}...HEAD" 2>/dev/null \
+            | grep -E '^\.hbn/bypasses/[0-9]{8}-[0-9]{6}-[A-Za-z0-9._-]+\.md$' || true)"
+    else
+        notes="$(git diff --cached --name-only --diff-filter=A 2>/dev/null \
+            | grep -E '^\.hbn/bypasses/[0-9]{8}-[0-9]{6}-[A-Za-z0-9._-]+\.md$' || true)"
+    fi
+    if [[ -n "$notes" ]]; then
+        guard_warn "BYPASS ATIVO (${envname}=1) em $name COM nota staged: $(echo "$notes" | xargs). Hearback humano obrigatório na adoção; CI cruza nota×hearback."
         return 0
     fi
-    if [[ "${GLASSWING_BYPASS:-0}" == "1" ]]; then
-        guard_warn "BYPASS Glasswing detectado (GLASSWING_BYPASS=1) em $name. hbn-guards também respeita."
-        return 0
-    fi
+    guard_warn "${envname}=1 IGNORADO em $name: nenhuma nota ADICIONADA em .hbn/bypasses/<carimbo>-<agente>-<motivo>.md neste diff (F-10, onda 0006). Guards rodam normalmente."
     return 1
 }
 

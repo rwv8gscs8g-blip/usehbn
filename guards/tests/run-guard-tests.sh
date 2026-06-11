@@ -39,6 +39,8 @@
 #   Total da suíte após I-03: 85.
 #   I-05 (F-05, onda 0006): +4 checks G-CR (CI=true local block; CI real
 #   pass; alt-root autorizada pass; alt-roots vazio block). Total: 89.
+#   I-06 (F-10, onda 0006): +3 checks bypass (2 env sem nota → block;
+#   env com nota staged → pass). Total: 92.
 #   FIX cross-audits 0030/0031 (3 FORTE + marginais): G-NUM token exato
 #   (0030 F-01 / 0031 F-05) + data de id serial (0031 F-01); G-RLT heading
 #   exato da cápsula (0030 F-02) + parser do chapéu por campo (0031 F-03);
@@ -825,6 +827,18 @@ rm -rf "$d"
 d="$(mktemp -d -p "$TESTS_DIR" tmp-pass.XXXXXX)"
 ( cd "$d" && git init -q && git config user.email t@h && git config user.name t && git commit -q --allow-empty -m i ) >/dev/null 2>&1
 check "tmp: worktree fora de áreas voláteis"            pass  "$( ( cd "$d" && bash "$GUARDS_DIR/forbid-tmp-worktree.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+# --- Bypass com nota staged (onda 0006 I-06 — F-10) --------------------------
+echo "== bypass env só com nota staged (F-10) =="
+# env=1 SEM nota: o caso-ruim continua BLOQUEADO (bypass ignorado)
+d="$(make_repo)"
+( cd "$d" && echo "SECRET=x" > .env && git add .env ) >/dev/null 2>&1
+check "byp: HBN_GUARDS_BYPASS=1 sem nota → caso-ruim ainda BLOCK" block "$( ( cd "$d" && HBN_GUARDS_BYPASS=1 bash "$GUARDS_DIR/forbid-env-files.sh" >/dev/null 2>&1 ); echo $? )"
+check "byp: GLASSWING_BYPASS=1 sem nota → caso-ruim ainda BLOCK"  block "$( ( cd "$d" && GLASSWING_BYPASS=1 bash "$GUARDS_DIR/forbid-env-files.sh" >/dev/null 2>&1 ); echo $? )"
+# env=1 COM nota ADICIONADA no diff staged: bypass vale (com aviso)
+( cd "$d" && mkdir -p .hbn/bypasses && echo "motivo: teste" > .hbn/bypasses/20260611-120000-tester-motivo-teste.md && git add .hbn/bypasses/20260611-120000-tester-motivo-teste.md ) >/dev/null 2>&1
+check "byp: HBN_GUARDS_BYPASS=1 com nota staged → skip com aviso" pass  "$( ( cd "$d" && HBN_GUARDS_BYPASS=1 bash "$GUARDS_DIR/forbid-env-files.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
 # --- G-STRAY: assert-no-stray-hbn (árvore sintética via HBN_SCAN_ROOT) -------
