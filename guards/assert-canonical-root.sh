@@ -4,6 +4,18 @@
 # Guarda G-CR: recusa qualquer operação fora da raiz canônica declarada em
 # .hbn/canonical-root. Defesa direta contra os incidentes de 2026-05-02 e
 # 2026-05-24 (IA escrevendo em /private/tmp ou em pasta paralela).
+#
+# Onda 0006 (F-05, cross-audit 0036 P6 / 0037 P6):
+#   - skip de CI só com GITHUB_ACTIONS=true E HBN_DIFF_BASE não-vazio;
+#     CI=true solto em pre-commit local = FAIL (era o bypass do readback 0005).
+#   - .hbn/alt-roots: raízes alternativas autorizadas (sandbox Cowork etc.),
+#     versionado, mudança só com hearback. MODELO DE CONFIANÇA (declarado):
+#     alt-roots é lido da working tree local, o MESMO modelo do próprio
+#     .hbn/canonical-root — quem pode forjar um, pode forjar o outro; a
+#     trava real é o arquivo ser VERSIONADO (drift visível em diff) e a
+#     auditoria de trailers/CI. Não é trava criptográfica.
+# Teste negativo: guards/tests/run-guard-tests.sh (seção G-CR), incluindo
+#   CI=true local → BLOCK; alt-root autorizada → PASS; divergente → BLOCK.
 # =============================================================================
 set -euo pipefail
 
@@ -17,9 +29,18 @@ if guard_check_bypass; then
 fi
 
 # Em CI a raiz canonica e invariante da maquina do operador, nao do runner.
-if [[ "${CI:-}" == "true" ]]; then
-    guard_ok "Ambiente CI — checagem de raiz canonica delegada ao pre-commit local."
+# F-05 (cross-audit 0036 P6 / 0037 P6, onda 0006): o skip exige contexto REAL
+# de CI — marcador do provedor (GITHUB_ACTIONS=true) E range de diff
+# (HBN_DIFF_BASE não-vazio, exportado pelo Shield). `CI=true` solto em
+# pre-commit local era bypass trivial (usado de fato nos commits do readback
+# 0005) e agora é FAIL explícito.
+if [[ "${GITHUB_ACTIONS:-}" == "true" && -n "${HBN_DIFF_BASE:-}" ]]; then
+    guard_ok "CI real (GITHUB_ACTIONS=true + HBN_DIFF_BASE) — raiz canônica é invariante da máquina do operador; checagem delegada ao pre-commit local."
     exit 0
+fi
+if [[ "${CI:-}" == "true" ]]; then
+    guard_fail "CI=true fora de contexto real de CI (exige GITHUB_ACTIONS=true E HBN_DIFF_BASE) é bypass — F-05 do cross-audit 0036/0037. Se você é um sandbox legítimo, registre a raiz em .hbn/alt-roots (arquivo versionado; mudança só com hearback humano). NUNCA exporte CI=true para commitar localmente."
+    exit 1
 fi
 
 CANONICAL="$(guard_canonical_root)"
@@ -43,10 +64,34 @@ else
     CANONICAL_REAL="$CANONICAL"
 fi
 
+# Raízes ALTERNATIVAS autorizadas (.hbn/alt-roots — onda 0006, F-05):
+# uma raiz absoluta ou glob bash por linha; arquivo VERSIONADO; mudança só
+# com hearback humano. Toplevel ∈ {canonical} ∪ alt-roots = OK. Arquivo
+# ausente ou vazio ⇒ só a canônica vale (fail-closed).
+matches_alt_root() {
+    local top="$1" alt_file="${TOPLEVEL_REAL}/.hbn/alt-roots" pat
+    [[ -f "$alt_file" ]] || return 1
+    while IFS= read -r pat; do
+        [[ -z "$pat" || "$pat" =~ ^[[:space:]]*# ]] && continue
+        pat="$(echo "$pat" | xargs)"
+        # shellcheck disable=SC2053
+        if [[ "$top" == $pat ]]; then
+            return 0
+        fi
+    done < "$alt_file"
+    return 1
+}
+
 FAIL=0
+ALT=0
 if [[ "$TOPLEVEL_REAL" != "$CANONICAL_REAL" ]]; then
-    guard_fail "git toplevel ($TOPLEVEL_REAL) ≠ raiz canônica ($CANONICAL_REAL)."
-    FAIL=1
+    if matches_alt_root "$TOPLEVEL_REAL"; then
+        ALT=1
+        guard_warn "Raiz ALTERNATIVA autorizada por .hbn/alt-roots: $TOPLEVEL_REAL (≠ canônica $CANONICAL_REAL). Rastreável — ver hearback que autorizou a entrada."
+    else
+        guard_fail "git toplevel ($TOPLEVEL_REAL) ≠ raiz canônica ($CANONICAL_REAL) e não consta em .hbn/alt-roots."
+        FAIL=1
+    fi
 fi
 
 # Recusa worktrees em /tmp ou /private/tmp explicitamente, mesmo que canonical-root
@@ -59,7 +104,11 @@ case "$TOPLEVEL_REAL" in
 esac
 
 if [[ $FAIL -eq 0 ]]; then
-    guard_ok "Raiz canônica OK: $TOPLEVEL_REAL"
+    if [[ $ALT -eq 1 ]]; then
+        guard_ok "Raiz alternativa autorizada (.hbn/alt-roots): $TOPLEVEL_REAL"
+    else
+        guard_ok "Raiz canônica OK: $TOPLEVEL_REAL"
+    fi
     exit 0
 fi
 

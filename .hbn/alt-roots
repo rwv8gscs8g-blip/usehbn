@@ -1,0 +1,11 @@
+# .hbn/alt-roots — raízes ALTERNATIVAS autorizadas para o G-CR
+# (guards/assert-canonical-root.sh, onda 0006 item I-05, F-05 do cross-audit
+# 0036/0037). Uma raiz absoluta ou glob bash por linha. Linha vazia ou
+# iniciada por # é ignorada. Arquivo VERSIONADO: toda mudança aqui exige
+# hearback humano (ADR-023) — entrada sem hearback rastreável = achado.
+# Vazio ⇒ apenas a raiz de .hbn/canonical-root vale (fail-closed).
+#
+# autorizado-por: Maurício, chat de orquestração 2026-06-11, resposta ao
+# relato 140302 ("AUTORIZADO incluir, no PRÓPRIO I-05, o arquivo
+# .hbn/alt-roots contendo a linha glob /sessions/*/mnt/Projetos/usehbn")
+/sessions/*/mnt/Projetos/usehbn

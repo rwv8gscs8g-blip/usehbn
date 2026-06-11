@@ -323,3 +323,4 @@ honesta de 63 checks totais, 30 checks ADR-024 e 20 negativos de bloqueio. Os
 | 20260611-155515-fable5-adr-nome-universal | methodology/adr/ADR-025-nome-universal-artefato-ia.md | adr | quente | — | 2026-06-11T15:55:15-03:00 |
 | 20260611-110642-codex-cross-ia-ativacao-enforcement | .hbn/results/20260611-110642-codex-cross-ia-ativacao-enforcement.md | audit-result | frio | — | 2026-06-11T11:06:42-03:00 |
 | 20260611-125809-gemini-3-5-cross-ia-ativacao-enforcement | .hbn/results/20260611-125809-gemini-3-5-cross-ia-ativacao-enforcement.md | audit-result | frio | — | 2026-06-11T12:58:09-03:00 |
+| 20260611-160318-fable5-alt-roots | .hbn/alt-roots | config-guard | quente | — | 2026-06-11T16:03:18-03:00 |

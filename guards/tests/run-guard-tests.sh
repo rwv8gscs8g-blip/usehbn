@@ -37,6 +37,8 @@
 #   serial modificado → 1 pass) e o caso "serial fora de paralelo passa"
 #   foi CONVERTIDO de pass→block (a condicionalidade D5.1 morreu).
 #   Total da suíte após I-03: 85.
+#   I-05 (F-05, onda 0006): +4 checks G-CR (CI=true local block; CI real
+#   pass; alt-root autorizada pass; alt-roots vazio block). Total: 89.
 #   FIX cross-audits 0030/0031 (3 FORTE + marginais): G-NUM token exato
 #   (0030 F-01 / 0031 F-05) + data de id serial (0031 F-01); G-RLT heading
 #   exato da cápsula (0030 F-02) + parser do chapéu por campo (0031 F-03);
@@ -795,6 +797,22 @@ rm -rf "$d"
 d="$(mktemp -d -p "$TESTS_DIR" cr-pass.XXXXXX)"
 ( cd "$d" && git init -q && mkdir .hbn && pwd -P > .hbn/canonical-root ) >/dev/null 2>&1
 check "cr: toplevel == canonical-root (fora de /tmp)"   pass  "$( ( cd "$d" && bash "$GUARDS_DIR/assert-canonical-root.sh" >/dev/null 2>&1 ); echo $? )"
+# I-05 (F-05): CI=true SOLTO em ambiente local é bypass → BLOCK, mesmo com raiz certa
+check "cr: CI=true local (sem GITHUB_ACTIONS+HBN_DIFF_BASE) → BLOCK (F-05)" block "$( ( cd "$d" && CI=true bash "$GUARDS_DIR/assert-canonical-root.sh" >/dev/null 2>&1 ); echo $? )"
+# I-05: skip de CI REAL (provedor + range) continua funcionando
+check "cr: CI real (GITHUB_ACTIONS=true + HBN_DIFF_BASE) → skip legítimo" pass "$( ( cd "$d" && GITHUB_ACTIONS=true HBN_DIFF_BASE=abc123 CI=true bash "$GUARDS_DIR/assert-canonical-root.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+# I-05: raiz divergente AUTORIZADA por .hbn/alt-roots (glob) → PASS
+d="$(mktemp -d -p "$TESTS_DIR" cr-alt.XXXXXX)"
+(
+    cd "$d" && git init -q && mkdir .hbn
+    echo "/outro/lugar/canonico" > .hbn/canonical-root
+    printf '# raizes alternativas de teste\n%s\n' "$(pwd -P)" > .hbn/alt-roots
+) >/dev/null 2>&1
+check "cr: raiz divergente em .hbn/alt-roots → PASS (rastreável)" pass "$( ( cd "$d" && bash "$GUARDS_DIR/assert-canonical-root.sh" >/dev/null 2>&1 ); echo $? )"
+# I-05: alt-roots VAZIO (só comentário) + raiz divergente → BLOCK (fail-closed)
+( cd "$d" && printf '# vazio de proposito\n' > .hbn/alt-roots ) >/dev/null 2>&1
+check "cr: alt-roots vazio + raiz divergente → BLOCK"   block "$( ( cd "$d" && bash "$GUARDS_DIR/assert-canonical-root.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
 # G-TMP: forbid-tmp-worktree — caso-ruim FORÇA /tmp literal (mktemp honra
