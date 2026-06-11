@@ -318,3 +318,5 @@ honesta de 63 checks totais, 30 checks ADR-024 e 20 negativos de bloqueio. Os
 | 20260611-014200-fable-5-readback-ativacao-enforcement | .hbn/readbacks/0005-ativacao-enforcement.json | readback | frio | — | 2026-06-11T01:42:00-03:00 |
 | 20260611-101851-fable-5-guard-no-stray-hbn | guards/assert-no-stray-hbn.sh | guard | quente | — | 2026-06-11T10:18:51-03:00 |
 | 20260611-142434-fable5-readback-onda-0006 | .hbn/readbacks/0006-onda-enforcement-sem-excecao.json | readback | quente | — | 2026-06-11T14:24:34-03:00 |
+| 20260611-155220-fable5-knowledge-0019-severidades-veto | .hbn/knowledge/0019-severidades-veto.md | knowledge | quente | — | 2026-06-11T15:52:20-03:00 |
+| 20260611-155221-fable5-knowledge-0022-firewall | .hbn/knowledge/0022-firewall-workflow-fast-track.md | knowledge | quente | — | 2026-06-11T15:52:21-03:00 |

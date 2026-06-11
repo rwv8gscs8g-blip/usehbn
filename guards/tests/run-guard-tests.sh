@@ -29,6 +29,9 @@
 #   STATE para ativar os guards novos no runner.
 #   SEÇÃO G-STRAY (2026-06-11, readback 0005): 4 checks (2 block, 2 pass)
 #   para o .hbn órfão (incidente opus-4-8). Total da suíte: 79.
+#   SEÇÃO READ-LIST VIVA (onda 0006 I-01, readback 0006): 2 checks
+#   (1 pass, 1 block) — F-08: path citado em template/spec deve existir.
+#   Total da suíte após I-01: 81.
 #   FIX cross-audits 0030/0031 (3 FORTE + marginais): G-NUM token exato
 #   (0030 F-01 / 0031 F-05) + data de id serial (0031 F-01); G-RLT heading
 #   exato da cápsula (0030 F-02) + parser do chapéu por campo (0031 F-03);
@@ -772,6 +775,39 @@ check "stray: .hbn órfão em subpasta sem .git"          block "$(run_stray "$r
 rm -rf "$r"; r="$(mktemp -d)"
 ( mkdir -p "$r/backups/copia-antiga/.hbn" "$r/repoB/.git" "$r/repoB/.hbn" ) >/dev/null 2>&1
 check "stray: .hbn sob backups/ é podado (cópia fria)"  pass  "$(run_stray "$r")"
+rm -rf "$r"
+
+# --- Read-list viva (onda 0006 I-01 — F-08 dos cross-audits 0036/0037) -------
+# Todo path .hbn/ | core/ | guards/ | schemas/ CITADO em agents/role-templates.md
+# e nos 4 specs core do rito deve EXISTIR no disco. A "referência quebrada"
+# (knowledge 0019/0022 citadas sem existir) vira classe de erro permanente.
+echo "== read-list viva (referência citada deve existir) =="
+readlist_scan() { # <arquivo...> ; rc=0 se todos os paths citados existem
+    local missing=0 f p
+    for f in "$@"; do
+        [[ -f "$f" ]] || { echo "    arquivo da read-list ausente: $f"; missing=1; continue; }
+        while IFS= read -r p; do
+            [[ -z "$p" ]] && continue
+            p="${p%.}"          # pontuação final de frase
+            [[ "$p" == *NNNN* || "$p" == *AAAAMMDD* || "$p" == *\<* ]] && continue
+            if compgen -G "$REPO_ROOT/${p}*" >/dev/null; then continue; fi
+            echo "    referência quebrada: ${p} (citada em $(basename "$f"))"
+            missing=1
+        done < <(grep -ohE '(\.hbn/[A-Za-z0-9_./-]+|core/[A-Za-z0-9_./-]+|guards/[A-Za-z0-9_./-]+|schemas/[A-Za-z0-9_./-]+)' "$f" 2>/dev/null | sort -u)
+    done
+    return $missing
+}
+run_readlist() { ( readlist_scan "$@" >/dev/null 2>&1 ); echo $?; }
+check "readlist: templates+4 specs core sem referência quebrada" pass "$(run_readlist \
+    "$REPO_ROOT/agents/role-templates.md" \
+    "$REPO_ROOT/core/start-rite-spec.md" \
+    "$REPO_ROOT/core/orchestrator-profile-spec.md" \
+    "$REPO_ROOT/core/pointer-spec.md" \
+    "$REPO_ROOT/core/state-report-spec.md")"
+# caso-ruim (ADR-020): citação de path inexistente DEVE reprovar
+r="$(mktemp -d)"
+printf 'leia .hbn/knowledge/9999-inexistente.md antes de tudo\n' > "$r/template-quebrado.md"
+check "readlist: referência quebrada é detectada (F-08)"        block "$(run_readlist "$r/template-quebrado.md")"
 rm -rf "$r"
 
 # --- Resumo humano (Bloco 4 dogfood) -----------------------------------------
