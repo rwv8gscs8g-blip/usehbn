@@ -328,3 +328,23 @@ honesta de 63 checks totais, 30 checks ADR-024 e 20 negativos de bloqueio. Os
 | 20260611-161405-fable5-guard-exception-traceable | guards/assert-exception-traceable.sh | guard | quente | — | 2026-06-11T16:14:05-03:00 |
 | 20260611-161804-fable5-guard-baton-token | guards/assert-baton-token.sh | guard | quente | — | 2026-06-11T16:18:04-03:00 |
 | 20260611-162102-fable5-bateria-adversarial | guards/tests/adversarial-battery.sh | guard-test | quente | — | 2026-06-11T16:21:02-03:00 |
+
+## Onda 0007 (2026-06-13) — regularização mínima pós-adoção da onda 0006 (Path A) — status: in_execution, readback 0007
+
+Depósito arquival dos 6 pareceres de cross-audit/re-auditoria da onda 0006
+(nascem `frio`; eram untracked em `.hbn/results/` — entram no livro-razão ao
+serem commitados), do readback 0007 e do handoff da onda. A onda NÃO toca
+guards/domínio (firewall 0022); B1/B2/B3 ficam para a fase-2 planejada.
+A linha do handoff é exigida pelo G-REG (messages-case, `assert-registry-line.sh:91`)
+e segue a convenção: todo handoff em `.hbn/messages/` tem linha no REGISTRY.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260611-170633-codex-cross-ia-onda-0006 | .hbn/results/20260611-170633-codex-cross-ia-onda-0006.md | audit-result | frio | — | 2026-06-11T17:06:33-03:00 |
+| 20260611-172049-gemini-3-5-cross-ia-onda-0006 | .hbn/results/20260611-172049-gemini-3-5-cross-ia-onda-0006.md | audit-result | frio | — | 2026-06-11T17:20:49-03:00 |
+| 20260612-121318-codex-cross-ia-reaudit-onda-0006-v2 | .hbn/results/20260612-121318-codex-cross-ia-reaudit-onda-0006-v2.md | audit-result | frio | — | 2026-06-12T12:13:18-03:00 |
+| 20260612-121713-gemini-3-5-cross-ia-reaudit-onda-0006-v2 | .hbn/results/20260612-121713-gemini-3-5-cross-ia-reaudit-onda-0006-v2.md | audit-result | frio | — | 2026-06-12T12:17:13-03:00 |
+| 20260613-105957-codex-reaudit-onda-0006-v3 | .hbn/results/20260613-105957-codex-reaudit-onda-0006-v3.md | audit-result | frio | — | 2026-06-13T10:59:57-03:00 |
+| 20260613-111317-gemini-3-5-reaudit-onda-0006-v3 | .hbn/results/20260613-111317-gemini-3-5-reaudit-onda-0006-v3.md | audit-result | frio | — | 2026-06-13T11:13:17-03:00 |
+| 20260613-125502-fable-5-readback-onda-regularizacao-minima | .hbn/readbacks/0007-onda-regularizacao-minima.json | readback | quente | — | 2026-06-13T12:55:02-03:00 |
+| 20260613-125502-fable-5-handoff-onda-regularizacao-minima | .hbn/messages/20260613-125502-fable-5-handoff-onda-regularizacao-minima.md | handoff | quente | — | 2026-06-13T12:55:02-03:00 |
