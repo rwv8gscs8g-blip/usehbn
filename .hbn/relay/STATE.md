@@ -3,7 +3,7 @@ state_version: 1
 projeto: usehbn (canônico)
 protocolo: "HBN 0.3.0 (bump 0.3.1 adiado — nota 20260610-34)"
 onda_atual: "onda-0006 enforcement-sem-excecao — IMPLEMENTADA na branch proposta/onda-0006 (13 commits — git rev-list --count main..proposta/onda-0006 = 13; um por item I-00..I-13; main INTOCADA); cross-audit Codex (170633) + Antigravity (172049) retornou VETO_CHERRY_PICKS; correções C-01..C-06 aplicadas em proposta/onda-0006-v2 (rebase -i declarado, fixes squashados, v1 intacta); aguarda re-auditoria do range-diff e aprovação item a item"
-bastao_token_sha256:
+bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-fable-5
 papel_bastao: "implementador da onda 0006 em branch de PROPOSTA (EXCEÇÃO F-01 autorizada: ordem direta de Maurício 2026-06-11 'corrigir TUDO em uma única passada'; authorization no readback 0006)"
 papeis:
