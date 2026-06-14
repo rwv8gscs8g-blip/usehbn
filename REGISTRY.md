@@ -384,3 +384,20 @@ formalização ADR-023 fica adiada para fase-2 por B2 (`G-REG x G-HRB`).
 | 20260613-225152-codex-readback-emenda-doutrina-orquestrador | .hbn/readbacks/0009-emenda-doutrina-orquestrador.json | readback | quente | — | 2026-06-13T22:51:52-03:00 |
 | 20260613-225152-codex-handoff-onda-0009-emenda-doutrina | .hbn/messages/20260613-225152-codex-handoff-onda-0009-emenda-doutrina.md | handoff | quente | — | 2026-06-13T22:51:52-03:00 |
 | 20260613-225152-codex-state-onda-0009-emenda-doutrina | .hbn/relay/STATE.md | state | quente | — | 2026-06-13T22:51:52-03:00 |
+
+## Onda 0010 (2026-06-14) — onda prévia Exúvia: protocolo de transição e plano da 1a muda — status: in_execution, readback 0010
+
+Design-only: escreve a proposta do protocolo reutilizável Exúvia e o plano da
+primeira muda `0.3.x -> 1.0.0`. Não executa congelamento, renascimento, baixa
+de F-01, hearback formal, guard, src ou movimentação estrutural. O parecer
+Gemini 0009 que estava untracked entra como registro frio no mesmo escopo; os
+dois handoffs históricos untracked continuam fora por B1 e entram no plano da
+casca/inventário.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260613-234731-gemini-3-5-cross-ia-onda-0009-confirma-emenda | .hbn/results/20260613-234731-gemini-3-5-cross-ia-onda-0009-confirma-emenda.md | audit-result | frio | — | 2026-06-13T23:47:31-03:00 |
+| 20260614-001421-codex-exuvia-protocolo-transicao-e-plano-1a-muda | .hbn/proposals/20260614-001421-codex-exuvia-protocolo-transicao-e-plano-1a-muda.md | proposal | quente | — | 2026-06-14T00:14:21-03:00 |
+| 20260614-001421-codex-readback-onda-previa-exuvia | .hbn/readbacks/0010-onda-previa-exuvia.json | readback | quente | — | 2026-06-14T00:14:21-03:00 |
+| 20260614-001421-codex-handoff-onda-previa-exuvia | .hbn/messages/20260614-001421-codex-handoff-onda-previa-exuvia.md | handoff | quente | — | 2026-06-14T00:14:21-03:00 |
+| 20260614-001421-codex-state-onda-previa-exuvia | .hbn/relay/STATE.md | state | quente | — | 2026-06-14T00:14:21-03:00 |

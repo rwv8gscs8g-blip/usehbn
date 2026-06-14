@@ -1,0 +1,74 @@
+{
+  "readback_id": "0010-onda-previa-exuvia",
+  "execution_id": "onda-previa-exuvia-2026-06-14",
+  "agent_id": "claude-opus-4-8-orquestrador-exuvia-0010",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_execution",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0010-onda-previa-exuvia.json",
+  "understanding": "Onda previa de transicao: autorar uma PROPOSTA de design que define o protocolo reutilizavel Exuvia e traca o plano da 1a muda 0.3.x -> 1.0.0. Esta onda NAO executa a muda: nao congela, nao renasce, nao move estrutura, nao altera guards, nao toca src/dominio. Entregaveis: proposta Partes A+B, registro frio do parecer Gemini 0009 que estava untracked, readback 0010, handoff fresco, STATE atualizado e REGISTRY append-only. Proxima acao: cross-audit Gemini do plano da Exuvia; depois ratificacao humana e onda de execucao do corte.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Pedido do gate humano em 2026-06-14: onda previa, design-only, safe_track, sem executar o corte; conceito Exuvia ja validado; implementador Codex deve escrever os artefatos e parar apos suite/cerimonia.",
+    "note": "Desenho/orquestracao = claude-opus-4-8; implementacao documental = codex. Isto preserva separacao orquestrador != implementador. F-01 permanece vermelho/PROPOSED; nenhum hearback numerado e criado por causa de B2."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/proposals/20260614-001421-codex-exuvia-protocolo-transicao-e-plano-1a-muda.md",
+      ".hbn/results/20260613-234731-gemini-3-5-cross-ia-onda-0009-confirma-emenda.md",
+      ".hbn/readbacks/0010-onda-previa-exuvia.json",
+      ".hbn/messages/20260614-001421-codex-handoff-onda-previa-exuvia.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md"
+    ],
+    "files_forbidden": [
+      "guards/**",
+      "src/**",
+      "examples/**",
+      "inbox/**",
+      "local-ai/**",
+      "site/**",
+      "core/**",
+      "methodology/**",
+      "schemas/**",
+      ".hbn/hearbacks/**"
+    ]
+  },
+  "invariants_preserved": [
+    "Firewall 0022: nenhuma escrita em dominio, VBA, produto, examples, inbox, workflows ou src.",
+    "Nao executar a muda: sem snapshot/casca, sem renascimento e sem mover REGISTRY ou estrutura nesta onda.",
+    "Nao tocar guards nem suite, exceto execucao de testes.",
+    "Nao baixar F-01 nem remover PROPOSED_UNTIL_CROSS_AUDIT.",
+    "Nao criar hearback numerado por causa do deadlock B2 G-REG x G-HRB.",
+    "Nao commitar os dois handoffs historicos untracked; eles entram no plano da casca/inventario."
+  ],
+  "action_plan": [
+    "C1: criar proposta Exuvia Partes A+B com Truth Barrier arquivo:linha e linha REGISTRY.",
+    "C2: registrar no REGISTRY o parecer Gemini 0009 untracked como audit-result frio e inclui-lo na cerimonia por path explicito.",
+    "C3: criar este readback, handoff fresco, atualizar STATE e REGISTRY no mesmo escopo.",
+    "C4: rodar bash guards/tests/run-guard-tests.sh | tail -2 e re-simular G-SCO/G-REG/G-PAR/G-SLF/G-RLT.",
+    "C5: entregar cerimonia zsh-safe; nao executar git add/commit no sandbox."
+  ],
+  "out_of_scope": [
+    "Congelamento da forma 0.x.",
+    "Renascimento da forma 1.0.0.",
+    "Movimentacao de REGISTRY, .hbn, core, guards, src ou docs.",
+    "Baixa formal de F-01.",
+    "Hearback ADR-023 formal.",
+    "Modelo multi-projeto."
+  ],
+  "residual_risks": [
+    "A proposta ainda precisa de cross-audit Gemini e ratificacao humana antes de qualquer execucao.",
+    "A execucao futura precisa resolver B2 antes dos hearbacks formais pendentes.",
+    "Os dois handoffs historicos seguem untracked por B1 e devem ser capturados no inventario de congelamento, nao nesta cerimonia."
+  ],
+  "classification_basis": {
+    "has_guardian_warnings": false,
+    "has_risks": true,
+    "has_constraints": true
+  },
+  "created_at": "2026-06-14T00:14:21-03:00",
+  "protocol_version": "0.3.0"
+}
