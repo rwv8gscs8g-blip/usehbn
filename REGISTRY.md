@@ -348,3 +348,18 @@ e segue a convenção: todo handoff em `.hbn/messages/` tem linha no REGISTRY.
 | 20260613-111317-gemini-3-5-reaudit-onda-0006-v3 | .hbn/results/20260613-111317-gemini-3-5-reaudit-onda-0006-v3.md | audit-result | frio | — | 2026-06-13T11:13:17-03:00 |
 | 20260613-125502-fable-5-readback-onda-regularizacao-minima | .hbn/readbacks/0007-onda-regularizacao-minima.json | readback | quente | — | 2026-06-13T12:55:02-03:00 |
 | 20260613-125502-fable-5-handoff-onda-regularizacao-minima | .hbn/messages/20260613-125502-fable-5-handoff-onda-regularizacao-minima.md | handoff | quente | — | 2026-06-13T12:55:02-03:00 |
+
+## Onda 0008 (2026-06-13) — proposta de doutrina do orquestrador (tempo 1) — status: in_execution, readback 0008
+
+Tempo 1 de uma mudança de doutrina aprovada pelo gate humano: escreve a
+PROPOSTA (cl.7 abstração, cl.8 modo educativo com níveis, cl.9 roteamento de
+modelo, refino cl.4) e NÃO edita `core/orchestrator-profile-spec.md` — a
+emenda real é o tempo 3, após cross-audit Codex+Gemini. Desenho = orquestrador
+(Opus 4.8); implementação = Fable (token fable-5): famílias distintas
+(anti-F-01, ADR-018). Onda doutrina-sem-enforcement: nenhum guard novo.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260613-212723-fable-5-readback-doutrina-orquestrador | .hbn/readbacks/0008-doutrina-orquestrador.json | readback | quente | — | 2026-06-13T21:27:23-03:00 |
+| 20260613-212813-fable-5-orquestrador-doutrina-abstracao-educativa-roteamento | .hbn/proposals/20260613-212813-fable-5-orquestrador-doutrina-abstracao-educativa-roteamento.md | proposal | quente | — | 2026-06-13T21:28:13-03:00 |
+| 20260613-212913-fable-5-handoff-onda-0008-doutrina | .hbn/messages/20260613-212913-fable-5-handoff-onda-0008-doutrina.md | handoff | quente | — | 2026-06-13T21:29:13-03:00 |
