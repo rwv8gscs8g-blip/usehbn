@@ -363,3 +363,24 @@ emenda real é o tempo 3, após cross-audit Codex+Gemini. Desenho = orquestrador
 | 20260613-212723-fable-5-readback-doutrina-orquestrador | .hbn/readbacks/0008-doutrina-orquestrador.json | readback | quente | — | 2026-06-13T21:27:23-03:00 |
 | 20260613-212813-fable-5-orquestrador-doutrina-abstracao-educativa-roteamento | .hbn/proposals/20260613-212813-fable-5-orquestrador-doutrina-abstracao-educativa-roteamento.md | proposal | quente | — | 2026-06-13T21:28:13-03:00 |
 | 20260613-212913-fable-5-handoff-onda-0008-doutrina | .hbn/messages/20260613-212913-fable-5-handoff-onda-0008-doutrina.md | handoff | quente | — | 2026-06-13T21:29:13-03:00 |
+
+## Onda 0009 (2026-06-13) — emenda da doutrina do orquestrador (tempo 3) — status: in_execution, readback 0009
+
+Aplicação humano-confirmada da emenda em `core/orchestrator-profile-spec.md`:
+cláusula 7 (camada de abstração para o humano), cláusula 8 (`MODO
+EDUCACIONAL` em 5 níveis), cláusula 9 (roteamento de modelo com família =
+fornecedor) e refino da cláusula 4. A redação corrige os achados da onda 0008:
+ambiguidade de família (Codex F-01), `MODO` fora do G-RLT (Codex M-01),
+verdade mecânica preservada em todos os níveis (Codex M-02/Gemini F2),
+exclusão dinâmica do fornecedor do implementador no cross-audit (Gemini F1) e
+distinção warm boot/reboot (Gemini R3). Não cria hearback numerado nesta onda:
+formalização ADR-023 fica adiada para fase-2 por B2 (`G-REG x G-HRB`).
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260613-225152-codex-emenda-orchestrator-profile-spec | core/orchestrator-profile-spec.md | spec-core | quente | — | 2026-06-13T22:51:52-03:00 |
+| 20260613-221518-codex-cross-ia-onda-0008-doutrina | .hbn/results/20260613-221518-codex-cross-ia-onda-0008-doutrina.md | audit-result | frio | — | 2026-06-13T22:15:18-03:00 |
+| 20260613-221433-gemini-3-5-cross-ia-onda-0008-doutrina | .hbn/results/20260613-221433-gemini-3-5-cross-ia-onda-0008-doutrina.md | audit-result | frio | — | 2026-06-13T22:14:33-03:00 |
+| 20260613-225152-codex-readback-emenda-doutrina-orquestrador | .hbn/readbacks/0009-emenda-doutrina-orquestrador.json | readback | quente | — | 2026-06-13T22:51:52-03:00 |
+| 20260613-225152-codex-handoff-onda-0009-emenda-doutrina | .hbn/messages/20260613-225152-codex-handoff-onda-0009-emenda-doutrina.md | handoff | quente | — | 2026-06-13T22:51:52-03:00 |
+| 20260613-225152-codex-state-onda-0009-emenda-doutrina | .hbn/relay/STATE.md | state | quente | — | 2026-06-13T22:51:52-03:00 |

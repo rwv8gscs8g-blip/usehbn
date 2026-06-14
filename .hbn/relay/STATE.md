@@ -2,17 +2,18 @@
 state_version: 1
 projeto: usehbn (canônico)
 protocolo: "HBN 0.3.0 (bump 0.3.1 adiado — nota 20260610-34)"
-onda_atual: "onda 0008 — proposta de doutrina do orquestrador (cl.7 abstração, cl.8 modo educativo com níveis, cl.9 roteamento de modelo, refino 4); tempo 1: proposta escrita; aguarda cross-audit"
+onda_atual: "onda 0009 — emenda da doutrina do orquestrador (cl.7/8/9 + refino 4) aplicada na spec; pareceres commitados"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
-proprietario_bastao: claude-fable-5
-papel_bastao: "implementador da onda 0006 em branch de PROPOSTA (EXCEÇÃO F-01 autorizada: ordem direta de Maurício 2026-06-11 'corrigir TUDO em uma única passada'; authorization no readback 0006)"
+proprietario_bastao: codex
+papel_bastao: "implementador da onda 0009 (emenda da doutrina do orquestrador); desenho/readback do orquestrador claude-opus-4-8"
+modo_educacional: "intermediário"
 papeis:
-  arquiteto: "claude-fable-5 — desenhou (consolidação 20260611-131310/131311) e implementou por exceção autorizada; PROPOSED_UNTIL_CROSS_AUDIT"
-  auditor_validador_fixo: "claude-opus-4-8 (Cowork) — validador fixo EM PROSA; fora do campo mecânico `auditores` até o hearback 0002 ser confirmado"
+  arquiteto: "claude-opus-4-8 — orquestrador/desenho da emenda 0009; distinto do implementador codex"
+  auditor_validador_fixo: "gemini-3-5 — próxima auditoria cross-vendor da emenda; fornecedor Google ≠ implementador OpenAI"
   gate_humano: "Maurício — aprova item a item: cd ~/Projetos/usehbn && git cherry-pick -n <sha> && git commit -C <sha> (preserva AUTOR+mensagem+trailers e roda os hooks — correção C-03b dos pareceres 170633/172049; tabela de aprovação v2)"
-proxima_acao: "cross-audit Codex+Gemini da proposta de doutrina do orquestrador"
+proxima_acao: "auditoria da emenda por Gemini; depois hearback (formal adiado p/ fase-2 por B2 G-REG×G-HRB) e fase-2 (B1/B2/B3 + sinais/painel)"
 sinais_abertos:
-  - "🔴 EXCEÇÃO F-01 ATIVA (onda 0006) — desenhista=implementador=claude-fable-5 por ordem direta de Maurício; estado PROPOSED_UNTIL_CROSS_AUDIT: adoção SÓ com 2 pareceres de famílias ≠ Anthropic + hearback humano (G-EXC fiscaliza os 4 sinais). NOTA (onda 0007): o gate de adoção está SATISFEITO no disco (2 pareceres ≠ Fable sem VETO de adoção: NÃO + cerimônia humana de token); o registro FORMAL da baixa (sinal → ADOTADA-NÃO-PRECEDENTE + hearback ADR-023) fica ADIADO para a fase-2 por causa de G-EXC/G-HRB/G-REG — ver readback 0007. Mantido 🔴 + PROPOSED_UNTIL_CROSS_AUDIT até a fase-2"
+  - "🔴 EXCEÇÃO F-01 ATIVA (onda 0006) — desenhista=implementador=claude-fable-5 por ordem direta de Maurício; estado PROPOSED_UNTIL_CROSS_AUDIT: adoção SÓ com 2 pareceres de famílias ≠ Anthropic + hearback humano (G-EXC fiscaliza os 4 sinais). NOTA (onda 0007): o gate de adoção está SATISFEITO no disco (2 pareceres ≠ Fable sem VETO de adoção: NÃO + cerimônia humana de token); o registro FORMAL da baixa (sinal → ADOTADA-NÃO-PRECEDENTE + hearback ADR-023) fica ADIADO para a fase-2 por causa de G-EXC/G-HRB/G-REG — ver readback 0007. NOTA (onda 0009): MANTER 🔴 F-01/PROPOSED; fora do escopo desta emenda. Mantido 🔴 + PROPOSED_UNTIL_CROSS_AUDIT até a fase-2"
   - "🔴 PONTE VETADA — 0034 (Codex) e 0035 (Antigravity) retornaram VETO_ADOCAO: SIM; descongelar só após corrigir bloqueadores"
   - "🟢 SUÍTE 123/123 verde no SANDBOX Linux/Bash 5 (run 2026-06-12T11:45:11-03:00, saída colada na tabela v2: '== resumo: 123 passaram, 0 falharam =='); Bash 3.2/macOS: VERIFICAÇÃO TERMINAL PENDENTE — número do Terminal só entra aqui com saída colada pelo operador (C-04 dos pareceres 170633/172049); BATERIA ADVERSARIAL 14/14 burlas BLOQUEADAS no sandbox (guards/tests/adversarial-battery.sh)"
   - "🟢 RUNNER COM 14 GUARDS — onda 0006 ativou G-FAM e G-HRB (modo runner, I-08) e G-EXC (I-09, junto com este sinal); hook commit-msg TOLERANTE instalado (guard ausente no worktree = avisa e libera — C-03a; runbook na tabela v2) chamando G-TOK+G-EXC"
@@ -26,19 +27,19 @@ sinais_abertos:
   - "🟡 bump 0.3.1 adiado para onda de auditoria __version__×PROTOCOL_VERSION (nota 20260610-34)"
   - "🟡 inbox/credenciamento com 2 propostas não consolidadas (20260610-01-0017-parametrica, 20260610-44-freeze-gate-v206)"
   - "🟡 backlog: F-05 renumeração da faxina 36 antes de H2; F-07 semântica de proprietario_bastao quando próxima ação é humana; gate script do dual-run (0021/F-06); versionamento de .hbn/readbacks/; colisão readback 0002 × hearback 0002; propostas glacier/zona-de-corte/refatoração-árvore em usehbn-entregas/onda-0006 (I-11) aguardando auditoria adversarial"
-readback_ativo: ".hbn/readbacks/0008-doutrina-orquestrador.json"
-handoff_mais_recente: ".hbn/messages/20260613-212913-fable-5-handoff-onda-0008-doutrina.md"
+readback_ativo: ".hbn/readbacks/0009-emenda-doutrina-orquestrador.json"
+handoff_mais_recente: ".hbn/messages/20260613-225152-codex-handoff-onda-0009-emenda-doutrina.md"
 ancora_rollback: "65b4af0 (HEAD da main — a branch proposta/onda-0006 inteira é descartável sem tocar a main)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
 ciclo_ativo: "onda 0006 v2 (correções pós-veto 170633/172049); aguarda: (1) re-auditoria do range-diff v1→v2, (2) cherry-picks item a item (tabela v2: hooks → 13 picks -n/-C → cerimônia de token → verificação), (3) chave SSH do operador, (4) decisão F-02"
-ultima_atualizacao: "2026-06-13T21:29:13-03:00"
-atualizado_por: claude-fable-5-implementador-0008
+ultima_atualizacao: "2026-06-13T22:51:52-03:00"
+atualizado_por: codex-implementador-0009
 atribuicao:
   chapeu_atual: implementador
-  implementador: claude-fable-5
-  auditores: [codex, gemini-3-5]
-  gravada_em: "2026-06-11T16:22:10-03:00"
-  hearback_ref: ".hbn/readbacks/0006-onda-enforcement-sem-excecao.json"
+  implementador: codex
+  auditores: [gemini-3-5]
+  gravada_em: "2026-06-13T22:51:52-03:00"
+  hearback_ref: null
 ---
 
 Nota da onda 0006 (enforcement-sem-exceção, readback 0006): após os vetos
