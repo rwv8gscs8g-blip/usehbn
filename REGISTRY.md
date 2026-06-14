@@ -397,7 +397,23 @@ casca/inventário.
 | id | artefato (path) | tipo | temperatura | superseded_by | created_at |
 |---|---|---|---|---|---|
 | 20260613-234731-gemini-3-5-cross-ia-onda-0009-confirma-emenda | .hbn/results/20260613-234731-gemini-3-5-cross-ia-onda-0009-confirma-emenda.md | audit-result | frio | — | 2026-06-13T23:47:31-03:00 |
-| 20260614-001421-codex-exuvia-protocolo-transicao-e-plano-1a-muda | .hbn/proposals/20260614-001421-codex-exuvia-protocolo-transicao-e-plano-1a-muda.md | proposal | quente | — | 2026-06-14T00:14:21-03:00 |
+| 20260614-001421-codex-exuvia-protocolo-transicao-e-plano-1a-muda | .hbn/proposals/20260614-001421-codex-exuvia-protocolo-transicao-e-plano-1a-muda.md | proposal | quente | 20260614-030748-codex-exuvia-plano-v2 | 2026-06-14T00:14:21-03:00 |
 | 20260614-001421-codex-readback-onda-previa-exuvia | .hbn/readbacks/0010-onda-previa-exuvia.json | readback | quente | — | 2026-06-14T00:14:21-03:00 |
 | 20260614-001421-codex-handoff-onda-previa-exuvia | .hbn/messages/20260614-001421-codex-handoff-onda-previa-exuvia.md | handoff | quente | — | 2026-06-14T00:14:21-03:00 |
 | 20260614-001421-codex-state-onda-previa-exuvia | .hbn/relay/STATE.md | state | quente | — | 2026-06-14T00:14:21-03:00 |
+
+## Onda 0011 (2026-06-14) — emenda do plano hbn-exuvia v2 — status: in_execution, readback 0011
+
+Design-only: supersede a proposta 0010 via `superseded_by` no REGISTRY e
+incorpora parecer Gemini 0010, requisitos humanos e RADAR. Nao executa a muda:
+sem congelamento, tag, renascimento, painel, logs, guard, src, dominio ou
+movimentacao de ledger. Proxima acao: cross-audit Gemini do plano v2; depois
+ratificacao e M2 (execucao do corte).
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260614-021641-gemini-3-5-cross-ia-onda-0010-plano-exuvia | .hbn/results/20260614-021641-gemini-3-5-cross-ia-onda-0010-plano-exuvia.md | audit-result | frio | — | 2026-06-14T02:16:41-03:00 |
+| 20260614-030748-codex-exuvia-plano-v2 | .hbn/proposals/20260614-030748-codex-exuvia-plano-v2.md | proposal | quente | — | 2026-06-14T03:07:48-03:00 |
+| 20260614-030748-codex-readback-emenda-plano-exuvia-v2 | .hbn/readbacks/0011-emenda-plano-exuvia-v2.json | readback | quente | — | 2026-06-14T03:07:48-03:00 |
+| 20260614-030748-codex-handoff-emenda-plano-exuvia-v2 | .hbn/messages/20260614-030748-codex-handoff-emenda-plano-exuvia-v2.md | handoff | quente | — | 2026-06-14T03:07:48-03:00 |
+| 20260614-030748-codex-state-emenda-plano-exuvia-v2 | .hbn/relay/STATE.md | state | quente | — | 2026-06-14T03:07:48-03:00 |

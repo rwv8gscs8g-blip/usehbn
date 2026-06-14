@@ -1,0 +1,78 @@
+{
+  "readback_id": "0011-emenda-plano-exuvia-v2",
+  "execution_id": "emenda-plano-exuvia-v2-2026-06-14",
+  "agent_id": "claude-opus-4-8-orquestrador-exuvia-0011",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_execution",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0011-emenda-plano-exuvia-v2.json",
+  "understanding": "Onda M1 de emenda documental: atualizar o plano Exuvia para v2, incorporando parecer Gemini 0010, requisitos humanos e conclusoes RADAR. Nao executar a muda: sem congelar, renascer, mover estrutura, editar guards, tocar src ou dominio. Entregaveis: proposta v2, registro REGISTRY com supersedencia do plano 0010, registro frio do parecer Gemini 0010, readback 0011, handoff, STATE e cerimonia zsh-safe para o operador. Proxima acao: cross-audit Gemini do plano v2; depois ratificacao e M2 (execucao do corte).",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Pedido direto em 2026-06-14 para produzir plano v2, sem executar a muda, com gate humano confirmado e token codex.",
+    "note": "agent_id e o orquestrador Opus; implementador e codex. A separacao orquestrador != implementador permanece registrada. F-01 continua vermelho/PROPOSED."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/proposals/20260614-030748-codex-exuvia-plano-v2.md",
+      ".hbn/results/20260614-021641-gemini-3-5-cross-ia-onda-0010-plano-exuvia.md",
+      ".hbn/readbacks/0011-emenda-plano-exuvia-v2.json",
+      ".hbn/messages/20260614-030748-codex-handoff-emenda-plano-exuvia-v2.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md"
+    ],
+    "files_forbidden": [
+      "guards/**",
+      "src/**",
+      "examples/**",
+      "inbox/**",
+      "local-ai/**",
+      "site/**",
+      "core/**",
+      "methodology/**",
+      "schemas/**",
+      ".hbn/hearbacks/**"
+    ]
+  },
+  "invariants_preserved": [
+    "Firewall 0022 preservado: nenhuma escrita em dominio, produto, examples, inbox, workflows ou src.",
+    "Muda nao executada: sem congelamento, renascimento, tag, branch arquival, movimentacao de ledger ou nova arvore.",
+    "Guards nao foram editados; F-02 e apenas requisito para M2.",
+    "F-01 permanece vermelho/PROPOSED_UNTIL_CROSS_AUDIT.",
+    "Hearback ADR-023 formal nao foi criado por causa de B2.",
+    "Plano 0010 nao foi editado; foi supersedido via REGISTRY."
+  ],
+  "action_plan": [
+    "C1: ler Truth Barrier no disco e citar arquivo:linha.",
+    "C2: criar proposta hbn-exuvia v2 com correcoes F-01/F-02/F-03/M-01, gate humano e RADAR.",
+    "C3: registrar Gemini 0010 como audit-result frio e superseder o plano 0010 no REGISTRY.",
+    "C4: criar readback 0011, handoff fresco e atualizar STATE em par G-RLT.",
+    "C5: rodar suite e simular G-SCO/G-REG/G-PAR/G-SLF/G-RLT com staging explicito temporario.",
+    "C6: entregar cerimonia zsh-safe; nao commitar."
+  ],
+  "out_of_scope": [
+    "Congelamento da casca 0.3.x.",
+    "Criacao de tag hbn-exuvia/protocol-0.3.x.",
+    "Renascimento da forma 1.0.0.",
+    "Criacao de .hbn/relay/PAINEL.md nesta M1.",
+    "Criacao de logs de aprendizagem nesta M1.",
+    "Edicao de guards/assert-registry-line.sh.",
+    "Baixa formal de F-01.",
+    "Publicacao do sinal HBN PROTOCOL DEP CHANGE."
+  ],
+  "residual_risks": [
+    "A estrutura alvo 1.0.0 ainda precisa de cross-audit e ratificacao humana.",
+    "M2 deve cuidar para nao usar symlink de ledger, sob risco de bloquear G-REG.",
+    "M2 deve preservar untracked historicos por git add -f, nao apenas por manifesto.",
+    "Retencao fria e politica do arquiteto precisam virar config ratificada antes de automacao."
+  ],
+  "classification_basis": {
+    "has_guardian_warnings": false,
+    "has_risks": true,
+    "has_constraints": true
+  },
+  "created_at": "2026-06-14T03:07:48-03:00",
+  "protocol_version": "0.3.0"
+}
