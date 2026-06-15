@@ -57,6 +57,9 @@
 #   (0030 F-01 / 0031 F-05) + data de id serial (0031 F-01); G-RLT heading
 #   exato da cápsula (0030 F-02) + parser do chapéu por campo (0031 F-03);
 #   G-PTR ignora ⟦HBN⟧ em code-fence (0031 F-02).
+#   S1 (readback 0017): +3 checks G-SCO contra auto-emenda de files_allowed
+#   (ca69ef9): emenda+uso bloqueia; extensão isolada passa; depósito em escopo
+#   vigente passa.
 # =============================================================================
 set -uo pipefail
 
@@ -868,6 +871,8 @@ make_sco_repo() { # $1=track $2=human_status $3=allowed $4=forbidden (JSON array
     ( cd "$d" && mkdir -p .hbn/readbacks && cat > .hbn/readbacks/0001-t.json <<EOF
 {"readback_id":"0001-t","track":"${1}","human_status":"${2}","scope":{"files_allowed":${3},"files_forbidden":${forb}}}
 EOF
+        git add .hbn/readbacks/0001-t.json
+        git commit -qm "readback"
     ) >/dev/null 2>&1
     echo "$d"
 }
@@ -893,6 +898,65 @@ rm -rf "$d"
 d="$(make_sco_repo safe_track confirmed '["docs/**"]' '["docs/segredo/**"]')"
 ( cd "$d" && mkdir -p docs/segredo && echo x > docs/segredo/oculto.md && git add docs/segredo/oculto.md ) >/dev/null 2>&1
 check "sco: staged em files_forbidden → BLOCK (isolado, F-09)" block "$(run_sco "$d")"
+rm -rf "$d"
+
+# S1/ca69ef9: mesmo uma scope_extension formal nao pode autorizar e usar o
+# novo escopo no mesmo commit.
+d="$(make_sco_repo safe_track confirmed '[".hbn/readbacks/0001-t.json","docs/vigente/**"]')"
+(
+    cd "$d"
+    cat > .hbn/readbacks/0001-t.json <<'EOF'
+{
+  "readback_id": "0001-t",
+  "track": "safe_track",
+  "human_status": "confirmed",
+  "scope_extension": {
+    "human": "Tester Humano",
+    "evidence": "autoriza somente extensao isolada",
+    "created_at": "2026-06-15T10:43:09-03:00",
+    "allowed_delta": ["docs/novo/**"]
+  },
+  "scope": {
+    "files_allowed": [".hbn/readbacks/0001-t.json", "docs/vigente/**", "docs/novo/**"],
+    "files_forbidden": []
+  }
+}
+EOF
+    mkdir -p docs/novo
+    echo artefato > docs/novo/artefato.md
+    git add .hbn/readbacks/0001-t.json docs/novo/artefato.md
+) >/dev/null 2>&1
+check "sco: emenda files_allowed + uso no mesmo commit (ca69ef9) → BLOCK" block "$(run_sco "$d")"
+rm -rf "$d"
+
+d="$(make_sco_repo safe_track confirmed '[".hbn/readbacks/0001-t.json","docs/vigente/**"]')"
+(
+    cd "$d"
+    cat > .hbn/readbacks/0001-t.json <<'EOF'
+{
+  "readback_id": "0001-t",
+  "track": "safe_track",
+  "human_status": "confirmed",
+  "scope_extension": {
+    "human": "Tester Humano",
+    "evidence": "autoriza somente extensao isolada",
+    "created_at": "2026-06-15T10:43:09-03:00",
+    "allowed_delta": ["docs/novo/**"]
+  },
+  "scope": {
+    "files_allowed": [".hbn/readbacks/0001-t.json", "docs/vigente/**", "docs/novo/**"],
+    "files_forbidden": []
+  }
+}
+EOF
+    git add .hbn/readbacks/0001-t.json
+) >/dev/null 2>&1
+check "sco: scope_extension isolada altera só readback → passa" pass "$(run_sco "$d")"
+rm -rf "$d"
+
+d="$(make_sco_repo safe_track confirmed '[".hbn/readbacks/0001-t.json","docs/novo/**"]')"
+( cd "$d" && mkdir -p docs/novo && echo artefato > docs/novo/artefato.md && git add docs/novo/artefato.md ) >/dev/null 2>&1
+check "sco: depósito em escopo já vigente → passa" pass "$(run_sco "$d")"
 rm -rf "$d"
 
 # G-CR: assert-canonical-root

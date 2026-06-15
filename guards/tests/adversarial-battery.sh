@@ -93,6 +93,7 @@ try_burla "B8 HBN_SCAN_ROOT apontando para o nada"       "G-STRAY" "$( ( HBN_SCA
 d="$(mk_repo)"
 ( cd "$d" && git commit -q --allow-empty -m i && mkdir -p .hbn/readbacks docs \
   && printf '{"readback_id":"0001-t","track":"safe_track","human_status":"confirmed","scope":{"files_allowed":[],"files_forbidden":[]}}\n' > .hbn/readbacks/0001-t.json \
+  && git add .hbn/readbacks/0001-t.json && git commit -qm readback \
   && echo x > docs/x.md && git add docs/x.md ) >/dev/null 2>&1
 try_burla "B9 scope vazio em safe_track"                 "G-SCO"   "$( ( cd "$d" && bash "$GUARDS_DIR/assert-scope-lock.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
@@ -154,6 +155,46 @@ d="$(mktemp -d -p "$TESTS_DIR" adv-cr-active.XXXXXX)"
   && printf '<<<<<<< ours\n.\n=======\nversao_1_0_0\n>>>>>>> theirs\n' > .hbn/active-version
 ) >/dev/null 2>&1
 try_burla "B15 active-version com conflito de merge"    "G-CR"    "$( ( cd "$d" && bash "$GUARDS_DIR/assert-canonical-root.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+# B16 — auto-emenda de escopo: readback estende files_allowed e usa o delta no
+# mesmo commit (regressao do drible ca69ef9).
+d="$(mk_repo)"
+(
+  cd "$d" && git commit -q --allow-empty -m i && mkdir -p .hbn/readbacks \
+  && cat > .hbn/readbacks/0001-t.json <<'EOF'
+{
+  "readback_id": "0001-t",
+  "track": "safe_track",
+  "human_status": "confirmed",
+  "scope": {
+    "files_allowed": [".hbn/readbacks/0001-t.json", "docs/vigente/**"],
+    "files_forbidden": []
+  }
+}
+EOF
+  git add .hbn/readbacks/0001-t.json && git commit -qm readback \
+  && cat > .hbn/readbacks/0001-t.json <<'EOF'
+{
+  "readback_id": "0001-t",
+  "track": "safe_track",
+  "human_status": "confirmed",
+  "scope_extension": {
+    "human": "Tester Humano",
+    "evidence": "autoriza somente extensao isolada",
+    "created_at": "2026-06-15T10:43:09-03:00",
+    "allowed_delta": ["docs/novo/**"]
+  },
+  "scope": {
+    "files_allowed": [".hbn/readbacks/0001-t.json", "docs/vigente/**", "docs/novo/**"],
+    "files_forbidden": []
+  }
+}
+EOF
+  mkdir -p docs/novo && echo x > docs/novo/parecer.md \
+  && git add .hbn/readbacks/0001-t.json docs/novo/parecer.md
+) >/dev/null 2>&1
+try_burla "B16 auto-emenda files_allowed + uso"          "G-SCO"   "$( ( cd "$d" && bash "$GUARDS_DIR/assert-scope-lock.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------
