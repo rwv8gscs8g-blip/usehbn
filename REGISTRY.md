@@ -534,3 +534,5 @@ justificado no proprio readback.
 | id | artefato (path) | tipo | temperatura | superseded_by | created_at |
 |---|---|---|---|---|---|
 | 20260615-104309-codex-readback-s1-scope-extension | .hbn/readbacks/0017-endurecer-assert-scope-lock-scope-extension.json | readback | quente | — | 2026-06-15T10:43:09-03:00 |
+| 20260615-110757-codex-state-s1 | .hbn/relay/STATE.md | state | quente | — | 2026-06-15T11:07:57-03:00 |
+| 20260615-110757-codex-handoff-s1 | .hbn/messages/20260615-110757-codex-handoff-s1.md | handoff | quente | — | 2026-06-15T11:07:57-03:00 |

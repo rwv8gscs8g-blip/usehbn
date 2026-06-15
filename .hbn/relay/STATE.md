@@ -1,8 +1,8 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; S0 corretiva)"
-onda_atual: "reestruturação M-A+S0 ratificada e selada; próxima é S1"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; S1 implementado)"
+onda_atual: "S1 implementado; cross-audit pendente"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: codex
 papel_bastao: "implementador"
@@ -11,8 +11,9 @@ papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor — cross-audit da reestruturação M-A+S0 concluiu APROVA_REESTRUTURACAO: SIM"
   gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15 após cross-audit Gemini+Cursor SIM; commit/tag são atos do operador"
-proxima_acao: "reestruturação M-A+S0 ratificada e selada; próxima é S1"
+proxima_acao: "S1 implementado; cross-audit pendente"
 sinais_abertos:
+  - "🟡 S1 IMPLEMENTADO — assert-scope-lock endurecido contra auto-emenda de files_allowed; cross-audit independente pendente."
   - "🟢 REESTRUTURAÇÃO M-A+S0 SELADA — linha limpa proposta/reestruturacao-m-a-s0 @ 5a0587d; tree 61fa290e ancorada por tag."
   - "🟢 CROSS-AUDIT SIM — Cursor e Gemini 3.5 registraram APROVA_REESTRUTURACAO: SIM para o Modelo B."
   - "🔴 EXCEÇÃO F-01 ATIVA — desenhista=implementador=claude-fable-5 por ordem direta de Maurício; PROPOSED_UNTIL_CROSS_AUDIT."
@@ -23,18 +24,18 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟡 branch protection no GitHub (hbn-shield obrigatório no push) = ação humana pendente."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0016-reestruturacao-m-a-s0.json"
-handoff_mais_recente: ".hbn/messages/20260615-100217-codex-handoff-selagem-reestruturacao-m-a-s0.md"
+readback_ativo: ".hbn/readbacks/0017-endurecer-assert-scope-lock-scope-extension.json"
+handoff_mais_recente: ".hbn/messages/20260615-110757-codex-handoff-s1.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "Reestruturação M-A+S0 ratificada e selada no Modelo B; linha limpa proposta/reestruturacao-m-a-s0; próxima onda S1."
-ultima_atualizacao: "2026-06-15T10:02:17-03:00"
-atualizado_por: codex-implementador-selagem-reestruturacao-m-a-s0
+ciclo_ativo: "S1 implementado no assert-scope-lock; aguardando cross-audit independente antes de adoção final."
+ultima_atualizacao: "2026-06-15T11:07:57-03:00"
+atualizado_por: codex-implementador-s1
 atribuicao:
   chapeu_atual: implementador
   implementador: codex
   auditores: [gemini-3-5, cursor]
-  gravada_em: "2026-06-15T10:02:17-03:00"
+  gravada_em: "2026-06-15T11:07:57-03:00"
   hearback_ref: null
 ---
 
