@@ -417,3 +417,15 @@ ratificacao e M2 (execucao do corte).
 | 20260614-030748-codex-readback-emenda-plano-exuvia-v2 | .hbn/readbacks/0011-emenda-plano-exuvia-v2.json | readback | quente | — | 2026-06-14T03:07:48-03:00 |
 | 20260614-030748-codex-handoff-emenda-plano-exuvia-v2 | .hbn/messages/20260614-030748-codex-handoff-emenda-plano-exuvia-v2.md | handoff | quente | — | 2026-06-14T03:07:48-03:00 |
 | 20260614-030748-codex-state-emenda-plano-exuvia-v2 | .hbn/relay/STATE.md | state | quente | — | 2026-06-14T03:07:48-03:00 |
+
+## Onda M-A (2026-06-14) — scaffold inativo da hbn-exuvia — status: implemented, readback 0012
+
+Estabilização mecânica sem exúvia real: `.hbn/active-version` aponta para
+`.`; hooks locais são shims fail-closed; guards passam a operar relativos à
+versão ativa; rollback token×STATE fica preparado em dry-run; STATE é
+sincronizado ao roadmap M-A → M-B → M-C → Credenciamento. Sem `git mv`, sem
+`versao_1_0_0/`, sem repontamento de ativação e sem escrita de domínio/src.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260614-183746-codex-readback-m-a-scaffold-inativo | .hbn/readbacks/0012-M-A-scaffold-inativo.json | readback | quente | — | 2026-06-14T18:37:46-03:00 |

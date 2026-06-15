@@ -1,0 +1,78 @@
+{
+  "readback_id": "0012-M-A-scaffold-inativo",
+  "execution_id": "M-A-scaffold-inativo-2026-06-14",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "completed",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0012-M-A-scaffold-inativo.json",
+  "understanding": "Implementar a onda M-A da hbn-exuvia como scaffold inativo: ponteiro .hbn/active-version apontando para '.', hooks version-aware fail-closed, guards version-aware, rollback dry-run token x STATE, plano de tag anti-GC/glacier e sincronizacao do STATE. Nao executar exuvia real, nao mover raiz, nao criar versao_1_0_0, nao repontar ponteiro para outra versao, nao tocar dominio/src/examples/inbox.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Despacho anexado de 2026-06-14: 'Onda M-A: mecanismo da exúvia como SCAFFOLD INATIVO'.",
+    "note": "Opus desenhou/despachou; Codex implementa. F-01 permanece aberto/PROPOSED_UNTIL_CROSS_AUDIT, sem baixa nesta onda."
+  },
+  "scope": {
+    "files_allowed": [
+      ".gitignore",
+      ".hbn/active-version",
+      ".hbn/readbacks/0012-M-A-scaffold-inativo.json",
+      ".hbn/messages/20260614-183746-codex-handoff-m-a-scaffold-inativo.md",
+      ".hbn/results/20260614-183746-codex-m-a-scaffold-inativo.md",
+      ".hbn/results/20260614-193452-gemini-3-5-cross-ia-m-a-scaffold.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      "core/hbn-exuvia-scaffold.md",
+      "scripts/hbn-exuvia-rollback.sh",
+      "guards/README.md",
+      "guards/hook-shims/pre-commit",
+      "guards/hook-shims/commit-msg",
+      "guards/lib/common.sh",
+      "guards/hbn-guards-runner.sh",
+      "guards/assert-canonical-root.sh",
+      "guards/assert-no-stray-hbn.sh",
+      "guards/assert-registry-line.sh",
+      "guards/assert-self-path.sh",
+      "guards/assert-pointer-honest.sh",
+      "guards/assert-report-fresh.sh",
+      "guards/assert-parallel-id.sh",
+      "guards/assert-baton-token.sh",
+      "guards/assert-role-family.sh",
+      "guards/assert-exception-traceable.sh",
+      "guards/assert-scope-lock.sh",
+      "guards/assert-start-cast.sh",
+      "guards/assert-hearback-integrity.sh",
+      "guards/forbid-legacy-paths.sh",
+      "guards/tests/run-guard-tests.sh",
+      "guards/tests/adversarial-battery.sh"
+    ],
+    "files_forbidden": [
+      "src/**",
+      "examples/**",
+      "inbox/**",
+      "local-ai/**",
+      "site/**",
+      ".hbn/hearbacks/**"
+    ]
+  },
+  "invariants_preserved": [
+    "Ponteiro ativo permanece '.'; comportamento observavel segue a raiz atual.",
+    "Nenhum git mv da raiz para versao_0_3_x foi executado.",
+    "Nenhuma versao_1_0_0 foi criada.",
+    "Nenhum repontamento de ativacao foi feito.",
+    "Nenhuma escrita em src, dominio, examples ou inbox.",
+    "F-01 permanece aberto; sem baixa de excecao ou hearback formal novo."
+  ],
+  "evidence": {
+    "suite": "bash guards/tests/run-guard-tests.sh => 132 passaram, 0 falharam",
+    "adversarial": "bash guards/tests/adversarial-battery.sh => 15/15 burlas bloqueadas",
+    "runner": "bash guards/hbn-guards-runner.sh => Todos os guards passaram",
+    "fail_closed_missing_pointer": "[hbn-hook/pre-commit] BLOQUEADO: ponteiro /Users/macbookpro/Projetos/usehbn/.hbn/active-version ausente ou ilegível",
+    "fail_closed_bad_pointer": "[hbn-hook/pre-commit] BLOQUEADO: versão ativa inexistente: versao_9_9_9",
+    "rollback_dry_run": "scripts/hbn-exuvia-rollback.sh --dry-run --target HEAD preserva .git/hbn-baton-token e reconciliaria STATE com FP 34a7f2f9"
+  },
+  "created_at": "2026-06-14T18:37:46-03:00",
+  "protocol_version": "0.3.0"
+}
