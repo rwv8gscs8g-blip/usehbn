@@ -1,0 +1,89 @@
+{
+  "readback_id": "0014-s0-deposito-auditorias",
+  "execution_id": "S0-deposito-auditorias-2026-06-15",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "completed",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0014-s0-deposito-auditorias.json",
+  "understanding": "Depositar os pareceres Gemini e Cursor da auditoria S0 e a consolidacao opus-4-8, atualizar STATE/REGISTRY/handoff para refletir S0 ratificada, sem tocar guards, core, src, examples, inbox, site, modelos ou hearbacks.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio autorizou em 2026-06-14 a ratificacao S0 e o deposito dos pareceres e da consolidacao.",
+    "note": "Autorizacao humana para safe_track de deposito S0; nao autoriza merge em main, alteracao de guards, promocao de perfil a accepted, nem S1."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0014-s0-deposito-auditorias.json",
+      ".hbn/messages/20260615-000857-codex-handoff-s0-deposito.md",
+      ".hbn/results/20260615-000857-gemini-3-5-cross-ia-s0.md",
+      ".hbn/results/20260615-000857-cursor-cross-ia-s0.md",
+      ".hbn/results/20260615-000857-opus-4-8-consolidacao-s0.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md"
+    ],
+    "files_forbidden": [
+      "src/**",
+      "examples/**",
+      "inbox/**",
+      "site/**",
+      "core/**",
+      "guards/**",
+      ".hbn/models/**",
+      ".hbn/hearbacks/**"
+    ]
+  },
+  "artifact_origins": [
+    {
+      "artifact": ".hbn/results/20260615-000857-gemini-3-5-cross-ia-s0.md",
+      "origin": "/Users/macbookpro/Projetos/20260614-225016-gemini-3-5-cross-ia-s0.md",
+      "preservation": "corpo do parecer preservado integralmente; front matter de deposito adicionado para cumprir G-SLF"
+    },
+    {
+      "artifact": ".hbn/results/20260615-000857-cursor-cross-ia-s0.md",
+      "origin": "/Users/macbookpro/.codex/attachments/6648a693-9d02-4caa-aacb-abb1353d743e/pasted-text.txt",
+      "preservation": "corpo do parecer preservado integralmente; front matter de deposito adicionado para cumprir G-SLF"
+    },
+    {
+      "artifact": ".hbn/results/20260615-000857-opus-4-8-consolidacao-s0.md",
+      "origin": "ANEXO A do despacho humano desta janela",
+      "preservation": "texto da consolidacao preservado; placeholders de carimbo materializados para o path/id/created_at reais do deposito"
+    }
+  ],
+  "invariants_to_preserve": [
+    "Nao tocar main; trabalhar somente no branch proposta/M-A-scaffold-inativo.",
+    "Nao usar --no-verify, bypass-hbn-guards ou merge.",
+    "Nao alterar guards, core, src, examples, inbox, site, .hbn/models ou .hbn/hearbacks neste grupo.",
+    "Linha de nascimento no REGISTRY no mesmo commit de cada artefato novo.",
+    "Manter rastreado o marginal cursor.json model_id vs runtime para correcao ao promover perfil a accepted."
+  ],
+  "read_evidence": [
+    ".hbn/relay/STATE.md:5-14",
+    ".hbn/readbacks/0013-s0-rollback-perfis-index.json:17-29",
+    "REGISTRY.md:447-460",
+    "guards/assert-registry-line.sh:85-135",
+    "guards/assert-parallel-id.sh:125-159",
+    "guards/assert-self-path.sh:82-123",
+    "/Users/macbookpro/Projetos/20260614-225016-gemini-3-5-cross-ia-s0.md:10-18",
+    "/Users/macbookpro/.codex/attachments/6648a693-9d02-4caa-aacb-abb1353d743e/pasted-text.txt:28-35"
+  ],
+  "evidence": {
+    "guard_tests": {
+      "command": "bash guards/tests/run-guard-tests.sh",
+      "status": "deferred_to_final_evidence_after_group_2"
+    },
+    "adversarial_battery": {
+      "command": "bash guards/tests/adversarial-battery.sh",
+      "status": "deferred_to_final_evidence_after_group_2"
+    },
+    "guard_runner": {
+      "command": "bash guards/hbn-guards-runner.sh",
+      "status": "deferred_to_final_evidence_after_group_2"
+    }
+  },
+  "created_at": "2026-06-15T00:08:57-03:00",
+  "completed_at": "2026-06-15T00:08:57-03:00",
+  "protocol_version": "0.3.0"
+}

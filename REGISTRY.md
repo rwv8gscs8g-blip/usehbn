@@ -458,3 +458,20 @@ bookkeeping da onda S0.
 | 20260614-222107-codex-handoff-s0 | .hbn/messages/20260614-222107-codex-handoff-s0.md | handoff | quente | — | 2026-06-14T22:21:07-03:00 |
 | 20260614-222107-codex-s0-rollback-perfis-index | .hbn/results/20260614-222107-codex-s0-rollback-perfis-index.md | result | frio | — | 2026-06-14T22:21:07-03:00 |
 | 20260614-222107-codex-state-s0-rollback-perfis-index | .hbn/relay/STATE.md | state | quente | — | 2026-06-14T22:21:07-03:00 |
+
+## Depósito S0 (2026-06-15) — auditorias e consolidação — status: completed, readback 0014
+
+Depósito frio dos pareceres Gemini e Cursor e da consolidação opus-4-8 da onda
+S0. O hearback humano de Maurício em 2026-06-14 ratifica S0 e autoriza o
+depósito. Cursor preserva duas marginais não-bloqueadoras; `cursor.json`
+model_id vs runtime permanece rastreado para correção futura ao promover o
+perfil.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260615-000857-gemini-3-5-cross-ia-s0 | .hbn/results/20260615-000857-gemini-3-5-cross-ia-s0.md | audit-result | frio | — | 2026-06-15T00:08:57-03:00 |
+| 20260615-000857-cursor-cross-ia-s0 | .hbn/results/20260615-000857-cursor-cross-ia-s0.md | audit-result | frio | — | 2026-06-15T00:08:57-03:00 |
+| 20260615-000857-opus-4-8-consolidacao-s0 | .hbn/results/20260615-000857-opus-4-8-consolidacao-s0.md | audit-result | frio | — | 2026-06-15T00:08:57-03:00 |
+| 20260615-000857-codex-readback-s0-deposito-auditorias | .hbn/readbacks/0014-s0-deposito-auditorias.json | readback | quente | — | 2026-06-15T00:08:57-03:00 |
+| 20260615-000857-codex-handoff-s0-deposito | .hbn/messages/20260615-000857-codex-handoff-s0-deposito.md | handoff | quente | — | 2026-06-15T00:08:57-03:00 |
+| 20260615-000857-codex-state-s0-deposito-auditorias | .hbn/relay/STATE.md | state | quente | — | 2026-06-15T00:08:57-03:00 |
