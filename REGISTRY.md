@@ -489,3 +489,36 @@ ratificação humana. Não cria nem habilita G-ACTOR-WRITE-MATRIX nesta onda.
 | 20260615-001218-codex-readback-d-orq-write-doutrina | .hbn/readbacks/0015-d-orq-write-doutrina.json | readback | quente | — | 2026-06-15T00:12:18-03:00 |
 | 20260615-001218-codex-handoff-d-orq-write | .hbn/messages/20260615-001218-codex-handoff-d-orq-write.md | handoff | quente | — | 2026-06-15T00:12:18-03:00 |
 | 20260615-001218-codex-state-d-orq-write-doutrina | .hbn/relay/STATE.md | state | quente | — | 2026-06-15T00:12:18-03:00 |
+
+## Cross-audit Reestruturação M-A+S0 (2026-06-15) — replay limpo Opção B — status: frio, selagem pendente
+
+Parecer Cursor (família distinta de Codex implementador) sobre tree-equivalência do
+replay `proposta/reestruturacao-m-a-s0` vs `3b03a32` e tag
+`evidencia/orquestrador-bug-2026-06-14`. Veredito: APROVA_REESTRUTURACAO SIM.
+Depósito staged pelo auditor; commit de selagem é ato do operador (readback 0016
+recomendado por cima do tip, não no replay).
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260615-095029-cursor-cross-ia-reestruturacao-m-a-s0 | .hbn/results/20260615-095029-cursor-cross-ia-reestruturacao-m-a-s0.md | audit-result | frio | — | 2026-06-15T09:50:29-03:00 |
+
+## Auditoria Cruzada da Reestruturação (2026-06-15) — status: proposed, readback 0016 pendente
+
+Parecer de auditoria cruzada da reestruturação Opção B (replay limpo M-A+S0) executado por gemini-3-5.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260615-095229-gemini-3-5-cross-ia-reestruturacao-m-a-s0 | .hbn/results/20260615-095229-gemini-3-5-cross-ia-reestruturacao-m-a-s0.md | audit-result | frio | — | 2026-06-15T09:52:29-03:00 |
+
+## Selagem Reestruturação M-A+S0 (2026-06-15) — Modelo B ratificado, próxima onda S1
+
+Selagem de governança por cima do tip limpo `5a0587d`. A equivalência mecânica
+do replay permanece provada pela tag
+`evidencia/reestruturacao-m-a-s0-tree-equivalent`; esta seção registra apenas
+governança nova: readback 0016, handoff de selagem e STATE pós-selagem.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260615-100217-codex-readback-reestruturacao-m-a-s0 | .hbn/readbacks/0016-reestruturacao-m-a-s0.json | readback | quente | — | 2026-06-15T10:02:17-03:00 |
+| 20260615-100217-codex-handoff-selagem-reestruturacao-m-a-s0 | .hbn/messages/20260615-100217-codex-handoff-selagem-reestruturacao-m-a-s0.md | handoff | quente | — | 2026-06-15T10:02:17-03:00 |
+| 20260615-100217-codex-state-selagem-reestruturacao-m-a-s0 | .hbn/relay/STATE.md | state | quente | — | 2026-06-15T10:02:17-03:00 |

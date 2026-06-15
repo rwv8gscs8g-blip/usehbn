@@ -2,50 +2,39 @@
 state_version: 1
 projeto: usehbn (canônico)
 protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; S0 corretiva)"
-onda_atual: "D-ORQ-WRITE proposta-pendente sobre S0 ratificada"
+onda_atual: "reestruturação M-A+S0 ratificada e selada; próxima é S1"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: codex
 papel_bastao: "implementador"
 modo_educacional: "intermediário"
 papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
-  auditores_validadores: "gemini-3-5 + cursor — cross-audit S0 concluído; próxima auditoria é D-ORQ-WRITE"
-  gate_humano: "Maurício — aprova item a item; commit e tag são atos do operador no Terminal"
-proxima_acao: "cross-audit da emenda de doutrina D-ORQ-WRITE; depois Reestruturação (Opção B); depois S1"
+  auditores_validadores: "gemini-3-5 + cursor — cross-audit da reestruturação M-A+S0 concluiu APROVA_REESTRUTURACAO: SIM"
+  gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15 após cross-audit Gemini+Cursor SIM; commit/tag são atos do operador"
+proxima_acao: "reestruturação M-A+S0 ratificada e selada; próxima é S1"
 sinais_abertos:
-  - "🔴 EXCEÇÃO F-01 ATIVA (onda 0006) — desenhista=implementador=claude-fable-5 por ordem direta de Maurício; estado PROPOSED_UNTIL_CROSS_AUDIT. Mantido sem baixa nesta onda M-A."
-  - "🔴 PONTE VETADA — 0034 (Codex) e 0035 (Antigravity) retornaram VETO_ADOCAO: SIM; descongelar só após corrigir bloqueadores."
-  - "🔴 ATIVAÇÃO DA EXÚVIA BLOQUEADA — Fitness Gate pendente: baseline funcional + Ponte do Credenciamento verde + confronto incumbente×desafiante."
-  - "🟢 M-A SCAFFOLD INATIVO — .hbn/active-version aponta para '.', hooks version-aware instalados localmente, get_canonical_root() resolve /Users/macbookpro/Projetos/usehbn; nenhuma versao_1_0_0 criada."
-  - "🟢 S0 D3 CORRIGIDO — scripts/hbn-exuvia-rollback.sh resolve state_path a partir do TARGET e teste --apply cobre active-version divergente entre HEAD e TARGET."
-  - "🟢 S0 PERFIS ADICIONADOS — .hbn/models/grok.json e .hbn/models/cursor.json criados como proposed para auditoria cross-family futura."
-  - "🟢 S0 INDEX RECONCILIADO — .hbn/relay/INDEX.md não é mais fonte de estado; aponta STATE.md como canônico."
-  - "🟢 S0 FIXTURES UNTRACKED REMOVIDAS — guards/tests/adv-cr-active.*, cr-conflict-active.*, cr-missing-active.* e cr-version-root.* foram limpas do worktree."
-  - "🟢 S0 AUDITADA OK — Gemini(100)+Cursor(OK,2 marginais não-bloqueadoras); pareceres+consolidação depositados"
-  - "🟡 cursor.json model_id vs runtime — corrigir ao promover perfil a accepted"
-  - "🟡 DOUTRINA D-ORQ-WRITE (cl.10) PROPOSTA — orquestrador poderá escrever os próprios artefatos sob rito; PENDENTE cross-audit ≠ Anthropic + ratificação humana; guard G-ACTOR-WRITE-MATRIX fica para S4"
-  - "🟢 SUÍTE 132/132 verde no SANDBOX macOS/Bash desta linha de trabalho; bateria adversarial 15/15 burlas BLOQUEADAS; runner real com 14 guards verde."
-  - "🟢 G-TOK ATIVO, FP `34a7f2f9` — token vive só em .git/hbn-baton-token; commit local exige trailer HBN-Token-FP: 34a7f2f9."
-  - "🟢 ESCAPES LACRADOS herdados — CI=true local FAIL; bypass env só com nota staged; G-STRAY fail-closed/maxdepth6/symlink/allowlist; naming universal ADR-025."
-  - "🟡 G-HRB assinatura PENDENTE DE CHAVE — Maurício gera/registra .hbn/operators/<nome>.pub para ativar ssh-keygen -Y verify; sem chave o guard avisa e mantém travas de histórico."
-  - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido nesta onda — formato da linha de correção (superseded_by) segue decisão humana."
+  - "🟢 REESTRUTURAÇÃO M-A+S0 SELADA — linha limpa proposta/reestruturacao-m-a-s0 @ 5a0587d; tree 61fa290e ancorada por tag."
+  - "🟢 CROSS-AUDIT SIM — Cursor e Gemini 3.5 registraram APROVA_REESTRUTURACAO: SIM para o Modelo B."
+  - "🔴 EXCEÇÃO F-01 ATIVA — desenhista=implementador=claude-fable-5 por ordem direta de Maurício; PROPOSED_UNTIL_CROSS_AUDIT."
+  - "🔴 PONTE VETADA — 0034 Codex e 0035 Antigravity retornaram VETO_ADOCAO: SIM; corrigir bloqueadores antes de descongelar."
+  - "🔴 ATIVAÇÃO DA EXÚVIA BLOQUEADA — Fitness Gate pendente: baseline funcional + Ponte verde + confronto incumbente×desafiante."
+  - "🟡 D-ORQ-WRITE NÃO HABILITADA — doutrina no replay; escrita do orquestrador e G-ACTOR-WRITE-MATRIX seguem para rito futuro."
+  - "🟡 G-HRB assinatura PENDENTE DE CHAVE — Maurício gera/registra .hbn/operators/<nome>.pub para ativar ssh-keygen -Y verify."
+  - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟡 branch protection no GitHub (hbn-shield obrigatório no push) = ação humana pendente."
-  - "🟡 hearback 0002 (exceção fable×opus) DRAFT pendente de assinatura."
-  - "🟡 bump 0.3.1 adiado para onda de auditoria __version__×PROTOCOL_VERSION."
-  - "🟡 inbox/credenciamento com 2 propostas não consolidadas (20260610-01-0017-parametrica, 20260610-44-freeze-gate-v206)."
-  - "🟡 backlog preservado: F-05 renumeração da faxina 36 antes de H2; F-07 semântica de proprietario_bastao quando próxima ação é humana; gate script do dual-run (0021/F-06); versionamento de .hbn/readbacks/; colisão readback 0002 × hearback 0002; propostas glacier/zona-de-corte/refatoração-árvore aguardando auditoria adversarial."
-readback_ativo: ".hbn/readbacks/0015-d-orq-write-doutrina.json"
-handoff_mais_recente: ".hbn/messages/20260615-001218-codex-handoff-d-orq-write.md"
-ancora_rollback: "4db6928 (HEAD lido no warm boot; M-A não cria tag nem corte real)"
+  - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
+readback_ativo: ".hbn/readbacks/0016-reestruturacao-m-a-s0.json"
+handoff_mais_recente: ".hbn/messages/20260615-100217-codex-handoff-selagem-reestruturacao-m-a-s0.md"
+ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "S0 ratificada e depositada; D-ORQ-WRITE proposta-pendente; roadmap imediato: cross-audit da emenda D-ORQ-WRITE → Reestruturação (Opção B) → S1"
-ultima_atualizacao: "2026-06-15T00:12:18-03:00"
-atualizado_por: codex-implementador-d-orq-write-doutrina
+ciclo_ativo: "Reestruturação M-A+S0 ratificada e selada no Modelo B; linha limpa proposta/reestruturacao-m-a-s0; próxima onda S1."
+ultima_atualizacao: "2026-06-15T10:02:17-03:00"
+atualizado_por: codex-implementador-selagem-reestruturacao-m-a-s0
 atribuicao:
   chapeu_atual: implementador
   implementador: codex
   auditores: [gemini-3-5, cursor]
-  gravada_em: "2026-06-15T00:12:18-03:00"
+  gravada_em: "2026-06-15T10:02:17-03:00"
   hearback_ref: null
 ---
 
@@ -66,7 +55,15 @@ aprovou S0 com duas marginais não-bloqueadoras; opus-4-8 consolidou como OK,
 ratificável e sem bloqueador. O marginal `cursor.json` model_id vs runtime fica
 rastreado para a promoção futura do perfil a `accepted`.
 
-Nota D-ORQ-WRITE: a cláusula 10 de `core/orchestrator-profile-spec.md` entra como
-proposta pendente (`hearback-status: pending`), sem habilitar escrita do
-orquestrador. A próxima ação é cross-audit por família diferente de Anthropic e
-OpenAI; o guard G-ACTOR-WRITE-MATRIX fica reservado para S4.
+Nota D-ORQ-WRITE: a cláusula 10 de `core/orchestrator-profile-spec.md` está na
+linha limpa ratificada pela reestruturação M-A+S0, mas esta selagem não habilita
+escrita operacional do orquestrador. O guard G-ACTOR-WRITE-MATRIX fica reservado
+para rito futuro.
+
+Nota reestruturação M-A+S0: o Modelo B foi ratificado por Maurício em
+2026-06-15 após cross-audit Cursor+Gemini com `APROVA_REESTRUTURACAO: SIM`.
+A linha limpa é `proposta/reestruturacao-m-a-s0` no tip `5a0587d`; a prova
+mecânica fica congelada pela tag `evidencia/reestruturacao-m-a-s0-tree-equivalent`
+com tree `61fa290e83b075983b9c6961a06c6e229cad1fd4`. Esta selagem adiciona
+governança nova por cima do replay e não habilita escrita operacional do
+orquestrador.
