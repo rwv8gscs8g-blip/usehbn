@@ -549,3 +549,5 @@ onda antes do S2.
 | 20260615-113920-codex-readback-selagem-s1-cross-audit | .hbn/readbacks/0018-selagem-s1-cross-audit.json | readback | quente | — | 2026-06-15T11:39:20-03:00 |
 | 20260615-112714-gemini-3-5-cross-ia-s1-scope-lock | .hbn/results/20260615-112714-gemini-3-5-cross-ia-s1-scope-lock.md | audit-result | frio | — | 2026-06-15T11:27:14-03:00 |
 | 20260615-113115-cursor-cross-ia-s1-scope-lock | .hbn/results/20260615-113115-cursor-cross-ia-s1-scope-lock.md | audit-result | frio | — | 2026-06-15T11:31:15-03:00 |
+| 20260615-113920-codex-state-selagem-s1 | .hbn/relay/STATE.md | state | quente | — | 2026-06-15T11:39:20-03:00 |
+| 20260615-113920-codex-handoff-selagem-s1 | .hbn/messages/20260615-113920-codex-handoff-selagem-s1.md | handoff | quente | — | 2026-06-15T11:39:20-03:00 |
