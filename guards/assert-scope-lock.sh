@@ -199,20 +199,18 @@ if [[ ${#ALLOWED_PATTERNS[@]} -eq 0 ]]; then
     exit 1
 fi
 
-# Meta-paths SEMPRE permitidos — são artefatos de coordenação do próprio protocolo
-# HBN (hearbacks, bypasses, mensagens inter-IA, relay). Não exigem declaração
-# explícita no scope.files_allowed porque sua existência já é parte do contrato.
+# Meta-paths auto-permitidos — artefatos de coordenação do protocolo HBN.
+# B17: a dispensa de scope.files_allowed e restrita por tipo+nome. Somente
+# .json/.md com basename de evento ADR-025, hearback do readback ativo, ou
+# nome-endereco conhecido entram aqui; payload arbitrario cai no scope normal.
 # Documentado em guards/README.md §Meta-paths.
 READBACK_NUM="$(basename "$ACTIVE_RB" | grep -oE '^[0-9]{4}' || echo "")"
-META_ALWAYS_ALLOWED=(
-    ".hbn/hearbacks/${READBACK_NUM}-*.json"
-    ".hbn/hearbacks/${READBACK_NUM}-*.md"
-    ".hbn/bypasses/**"
-    ".hbn/messages/**"
+META_ALLOWED_DESCRIPTIONS=(
+    ".hbn/hearbacks/${READBACK_NUM}-*.{json,md}"
+    ".hbn/bypasses/AAAAMMDD-HHMMSS-<agente>-<slug>.{json,md}"
+    ".hbn/messages/AAAAMMDD-HHMMSS-<agente>-<slug>.{json,md}"
     ".hbn/relay/INDEX.md"
 )
-ALLOWED_PATTERNS+=("${META_ALWAYS_ALLOWED[@]}")
-OLD_ALLOWED_PATTERNS+=("${META_ALWAYS_ALLOWED[@]}")
 
 # Função de match (glob simples)
 matches_any() {
@@ -233,6 +231,27 @@ matches_any() {
         fi
     done
     return 1
+}
+
+is_meta_auto_allowed() {
+    local file="$1" base
+    base="${file##*/}"
+
+    case "$file" in
+        .hbn/relay/INDEX.md) return 0 ;;
+        .hbn/hearbacks/*)
+            [[ -n "$READBACK_NUM" && "$base" =~ ^${READBACK_NUM}-[a-z0-9][a-z0-9-]*\.(json|md)$ ]] && return 0
+            ;;
+        .hbn/bypasses/*|.hbn/messages/*)
+            [[ "$base" =~ ^[0-9]{8}-[0-9]{6}-[a-z0-9][a-z0-9-]*-[a-z0-9][a-z0-9-]*\.(json|md)$ ]] && return 0
+            ;;
+    esac
+    return 1
+}
+
+scope_allows() {
+    local file="$1"; shift
+    is_meta_auto_allowed "$file" || matches_any "$file" "$@"
 }
 
 READBACK_CHANGED=0
@@ -256,7 +275,7 @@ if [[ "$READBACK_CHANGED" -eq 1 && "${ADDED_ALLOWED_COUNT:-0}" -gt 0 ]]; then
         [[ -z "$f" ]] && continue
         [[ "$f" == "$ACTIVE_RB_VERSION_PATH" ]] && continue
         OTHER_STAGED+=("$f")
-        if ! matches_any "$f" "${OLD_ALLOWED_PATTERNS[@]}" && matches_any "$f" "${ALLOWED_PATTERNS[@]}"; then
+        if ! scope_allows "$f" "${OLD_ALLOWED_PATTERNS[@]}" && scope_allows "$f" "${ALLOWED_PATTERNS[@]}"; then
             DEPENDS_ON_EXTENSION+=("$f")
         fi
     done <<< "$STAGED"
@@ -307,7 +326,7 @@ while IFS= read -r f; do
         continue
     fi
 
-    if ! matches_any "$f" "${ALLOWED_PATTERNS[@]}"; then
+    if ! scope_allows "$f" "${ALLOWED_PATTERNS[@]}"; then
         OUT_SCOPE+=("$f")
         FAIL=1
     fi
@@ -336,6 +355,10 @@ echo "" >&2
 echo "  Readback ativo: $ACTIVE_RB" >&2
 echo "  Patterns permitidos:" >&2
 for p in "${ALLOWED_PATTERNS[@]}"; do
+    echo "    + $p" >&2
+done
+echo "  Meta-paths auto-permitidos (tipo+nome):" >&2
+for p in "${META_ALLOWED_DESCRIPTIONS[@]}"; do
     echo "    + $p" >&2
 done
 echo "" >&2

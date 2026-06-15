@@ -36,6 +36,16 @@ pre-flight e bloqueia se os hooks estiverem ausentes ou desatualizados.
 Bypass de emergência: `HBN_GUARDS_BYPASS=1` + `[bypass-hbn-guards]` na
 mensagem + nota em `.hbn/bypasses/` — nunca para raiz canônica.
 
+## Meta-paths
+
+`assert-scope-lock` dispensa `scope.files_allowed` apenas para meta-paths de
+coordenacao com tipo e nome controlados: arquivos `.json` ou `.md` cujo
+basename siga ADR-025 (`AAAAMMDD-HHMMSS-<agente>-<slug>.{json,md}`),
+hearbacks do readback ativo (`.hbn/hearbacks/NNNN-*.{json,md}`), e
+nomes-endereco conhecidos como `.hbn/relay/INDEX.md`. Qualquer outro arquivo em
+`.hbn/messages/`, `.hbn/bypasses/` ou `.hbn/hearbacks/` cai no scope-lock
+normal e precisa estar declarado em `scope.files_allowed`.
+
 Conforme knowledge 0021 (Credenciamento): em sandbox o guard é informativo;
 conclusivo no Terminal do operador. O CI (Shield, `.github/workflows/hbn-shield.yml`)
 é o terceiro ponto de verificação: guards + pytest verdes como portão de merge.
