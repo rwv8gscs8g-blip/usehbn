@@ -439,3 +439,4 @@ sincronizado ao roadmap M-A → M-B → M-C → Credenciamento. Sem `git mv`, se
 | 20260614-183746-codex-state-m-a-scaffold-inativo | .hbn/relay/STATE.md | state | quente | — | 2026-06-14T18:37:46-03:00 |
 | 20260614-193452-gemini-3-5-cross-ia-m-a-scaffold | .hbn/results/20260614-193452-gemini-3-5-cross-ia-m-a-scaffold.md | audit-result | frio | — | 2026-06-14T19:34:52-03:00 |
 | 20260614-200829-gemini-3-5-cross-ia-orquestrador-bug | .hbn/results/20260614-200829-gemini-3-5-cross-ia-orquestrador-bug.md | audit-result | frio | — | 2026-06-14T20:08:29-03:00 |
+| 20260614-200849-codex-cross-ia-orquestrador-bug | .hbn/results/20260614-200849-codex-cross-ia-orquestrador-bug.md | audit-result | frio | — | 2026-06-14T20:08:49-03:00 |
