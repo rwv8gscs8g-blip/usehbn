@@ -562,3 +562,5 @@ diretorio amplo. A dispensa de `scope.files_allowed` fica restrita a `.json` ou
 | id | artefato (path) | tipo | temperatura | superseded_by | created_at |
 |---|---|---|---|---|---|
 | 20260615-115415-codex-readback-b17-anti-smuggling-meta-path | .hbn/readbacks/0019-b17-anti-smuggling-meta-path.json | readback | quente | — | 2026-06-15T11:54:15-03:00 |
+| 20260615-120038-codex-state-b17 | .hbn/relay/STATE.md | state | quente | — | 2026-06-15T12:00:38-03:00 |
+| 20260615-120038-codex-handoff-b17 | .hbn/messages/20260615-120038-codex-handoff-b17.md | handoff | quente | — | 2026-06-15T12:00:38-03:00 |

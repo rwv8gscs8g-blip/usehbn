@@ -1,20 +1,20 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; S1 selado)"
-onda_atual: "S1 ratificado e selado; próxima onda: B17 (anti-smuggling meta-path); depois S2"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B17 implementado)"
+onda_atual: "B17 implementado; cross-audit pendente; depois S2"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: codex
 papel_bastao: "implementador"
 modo_educacional: "intermediário"
 papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
-  auditores_validadores: "gemini-3-5 + cursor — cross-audit S1 concluiu APROVA_S1: SIM; B17 preexistente e nao-bloqueador registrado"
-  gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15 e autorizou a selagem S1 em 2026-06-15 após cross-audit Gemini+Cursor SIM; commit/tag são atos do operador"
-proxima_acao: "S1 ratificado e selado; próxima onda: B17 (anti-smuggling meta-path); depois S2"
+  auditores_validadores: "gemini-3-5 + cursor — cross-audit S1 concluiu APROVA_S1: SIM; cross-audit B17 pendente"
+  gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15, autorizou a selagem S1 e decidiu tratar B17 antes do S2 com recorte tipo+nome"
+proxima_acao: "B17 implementado; cross-audit pendente"
 sinais_abertos:
+  - "🟢 B17 IMPLEMENTADO — meta-paths em guards/assert-scope-lock.sh agora auto-permitem somente .json/.md com basename ADR-025, hearback do readback ativo ou nome-endereco conhecido; payload arbitrario cai no scope-lock normal. Cross-audit pendente."
   - "🟢 S1 RATIFICADO E SELADO — assert-scope-lock endurecido contra auto-emenda de files_allowed; cross-audit Gemini+Cursor registrou APROVA_S1: SIM."
-  - "🟡 B17 PRÉ-EXISTENTE — meta-paths .hbn/bypasses/** e .hbn/messages/** seguem sempre permitidos por guards/assert-scope-lock.sh:207-214; Gemini 20260615-112714 apontou smuggling e Cursor 20260615-113115 classificou como design legado consciente. Próxima onda antes do S2."
   - "🟢 REESTRUTURAÇÃO M-A+S0 SELADA — linha limpa proposta/reestruturacao-m-a-s0 @ 5a0587d; tree 61fa290e ancorada por tag."
   - "🟢 CROSS-AUDIT SIM — Cursor e Gemini 3.5 registraram APROVA_REESTRUTURACAO: SIM para o Modelo B."
   - "🔴 EXCEÇÃO F-01 ATIVA — desenhista=implementador=claude-fable-5 por ordem direta de Maurício; PROPOSED_UNTIL_CROSS_AUDIT."
@@ -25,18 +25,18 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟡 branch protection no GitHub (hbn-shield obrigatório no push) = ação humana pendente."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0018-selagem-s1-cross-audit.json"
-handoff_mais_recente: ".hbn/messages/20260615-113920-codex-handoff-selagem-s1.md"
+readback_ativo: ".hbn/readbacks/0019-b17-anti-smuggling-meta-path.json"
+handoff_mais_recente: ".hbn/messages/20260615-120038-codex-handoff-b17.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "S1 ratificado e selado; proxima onda obrigatoria: B17 anti-smuggling meta-path antes do S2."
-ultima_atualizacao: "2026-06-15T11:39:20-03:00"
-atualizado_por: codex-implementador-selagem-s1
+ciclo_ativo: "B17 implementado; cross-audit pendente antes do S2."
+ultima_atualizacao: "2026-06-15T12:00:38-03:00"
+atualizado_por: codex-implementador-b17
 atribuicao:
   chapeu_atual: implementador
   implementador: codex
   auditores: [gemini-3-5, cursor]
-  gravada_em: "2026-06-15T11:39:20-03:00"
+  gravada_em: "2026-06-15T12:00:38-03:00"
   hearback_ref: null
 ---
 
@@ -76,3 +76,11 @@ registraram `APROVA_S1: SIM`. B16 (auto-emenda de `scope.files_allowed` + uso
 no mesmo commit) permanece bloqueado pela bateria S1. B17 e a brecha
 preexistente de meta-paths sempre permitidos em `guards/assert-scope-lock.sh:207-214`
 e deve ser tratado na proxima onda antes do S2.
+
+Nota B17: a brecha preexistente de smuggling por meta-path foi implementada em
+2026-06-15 com recorte tipo+nome. `guards/assert-scope-lock.sh` agora aceita
+automaticamente apenas `.json`/`.md` de evento ADR-025 em `.hbn/messages/` e
+`.hbn/bypasses/`, hearback `NNNN-*.{json,md}` do readback ativo e
+`.hbn/relay/INDEX.md`; scripts, binarios e nomes arbitrarios nesses caminhos
+precisam estar em `scope.files_allowed`. `run-guard-tests` passou com 140/140 e
+`adversarial-battery` bloqueou B1-B17; falta cross-audit independente.
