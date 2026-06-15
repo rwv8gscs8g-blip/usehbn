@@ -20,6 +20,12 @@
     "purpose": "Autorizar Codex a registrar o parecer bloqueado pelo scope-lock, consolidar os pareceres Codex+Gemini sobre o bug do orquestrador e entregar prompt auto-contido para uma nova janela Opus, sem implementar guards nesta onda.",
     "note": "Extensao declarada por hearback humano; nao e autorizacao para corrigir rollback, implementar guards, usar bypass ou alterar main."
   },
+  "scope_extension_20260614_204536": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mensagem no Codex em 2026-06-14: prompt anterior insuficiente porque Opus recebeu ambiente sem pasta selecionada; ajustar para recomeçar em nova janela com acesso a /Users/macbookpro/Projetos e usehbn.",
+    "purpose": "Autorizar nova versao do prompt de boot do orquestrador com etapa explicita de localizacao do workspace antes da read-list.",
+    "note": "Continua sem autorizacao para implementar guards, corrigir rollback, usar bypass ou alterar main."
+  },
   "scope": {
     "files_allowed": [
       ".gitignore",
@@ -32,6 +38,7 @@
       ".hbn/results/20260614-200849-codex-cross-ia-orquestrador-bug.md",
       ".hbn/results/20260614-203423-codex-orquestrador-bug-consolidacao.md",
       ".hbn/results/20260614-203424-codex-prompt-opus-orquestrador-boot-corrigido.md",
+      ".hbn/results/20260614-204536-codex-prompt-opus-orquestrador-boot-localizador.md",
       ".hbn/relay/STATE.md",
       "REGISTRY.md",
       "core/hbn-exuvia-scaffold.md",
