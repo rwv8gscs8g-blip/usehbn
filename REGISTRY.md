@@ -522,3 +522,14 @@ governança nova: readback 0016, handoff de selagem e STATE pós-selagem.
 | 20260615-100217-codex-readback-reestruturacao-m-a-s0 | .hbn/readbacks/0016-reestruturacao-m-a-s0.json | readback | quente | — | 2026-06-15T10:02:17-03:00 |
 | 20260615-100217-codex-handoff-selagem-reestruturacao-m-a-s0 | .hbn/messages/20260615-100217-codex-handoff-selagem-reestruturacao-m-a-s0.md | handoff | quente | — | 2026-06-15T10:02:17-03:00 |
 | 20260615-100217-codex-state-selagem-reestruturacao-m-a-s0 | .hbn/relay/STATE.md | state | quente | — | 2026-06-15T10:02:17-03:00 |
+
+## Onda S1 (2026-06-15) — scope_extension isolado no assert-scope-lock — status: in_progress, readback 0017
+
+Endurecimento do G-SCOPE contra auto-emenda de `scope.files_allowed` no mesmo
+commit que deposita artefato dependente da emenda. A extensao legitima passa a
+ser commit isolado do JSON do readback existente, com `scope_extension`
+justificado no proprio readback.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260615-104309-codex-readback-s1-scope-extension | .hbn/readbacks/0017-endurecer-assert-scope-lock-scope-extension.json | readback | quente | — | 2026-06-15T10:43:09-03:00 |
