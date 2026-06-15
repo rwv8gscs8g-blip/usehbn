@@ -437,3 +437,4 @@ sincronizado ao roadmap M-A → M-B → M-C → Credenciamento. Sem `git mv`, se
 | 20260614-183746-codex-handoff-m-a-scaffold-inativo | .hbn/messages/20260614-183746-codex-handoff-m-a-scaffold-inativo.md | handoff | quente | — | 2026-06-14T18:37:46-03:00 |
 | 20260614-183746-codex-m-a-scaffold-inativo | .hbn/results/20260614-183746-codex-m-a-scaffold-inativo.md | result | frio | — | 2026-06-14T18:37:46-03:00 |
 | 20260614-183746-codex-state-m-a-scaffold-inativo | .hbn/relay/STATE.md | state | quente | — | 2026-06-14T18:37:46-03:00 |
+| 20260614-193452-gemini-3-5-cross-ia-m-a-scaffold | .hbn/results/20260614-193452-gemini-3-5-cross-ia-m-a-scaffold.md | audit-result | frio | — | 2026-06-14T19:34:52-03:00 |
