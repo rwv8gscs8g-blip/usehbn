@@ -442,3 +442,4 @@ sincronizado ao roadmap M-A → M-B → M-C → Credenciamento. Sem `git mv`, se
 | 20260614-200849-codex-cross-ia-orquestrador-bug | .hbn/results/20260614-200849-codex-cross-ia-orquestrador-bug.md | audit-result | frio | — | 2026-06-14T20:08:49-03:00 |
 | 20260614-203423-codex-orquestrador-bug-consolidacao | .hbn/results/20260614-203423-codex-orquestrador-bug-consolidacao.md | audit-result | frio | — | 2026-06-14T20:34:23-03:00 |
 | 20260614-203424-codex-prompt-opus-orquestrador-boot-corrigido | .hbn/results/20260614-203424-codex-prompt-opus-orquestrador-boot-corrigido.md | prompt | frio | — | 2026-06-14T20:34:24-03:00 |
+| 20260614-204536-codex-prompt-opus-orquestrador-boot-localizador | .hbn/results/20260614-204536-codex-prompt-opus-orquestrador-boot-localizador.md | prompt | frio | — | 2026-06-14T20:45:36-03:00 |
