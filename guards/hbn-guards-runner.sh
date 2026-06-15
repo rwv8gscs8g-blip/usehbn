@@ -7,6 +7,9 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+GUARD_NAME="hbn-guards-runner"
+# shellcheck source=lib/common.sh
+source "${SCRIPT_DIR}/lib/common.sh"
 
 if [[ -t 1 ]]; then
     C_BOLD=$'\033[1m'
@@ -17,6 +20,21 @@ else
 fi
 
 echo "${C_BOLD}[hbn-guards] Iniciando bateria de guards de governança…${C_END}" >&2
+
+ACTIVE_ROOT="$(get_canonical_root || true)"
+if [[ -z "$ACTIVE_ROOT" ]]; then
+    guard_fail "Versão ativa inválida: ${HBN_ACTIVE_VERSION_ERROR:-erro desconhecido}. Enforcement bloqueado até resolução explícita."
+    exit 1
+fi
+RUNNER_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd -P)"
+if [[ "$RUNNER_ROOT" != "$ACTIVE_ROOT" ]]; then
+    guard_fail "Runner invocado fora da versão ativa. runner=${RUNNER_ROOT}; ativa=${ACTIVE_ROOT}. Use o shim de .git/hooks ou repare .hbn/active-version."
+    exit 1
+fi
+if ! guard_check_hooks_current; then
+    echo "${C_BOLD}[hbn-guards] Pre-flight de hooks FALHOU.${C_END}" >&2
+    exit 1
+fi
 
 # Ordem importa: raiz canônica primeiro (se errada, nada do resto faz sentido).
 # ATIVAÇÃO 2026-06-11 (readback 0005, ordem Maurício): G-SLF/G-REG/G-NUM/

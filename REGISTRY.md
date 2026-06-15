@@ -428,4 +428,9 @@ sincronizado ao roadmap M-A → M-B → M-C → Credenciamento. Sem `git mv`, se
 
 | id | artefato (path) | tipo | temperatura | superseded_by | created_at |
 |---|---|---|---|---|---|
+| 20260614-183746-codex-active-version-pointer | .hbn/active-version | control | quente | — | 2026-06-14T18:37:46-03:00 |
+| 20260614-183746-codex-hbn-exuvia-scaffold | core/hbn-exuvia-scaffold.md | spec-core | quente | — | 2026-06-14T18:37:46-03:00 |
+| 20260614-183746-codex-hbn-exuvia-rollback-script | scripts/hbn-exuvia-rollback.sh | script | quente | — | 2026-06-14T18:37:46-03:00 |
+| 20260614-183746-codex-hook-shim-pre-commit | guards/hook-shims/pre-commit | hook-template | quente | — | 2026-06-14T18:37:46-03:00 |
+| 20260614-183746-codex-hook-shim-commit-msg | guards/hook-shims/commit-msg | hook-template | quente | — | 2026-06-14T18:37:46-03:00 |
 | 20260614-183746-codex-readback-m-a-scaffold-inativo | .hbn/readbacks/0012-M-A-scaffold-inativo.json | readback | quente | — | 2026-06-14T18:37:46-03:00 |

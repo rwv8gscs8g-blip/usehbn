@@ -38,10 +38,15 @@ ATRIB="${1:-}"
 # argumento — atribuição de onda/handoff.)
 if [[ -z "$ATRIB" ]]; then
     STATE_PATH=".hbn/relay/STATE.md"
+    STATE_REPO_PATH="$(guard_version_repo_path "$STATE_PATH" || true)"
+    if [[ -z "$STATE_REPO_PATH" ]]; then
+        guard_fail "Versão ativa inválida: ${HBN_ACTIVE_VERSION_ERROR:-erro desconhecido}. Não é possível localizar o STATE da versão ativa."
+        exit 1
+    fi
     if [[ -n "${HBN_DIFF_BASE:-}" ]]; then
-        SC="$(git show "HEAD:${STATE_PATH}" 2>/dev/null || true)"
+        SC="$(git show "HEAD:${STATE_REPO_PATH}" 2>/dev/null || true)"
     else
-        SC="$(git show ":${STATE_PATH}" 2>/dev/null || true)"
+        SC="$(git show ":${STATE_REPO_PATH}" 2>/dev/null || true)"
     fi
     if [[ -z "$SC" ]]; then
         guard_warn "STATE indisponível no blob staged/HEAD — repo fora do rito de atribuição; invariante mínimo sem alvo."
@@ -72,7 +77,8 @@ if [[ ! -f "$ATRIB" ]]; then
 fi
 
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
-MODELS_DIR="${HBN_MODELS_DIR:-${REPO_ROOT}/.hbn/models}"
+ACTIVE_ROOT="$(get_canonical_root 2>/dev/null || echo "$REPO_ROOT")"
+MODELS_DIR="${HBN_MODELS_DIR:-${ACTIVE_ROOT}/.hbn/models}"
 
 set +e
 python3 - "$ATRIB" "$MODELS_DIR" "$REPO_ROOT" <<'PYEOF'

@@ -43,7 +43,8 @@ if ! bash "${SCRIPT_DIR}/assert-role-family.sh" "$ATRIB"; then
 fi
 
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
-MODELS_DIR="${HBN_MODELS_DIR:-${REPO_ROOT}/.hbn/models}"
+ACTIVE_ROOT="$(get_canonical_root 2>/dev/null || echo "$REPO_ROOT")"
+MODELS_DIR="${HBN_MODELS_DIR:-${ACTIVE_ROOT}/.hbn/models}"
 
 # --- Regras 2 e 3 (específicas do start-rite) --------------------------------
 set +e

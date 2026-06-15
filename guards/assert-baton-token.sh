@@ -73,6 +73,11 @@ fi
 
 MSG_FILE="${1:-}"
 STATE_PATH=".hbn/relay/STATE.md"
+STATE_REPO_PATH="$(guard_version_repo_path "$STATE_PATH" || true)"
+if [[ -z "$STATE_REPO_PATH" ]]; then
+    guard_fail "Versão ativa inválida: ${HBN_ACTIVE_VERSION_ERROR:-erro desconhecido}. Não é possível localizar o STATE da versão ativa."
+    exit 1
+fi
 
 sha256_of() {
     if command -v sha256sum >/dev/null 2>&1; then
@@ -88,9 +93,9 @@ lc() { # minúsculas — compatível com Bash 3.2 (sem ${var,,})
 
 state_content() {
     if [[ -n "${HBN_DIFF_BASE:-}" ]]; then
-        git show "HEAD:${STATE_PATH}" 2>/dev/null || true
+        git show "HEAD:${STATE_REPO_PATH}" 2>/dev/null || true
     else
-        git show ":${STATE_PATH}" 2>/dev/null || true
+        git show ":${STATE_REPO_PATH}" 2>/dev/null || true
     fi
 }
 

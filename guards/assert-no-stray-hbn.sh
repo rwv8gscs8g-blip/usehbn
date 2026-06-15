@@ -52,11 +52,11 @@ if [[ "${1:-}" == "--sweep" ]]; then
     MODE="sweep"
 fi
 
-# Raiz da varredura: HBN_SCAN_ROOT > pai do canonical-root (se existir
+# Raiz da varredura: HBN_SCAN_ROOT > pai da raiz canônica do repo (se existir
 # localmente) > pai do git toplevel.
 SCAN_ROOT="${HBN_SCAN_ROOT:-}"
 if [[ -z "$SCAN_ROOT" ]]; then
-    CANONICAL="$(guard_canonical_root || true)"
+    CANONICAL="$(guard_repo_canonical_root || true)"
     if [[ -n "$CANONICAL" && -d "$(dirname "$CANONICAL")" ]]; then
         SCAN_ROOT="$(dirname "$CANONICAL")"
     else
@@ -92,12 +92,44 @@ is_allowlisted() {
     return 1
 }
 
+real_dir() {
+    if [[ -d "$1" ]]; then
+        ( cd "$1" && pwd -P )
+    else
+        printf '%s\n' "$1"
+    fi
+}
+
+ACTIVE_ROOT_REAL=""
+ACTIVE_ROOT="$(get_canonical_root 2>/dev/null || true)"
+[[ -n "$ACTIVE_ROOT" ]] && ACTIVE_ROOT_REAL="$(real_dir "$ACTIVE_ROOT")"
+
+is_version_dir_name() {
+    [[ "$1" =~ ^versao_[0-9]+_[0-9]+_[A-Za-z0-9]+$ ]]
+}
+
+is_valid_hbn_home() {
+    local d="$1" parent grand parent_real
+    parent="$(dirname "$d")"
+    if [[ -e "${parent}/.git" ]]; then
+        return 0
+    fi
+    parent_real="$(real_dir "$parent")"
+    if [[ -n "$ACTIVE_ROOT_REAL" && "$parent_real" == "$ACTIVE_ROOT_REAL" ]]; then
+        return 0
+    fi
+    grand="$(dirname "$parent")"
+    if is_version_dir_name "$(basename "$parent")" && [[ -e "${grand}/.git" && -f "${grand}/.hbn/active-version" ]]; then
+        return 0
+    fi
+    return 1
+}
+
 STRAYS=()
 while IFS= read -r d; do
     [[ -z "$d" ]] && continue
     is_allowlisted "$d" && continue
-    parent="$(dirname "$d")"
-    if [[ ! -e "${parent}/.git" ]]; then
+    if ! is_valid_hbn_home "$d"; then
         STRAYS+=("$d")
     fi
 done < <(find "$SCAN_ROOT" -maxdepth 6 \

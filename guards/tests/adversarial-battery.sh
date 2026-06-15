@@ -39,7 +39,7 @@ try_burla() { # <descricao> <guard> <rc-obtido>  (esperado: rc != 0 = BLOQUEADA)
 
 mk_repo() { # repo git mínimo
     local d; d="$(mktemp -d)"
-    ( cd "$d" && git init -q && git config user.email a@b && git config user.name a ) >/dev/null 2>&1
+    ( cd "$d" && git init -q && git config user.email a@b && git config user.name a && mkdir -p .hbn && echo "." > .hbn/active-version ) >/dev/null 2>&1
     echo "$d"
 }
 
@@ -58,7 +58,7 @@ rm -rf "$d"
 
 # B3 — CI=true em commit local (o bypass do readback 0005)
 d="$(mktemp -d -p "$TESTS_DIR" adv-cr.XXXXXX)"
-( cd "$d" && git init -q && mkdir .hbn && pwd -P > .hbn/canonical-root ) >/dev/null 2>&1
+( cd "$d" && git init -q && mkdir .hbn && echo "." > .hbn/active-version && pwd -P > .hbn/canonical-root ) >/dev/null 2>&1
 try_burla "B3 CI=true local (sem CI real)"               "G-CR"    "$( ( cd "$d" && CI=true bash "$GUARDS_DIR/assert-canonical-root.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
@@ -144,6 +144,16 @@ d="$(mk_repo)"
   && printf '%s\n' token-roubado > .git/hbn-baton-token \
   && printf 'feat: x\n\nHBN-Token-FP: %s\n' "$(printf '%s' "$HASH_LEGIT" | cut -c1-8)" > msg.txt ) >/dev/null 2>&1
 try_burla "B14 arquivo de token local ERRADO + FP do log" "G-TOK"   "$( ( cd "$d" && bash "$GUARDS_DIR/assert-baton-token.sh" "$d/msg.txt" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+# B15 — conflito de merge no ponteiro de versão ativa deve falhar fechado
+d="$(mktemp -d -p "$TESTS_DIR" adv-cr-active.XXXXXX)"
+(
+  cd "$d" && git init -q && mkdir -p .hbn versao_1_0_0 \
+  && pwd -P > .hbn/canonical-root \
+  && printf '<<<<<<< ours\n.\n=======\nversao_1_0_0\n>>>>>>> theirs\n' > .hbn/active-version
+) >/dev/null 2>&1
+try_burla "B15 active-version com conflito de merge"    "G-CR"    "$( ( cd "$d" && bash "$GUARDS_DIR/assert-canonical-root.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------

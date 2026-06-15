@@ -132,6 +132,7 @@ make_repo() {
         git config user.name "hbn-guard-tests"
         mkdir -p methodology/adr core docs/prompts reports \
             .hbn/models .hbn/hearbacks .github/workflows guards/sub
+        echo "." > .hbn/active-version
         cat > REGISTRY.md <<'EOF'
 | id | artefato (path) | tipo | temperatura | superseded_by |
 |---|---|---|---|---|
@@ -246,6 +247,44 @@ d="$(make_repo)"
 check "reg: linha staged, working tree sem (espelho E-FECH-02)" pass "$(run_reg "$d")"
 rm -rf "$d"
 
+# --- G-REG version-aware: paths do Git com prefixo versao_* ------------------
+make_version_repo() {
+    local d; d="$(mktemp -d)"
+    (
+        cd "$d"
+        git init -q
+        git config user.email "tests@hbn.local"
+        git config user.name "hbn-guard-tests"
+        mkdir -p .hbn versao_1_0_0/reports
+        echo "versao_1_0_0" > .hbn/active-version
+        cat > versao_1_0_0/REGISTRY.md <<'EOF'
+| id | artefato (path) | tipo | temperatura | superseded_by |
+|---|---|---|---|---|
+EOF
+        git add -A
+        git commit -qm "init"
+    ) >/dev/null 2>&1
+    echo "$d"
+}
+d="$(make_version_repo)"
+(
+    cd "$d"
+    echo "r" > versao_1_0_0/reports/20260101-09-versioned.md
+    echo "" >> versao_1_0_0/REGISTRY.md
+    git add -A
+) >/dev/null 2>&1
+check "reg: versão ativa remove prefixo versao_* e bloqueia sem REGISTRY" block "$(run_reg "$d")"
+rm -rf "$d"
+d="$(make_version_repo)"
+(
+    cd "$d"
+    echo "r" > versao_1_0_0/reports/20260101-10-versioned-ok.md
+    echo "| 20260101-10 | reports/20260101-10-versioned-ok.md | report | frio | — |" >> versao_1_0_0/REGISTRY.md
+    git add -A
+) >/dev/null 2>&1
+check "reg: versão ativa valida contra REGISTRY local sem prefixo" pass "$(run_reg "$d")"
+rm -rf "$d"
+
 # --- G-SLF: assert-self-path (ADR-021 — repo git descartável por caso) -------
 echo "== assert-self-path (G-SLF) =="
 run_slf() {
@@ -312,6 +351,7 @@ make_hrb_repo() {
         git config user.email "tests@hbn.local"
         git config user.name "hbn-guard-tests"
         mkdir -p .hbn/hearbacks docs
+        echo "." > .hbn/active-version
         echo base > docs/base.md
         git add -A
         git commit -qm "init"
@@ -377,6 +417,7 @@ make_num_repo() { # $1 = conteúdo inline de escrita_paralela, ex: "[alpha-1, be
         git config user.email "tests@hbn.local"
         git config user.name "hbn-guard-tests"
         mkdir -p .hbn/relay .hbn/messages .hbn/proposals reports docs/prompts docs
+        echo "." > .hbn/active-version
         cat > .hbn/relay/STATE.md <<EOF
 ---
 proxima_acao: "auditar os guards da orquestracao-start"
@@ -581,6 +622,7 @@ make_ptr_repo() {
         git config user.email "tests@hbn.local"
         git config user.name "hbn-guard-tests"
         mkdir -p .hbn/messages docs/prompts core
+        echo "." > .hbn/active-version
         printf -- '---\npath: core/alvo-spec.md\n---\ncorpo\n' > core/alvo-spec.md
         printf -- '---\npath: docs/outro-lugar.md\n---\ncorpo\n' > core/mentiroso.md
         git add -A
@@ -659,6 +701,7 @@ make_rlt_repo() { # $1 = proxima_acao do STATE  $2 = ultima_atualizacao do STATE
         git config user.email "tests@hbn.local"
         git config user.name "hbn-guard-tests"
         mkdir -p .hbn/relay .hbn/messages docs
+        echo "." > .hbn/active-version
         cat > .hbn/relay/STATE.md <<EOF
 ---
 proxima_acao: "${1}"
@@ -854,11 +897,11 @@ rm -rf "$d"
 
 # G-CR: assert-canonical-root
 d="$(mktemp -d)"
-( cd "$d" && git init -q && mkdir .hbn && echo "/outro/lugar/canonico" > .hbn/canonical-root ) >/dev/null 2>&1
+( cd "$d" && git init -q && mkdir .hbn && echo "." > .hbn/active-version && echo "/outro/lugar/canonico" > .hbn/canonical-root ) >/dev/null 2>&1
 check "cr: toplevel ≠ canonical-root (e em /tmp)"       block "$( ( cd "$d" && bash "$GUARDS_DIR/assert-canonical-root.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 d="$(mktemp -d -p "$TESTS_DIR" cr-pass.XXXXXX)"
-( cd "$d" && git init -q && mkdir .hbn && pwd -P > .hbn/canonical-root ) >/dev/null 2>&1
+( cd "$d" && git init -q && mkdir .hbn && echo "." > .hbn/active-version && pwd -P > .hbn/canonical-root ) >/dev/null 2>&1
 check "cr: toplevel == canonical-root (fora de /tmp)"   pass  "$( ( cd "$d" && bash "$GUARDS_DIR/assert-canonical-root.sh" >/dev/null 2>&1 ); echo $? )"
 # I-05 (F-05): CI=true SOLTO em ambiente local é bypass → BLOCK, mesmo com raiz certa
 check "cr: CI=true local (sem GITHUB_ACTIONS+HBN_DIFF_BASE) → BLOCK (F-05)" block "$( ( cd "$d" && CI=true bash "$GUARDS_DIR/assert-canonical-root.sh" >/dev/null 2>&1 ); echo $? )"
@@ -869,6 +912,7 @@ rm -rf "$d"
 d="$(mktemp -d -p "$TESTS_DIR" cr-alt.XXXXXX)"
 (
     cd "$d" && git init -q && mkdir .hbn
+    echo "." > .hbn/active-version
     echo "/outro/lugar/canonico" > .hbn/canonical-root
     printf '# raizes alternativas de teste\n%s\n' "$(pwd -P)" > .hbn/alt-roots
 ) >/dev/null 2>&1
@@ -876,6 +920,27 @@ check "cr: raiz divergente em .hbn/alt-roots → PASS (rastreável)" pass "$( ( 
 # I-05: alt-roots VAZIO (só comentário) + raiz divergente → BLOCK (fail-closed)
 ( cd "$d" && printf '# vazio de proposito\n' > .hbn/alt-roots ) >/dev/null 2>&1
 check "cr: alt-roots vazio + raiz divergente → BLOCK"   block "$( ( cd "$d" && bash "$GUARDS_DIR/assert-canonical-root.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+# M-A: ponteiro de versão ativa é obrigatório e fail-closed.
+d="$(mktemp -d -p "$TESTS_DIR" cr-missing-active.XXXXXX)"
+( cd "$d" && git init -q && mkdir .hbn && pwd -P > .hbn/canonical-root ) >/dev/null 2>&1
+check "cr: active-version ausente → BLOCK (M-A fail-closed)" block "$( ( cd "$d" && bash "$GUARDS_DIR/assert-canonical-root.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+d="$(mktemp -d -p "$TESTS_DIR" cr-conflict-active.XXXXXX)"
+(
+    cd "$d" && git init -q && mkdir .hbn
+    pwd -P > .hbn/canonical-root
+    printf '<<<<<<< ours\n.\n=======\nversao_1_0_0\n>>>>>>> theirs\n' > .hbn/active-version
+) >/dev/null 2>&1
+check "cr: active-version com conflito de merge → BLOCK" block "$( ( cd "$d" && bash "$GUARDS_DIR/assert-canonical-root.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+d="$(mktemp -d -p "$TESTS_DIR" cr-version-root.XXXXXX)"
+(
+    cd "$d" && git init -q && mkdir -p .hbn versao_1_0_0
+    pwd -P > .hbn/canonical-root
+    echo "versao_1_0_0" > .hbn/active-version
+) >/dev/null 2>&1
+check "cr: active-version aponta para versao_* existente → PASS" pass "$( ( cd "$d" && bash "$GUARDS_DIR/assert-canonical-root.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
 # G-TMP: forbid-tmp-worktree — caso-ruim FORÇA /tmp literal (mktemp honra
@@ -911,6 +976,7 @@ make_exc_repo() { # $1=implementador $2=agent_id $3=com_auth(y/n) $4=state_extra
         git config user.email "tests@hbn.local"
         git config user.name "hbn-guard-tests"
         mkdir -p .hbn/relay .hbn/readbacks docs
+        echo "." > .hbn/active-version
         local auth=""
         [[ "$3" == "y" ]] && auth='"authorization":{"human":"Tester Humano","evidence":"ordem em chat 2026-06-11"},'
         cat > .hbn/readbacks/0007-t.json <<EOF
@@ -1022,6 +1088,7 @@ make_fam_state_repo() { # $1=implementador $2=auditores inline
         git config user.email "tests@hbn.local"
         git config user.name "hbn-guard-tests"
         mkdir -p .hbn/relay
+        echo "." > .hbn/active-version
         printf -- '---\natribuicao:\n  implementador: %s\n  auditores: %s\n---\n' "$1" "$2" > .hbn/relay/STATE.md
         git add -A && git commit -qm init
     ) >/dev/null 2>&1
@@ -1061,6 +1128,16 @@ rm -rf "$r"
 r="$(mktemp -d)"
 ( mkdir -p "$r/projetos/soltinho/.hbn" ) >/dev/null 2>&1
 check "stray: .hbn órfão em subpasta sem .git"          block "$(run_stray "$r")"
+rm -rf "$r"
+# M-A: .hbn dentro de uma pasta de versão registrada não é órfão.
+r="$(mktemp -d)"
+( mkdir -p "$r/repoV/.git" "$r/repoV/.hbn" "$r/repoV/versao_1_0_0/.hbn" && echo "versao_1_0_0" > "$r/repoV/.hbn/active-version" ) >/dev/null 2>&1
+check "stray: .hbn dentro de versao_* registrada → PASS" pass "$(run_stray "$r")"
+rm -rf "$r"
+# Sem ponteiro, versao_* não ganha allowlist implícita.
+r="$(mktemp -d)"
+( mkdir -p "$r/repoSemPtr/.git" "$r/repoSemPtr/versao_1_0_0/.hbn" ) >/dev/null 2>&1
+check "stray: .hbn em versao_* sem active-version → BLOCK" block "$(run_stray "$r")"
 # caso-bom: .hbn sob backups/ agora passa pela ALLOWLIST (*/backups/* em
 # .hbn/stray-allowlist — v2 I-07; a poda hardcoded morreu)
 rm -rf "$r"; r="$(mktemp -d)"
@@ -1117,6 +1194,7 @@ make_tok_repo() { # $1 = campo bastao_token_sha256 (vazio = sem campo)
         git config user.email "tests@hbn.local"
         git config user.name "hbn-guard-tests"
         mkdir -p .hbn/relay
+        echo "." > .hbn/active-version
         {
             echo '---'
             echo 'proxima_acao: "teste"'

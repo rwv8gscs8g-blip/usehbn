@@ -54,6 +54,12 @@ fi
 
 STATE_PATH=".hbn/relay/STATE.md"
 REGISTRY="REGISTRY.md"
+STATE_REPO_PATH="$(guard_version_repo_path "$STATE_PATH" || true)"
+REGISTRY_REPO_PATH="$(guard_version_repo_path "$REGISTRY" || true)"
+if [[ -z "$STATE_REPO_PATH" || -z "$REGISTRY_REPO_PATH" ]]; then
+    guard_fail "Versão ativa inválida: ${HBN_ACTIVE_VERSION_ERROR:-erro desconhecido}. Não é possível localizar STATE/REGISTRY da versão."
+    exit 1
+fi
 
 # Blob a validar: índice (staged) localmente; HEAD em CI (E-FECH-01/02).
 blob_ref() {
@@ -65,7 +71,7 @@ blob_ref() {
 }
 
 state_content() {
-    git show "$(blob_ref "$STATE_PATH")" 2>/dev/null || true
+    git show "$(blob_ref "$STATE_REPO_PATH")" 2>/dev/null || true
 }
 
 guard_added_files() {
@@ -73,15 +79,15 @@ guard_added_files() {
         git diff --name-only --diff-filter=AR "${HBN_DIFF_BASE}...HEAD" 2>/dev/null || true
     else
         git diff --cached --name-only --diff-filter=AR 2>/dev/null || true
-    fi
+    fi | guard_paths_to_version_paths
 }
 
 # Linhas ADICIONADAS ao REGISTRY neste diff (staged local; range em CI).
 registry_added_lines() {
     if [[ -n "${HBN_DIFF_BASE:-}" ]]; then
-        git diff "${HBN_DIFF_BASE}...HEAD" -- "$REGISTRY" 2>/dev/null
+        git diff "${HBN_DIFF_BASE}...HEAD" -- "$REGISTRY_REPO_PATH" 2>/dev/null
     else
-        git diff --cached -- "$REGISTRY" 2>/dev/null
+        git diff --cached -- "$REGISTRY_REPO_PATH" 2>/dev/null
     fi | grep -E '^\+\|' | sed 's/^+//' || true
 }
 
@@ -104,7 +110,8 @@ AUD_LINHA="$(state_content | grep -E '^[[:space:]]*auditores:' | head -1 || true
 if [[ "$AUD_LINHA" =~ \[([^]]*)\] ]]; then
     KNOWN="$KNOWN $(echo "${BASH_REMATCH[1]}" | tr ',' ' ' | tr -d '"' | tr -d "'" | xargs || true)"
 fi
-MODELS_DIR="${HBN_MODELS_DIR:-.hbn/models}"
+ACTIVE_ROOT="$(get_canonical_root || true)"
+MODELS_DIR="${HBN_MODELS_DIR:-${ACTIVE_ROOT}/.hbn/models}"
 if [[ -d "$MODELS_DIR" ]]; then
     for p in "$MODELS_DIR"/*.json; do
         [[ -e "$p" ]] || continue

@@ -23,8 +23,16 @@ Conjunto (ordem do runner): `assert-canonical-root` → `forbid-tmp-worktree` �
 `forbid-env-files` → `forbid-legacy-paths` → `assert-scope-lock`.
 Runner: `bash guards/hbn-guards-runner.sh` (pre-commit local e CI).
 
-Config: `.hbn/canonical-root` (1 linha, raiz esperada) e
+Config: `.hbn/canonical-root` (1 linha, raiz física esperada do repo),
+`.hbn/active-version` (1 linha: `.` ou `versao_X_Y_Z`) e
 `.hbn/forbidden-paths.txt` (opcional; sem ele o guard de legacy libera).
+`guards/lib/common.sh::get_canonical_root()` resolve a raiz operacional da
+versão ativa; com `.` o comportamento permanece igual ao da raiz atual.
+
+Hooks locais em `.git/hooks/pre-commit` e `.git/hooks/commit-msg` são shims
+finos com marcador `HBN_HOOK_SHIM_VERSION=M-A-20260614`. Eles leem
+`.hbn/active-version` e delegam ao runner/guards da versão ativa. O runner faz
+pre-flight e bloqueia se os hooks estiverem ausentes ou desatualizados.
 Bypass de emergência: `HBN_GUARDS_BYPASS=1` + `[bypass-hbn-guards]` na
 mensagem + nota em `.hbn/bypasses/` — nunca para raiz canônica.
 

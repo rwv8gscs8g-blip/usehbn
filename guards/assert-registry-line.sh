@@ -48,14 +48,19 @@ if guard_check_bypass; then
 fi
 
 REGISTRY="REGISTRY.md"
+REGISTRY_REPO_PATH="$(guard_version_repo_path "$REGISTRY" || true)"
+if [[ -z "$REGISTRY_REPO_PATH" ]]; then
+    guard_fail "Versão ativa inválida: ${HBN_ACTIVE_VERSION_ERROR:-erro desconhecido}. Não é possível localizar o REGISTRY da versão."
+    exit 1
+fi
 
 # Conteúdo do REGISTRY que SERÁ commitado: índice (staged) localmente;
 # HEAD em CI (E-FECH-02 — a working tree não prova nada sobre o commit).
 registry_content() {
     if [[ -n "${HBN_DIFF_BASE:-}" ]]; then
-        git show "HEAD:${REGISTRY}" 2>/dev/null || true
+        git show "HEAD:${REGISTRY_REPO_PATH}" 2>/dev/null || true
     else
-        git show ":${REGISTRY}" 2>/dev/null || true
+        git show ":${REGISTRY_REPO_PATH}" 2>/dev/null || true
     fi
 }
 
@@ -66,7 +71,7 @@ guard_added_files() {
         git diff --name-only --diff-filter=AR "${HBN_DIFF_BASE}...HEAD" 2>/dev/null || true
     else
         git diff --cached --name-only --diff-filter=AR 2>/dev/null || true
-    fi
+    fi | guard_paths_to_version_paths
 }
 
 ADDED="$(guard_added_files)"

@@ -43,9 +43,14 @@ if [[ "${CI:-}" == "true" ]]; then
     exit 1
 fi
 
-CANONICAL="$(guard_canonical_root)"
-if [[ -z "$CANONICAL" ]]; then
+REPO_CANONICAL="$(guard_repo_canonical_root)"
+if [[ -z "$REPO_CANONICAL" ]]; then
     guard_fail "Arquivo .hbn/canonical-root ausente ou ilegível na raiz do repo. Não é possível validar a raiz canônica."
+    exit 1
+fi
+ACTIVE_ROOT="$(get_canonical_root || true)"
+if [[ -z "$ACTIVE_ROOT" ]]; then
+    guard_fail "Ponteiro .hbn/active-version inválido: ${HBN_ACTIVE_VERSION_ERROR:-erro desconhecido}. Conflito/ausência/corrupção do ponteiro é fail-closed até resolução manual explícita."
     exit 1
 fi
 
@@ -58,11 +63,12 @@ if [[ -d "$TOPLEVEL_REAL" ]]; then
 fi
 
 # Normaliza canonical para resolver symlinks também
-if [[ -d "$CANONICAL" ]]; then
-    CANONICAL_REAL="$(cd "$CANONICAL" && pwd -P)"
+if [[ -d "$REPO_CANONICAL" ]]; then
+    REPO_CANONICAL_REAL="$(cd "$REPO_CANONICAL" && pwd -P)"
 else
-    CANONICAL_REAL="$CANONICAL"
+    REPO_CANONICAL_REAL="$REPO_CANONICAL"
 fi
+ACTIVE_ROOT_REAL="$(cd "$ACTIVE_ROOT" && pwd -P)"
 
 # Raízes ALTERNATIVAS autorizadas (.hbn/alt-roots — onda 0006, F-05):
 # uma raiz absoluta ou glob bash por linha; arquivo VERSIONADO; mudança só
@@ -84,15 +90,23 @@ matches_alt_root() {
 
 FAIL=0
 ALT=0
-if [[ "$TOPLEVEL_REAL" != "$CANONICAL_REAL" ]]; then
+if [[ "$TOPLEVEL_REAL" != "$REPO_CANONICAL_REAL" ]]; then
     if matches_alt_root "$TOPLEVEL_REAL"; then
         ALT=1
-        guard_warn "Raiz ALTERNATIVA autorizada por .hbn/alt-roots: $TOPLEVEL_REAL (≠ canônica $CANONICAL_REAL). Rastreável — ver hearback que autorizou a entrada."
+        guard_warn "Raiz ALTERNATIVA autorizada por .hbn/alt-roots: $TOPLEVEL_REAL (≠ canônica $REPO_CANONICAL_REAL). Rastreável — ver hearback que autorizou a entrada."
     else
-        guard_fail "git toplevel ($TOPLEVEL_REAL) ≠ raiz canônica ($CANONICAL_REAL) e não consta em .hbn/alt-roots."
+        guard_fail "git toplevel ($TOPLEVEL_REAL) ≠ raiz canônica do repo ($REPO_CANONICAL_REAL) e não consta em .hbn/alt-roots."
         FAIL=1
     fi
 fi
+
+case "${ACTIVE_ROOT_REAL}/" in
+    "${TOPLEVEL_REAL}/"*) ;;
+    *)
+        guard_fail "Raiz da versão ativa (${ACTIVE_ROOT_REAL}) está fora do repo Git (${TOPLEVEL_REAL}). Ponteiro .hbn/active-version inválido."
+        FAIL=1
+        ;;
+esac
 
 # Recusa worktrees em /tmp ou /private/tmp explicitamente, mesmo que canonical-root
 # estivesse mal configurado.
@@ -105,15 +119,15 @@ esac
 
 if [[ $FAIL -eq 0 ]]; then
     if [[ $ALT -eq 1 ]]; then
-        guard_ok "Raiz alternativa autorizada (.hbn/alt-roots): $TOPLEVEL_REAL"
+        guard_ok "Raiz alternativa autorizada (.hbn/alt-roots): $TOPLEVEL_REAL; versão ativa: $ACTIVE_ROOT_REAL"
     else
-        guard_ok "Raiz canônica OK: $TOPLEVEL_REAL"
+        guard_ok "Raiz canônica OK: $TOPLEVEL_REAL; versão ativa: $ACTIVE_ROOT_REAL"
     fi
     exit 0
 fi
 
 echo "  Como corrigir:" >&2
-echo "    1. Mover o trabalho de volta para: ${CANONICAL_REAL}" >&2
+echo "    1. Mover o trabalho de volta para: ${REPO_CANONICAL_REAL}" >&2
 echo "    2. Em caso de worktree perdido: bash guards/forbid-tmp-worktree.sh para detalhes" >&2
 echo "    3. Registrar P0 em .hbn/readbacks/ se entregáveis foram criados na raiz errada" >&2
 echo "    4. NUNCA usar HBN_GUARDS_BYPASS=1 para contornar esta regra" >&2

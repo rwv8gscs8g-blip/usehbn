@@ -39,10 +39,12 @@ if guard_check_bypass; then
 fi
 
 blob_ref() {
+    local p
+    p="$(guard_version_repo_path "$1")" || return 1
     if [[ -n "${HBN_DIFF_BASE:-}" ]]; then
-        echo "HEAD:$1"
+        echo "HEAD:$p"
     else
-        echo ":$1"
+        echo ":$p"
     fi
 }
 

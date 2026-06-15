@@ -48,6 +48,7 @@ CHANGE="${2:-HEAD}"
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 cd "$REPO_ROOT"
+ACTIVE_ROOT="$(get_canonical_root 2>/dev/null || echo "$REPO_ROOT")"
 
 # --- Assinatura SSH do humano (onda 0006 I-08 — ADR-023 Decisão 4 sai do
 # backlog): chaves públicas registradas em .hbn/operators/*.pub (versionado).
@@ -56,7 +57,7 @@ cd "$REPO_ROOT"
 # vira IMPOSSÍVEL (a IA não tem a chave privada), não apenas proibida.
 # SEM chave registrada: comportamento anterior + aviso "assinatura pendente
 # de chave" (ativação plena = decisão humana de gerar/registrar a chave).
-OPS_DIR="${HBN_OPERATORS_DIR:-${REPO_ROOT}/.hbn/operators}"
+OPS_DIR="${HBN_OPERATORS_DIR:-${ACTIVE_ROOT}/.hbn/operators}"
 have_operator_keys() { compgen -G "${OPS_DIR}/*.pub" >/dev/null 2>&1; }
 verify_hearback_sig() { # <hearback-path> → 0 assinado por operador registrado
     local hb="$1" sig="${hb}.sig" pub principal allowed rc=1
@@ -107,7 +108,8 @@ if [[ -z "$HB" ]]; then
     RC=0
     while IFS= read -r hb; do
         [[ -z "$hb" ]] && continue
-        check_signature "$hb" || RC=1
+        hb_disk="$(guard_version_repo_path "$hb" || echo "$hb")"
+        check_signature "$hb_disk" || RC=1
     done <<< "$HB_TOUCHED"
     [[ $RC -ne 0 ]] && exit 1
     guard_ok "Diff staged toca apenas .hbn/hearbacks/ (commit puro)$(have_operator_keys && echo " com assinatura válida")."
@@ -119,9 +121,10 @@ if [[ -z "$CHANGE_SHA" ]]; then
     guard_fail "Commit da mudança '${CHANGE}' não resolve para um commit."
     exit 1
 fi
+HB_REPO_PATH="$(guard_version_repo_path "$HB" || echo "$HB")"
 
 # (1) O hearback precisa estar COMMITADO no histórico até a mudança.
-HB_COMMIT="$(git log -1 --format=%H "$CHANGE_SHA" -- "$HB" 2>/dev/null || true)"
+HB_COMMIT="$(git log -1 --format=%H "$CHANGE_SHA" -- "$HB_REPO_PATH" 2>/dev/null || true)"
 if [[ -z "$HB_COMMIT" ]]; then
     guard_fail "Hearback '${HB}' não existe no histórico até '${CHANGE}' (ADR-023 Decisão 1b: a autorização PRÉ-EXISTE à mudança; hearback staged/untracked não vale)."
     exit 1
@@ -134,7 +137,7 @@ if [[ "$HB_COMMIT" == "$CHANGE_SHA" ]]; then
 fi
 
 # (3) Pureza: o commit do hearback toca APENAS .hbn/hearbacks/.
-IMPUROS="$(git show --name-only --format= "$HB_COMMIT" | grep -v '^\.hbn/hearbacks/' | grep -v '^$' || true)"
+IMPUROS="$(git show --name-only --format= "$HB_COMMIT" | guard_paths_to_version_paths | grep -v '^\.hbn/hearbacks/' | grep -v '^$' || true)"
 if [[ -n "$IMPUROS" ]]; then
     guard_fail "O commit do hearback (${HB_COMMIT:0:7}) NÃO é puro — toca também: $(echo "$IMPUROS" | tr '\n' ' ')(ADR-023 Decisão 1b: o commit do hearback só pode tocar .hbn/hearbacks/)."
     exit 1
@@ -142,7 +145,7 @@ fi
 
 # (4) Assinatura SSH (onda 0006 I-08 — ADR-023 D4): com chave registrada,
 #     hearback sem .sig válido não autoriza; sem chave, aviso.
-if ! check_signature "$HB"; then
+if ! check_signature "$HB_REPO_PATH"; then
     exit 1
 fi
 

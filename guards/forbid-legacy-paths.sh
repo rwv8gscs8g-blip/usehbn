@@ -17,8 +17,12 @@ if guard_check_bypass; then
     exit 0
 fi
 
-REPO_ROOT="$(git rev-parse --show-toplevel)"
-FORBIDDEN_FILE="${REPO_ROOT}/.hbn/forbidden-paths.txt"
+ACTIVE_ROOT="$(get_canonical_root || true)"
+if [[ -z "$ACTIVE_ROOT" ]]; then
+    guard_fail "Versão ativa inválida: ${HBN_ACTIVE_VERSION_ERROR:-erro desconhecido}. Não é possível localizar forbidden-paths da versão ativa."
+    exit 1
+fi
+FORBIDDEN_FILE="${ACTIVE_ROOT}/.hbn/forbidden-paths.txt"
 
 if [[ ! -f "$FORBIDDEN_FILE" ]]; then
     guard_log "Sem .hbn/forbidden-paths.txt — guard sem alvos, liberando."

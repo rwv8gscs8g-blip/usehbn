@@ -37,7 +37,7 @@ guard_added_files() {
         git diff --name-only --diff-filter=AR "${HBN_DIFF_BASE}...HEAD" 2>/dev/null || true
     else
         git diff --cached --name-only --diff-filter=AR 2>/dev/null || true
-    fi
+    fi | guard_paths_to_version_paths
 }
 
 ADDED="$(guard_added_files)"
@@ -49,10 +49,12 @@ fi
 # Referência do blob a validar: índice (staged) localmente; HEAD em CI.
 # E-FECH-01: NUNCA a working tree — ela não é o que será commitado.
 blob_ref() {
+    local p
+    p="$(guard_version_repo_path "$1")" || return 1
     if [[ -n "${HBN_DIFF_BASE:-}" ]]; then
-        echo "HEAD:$1"
+        echo "HEAD:$p"
     else
-        echo ":$1"
+        echo ":$p"
     fi
 }
 

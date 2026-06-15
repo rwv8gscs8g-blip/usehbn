@@ -25,7 +25,12 @@ if guard_check_bypass; then
 fi
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
-READBACKS_DIR="${REPO_ROOT}/.hbn/readbacks"
+ACTIVE_ROOT="$(get_canonical_root || true)"
+if [[ -z "$ACTIVE_ROOT" ]]; then
+    guard_fail "Versão ativa inválida: ${HBN_ACTIVE_VERSION_ERROR:-erro desconhecido}. Não é possível localizar readbacks da versão ativa."
+    exit 1
+fi
+READBACKS_DIR="${ACTIVE_ROOT}/.hbn/readbacks"
 
 # Identifica readback ativo (último numericamente em .hbn/readbacks/)
 ACTIVE_RB="$(ls -1 "${READBACKS_DIR}"/[0-9]*.json 2>/dev/null | sort | tail -1 || true)"

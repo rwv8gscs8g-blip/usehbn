@@ -42,7 +42,13 @@ fi
 
 MSG_FILE="${1:-}"
 STATE_PATH=".hbn/relay/STATE.md"
-READBACKS_DIR="${HBN_READBACKS_DIR:-.hbn/readbacks}"
+STATE_REPO_PATH="$(guard_version_repo_path "$STATE_PATH" || true)"
+ACTIVE_ROOT="$(get_canonical_root || true)"
+if [[ -z "$STATE_REPO_PATH" || -z "$ACTIVE_ROOT" ]]; then
+    guard_fail "Versão ativa inválida: ${HBN_ACTIVE_VERSION_ERROR:-erro desconhecido}. Não é possível localizar STATE/readbacks da versão ativa."
+    exit 1
+fi
+READBACKS_DIR="${HBN_READBACKS_DIR:-${ACTIVE_ROOT}/.hbn/readbacks}"
 
 blob_ref() {
     if [[ -n "${HBN_DIFF_BASE:-}" ]]; then
@@ -53,16 +59,20 @@ blob_ref() {
 }
 
 state_content() {
-    git show "$(blob_ref "$STATE_PATH")" 2>/dev/null || cat "$STATE_PATH" 2>/dev/null || true
+    git show "$(blob_ref "$STATE_REPO_PATH")" 2>/dev/null || cat "${ACTIVE_ROOT}/${STATE_PATH}" 2>/dev/null || true
 }
 
 # Readback ativo = último numérico (mesma regra do G-SCO); conteúdo do blob
 # staged quando disponível (E-FECH-01), senão do disco (readbacks são
 # force-added; untracked recém-criado também governa — G-SCO já o lê assim).
 ACTIVE_RB="$(ls -1 "${READBACKS_DIR}"/[0-9]*.json 2>/dev/null | sort | tail -1 || true)"
+ACTIVE_RB_REPO_PATH=""
+if [[ -n "$ACTIVE_RB" ]]; then
+    ACTIVE_RB_REPO_PATH="$(guard_version_repo_path ".hbn/readbacks/$(basename "$ACTIVE_RB")" || true)"
+fi
 rb_content() {
     [[ -z "$ACTIVE_RB" ]] && return 0
-    git show "$(blob_ref "$ACTIVE_RB")" 2>/dev/null || cat "$ACTIVE_RB" 2>/dev/null || true
+    git show "$(blob_ref "$ACTIVE_RB_REPO_PATH")" 2>/dev/null || cat "$ACTIVE_RB" 2>/dev/null || true
 }
 
 if [[ -z "$ACTIVE_RB" ]]; then
