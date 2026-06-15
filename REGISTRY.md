@@ -444,7 +444,7 @@ sincronizado ao roadmap M-A → M-B → M-C → Credenciamento. Sem `git mv`, se
 | 20260614-203424-codex-prompt-opus-orquestrador-boot-corrigido | .hbn/results/20260614-203424-codex-prompt-opus-orquestrador-boot-corrigido.md | prompt | frio | — | 2026-06-14T20:34:24-03:00 |
 | 20260614-204536-codex-prompt-opus-orquestrador-boot-localizador | .hbn/results/20260614-204536-codex-prompt-opus-orquestrador-boot-localizador.md | prompt | frio | — | 2026-06-14T20:45:36-03:00 |
 
-## Onda S0 (2026-06-14) — rollback, perfis e INDEX — status: in_progress, readback 0013
+## Onda S0 (2026-06-14) — rollback, perfis e INDEX — status: completed, readback 0013
 
 Correcoes aditivas/corretivas pos-M-A sem mudanca de logica de guard: bug D3
 do rollback, perfis cross-family adicionais, INDEX reconciliado com STATE e
@@ -454,3 +454,7 @@ bookkeeping da onda S0.
 |---|---|---|---|---|---|
 | 20260614-222329-codex-grok-profile | .hbn/models/grok.json | profile | quente | — | 2026-06-14T22:23:29-03:00 |
 | 20260614-222329-codex-cursor-profile | .hbn/models/cursor.json | profile | quente | — | 2026-06-14T22:23:29-03:00 |
+| 20260614-222107-codex-readback-s0-rollback-perfis-index | .hbn/readbacks/0013-s0-rollback-perfis-index.json | readback | quente | — | 2026-06-14T22:21:07-03:00 |
+| 20260614-222107-codex-handoff-s0 | .hbn/messages/20260614-222107-codex-handoff-s0.md | handoff | quente | — | 2026-06-14T22:21:07-03:00 |
+| 20260614-222107-codex-s0-rollback-perfis-index | .hbn/results/20260614-222107-codex-s0-rollback-perfis-index.md | result | frio | — | 2026-06-14T22:21:07-03:00 |
+| 20260614-222107-codex-state-s0-rollback-perfis-index | .hbn/relay/STATE.md | state | quente | — | 2026-06-14T22:21:07-03:00 |
