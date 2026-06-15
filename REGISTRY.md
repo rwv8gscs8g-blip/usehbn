@@ -551,3 +551,14 @@ onda antes do S2.
 | 20260615-113115-cursor-cross-ia-s1-scope-lock | .hbn/results/20260615-113115-cursor-cross-ia-s1-scope-lock.md | audit-result | frio | — | 2026-06-15T11:31:15-03:00 |
 | 20260615-113920-codex-state-selagem-s1 | .hbn/relay/STATE.md | state | quente | — | 2026-06-15T11:39:20-03:00 |
 | 20260615-113920-codex-handoff-selagem-s1 | .hbn/messages/20260615-113920-codex-handoff-selagem-s1.md | handoff | quente | — | 2026-06-15T11:39:20-03:00 |
+
+## Onda B17 (2026-06-15) — anti-smuggling meta-path tipo+nome — status: in_progress, readback 0019
+
+Endurecimento do `assert-scope-lock` contra smuggling em meta-paths: arquivos
+sob `.hbn/messages/` e `.hbn/bypasses/` deixam de ser auto-permitidos por
+diretorio amplo. A dispensa de `scope.files_allowed` fica restrita a `.json` ou
+`.md` com basename de evento ADR-025, ou a nomes-endereco conhecidos.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260615-115415-codex-readback-b17-anti-smuggling-meta-path | .hbn/readbacks/0019-b17-anti-smuggling-meta-path.json | readback | quente | — | 2026-06-15T11:54:15-03:00 |
