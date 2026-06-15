@@ -197,6 +197,30 @@ EOF
 try_burla "B16 auto-emenda files_allowed + uso"          "G-SCO"   "$( ( cd "$d" && bash "$GUARDS_DIR/assert-scope-lock.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
+# B17 — smuggling por meta-path: payload de tipo/nome arbitrario em caminhos de
+# coordenacao nao pode ser auto-permitido pelo scope-lock.
+d="$(mk_repo)"
+(
+  cd "$d" && git commit -q --allow-empty -m i && mkdir -p .hbn/readbacks .hbn/bypasses .hbn/messages \
+  && cat > .hbn/readbacks/0001-t.json <<'EOF'
+{
+  "readback_id": "0001-t",
+  "track": "safe_track",
+  "human_status": "confirmed",
+  "scope": {
+    "files_allowed": ["docs/**"],
+    "files_forbidden": []
+  }
+}
+EOF
+  git add .hbn/readbacks/0001-t.json && git commit -qm readback \
+  && printf 'echo payload\n' > .hbn/bypasses/payload.sh \
+  && printf 'print(1)\n' > .hbn/messages/exploit.py \
+  && git add .hbn/bypasses/payload.sh .hbn/messages/exploit.py
+) >/dev/null 2>&1
+try_burla "B17 smuggling meta-path tipo/nome arbitrario" "G-SCO"   "$( ( cd "$d" && bash "$GUARDS_DIR/assert-scope-lock.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------
 echo ""
 printf '%-52s | %-8s | %s\n' "BURLA" "GUARD" "RESULTADO"

@@ -60,6 +60,9 @@
 #   S1 (readback 0017): +3 checks G-SCO contra auto-emenda de files_allowed
 #   (ca69ef9): emenda+uso bloqueia; extensão isolada passa; depósito em escopo
 #   vigente passa.
+#   B17 (readback 0019): +5 checks G-SCO para meta-path tipo+nome (2 block:
+#   payload.sh/exploit.py fora do escopo; 3 pass: handoff ADR-025, hearback
+#   ativo e nota de bypass ADR-025). Total: 140.
 # =============================================================================
 set -uo pipefail
 
@@ -957,6 +960,33 @@ rm -rf "$d"
 d="$(make_sco_repo safe_track confirmed '[".hbn/readbacks/0001-t.json","docs/novo/**"]')"
 ( cd "$d" && mkdir -p docs/novo && echo artefato > docs/novo/artefato.md && git add docs/novo/artefato.md ) >/dev/null 2>&1
 check "sco: depósito em escopo já vigente → passa" pass "$(run_sco "$d")"
+rm -rf "$d"
+
+# B17: meta-path deixa de ser diretorio sempre permitido; so tipo+nome
+# protocolar passa sem files_allowed.
+d="$(make_sco_repo safe_track confirmed '["docs/**"]')"
+( cd "$d" && mkdir -p .hbn/bypasses && echo 'echo payload' > .hbn/bypasses/payload.sh && git add .hbn/bypasses/payload.sh ) >/dev/null 2>&1
+check "sco: B17 bloqueia .hbn/bypasses/payload.sh fora do escopo" block "$(run_sco "$d")"
+rm -rf "$d"
+
+d="$(make_sco_repo safe_track confirmed '["docs/**"]')"
+( cd "$d" && mkdir -p .hbn/messages && echo 'print(1)' > .hbn/messages/exploit.py && git add .hbn/messages/exploit.py ) >/dev/null 2>&1
+check "sco: B17 bloqueia .hbn/messages/exploit.py fora do escopo" block "$(run_sco "$d")"
+rm -rf "$d"
+
+d="$(make_sco_repo safe_track confirmed '["docs/**"]')"
+( cd "$d" && mkdir -p .hbn/messages && echo handoff > .hbn/messages/20260615-120000-codex-handoff-x.md && git add .hbn/messages/20260615-120000-codex-handoff-x.md ) >/dev/null 2>&1
+check "sco: B17 handoff ADR-025 .md auto-permitido" pass "$(run_sco "$d")"
+rm -rf "$d"
+
+d="$(make_sco_repo safe_track confirmed '["docs/**"]')"
+( cd "$d" && mkdir -p .hbn/hearbacks && echo '{"status":"confirmed"}' > .hbn/hearbacks/0001-ok.json && git add .hbn/hearbacks/0001-ok.json ) >/dev/null 2>&1
+check "sco: B17 hearback do readback ativo .json auto-permitido" pass "$(run_sco "$d")"
+rm -rf "$d"
+
+d="$(make_sco_repo safe_track confirmed '["docs/**"]')"
+( cd "$d" && mkdir -p .hbn/bypasses && echo motivo > .hbn/bypasses/20260615-120000-codex-motivo-teste.md && git add .hbn/bypasses/20260615-120000-codex-motivo-teste.md ) >/dev/null 2>&1
+check "sco: B17 nota de bypass ADR-025 .md auto-permitida" pass "$(run_sco "$d")"
 rm -rf "$d"
 
 # G-CR: assert-canonical-root
