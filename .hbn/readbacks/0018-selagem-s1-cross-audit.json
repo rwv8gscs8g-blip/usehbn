@@ -1,0 +1,77 @@
+{
+  "readback_id": "0018-selagem-s1-cross-audit",
+  "execution_id": "selagem-s1-cross-audit-2026-06-15",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0018-selagem-s1-cross-audit.json",
+  "understanding": "Selar S1: depositar os dois pareceres de cross-audit S1, avancar STATE para S1 ratificado e selado, e registrar B17 como proxima onda antes do S2.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio autorizou em 2026-06-15 a selagem do S1 apos cross-audit Gemini+Cursor com APROVA_S1: SIM.",
+    "created_at": "2026-06-15T11:39:20-03:00",
+    "note": "Autorizacao humana para safe_track de selagem S1. B17 e pre-existente e nao bloqueia S1; deve ser tratado na proxima onda antes do S2."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0018-selagem-s1-cross-audit.json",
+      "REGISTRY.md",
+      ".hbn/relay/STATE.md",
+      ".hbn/results/20260615-112714-gemini-3-5-cross-ia-s1-scope-lock.md",
+      ".hbn/results/20260615-113115-cursor-cross-ia-s1-scope-lock.md"
+    ],
+    "files_forbidden": [
+      ".hbn/messages/20260612-122102-fable5-handoff-orquestracao-pos-onda-0006.md",
+      ".hbn/messages/20260613-112502-fable5-handoff-orquestracao-pos-adocao-onda-0006.md",
+      ".hbn/results/20260614-032800-gemini-3-5-cross-ia-onda-0011-plano-v2.md",
+      ".hbn/results/20260614-043647-antigravity-cross-ia-exuvia-impl.md",
+      ".hbn/results/20260614-043826-codex-cross-ia-exuvia-impl.md",
+      ".hbn/results/20260614-044555-opus-4-8-consolidacao-cross-audit-exuvia-impl.md",
+      "main",
+      "src/**",
+      "site/**",
+      "examples/**",
+      "inbox/**",
+      ".hbn/models/**",
+      ".hbn/hearbacks/**"
+    ]
+  },
+  "action_plan": [
+    "Abrir readback 0018 e registrar seu nascimento no REGISTRY.",
+    "Depositar os pareceres Gemini e Cursor de cross-audit S1 com linhas REGISTRY separadas.",
+    "Atualizar STATE e handoff para S1 ratificado e selado, com B17 registrado como proxima onda antes do S2."
+  ],
+  "invariants_to_preserve": [
+    "Nao tocar main, nao fazer merge e nao usar --no-verify.",
+    "Nao habilitar D-ORQ-WRITE operacional.",
+    "Nao usar git add .; adicionar somente paths exatos.",
+    "Nao tocar nos seis untracked antigos listados no despacho.",
+    "Commits separados: abertura da onda, pareceres, STATE+handoff.",
+    "Trailers obrigatorios: HBN-Readback: 0018, HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin), HBN-Token-FP: 34a7f2f9."
+  ],
+  "out_of_scope": [
+    "Corrigir B17 nesta onda.",
+    "Alterar guards/assert-scope-lock.sh ou assert-registry-line.sh.",
+    "Iniciar S2 antes da onda B17."
+  ],
+  "read_evidence": [
+    ".hbn/results/20260615-112714-gemini-3-5-cross-ia-s1-scope-lock.md:25-28",
+    ".hbn/results/20260615-112714-gemini-3-5-cross-ia-s1-scope-lock.md:50-53",
+    ".hbn/results/20260615-112714-gemini-3-5-cross-ia-s1-scope-lock.md:63-70",
+    ".hbn/results/20260615-113115-cursor-cross-ia-s1-scope-lock.md:132-139",
+    ".hbn/results/20260615-113115-cursor-cross-ia-s1-scope-lock.md:191-201",
+    "guards/assert-scope-lock.sh:207-214",
+    "guards/tests/adversarial-battery.sh:160-197"
+  ],
+  "mechanical_evidence": [
+    "git rev-parse --short HEAD -> 53b966f",
+    "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04",
+    "Gemini cross-audit S1: APROVA_S1: SIM; B17 candidato em meta-paths.",
+    "Cursor cross-audit S1: APROVA_S1: SIM; meta-path como brecha conhecida anterior a S1; B16 cobre o drible alvo."
+  ],
+  "created_at": "2026-06-15T11:39:20-03:00",
+  "protocol_version": "0.3.0"
+}

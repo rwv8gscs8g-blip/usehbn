@@ -536,3 +536,14 @@ justificado no proprio readback.
 | 20260615-104309-codex-readback-s1-scope-extension | .hbn/readbacks/0017-endurecer-assert-scope-lock-scope-extension.json | readback | quente | — | 2026-06-15T10:43:09-03:00 |
 | 20260615-110757-codex-state-s1 | .hbn/relay/STATE.md | state | quente | — | 2026-06-15T11:07:57-03:00 |
 | 20260615-110757-codex-handoff-s1 | .hbn/messages/20260615-110757-codex-handoff-s1.md | handoff | quente | — | 2026-06-15T11:07:57-03:00 |
+
+## Selagem S1 (2026-06-15) — cross-audit Gemini+Cursor aprovado, B17 para próxima onda
+
+S1 foi ratificado por cross-audit independente Gemini+Cursor com `APROVA_S1:
+SIM`. O achado B17 sobre smuggling por meta-paths `.hbn/messages/**` e
+`.hbn/bypasses/**` e pre-existente e nao bloqueia a selagem; fica como proxima
+onda antes do S2.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260615-113920-codex-readback-selagem-s1-cross-audit | .hbn/readbacks/0018-selagem-s1-cross-audit.json | readback | quente | — | 2026-06-15T11:39:20-03:00 |
