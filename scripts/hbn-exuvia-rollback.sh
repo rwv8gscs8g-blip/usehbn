@@ -56,6 +56,27 @@ case "$git_common_dir" in
 esac
 token_file="${git_common_dir}/hbn-baton-token"
 
+active_rel_from_ref() {
+    local ref="$1"
+    local rel
+    rel="$(git show "${ref}:.hbn/active-version" 2>/dev/null \
+        | grep -v '^[[:space:]]*#' \
+        | grep -v '^[[:space:]]*$' \
+        | head -1 || true)"
+    rel="$(printf '%s' "$rel" | sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//')"
+    [[ -z "$rel" ]] && rel="."
+    printf '%s\n' "$rel"
+}
+
+state_path_for_active_rel() {
+    local rel="$1"
+    local path=".hbn/relay/STATE.md"
+    if [[ "$rel" != "." ]]; then
+        path="${rel}/${path}"
+    fi
+    printf '%s\n' "$path"
+}
+
 token_hash=""
 token_fp=""
 if [[ -f "$token_file" ]]; then
@@ -64,17 +85,8 @@ if [[ -f "$token_file" ]]; then
     token_fp="$(printf '%s' "$token_hash" | cut -c1-8)"
 fi
 
-active_rel="."
-if [[ -r .hbn/active-version ]]; then
-    active_rel="$(grep -v '^[[:space:]]*#' .hbn/active-version | grep -v '^[[:space:]]*$' | head -1 || true)"
-    active_rel="$(printf '%s' "$active_rel" | sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//')"
-    [[ -z "$active_rel" ]] && active_rel="."
-fi
-
-state_path=".hbn/relay/STATE.md"
-if [[ "$active_rel" != "." ]]; then
-    state_path="${active_rel}/${state_path}"
-fi
+active_rel="$(active_rel_from_ref "$TARGET")"
+state_path="$(state_path_for_active_rel "$active_rel")"
 
 target_state_hash="$(git show "${TARGET}:${state_path}" 2>/dev/null \
     | grep -E '^[[:space:]]*bastao_token_sha256:' | head -1 \
