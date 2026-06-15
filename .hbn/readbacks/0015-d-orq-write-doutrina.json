@@ -1,0 +1,76 @@
+{
+  "readback_id": "0015-d-orq-write-doutrina",
+  "execution_id": "D-ORQ-WRITE-doutrina-2026-06-15",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "completed",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0015-d-orq-write-doutrina.json",
+  "understanding": "Propor a emenda doutrinaria D-ORQ-WRITE no core/orchestrator-profile-spec.md: clausula 10 autorada por opus-4-8, pendente de cross-audit e ratificacao. Nao construir nem habilitar G-ACTOR-WRITE-MATRIX nesta onda.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio aprovou em 2026-06-14 o principio: orquestrador escreve os proprios artefatos sob o mesmo rito.",
+    "note": "Autorizacao humana para safe_track de proposta doutrinaria; nao autoriza habilitar escrita do orquestrador, construir guard novo, merge em main ou dispensar cross-audit."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0015-d-orq-write-doutrina.json",
+      ".hbn/messages/20260615-001218-codex-handoff-d-orq-write.md",
+      "core/orchestrator-profile-spec.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md"
+    ],
+    "files_forbidden": [
+      "src/**",
+      "guards/**",
+      "examples/**",
+      "inbox/**",
+      "site/**",
+      ".hbn/models/**",
+      ".hbn/hearbacks/**",
+      "core/dual-run-spec.md",
+      "core/freeze-gate-spec.md",
+      "core/relay-spec.md",
+      "core/roles-assignment-spec.md",
+      "core/start-rite-spec.md",
+      "core/state-report-spec.md",
+      "core/pointer-spec.md",
+      "core/command-spec.md",
+      "core/semantic-layer.md"
+    ]
+  },
+  "invariants_to_preserve": [
+    "Nao tocar main; trabalhar somente no branch proposta/M-A-scaffold-inativo.",
+    "Nao usar --no-verify, bypass-hbn-guards ou merge.",
+    "Nao construir G-ACTOR-WRITE-MATRIX nesta onda; guard fica para S4.",
+    "Nao habilitar escrita do orquestrador ainda; clausula 10 entra como pendente.",
+    "Cross-audit da emenda deve ser por familia diferente de Anthropic e OpenAI antes de ratificacao."
+  ],
+  "read_evidence": [
+    "core/orchestrator-profile-spec.md:1-14",
+    "core/orchestrator-profile-spec.md:26-115",
+    ".hbn/relay/STATE.md:5-14",
+    "REGISTRY.md:447-480",
+    "guards/assert-scope-lock.sh:35-61",
+    "guards/assert-report-fresh.sh:101-127"
+  ],
+  "evidence": {
+    "guard_tests": {
+      "command": "bash guards/tests/run-guard-tests.sh",
+      "status": "deferred_to_final_evidence"
+    },
+    "adversarial_battery": {
+      "command": "bash guards/tests/adversarial-battery.sh",
+      "status": "deferred_to_final_evidence"
+    },
+    "guard_runner": {
+      "command": "bash guards/hbn-guards-runner.sh",
+      "status": "deferred_to_final_evidence"
+    }
+  },
+  "created_at": "2026-06-15T00:12:18-03:00",
+  "completed_at": "2026-06-15T00:12:18-03:00",
+  "protocol_version": "0.3.0"
+}

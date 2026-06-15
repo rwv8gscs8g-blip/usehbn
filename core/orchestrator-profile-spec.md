@@ -5,11 +5,11 @@ status: accepted
 temperatura: quente
 id-global: 20260610-202530-fable-5-spec-orchestrator-profile
 path: core/orchestrator-profile-spec.md
-versao: 0.2.0
-data: 2026-06-13
-revisar-em: 2026-09-13
-autoria: claude-fable-5 (consolidação ADR-024); emenda 0.2.0 por codex sob desenho claude-opus-4-8 (onda 0009)
-hearback-status: confirmed
+versao: 0.3.0
+data: 2026-06-14
+revisar-em: 2026-09-12
+autoria: claude-fable-5 (consolidação ADR-024); emenda 0.2.0 por codex sob desenho claude-opus-4-8 (onda 0009); emenda 0.3.0 (cl.10 / G-ACTOR-WRITE-MATRIX) autorada por claude-opus-4-8, hearback Maurício 2026-06-14, PENDENTE de cross-audit
+hearback-status: pending
 relacionado: [ADR-024 (Decisões 2 e 6), ADR-009, ADR-014, ADR-015, ADR-018, ADR-022, ADR-023, core/relay-spec.md (read-list), knowledge 0002, knowledge 0017]
 ---
 
@@ -106,12 +106,29 @@ e tem `revisar-em` como as knowledges.
    (c) casar a complexidade da tarefa ao modelo: mecânico simples ≠ modelo
    mais caro; raciocínio difícil ≠ o mais barato.
 
-   Roteamento de referência (não fixo, sujeito a (a)/(b)):
-   orquestração/julgamento/validação → raciocínio forte (hoje Opus);
-   planejamento/specs → planejador; implementação/código/guards → executor
-   cross-vendor; cross-audit → 2 fornecedores ≠ implementador. Nota de
-   proporcionalidade (ADR-014): em onda de baixo risco com fornecedores
-   escassos, 1 auditor cross-vendor + gate humano basta.
+	   Roteamento de referência (não fixo, sujeito a (a)/(b)):
+	   orquestração/julgamento/validação → raciocínio forte (hoje Opus);
+	   planejamento/specs → planejador; implementação/código/guards → executor
+	   cross-vendor; cross-audit → 2 fornecedores ≠ implementador. Nota de
+	   proporcionalidade (ADR-014): em onda de baixo risco com fornecedores
+	   escassos, 1 auditor cross-vendor + gate humano basta.
+10. **Escrita dos próprios artefatos sob o mesmo rito** — o orquestrador AUTORA e
+   deposita os PRÓPRIOS artefatos (consolidação, análise, despacho/dispatch,
+   state-report, proposta autoral) DIRETAMENTE no disco, sob o rito idêntico ao de
+   qualquer papel: readback com scope-lock, linha de nascimento no REGISTRY no
+   mesmo commit, nomenclatura ADR-025, sem `main`, sem bypass, sem auto-emenda de
+   escopo, commit no gate humano. É VEDADO ao orquestrador: (a) escrever código,
+   guards, src/ ou core spec de terceiros — nada de implementação; (b) escrever
+   artefato de outro papel (result de auditor, readback de implementação); (c)
+   auditar o próprio trabalho (cross-family permanece); (d) escrever sem rito
+   (arquivo solto, sem readback, sem REGISTRY). Racional: o orquestrador-bug não foi
+   "escrever", foi "escrever SEM rito"; proibir toda escrita criava um buraco
+   (vereditos do orquestrador fora do livro-razão) e uma burocracia de relay que
+   enfraquecia a provenance. Trazer o orquestrador PARA DENTRO dos guards, como
+   autor sujeito ao ledger, fortalece o protocolo. Enforcement mecânico:
+   `G-ACTOR-WRITE-MATRIX` (matriz papel→paths; reformula o antigo "G-ORQ-NOWRITE"),
+   a construir na onda S4; até lá, o rito vigente (G-REG/G-NUM/G-SCOPE + gate
+   humano) já constrange a escrita.
 
 ## §3 Reinicialização (warm boot por leitura, nunca por colagem)
 

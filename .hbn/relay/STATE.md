@@ -2,7 +2,7 @@
 state_version: 1
 projeto: usehbn (canônico)
 protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; S0 corretiva)"
-onda_atual: "S0 ratificada (auditada OK)"
+onda_atual: "D-ORQ-WRITE proposta-pendente sobre S0 ratificada"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: codex
 papel_bastao: "implementador"
@@ -23,6 +23,7 @@ sinais_abertos:
   - "🟢 S0 FIXTURES UNTRACKED REMOVIDAS — guards/tests/adv-cr-active.*, cr-conflict-active.*, cr-missing-active.* e cr-version-root.* foram limpas do worktree."
   - "🟢 S0 AUDITADA OK — Gemini(100)+Cursor(OK,2 marginais não-bloqueadoras); pareceres+consolidação depositados"
   - "🟡 cursor.json model_id vs runtime — corrigir ao promover perfil a accepted"
+  - "🟡 DOUTRINA D-ORQ-WRITE (cl.10) PROPOSTA — orquestrador poderá escrever os próprios artefatos sob rito; PENDENTE cross-audit ≠ Anthropic + ratificação humana; guard G-ACTOR-WRITE-MATRIX fica para S4"
   - "🟢 SUÍTE 132/132 verde no SANDBOX macOS/Bash desta linha de trabalho; bateria adversarial 15/15 burlas BLOQUEADAS; runner real com 14 guards verde."
   - "🟢 G-TOK ATIVO, FP `34a7f2f9` — token vive só em .git/hbn-baton-token; commit local exige trailer HBN-Token-FP: 34a7f2f9."
   - "🟢 ESCAPES LACRADOS herdados — CI=true local FAIL; bypass env só com nota staged; G-STRAY fail-closed/maxdepth6/symlink/allowlist; naming universal ADR-025."
@@ -33,18 +34,18 @@ sinais_abertos:
   - "🟡 bump 0.3.1 adiado para onda de auditoria __version__×PROTOCOL_VERSION."
   - "🟡 inbox/credenciamento com 2 propostas não consolidadas (20260610-01-0017-parametrica, 20260610-44-freeze-gate-v206)."
   - "🟡 backlog preservado: F-05 renumeração da faxina 36 antes de H2; F-07 semântica de proprietario_bastao quando próxima ação é humana; gate script do dual-run (0021/F-06); versionamento de .hbn/readbacks/; colisão readback 0002 × hearback 0002; propostas glacier/zona-de-corte/refatoração-árvore aguardando auditoria adversarial."
-readback_ativo: ".hbn/readbacks/0014-s0-deposito-auditorias.json"
-handoff_mais_recente: ".hbn/messages/20260615-000857-codex-handoff-s0-deposito.md"
+readback_ativo: ".hbn/readbacks/0015-d-orq-write-doutrina.json"
+handoff_mais_recente: ".hbn/messages/20260615-001218-codex-handoff-d-orq-write.md"
 ancora_rollback: "4db6928 (HEAD lido no warm boot; M-A não cria tag nem corte real)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "S0 ratificada e depositada; roadmap imediato: cross-audit da emenda D-ORQ-WRITE → Reestruturação (Opção B) → S1"
-ultima_atualizacao: "2026-06-15T00:08:57-03:00"
-atualizado_por: codex-implementador-s0-deposito-auditorias
+ciclo_ativo: "S0 ratificada e depositada; D-ORQ-WRITE proposta-pendente; roadmap imediato: cross-audit da emenda D-ORQ-WRITE → Reestruturação (Opção B) → S1"
+ultima_atualizacao: "2026-06-15T00:12:18-03:00"
+atualizado_por: codex-implementador-d-orq-write-doutrina
 atribuicao:
   chapeu_atual: implementador
   implementador: codex
   auditores: [gemini-3-5, cursor]
-  gravada_em: "2026-06-15T00:08:57-03:00"
+  gravada_em: "2026-06-15T00:12:18-03:00"
   hearback_ref: null
 ---
 
@@ -64,3 +65,8 @@ Nota depósito S0: Gemini (Google) aprovou S0 com confiança 100/100; Cursor
 aprovou S0 com duas marginais não-bloqueadoras; opus-4-8 consolidou como OK,
 ratificável e sem bloqueador. O marginal `cursor.json` model_id vs runtime fica
 rastreado para a promoção futura do perfil a `accepted`.
+
+Nota D-ORQ-WRITE: a cláusula 10 de `core/orchestrator-profile-spec.md` entra como
+proposta pendente (`hearback-status: pending`), sem habilitar escrita do
+orquestrador. A próxima ação é cross-audit por família diferente de Anthropic e
+OpenAI; o guard G-ACTOR-WRITE-MATRIX fica reservado para S4.

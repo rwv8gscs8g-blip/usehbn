@@ -475,3 +475,17 @@ perfil.
 | 20260615-000857-codex-readback-s0-deposito-auditorias | .hbn/readbacks/0014-s0-deposito-auditorias.json | readback | quente | — | 2026-06-15T00:08:57-03:00 |
 | 20260615-000857-codex-handoff-s0-deposito | .hbn/messages/20260615-000857-codex-handoff-s0-deposito.md | handoff | quente | — | 2026-06-15T00:08:57-03:00 |
 | 20260615-000857-codex-state-s0-deposito-auditorias | .hbn/relay/STATE.md | state | quente | — | 2026-06-15T00:08:57-03:00 |
+
+## Emenda D-ORQ-WRITE (2026-06-15) — doutrina proposta — status: pending, readback 0015
+
+Proposta de cláusula 10 no `core/orchestrator-profile-spec.md`: o orquestrador
+poderá autorar os próprios artefatos sob o mesmo rito, mas a emenda permanece
+pendente de cross-audit por família diferente de Anthropic e OpenAI, além de
+ratificação humana. Não cria nem habilita G-ACTOR-WRITE-MATRIX nesta onda.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260615-001218-codex-orchestrator-profile-spec-d-orq-write | core/orchestrator-profile-spec.md | spec-core | quente | — | 2026-06-15T00:12:18-03:00 |
+| 20260615-001218-codex-readback-d-orq-write-doutrina | .hbn/readbacks/0015-d-orq-write-doutrina.json | readback | quente | — | 2026-06-15T00:12:18-03:00 |
+| 20260615-001218-codex-handoff-d-orq-write | .hbn/messages/20260615-001218-codex-handoff-d-orq-write.md | handoff | quente | — | 2026-06-15T00:12:18-03:00 |
+| 20260615-001218-codex-state-d-orq-write-doutrina | .hbn/relay/STATE.md | state | quente | — | 2026-06-15T00:12:18-03:00 |
