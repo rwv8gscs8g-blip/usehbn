@@ -14,6 +14,12 @@
     "evidence": "Despacho anexado de 2026-06-14: 'Onda M-A: mecanismo da exúvia como SCAFFOLD INATIVO'.",
     "note": "Opus desenhou/despachou; Codex implementa. F-01 permanece aberto/PROPOSED_UNTIL_CROSS_AUDIT, sem baixa nesta onda."
   },
+  "scope_extension_20260614_203423": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mensagem no Codex em 2026-06-14: 'Aprovo as mudanças propostas.'",
+    "purpose": "Autorizar Codex a registrar o parecer bloqueado pelo scope-lock, consolidar os pareceres Codex+Gemini sobre o bug do orquestrador e entregar prompt auto-contido para uma nova janela Opus, sem implementar guards nesta onda.",
+    "note": "Extensao declarada por hearback humano; nao e autorizacao para corrigir rollback, implementar guards, usar bypass ou alterar main."
+  },
   "scope": {
     "files_allowed": [
       ".gitignore",
@@ -22,6 +28,10 @@
       ".hbn/messages/20260614-183746-codex-handoff-m-a-scaffold-inativo.md",
       ".hbn/results/20260614-183746-codex-m-a-scaffold-inativo.md",
       ".hbn/results/20260614-193452-gemini-3-5-cross-ia-m-a-scaffold.md",
+      ".hbn/results/20260614-200829-gemini-3-5-cross-ia-orquestrador-bug.md",
+      ".hbn/results/20260614-200849-codex-cross-ia-orquestrador-bug.md",
+      ".hbn/results/20260614-203423-codex-orquestrador-bug-consolidacao.md",
+      ".hbn/results/20260614-203424-codex-prompt-opus-orquestrador-boot-corrigido.md",
       ".hbn/relay/STATE.md",
       "REGISTRY.md",
       "core/hbn-exuvia-scaffold.md",
