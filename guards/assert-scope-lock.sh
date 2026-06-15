@@ -31,20 +31,58 @@ if [[ -z "$ACTIVE_ROOT" ]]; then
     exit 1
 fi
 READBACKS_DIR="${ACTIVE_ROOT}/.hbn/readbacks"
+READBACKS_REPO_DIR="$(guard_version_repo_path ".hbn/readbacks" || true)"
 
-# Identifica readback ativo (último numericamente em .hbn/readbacks/)
-ACTIVE_RB="$(ls -1 "${READBACKS_DIR}"/[0-9]*.json 2>/dev/null | sort | tail -1 || true)"
+# Identifica readback ativo pelo que esta versionado para o commit: indice no
+# pre-commit local, HEAD no CI. Readback solto na working tree nao amplia escopo.
+if [[ -n "${HBN_DIFF_BASE:-}" ]]; then
+    ACTIVE_RB_REPO_PATH="$(git ls-tree -r --name-only HEAD -- "$READBACKS_REPO_DIR" 2>/dev/null | sort | tail -1 || true)"
+else
+    ACTIVE_RB_REPO_PATH="$(git ls-files -- "$READBACKS_REPO_DIR" 2>/dev/null | sort | tail -1 || true)"
+fi
+ACTIVE_RB_VERSION_PATH=""
+if [[ -n "$ACTIVE_RB_REPO_PATH" ]]; then
+    ACTIVE_RB_VERSION_PATH="$(guard_repo_path_to_version_path "$ACTIVE_RB_REPO_PATH")"
+fi
+ACTIVE_RB="${ACTIVE_ROOT}/${ACTIVE_RB_VERSION_PATH}"
 
-if [[ -z "$ACTIVE_RB" ]]; then
+if [[ -z "$ACTIVE_RB_REPO_PATH" || -z "$ACTIVE_RB_VERSION_PATH" ]]; then
     guard_log "Sem readback ativo em $READBACKS_DIR — guard sem alvo."
     exit 0
 fi
 
-# Extrai track e human_status sem depender de jq (regex tolerante)
-TRACK="$(grep -oE '"track"[[:space:]]*:[[:space:]]*"[^"]+"' "$ACTIVE_RB" | head -1 | sed -E 's/.*"([^"]+)"$/\1/')"
-HUMAN_STATUS="$(grep -oE '"human_status"[[:space:]]*:[[:space:]]*"[^"]+"' "$ACTIVE_RB" | head -1 | sed -E 's/.*"([^"]+)"$/\1/')"
+POST_RB_FILE="$(mktemp)"
+BASE_RB_FILE="$(mktemp)"
+ALLOWED_FILE="$(mktemp)"
+OLD_ALLOWED_FILE="$(mktemp)"
+FORBIDDEN_FILE="$(mktemp)"
+ADDED_ALLOWED_FILE="$(mktemp)"
+EXTENSION_META_FILE="$(mktemp)"
+trap 'rm -f "$POST_RB_FILE" "$BASE_RB_FILE" "$ALLOWED_FILE" "$OLD_ALLOWED_FILE" "$FORBIDDEN_FILE" "$ADDED_ALLOWED_FILE" "$EXTENSION_META_FILE"' EXIT
 
-guard_log "Readback ativo: $(basename "$ACTIVE_RB") | track=$TRACK | human_status=$HUMAN_STATUS"
+if [[ -n "${HBN_DIFF_BASE:-}" ]]; then
+    if ! git show "HEAD:${ACTIVE_RB_REPO_PATH}" > "$POST_RB_FILE" 2>/dev/null; then
+        guard_fail "Nao foi possivel ler o readback ativo em HEAD:${ACTIVE_RB_REPO_PATH}."
+        exit 1
+    fi
+else
+    if ! git show ":${ACTIVE_RB_REPO_PATH}" > "$POST_RB_FILE" 2>/dev/null; then
+        guard_fail "Nao foi possivel ler o readback ativo no indice: ${ACTIVE_RB_REPO_PATH}. Use git add do readback antes de operar."
+        exit 1
+    fi
+fi
+
+BASE_RB_AVAILABLE=0
+BASE_REF="${HBN_DIFF_BASE:-HEAD}"
+if git show "${BASE_REF}:${ACTIVE_RB_REPO_PATH}" > "$BASE_RB_FILE" 2>/dev/null; then
+    BASE_RB_AVAILABLE=1
+fi
+
+# Extrai track e human_status sem depender de jq (regex tolerante)
+TRACK="$(grep -oE '"track"[[:space:]]*:[[:space:]]*"[^"]+"' "$POST_RB_FILE" | head -1 | sed -E 's/.*"([^"]+)"$/\1/')"
+HUMAN_STATUS="$(grep -oE '"human_status"[[:space:]]*:[[:space:]]*"[^"]+"' "$POST_RB_FILE" | head -1 | sed -E 's/.*"([^"]+)"$/\1/')"
+
+guard_log "Readback ativo: $(basename "$ACTIVE_RB_VERSION_PATH") | track=$TRACK | human_status=$HUMAN_STATUS"
 
 # fast_track não exige scope lock (mas registra)
 if [[ "$TRACK" == "fast_track" ]]; then
@@ -66,25 +104,70 @@ if [[ -z "$STAGED" ]]; then
     exit 0
 fi
 
-# Tenta usar python para extrair scope.files_allowed (mais robusto que regex)
-ALLOWED_FILE="$(mktemp)"
-FORBIDDEN_FILE="$(mktemp)"
-trap 'rm -f "$ALLOWED_FILE" "$FORBIDDEN_FILE"' EXIT
-
 if command -v python3 >/dev/null 2>&1; then
-    python3 - "$ACTIVE_RB" "$ALLOWED_FILE" "$FORBIDDEN_FILE" <<'PY'
+    python3 - "$POST_RB_FILE" "$ALLOWED_FILE" "$OLD_ALLOWED_FILE" "$FORBIDDEN_FILE" "$BASE_RB_FILE" "$BASE_RB_AVAILABLE" "$ADDED_ALLOWED_FILE" "$EXTENSION_META_FILE" <<'PY'
 import json, sys
-rb_path, allowed_out, forbidden_out = sys.argv[1:4]
-with open(rb_path) as f:
-    rb = json.load(f)
+(
+    rb_path,
+    allowed_out,
+    old_allowed_out,
+    forbidden_out,
+    base_path,
+    base_available,
+    added_allowed_out,
+    extension_meta_out,
+) = sys.argv[1:9]
+
+def load_json(path):
+    with open(path) as f:
+        return json.load(f)
+
+rb = load_json(rb_path)
 allowed = rb.get('scope', {}).get('files_allowed', []) or []
 forbidden = rb.get('scope', {}).get('files_forbidden', []) or []
+
+old_allowed = []
+if base_available == "1":
+    old = load_json(base_path)
+    old_allowed = old.get('scope', {}).get('files_allowed', []) or []
+
+added = [p for p in allowed if p not in old_allowed] if base_available == "1" else []
+removed = [p for p in old_allowed if p not in allowed] if base_available == "1" else []
+
+extensions = []
+for key, value in rb.items():
+    if key == "scope_extension" or key.startswith("scope_extension_"):
+        if isinstance(value, dict):
+            extensions.append(value)
+
+required = ("human", "evidence", "created_at", "allowed_delta")
+extension_valid = True
+if added:
+    extension_valid = False
+    for ext in extensions:
+        delta = ext.get("allowed_delta")
+        if not isinstance(delta, list):
+            continue
+        if all(ext.get(field) for field in required) and all(p in delta for p in added):
+            extension_valid = True
+            break
+
 with open(allowed_out, 'w') as f:
     for p in allowed:
+        f.write(p + "\n")
+with open(old_allowed_out, 'w') as f:
+    for p in old_allowed:
         f.write(p + "\n")
 with open(forbidden_out, 'w') as f:
     for p in forbidden:
         f.write(p + "\n")
+with open(added_allowed_out, 'w') as f:
+    for p in added:
+        f.write(p + "\n")
+with open(extension_meta_out, 'w') as f:
+    f.write(f"added_count={len(added)}\n")
+    f.write(f"removed_count={len(removed)}\n")
+    f.write(f"extension_valid={1 if extension_valid else 0}\n")
 PY
 else
     guard_fail "python3 ausente — não consigo extrair scope.files_allowed com segurança."
@@ -98,6 +181,12 @@ while IFS= read -r _line; do
     [[ -z "$_line" ]] && continue
     ALLOWED_PATTERNS+=("$_line")
 done < "$ALLOWED_FILE"
+
+OLD_ALLOWED_PATTERNS=()
+while IFS= read -r _line; do
+    [[ -z "$_line" ]] && continue
+    OLD_ALLOWED_PATTERNS+=("$_line")
+done < "$OLD_ALLOWED_FILE"
 
 FORBIDDEN_PATTERNS=()
 while IFS= read -r _line; do
@@ -123,6 +212,7 @@ META_ALWAYS_ALLOWED=(
     ".hbn/relay/INDEX.md"
 )
 ALLOWED_PATTERNS+=("${META_ALWAYS_ALLOWED[@]}")
+OLD_ALLOWED_PATTERNS+=("${META_ALWAYS_ALLOWED[@]}")
 
 # Função de match (glob simples)
 matches_any() {
@@ -144,6 +234,65 @@ matches_any() {
     done
     return 1
 }
+
+READBACK_CHANGED=0
+if [[ -n "${HBN_DIFF_BASE:-}" ]]; then
+    if git diff --name-only "${HBN_DIFF_BASE}...HEAD" -- "$ACTIVE_RB_REPO_PATH" 2>/dev/null | grep -qxF "$ACTIVE_RB_REPO_PATH"; then
+        READBACK_CHANGED=1
+    fi
+else
+    if git diff --cached --name-only -- "$ACTIVE_RB_REPO_PATH" 2>/dev/null | grep -qxF "$ACTIVE_RB_REPO_PATH"; then
+        READBACK_CHANGED=1
+    fi
+fi
+
+ADDED_ALLOWED_COUNT="$(grep -E '^added_count=' "$EXTENSION_META_FILE" | sed -E 's/^added_count=//')"
+EXTENSION_VALID="$(grep -E '^extension_valid=' "$EXTENSION_META_FILE" | sed -E 's/^extension_valid=//')"
+
+if [[ "$READBACK_CHANGED" -eq 1 && "${ADDED_ALLOWED_COUNT:-0}" -gt 0 ]]; then
+    OTHER_STAGED=()
+    DEPENDS_ON_EXTENSION=()
+    while IFS= read -r f; do
+        [[ -z "$f" ]] && continue
+        [[ "$f" == "$ACTIVE_RB_VERSION_PATH" ]] && continue
+        OTHER_STAGED+=("$f")
+        if ! matches_any "$f" "${OLD_ALLOWED_PATTERNS[@]}" && matches_any "$f" "${ALLOWED_PATTERNS[@]}"; then
+            DEPENDS_ON_EXTENSION+=("$f")
+        fi
+    done <<< "$STAGED"
+
+    if [[ "$EXTENSION_VALID" != "1" ]]; then
+        guard_fail "scope.files_allowed do readback ativo foi estendido sem scope_extension valido (human, evidence, created_at, allowed_delta cobrindo o delta)."
+        echo "  Readback ativo: $ACTIVE_RB_REPO_PATH" >&2
+        echo "  Patterns adicionados:" >&2
+        while IFS= read -r p; do
+            [[ -z "$p" ]] && continue
+            echo "    + $p" >&2
+        done < "$ADDED_ALLOWED_FILE"
+        exit 1
+    fi
+
+    if [[ ${#OTHER_STAGED[@]} -gt 0 ]]; then
+        guard_fail "scope.files_allowed do readback ativo foi estendido no mesmo commit com outros arquivos staged. Extensao legitima e commit isolado que altera apenas o JSON do readback."
+        echo "  Readback ativo: $ACTIVE_RB_REPO_PATH" >&2
+        echo "  Patterns adicionados:" >&2
+        while IFS= read -r p; do
+            [[ -z "$p" ]] && continue
+            echo "    + $p" >&2
+        done < "$ADDED_ALLOWED_FILE"
+        if [[ ${#DEPENDS_ON_EXTENSION[@]} -gt 0 ]]; then
+            echo "  Arquivos cuja cobertura depende da emenda:" >&2
+            for f in "${DEPENDS_ON_EXTENSION[@]}"; do
+                echo "    - $f" >&2
+            done
+        fi
+        echo "  Outros arquivos staged no mesmo commit:" >&2
+        for f in "${OTHER_STAGED[@]}"; do
+            echo "    - $f" >&2
+        done
+        exit 1
+    fi
+fi
 
 FAIL=0
 OUT_SCOPE=()
@@ -192,6 +341,6 @@ done
 echo "" >&2
 echo "  Como corrigir:" >&2
 echo "    A) Desfazer staging dos arquivos fora-de-escopo: git restore --staged <arquivo>" >&2
-echo "    B) Atualizar readback ativo para incluir esses paths (requer NOVO hearback)" >&2
+echo "    B) Atualizar readback ativo em commit isolado de scope_extension (human, evidence, created_at, allowed_delta); depositar os arquivos em commit posterior" >&2
 echo "    C) Bypass de emergência só com [bypass-hbn-guards] no commit msg + nota em .hbn/bypasses/" >&2
 exit 1
