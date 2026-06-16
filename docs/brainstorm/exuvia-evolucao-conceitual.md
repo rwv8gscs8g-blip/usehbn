@@ -75,3 +75,61 @@ _Origem: o Maurício pediu uma auto-auditoria — "você respeitou as regras ao 
 - [CONCLUSÃO] Reformulação proposta de P13 (a lapidar): **a IA detém a sintaxe e a fluência; o humano detém a intenção e a direção.** Fluência sem intenção é vazia. A camada de abstração de linguagem existe para que o humano exerça intenção sem precisar dominar a sintaxe — não para transferir a *direção* à IA. Corolário: a IA é ferramenta, não fim (o protocolo evolui "com as IAs, para as IAs e apesar das IAs"). Isto também blinda contra o modelo que "mente, pula ou atribui pesos próprios": a direção e os pesos são humanos por construção.
 - [PERGUNTA ABERTA] P13 reformulado deve permanecer UM princípio (fluência+intenção juntas) ou virar dois (P13 fluência-de-sintaxe da IA; P14 primazia-de-intenção humana)? A criação de P14 exige, por ADR-009, ≥2 incidências reais — e esta conversa pode ser a 1ª incidência registrada.
 
+## 2026-06-16 — Alinhamento de roadmap, critério de release e a linha do CLI (handoff para os orquestradores)
+
+_Autor: chat paralelo (Claude Opus 4.8, família Anthropic). Confirmado pelo gate humano (Maurício) nesta sessão. Destino sugerido: insumo de planejamento para os Opus orquestradores; promover trechos a ADR/onda conforme maturarem._
+
+### F. Sequência travada do roadmap (confirmação humana 2026-06-16)
+
+- [CONCLUSÃO] Ordem oficial: (1) **estabilizar o protocolo** — resolver o problema-raiz: IA que recomeça em chat novo perde o "fio da meada" e não evolui de forma organizada/previsível; (2) **aprovar o protocolo**; (3) **Ponte do Credenciamento** — primeiro teste do protocolo interagindo com um sistema real (problema observado: IAs confundiam *o que é o protocolo e como funciona* com *o sistema que ele ajuda a construir e proteger*); (4) **1ª exúvia do próprio protocolo** — simplificar, melhorar e definir o caminho; (5) **estabilizar e congelar Credenciamento V12.0.206** e publicar; (6) **V12.0.207** = refatoração / 1ª exúvia do protocolo de Credenciamento (melhoria de gestão, estabilidade, testes), com os guards/segurança do useHBN aplicados como exemplo prático.
+- [CONCLUSÃO] Pré-requisito transversal: tudo funcionando, testado e com **testes validados** antes de cada salto.
+
+### G. Critério objetivo de "versão testada liberada" (item 6 do gate humano)
+
+- [PROPOSTA → candidato a gate de release público] Mesmo com repo público, terceiros ainda não podem testar/contribuir (utilidade prática não provada). Liberação exige, em ordem: (a) evolução do protocolo; (b) Ponte do Credenciamento funcionando; (c) 1ª exúvia do protocolo; (d) estabilização + congelamento da V12.0.206; (e) exúvia do Credenciamento → V12.0.207 com guards/segurança/melhorias do useHBN aplicados. Antes de (e) cumprido, comunicação pública usa linguagem condicional (regra do MATURITY-MATRIX).
+
+### H. Análise madura da linha do CLI (item 4 do gate humano) — evidência no disco
+
+- [CONCLUSÃO] **Existem duas superfícies "useHBN" no repo, e elas divergiram:** (1) o **protocolo de governança** (`.hbn/`, `core/`, `guards/`, `REGISTRY.md`, `methodology/`) — markdown + bash + git, onde TODA a evolução recente ocorreu (S1, S2, B17–B19, scaffold da exúvia); (2) o **runtime/CLI Python** (`src/usehbn/`, pacote v0.3.0): `cli.py` ~1.700 LOC, ~17 subcomandos, classificado **Implementado** na `methodology/MATURITY-MATRIX.md`, suíte 114/114. A energia evolutiva atual NÃO está no CLI Python — está na linha de governança.
+- [CONCLUSÃO] Esta divergência é uma versão interna do problema do item 3 (confundir o protocolo com o sistema): risco de uma IA achar que "o protocolo" é o CLI Python, quando o que governa a evolução hoje é a camada bash/markdown.
+- [CONCLUSÃO] Estado honesto do CLI (fonte: MATURITY-MATRIX): `hbn run/translate/connector/init/version/inspect/doctor/quickstart/install/attention/notify/readback/hearback/result/refresh/relay/handoff/autoevolve`. Truth Barrier e Guardian são **Parcial (advisory — não bloqueiam)**; Universal Translator é **Scaffold** (roteador honesto, não tradutor semântico); bridges legados são **Stub**; `autoevolve` (ciclo de microdelta + gate humano) é embrionário e **não está classificado na matriz** = dívida de honestidade a registrar. A **orquestração por CLI** (`usehbn start` como comando, despacho automático de ondas) é **Visão**: hoje `usehbn start` é rito conversacional (`core/start-rite-spec.md` §1).
+- [PROPOSTA → decisão para a 1ª onda de simplificação e a 1ª exúvia] P8 (protocolo > ferramenta) resolve a prioridade: o **núcleo de governança** é a essência do protocolo hoje; o CLI é superfície/ferramenta fagocitável. A frase do Maurício — "começamos com uma pasta com os arquivos que fazem o protocolo e avançamos para o CLI" — sugere que `versao_1_0_0/` nasça como a **pasta enxuta do núcleo de governança**, e o CLI Python entre como superfície a ser refatorada/fagocitada progressivamente, NÃO como tronco.
+- [PROPOSTA] O `cli.py` é um god-object (~1.700 LOC, risco já anotado na matriz, "refatoração Onda 7") e não passou por C-ADV/C-XAUDIT (a matriz registra "sem testes adversariais sistemáticos"). Pelos 8 critérios, **não deve carregar adiante sem refatoração**. Candidato: ou refatorar antes/dentro da 1ª exúvia, ou alocar explicitamente na árvore Fronteira/Experimental até provar aptidão. O `autoevolve` idem — semente da automação (VISÃO Fase 1), mas deve ser classificado honestamente ou posto em quarentena experimental até provar.
+
+### I. Árvores: proposta de avanço de roadmap (item 2 do gate humano)
+
+- [PROPOSTA → ondas futuras dedicadas] Nomes provisórios aceitos: **Estável**, **Intermediária/Evolutiva**, **Fronteira/Experimental**. Lapidar em ondas próprias: (1) os nomes canônicos; (2) os critérios objetivos de migração de uma árvore para outra (o que promove da Fronteira → Intermediária → Estável; reusar os 5 estágios da fagocitose + os 8 critérios + o Fitness Gate?); (3) como o CLI Python e o `autoevolve` se alocam nas árvores hoje.
+
+### J. Nota de handoff para os orquestradores (item 7 — agir em ciclos pequenos e testáveis)
+
+- [CONCLUSÃO] Para alinhamento: as conclusões deste chat paralelo estão TODAS neste arquivo e no `EXPLICACAO-PUBLICA-usehbn-DRAFT.md` (mesma pasta). Nada foi escrito em `core/` selado nem na constituição (mudanças lá exigem ADR-009 / onda formal).
+- [PROPOSTA] Próximos ciclos pequenos sugeridos, em ordem: (1) **start-rite/front-door verificável para qualquer IA** (seção D) — ataca direto o "fio da meada" do item 3; (2) emenda P13 (seção E) por ADR-009; (3) registrar a dívida de honestidade do `autoevolve` na MATURITY-MATRIX; (4) onda das árvores (seção I). Cada um é onda própria com readback + cross-audit + selagem.
+
+## 2026-06-16 — Modelo compilador (.md é o software), árvores como solução da divergência, e o chapéu do analista de fronteira
+
+_Autor: chat paralelo (Claude Opus 4.8, família Anthropic). Direção do gate humano (Maurício) nesta sessão. Escopo a fechar e submeter ao orquestrador para auditoria adversarial; nada aqui é normativo._
+
+### K. O `.md` é o software; o código é a saída impressa (reframe central do Maurício)
+
+- [CONCLUSÃO] O protocolo é um **compilador de intenção**: fonte = `.md` (princípios P1–P13 + regras de negócio + lições verificadas); alvo = artefato que faz cumprir a regra, "impresso" em qualquer linguagem (bash, Python, Rust hoje; outras amanhã; guards em tecnologias atuais ou legadas). O "código final" é uma *saída* da codificação, como um PDF é uma saída de um documento — substituível quando a linguagem mudar. Coerente com P8 (protocolo > ferramenta), P13 (IA como camada de abstração) e o Universal Translator.
+- [CONCLUSÃO] Fluxo de mão dupla: `.md` → código (compilar/imprimir enforcement); experiência-no-código → `.md` (lição destilada, darwinismo nível 2, `.hbn/knowledge/by-tech/`). O `.md` é a memória portável; o código é o corpo descartável da vez.
+- [CONCLUSÃO] **Este modelo explica a divergência das duas superfícies** (seção H): elas derivaram porque ainda NÃO há compilador — a regra é escrita à mão no `.md` e de novo à mão no guard, e a sincronização manual deriva. O protocolo já proíbe segunda fonte de verdade (roles-spec §3); o compilador é o que elimina a sincronização manual.
+- [PROPOSTA] Curto prazo (sem construir compilador): todo guard cita seu `.md` de origem (trailer de proveniência) e a bateria adversarial prova que a saída bloqueia (C-DOG + C-ADV + C-FCLOSE = "impressão fiel **e** intransponível na prática"). Longo prazo: geração/verificação do enforcement a partir do spec `.md`. Candidato a ADR de visão + onda de prova-de-conceito na Fronteira.
+
+### L. As três árvores como gradiente de prova do compilador (solução proposta — item 2)
+
+- [PROPOSTA] As árvores deixam de ser rótulo e viram o **gradiente de prova**: **Fronteira** = `.md` ainda não provado (brainstorm, radar, `autoevolve` embrionário); **Intermediária/Evolutiva** = o que passou os 8 critérios e ganhou enforcement em Python/bash (núcleo de governança + runtime atual); **Estável** = o que provou aptidão ao longo do tempo, reimpresso em Rust mínimo, só princípios (P12, mudança mínima).
+- [PROPOSTA] A promoção entre árvores **é a fagocitose aplicada ao próprio protocolo**: routed→studied→digested→mastered→contributed ≈ Fronteira→Intermediária→Estável, cada salto com cross-audit ≠-família + Fitness Gate + ≥N dias sem regressão. Isto dissolve a divergência: a deriva Python×bash vira **alocação de árvore auditável** (o god-object `cli.py` sem testes adversariais = qualidade-Fronteira até refatorar; guards fail-closed = Intermediária madura).
+- [PROPOSTA] Antes/depois da exúvia: documentar as árvores **agora** (campo `arvore:` no front-matter, ao lado de `hbn-track:`/`temperatura:` — custo baixo, clareza imediata); semear a base **Rust-Estável só com princípios** em onda futura própria; `versao_1_0_0/` da 1ª exúvia nasce na Intermediária (núcleo lapidado). Exúvia e árvores são o mesmo mecanismo em duas escalas: versão = a pasta; árvore = o nível de prova da pasta.
+
+### M. Segurança real, sem teatro (item 3) — consequência do modelo compilador
+
+- [CONCLUSÃO] Se o código é saída impressa, a impressão tem de ser fail-closed e verificável — senão é teatro (ADR-020). Lacuna real registrada na matriz: no CLI Python, **Truth Barrier e Guardian são advisory — não bloqueiam**. Pela definição do Maurício ("o que não pode ser feito não deve ser permitido"), advisory = teatro.
+- [PROPOSTA] Ajuste Truth Barrier à fala do Maurício: documentar segurança como "**fail-closed + provado por bateria adversarial**", não como "intransponível" (absoluto proibido pela Truth Barrier). É a forma honesta e auditável de intransponibilidade. Alocação por árvore: enforcement real pertence a Intermediária/Estável; advisory só é tolerado na Fronteira e rotulado.
+
+### N. Chapéu proposto para o chat paralelo (item 4) — `analista-de-fronteira`
+
+- [PROPOSTA → T2, decisão do orquestrador + hearback; NÃO auto-instalável] Criar perfil `.hbn/models/<apelido>.json` (sugestão de apelido: `opus-4-8-cowork`) com `fornecedor: Anthropic` e `papeis_aptos: [analista-de-fronteira]`, e um contrato de papel em `agents/role-templates.md`. Contrato do papel: leitura do repo + escrita SOMENTE na zona Fronteira (`docs/brainstorm/`); produz proposta não-normativa, entrevista e análise; **não segura o bastão, não conta como cross-audit, não implementa, não toca caminho selado**.
+- [CONCLUSÃO] Recuso o chapéu de auditor por razão de família: sou Anthropic, **igual ao orquestrador Opus**. As notas deste chat já influenciam os outros Opus — laço Anthropic-sobre-Anthropic. Mitigação obrigatória: tudo que eu produzo é Fronteira/não-normativo e precisa passar por **auditoria adversarial de famílias ≠ (Codex/Gemini)** antes de virar regra. Esta limitação é parte do desenho, não um defeito.
+- [PERGUNTA ABERTA] O orquestrador aceita um papel não-executante/não-auditor formalizado (analista-de-fronteira), ou prefere que o chat paralelo permaneça totalmente fora do elenco (sem perfil), com suas saídas tratadas só como "insumo externo" citado nos despachos?
+

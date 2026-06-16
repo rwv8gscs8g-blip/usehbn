@@ -748,3 +748,6 @@ handoff, sem alterar logica de guard.
 | 20260616-150000-opus-4-8-despacho-cross-audit-s3-1 | .hbn/messages/20260616-150000-opus-4-8-despacho-cross-audit-s3-1.md | despacho | quente | — | 2026-06-16T15:00:00-03:00 |
 | 20260616-153000-codex-knowledge-0023-area-temporaria | .hbn/knowledge/0023-area-temporaria-e-fixtures-efemeras.md | knowledge | quente | — | 2026-06-16T15:30:00-03:00 |
 | 20260616-153000-codex-knowledge-index-0023 | .hbn/knowledge/INDEX.md | knowledge-index | quente | — | 2026-06-16T15:30:00-03:00 |
+| 20260616-153000-codex-brainstorm-exuvia-evolucao-conceitual-s3-1 | docs/brainstorm/exuvia-evolucao-conceitual.md | brainstorm-zona-livre | frio | — | 2026-06-16T15:30:00-03:00 |
+| 20260616-153000-codex-brainstorm-principios-candidatos-s3-1 | docs/brainstorm/principios-candidatos.md | brainstorm-zona-livre | frio | — | 2026-06-16T15:30:00-03:00 |
+| 20260616-153000-codex-brainstorm-explicacao-publica-usehbn-draft | docs/brainstorm/EXPLICACAO-PUBLICA-usehbn-DRAFT.md | brainstorm-zona-livre | frio | — | 2026-06-16T15:30:00-03:00 |

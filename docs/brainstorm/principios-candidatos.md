@@ -56,6 +56,60 @@ código garantindo que tudo o que funciona continuará funcionando**; conseguir
 
 ---
 
+## P-CAND-03 — Lição aprendida só vale se grudar (porta da frente das lições)
+
+**Enunciado (Maurício, 2026-06-16):** o que é aprendido precisa **ficar** como
+lição aprendida e ser **seguido** — não basta existir num arquivo. É um ponto do
+protocolo que existe mas falha e precisa melhorar.
+
+**Evidência (Truth Barrier, dogfood do próprio defeito):**
+- As lições já existem e estão `accepted`: `.hbn/knowledge/0001-comandos-atomicos-copiaveis.md` ("1 comando = 1 bloco, copiável, explicação fora do bloco") e `0002-entrega-operacional-minimalista.md` ("ao humano, entrega minimalista e acionável"). Mesmo assim foram **repetidamente violadas** pelo orquestrador (cards de arquivo em vez do bloco colável), e o Maurício teve de cobrar várias vezes.
+- Causa-raiz no disco: `.hbn/knowledge/INDEX.md` está **estagnado** — lista só 3 entradas antigas e **não inclui 0001/0002/0003/0019/0022**. A porta de entrada da base de lições não aponta para as lições. Não há read-list de boot nem guard que force a consulta.
+- Converge com a lição "porta da frente" do brainstorm (`exuvia-evolucao-conceitual.md`, entrada D): o protocolo não pode depender de a IA *querer* ler — precisa de entrada barata e obrigatória.
+
+**Análise — por que vale:** uma lição que não é re-lida nem aplicada é lixo de
+conhecimento — pior que ausência, porque dá falsa sensação de que o problema foi
+resolvido. Num sistema que será automatizado, a lição tem de virar comportamento
+default, não memória que cada sessão redescobre.
+
+**Proposta de operacionalização (a refinar na promoção):**
+- **INDEX vivo:** o INDEX da knowledge é regenerável/verificável; toda entrada nova aparece nele. Candidato a guard simples (G-KNOW-INDEX): falha se há `NNNN-*.md` ausente do INDEX.
+- **Read-list de boot:** as knowledge `accepted` operacionais (0001/0002) entram na read-list mínima de QUALQUER IA ao assumir o bastão — junto de STATE + readback ativo + contrato do papel.
+- **Auto-checagem no cross-audit/handoff:** um item objetivo "a entrega operacional honrou knowledge 0001/0002?" — torna a lição verificável, não opcional.
+- **Carry-forward na exúvia:** knowledge `accepted` operacional sobrevive à muda como parte do genoma (mesma lógica do CRISPR proposta no brainstorm).
+
+**Adoção imediata (sem esperar promoção):** o orquestrador passa a entregar todo
+conteúdo operacional como bloco colável no chat, por padrão — dogfood de 0001/0002
+a partir de agora.
+
+---
+
+## P-CAND-04 — Área temporária segura para IAs (design convergido no cross-audit S3.1)
+
+**Origem:** lição knowledge 0023 + parecer de design de Gemini/Antigravity e Cursor
+(`.hbn/results/20260616-121025-gemini-3-5-cross-ia-s3-1.md`,
+`.hbn/results/20260616-124526-cursor-cross-ia-s3-1.md`). Ainda **não implementado** —
+candidato a onda própria.
+
+**Regra primária (consenso):** trabalho efêmero (fixtures, rascunhos) vai para o
+tmp do **próprio ambiente da IA** (`$TMPDIR`/sandbox/sessão), **fora do repo**.
+Para provar que um guard bloqueia, usar **`git add` + `git reset`** (stage e
+desfaz), nunca arquivo solto.
+
+**Se for inevitável no repo (consenso):** uma única pasta `/scratch/` na raiz,
+com defesa em camadas (gitignore sozinho NÃO basta):
+- `.gitignore` com âncora de raiz `/scratch/` + um `README` versionado explicando a regra (sem segredos/PII).
+- **G-SCRATCH-LOCK** — bloqueia qualquer path staged sob `scratch/` (nunca entra na história/origin).
+- **G-SCRATCH-SYMLINK** — bloqueia symlink em `scratch/` que resolva para fora dela (fecha vazamento por link).
+- **G-SCRATCH-IGNORE** — se o `.gitignore` mudar, exige que a linha `/scratch/` siga presente no blob staged (impede remover a proteção sorrateiramente).
+- Política de backup/sync **excluindo** `/scratch/`.
+
+**Por que seguro:** como nada sob `scratch/` jamais é commitado nem sincronizado,
+ela não vira superfície de exposição no repositório/origin; os três guards fecham
+os vetores de vazamento (stage, symlink, remoção do ignore).
+
+---
+
 ## Estado
 
 **Aprovados pelo Maurício em 2026-06-16** para já serem **seguidos no dogfooding
