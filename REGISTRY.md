@@ -769,3 +769,5 @@ inflacao/monolito.
 | 20260616-160200-codex-guards-readme-g-frontdoor | guards/README.md | docs-guard | quente | — | 2026-06-16T16:02:00-03:00 |
 | 20260616-160300-codex-run-guard-tests-g-frontdoor | guards/tests/run-guard-tests.sh | test-suite | quente | — | 2026-06-16T16:03:00-03:00 |
 | 20260616-160300-codex-adversarial-b25 | guards/tests/adversarial-battery.sh | adversarial-test | quente | — | 2026-06-16T16:03:00-03:00 |
+| 20260616-160400-codex-state-s3-2 | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T16:04:00-03:00 |
+| 20260616-160400-codex-handoff-s3-2 | .hbn/messages/20260616-160400-codex-handoff-s3-2.md | handoff | quente | — | 2026-06-16T16:04:00-03:00 |
