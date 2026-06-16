@@ -1,0 +1,73 @@
+{
+  "readback_id": "0035-grande-selagem",
+  "execution_id": "grande-selagem-2026-06-16",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0035-grande-selagem.json",
+  "understanding": "Selar de uma vez o lixo acumulado apos P-CAND-04 e W2, ambos ratificados por cross-audit. Indexar e selar knowledge 0024 (zona-livre) e criar+selar knowledge 0025 (auditor read-only; sem --no-verify na branch de trabalho). Selar a proposta arvores+MVP e os oito pareceres cross-audit. Registrar no STATE: P-CAND-04 e W2 selados (cinco bypasses fechados), remocao da pollution cfe9c33 por reset humano, plano MVP (arvores registry-centric; hardening->deny->freeze), proxima acao W3 deny-by-default. Sem alterar logica de guard. Worktree termina limpo.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio em 2026-06-16: apos ratificacao de P-CAND-04 e W2 pelas cross-audits e remocao manual do commit-pollution cfe9c33 (reset --hard 635e01b), selar tudo e seguir hardening->deny->freeze; registrar as licoes.",
+    "created_at": "2026-06-16T20:30:00-03:00",
+    "note": "Autorizacao humana para safe_track de grande selagem. Nao autoriza tocar main, merge, --no-verify, git add ., alterar logica de guard, core, habilitar D-ORQ-WRITE."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0035-grande-selagem.json",
+      ".hbn/knowledge/0024-orquestrador-nao-sela-zona-livre-sem-aprovacao.md",
+      ".hbn/knowledge/0025-auditor-read-only-sem-no-verify.md",
+      ".hbn/knowledge/INDEX.md",
+      ".hbn/messages/20260616-180000-opus-4-8-proposta-arvores-leve-e-fechamento-mvp.md",
+      ".hbn/results/20260616-153302-antigravity-cross-ia-proposta-arvores-mvp.md",
+      ".hbn/results/20260616-153723-codex-cross-ia-proposta-arvores-mvp.md",
+      ".hbn/results/20260616-154200-cursor-cross-ia-proposta-arvores-mvp.md",
+      ".hbn/results/20260616-155716-cursor-cross-ia-p-cand-04.md",
+      ".hbn/results/20260616-172500-grok-cross-ia-w2-hardening.md",
+      ".hbn/results/20260616-173000-antigravity-cross-ia-w2-hardening.md",
+      ".hbn/results/20260616-184500-grok-cross-ia-proposta-arvores-mvp.md",
+      ".hbn/results/20260616-204530-grok-cross-ia-p-cand-04.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/messages/20260616-HHMMSS-codex-handoff-grande-selagem.md"
+    ],
+    "files_forbidden": ["main","src/**","core/**","schemas/**","guards/**"]
+  },
+  "action_plan": [
+    "C1: abrir readback 0035.",
+    "C2: indexar e selar knowledge 0024 + criar/indexar/selar 0025.",
+    "C3: selar a proposta.",
+    "C4: selar os oito pareceres.",
+    "C5: STATE + handoff."
+  ],
+  "invariants_to_preserve": [
+    "Nao tocar main, core, guards, schemas.",
+    "Nao alterar logica de guard.",
+    "Nao usar git add .; somente paths exatos.",
+    "0024 e 0025 citadas no INDEX no mesmo commit.",
+    "Handoff dentro do files_allowed.",
+    "Antes de cada commit: runner verde com o indice.",
+    "Trailers CONTIGUOS: HBN-Readback: 0035, HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin), HBN-Token-FP: 34a7f2f9."
+  ],
+  "out_of_scope": [
+    "deny-by-default, arvores registry-centric, freeze.",
+    "scope_extension (gate humano).",
+    "Habilitar D-ORQ-WRITE."
+  ],
+  "read_evidence": [
+    ".hbn/results/20260616-204530-grok-cross-ia-p-cand-04.md (NAO resolvido pelo W2)",
+    ".hbn/results/20260616-173000-antigravity-cross-ia-w2-hardening.md (APROVA_0034 SIM 100)",
+    ".hbn/results/20260616-172500-grok-cross-ia-w2-hardening.md (APROVA_0034 SIM; fail-closed confirmado)"
+  ],
+  "mechanical_evidence": [
+    "pwd -> /Users/macbookpro/Projetos/usehbn",
+    "git rev-parse HEAD -> 635e01b (pos-reset, pollution cfe9c33 removida)",
+    "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04",
+    "readback ativo atual = 0034"
+  ],
+  "created_at": "2026-06-16T20:30:00-03:00",
+  "protocol_version": "0.3.0"
+}

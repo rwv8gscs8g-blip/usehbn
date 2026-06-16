@@ -828,3 +828,13 @@ comentario stale do G-REG.
 | 20260616-193800-codex-adversarial-b29-b32 | guards/tests/adversarial-battery.sh | adversarial-test | quente | — | 2026-06-16T19:38:00-03:00 |
 | 20260616-194500-codex-state-w2-hardening | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T19:45:00-03:00 |
 | 20260616-194500-codex-handoff-w2-hardening | .hbn/messages/20260616-194500-codex-handoff-w2-hardening.md | handoff | quente | — | 2026-06-16T19:45:00-03:00 |
+
+## Grande Selagem (2026-06-16) — P-CAND-04 + W2 + pendencias — status: in_progress, readback 0035
+
+Selagem dos artefatos acumulados apos P-CAND-04 e W2 ratificados por
+cross-audit: readback 0035, knowledges 0024/0025, proposta arvores+MVP, oito
+pareceres cross-audit, STATE e handoff. Sem alterar logica de guard.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260616-203000-codex-readback-grande-selagem | .hbn/readbacks/0035-grande-selagem.json | readback | quente | — | 2026-06-16T20:30:00-03:00 |
