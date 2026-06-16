@@ -669,3 +669,5 @@ logica de guard.
 | 20260616-011004-codex-readback-selagem-s2-cross-audit | .hbn/readbacks/0026-selagem-s2-cross-audit.json | readback | quente | — | 2026-06-16T01:10:04-03:00 |
 | 20260616-010326-gemini-3-5-cross-ia-s2-dispatch | .hbn/results/20260616-010326-gemini-3-5-cross-ia-s2-dispatch.md | audit-result | frio | — | 2026-06-16T01:03:26-03:00 |
 | 20260616-010221-cursor-cross-ia-s2-dispatch | .hbn/results/20260616-010221-cursor-cross-ia-s2-dispatch.md | audit-result | frio | — | 2026-06-16T01:02:21-03:00 |
+| 20260616-002331-opus-4-8-despacho-s2-dispatch-auto-declarante | .hbn/messages/20260616-002331-opus-4-8-despacho-s2-dispatch-auto-declarante.md | despacho | quente | — | 2026-06-16T00:23:31-03:00 |
+| 20260616-005144-opus-4-8-despacho-cross-audit-s2 | .hbn/messages/20260616-005144-opus-4-8-despacho-cross-audit-s2.md | despacho | quente | — | 2026-06-16T00:51:44-03:00 |
