@@ -622,3 +622,15 @@ regular `100644`, sem semantica de link no objeto versionado.
 | 20260615-231847-codex-readback-b19-symlink-governado-geral | .hbn/readbacks/0023-b19-symlink-governado-geral.json | readback | quente | — | 2026-06-15T23:18:47-03:00 |
 | 20260615-232431-codex-state-b19 | .hbn/relay/STATE.md | state | quente | — | 2026-06-15T23:24:31-03:00 |
 | 20260615-232431-codex-handoff-b19 | .hbn/messages/20260615-232431-codex-handoff-b19.md | handoff | quente | — | 2026-06-15T23:24:31-03:00 |
+
+## Selagem B19 (2026-06-15) — cross-audit Gemini+Cursor aprovado, classe symlink/meta-path fechada
+
+B19 foi ratificado por cross-audit independente Gemini+Cursor com
+`APROVA_B19: SIM` e `CLASSE FECHADA: SIM`. A classe symlink/meta-path fica
+FECHADA apos B17+B18+B19. O vetor hardlink permanece non-issue/won't-fix: o
+Git trata hardlink como arquivo regular `100644`, sem semantica de link no
+objeto versionado. A proxima onda do roadmap e S2 (dispatch schema).
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260615-235600-codex-readback-selagem-b19-cross-audit | .hbn/readbacks/0024-selagem-b19-cross-audit.json | readback | quente | — | 2026-06-15T23:56:00-03:00 |

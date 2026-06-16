@@ -1,0 +1,82 @@
+{
+  "readback_id": "0024-selagem-b19-cross-audit",
+  "execution_id": "selagem-b19-cross-audit-2026-06-15",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0024-selagem-b19-cross-audit.json",
+  "understanding": "Selar B19 apos cross-audit Gemini+Cursor com APROVA_B19: SIM; declarar a classe symlink/meta-path FECHADA apos B17+B18+B19; manter hardlink como non-issue aceito; registrar S2 (dispatch schema) como proxima onda.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio autorizou em 2026-06-15 a selagem do B19 apos cross-audit Gemini+Cursor com APROVA_B19: SIM e classe FECHADA.",
+    "created_at": "2026-06-15T23:56:00-03:00",
+    "note": "Autorizacao humana para safe_track de selagem B19. Nao autoriza merge em main, --no-verify, git add ., D-ORQ-WRITE operacional ou tocar nos seis untracked antigos."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0024-selagem-b19-cross-audit.json",
+      "REGISTRY.md",
+      ".hbn/relay/STATE.md",
+      ".hbn/results/20260615-234638-gemini-3-5-cross-ia-b19-symlink-geral.md",
+      ".hbn/results/20260615-234641-cursor-cross-ia-b19-symlink-geral.md"
+    ],
+    "files_forbidden": [
+      ".hbn/messages/20260612-122102-fable5-handoff-orquestracao-pos-onda-0006.md",
+      ".hbn/messages/20260613-112502-fable5-handoff-orquestracao-pos-adocao-onda-0006.md",
+      ".hbn/results/20260614-032800-gemini-3-5-cross-ia-onda-0011-plano-v2.md",
+      ".hbn/results/20260614-043647-antigravity-cross-ia-exuvia-impl.md",
+      ".hbn/results/20260614-043826-codex-cross-ia-exuvia-impl.md",
+      ".hbn/results/20260614-044555-opus-4-8-consolidacao-cross-audit-exuvia-impl.md",
+      "main",
+      "src/**",
+      "site/**",
+      "examples/**",
+      "inbox/**",
+      ".hbn/models/**",
+      ".hbn/hearbacks/**"
+    ]
+  },
+  "action_plan": [
+    "Abrir readback 0024 e registrar seu nascimento no REGISTRY.",
+    "Depositar os pareceres Gemini e Cursor de cross-audit B19 com linhas REGISTRY separadas.",
+    "Atualizar STATE e handoff para B19 ratificado e selado, declarando classe symlink/meta-path FECHADA e S2 como proxima onda."
+  ],
+  "invariants_to_preserve": [
+    "Nao tocar main, nao fazer merge e nao usar --no-verify.",
+    "Nao habilitar D-ORQ-WRITE operacional.",
+    "Nao usar git add .; adicionar somente paths exatos.",
+    "Nao tocar nos seis untracked antigos listados no despacho.",
+    "Commits separados: abertura da onda, pareceres, STATE+handoff.",
+    "Antes de cada commit: bash guards/hbn-guards-runner.sh verde com o indice do commit.",
+    "Trailers obrigatorios: HBN-Readback: 0024, HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin), HBN-Token-FP: 34a7f2f9."
+  ],
+  "out_of_scope": [
+    "Implementar S2 nesta onda.",
+    "Mitigar hardlink como se fosse symlink.",
+    "Alterar guards/assert-scope-lock.sh, guards/README.md ou suites nesta selagem.",
+    "Normalizar corpo dos pareceres de auditoria."
+  ],
+  "read_evidence": [
+    ".hbn/results/20260615-234638-gemini-3-5-cross-ia-b19-symlink-geral.md:24-28",
+    ".hbn/results/20260615-234638-gemini-3-5-cross-ia-b19-symlink-geral.md:125-138",
+    ".hbn/results/20260615-234641-cursor-cross-ia-b19-symlink-geral.md:127-137",
+    ".hbn/results/20260615-234641-cursor-cross-ia-b19-symlink-geral.md:154-160"
+  ],
+  "mechanical_evidence": [
+    "pwd -> /Users/macbookpro/Projetos",
+    "GIT_OPTIONAL_LOCKS=0 git status -> branch proposta/reestruturacao-m-a-s0; tip inicial 3f62bbd; main 4db6928; seis untracked antigos presentes mais dois pareceres B19.",
+    "git rev-parse HEAD -> 3f62bbde0fd9554c284157afb350c9c4962e850e",
+    "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04",
+    "Gemini cross-audit B19: APROVA_B19: SIM; CLASSE FECHADA: SIM.",
+    "Cursor cross-audit B19: APROVA_B19: SIM; classe FECHADA: SIM; hardlink non-issue documentado."
+  ],
+  "metadata_normalization": {
+    "performed": false,
+    "note": "Os dois pareceres B19 ja trazem front-matter com tipo, path, id-global e created_at; corpo intacto."
+  },
+  "created_at": "2026-06-15T23:56:00-03:00",
+  "protocol_version": "0.3.0"
+}
