@@ -863,3 +863,4 @@ ativo.
 | id | artefato (path) | tipo | temperatura | superseded_by | created_at |
 |---|---|---|---|---|---|
 | 20260616-213000-codex-readback-deny-zona-livre | .hbn/readbacks/0036-deny-zona-livre.json | readback | quente | — | 2026-06-16T21:30:00-03:00 |
+| 20260616-213100-codex-assert-zona-livre | guards/assert-zona-livre.sh | guard | quente | — | 2026-06-16T21:31:00-03:00 |

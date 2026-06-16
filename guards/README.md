@@ -55,6 +55,18 @@ aplicada em CI contra a arvore `HEAD`. Hardlink e tratado pelo Git como arquivo
 regular (`100644`), sem semantica de link no objeto versionado, e fica fora do
 escopo desta regra.
 
+## Zona livre curada
+
+`assert-zona-livre` (G-ZONA-LIVRE) aplica deny-by-default sobre
+`docs/brainstorm/**`. Qualquer arquivo staged nessa area exige que o readback
+ativo apontado por `.hbn/relay/STATE.md` (`readback_ativo`) contenha
+`"zona_livre_curada": true` e `"zona_livre_nota"` com texto nao-vazio.
+
+O guard le o STATE e o readback do indice local, ou `HEAD` em CI. Se o STATE
+nao aponta para um readback valido, se o readback esta ausente/ilegivel, ou se
+os marcadores de curadoria faltam, o commit bloqueia: zona livre so entra com
+curadoria humana explicita no readback (knowledge 0024).
+
 ## Area temporaria /scratch/
 
 `scratch/` e a area efemera local do repo. O Git ignora `/scratch/` e versiona

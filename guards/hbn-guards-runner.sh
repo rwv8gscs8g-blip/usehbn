@@ -55,6 +55,7 @@ GUARDS=(
     "assert-scratch-symlink.sh"
     "assert-scratch-ignore.sh"
     "assert-scope-lock.sh"
+    "assert-zona-livre.sh"
     "validate-dispatch.sh"
     "assert-dispatch-integrity.sh"
     "assert-self-path.sh"
