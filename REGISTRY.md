@@ -803,3 +803,5 @@ fail-closed: G-SCRATCH-LOCK, G-SCRATCH-SYMLINK e G-SCRATCH-IGNORE.
 | 20260616-170100-codex-assert-scratch-lock | guards/assert-scratch-lock.sh | guard | quente | — | 2026-06-16T17:01:00-03:00 |
 | 20260616-170100-codex-assert-scratch-symlink | guards/assert-scratch-symlink.sh | guard | quente | — | 2026-06-16T17:01:00-03:00 |
 | 20260616-170100-codex-assert-scratch-ignore | guards/assert-scratch-ignore.sh | guard | quente | — | 2026-06-16T17:01:00-03:00 |
+| 20260616-170500-codex-state-p-cand-04 | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T17:05:00-03:00 |
+| 20260616-170500-codex-handoff-p-cand-04 | .hbn/messages/20260616-170500-codex-handoff-p-cand-04.md | handoff | quente | — | 2026-06-16T17:05:00-03:00 |
