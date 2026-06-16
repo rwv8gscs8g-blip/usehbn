@@ -692,3 +692,5 @@ scratch das suítes, sem tocar outros guards nem habilitar D-ORQ-WRITE.
 | 20260616-005144-opus-4-8-triagem-pendencias | .hbn/messages/20260616-005144-opus-4-8-triagem-pendencias.md | analise | quente | — | 2026-06-16T00:51:44-03:00 |
 | 20260616-011004-opus-4-8-criterios-exuvia | .hbn/messages/20260616-011004-opus-4-8-criterios-exuvia.md | spec-proposta | quente | core/exuvia-fitness-criteria.md | 2026-06-16T01:10:04-03:00 |
 | 20260616-011004-codex-exuvia-fitness-criteria | core/exuvia-fitness-criteria.md | spec-core | quente | — | 2026-06-16T01:10:04-03:00 |
+| 20260616-020135-codex-state-faxina | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T02:01:35-03:00 |
+| 20260616-020135-codex-handoff-faxina | .hbn/messages/20260616-020135-codex-handoff-faxina.md | handoff | quente | — | 2026-06-16T02:01:35-03:00 |
