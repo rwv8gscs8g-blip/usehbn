@@ -70,6 +70,9 @@
 #   arquivo regular. Total: 145.
 #   S2 (readback 0025): +6 checks G-DSP-FMT/G-DSP-INT para despacho
 #   auto-declarante (1 pass, 5 block). Total: 151.
+#   Faxina 0027: +3 checks G-EXC em modo CI para mensagem bruta (%B):
+#   trailers separados por linha em branco passam; ausencia real de
+#   HBN-Readback ou HBN-Human-Authorization bloqueia. Total: 154.
 # =============================================================================
 set -uo pipefail
 
@@ -1131,6 +1134,7 @@ EOF
     echo "$d"
 }
 run_exc() { ( cd "$1" && bash "$GUARDS_DIR/assert-exception-traceable.sh" ${2:+"$2"} >/dev/null 2>&1 ); echo $?; }
+run_exc_ci() { ( cd "$1" && HBN_DIFF_BASE="$2" bash "$GUARDS_DIR/assert-exception-traceable.sh" >/dev/null 2>&1 ); echo $?; }
 SINAL_OK='  - "🔴 EXCEÇÃO F-01 ATIVA — PROPOSED_UNTIL_CROSS_AUDIT"'
 SINAL_SEM='  - "🟢 tudo normal"'
 
@@ -1167,6 +1171,42 @@ check "exc: commit-msg STATE SEM sinais + 2 trailers -> LIBERA (regressao deadlo
 # commit-msg ainda EXIGE (b)+(c): mesma STATE, msg sem HBN-Human-Authorization -> BLOCK
 printf 'feat: x\n\nHBN-Readback: 0006\n' > "$d/msg-cm-bad.txt"
 check "exc: commit-msg STATE SEM sinais + msg sem trailer (c) -> BLOCK"              block "$(run_exc "$d" "$d/msg-cm-bad.txt")"
+rm -rf "$d"
+
+# Faxina 0027: em CI o G-EXC deve ler a mensagem bruta (%B), nao o parser
+# nativo de trailers. Isso evita falso-positivo quando os dois trailers existem
+# mas estao separados por linha em branco; e ainda bloqueia ausencia real.
+d="$(make_exc_repo "mesmo-1" "mesmo-1" y "$SINAL_OK")"
+base="$(git -C "$d" rev-parse HEAD)"
+(
+    cd "$d"
+    echo ok > docs/ci-trailers-separados.md
+    git add docs/ci-trailers-separados.md
+    git commit -qm $'feat: ci trailers separados\n\nHBN-Readback: 0007\n\nHBN-Human-Authorization: ordem-tester'
+) >/dev/null 2>&1
+check "exc: CI trailers separados por linha em branco -> passa" pass "$(run_exc_ci "$d" "$base")"
+rm -rf "$d"
+
+d="$(make_exc_repo "mesmo-1" "mesmo-1" y "$SINAL_OK")"
+base="$(git -C "$d" rev-parse HEAD)"
+(
+    cd "$d"
+    echo bad > docs/ci-sem-readback.md
+    git add docs/ci-sem-readback.md
+    git commit -qm $'feat: ci sem readback\n\nHBN-Human-Authorization: ordem-tester'
+) >/dev/null 2>&1
+check "exc: CI sem HBN-Readback -> BLOCK" block "$(run_exc_ci "$d" "$base")"
+rm -rf "$d"
+
+d="$(make_exc_repo "mesmo-1" "mesmo-1" y "$SINAL_OK")"
+base="$(git -C "$d" rev-parse HEAD)"
+(
+    cd "$d"
+    echo bad > docs/ci-sem-human.md
+    git add docs/ci-sem-human.md
+    git commit -qm $'feat: ci sem human authorization\n\nHBN-Readback: 0007\nHBN-Token-FP: 34a7f2f9'
+) >/dev/null 2>&1
+check "exc: CI sem HBN-Human-Authorization -> BLOCK" block "$(run_exc_ci "$d" "$base")"
 rm -rf "$d"
 
 # --- G-HRB modo runner + assinatura SSH (onda 0006 I-08) ---------------------

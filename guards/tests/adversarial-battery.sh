@@ -335,6 +335,37 @@ write_dispatch_adv "$d" "0025-s2-dispatch-auto-declarante" "34a7f2f9" "# comenta
 try_burla "B22 dispatch com linha # no corpo colavel" "G-DSP-FMT" "$( ( cd "$d" && bash "$GUARDS_DIR/validate-dispatch.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
+# B23 — G-EXC em modo CI nao pode aceitar commit que termina com HBN-Token-FP
+# mas omite HBN-Human-Authorization.
+d="$(mk_repo)"
+(
+  cd "$d"
+  mkdir -p .hbn/relay .hbn/readbacks docs
+  cat > .hbn/readbacks/0007-t.json <<'EOF'
+{"readback_id":"0007-t","agent_id":"ego-1","authorization":{"human":"Tester Humano","evidence":"ordem em chat 2026-06-16"},"track":"safe_track","human_status":"confirmed","scope":{"files_allowed":["**"],"files_forbidden":[]}}
+EOF
+  cat > .hbn/relay/STATE.md <<'EOF'
+---
+sinais_abertos:
+  - "🔴 EXCEÇÃO F-01 ATIVA — PROPOSED_UNTIL_CROSS_AUDIT"
+atribuicao:
+  implementador: ego-1
+  auditores: [outro-2]
+---
+EOF
+  git add -A -f
+  git commit -qm init
+) >/dev/null 2>&1
+base="$(git -C "$d" rev-parse HEAD)"
+(
+  cd "$d"
+  echo payload > docs/b23.md
+  git add docs/b23.md
+  git commit -qm $'feat: b23\n\nHBN-Readback: 0007\nHBN-Token-FP: 34a7f2f9'
+) >/dev/null 2>&1
+try_burla "B23 CI trailer token sem autorizacao humana" "G-EXC" "$( ( cd "$d" && HBN_DIFF_BASE="$base" bash "$GUARDS_DIR/assert-exception-traceable.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------
 echo ""
 printf '%-52s | %-8s | %s\n' "BURLA" "GUARD" "RESULTADO"
