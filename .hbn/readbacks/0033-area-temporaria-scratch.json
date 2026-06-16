@@ -1,0 +1,78 @@
+{
+  "readback_id": "0033-area-temporaria-scratch",
+  "execution_id": "area-temporaria-scratch-2026-06-16",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0033-area-temporaria-scratch.json",
+  "understanding": "P-CAND-04: criar a area temporaria /scratch/ na raiz, gitignored com excecao para scratch/README.md versionado, e tres guards bloqueantes fail-closed do design convergido no cross-audit S3.1: G-SCRATCH-LOCK (nenhum path sob scratch/ exceto README pode ser staged), G-SCRATCH-SYMLINK (sem symlink staged sob scratch/), G-SCRATCH-IGNORE (a linha /scratch/ e a excecao do README devem permanecer no .gitignore staged). Cobrir com teste positivo/negativo e burlas B26-B28. Da as IAs um espaco efemero seguro que nunca vaza para o historico/origin. Sem tocar core nem outros guards; sem implementar as arvores.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio em 2026-06-16: seguir P-CAND-04 agora em cadencia rapida; area temporaria segura conforme design convergido; bloqueio total deny-by-default vem na sequencia.",
+    "created_at": "2026-06-16T17:00:00-03:00",
+    "note": "Autorizacao humana para safe_track de P-CAND-04. Nao autoriza tocar main, merge, --no-verify, git add ., core, outros guards, implementar arvores, habilitar D-ORQ-WRITE."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0033-area-temporaria-scratch.json",
+      ".gitignore",
+      "scratch/README.md",
+      "guards/assert-scratch-lock.sh",
+      "guards/assert-scratch-symlink.sh",
+      "guards/assert-scratch-ignore.sh",
+      "guards/hbn-guards-runner.sh",
+      "guards/README.md",
+      "guards/tests/run-guard-tests.sh",
+      "guards/tests/adversarial-battery.sh",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/messages/20260616-HHMMSS-codex-handoff-p-cand-04.md"
+    ],
+    "files_forbidden": [
+      "main",
+      "src/**",
+      "core/**",
+      "schemas/**",
+      "guards/assert-scope-lock.sh",
+      "guards/assert-knowledge-index.sh",
+      "guards/assert-frontdoor.sh",
+      "guards/assert-exception-traceable.sh"
+    ]
+  },
+  "action_plan": [
+    "C1: abrir readback 0033 e registrar nascimento.",
+    "C2: criar /scratch/ gitignored + README versionado.",
+    "C3: criar os 3 guards G-SCRATCH-* e inserir no runner.",
+    "C4: cobrir com testes e burlas B26-B28.",
+    "C5: atualizar STATE e criar handoff."
+  ],
+  "invariants_to_preserve": [
+    "Nao tocar main, nao merge, nao --no-verify.",
+    "Nao tocar core nem outros guards.",
+    "Nao usar git add .; somente paths exatos.",
+    "Handoff da onda dentro do files_allowed.",
+    "Antes de cada commit: runner verde com o indice.",
+    "Trailers CONTIGUOS: HBN-Readback: 0033, HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin), HBN-Token-FP: 34a7f2f9."
+  ],
+  "out_of_scope": [
+    "Implementar a proposta das arvores (parada ate aprovacao humana).",
+    "Bloqueio total deny-by-default da zona livre (proxima onda).",
+    "Corrigir marginais G-KNOW/G-FRONTDOOR (onda de hardening).",
+    "Habilitar D-ORQ-WRITE."
+  ],
+  "read_evidence": [
+    "docs/brainstorm/principios-candidatos.md (P-CAND-04 design convergido)",
+    ".hbn/results/20260616-124526-cursor-cross-ia-s3-1.md (DESIGN-AREA-TEMP: 3 guards)",
+    ".hbn/knowledge/0023-area-temporaria-e-fixtures-efemeras.md (regra de efemeros)"
+  ],
+  "mechanical_evidence": [
+    "pwd -> /Users/macbookpro/Projetos/usehbn",
+    "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04",
+    "readback ativo atual = 0032"
+  ],
+  "created_at": "2026-06-16T17:00:00-03:00",
+  "protocol_version": "0.3.0"
+}

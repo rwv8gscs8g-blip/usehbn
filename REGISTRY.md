@@ -790,3 +790,13 @@ guard.
 | 20260616-164000-codex-brainstorm-proposta-arvores-agora | docs/brainstorm/PROPOSTA-arvores-agora.md | brainstorm-zona-livre | frio | — | 2026-06-16T16:40:00-03:00 |
 | 20260616-164000-codex-state-selagem-s3-2 | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T16:40:00-03:00 |
 | 20260616-164000-codex-handoff-selagem-s3-2 | .hbn/messages/20260616-164000-codex-handoff-selagem-s3-2.md | handoff | quente | — | 2026-06-16T16:40:00-03:00 |
+
+## P-CAND-04 (2026-06-16) — area temporaria /scratch/ + guards — status: in_progress, readback 0033
+
+P-CAND-04 cria a area temporaria `/scratch/` na raiz, ignorada pelo Git com
+excecao para `scratch/README.md`, e adiciona tres guards bloqueantes
+fail-closed: G-SCRATCH-LOCK, G-SCRATCH-SYMLINK e G-SCRATCH-IGNORE.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260616-170000-codex-readback-area-temporaria-scratch | .hbn/readbacks/0033-area-temporaria-scratch.json | readback | quente | — | 2026-06-16T17:00:00-03:00 |
