@@ -805,3 +805,14 @@ fail-closed: G-SCRATCH-LOCK, G-SCRATCH-SYMLINK e G-SCRATCH-IGNORE.
 | 20260616-170100-codex-assert-scratch-ignore | guards/assert-scratch-ignore.sh | guard | quente | — | 2026-06-16T17:01:00-03:00 |
 | 20260616-170500-codex-state-p-cand-04 | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T17:05:00-03:00 |
 | 20260616-170500-codex-handoff-p-cand-04 | .hbn/messages/20260616-170500-codex-handoff-p-cand-04.md | handoff | quente | — | 2026-06-16T17:05:00-03:00 |
+
+## W2 (2026-06-16) — hardening dos guards — status: in_progress, readback 0034
+
+W2 fecha bypasses achados nas auditorias: G-KNOW-INDEX token-match e
+anti-ponteiro-morto, G-FRONTDOOR com teto por bytes e read-list robusta,
+G-EXC ancorado no ultimo paragrafo, G-SCRATCH fail-closed sem active-version e
+comentario stale do G-REG.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260616-193000-codex-readback-hardening-guards | .hbn/readbacks/0034-hardening-guards.json | readback | quente | — | 2026-06-16T19:30:00-03:00 |
