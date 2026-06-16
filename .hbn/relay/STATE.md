@@ -1,8 +1,8 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2 selados; P-CAND-04 entregue)"
-onda_atual: "P-CAND-04 ENTREGUE: area temporaria /scratch/ ativa, gitignored com README versionado e guards G-SCRATCH-LOCK/SYMLINK/IGNORE bloqueantes"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2 selados; P-CAND-04 entregue; W2 hardening entregue)"
+onda_atual: "W2 ENTREGUE: hardening dos guards fechou B29-B32; P-CAND-04 sera selado junto na proxima selagem"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
@@ -11,8 +11,12 @@ papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor — cross-audit S1 concluiu APROVA_S1: SIM; cross-audit B17 concluiu APROVA_B17: SIM; cross-audit B18 concluiu APROVA_B18: SIM; cross-audit B19 concluiu APROVA_B19: SIM e classe FECHADA: SIM; cross-audit S2 concluiu APROVA_S2: SIM; cross-audit faxina 0027 concluiu APROVA_0027: SIM; cross-audit S3.1 concluiu APROVA_0029: SIM; cross-audit S3.2 concluiu APROVA_0031: SIM"
   gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15, autorizou a selagem S1, decidiu tratar B17 antes do S2, autorizou B18, ratificou a selagem B18 com B19a como próxima onda, autorizou B19 antes do S2, autorizou a selagem B19 após cross-audit, autorizou S2 com guards bloqueantes sem rampa, autorizou a selagem S2 apos duplo APROVA_S2 SIM, autorizou lixo-zero na selagem da faxina 0027, autorizou S3 incremental com INDEX vivo da knowledge em S3.1, autorizou a selagem S3.1 lixo-zero, autorizou a selagem S3.2 lixo-zero com hardening de guards em onda propria e autorizou P-CAND-04 em 2026-06-16"
-proxima_acao: "Cross-audit P-CAND-04; depois bloqueio total deny-by-default da zona livre."
+proxima_acao: "Cross-audit W2; P-CAND-04 sera selado junto na proxima selagem; depois avaliar deny-by-default/freeze."
 sinais_abertos:
+  - "🟢 W2 ENTREGUE — hardening dos guards concluido: G-KNOW-INDEX token inteiro + anti-ponteiro-morto; G-FRONTDOOR teto bytes + read-list robusta + existencia; G-EXC trailers no ultimo paragrafo; G-SCRATCH fail-closed sem active-version; comentario G-REG corrigido."
+  - "🟢 TESTES W2 VERDES — run-guard-tests fechou 175/175; adversarial-battery bloqueou B1-B32, incluindo B29, B30, B31 e B32."
+  - "🟡 P-CAND-04 SERA SELADO JUNTO — area temporaria /scratch/ ja foi entregue; a proxima selagem deve cobrir P-CAND-04 junto com W2."
+  - "🟡 PRÓXIMA AÇÃO — Cross-audit W2; P-CAND-04 sera selado junto na proxima selagem; depois avaliar deny-by-default/freeze."
   - "🟢 P-CAND-04 ENTREGUE — area temporaria /scratch/ ativa: .gitignore ignora /scratch/ e versiona somente scratch/README.md como contrato de uso."
   - "🟢 G-SCRATCH ATIVOS — guards/assert-scratch-lock.sh, guards/assert-scratch-symlink.sh e guards/assert-scratch-ignore.sh entraram bloqueantes no runner."
   - "🟢 TESTES P-CAND-04 VERDES — run-guard-tests fechou 165/165; adversarial-battery bloqueou B1-B28, incluindo B26 arquivo em scratch/, B27 symlink em scratch/ e B28 .gitignore sem /scratch/."
@@ -49,20 +53,28 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟡 branch protection no GitHub (hbn-shield obrigatório no push) = ação humana pendente."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0033-area-temporaria-scratch.json"
-handoff_mais_recente: ".hbn/messages/20260616-170500-codex-handoff-p-cand-04.md"
+readback_ativo: ".hbn/readbacks/0034-hardening-guards.json"
+handoff_mais_recente: ".hbn/messages/20260616-194500-codex-handoff-w2-hardening.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "P-CAND-04 entregue; bastao volta ao orquestrador para cross-audit P-CAND-04 e, depois, desenho do bloqueio total deny-by-default da zona livre."
-ultima_atualizacao: "2026-06-16T17:05:00-03:00"
-atualizado_por: codex-implementador-p-cand-04
+ciclo_ativo: "W2 hardening de guards entregue; bastao volta ao orquestrador para cross-audit W2. P-CAND-04 sera selado junto na proxima selagem."
+ultima_atualizacao: "2026-06-16T19:45:00-03:00"
+atualizado_por: codex-implementador-w2-hardening
 atribuicao:
   chapeu_atual: orquestrador
   implementador: codex
   auditores: [gemini-3-5, cursor]
-  gravada_em: "2026-06-16T17:05:00-03:00"
+  gravada_em: "2026-06-16T19:45:00-03:00"
   hearback_ref: null
 ---
+
+Nota W2 / readback 0034: entregue em 2026-06-16. A onda fechou os bypasses
+apontados nas auditorias: B29 (G-KNOW-INDEX substring e ponteiro morto), B30
+(G-FRONTDOOR linha unica densa e path inexistente), B31 (G-EXC prosa no corpo
+sem trailers finais) e B32 (G-SCRATCH-LOCK sem active-version). `run-guard-tests`
+fechou 175/175 e `adversarial-battery` bloqueou B1-B32. O comentario stale do
+G-REG foi corrigido sem mudanca de logica. P-CAND-04 sera selado junto na
+proxima selagem; o bastao volta ao orquestrador para cross-audit W2.
 
 Nota M-A: esta onda construiu a máquina da muda sem disparar a muda. O
 ponteiro ativo permanece em `.`; hooks e guards falham fechado quando o

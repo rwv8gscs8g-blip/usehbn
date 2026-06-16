@@ -816,3 +816,15 @@ comentario stale do G-REG.
 | id | artefato (path) | tipo | temperatura | superseded_by | created_at |
 |---|---|---|---|---|---|
 | 20260616-193000-codex-readback-hardening-guards | .hbn/readbacks/0034-hardening-guards.json | readback | quente | — | 2026-06-16T19:30:00-03:00 |
+| 20260616-193100-codex-assert-knowledge-index-w2 | guards/assert-knowledge-index.sh | guard | quente | — | 2026-06-16T19:31:00-03:00 |
+| 20260616-193200-codex-assert-frontdoor-w2 | guards/assert-frontdoor.sh | guard | quente | — | 2026-06-16T19:32:00-03:00 |
+| 20260616-193300-codex-assert-exception-traceable-w2 | guards/assert-exception-traceable.sh | guard | quente | — | 2026-06-16T19:33:00-03:00 |
+| 20260616-193400-codex-assert-scratch-lock-w2 | guards/assert-scratch-lock.sh | guard | quente | — | 2026-06-16T19:34:00-03:00 |
+| 20260616-193400-codex-assert-scratch-symlink-w2 | guards/assert-scratch-symlink.sh | guard | quente | — | 2026-06-16T19:34:00-03:00 |
+| 20260616-193400-codex-assert-scratch-ignore-w2 | guards/assert-scratch-ignore.sh | guard | quente | — | 2026-06-16T19:34:00-03:00 |
+| 20260616-193500-codex-assert-registry-line-comment-w2 | guards/assert-registry-line.sh | guard-comment | quente | — | 2026-06-16T19:35:00-03:00 |
+| 20260616-193600-codex-guards-readme-w2 | guards/README.md | docs-guard | quente | — | 2026-06-16T19:36:00-03:00 |
+| 20260616-193700-codex-run-guard-tests-w2 | guards/tests/run-guard-tests.sh | test-suite | quente | — | 2026-06-16T19:37:00-03:00 |
+| 20260616-193800-codex-adversarial-b29-b32 | guards/tests/adversarial-battery.sh | adversarial-test | quente | — | 2026-06-16T19:38:00-03:00 |
+| 20260616-194500-codex-state-w2-hardening | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T19:45:00-03:00 |
+| 20260616-194500-codex-handoff-w2-hardening | .hbn/messages/20260616-194500-codex-handoff-w2-hardening.md | handoff | quente | — | 2026-06-16T19:45:00-03:00 |
