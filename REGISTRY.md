@@ -743,3 +743,5 @@ handoff, sem alterar logica de guard.
 | id | artefato (path) | tipo | temperatura | superseded_by | created_at |
 |---|---|---|---|---|---|
 | 20260616-153000-codex-readback-selagem-s3-1 | .hbn/readbacks/0030-selagem-s3-1.json | readback | quente | — | 2026-06-16T15:30:00-03:00 |
+| 20260616-121025-gemini-3-5-cross-ia-s3-1 | .hbn/results/20260616-121025-gemini-3-5-cross-ia-s3-1.md | audit-result | frio | — | 2026-06-16T12:10:25-03:00 |
+| 20260616-124526-cursor-cross-ia-s3-1 | .hbn/results/20260616-124526-cursor-cross-ia-s3-1.md | audit-result | frio | — | 2026-06-16T12:45:26-03:00 |
