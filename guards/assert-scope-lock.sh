@@ -203,8 +203,8 @@ fi
 # B17: a dispensa de scope.files_allowed e restrita por tipo+nome. Somente
 # .json/.md com basename de evento ADR-025, hearback do readback ativo, ou
 # nome-endereco conhecido entram aqui; payload arbitrario cai no scope normal.
-# B18: symlink em path governado .hbn/** nunca e auto-permitido; modo git
-# 120000 bloqueia antes do scope normal ou da dispensa de meta-path.
+# B18/B19: symlink em arquivo staged avaliado por este guard nunca e permitido;
+# modo git 120000 bloqueia antes do scope normal ou da dispensa de meta-path.
 # Documentado em guards/README.md §Meta-paths.
 READBACK_NUM="$(basename "$ACTIVE_RB" | grep -oE '^[0-9]{4}' || echo "")"
 META_ALLOWED_DESCRIPTIONS=(
@@ -251,14 +251,14 @@ is_meta_auto_allowed() {
     return 1
 }
 
-is_governed_hbn_symlink() {
-    local file="$1"
-    [[ "$file" == .hbn/* ]] || return 1
+is_governed_symlink() {
+    local file="$1" repo_file
+    repo_file="$(guard_version_repo_path "$file" || echo "$file")"
 
     if [[ -n "${HBN_DIFF_BASE:-}" ]]; then
-        git ls-tree -r HEAD -- "$file" 2>/dev/null | grep -q '^120000[[:space:]]'
+        git ls-tree -r HEAD -- "$repo_file" 2>/dev/null | grep -q '^120000[[:space:]]'
     else
-        git ls-files --stage -- "$file" 2>/dev/null | grep -q '^120000[[:space:]]'
+        git ls-files --stage -- "$repo_file" 2>/dev/null | grep -q '^120000[[:space:]]'
     fi
 }
 
@@ -329,13 +329,13 @@ fi
 FAIL=0
 OUT_SCOPE=()
 IN_FORBIDDEN=()
-GOVERNED_HBN_SYMLINKS=()
+GOVERNED_SYMLINKS=()
 
 while IFS= read -r f; do
     [[ -z "$f" ]] && continue
 
-    if is_governed_hbn_symlink "$f"; then
-        GOVERNED_HBN_SYMLINKS+=("$f")
+    if is_governed_symlink "$f"; then
+        GOVERNED_SYMLINKS+=("$f")
         FAIL=1
         continue
     fi
@@ -357,9 +357,9 @@ if [[ $FAIL -eq 0 ]]; then
     exit 0
 fi
 
-if [[ ${#GOVERNED_HBN_SYMLINKS[@]} -gt 0 ]]; then
-    for f in "${GOVERNED_HBN_SYMLINKS[@]}"; do
-        guard_fail "symlink não permitido em path de coordenação governado: $f"
+if [[ ${#GOVERNED_SYMLINKS[@]} -gt 0 ]]; then
+    for f in "${GOVERNED_SYMLINKS[@]}"; do
+        guard_fail "symlink não permitido em path governado: $f"
     done
 fi
 
@@ -383,7 +383,7 @@ echo "  Patterns permitidos:" >&2
 for p in "${ALLOWED_PATTERNS[@]}"; do
     echo "    + $p" >&2
 done
-echo "  Meta-paths auto-permitidos (tipo+nome; symlinks bloqueados):" >&2
+echo "  Meta-paths auto-permitidos (tipo+nome; symlinks sempre bloqueados):" >&2
 for p in "${META_ALLOWED_DESCRIPTIONS[@]}"; do
     echo "    + $p" >&2
 done
