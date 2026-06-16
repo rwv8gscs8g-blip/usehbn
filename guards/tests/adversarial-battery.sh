@@ -18,6 +18,7 @@ set -uo pipefail
 
 TESTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 GUARDS_DIR="$(dirname "$TESTS_DIR")"
+REPO_ROOT="$(cd "$GUARDS_DIR/.." && pwd)"
 unset HBN_GUARDS_BYPASS GLASSWING_BYPASS HBN_DIFF_BASE CI GITHUB_ACTIONS 2>/dev/null || true
 
 SUITE_TMP="$(mktemp -d "${TMPDIR:-/tmp}/hbn-adv.XXXXXX")"
@@ -267,6 +268,71 @@ EOF
   && git add guards/falso-guard.sh
 ) >/dev/null 2>&1
 try_burla "B19 symlink em guards/ permitido por escopo" "G-SCO"   "$( ( cd "$d" && bash "$GUARDS_DIR/assert-scope-lock.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+# B20 — dispatch com token_fp diferente do prefixo do STATE.
+mk_dispatch_repo() {
+    local d; d="$(mktemp -d)"
+    (
+      cd "$d"
+      git init -q
+      git config user.email a@b
+      git config user.name a
+      mkdir -p .hbn/relay .hbn/readbacks .hbn/dispatch schemas
+      echo "." > .hbn/active-version
+      cp "$REPO_ROOT/schemas/dispatch.schema.json" schemas/dispatch.schema.json
+      cat > .hbn/relay/STATE.md <<'EOF'
+---
+bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
+readback_ativo: ".hbn/readbacks/0025-s2-dispatch-auto-declarante.json"
+---
+EOF
+      cat > .hbn/readbacks/0025-s2-dispatch-auto-declarante.json <<'EOF'
+{"readback_id":"0025-s2-dispatch-auto-declarante","track":"safe_track","human_status":"confirmed","scope":{"files_allowed":[".hbn/dispatch/0025-s2-dispatch-auto-declarante.md"],"files_forbidden":[]}}
+EOF
+      git add -A
+      git commit -qm init
+    ) >/dev/null 2>&1
+    echo "$d"
+}
+write_dispatch_adv() {
+    local d="$1" rb="${2:-0025-s2-dispatch-auto-declarante}" fp="${3:-34a7f2f9}" body="${4:-Executar despacho sem comentario.}"
+    (
+      cd "$d" && cat > .hbn/dispatch/0025-s2-dispatch-auto-declarante.md <<EOF
+---
+dispatch_id: 0025-s2-dispatch-auto-declarante
+path: .hbn/dispatch/0025-s2-dispatch-auto-declarante.md
+readback_id: ${rb}
+token_fp: ${fp}
+human_authorization: Mauricio (Luis Mauricio Junqueira Zanin)
+scope:
+  files_allowed:
+    - .hbn/dispatch/0025-s2-dispatch-auto-declarante.md
+  files_forbidden:
+    - main
+action_plan:
+  - Executar S2
+---
+${body}
+EOF
+      git add .hbn/dispatch/0025-s2-dispatch-auto-declarante.md
+    ) >/dev/null 2>&1
+}
+d="$(mk_dispatch_repo)"
+write_dispatch_adv "$d" "0025-s2-dispatch-auto-declarante" "deadbeef"
+try_burla "B20 dispatch token_fp divergente do STATE"  "G-DSP-INT" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-dispatch-integrity.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+# B21 — dispatch declarando readback inexistente/nao-ativo.
+d="$(mk_dispatch_repo)"
+write_dispatch_adv "$d" "0099-inexistente" "34a7f2f9"
+try_burla "B21 dispatch readback inexistente/nao-ativo" "G-DSP-INT" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-dispatch-integrity.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+# B22 — corpo colavel quebra zsh-safe com linha iniciada por '#'.
+d="$(mk_dispatch_repo)"
+write_dispatch_adv "$d" "0025-s2-dispatch-auto-declarante" "34a7f2f9" "# comentario que nao pode ser colado"
+try_burla "B22 dispatch com linha # no corpo colavel" "G-DSP-FMT" "$( ( cd "$d" && bash "$GUARDS_DIR/validate-dispatch.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------

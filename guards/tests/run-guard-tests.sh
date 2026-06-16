@@ -68,6 +68,8 @@
 #   B19 (readback 0023): +4 checks G-SCO generalizando bloqueio de symlink
 #   para todo path governado, mantendo arquivos regulares e hardlink como
 #   arquivo regular. Total: 145.
+#   S2 (readback 0025): +6 checks G-DSP-FMT/G-DSP-INT para despacho
+#   auto-declarante (1 pass, 5 block). Total: 151.
 # =============================================================================
 set -uo pipefail
 
@@ -1361,6 +1363,131 @@ rm -rf "$d"
 d="$(make_tok_repo "")"
 check "tok: STATE sem campo + exigência ativa → BLOCK"          block "$(run_tok "$d" $'feat: x' "HBN_REQUIRE_BATON_TOKEN=1")"
 check "tok: STATE sem campo (rampa) → passa com aviso"          pass  "$(run_tok "$d" $'feat: x')"
+rm -rf "$d"
+
+# --- G-DSP-FMT / G-DSP-INT: dispatch auto-declarante (S2) -------------------
+echo "== dispatch auto-declarante (G-DSP-FMT/G-DSP-INT) =="
+DSP_HASH="34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf"
+make_dispatch_repo() {
+    local d; d="$(mktemp -d)"
+    (
+        cd "$d"
+        git init -q
+        git config user.email "tests@hbn.local"
+        git config user.name "hbn-guard-tests"
+        mkdir -p .hbn/relay .hbn/readbacks .hbn/dispatch schemas
+        echo "." > .hbn/active-version
+        cp "$REPO_ROOT/schemas/dispatch.schema.json" schemas/dispatch.schema.json
+        cat > .hbn/relay/STATE.md <<EOF
+---
+bastao_token_sha256: ${DSP_HASH}
+readback_ativo: ".hbn/readbacks/0025-s2-dispatch-auto-declarante.json"
+atribuicao:
+  implementador: codex
+  auditores: [gemini-3-5, cursor]
+---
+EOF
+        cat > .hbn/readbacks/0025-s2-dispatch-auto-declarante.json <<'EOF'
+{
+  "readback_id": "0025-s2-dispatch-auto-declarante",
+  "track": "safe_track",
+  "human_status": "confirmed",
+  "scope": {
+    "files_allowed": [".hbn/dispatch/0025-s2-dispatch-auto-declarante.md"],
+    "files_forbidden": []
+  }
+}
+EOF
+        git add -A
+        git commit -qm init
+    ) >/dev/null 2>&1
+    echo "$d"
+}
+write_good_dispatch() {
+    local d="$1"
+    (
+        cd "$d"
+        cat > .hbn/dispatch/0025-s2-dispatch-auto-declarante.md <<'EOF'
+---
+schema_version: dispatch.v1
+dispatch_id: 0025-s2-dispatch-auto-declarante
+path: .hbn/dispatch/0025-s2-dispatch-auto-declarante.md
+readback_id: 0025-s2-dispatch-auto-declarante
+token_fp: 34a7f2f9
+human_authorization: Mauricio (Luis Mauricio Junqueira Zanin)
+agent_id: codex
+role: implementador
+status: ready_for_execution
+created_at: 2026-06-16T00:23:31-03:00
+summary: Dispatch S2
+scope:
+  files_allowed:
+    - schemas/dispatch.schema.json
+  files_forbidden:
+    - main
+action_plan:
+  - Executar S2
+invariants:
+  - Nao tocar main
+validation_commands:
+  - bash guards/hbn-guards-runner.sh
+---
+Executar S2 com paths explicitamente stageados.
+Validar guards antes do commit.
+EOF
+        git add .hbn/dispatch/0025-s2-dispatch-auto-declarante.md
+    ) >/dev/null 2>&1
+}
+run_dsp_fmt() { ( cd "$1" && bash "$GUARDS_DIR/validate-dispatch.sh" >/dev/null 2>&1 ); echo $?; }
+run_dsp_int() { ( cd "$1" && bash "$GUARDS_DIR/assert-dispatch-integrity.sh" >/dev/null 2>&1 ); echo $?; }
+run_dsp_both() {
+    ( cd "$1" && bash "$GUARDS_DIR/validate-dispatch.sh" >/dev/null 2>&1 \
+        && bash "$GUARDS_DIR/assert-dispatch-integrity.sh" >/dev/null 2>&1 )
+    echo $?
+}
+
+d="$(make_dispatch_repo)"
+write_good_dispatch "$d"
+check "dsp: despacho bem-formado e coerente passa" pass "$(run_dsp_both "$d")"
+rm -rf "$d"
+
+d="$(make_dispatch_repo)"
+write_good_dispatch "$d"
+( cd "$d" && grep -v '^human_authorization:' .hbn/dispatch/0025-s2-dispatch-auto-declarante.md > dispatch.tmp \
+    && mv dispatch.tmp .hbn/dispatch/0025-s2-dispatch-auto-declarante.md \
+    && git add .hbn/dispatch/0025-s2-dispatch-auto-declarante.md ) >/dev/null 2>&1
+check "dsp-fmt: campo obrigatório ausente → BLOCK" block "$(run_dsp_fmt "$d")"
+rm -rf "$d"
+
+d="$(make_dispatch_repo)"
+write_good_dispatch "$d"
+( cd "$d" && printf '# comentario proibido\n' >> .hbn/dispatch/0025-s2-dispatch-auto-declarante.md \
+    && git add .hbn/dispatch/0025-s2-dispatch-auto-declarante.md ) >/dev/null 2>&1
+check "dsp-fmt: linha iniciada por # no corpo colavel → BLOCK" block "$(run_dsp_fmt "$d")"
+rm -rf "$d"
+
+d="$(make_dispatch_repo)"
+write_good_dispatch "$d"
+( cd "$d" && sed -i.bak 's/token_fp: 34a7f2f9/token_fp: zzzzzzzz/' .hbn/dispatch/0025-s2-dispatch-auto-declarante.md \
+    && rm -f .hbn/dispatch/0025-s2-dispatch-auto-declarante.md.bak \
+    && git add .hbn/dispatch/0025-s2-dispatch-auto-declarante.md ) >/dev/null 2>&1
+check "dsp-fmt: token_fp mal-formado → BLOCK" block "$(run_dsp_fmt "$d")"
+rm -rf "$d"
+
+d="$(make_dispatch_repo)"
+write_good_dispatch "$d"
+( cd "$d" && sed -i.bak 's/readback_id: 0025-s2-dispatch-auto-declarante/readback_id: 0099-inexistente/' .hbn/dispatch/0025-s2-dispatch-auto-declarante.md \
+    && rm -f .hbn/dispatch/0025-s2-dispatch-auto-declarante.md.bak \
+    && git add .hbn/dispatch/0025-s2-dispatch-auto-declarante.md ) >/dev/null 2>&1
+check "dsp-int: readback inexistente/não-ativo → BLOCK" block "$(run_dsp_int "$d")"
+rm -rf "$d"
+
+d="$(make_dispatch_repo)"
+write_good_dispatch "$d"
+( cd "$d" && sed -i.bak 's/token_fp: 34a7f2f9/token_fp: deadbeef/' .hbn/dispatch/0025-s2-dispatch-auto-declarante.md \
+    && rm -f .hbn/dispatch/0025-s2-dispatch-auto-declarante.md.bak \
+    && git add .hbn/dispatch/0025-s2-dispatch-auto-declarante.md ) >/dev/null 2>&1
+check "dsp-int: token_fp divergente do STATE → BLOCK" block "$(run_dsp_int "$d")"
 rm -rf "$d"
 
 # --- Read-list viva (onda 0006 I-01 — F-08 dos cross-audits 0036/0037) -------
