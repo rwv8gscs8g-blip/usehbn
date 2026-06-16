@@ -1,20 +1,22 @@
 # HBN Knowledge Base
 
-## Por Padrao
+Indice vivo das licoes reutilizaveis entre IAs. Este arquivo e ponteiro:
+liste a entrada e o uso; nao replique o conteudo da knowledge.
 
-| Tema | Arquivo | Uso |
-|------|---------|-----|
-| Relay ativo | relay-protocol.md | Continuidade entre IAs |
-
-## Por Decisao
-
-| Tema | Arquivo | Impacto |
-|------|---------|---------|
-| `hbn` como CLI primario | runtime-command-model.md | Instalacao e operacao local |
-| distribuicao fase 2 | distribution-model.md | Bootstrap, packaging e adapters |
+| Entrada | Status | Temperatura | Uso |
+|---|---|---|---|
+| `0001-comandos-atomicos-copiaveis.md` | accepted | quente | Comandos ao humano em blocos atomicos, copiaveis e sem comentarios inline. |
+| `0002-entrega-operacional-minimalista.md` | accepted | quente | Entrega ao operador com comando unico, expectativa e fallback. |
+| `0003-git-sandbox-sem-lock.md` | accepted | quente | Leitura git em sandbox sem criar `index.lock` no repo canonico. |
+| `0019-severidades-veto.md` | accepted | quente | Severidades de auditoria, veto por BLOQUEADOR e checklist anti-vies. |
+| `0022-firewall-workflow-fast-track.md` | accepted | quente | Firewall de escrita: workflows fast_track e dominio safe_track humano-aplicado. |
+| `distribution-model.md` | decisao atual | — | Distribuicao fase 2, bootstrap local e adapters de runtime. |
+| `relay-protocol.md` | decisao atual | — | Continuidade de bastao e uso dos arquivos de relay. |
+| `runtime-command-model.md` | decisao atual | — | `hbn` como CLI operacional primario e `usehbn` como compatibilidade. |
 
 ## Convencoes
 
-- Nomeie arquivos como `0001-Assunto.md`, `0002-Assunto.md` e assim por diante.
+- Nomeie arquivos numerados como `0001-assunto.md`, `0002-assunto.md` e assim por diante.
 - Registre apenas descobertas reutilizaveis entre IAs.
 - Nao use a knowledge base para historico operacional de curto prazo.
+- Toda entrada `.hbn/knowledge/*.md`, exceto este `INDEX.md`, deve aparecer citada aqui.
