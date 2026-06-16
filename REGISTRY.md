@@ -638,3 +638,14 @@ objeto versionado. A proxima onda do roadmap e S2 (dispatch schema).
 | 20260615-234641-cursor-cross-ia-b19-symlink-geral | .hbn/results/20260615-234641-cursor-cross-ia-b19-symlink-geral.md | audit-result | frio | — | 2026-06-15T23:46:41-03:00 |
 | 20260616-000450-codex-state-selagem-b19 | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T00:04:50-03:00 |
 | 20260616-000450-codex-handoff-selagem-b19 | .hbn/messages/20260616-000450-codex-handoff-selagem-b19.md | handoff | quente | — | 2026-06-16T00:04:50-03:00 |
+
+## Onda S2 (2026-06-16) — despacho auto-declarante — status: in_progress, readback 0025
+
+S2 formaliza o despacho como artefato versionado auto-declarante em
+`.hbn/dispatch/NNNN-*.md`, validado por schema e por dois guards bloqueantes:
+G-DSP-FMT para forma e invariante zsh-safe, e G-DSP-INT para coerencia com
+readback ativo, token do STATE e autorizacao humana.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260616-002331-codex-readback-s2-dispatch-auto-declarante | .hbn/readbacks/0025-s2-dispatch-auto-declarante.json | readback | quente | — | 2026-06-16T00:23:31-03:00 |
