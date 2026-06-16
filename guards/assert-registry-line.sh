@@ -8,9 +8,9 @@
 #       id AAAAMMDD-NN (o anti-padrão dos PROMPT_*.md órfãos de 2026-06-10,
 #       criados por orquestrador ignorando a regra que ele mesmo deveria servir).
 #
-# status: accepted (correntes D/E + fechamento E, readbacks 0002/0003, 2026-06-10) — NÃO está no runner.
-#   Ativação futura = onda própria em hbn-guards-runner.sh, após testes
-#   negativos de TODOS os guards (inclusive os 5 legados).
+# status: accepted (correntes D/E + fechamento E, readbacks 0002/0003, 2026-06-10) — ESTA no runner.
+#   Ativado em hbn-guards-runner.sh após testes negativos de todos os guards
+#   cobertos pela suíte.
 # Padrão C3: usa guard_diff_files (staged local; HBN_DIFF_BASE...HEAD em CI).
 # Knowledge 0021: em sandbox o guard é informativo; conclusivo no Terminal.
 # Escopo: arquivos ADICIONADOS ou RENOMEADOS (diff-filter=AR — rename gera
