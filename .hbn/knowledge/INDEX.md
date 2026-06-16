@@ -10,6 +10,7 @@ liste a entrada e o uso; nao replique o conteudo da knowledge.
 | `0003-git-sandbox-sem-lock.md` | accepted | quente | Leitura git em sandbox sem criar `index.lock` no repo canonico. |
 | `0019-severidades-veto.md` | accepted | quente | Severidades de auditoria, veto por BLOQUEADOR e checklist anti-vies. |
 | `0022-firewall-workflow-fast-track.md` | accepted | quente | Firewall de escrita: workflows fast_track e dominio safe_track humano-aplicado. |
+| `0023-area-temporaria-e-fixtures-efemeras.md` | accepted | quente | Fixtures efemeras fora de paths governados; usar tmp da sessao ou area temporaria oficial protegida. |
 | `distribution-model.md` | decisao atual | — | Distribuicao fase 2, bootstrap local e adapters de runtime. |
 | `relay-protocol.md` | decisao atual | — | Continuidade de bastao e uso dos arquivos de relay. |
 | `runtime-command-model.md` | decisao atual | — | `hbn` como CLI operacional primario e `usehbn` como compatibilidade. |
