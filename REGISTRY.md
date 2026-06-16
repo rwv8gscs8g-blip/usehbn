@@ -707,3 +707,6 @@ hardening.
 | 20260616-024603-codex-readback-selagem-faxina-lixo-zero | .hbn/readbacks/0028-selagem-faxina-lixo-zero.json | readback | quente | — | 2026-06-16T02:46:03-03:00 |
 | 20260616-023446-cursor-cross-ia-faxina-0027 | .hbn/results/20260616-023446-cursor-cross-ia-faxina-0027.md | audit-result | frio | — | 2026-06-16T02:34:46-03:00 |
 | 20260616-024241-gemini-3-5-cross-ia-faxina-0027 | .hbn/results/20260616-024241-gemini-3-5-cross-ia-faxina-0027.md | audit-result | frio | — | 2026-06-16T02:42:41-03:00 |
+| 20260616-011004-opus-4-8-despacho-faxina-0027 | .hbn/messages/20260616-011004-opus-4-8-despacho-faxina-0027.md | despacho | quente | — | 2026-06-16T01:10:04-03:00 |
+| 20260616-011004-opus-4-8-despacho-selagem-s2 | .hbn/messages/20260616-011004-opus-4-8-despacho-selagem-s2.md | despacho | quente | — | 2026-06-16T01:10:04-03:00 |
+| 20260616-021934-opus-4-8-despacho-cross-audit-faxina-0027 | .hbn/messages/20260616-021934-opus-4-8-despacho-cross-audit-faxina-0027.md | despacho | quente | — | 2026-06-16T02:19:34-03:00 |
