@@ -88,6 +88,8 @@
 #   paragrafo em commit-msg e CI. Total: 172.
 #   W2 C5 (readback 0034): +3 checks G-SCRATCH fail-closed quando
 #   active-version nao resolve. Total: 175.
+#   W3 (readback 0036): +3 checks G-ZONA-LIVRE (curadoria passa; sem
+#   marcador bloqueia; readback ilegivel bloqueia). Total: 178.
 # =============================================================================
 set -uo pipefail
 
@@ -1772,6 +1774,56 @@ rm -rf "$d"
 d="$(make_repo)"
 ( cd "$d" && rm -f .hbn/active-version && printf '/scratch/\n!/scratch/README.md\n' > .gitignore && git add .gitignore ) >/dev/null 2>&1
 check "scratch-ignore: active-version ausente + .gitignore staged → BLOCK" block "$(run_scratch_ignore "$d")"
+rm -rf "$d"
+
+# --- G-ZONA-LIVRE: deny-by-default da zona livre (W3) -----------------------
+echo "== assert-zona-livre (G-ZONA-LIVRE) =="
+run_zona() { ( cd "$1" && bash "$GUARDS_DIR/assert-zona-livre.sh" >/dev/null 2>&1 ); echo $?; }
+make_zona_repo() {
+    local mode="$1" d
+    d="$(make_repo)"
+    (
+        cd "$d"
+        mkdir -p .hbn/relay .hbn/readbacks
+        cat > .hbn/relay/STATE.md <<'EOF'
+---
+readback_ativo: ".hbn/readbacks/0001-zona.json"
+---
+EOF
+        case "$mode" in
+            curada)
+                cat > .hbn/readbacks/0001-zona.json <<'EOF'
+{"readback_id":"0001-zona","zona_livre_curada":true,"zona_livre_nota":"Mauricio aprovou curadoria humana explicita."}
+EOF
+                ;;
+            sem-marcador)
+                cat > .hbn/readbacks/0001-zona.json <<'EOF'
+{"readback_id":"0001-zona"}
+EOF
+                ;;
+            ilegivel)
+                printf '{"readback_id":"0001-zona",\n' > .hbn/readbacks/0001-zona.json
+                ;;
+        esac
+        git add .hbn/relay/STATE.md .hbn/readbacks/0001-zona.json
+        git commit -qm zona
+    ) >/dev/null 2>&1
+    echo "$d"
+}
+
+d="$(make_zona_repo curada)"
+( cd "$d" && mkdir -p docs/brainstorm && echo ideia > docs/brainstorm/ideia.md && git add docs/brainstorm/ideia.md ) >/dev/null 2>&1
+check "zona: brainstorm com curadoria no readback passa" pass "$(run_zona "$d")"
+rm -rf "$d"
+
+d="$(make_zona_repo sem-marcador)"
+( cd "$d" && mkdir -p docs/brainstorm && echo ideia > docs/brainstorm/sem-curadoria.md && git add docs/brainstorm/sem-curadoria.md ) >/dev/null 2>&1
+check "zona: brainstorm sem marcador no readback → BLOCK" block "$(run_zona "$d")"
+rm -rf "$d"
+
+d="$(make_zona_repo ilegivel)"
+( cd "$d" && mkdir -p docs/brainstorm && echo ideia > docs/brainstorm/readback-ilegivel.md && git add docs/brainstorm/readback-ilegivel.md ) >/dev/null 2>&1
+check "zona: readback ativo ilegivel → BLOCK" block "$(run_zona "$d")"
 rm -rf "$d"
 
 # --- Read-list viva (onda 0006 I-01 — F-08 dos cross-audits 0036/0037) -------

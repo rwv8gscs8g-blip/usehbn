@@ -558,6 +558,26 @@ d="$(mk_repo)"
 try_burla "B32 active-version ausente + scratch staged" "G-SCRATCH-LOCK" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-scratch-lock.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
+# B33 — docs/brainstorm/* staged sem curadoria explicita no readback ativo nao
+# pode entrar como zona livre selada por inercia.
+d="$(mk_repo)"
+(
+  cd "$d"
+  mkdir -p .hbn/relay .hbn/readbacks docs/brainstorm
+  cat > .hbn/relay/STATE.md <<'EOF'
+---
+readback_ativo: ".hbn/readbacks/0001-zona.json"
+---
+EOF
+  printf '{"readback_id":"0001-zona"}\n' > .hbn/readbacks/0001-zona.json
+  git add .hbn/relay/STATE.md .hbn/readbacks/0001-zona.json
+  git commit -qm init
+  echo ideia > docs/brainstorm/b33-sem-curadoria.md
+  git add docs/brainstorm/b33-sem-curadoria.md
+) >/dev/null 2>&1
+try_burla "B33 docs/brainstorm sem curadoria" "G-ZONA" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-zona-livre.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------
 echo ""
 printf '%-52s | %-8s | %s\n' "BURLA" "GUARD" "RESULTADO"
