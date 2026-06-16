@@ -649,3 +649,5 @@ readback ativo, token do STATE e autorizacao humana.
 | id | artefato (path) | tipo | temperatura | superseded_by | created_at |
 |---|---|---|---|---|---|
 | 20260616-002331-codex-readback-s2-dispatch-auto-declarante | .hbn/readbacks/0025-s2-dispatch-auto-declarante.json | readback | quente | — | 2026-06-16T00:23:31-03:00 |
+| 20260616-003203-codex-dispatch-schema | schemas/dispatch.schema.json | schema | quente | — | 2026-06-16T00:32:03-03:00 |
+| 20260616-003203-codex-dispatch-spec | core/dispatch-spec.md | spec-core | quente | — | 2026-06-16T00:32:03-03:00 |
