@@ -689,3 +689,6 @@ scratch das suítes, sem tocar outros guards nem habilitar D-ORQ-WRITE.
 | 20260614-043647-antigravity-cross-ia-exuvia-impl | .hbn/results/20260614-043647-antigravity-cross-ia-exuvia-impl.md | audit-result | frio | — | 2026-06-14T04:36:47-03:00 |
 | 20260614-043826-codex-cross-ia-exuvia-impl | .hbn/results/20260614-043826-codex-cross-ia-exuvia-impl.md | result | frio | — | 2026-06-14T04:38:26-03:00 |
 | 20260614-044555-opus-4-8-consolidacao-cross-audit-exuvia-impl | .hbn/results/20260614-044555-opus-4-8-consolidacao-cross-audit-exuvia-impl.md | audit-consolidation | frio | — | 2026-06-14T04:45:55-03:00 |
+| 20260616-005144-opus-4-8-triagem-pendencias | .hbn/messages/20260616-005144-opus-4-8-triagem-pendencias.md | analise | quente | — | 2026-06-16T00:51:44-03:00 |
+| 20260616-011004-opus-4-8-criterios-exuvia | .hbn/messages/20260616-011004-opus-4-8-criterios-exuvia.md | spec-proposta | quente | core/exuvia-fitness-criteria.md | 2026-06-16T01:10:04-03:00 |
+| 20260616-011004-codex-exuvia-fitness-criteria | core/exuvia-fitness-criteria.md | spec-core | quente | — | 2026-06-16T01:10:04-03:00 |
