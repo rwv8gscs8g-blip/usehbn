@@ -63,6 +63,8 @@
 #   B17 (readback 0019): +5 checks G-SCO para meta-path tipo+nome (2 block:
 #   payload.sh/exploit.py fora do escopo; 3 pass: handoff ADR-025, hearback
 #   ativo e nota de bypass ADR-025). Total: 140.
+#   B18 (readback 0021): +1 check G-SCO bloqueando symlink staged sob .hbn/**
+#   com basename ADR-025 e modo git 120000. Total: 141.
 # =============================================================================
 set -uo pipefail
 
@@ -987,6 +989,12 @@ rm -rf "$d"
 d="$(make_sco_repo safe_track confirmed '["docs/**"]')"
 ( cd "$d" && mkdir -p .hbn/bypasses && echo motivo > .hbn/bypasses/20260615-120000-codex-motivo-teste.md && git add .hbn/bypasses/20260615-120000-codex-motivo-teste.md ) >/dev/null 2>&1
 check "sco: B17 nota de bypass ADR-025 .md auto-permitida" pass "$(run_sco "$d")"
+rm -rf "$d"
+
+# B18: symlink em meta-path governado nao pode passar pela dispensa ADR-025.
+d="$(make_sco_repo safe_track confirmed '["docs/**"]')"
+( cd "$d" && mkdir -p .hbn/messages && echo 'echo payload' > payload.sh && ln -s ../../payload.sh .hbn/messages/20260615-120000-codex-handoff-x.md && git add .hbn/messages/20260615-120000-codex-handoff-x.md ) >/dev/null 2>&1
+check "sco: B18 bloqueia symlink ADR-025 em .hbn/messages/" block "$(run_sco "$d")"
 rm -rf "$d"
 
 # G-CR: assert-canonical-root

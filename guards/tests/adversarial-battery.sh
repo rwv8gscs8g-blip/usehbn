@@ -221,6 +221,30 @@ EOF
 try_burla "B17 smuggling meta-path tipo/nome arbitrario" "G-SCO"   "$( ( cd "$d" && bash "$GUARDS_DIR/assert-scope-lock.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
+# B18 — symlink com basename ADR-025 em meta-path governado nao pode ser
+# auto-permitido pelo scope-lock.
+d="$(mk_repo)"
+(
+  cd "$d" && git commit -q --allow-empty -m i && mkdir -p .hbn/readbacks .hbn/messages \
+  && cat > .hbn/readbacks/0001-t.json <<'EOF'
+{
+  "readback_id": "0001-t",
+  "track": "safe_track",
+  "human_status": "confirmed",
+  "scope": {
+    "files_allowed": ["docs/**"],
+    "files_forbidden": []
+  }
+}
+EOF
+  git add .hbn/readbacks/0001-t.json && git commit -qm readback \
+  && printf 'echo payload\n' > payload.sh \
+  && ln -s ../../payload.sh .hbn/messages/20260615-120000-codex-handoff-x.md \
+  && git add .hbn/messages/20260615-120000-codex-handoff-x.md
+) >/dev/null 2>&1
+try_burla "B18 symlink ADR-025 em meta-path governado"  "G-SCO"   "$( ( cd "$d" && bash "$GUARDS_DIR/assert-scope-lock.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------
 echo ""
 printf '%-52s | %-8s | %s\n' "BURLA" "GUARD" "RESULTADO"
