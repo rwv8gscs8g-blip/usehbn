@@ -673,3 +673,13 @@ logica de guard.
 | 20260616-005144-opus-4-8-despacho-cross-audit-s2 | .hbn/messages/20260616-005144-opus-4-8-despacho-cross-audit-s2.md | despacho | quente | — | 2026-06-16T00:51:44-03:00 |
 | 20260616-012452-codex-state-selagem-s2 | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T01:24:52-03:00 |
 | 20260616-012452-codex-handoff-selagem-s2 | .hbn/messages/20260616-012452-codex-handoff-selagem-s2.md | handoff | quente | — | 2026-06-16T01:24:52-03:00 |
+
+## Faxina 0027 (2026-06-16) — pendências pós-S2 — status: in_progress, readback 0027
+
+Faxina pós-S2 para corrigir a dívida H do parser CI de trailers no G-EXC,
+selar artefatos históricos antigos, promover os critérios de exúvia e cobrir
+scratch das suítes, sem tocar outros guards nem habilitar D-ORQ-WRITE.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260616-011004-codex-readback-faxina-pendencias | .hbn/readbacks/0027-faxina-pendencias.json | readback | quente | — | 2026-06-16T01:10:04-03:00 |
