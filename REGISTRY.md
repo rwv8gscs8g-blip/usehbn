@@ -667,3 +667,5 @@ logica de guard.
 | id | artefato (path) | tipo | temperatura | superseded_by | created_at |
 |---|---|---|---|---|---|
 | 20260616-011004-codex-readback-selagem-s2-cross-audit | .hbn/readbacks/0026-selagem-s2-cross-audit.json | readback | quente | — | 2026-06-16T01:10:04-03:00 |
+| 20260616-010326-gemini-3-5-cross-ia-s2-dispatch | .hbn/results/20260616-010326-gemini-3-5-cross-ia-s2-dispatch.md | audit-result | frio | — | 2026-06-16T01:03:26-03:00 |
+| 20260616-010221-cursor-cross-ia-s2-dispatch | .hbn/results/20260616-010221-cursor-cross-ia-s2-dispatch.md | audit-result | frio | — | 2026-06-16T01:02:21-03:00 |
