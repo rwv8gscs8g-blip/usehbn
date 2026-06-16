@@ -785,3 +785,6 @@ guard.
 | 20260616-164000-codex-readback-selagem-s3-2 | .hbn/readbacks/0032-selagem-s3-2.json | readback | quente | — | 2026-06-16T16:40:00-03:00 |
 | 20260616-132743-cursor-cross-ia-s3-2 | .hbn/results/20260616-132743-cursor-cross-ia-s3-2.md | audit-result | frio | — | 2026-06-16T13:27:43-03:00 |
 | 20260616-132813-gemini-3-5-cross-ia-s3-2 | .hbn/results/20260616-132813-gemini-3-5-cross-ia-s3-2.md | audit-result | frio | — | 2026-06-16T13:28:13-03:00 |
+| 20260616-164000-codex-brainstorm-exuvia-evolucao-conceitual-s3-2 | docs/brainstorm/exuvia-evolucao-conceitual.md | brainstorm-zona-livre | frio | — | 2026-06-16T16:40:00-03:00 |
+| 20260616-164000-codex-brainstorm-prompts-pf-arvores-agora-draft | docs/brainstorm/PROMPTS-PF-ARVORES-AGORA-DRAFT.md | brainstorm-zona-livre | frio | — | 2026-06-16T16:40:00-03:00 |
+| 20260616-164000-codex-brainstorm-proposta-arvores-agora | docs/brainstorm/PROPOSTA-arvores-agora.md | brainstorm-zona-livre | frio | — | 2026-06-16T16:40:00-03:00 |

@@ -133,3 +133,45 @@ _Autor: chat paralelo (Claude Opus 4.8, família Anthropic). Direção do gate h
 - [CONCLUSÃO] Recuso o chapéu de auditor por razão de família: sou Anthropic, **igual ao orquestrador Opus**. As notas deste chat já influenciam os outros Opus — laço Anthropic-sobre-Anthropic. Mitigação obrigatória: tudo que eu produzo é Fronteira/não-normativo e precisa passar por **auditoria adversarial de famílias ≠ (Codex/Gemini)** antes de virar regra. Esta limitação é parte do desenho, não um defeito.
 - [PERGUNTA ABERTA] O orquestrador aceita um papel não-executante/não-auditor formalizado (analista-de-fronteira), ou prefere que o chat paralelo permaneça totalmente fora do elenco (sem perfil), com suas saídas tratadas só como "insumo externo" citado nos despachos?
 
+## 2026-06-16 — Posições para aprovação: árvores AGORA, duas esteiras, e prompts intermediários (cross-family)
+
+_Autor: chat paralelo (Claude Opus 4.8, família Anthropic). PENDENTE de aprovação do gate humano antes de qualquer disparo. Destino: insumo de fronteira maturado para o orquestrador montar auditoria adversarial e abertura de propostas a Gemini 3.5 / Codex / Cursor / Grok._
+
+### O. Por que implementar as árvores AGORA traz avanço robusto (item 2 do gate humano)
+
+Os ganhos, do mais estrutural ao mais imediato:
+
+- [PROPOSTA] **1. Endereço de prova para cada artefato.** Hoje uma IA que lê o repo não distingue lei provada, ideia experimental e código de runtime — a divergência das duas superfícies (seção H) é o sintoma. Um campo `arvore:` (Fronteira/Intermediária/Estável) no front-matter, ao lado de `temperatura:`/`hbn-track:`, responde de imediato "isto é o protocolo, isto é protótipo, isto é o sistema que ele constrói". Ataca direto a confusão do item 3 e o "fio da meada".
+- [PROPOSTA] **2. Opinião vira placar (mesma filosofia dos 8 critérios).** "Está maduro?" deixa de ser debate e vira "em que árvore está e passou o portão de promoção?". O portão entre árvores REUSA máquina já provada: fagocitose (routed→…→contributed) + 8 critérios + Fitness Gate. Não é maquinário novo.
+- [PROPOSTA] **3. O modelo compilador fica operacional.** O gradiente de prova das árvores É o compilador: Fronteira `.md` (intenção sem enforcement) → Intermediária (enforcement em Python/bash) → Estável (reimpresso em Rust mínimo). Sem árvores, o compilador é metáfora; com árvores, é pipeline com portões — a casa estrutural do "imprimir para linguagem atual/antiga/futura".
+- [PROPOSTA] **4. Quarentena honesta do perigo.** Truth Barrier/Guardian advisory, o god-object `cli.py`, o `autoevolve` embrionário hoje moram no mesmo `src/` do código provado, criando falsa confiança (teatro, item 3). Árvores rotulam esses itens como Fronteira até merecerem promoção; a segurança fica real porque só Intermediária/Estável carregam enforcement fail-closed.
+- [PROPOSTA] **5. Protege a exúvia da explosão de escopo.** Com árvores, a 1ª exúvia tem alvo modesto e claro: lapidar o núcleo Intermediária em `versao_1_0_0/`; deixar experimentos de Fronteira fora; semear Estável (princípios em Rust) como onda futura. "O que carrega adiante?" vira "o que está na Intermediária e passou o portão".
+- [PROPOSTA] **6. Dá às duas esteiras um sistema de coordenadas comum** (seção P): a esteira de planejamento opera na Fronteira; a de produção, na Intermediária→Estável; o handoff entre elas É o portão Fronteira→Intermediária.
+- [PROPOSTA] **7. Custo baixo agora, retorno composto.** Documentar/etiquetar agora = um campo de front-matter + um spec + tag nos artefatos existentes. Sem código, sem migração arriscada.
+
+Honestidade de risco (a submeter à auditoria adversarial):
+
+- [PERGUNTA ABERTA] **Classificação prematura:** rotular como Intermediária algo não provado. Mitigação: o portão é mecânico (8 critérios + cross-audit ≠-família).
+- [PERGUNTA ABERTA] **Segunda fonte de verdade:** `arvore:` pode colidir com `temperatura:`/`hbn-track:`. Decisão de design necessária: `arvore` subsume, complementa ou se relaciona como? (roles-spec §3 proíbe tabela paralela).
+- [PROPOSTA] **Separar "etiquetar agora" de "particionar depois":** o campo `arvore:` entra AGORA (metadado, custo baixo); a estrutura física de diretórios/branches por árvore entra COM a exúvia, não antes — evita migração pesada fora do Fitness Gate.
+
+### P. Modelo das duas esteiras (alinhado às árvores e ao chapéu)
+
+- [PROPOSTA] **Esteira de Orquestração/Produção** (existente): orquestrador (Opus) define → Codex implementa → Gemini/Cursor/Grok/Antigravity cross-auditam → gate humano → guards selam. Opera na **Intermediária** (provado, enforcement). Saída: ondas seladas. (É a esteira que produziu o 0029 com APROVA de Antigravity 100/100 e Cursor 88/100.)
+- [PROPOSTA] **Esteira de Planejamento/Análise de Fronteira** (onde o chat paralelo vive): ler + sintetizar + entrevistar + propor + rodar exploração cross-IA. Opera na **Fronteira** (não-normativo). Saída: propostas maturadas + pré-auditoria adversarial + síntese das visões de várias IAs, entregue ao orquestrador como pacote pronto-para-despacho.
+- [PROPOSTA] **Interface entre as esteiras** = o portão Fronteira→Intermediária. Uma proposta de fronteira só vira onda de produção após cross-audit ≠-família + aprovação humana + despacho do orquestrador. As esteiras não são ad hoc: são os modos de operação das árvores.
+- [PROPOSTA] O chapéu `analista-de-fronteira` (seção N) é o papel da esteira de planejamento: não-executante, não-auditor (honestidade de família Anthropic = orquestrador), escrita só na Fronteira.
+
+### Q. Plano dos prompts intermediários (DRAFT — usar só após validação humana)
+
+Seguem a lógica do protocolo: janela limpa (chat novo, leitura do disco), Truth Barrier (cita arquivo:linha), cross-family (família ≠ do autor da proposta = Anthropic), template de auditoria da `core/cadence-d.md`, veredito no formato `APROVA_<ID>: SIM/NÃO` + `Confiança: X/100`.
+
+Tema (id de trabalho): **PF-ARVORES-AGORA** (Proposta de Fronteira — implementar árvores agora + modelo compilador). Fontes a ler: `docs/brainstorm/exuvia-evolucao-conceitual.md` (seções I, L, O) + `docs/brainstorm/EXPLICACAO-PUBLICA-usehbn-DRAFT.md`.
+
+Dois tipos de prompt por instância ≠-família (Gemini 3.5, Codex, Cursor, Grok):
+
+- [PROPOSTA] **(1) Auditoria adversarial** — tente QUEBRAR a proposta: a) o campo `arvore:` cria segunda fonte de verdade vs `temperatura:`/`hbn-track:`? b) etiquetar agora + particionar na exúvia introduz risco de classificação prematura ou de drift novo? c) o portão entre árvores (fagocitose + 8 critérios + Fitness Gate) é suficiente, ou há burla? d) o modelo compilador (`.md`→enforcement) viola algum P1–P13? Responder no template cadence-d (Veredito/BLOQUEADORES/FORTES/MARGINAIS/Convergências/Divergências/Riscos não cobertos/Próxima ação) + `APROVA_PF-ARVORES-AGORA: SIM/NÃO` + confiança.
+- [PROPOSTA] **(2) Abertura de proposta (divergência de fronteira)** — contribua a SUA visão própria, mesmo divergente: como a sua família desenharia o gradiente de prova / a migração entre árvores / o compilador? O objetivo é diversidade de cepas (evitar convergência prematura Anthropic-cêntrica). Saída: lista de divergências e ganhos não cobertos pela proposta atual.
+- [PROPOSTA] Especialização por família (de RADAR-0001 §2, para extrair o melhor de cada): Gemini → constituição/estrutura e enforcement em runtime; Codex → implementação + A2A/interop; Cursor → verificação mecânica no disco (vetores finos, como fez no 0029); Grok → fronteira/mercado (Omnigent, paradigmas novos).
+- [CONCLUSÃO] Consolidação: o analista-de-fronteira (este chat) sintetiza os 4 pareceres + as 4 visões numa matriz convergência×divergência e entrega ao orquestrador um pacote maturado — só então o tema "entra na esteira de produção".
+
