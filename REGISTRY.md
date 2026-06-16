@@ -745,3 +745,4 @@ handoff, sem alterar logica de guard.
 | 20260616-153000-codex-readback-selagem-s3-1 | .hbn/readbacks/0030-selagem-s3-1.json | readback | quente | — | 2026-06-16T15:30:00-03:00 |
 | 20260616-121025-gemini-3-5-cross-ia-s3-1 | .hbn/results/20260616-121025-gemini-3-5-cross-ia-s3-1.md | audit-result | frio | — | 2026-06-16T12:10:25-03:00 |
 | 20260616-124526-cursor-cross-ia-s3-1 | .hbn/results/20260616-124526-cursor-cross-ia-s3-1.md | audit-result | frio | — | 2026-06-16T12:45:26-03:00 |
+| 20260616-150000-opus-4-8-despacho-cross-audit-s3-1 | .hbn/messages/20260616-150000-opus-4-8-despacho-cross-audit-s3-1.md | despacho | quente | — | 2026-06-16T15:00:00-03:00 |
