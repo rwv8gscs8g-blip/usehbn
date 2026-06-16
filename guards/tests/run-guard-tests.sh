@@ -73,6 +73,8 @@
 #   Faxina 0027: +3 checks G-EXC em modo CI para mensagem bruta (%B):
 #   trailers separados por linha em branco passam; ausencia real de
 #   HBN-Readback ou HBN-Human-Authorization bloqueia. Total: 154.
+#   S3.1 (readback 0029): +2 checks G-KNOW-INDEX (1 pass, 1 block)
+#   garantindo INDEX completo e knowledge nova sem índice bloqueada. Total: 156.
 # =============================================================================
 set -uo pipefail
 
@@ -1528,6 +1530,37 @@ write_good_dispatch "$d"
     && rm -f .hbn/dispatch/0025-s2-dispatch-auto-declarante.md.bak \
     && git add .hbn/dispatch/0025-s2-dispatch-auto-declarante.md ) >/dev/null 2>&1
 check "dsp-int: token_fp divergente do STATE → BLOCK" block "$(run_dsp_int "$d")"
+rm -rf "$d"
+
+# --- G-KNOW-INDEX: INDEX vivo da knowledge (S3.1) ---------------------------
+echo "== assert-knowledge-index (G-KNOW-INDEX) =="
+make_know_repo() {
+    local d; d="$(make_repo)"
+    (
+        cd "$d"
+        mkdir -p .hbn/knowledge
+        cat > .hbn/knowledge/INDEX.md <<'EOF'
+# Knowledge Index
+
+| Entrada | Uso |
+|---|---|
+| `0001-base.md` | Base testada. |
+EOF
+        echo "# Base" > .hbn/knowledge/0001-base.md
+        git add -A
+        git commit -qm init
+    ) >/dev/null 2>&1
+    echo "$d"
+}
+run_know() { ( cd "$1" && bash "$GUARDS_DIR/assert-knowledge-index.sh" >/dev/null 2>&1 ); echo $?; }
+
+d="$(make_know_repo)"
+check "know: INDEX completo passa" pass "$(run_know "$d")"
+rm -rf "$d"
+
+d="$(make_know_repo)"
+( cd "$d" && echo "# Nova" > .hbn/knowledge/0002-nova.md && git add .hbn/knowledge/0002-nova.md ) >/dev/null 2>&1
+check "know: knowledge nova sem linha no INDEX → BLOCK" block "$(run_know "$d")"
 rm -rf "$d"
 
 # --- Read-list viva (onda 0006 I-01 — F-08 dos cross-audits 0036/0037) -------

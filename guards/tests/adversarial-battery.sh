@@ -366,6 +366,27 @@ base="$(git -C "$d" rev-parse HEAD)"
 try_burla "B23 CI trailer token sem autorizacao humana" "G-EXC" "$( ( cd "$d" && HBN_DIFF_BASE="$base" bash "$GUARDS_DIR/assert-exception-traceable.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
+# B24 — knowledge nova sem linha no INDEX nao pode entrar.
+d="$(mk_repo)"
+(
+  cd "$d"
+  mkdir -p .hbn/knowledge
+  cat > .hbn/knowledge/INDEX.md <<'EOF'
+# Knowledge Index
+
+| Entrada | Uso |
+|---|---|
+| `0001-base.md` | Base testada. |
+EOF
+  echo "# Base" > .hbn/knowledge/0001-base.md
+  git add -A
+  git commit -qm init
+  echo "# Burla" > .hbn/knowledge/9999-burla-sem-index.md
+  git add .hbn/knowledge/9999-burla-sem-index.md
+) >/dev/null 2>&1
+try_burla "B24 knowledge nova ausente do INDEX" "G-KNOW" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-knowledge-index.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------
 echo ""
 printf '%-52s | %-8s | %s\n' "BURLA" "GUARD" "RESULTADO"
