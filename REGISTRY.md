@@ -771,3 +771,15 @@ inflacao/monolito.
 | 20260616-160300-codex-adversarial-b25 | guards/tests/adversarial-battery.sh | adversarial-test | quente | — | 2026-06-16T16:03:00-03:00 |
 | 20260616-160400-codex-state-s3-2 | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T16:04:00-03:00 |
 | 20260616-160400-codex-handoff-s3-2 | .hbn/messages/20260616-160400-codex-handoff-s3-2.md | handoff | quente | — | 2026-06-16T16:04:00-03:00 |
+
+## Selagem S3.2 (2026-06-16) — lixo-zero — status: in_progress, readback 0032
+
+S3.2 foi ratificada por cross-audit independente de Cursor e
+Gemini/Antigravity, ambos com `APROVA_0031: SIM`. Esta micro-onda sela os
+pareceres, versiona os brainstorms de Fronteira, registra a divida agrupada de
+hardening de guards e aponta P-CAND-04 como proxima onda, sem alterar logica de
+guard.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260616-164000-codex-readback-selagem-s3-2 | .hbn/readbacks/0032-selagem-s3-2.json | readback | quente | — | 2026-06-16T16:40:00-03:00 |
