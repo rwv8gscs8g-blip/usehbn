@@ -714,3 +714,13 @@ hardening.
 | 20260616-024603-codex-brainstorm-principios-candidatos | docs/brainstorm/principios-candidatos.md | brainstorm-zona-livre | frio | — | 2026-06-16T02:46:03-03:00 |
 | 20260616-032113-codex-state-selagem-faxina | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T03:21:13-03:00 |
 | 20260616-032113-codex-handoff-selagem-faxina | .hbn/messages/20260616-032113-codex-handoff-selagem-faxina.md | handoff | quente | — | 2026-06-16T03:21:13-03:00 |
+
+## S3.1 (2026-06-16) — INDEX vivo da knowledge — status: in_progress, readback 0029
+
+S3.1 torna o índice da knowledge base verificável: o `INDEX.md` passa a listar
+todas as entradas atuais e o guard G-KNOW-INDEX bloqueia qualquer knowledge
+nova ou existente que não esteja citada no índice.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260616-113239-codex-readback-knowledge-index-vivo | .hbn/readbacks/0029-knowledge-index-vivo.json | readback | quente | — | 2026-06-16T11:32:39-03:00 |
