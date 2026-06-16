@@ -575,3 +575,5 @@ B17 e fica como proxima onda antes do S2.
 | id | artefato (path) | tipo | temperatura | superseded_by | created_at |
 |---|---|---|---|---|---|
 | 20260615-214934-codex-readback-selagem-b17-cross-audit | .hbn/readbacks/0020-selagem-b17-cross-audit.json | readback | quente | — | 2026-06-15T21:49:34-03:00 |
+| 20260615-213855-gemini-3-5-cross-ia-b17-meta-path | .hbn/results/20260615-213855-gemini-3-5-cross-ia-b17-meta-path.md | audit-result | frio | — | 2026-06-15T21:38:55-03:00 |
+| 20260615-213850-cursor-cross-ia-b17-meta-path | .hbn/results/20260615-213850-cursor-cross-ia-b17-meta-path.md | audit-result | frio | — | 2026-06-15T21:38:50-03:00 |
