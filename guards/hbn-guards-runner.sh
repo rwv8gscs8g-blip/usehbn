@@ -59,6 +59,7 @@ GUARDS=(
     "assert-parallel-id.sh"
     "assert-pointer-honest.sh"
     "assert-knowledge-index.sh"
+    "assert-frontdoor.sh"
     "assert-report-fresh.sh"
     "assert-no-stray-hbn.sh"
     "assert-role-family.sh"

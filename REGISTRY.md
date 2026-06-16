@@ -764,3 +764,6 @@ inflacao/monolito.
 |---|---|---|---|---|---|
 | 20260616-160000-codex-readback-porta-da-frente-cartoes | .hbn/readbacks/0031-porta-da-frente-cartoes.json | readback | quente | — | 2026-06-16T16:00:00-03:00 |
 | 20260616-160100-codex-role-cards | core/role-cards.md | spec-core | quente | — | 2026-06-16T16:01:00-03:00 |
+| 20260616-160200-codex-assert-frontdoor | guards/assert-frontdoor.sh | guard | quente | — | 2026-06-16T16:02:00-03:00 |
+| 20260616-160200-codex-runner-g-frontdoor | guards/hbn-guards-runner.sh | guard-runner | quente | — | 2026-06-16T16:02:00-03:00 |
+| 20260616-160200-codex-guards-readme-g-frontdoor | guards/README.md | docs-guard | quente | — | 2026-06-16T16:02:00-03:00 |

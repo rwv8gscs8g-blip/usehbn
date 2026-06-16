@@ -84,6 +84,14 @@ basename no `INDEX.md`. O guard falha fechado quando o índice esta ausente ou
 ilegivel no índice Git local ou em `HEAD` no CI. A working tree solta nao conta:
 entrada nova de knowledge e linha do INDEX precisam entrar no mesmo commit.
 
+## Porta da frente
+
+`assert-frontdoor` (G-FRONTDOOR) confere `core/role-cards.md` como porta da
+frente minima para qualquer IA que assuma o bastao. O guard falha fechado se o
+arquivo estiver ausente ou ilegivel no indice/HEAD, se passar de 140 linhas
+(anti-monolito), ou se a `PARTE A` listar mais de 6 itens. A working tree solta
+nao conta: o blob validado e o que entra no commit local, ou `HEAD` em CI.
+
 ## Exceção rastreável
 
 `assert-exception-traceable` (G-EXC) valida trailers de commit-msg lendo o texto
