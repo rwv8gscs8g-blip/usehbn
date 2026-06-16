@@ -48,6 +48,24 @@ knowledge_files() {
         | sort -u || true
 }
 
+regex_escape() {
+    sed 's/[][\.^$*+?(){}|]/\\&/g'
+}
+
+index_has_token() { # <basename>
+    local base="$1" esc
+    esc="$(printf '%s' "$base" | regex_escape)"
+    grep -qE '(^|[ /|`])'"${esc}"'($|[ /|`])' <<< "$INDEX_CONTENT"
+}
+
+index_referenced_knowledge_basenames() {
+    printf '%s\n' "$INDEX_CONTENT" \
+        | awk -F'|' '/^[[:space:]]*\|/ { print $2 }' \
+        | grep -Eo '(^|[ /|`])[0-9]{4}-[A-Za-z0-9._-]+\.md($|[ /|`])' \
+        | sed -E 's#^[ /|`]+##; s#[ /|`]+$##' \
+        | sort -u || true
+}
+
 if ! INDEX_CONTENT="$(index_content)"; then
     guard_fail "INDEX da knowledge ausente ou ilegível no índice/HEAD: ${INDEX_PATH}. G-KNOW-INDEX falha fechado."
     exit 1
@@ -55,16 +73,25 @@ fi
 
 FAIL=0
 COUNT=0
+KNOWLEDGE_FILES="$(knowledge_files)"
 while IFS= read -r f; do
     [[ -z "$f" ]] && continue
     base="$(basename "$f")"
     [[ "$base" == "INDEX.md" ]] && continue
     COUNT=$((COUNT + 1))
-    if ! grep -Fq "$base" <<< "$INDEX_CONTENT"; then
+    if ! index_has_token "$base"; then
         guard_fail "Entrada de knowledge sem citação no INDEX: ${f}. Adicione '${base}' em ${INDEX_PATH} no mesmo commit."
         FAIL=1
     fi
-done <<< "$(knowledge_files)"
+done <<< "$KNOWLEDGE_FILES"
+
+while IFS= read -r base; do
+    [[ -z "$base" ]] && continue
+    if ! grep -qxF "${KNOWLEDGE_DIR}/${base}" <<< "$KNOWLEDGE_FILES"; then
+        guard_fail "INDEX cita knowledge inexistente no índice/HEAD: ${KNOWLEDGE_DIR}/${base}. Remova o ponteiro morto ou adicione o arquivo no mesmo commit."
+        FAIL=1
+    fi
+done <<< "$(index_referenced_knowledge_basenames)"
 
 if [[ "$FAIL" -ne 0 ]]; then
     exit 1

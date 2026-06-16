@@ -445,6 +445,30 @@ d="$(mk_repo)"
 try_burla "B28 .gitignore staged sem /scratch/" "G-SCRATCH-IGNORE" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-scratch-ignore.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
+# B29 — INDEX nao pode satisfazer 0002 via substring em 10002 nem manter
+# ponteiro morto para NNNN-*.md inexistente.
+d="$(mk_repo)"
+(
+  cd "$d"
+  mkdir -p .hbn/knowledge
+  cat > .hbn/knowledge/INDEX.md <<'EOF'
+# Knowledge Index
+
+| Entrada | Uso |
+|---|---|
+| `0001-base.md` | Base testada. |
+| `10002-nova.md` | Substring que antes satisfazia 0002-nova.md. |
+| `9999-ponteiro-morto.md` | Ponteiro morto. |
+EOF
+  echo "# Base" > .hbn/knowledge/0001-base.md
+  git add -A
+  git commit -qm init
+  echo "# Nova" > .hbn/knowledge/0002-nova.md
+  git add .hbn/knowledge/0002-nova.md
+) >/dev/null 2>&1
+try_burla "B29 knowledge substring + ponteiro morto" "G-KNOW" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-knowledge-index.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------
 echo ""
 printf '%-52s | %-8s | %s\n' "BURLA" "GUARD" "RESULTADO"

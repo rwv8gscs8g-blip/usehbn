@@ -80,6 +80,8 @@
 #   P-CAND-04 (readback 0033): +5 checks G-SCRATCH-* (2 pass, 3 block)
 #   cobrindo README versionado, .gitignore protegido, arquivo proibido em
 #   scratch/, symlink em scratch/ e remocao sorrateira de /scratch/. Total: 165.
+#   W2 C2 (readback 0034): +2 checks G-KNOW-INDEX para token inteiro e
+#   anti-ponteiro-morto no INDEX. Total: 167.
 # =============================================================================
 set -uo pipefail
 
@@ -1566,6 +1568,25 @@ rm -rf "$d"
 d="$(make_know_repo)"
 ( cd "$d" && echo "# Nova" > .hbn/knowledge/0002-nova.md && git add .hbn/knowledge/0002-nova.md ) >/dev/null 2>&1
 check "know: knowledge nova sem linha no INDEX → BLOCK" block "$(run_know "$d")"
+rm -rf "$d"
+
+d="$(make_know_repo)"
+(
+    cd "$d"
+    echo "# Nova" > .hbn/knowledge/0002-nova.md
+    printf '| `10002-nova.md` | Substring nao pode contar como token. |\n' >> .hbn/knowledge/INDEX.md
+    git add .hbn/knowledge/0002-nova.md .hbn/knowledge/INDEX.md
+) >/dev/null 2>&1
+check "know: substring 0002 dentro de 10002 nao conta → BLOCK" block "$(run_know "$d")"
+rm -rf "$d"
+
+d="$(make_know_repo)"
+(
+    cd "$d"
+    printf '| `9999-ponteiro-morto.md` | Arquivo inexistente. |\n' >> .hbn/knowledge/INDEX.md
+    git add .hbn/knowledge/INDEX.md
+) >/dev/null 2>&1
+check "know: INDEX citando arquivo inexistente → BLOCK" block "$(run_know "$d")"
 rm -rf "$d"
 
 # --- G-FRONTDOOR: porta da frente minima (S3.2) -----------------------------

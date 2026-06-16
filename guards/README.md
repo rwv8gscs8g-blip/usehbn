@@ -97,9 +97,10 @@ em CI; a working tree solta nao conta.
 
 `assert-knowledge-index` (G-KNOW-INDEX) confere que cada arquivo
 `.hbn/knowledge/*.md`, exceto `.hbn/knowledge/INDEX.md`, aparece citado pelo
-basename no `INDEX.md`. O guard falha fechado quando o índice esta ausente ou
-ilegivel no índice Git local ou em `HEAD` no CI. A working tree solta nao conta:
-entrada nova de knowledge e linha do INDEX precisam entrar no mesmo commit.
+basename como token inteiro no `INDEX.md`; substring nao conta. O guard tambem
+falha quando o INDEX cita `NNNN-*.md` inexistente no índice Git local ou em
+`HEAD` no CI. A working tree solta nao conta: entrada nova de knowledge e linha
+do INDEX precisam entrar no mesmo commit.
 
 ## Porta da frente
 
