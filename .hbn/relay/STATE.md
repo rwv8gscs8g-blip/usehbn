@@ -1,21 +1,24 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027 selados; S3.1 INDEX vivo entregue)"
-onda_atual: "S3.1 ENTREGUE: INDEX vivo da knowledge lista todas as 8 entradas atuais; G-KNOW-INDEX bloqueante no runner; testes positivo/negativo e B24 verdes"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1 selados)"
+onda_atual: "S3.1 SELADA: G-KNOW-INDEX ativo; knowledge 0023 indexada; pareceres, despacho, brainstorm e handoff selados; dividas G-KNOW rastreadas"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
 modo_educacional: "intermediário"
 papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
-  auditores_validadores: "gemini-3-5 + cursor — cross-audit S1 concluiu APROVA_S1: SIM; cross-audit B17 concluiu APROVA_B17: SIM; cross-audit B18 concluiu APROVA_B18: SIM; cross-audit B19 concluiu APROVA_B19: SIM e classe FECHADA: SIM; cross-audit S2 concluiu APROVA_S2: SIM; cross-audit faxina 0027 concluiu APROVA_0027: SIM"
-  gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15, autorizou a selagem S1, decidiu tratar B17 antes do S2, autorizou B18, ratificou a selagem B18 com B19a como próxima onda, autorizou B19 antes do S2, autorizou a selagem B19 após cross-audit, autorizou S2 com guards bloqueantes sem rampa, autorizou a selagem S2 apos duplo APROVA_S2 SIM, autorizou lixo-zero na selagem da faxina 0027 e autorizou S3 incremental com INDEX vivo da knowledge em S3.1"
-proxima_acao: "Cross-audit S3.1; depois S3.2."
+  auditores_validadores: "gemini-3-5 + cursor — cross-audit S1 concluiu APROVA_S1: SIM; cross-audit B17 concluiu APROVA_B17: SIM; cross-audit B18 concluiu APROVA_B18: SIM; cross-audit B19 concluiu APROVA_B19: SIM e classe FECHADA: SIM; cross-audit S2 concluiu APROVA_S2: SIM; cross-audit faxina 0027 concluiu APROVA_0027: SIM; cross-audit S3.1 concluiu APROVA_0029: SIM"
+  gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15, autorizou a selagem S1, decidiu tratar B17 antes do S2, autorizou B18, ratificou a selagem B18 com B19a como próxima onda, autorizou B19 antes do S2, autorizou a selagem B19 após cross-audit, autorizou S2 com guards bloqueantes sem rampa, autorizou a selagem S2 apos duplo APROVA_S2 SIM, autorizou lixo-zero na selagem da faxina 0027, autorizou S3 incremental com INDEX vivo da knowledge em S3.1 e autorizou a selagem S3.1 lixo-zero"
+proxima_acao: "Escolher entre implementar area temporaria (P-CAND-04) ou S3.2 (cartoes de papel + read-list)."
 sinais_abertos:
-  - "🟢 S3.1 ENTREGUE — .hbn/knowledge/INDEX.md lista as 8 entradas atuais e G-KNOW-INDEX entrou bloqueante no runner; run-guard-tests fechou 156/156 e adversarial-battery bloqueou B1-B24."
-  - "🟢 INDEX VIVO DA KNOWLEDGE — qualquer .hbn/knowledge/*.md, exceto INDEX.md, precisa aparecer citado pelo basename no INDEX; ausência/ilegibilidade do INDEX falha fechado."
-  - "🟡 PRÓXIMO PASSO — cross-audit S3.1; se aprovado, seguir para S3.2 (cartões de papel / read-list mínima)."
+  - "🟢 S3.1 SELADA — G-KNOW-INDEX segue ativo no runner; knowledge 0023 foi indexada e selada; pareceres Gemini/Cursor, despacho e brainstorm foram versionados."
+  - "🟢 INDEX VIVO DA KNOWLEDGE — qualquer .hbn/knowledge/*.md, exceto INDEX.md, precisa aparecer citado pelo basename no INDEX; ausencia/ilegibilidade do INDEX falha fechado; estado atual: 9 entradas."
+  - "🟡 DÍVIDA RASTREADA G-KNOW-INDEX — substring por grep -Fq do basename em guards/assert-knowledge-index.sh:63 e ponteiro-morto quando INDEX cita arquivo inexistente; destino: onda de hardening propria."
+  - "🟡 DECISÃO AREA TEMPORARIA — P-CAND-04 convergiu no cross-audit: tmp do ambiente primeiro; scratch/ no repo so em onda propria com gitignore + guards anti-stage/symlink/ignore."
+  - "🟡 NOTA DE CONTINUIDADE — proximo orquestrador deve ler STATE + handoff + .hbn/knowledge/0001, 0002 e 0023 ao assumir o bastao."
+  - "🟡 PRÓXIMO PASSO — escolher entre implementar area temporaria (P-CAND-04) ou S3.2 (cartoes de papel + read-list)."
   - "🟢 S2 + FAXINA 0027 FECHADOS — S2 foi ratificada e selada; faxina 0027 foi ratificada por Cursor e Gemini/Antigravity com APROVA_0027: SIM e selada na micro-onda 0028."
   - "🟢 S2 RATIFICADA E SELADA — Gemini registrou APROVA_S2: SIM com confiança 100/100; Cursor registrou APROVA_S2: SIM com confiança 90/100; pareceres e despachos foram depositados nesta micro-onda."
   - "🟢 FAXINA 0027 RATIFICADA E SELADA — pareceres Cursor/Gemini depositados, tres despachos do orquestrador selados, brainstorm versionado e fixes lixo-zero aplicados sem mudar logica de guard."
@@ -29,7 +32,7 @@ sinais_abertos:
   - "🟢 S1 RATIFICADO E SELADO — assert-scope-lock endurecido contra auto-emenda de files_allowed; cross-audit Gemini+Cursor registrou APROVA_S1: SIM."
   - "🟢 REESTRUTURAÇÃO M-A+S0 SELADA — linha limpa proposta/reestruturacao-m-a-s0 @ 5a0587d; tree 61fa290e ancorada por tag."
   - "🟢 CROSS-AUDIT SIM — Cursor e Gemini 3.5 registraram APROVA_REESTRUTURACAO: SIM para o Modelo B."
-  - "🔴 EXCEÇÃO F-01 ATIVA — desenhista=implementador=claude-fable-5 por ordem direta de Maurício; PROPOSED_UNTIL_CROSS_AUDIT."
+  - "🔴 EXCEÇÃO F-01 ATIVA — implementador == agente do readback ativo (codex) nesta selagem; PROPOSED_UNTIL_CROSS_AUDIT."
   - "🔴 PONTE VETADA — 0034 Codex e 0035 Antigravity retornaram VETO_ADOCAO: SIM; corrigir bloqueadores antes de descongelar."
   - "🔴 ATIVAÇÃO DA EXÚVIA BLOQUEADA — Fitness Gate pendente: baseline funcional + Ponte verde + confronto incumbente×desafiante."
   - "🟡 D-ORQ-WRITE NÃO HABILITADA — doutrina no replay; escrita do orquestrador e G-ACTOR-WRITE-MATRIX seguem para rito futuro."
@@ -37,18 +40,18 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟡 branch protection no GitHub (hbn-shield obrigatório no push) = ação humana pendente."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0029-knowledge-index-vivo.json"
-handoff_mais_recente: ".hbn/messages/20260616-113920-codex-handoff-s3-1.md"
+readback_ativo: ".hbn/readbacks/0030-selagem-s3-1.json"
+handoff_mais_recente: ".hbn/messages/20260616-153000-codex-handoff-selagem-s3-1.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "S3.1 entregue; bastao volta ao orquestrador para cross-audit S3.1 e, depois, S3.2."
-ultima_atualizacao: "2026-06-16T11:39:20-03:00"
-atualizado_por: codex-implementador-s3-1
+ciclo_ativo: "S3.1 selada; bastao volta ao orquestrador para escolher entre area temporaria P-CAND-04 e S3.2."
+ultima_atualizacao: "2026-06-16T15:30:00-03:00"
+atualizado_por: codex-implementador-selagem-s3-1
 atribuicao:
   chapeu_atual: orquestrador
   implementador: codex
   auditores: [gemini-3-5, cursor]
-  gravada_em: "2026-06-16T11:39:20-03:00"
+  gravada_em: "2026-06-16T15:30:00-03:00"
   hearback_ref: null
 ---
 
@@ -200,3 +203,17 @@ bloqueante em `guards/hbn-guards-runner.sh`, falhando fechado se o INDEX estiver
 ausente/ilegivel ou se qualquer `.hbn/knowledge/*.md` nao for citado pelo
 basename. `run-guard-tests` fechou 156/156 e `adversarial-battery` bloqueou
 B1-B24, incluindo B24 (knowledge nova ausente do INDEX).
+
+Nota selagem S3.1 / readback 0030: concluida em 2026-06-16. Gemini/Antigravity
+(`.hbn/results/20260616-121025-gemini-3-5-cross-ia-s3-1.md`) e Cursor
+(`.hbn/results/20260616-124526-cursor-cross-ia-s3-1.md`) registraram
+`APROVA_0029: SIM`. A selagem depositou os dois pareceres, o despacho de
+cross-audit do orquestrador, a knowledge 0023, o INDEX atualizado, tres docs de
+brainstorm e este handoff, sem alterar logica de guard. Dividas rastreadas para
+hardening: (1) G-KNOW-INDEX usa `grep -Fq "$base"` e pode aceitar substring em
+`guards/assert-knowledge-index.sh:63`; (2) o INDEX pode citar arquivo inexistente
+sem o guard reclamar (ponteiro-morto). Decisao de design rastreada: P-CAND-04
+convergiu para tmp do ambiente primeiro; `/scratch/` no repo, se adotado, deve
+ter onda propria com gitignore + guards anti-stage/symlink/ignore. Continuidade:
+o proximo orquestrador deve ler STATE + handoff + `.hbn/knowledge/0001`,
+`.hbn/knowledge/0002` e `.hbn/knowledge/0023` ao assumir o bastao.

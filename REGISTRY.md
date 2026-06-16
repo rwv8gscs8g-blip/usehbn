@@ -751,3 +751,5 @@ handoff, sem alterar logica de guard.
 | 20260616-153000-codex-brainstorm-exuvia-evolucao-conceitual-s3-1 | docs/brainstorm/exuvia-evolucao-conceitual.md | brainstorm-zona-livre | frio | — | 2026-06-16T15:30:00-03:00 |
 | 20260616-153000-codex-brainstorm-principios-candidatos-s3-1 | docs/brainstorm/principios-candidatos.md | brainstorm-zona-livre | frio | — | 2026-06-16T15:30:00-03:00 |
 | 20260616-153000-codex-brainstorm-explicacao-publica-usehbn-draft | docs/brainstorm/EXPLICACAO-PUBLICA-usehbn-DRAFT.md | brainstorm-zona-livre | frio | — | 2026-06-16T15:30:00-03:00 |
+| 20260616-153000-codex-state-selagem-s3-1 | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T15:30:00-03:00 |
+| 20260616-153000-codex-handoff-selagem-s3-1 | .hbn/messages/20260616-153000-codex-handoff-selagem-s3-1.md | handoff | quente | — | 2026-06-16T15:30:00-03:00 |
