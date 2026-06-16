@@ -1,19 +1,20 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B18 implementado; cross-audit pendente)"
-onda_atual: "B18 implementado; cross-audit pendente; depois S2"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B18 ratificado e selado; B19a pendente)"
+onda_atual: "B18 ratificado e selado; próxima onda: B19 (generalizar bloqueio symlink p/ todo path governado); hardlink=non-issue; depois S2"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: codex
 papel_bastao: "implementador"
 modo_educacional: "intermediário"
 papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
-  auditores_validadores: "gemini-3-5 + cursor — cross-audit S1 concluiu APROVA_S1: SIM; cross-audit B17 concluiu APROVA_B17: SIM; cross-audit B18 pendente"
-  gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15, autorizou a selagem S1, decidiu tratar B17 antes do S2 e autorizou B18 com recorte bloquear symlink"
-proxima_acao: "B18 implementado; cross-audit pendente; depois S2"
+  auditores_validadores: "gemini-3-5 + cursor — cross-audit S1 concluiu APROVA_S1: SIM; cross-audit B17 concluiu APROVA_B17: SIM; cross-audit B18 concluiu APROVA_B18: SIM"
+  gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15, autorizou a selagem S1, decidiu tratar B17 antes do S2, autorizou B18 e ratificou a selagem B18 com B19a como próxima onda"
+proxima_acao: "B18 ratificado e selado; próxima onda: B19 (generalizar bloqueio symlink p/ todo path governado); hardlink=non-issue; depois S2"
 sinais_abertos:
-  - "🟡 B18 IMPLEMENTADO — guards/assert-scope-lock.sh bloqueia symlink staged sob .hbn/** por modo git 120000 antes da dispensa de meta-path; run-guard-tests subiu para 141/141 e adversarial-battery bloqueia B1-B18; cross-audit pendente antes do S2."
+  - "🟡 B19a PRÓXIMA ONDA — generalizar bloqueio de symlink para todo path governado; hoje is_governed_hbn_symlink restringe a checagem a .hbn/* em guards/assert-scope-lock.sh:256, achado real/estreito no parecer Gemini .hbn/results/20260615-223941-gemini-3-5-cross-ia-b18-symlink.md; hardlink = non-issue (git 100644)."
+  - "🟢 B18 RATIFICADO E SELADO — cross-audit Gemini+Cursor registrou APROVA_B18: SIM; symlink staged sob .hbn/** segue bloqueado por modo git 120000 antes da dispensa de meta-path; run-guard-tests 141/141 e adversarial-battery B1-B18 verdes."
   - "🟢 B17 RATIFICADO E SELADO — cross-audit Gemini+Cursor registrou APROVA_B17: SIM; meta-paths em guards/assert-scope-lock.sh auto-permitem somente .json/.md com basename ADR-025, hearback do readback ativo ou nome-endereco conhecido."
   - "🟢 S1 RATIFICADO E SELADO — assert-scope-lock endurecido contra auto-emenda de files_allowed; cross-audit Gemini+Cursor registrou APROVA_S1: SIM."
   - "🟢 REESTRUTURAÇÃO M-A+S0 SELADA — linha limpa proposta/reestruturacao-m-a-s0 @ 5a0587d; tree 61fa290e ancorada por tag."
@@ -26,13 +27,13 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟡 branch protection no GitHub (hbn-shield obrigatório no push) = ação humana pendente."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0021-b18-block-symlink-meta-path.json"
-handoff_mais_recente: ".hbn/messages/20260615-221034-codex-handoff-b18.md"
+readback_ativo: ".hbn/readbacks/0022-selagem-b18-cross-audit.json"
+handoff_mais_recente: ".hbn/messages/20260615-230143-codex-handoff-selagem-b18.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "B18 implementado; cross-audit pendente; depois S2."
-ultima_atualizacao: "2026-06-15T22:10:34-03:00"
-atualizado_por: codex-implementador-b18
+ciclo_ativo: "B18 ratificado e selado; próxima onda: B19 (generalizar bloqueio symlink p/ todo path governado); hardlink=non-issue; depois S2."
+ultima_atualizacao: "2026-06-15T23:01:43-03:00"
+atualizado_por: codex-implementador-selagem-b18
 atribuicao:
   chapeu_atual: implementador
   implementador: codex
@@ -101,4 +102,13 @@ recusa qualquer entrada staged sob `.hbn/**` com modo git `120000`, antes de
 avaliar `scope.files_allowed` ou meta-path ADR-025. A mensagem de bloqueio e
 `symlink não permitido em path de coordenação governado: <path>`. Arquivos
 regulares de handoff `.md`, hearback `NNNN-*.json` e nota de bypass `.md`
-continuam passando. Cross-audit independente pendente antes do S2.
+continuam passando. Cross-audit independente aprovado na selagem B18.
+
+Nota selagem B18: Gemini
+(`.hbn/results/20260615-223941-gemini-3-5-cross-ia-b18-symlink.md`) e Cursor
+(`.hbn/results/20260615-224921-cursor-cross-ia-b18-symlink.md`) registraram
+`APROVA_B18: SIM`. B19a fica aberto porque `is_governed_hbn_symlink` limita a
+checagem a `.hbn/*` em `guards/assert-scope-lock.sh:256`; a próxima onda deve
+generalizar o bloqueio de symlink para todo path governado. hardlink =
+non-issue (git 100644): o Git grava hardlink como arquivo regular, sem
+semantica de link no objeto versionado.
