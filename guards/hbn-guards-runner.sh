@@ -52,6 +52,8 @@ GUARDS=(
     "forbid-env-files.sh"
     "forbid-legacy-paths.sh"
     "assert-scope-lock.sh"
+    "validate-dispatch.sh"
+    "assert-dispatch-integrity.sh"
     "assert-self-path.sh"
     "assert-registry-line.sh"
     "assert-parallel-id.sh"

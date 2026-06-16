@@ -651,3 +651,5 @@ readback ativo, token do STATE e autorizacao humana.
 | 20260616-002331-codex-readback-s2-dispatch-auto-declarante | .hbn/readbacks/0025-s2-dispatch-auto-declarante.json | readback | quente | — | 2026-06-16T00:23:31-03:00 |
 | 20260616-003203-codex-dispatch-schema | schemas/dispatch.schema.json | schema | quente | — | 2026-06-16T00:32:03-03:00 |
 | 20260616-003203-codex-dispatch-spec | core/dispatch-spec.md | spec-core | quente | — | 2026-06-16T00:32:03-03:00 |
+| 20260616-003424-codex-validate-dispatch | guards/validate-dispatch.sh | guard | quente | — | 2026-06-16T00:34:24-03:00 |
+| 20260616-003424-codex-assert-dispatch-integrity | guards/assert-dispatch-integrity.sh | guard | quente | — | 2026-06-16T00:34:24-03:00 |

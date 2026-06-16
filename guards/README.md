@@ -20,7 +20,8 @@ Promoção 1:1 dos guards maduros do Credenciamento, com TRÊS diffs e só três
    máquina do operador, não do runner.
 
 Conjunto (ordem do runner): `assert-canonical-root` → `forbid-tmp-worktree` →
-`forbid-env-files` → `forbid-legacy-paths` → `assert-scope-lock`.
+`forbid-env-files` → `forbid-legacy-paths` → `assert-scope-lock` →
+`validate-dispatch` → `assert-dispatch-integrity`.
 Runner: `bash guards/hbn-guards-runner.sh` (pre-commit local e CI).
 
 Config: `.hbn/canonical-root` (1 linha, raiz física esperada do repo),
@@ -59,5 +60,18 @@ conclusivo no Terminal do operador. O CI (Shield, `.github/workflows/hbn-shield.
 é o terceiro ponto de verificação: guards + pytest verdes como portão de merge.
 
 O CLI Python (`src/usehbn/`) permanece implementação de REFERÊNCIA — os guards
-não dependem dele (decisão Q3; só `assert-scope-lock` usa python3 para parsear
-JSON, qualquer python3 serve).
+não dependem dele (decisão Q3; `assert-scope-lock` e os guards de dispatch
+usam python3 local para parse/validacao; qualquer python3 serve).
+
+## Dispatch auto-declarante
+
+`validate-dispatch` (G-DSP-FMT) valida cada arquivo staged em
+`.hbn/dispatch/*.md` contra `schemas/dispatch.schema.json`, usando o front
+matter YAML como projeção estruturada. Tambem bloqueia o corpo colavel com linha
+iniciada por `#`, preservando a cerimonia zsh-safe.
+
+`assert-dispatch-integrity` (G-DSP-INT) confere que o `readback_id` declarado
+existe em `.hbn/readbacks/<readback_id>.json`, que ele e o `readback_ativo` do
+STATE, que `token_fp` bate com os 8 primeiros hex de `bastao_token_sha256`, e
+que `human_authorization` nao esta vazio. Ambos leem o índice local ou `HEAD`
+em CI; a working tree solta nao conta.
