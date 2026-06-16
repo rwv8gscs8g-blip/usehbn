@@ -705,3 +705,5 @@ hardening.
 | id | artefato (path) | tipo | temperatura | superseded_by | created_at |
 |---|---|---|---|---|---|
 | 20260616-024603-codex-readback-selagem-faxina-lixo-zero | .hbn/readbacks/0028-selagem-faxina-lixo-zero.json | readback | quente | — | 2026-06-16T02:46:03-03:00 |
+| 20260616-023446-cursor-cross-ia-faxina-0027 | .hbn/results/20260616-023446-cursor-cross-ia-faxina-0027.md | audit-result | frio | — | 2026-06-16T02:34:46-03:00 |
+| 20260616-024241-gemini-3-5-cross-ia-faxina-0027 | .hbn/results/20260616-024241-gemini-3-5-cross-ia-faxina-0027.md | audit-result | frio | — | 2026-06-16T02:42:41-03:00 |
