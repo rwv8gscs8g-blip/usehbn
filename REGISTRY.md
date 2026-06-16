@@ -864,3 +864,5 @@ ativo.
 |---|---|---|---|---|---|
 | 20260616-213000-codex-readback-deny-zona-livre | .hbn/readbacks/0036-deny-zona-livre.json | readback | quente | — | 2026-06-16T21:30:00-03:00 |
 | 20260616-213100-codex-assert-zona-livre | guards/assert-zona-livre.sh | guard | quente | — | 2026-06-16T21:31:00-03:00 |
+| 20260616-213500-codex-state-w3-deny-zona-livre | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T21:35:00-03:00 |
+| 20260616-213600-codex-handoff-w3-deny-zona-livre | .hbn/messages/20260616-213600-codex-handoff-w3-deny-zona-livre.md | handoff | quente | — | 2026-06-16T21:36:00-03:00 |

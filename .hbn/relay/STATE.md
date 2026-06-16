@@ -1,8 +1,8 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida)"
-onda_atual: "Grande selagem 0035 CONCLUIDA: P-CAND-04 + W2 + pendencias selados; proxima W3 deny-by-default"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ativo)"
+onda_atual: "W3 deny-by-default ENTREGUE: G-ZONA-LIVRE bloqueante no runner; zona livre curada por readback ativo"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
@@ -11,8 +11,11 @@ papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM"
   gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou a grande selagem 0035, registro das licoes 0024/0025 e sequencia hardening->deny->freeze"
-proxima_acao: "W3 deny-by-default (G-ZONA-LIVRE) sobre base endurecida."
+proxima_acao: "Cross-audit W3; depois arvores registry-centric."
 sinais_abertos:
+  - "🟢 W3 ENTREGUE — G-ZONA-LIVRE ativo no runner; docs/brainstorm/** exige zona_livre_curada: true + zona_livre_nota nao-vazio no readback ativo."
+  - "🟢 TESTES W3 VERDES — run-guard-tests fechou 178/178; adversarial-battery bloqueou B1-B33, incluindo B33 docs/brainstorm sem curadoria."
+  - "🟡 PRÓXIMA AÇÃO — cross-audit W3; depois arvores registry-centric."
   - "🟢 GRANDE SELAGEM 0035 CONCLUIDA — readback 0035, knowledge 0024/0025, proposta arvores+MVP, oito pareceres cross-audit, STATE e handoff selados."
   - "🟢 P-CAND-04 RATIFICADO E SELADO — Cursor registrou APROVA_0033: SIM; Grok registrou APROVA_0033: NAO, resolvido pelo W2 fail-closed de G-SCRATCH."
   - "🟢 W2 RATIFICADO E SELADO — Grok+Antigravity registraram APROVA_0034: SIM; cinco bypasses fechados: G-KNOW token-match/anti-ponteiro-morto, G-FRONTDOOR bytes/contagem/existencia, G-EXC ultimo-paragrafo, G-SCRATCH fail-closed, comentario G-REG."
@@ -60,20 +63,30 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟡 branch protection no GitHub (hbn-shield obrigatório no push) = ação humana pendente."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0035-grande-selagem.json"
-handoff_mais_recente: ".hbn/messages/20260616-203500-codex-handoff-grande-selagem.md"
+readback_ativo: ".hbn/readbacks/0036-deny-zona-livre.json"
+handoff_mais_recente: ".hbn/messages/20260616-213600-codex-handoff-w3-deny-zona-livre.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "Grande selagem 0035 fechada; bastao volta ao orquestrador para W3 deny-by-default sobre base endurecida."
-ultima_atualizacao: "2026-06-16T20:35:00-03:00"
-atualizado_por: codex-implementador-grande-selagem
+ciclo_ativo: "W3 deny-by-default entregue; bastao volta ao orquestrador para cross-audit W3 e depois arvores registry-centric."
+ultima_atualizacao: "2026-06-16T21:36:00-03:00"
+atualizado_por: codex-implementador-w3-deny-zona-livre
 atribuicao:
   chapeu_atual: orquestrador
   implementador: null
   auditores: [cursor, grok, antigravity]
-  gravada_em: "2026-06-16T20:35:00-03:00"
+  gravada_em: "2026-06-16T21:36:00-03:00"
   hearback_ref: null
 ---
+
+Nota W3 / readback 0036: entregue em 2026-06-16. `guards/assert-zona-livre.sh`
+entrou bloqueante no runner como G-ZONA-LIVRE: qualquer path staged sob
+`docs/brainstorm/**` exige que o readback ativo apontado por
+`.hbn/relay/STATE.md` contenha `"zona_livre_curada": true` e
+`"zona_livre_nota"` com texto nao-vazio. O guard falha fechado se STATE,
+readback ativo ou JSON estiver ausente/ilegivel. `run-guard-tests` fechou
+178/178, cobrindo caso positivo, caso sem marcador e readback ilegivel;
+`adversarial-battery` bloqueou B1-B33, incluindo B33 docs/brainstorm sem
+curadoria. Proxima acao: cross-audit W3; depois arvores registry-centric.
 
 Nota grande selagem 0035: concluida em 2026-06-16. P-CAND-04 (readback 0033)
 fica RATIFICADO e SELADO: Cursor registrou `APROVA_0033: SIM`; o `NAO` do
