@@ -1,20 +1,20 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B17 selado; B18 próximo)"
-onda_atual: "B17 ratificado e selado; próxima onda: B18 (symlink em meta-path); depois S2"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B18 implementado; cross-audit pendente)"
+onda_atual: "B18 implementado; cross-audit pendente; depois S2"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: codex
 papel_bastao: "implementador"
 modo_educacional: "intermediário"
 papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
-  auditores_validadores: "gemini-3-5 + cursor — cross-audit S1 concluiu APROVA_S1: SIM; cross-audit B17 concluiu APROVA_B17: SIM"
-  gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15, autorizou a selagem S1, decidiu tratar B17 antes do S2 com recorte tipo+nome e registrou B18 como próxima onda"
-proxima_acao: "B17 ratificado e selado; próxima onda: B18 (symlink em meta-path); depois S2"
+  auditores_validadores: "gemini-3-5 + cursor — cross-audit S1 concluiu APROVA_S1: SIM; cross-audit B17 concluiu APROVA_B17: SIM; cross-audit B18 pendente"
+  gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15, autorizou a selagem S1, decidiu tratar B17 antes do S2 e autorizou B18 com recorte bloquear symlink"
+proxima_acao: "B18 implementado; cross-audit pendente; depois S2"
 sinais_abertos:
+  - "🟡 B18 IMPLEMENTADO — guards/assert-scope-lock.sh bloqueia symlink staged sob .hbn/** por modo git 120000 antes da dispensa de meta-path; run-guard-tests subiu para 141/141 e adversarial-battery bloqueia B1-B18; cross-audit pendente antes do S2."
   - "🟢 B17 RATIFICADO E SELADO — cross-audit Gemini+Cursor registrou APROVA_B17: SIM; meta-paths em guards/assert-scope-lock.sh auto-permitem somente .json/.md com basename ADR-025, hearback do readback ativo ou nome-endereco conhecido."
-  - "🟡 B18 PRÓXIMA ONDA — symlink com basename ADR-025 em .hbn/messages/...md passa porque is_meta_auto_allowed valida só a string (guards/assert-scope-lock.sh:236-249); repro no parecer Cursor .hbn/results/20260615-213850-cursor-cross-ia-b17-meta-path.md:140-163: ln -s ../../src/payload.sh .hbn/messages/20260615-120000-codex-handoff-x.md; tratar antes do S2."
   - "🟢 S1 RATIFICADO E SELADO — assert-scope-lock endurecido contra auto-emenda de files_allowed; cross-audit Gemini+Cursor registrou APROVA_S1: SIM."
   - "🟢 REESTRUTURAÇÃO M-A+S0 SELADA — linha limpa proposta/reestruturacao-m-a-s0 @ 5a0587d; tree 61fa290e ancorada por tag."
   - "🟢 CROSS-AUDIT SIM — Cursor e Gemini 3.5 registraram APROVA_REESTRUTURACAO: SIM para o Modelo B."
@@ -26,13 +26,13 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟡 branch protection no GitHub (hbn-shield obrigatório no push) = ação humana pendente."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0020-selagem-b17-cross-audit.json"
-handoff_mais_recente: ".hbn/messages/20260615-215312-codex-handoff-selagem-b17.md"
+readback_ativo: ".hbn/readbacks/0021-b18-block-symlink-meta-path.json"
+handoff_mais_recente: ".hbn/messages/20260615-221034-codex-handoff-b18.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "B17 ratificado e selado; próxima onda B18 (symlink em meta-path); depois S2."
-ultima_atualizacao: "2026-06-15T21:53:12-03:00"
-atualizado_por: codex-implementador-selagem-b17
+ciclo_ativo: "B18 implementado; cross-audit pendente; depois S2."
+ultima_atualizacao: "2026-06-15T22:10:34-03:00"
+atualizado_por: codex-implementador-b18
 atribuicao:
   chapeu_atual: implementador
   implementador: codex
@@ -95,3 +95,10 @@ Nota selagem B17: Gemini
 `../../src/payload.sh` passa porque `is_meta_auto_allowed` valida somente o
 path string (`guards/assert-scope-lock.sh:236-249`). Decisão humana:
 B18 e a próxima onda antes do S2.
+
+Nota B18: implementado em 2026-06-15. `guards/assert-scope-lock.sh` agora
+recusa qualquer entrada staged sob `.hbn/**` com modo git `120000`, antes de
+avaliar `scope.files_allowed` ou meta-path ADR-025. A mensagem de bloqueio e
+`symlink não permitido em path de coordenação governado: <path>`. Arquivos
+regulares de handoff `.md`, hearback `NNNN-*.json` e nota de bypass `.md`
+continuam passando. Cross-audit independente pendente antes do S2.

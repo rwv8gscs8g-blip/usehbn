@@ -590,3 +590,5 @@ legitimamente nomeados de handoff, hearback e nota de bypass seguem permitidos.
 | id | artefato (path) | tipo | temperatura | superseded_by | created_at |
 |---|---|---|---|---|---|
 | 20260615-220621-codex-readback-b18-block-symlink-meta-path | .hbn/readbacks/0021-b18-block-symlink-meta-path.json | readback | quente | — | 2026-06-15T22:06:21-03:00 |
+| 20260615-221034-codex-state-b18 | .hbn/relay/STATE.md | state | quente | — | 2026-06-15T22:10:34-03:00 |
+| 20260615-221034-codex-handoff-b18 | .hbn/messages/20260615-221034-codex-handoff-b18.md | handoff | quente | — | 2026-06-15T22:10:34-03:00 |
