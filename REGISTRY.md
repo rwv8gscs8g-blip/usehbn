@@ -694,3 +694,14 @@ scratch das suítes, sem tocar outros guards nem habilitar D-ORQ-WRITE.
 | 20260616-011004-codex-exuvia-fitness-criteria | core/exuvia-fitness-criteria.md | spec-core | quente | — | 2026-06-16T01:10:04-03:00 |
 | 20260616-020135-codex-state-faxina | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T02:01:35-03:00 |
 | 20260616-020135-codex-handoff-faxina | .hbn/messages/20260616-020135-codex-handoff-faxina.md | handoff | quente | — | 2026-06-16T02:01:35-03:00 |
+
+## Selagem da Faxina 0027 (2026-06-16) — lixo-zero — status: in_progress, readback 0028
+
+Faxina 0027 ratificada por Cursor e Gemini/Antigravity com `APROVA_0027: SIM`.
+Esta micro-onda sela pareceres, despachos e brainstorm; aplica ajustes de
+higiene sem alterar logica de guard; e registra dividas rastreadas para S3 /
+hardening.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260616-024603-codex-readback-selagem-faxina-lixo-zero | .hbn/readbacks/0028-selagem-faxina-lixo-zero.json | readback | quente | — | 2026-06-16T02:46:03-03:00 |

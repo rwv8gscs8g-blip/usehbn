@@ -1,0 +1,76 @@
+{
+  "readback_id": "0028-selagem-faxina-lixo-zero",
+  "execution_id": "selagem-faxina-lixo-zero-2026-06-16",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0028-selagem-faxina-lixo-zero.json",
+  "understanding": "Selar a faxina 0027 ratificada por Cursor (88) e Gemini/Antigravity (ambos APROVA_0027 SIM). Depositar os dois pareceres, os tres despachos orfaos do orquestrador e os dois docs de brainstorm (zona-livre versionada). Aplicar fixes lixo-zero sem mudar logica de guard: gitignore adv-cr* e superseded no front-matter do doc-fonte de criterios (um dono da verdade = core). Registrar como divida rastreada a prosa-trailer do G-EXC (alvo: hardening ultimo-paragrafo) e a convencao de incluir o handoff no files_allowed. Worktree termina sem untracked de governanca.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio em 2026-06-16: lixo-zero como principio; selar a faxina aprovada e zerar os marginais apontados; mudancas de logica de guard ficam para onda propria; registrar principios candidatos para evolucao futura.",
+    "created_at": "2026-06-16T02:46:03-03:00",
+    "note": "Autorizacao humana para safe_track de selagem+higiene. Nao autoriza tocar main, merge, --no-verify, git add ., alterar logica de guard, habilitar D-ORQ-WRITE."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0028-selagem-faxina-lixo-zero.json",
+      ".hbn/results/20260616-023446-cursor-cross-ia-faxina-0027.md",
+      ".hbn/results/20260616-024241-gemini-3-5-cross-ia-faxina-0027.md",
+      ".hbn/messages/20260616-011004-opus-4-8-despacho-faxina-0027.md",
+      ".hbn/messages/20260616-011004-opus-4-8-despacho-selagem-s2.md",
+      ".hbn/messages/20260616-021934-opus-4-8-despacho-cross-audit-faxina-0027.md",
+      ".hbn/messages/20260616-011004-opus-4-8-criterios-exuvia.md",
+      "docs/brainstorm/exuvia-evolucao-conceitual.md",
+      "docs/brainstorm/principios-candidatos.md",
+      ".gitignore",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/messages/20260616-HHMMSS-codex-handoff-selagem-faxina.md"
+    ],
+    "files_forbidden": [
+      "main",
+      "src/**",
+      "guards/**",
+      "schemas/**",
+      "core/**"
+    ]
+  },
+  "action_plan": [
+    "C1: abrir readback 0028 e registrar nascimento.",
+    "C2: selar os dois pareceres cross-audit da faxina.",
+    "C3: selar os tres despachos do orquestrador.",
+    "C4: versionar os dois docs de brainstorm.",
+    "C5: fixes lixo-zero (gitignore adv-cr* e superseded no doc-fonte de criterios).",
+    "C6: atualizar STATE com dividas rastreadas, criar handoff e registrar."
+  ],
+  "invariants_to_preserve": [
+    "Nao tocar main, nao merge, nao --no-verify.",
+    "Nao alterar logica de guard nesta onda.",
+    "Nao usar git add .; somente paths exatos.",
+    "Handoff da onda dentro do files_allowed (licao do achado G).",
+    "Antes de cada commit: runner verde com o indice.",
+    "Trailers CONTIGUOS: HBN-Readback: 0028, HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin), HBN-Token-FP: 34a7f2f9."
+  ],
+  "out_of_scope": [
+    "Corrigir a prosa-trailer do G-EXC (mudanca de logica -> onda de hardening propria).",
+    "Habilitar D-ORQ-WRITE / G-ACTOR-WRITE-MATRIX.",
+    "Promover principios candidatos a core (fica para a onda de evolucao do protocolo)."
+  ],
+  "read_evidence": [
+    ".hbn/results/20260616-023446-cursor-cross-ia-faxina-0027.md (achados C/G/EXTRA)",
+    ".hbn/results/20260616-024241-gemini-3-5-cross-ia-faxina-0027.md (gitignore e prosa-trailer)",
+    "REGISTRY.md:693 (superseded_by ja registrado; front-matter desalinhado)",
+    ".gitignore (linha adv-cr-*)"
+  ],
+  "mechanical_evidence": [
+    "pwd -> /Users/macbookpro/Projetos/usehbn",
+    "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04",
+    "readback ativo atual = 0027 (faxina selada nesta onda)"
+  ],
+  "created_at": "2026-06-16T02:46:03-03:00",
+  "protocol_version": "0.3.0"
+}
