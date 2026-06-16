@@ -75,3 +75,11 @@ existe em `.hbn/readbacks/<readback_id>.json`, que ele e o `readback_ativo` do
 STATE, que `token_fp` bate com os 8 primeiros hex de `bastao_token_sha256`, e
 que `human_authorization` nao esta vazio. Ambos leem o índice local ou `HEAD`
 em CI; a working tree solta nao conta.
+
+## Exceção rastreável
+
+`assert-exception-traceable` (G-EXC) valida trailers de commit-msg lendo o texto
+da mensagem em curso. Em CI, desde a faxina 0027, aplica a mesma regra sobre a
+mensagem bruta de cada commit (`git log --format=%B`), em vez do parser nativo
+`%(trailers)`: trailers separados por linha em branco continuam visíveis ao
+grep do guard, igualando o comportamento local e o comportamento do range.

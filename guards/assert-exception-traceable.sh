@@ -20,13 +20,16 @@
 #     (readback ativo + STATE staged/HEAD).
 #   - commit-msg (argumento = arquivo da mensagem): valida (b) e (c) no
 #     texto da mensagem em curso (o hook commit-msg do I-13 chama assim).
-#   - CI (HBN_DIFF_BASE não-vazio): valida (b) e (c) em TODOS os commits do
-#     range pushed (git log %(trailers)).
+#   - CI (HBN_DIFF_BASE não-vazio): valida (b) e (c) no texto bruto (%B) de
+#     TODOS os commits do range pushed, igual ao commit-msg local.
 #
 # status: criado na onda 0006 (I-08) com testes negativos verdes (ADR-020);
 #   ENTRA NO RUNNER no commit I-09 — junto com o 4º sinal no STATE, porque
 #   ativá-lo antes bloquearia a própria onda 0006 (e o guard estaria CERTO:
 #   o sinal ainda não existia no STATE).
+# Fix 0027: CI deixou de usar %(trailers), porque o parser nativo normaliza
+# trailers separados por linha em branco. O guard agora usa %B e aplica o mesmo
+# grep sobre a mensagem completa que ja era usado no modo commit-msg.
 # Teste negativo: guards/tests/run-guard-tests.sh (seção G-EXC).
 # =============================================================================
 set -euo pipefail
@@ -148,7 +151,7 @@ if [[ -n "$MSG_FILE" ]]; then
 elif [[ -n "${HBN_DIFF_BASE:-}" ]]; then
     while IFS= read -r c; do
         [[ -z "$c" ]] && continue
-        if ! require_trailers_in "$(git log -1 --format='%(trailers)' "$c")" "commit ${c:0:7} do range pushed"; then
+        if ! require_trailers_in "$(git log -1 --format='%B' "$c")" "commit ${c:0:7} do range pushed"; then
             FAIL=1
         fi
     done <<< "$(git rev-list "${HBN_DIFF_BASE}..HEAD" 2>/dev/null || true)"
