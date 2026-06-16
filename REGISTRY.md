@@ -724,3 +724,4 @@ nova ou existente que não esteja citada no índice.
 | id | artefato (path) | tipo | temperatura | superseded_by | created_at |
 |---|---|---|---|---|---|
 | 20260616-113239-codex-readback-knowledge-index-vivo | .hbn/readbacks/0029-knowledge-index-vivo.json | readback | quente | — | 2026-06-16T11:32:39-03:00 |
+| 20260616-113601-codex-assert-knowledge-index | guards/assert-knowledge-index.sh | guard | quente | — | 2026-06-16T11:36:01-03:00 |

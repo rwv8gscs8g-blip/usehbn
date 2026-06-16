@@ -76,6 +76,14 @@ STATE, que `token_fp` bate com os 8 primeiros hex de `bastao_token_sha256`, e
 que `human_authorization` nao esta vazio. Ambos leem o índice local ou `HEAD`
 em CI; a working tree solta nao conta.
 
+## Knowledge index vivo
+
+`assert-knowledge-index` (G-KNOW-INDEX) confere que cada arquivo
+`.hbn/knowledge/*.md`, exceto `.hbn/knowledge/INDEX.md`, aparece citado pelo
+basename no `INDEX.md`. O guard falha fechado quando o índice esta ausente ou
+ilegivel no índice Git local ou em `HEAD` no CI. A working tree solta nao conta:
+entrada nova de knowledge e linha do INDEX precisam entrar no mesmo commit.
+
 ## Exceção rastreável
 
 `assert-exception-traceable` (G-EXC) valida trailers de commit-msg lendo o texto
