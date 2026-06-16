@@ -1,19 +1,20 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B17 implementado)"
-onda_atual: "B17 implementado; cross-audit pendente; depois S2"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B17 selado; B18 próximo)"
+onda_atual: "B17 ratificado e selado; próxima onda: B18 (symlink em meta-path); depois S2"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: codex
 papel_bastao: "implementador"
 modo_educacional: "intermediário"
 papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
-  auditores_validadores: "gemini-3-5 + cursor — cross-audit S1 concluiu APROVA_S1: SIM; cross-audit B17 pendente"
-  gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15, autorizou a selagem S1 e decidiu tratar B17 antes do S2 com recorte tipo+nome"
-proxima_acao: "B17 implementado; cross-audit pendente"
+  auditores_validadores: "gemini-3-5 + cursor — cross-audit S1 concluiu APROVA_S1: SIM; cross-audit B17 concluiu APROVA_B17: SIM"
+  gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15, autorizou a selagem S1, decidiu tratar B17 antes do S2 com recorte tipo+nome e registrou B18 como próxima onda"
+proxima_acao: "B17 ratificado e selado; próxima onda: B18 (symlink em meta-path); depois S2"
 sinais_abertos:
-  - "🟢 B17 IMPLEMENTADO — meta-paths em guards/assert-scope-lock.sh agora auto-permitem somente .json/.md com basename ADR-025, hearback do readback ativo ou nome-endereco conhecido; payload arbitrario cai no scope-lock normal. Cross-audit pendente."
+  - "🟢 B17 RATIFICADO E SELADO — cross-audit Gemini+Cursor registrou APROVA_B17: SIM; meta-paths em guards/assert-scope-lock.sh auto-permitem somente .json/.md com basename ADR-025, hearback do readback ativo ou nome-endereco conhecido."
+  - "🟡 B18 PRÓXIMA ONDA — symlink com basename ADR-025 em .hbn/messages/...md passa porque is_meta_auto_allowed valida só a string (guards/assert-scope-lock.sh:236-249); repro no parecer Cursor .hbn/results/20260615-213850-cursor-cross-ia-b17-meta-path.md:140-163: ln -s ../../src/payload.sh .hbn/messages/20260615-120000-codex-handoff-x.md; tratar antes do S2."
   - "🟢 S1 RATIFICADO E SELADO — assert-scope-lock endurecido contra auto-emenda de files_allowed; cross-audit Gemini+Cursor registrou APROVA_S1: SIM."
   - "🟢 REESTRUTURAÇÃO M-A+S0 SELADA — linha limpa proposta/reestruturacao-m-a-s0 @ 5a0587d; tree 61fa290e ancorada por tag."
   - "🟢 CROSS-AUDIT SIM — Cursor e Gemini 3.5 registraram APROVA_REESTRUTURACAO: SIM para o Modelo B."
@@ -25,18 +26,18 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟡 branch protection no GitHub (hbn-shield obrigatório no push) = ação humana pendente."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0019-b17-anti-smuggling-meta-path.json"
-handoff_mais_recente: ".hbn/messages/20260615-120038-codex-handoff-b17.md"
+readback_ativo: ".hbn/readbacks/0020-selagem-b17-cross-audit.json"
+handoff_mais_recente: ".hbn/messages/20260615-215312-codex-handoff-selagem-b17.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "B17 implementado; cross-audit pendente antes do S2."
-ultima_atualizacao: "2026-06-15T12:00:38-03:00"
-atualizado_por: codex-implementador-b17
+ciclo_ativo: "B17 ratificado e selado; próxima onda B18 (symlink em meta-path); depois S2."
+ultima_atualizacao: "2026-06-15T21:53:12-03:00"
+atualizado_por: codex-implementador-selagem-b17
 atribuicao:
   chapeu_atual: implementador
   implementador: codex
   auditores: [gemini-3-5, cursor]
-  gravada_em: "2026-06-15T12:00:38-03:00"
+  gravada_em: "2026-06-15T21:53:12-03:00"
   hearback_ref: null
 ---
 
@@ -73,9 +74,9 @@ orquestrador.
 Nota selagem S1: Gemini (`.hbn/results/20260615-112714-gemini-3-5-cross-ia-s1-scope-lock.md`)
 e Cursor (`.hbn/results/20260615-113115-cursor-cross-ia-s1-scope-lock.md`)
 registraram `APROVA_S1: SIM`. B16 (auto-emenda de `scope.files_allowed` + uso
-no mesmo commit) permanece bloqueado pela bateria S1. B17 e a brecha
-preexistente de meta-paths sempre permitidos em `guards/assert-scope-lock.sh:207-214`
-e deve ser tratado na proxima onda antes do S2.
+no mesmo commit) permanece bloqueado pela bateria S1. B17, a brecha
+preexistente de meta-paths sempre permitidos em `guards/assert-scope-lock.sh:207-214`,
+foi tratado e selado em 2026-06-15; B18 segue como proxima onda antes do S2.
 
 Nota B17: a brecha preexistente de smuggling por meta-path foi implementada em
 2026-06-15 com recorte tipo+nome. `guards/assert-scope-lock.sh` agora aceita
@@ -83,4 +84,14 @@ automaticamente apenas `.json`/`.md` de evento ADR-025 em `.hbn/messages/` e
 `.hbn/bypasses/`, hearback `NNNN-*.{json,md}` do readback ativo e
 `.hbn/relay/INDEX.md`; scripts, binarios e nomes arbitrarios nesses caminhos
 precisam estar em `scope.files_allowed`. `run-guard-tests` passou com 140/140 e
-`adversarial-battery` bloqueou B1-B17; falta cross-audit independente.
+`adversarial-battery` bloqueou B1-B17; cross-audit independente aprovado em
+2026-06-15.
+
+Nota selagem B17: Gemini
+(`.hbn/results/20260615-213855-gemini-3-5-cross-ia-b17-meta-path.md`) e Cursor
+(`.hbn/results/20260615-213850-cursor-cross-ia-b17-meta-path.md`) registraram
+`APROVA_B17: SIM`. Cursor documentou B18: symlink com basename ADR-025 em
+`.hbn/messages/20260615-120000-codex-handoff-x.md` apontando para
+`../../src/payload.sh` passa porque `is_meta_auto_allowed` valida somente o
+path string (`guards/assert-scope-lock.sh:236-249`). Decisão humana:
+B18 e a próxima onda antes do S2.

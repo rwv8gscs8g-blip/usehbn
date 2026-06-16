@@ -577,3 +577,5 @@ B17 e fica como proxima onda antes do S2.
 | 20260615-214934-codex-readback-selagem-b17-cross-audit | .hbn/readbacks/0020-selagem-b17-cross-audit.json | readback | quente | — | 2026-06-15T21:49:34-03:00 |
 | 20260615-213855-gemini-3-5-cross-ia-b17-meta-path | .hbn/results/20260615-213855-gemini-3-5-cross-ia-b17-meta-path.md | audit-result | frio | — | 2026-06-15T21:38:55-03:00 |
 | 20260615-213850-cursor-cross-ia-b17-meta-path | .hbn/results/20260615-213850-cursor-cross-ia-b17-meta-path.md | audit-result | frio | — | 2026-06-15T21:38:50-03:00 |
+| 20260615-215312-codex-state-selagem-b17 | .hbn/relay/STATE.md | state | quente | — | 2026-06-15T21:53:12-03:00 |
+| 20260615-215312-codex-handoff-selagem-b17 | .hbn/messages/20260615-215312-codex-handoff-selagem-b17.md | handoff | quente | — | 2026-06-15T21:53:12-03:00 |
