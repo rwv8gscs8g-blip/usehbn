@@ -39,7 +39,7 @@ atualizado_por: codex-implementador-selagem-s2
 atribuicao:
   chapeu_atual: orquestrador
   implementador: codex
-  auditores: [gemini-3-5, cursor]
+  auditores: [gemini-3-5, cursor, fable5, antigravity]
   gravada_em: "2026-06-16T01:24:52-03:00"
   hearback_ref: null
 ---

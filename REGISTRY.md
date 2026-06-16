@@ -683,3 +683,9 @@ scratch das suítes, sem tocar outros guards nem habilitar D-ORQ-WRITE.
 | id | artefato (path) | tipo | temperatura | superseded_by | created_at |
 |---|---|---|---|---|---|
 | 20260616-011004-codex-readback-faxina-pendencias | .hbn/readbacks/0027-faxina-pendencias.json | readback | quente | — | 2026-06-16T01:10:04-03:00 |
+| 20260612-122102-fable5-handoff-orquestracao-pos-onda-0006 | .hbn/messages/20260612-122102-fable5-handoff-orquestracao-pos-onda-0006.md | handoff | quente | — | 2026-06-12T12:21:02-03:00 |
+| 20260613-112502-fable5-handoff-orquestracao-pos-adocao-onda-0006 | .hbn/messages/20260613-112502-fable5-handoff-orquestracao-pos-adocao-onda-0006.md | handoff | quente | — | 2026-06-13T11:25:02-03:00 |
+| 20260614-032800-gemini-3-5-cross-ia-onda-0011-plano-v2 | .hbn/results/20260614-032800-gemini-3-5-cross-ia-onda-0011-plano-v2.md | audit-result | frio | — | 2026-06-14T03:28:00-03:00 |
+| 20260614-043647-antigravity-cross-ia-exuvia-impl | .hbn/results/20260614-043647-antigravity-cross-ia-exuvia-impl.md | audit-result | frio | — | 2026-06-14T04:36:47-03:00 |
+| 20260614-043826-codex-cross-ia-exuvia-impl | .hbn/results/20260614-043826-codex-cross-ia-exuvia-impl.md | result | frio | — | 2026-06-14T04:38:26-03:00 |
+| 20260614-044555-opus-4-8-consolidacao-cross-audit-exuvia-impl | .hbn/results/20260614-044555-opus-4-8-consolidacao-cross-audit-exuvia-impl.md | audit-consolidation | frio | — | 2026-06-14T04:45:55-03:00 |
