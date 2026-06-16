@@ -753,3 +753,13 @@ handoff, sem alterar logica de guard.
 | 20260616-153000-codex-brainstorm-explicacao-publica-usehbn-draft | docs/brainstorm/EXPLICACAO-PUBLICA-usehbn-DRAFT.md | brainstorm-zona-livre | frio | — | 2026-06-16T15:30:00-03:00 |
 | 20260616-153000-codex-state-selagem-s3-1 | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T15:30:00-03:00 |
 | 20260616-153000-codex-handoff-selagem-s3-1 | .hbn/messages/20260616-153000-codex-handoff-selagem-s3-1.md | handoff | quente | — | 2026-06-16T15:30:00-03:00 |
+
+## S3.2 (2026-06-16) — porta da frente: cartoes de papel + read-list — status: in_progress, readback 0031
+
+S3.2 cria uma porta da frente minima para qualquer IA que assuma o bastao:
+read-list limitada, cartoes curtos por papel e guard bloqueante contra
+inflacao/monolito.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260616-160000-codex-readback-porta-da-frente-cartoes | .hbn/readbacks/0031-porta-da-frente-cartoes.json | readback | quente | — | 2026-06-16T16:00:00-03:00 |
