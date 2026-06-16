@@ -838,3 +838,6 @@ pareceres cross-audit, STATE e handoff. Sem alterar logica de guard.
 | id | artefato (path) | tipo | temperatura | superseded_by | created_at |
 |---|---|---|---|---|---|
 | 20260616-203000-codex-readback-grande-selagem | .hbn/readbacks/0035-grande-selagem.json | readback | quente | — | 2026-06-16T20:30:00-03:00 |
+| 20260616-203100-codex-knowledge-0024-zona-livre | .hbn/knowledge/0024-orquestrador-nao-sela-zona-livre-sem-aprovacao.md | knowledge | quente | — | 2026-06-16T20:31:00-03:00 |
+| 20260616-203100-codex-knowledge-0025-auditor-read-only | .hbn/knowledge/0025-auditor-read-only-sem-no-verify.md | knowledge | quente | — | 2026-06-16T20:31:00-03:00 |
+| 20260616-203100-codex-knowledge-index-0024-0025 | .hbn/knowledge/INDEX.md | knowledge-index | quente | — | 2026-06-16T20:31:00-03:00 |
