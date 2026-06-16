@@ -1,18 +1,20 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19 ratificado e selado; S2 proximo)"
-onda_atual: "B19 ratificado e selado; classe symlink/meta-path FECHADA (B17+B18+B19); próxima onda: S2 (dispatch schema)"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19 ratificado e selado; S2 implementada, aguardando cross-audit)"
+onda_atual: "S2 implementada: dispatch auto-declarante versionado, schema/spec e guards G-DSP-FMT/G-DSP-INT bloqueantes; aguardando cross-audit Gemini+Cursor"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
-proprietario_bastao: codex
-papel_bastao: "implementador"
+proprietario_bastao: claude-opus-4-8
+papel_bastao: "orquestrador"
 modo_educacional: "intermediário"
 papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
-  auditores_validadores: "gemini-3-5 + cursor — cross-audit S1 concluiu APROVA_S1: SIM; cross-audit B17 concluiu APROVA_B17: SIM; cross-audit B18 concluiu APROVA_B18: SIM; cross-audit B19 concluiu APROVA_B19: SIM e classe FECHADA: SIM"
-  gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15, autorizou a selagem S1, decidiu tratar B17 antes do S2, autorizou B18, ratificou a selagem B18 com B19a como próxima onda, autorizou B19 antes do S2 e autorizou a selagem B19 após cross-audit"
-proxima_acao: "B19 ratificado e selado; classe symlink/meta-path FECHADA (B17+B18+B19); próxima onda: S2 (dispatch schema)"
+  auditores_validadores: "gemini-3-5 + cursor — cross-audit S1 concluiu APROVA_S1: SIM; cross-audit B17 concluiu APROVA_B17: SIM; cross-audit B18 concluiu APROVA_B18: SIM; cross-audit B19 concluiu APROVA_B19: SIM e classe FECHADA: SIM; cross-audit S2 pendente"
+  gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15, autorizou a selagem S1, decidiu tratar B17 antes do S2, autorizou B18, ratificou a selagem B18 com B19a como próxima onda, autorizou B19 antes do S2, autorizou a selagem B19 após cross-audit e autorizou S2 com guards bloqueantes sem rampa"
+proxima_acao: "Submeter S2 (dispatch auto-declarante) ao cross-audit Gemini+Cursor antes de qualquer selagem."
 sinais_abertos:
+  - "🟢 S2 IMPLEMENTADA — dispatch schema/spec criados; G-DSP-FMT e G-DSP-INT entram bloqueantes no runner; run-guard-tests 151/151 verde; adversarial-battery bloqueou B1-B22; dispatch 0025 dogfood validado no índice."
+  - "🟡 S2 AGUARDA CROSS-AUDIT — Gemini+Cursor devem auditar antes de qualquer selagem; selagem futura e micro-onda própria com readback 0026."
   - "🟢 B19 RATIFICADO E SELADO — cross-audit Gemini+Cursor registrou APROVA_B19: SIM e CLASSE FECHADA: SIM; classe symlink/meta-path FECHADA apos B17+B18+B19; hardlink = non-issue (git 100644); proxima onda: S2 (dispatch schema)."
   - "🟢 B18 RATIFICADO E SELADO — cross-audit Gemini+Cursor registrou APROVA_B18: SIM; symlink staged sob .hbn/** segue bloqueado por modo git 120000 antes da dispensa de meta-path; run-guard-tests 141/141 e adversarial-battery B1-B18 verdes."
   - "🟢 B17 RATIFICADO E SELADO — cross-audit Gemini+Cursor registrou APROVA_B17: SIM; meta-paths em guards/assert-scope-lock.sh auto-permitem somente .json/.md com basename ADR-025, hearback do readback ativo ou nome-endereco conhecido."
@@ -28,17 +30,17 @@ sinais_abertos:
   - "🟡 branch protection no GitHub (hbn-shield obrigatório no push) = ação humana pendente."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
 readback_ativo: ".hbn/readbacks/0025-s2-dispatch-auto-declarante.json"
-handoff_mais_recente: ".hbn/messages/20260616-000450-codex-handoff-selagem-b19.md"
+handoff_mais_recente: ".hbn/messages/20260616-004342-codex-handoff-s2.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "B19 ratificado e selado; classe symlink/meta-path FECHADA (B17+B18+B19); próxima onda: S2 (dispatch schema)."
-ultima_atualizacao: "2026-06-16T00:04:50-03:00"
-atualizado_por: codex-implementador-selagem-b19
+ciclo_ativo: "S2 implementada e entregue ao orquestrador para cross-audit Gemini+Cursor antes de qualquer selagem."
+ultima_atualizacao: "2026-06-16T00:43:42-03:00"
+atualizado_por: codex-implementador-s2
 atribuicao:
-  chapeu_atual: implementador
+  chapeu_atual: orquestrador
   implementador: codex
   auditores: [gemini-3-5, cursor]
-  gravada_em: "2026-06-16T00:04:50-03:00"
+  gravada_em: "2026-06-16T00:43:42-03:00"
   hearback_ref: null
 ---
 
@@ -129,3 +131,16 @@ symlink/meta-path fica FECHADA apos B17+B18+B19. Hardlink permanece
 non-issue/won't-fix: o Git materializa como arquivo regular `100644`, sem
 semantica de link no objeto versionado. Proxima onda do roadmap: S2 (dispatch
 schema).
+
+Nota S2: implementada em 2026-06-16. O despacho passa a ser artefato
+auto-declarante em `.hbn/dispatch/NNNN-*.md`, validado por
+`schemas/dispatch.schema.json` e pela spec `core/dispatch-spec.md`.
+`guards/validate-dispatch.sh` (G-DSP-FMT) bloqueia forma inválida, token_fp mal
+formado e corpo colável com linha iniciada por `#`; `guards/assert-dispatch-integrity.sh`
+(G-DSP-INT) bloqueia readback inexistente/não-ativo, token_fp divergente do
+STATE e autorização humana vazia. Ambos entraram no runner sem rampa.
+`guards/tests/run-guard-tests.sh` fechou 151/151 e
+`guards/tests/adversarial-battery.sh` bloqueou B1-B22. O primeiro dispatch,
+`.hbn/dispatch/0025-s2-dispatch-auto-declarante.md`, foi validado como dogfood.
+Próximo passo: cross-audit Gemini+Cursor; selagem de S2 é micro-onda própria
+com readback 0026, não feita aqui.

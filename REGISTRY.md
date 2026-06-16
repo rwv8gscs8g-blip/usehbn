@@ -654,3 +654,5 @@ readback ativo, token do STATE e autorizacao humana.
 | 20260616-003424-codex-validate-dispatch | guards/validate-dispatch.sh | guard | quente | — | 2026-06-16T00:34:24-03:00 |
 | 20260616-003424-codex-assert-dispatch-integrity | guards/assert-dispatch-integrity.sh | guard | quente | — | 2026-06-16T00:34:24-03:00 |
 | 20260616-004223-codex-dispatch-s2-dogfood | .hbn/dispatch/0025-s2-dispatch-auto-declarante.md | dispatch | quente | — | 2026-06-16T00:42:23-03:00 |
+| 20260616-004342-codex-state-s2 | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T00:43:42-03:00 |
+| 20260616-004342-codex-handoff-s2 | .hbn/messages/20260616-004342-codex-handoff-s2.md | handoff | quente | — | 2026-06-16T00:43:42-03:00 |
