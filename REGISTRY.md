@@ -620,3 +620,5 @@ regular `100644`, sem semantica de link no objeto versionado.
 | id | artefato (path) | tipo | temperatura | superseded_by | created_at |
 |---|---|---|---|---|---|
 | 20260615-231847-codex-readback-b19-symlink-governado-geral | .hbn/readbacks/0023-b19-symlink-governado-geral.json | readback | quente | — | 2026-06-15T23:18:47-03:00 |
+| 20260615-232431-codex-state-b19 | .hbn/relay/STATE.md | state | quente | — | 2026-06-15T23:24:31-03:00 |
+| 20260615-232431-codex-handoff-b19 | .hbn/messages/20260615-232431-codex-handoff-b19.md | handoff | quente | — | 2026-06-15T23:24:31-03:00 |
