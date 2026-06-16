@@ -63,7 +63,7 @@ atualizado_por: codex-implementador-w2-hardening
 atribuicao:
   chapeu_atual: orquestrador
   implementador: codex
-  auditores: [gemini-3-5, cursor]
+  auditores: [gemini-3-5, cursor, antigravity]
   gravada_em: "2026-06-16T19:45:00-03:00"
   hearback_ref: null
 ---

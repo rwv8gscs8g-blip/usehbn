@@ -842,3 +842,12 @@ pareceres cross-audit, STATE e handoff. Sem alterar logica de guard.
 | 20260616-203100-codex-knowledge-0025-auditor-read-only | .hbn/knowledge/0025-auditor-read-only-sem-no-verify.md | knowledge | quente | — | 2026-06-16T20:31:00-03:00 |
 | 20260616-203100-codex-knowledge-index-0024-0025 | .hbn/knowledge/INDEX.md | knowledge-index | quente | — | 2026-06-16T20:31:00-03:00 |
 | 20260616-180000-opus-4-8-proposta-arvores-leve-e-fechamento-mvp | .hbn/messages/20260616-180000-opus-4-8-proposta-arvores-leve-e-fechamento-mvp.md | proposta | quente | — | 2026-06-16T18:00:00-03:00 |
+| 20260616-153302-antigravity-cross-ia-proposta-arvores-mvp | .hbn/results/20260616-153302-antigravity-cross-ia-proposta-arvores-mvp.md | audit-result | frio | — | 2026-06-16T15:33:02-03:00 |
+| 20260616-153723-codex-cross-ia-proposta-arvores-mvp | .hbn/results/20260616-153723-codex-cross-ia-proposta-arvores-mvp.md | audit-result | frio | — | 2026-06-16T15:37:23-03:00 |
+| 20260616-154200-cursor-cross-ia-proposta-arvores-mvp | .hbn/results/20260616-154200-cursor-cross-ia-proposta-arvores-mvp.md | audit-result | frio | — | 2026-06-16T15:42:00-03:00 |
+| 20260616-155716-cursor-cross-ia-p-cand-04 | .hbn/results/20260616-155716-cursor-cross-ia-p-cand-04.md | audit-result | frio | — | 2026-06-16T15:57:16-03:00 |
+| 20260616-172500-grok-cross-ia-w2-hardening | .hbn/results/20260616-172500-grok-cross-ia-w2-hardening.md | audit-result | frio | — | 2026-06-16T17:25:00-03:00 |
+| 20260616-173000-antigravity-cross-ia-w2-hardening | .hbn/results/20260616-173000-antigravity-cross-ia-w2-hardening.md | audit-result | frio | — | 2026-06-16T17:30:00-03:00 |
+| 20260616-184500-grok-cross-ia-proposta-arvores-mvp | .hbn/results/20260616-184500-grok-cross-ia-proposta-arvores-mvp.md | audit-result | frio | — | 2026-06-16T18:45:00-03:00 |
+| 20260616-204530-grok-cross-ia-p-cand-04 | .hbn/results/20260616-204530-grok-cross-ia-p-cand-04.md | audit-result | frio | — | 2026-06-16T20:45:30-03:00 |
+| 20260616-203400-codex-state-auditores-grande-selagem | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T20:34:00-03:00 |
