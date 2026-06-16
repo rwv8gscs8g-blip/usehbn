@@ -46,6 +46,11 @@ nomes-endereco conhecidos como `.hbn/relay/INDEX.md`. Qualquer outro arquivo em
 `.hbn/messages/`, `.hbn/bypasses/` ou `.hbn/hearbacks/` cai no scope-lock
 normal e precisa estar declarado em `scope.files_allowed`.
 
+Symlinks sao proibidos em paths de coordenacao governados: qualquer entrada
+staged sob `.hbn/**` com modo git `120000` e bloqueada antes da dispensa de
+meta-path, mesmo que o basename siga ADR-025. Nao ha uso legitimo de symlink
+nesses caminhos.
+
 Conforme knowledge 0021 (Credenciamento): em sandbox o guard é informativo;
 conclusivo no Terminal do operador. O CI (Shield, `.github/workflows/hbn-shield.yml`)
 é o terceiro ponto de verificação: guards + pytest verdes como portão de merge.
