@@ -55,6 +55,23 @@ aplicada em CI contra a arvore `HEAD`. Hardlink e tratado pelo Git como arquivo
 regular (`100644`), sem semantica de link no objeto versionado, e fica fora do
 escopo desta regra.
 
+## Area temporaria /scratch/
+
+`scratch/` e a area efemera local do repo. O Git ignora `/scratch/` e versiona
+somente `scratch/README.md` como contrato de uso. A area nao aceita segredos,
+PII, credenciais, fixtures permanentes nem artefatos de entrega.
+
+`assert-scratch-lock` (G-SCRATCH-LOCK) falha se qualquer path staged sob
+`scratch/` nao for exatamente `scratch/README.md`.
+
+`assert-scratch-symlink` (G-SCRATCH-SYMLINK) falha se qualquer entrada staged
+sob `scratch/` tiver modo Git `120000`, fechando o vetor de symlink escapando da
+area efemera.
+
+`assert-scratch-ignore` (G-SCRATCH-IGNORE) roda quando `.gitignore` esta staged
+e exige que o blob staged preserve as linhas `/scratch/` e
+`!/scratch/README.md`.
+
 Conforme knowledge 0021 (Credenciamento): em sandbox o guard é informativo;
 conclusivo no Terminal do operador. O CI (Shield, `.github/workflows/hbn-shield.yml`)
 é o terceiro ponto de verificação: guards + pytest verdes como portão de merge.

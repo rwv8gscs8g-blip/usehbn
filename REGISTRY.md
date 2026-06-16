@@ -800,3 +800,6 @@ fail-closed: G-SCRATCH-LOCK, G-SCRATCH-SYMLINK e G-SCRATCH-IGNORE.
 | id | artefato (path) | tipo | temperatura | superseded_by | created_at |
 |---|---|---|---|---|---|
 | 20260616-170000-codex-readback-area-temporaria-scratch | .hbn/readbacks/0033-area-temporaria-scratch.json | readback | quente | — | 2026-06-16T17:00:00-03:00 |
+| 20260616-170100-codex-assert-scratch-lock | guards/assert-scratch-lock.sh | guard | quente | — | 2026-06-16T17:01:00-03:00 |
+| 20260616-170100-codex-assert-scratch-symlink | guards/assert-scratch-symlink.sh | guard | quente | — | 2026-06-16T17:01:00-03:00 |
+| 20260616-170100-codex-assert-scratch-ignore | guards/assert-scratch-ignore.sh | guard | quente | — | 2026-06-16T17:01:00-03:00 |
