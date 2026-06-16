@@ -1,8 +1,8 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19 ratificado e selado; S2 ratificada e selada; faxina 0027 ratificada e selada)"
-onda_atual: "SELAGEM FAXINA 0027 CONCLUIDA: cross-audit APROVA_0027 SIM depositado; despachos e brainstorm versionados; gitignore/superseded corrigidos; dividas S3 rastreadas"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027 selados; S3.1 INDEX vivo entregue)"
+onda_atual: "S3.1 ENTREGUE: INDEX vivo da knowledge lista todas as 8 entradas atuais; G-KNOW-INDEX bloqueante no runner; testes positivo/negativo e B24 verdes"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
@@ -10,9 +10,12 @@ modo_educacional: "intermediário"
 papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor — cross-audit S1 concluiu APROVA_S1: SIM; cross-audit B17 concluiu APROVA_B17: SIM; cross-audit B18 concluiu APROVA_B18: SIM; cross-audit B19 concluiu APROVA_B19: SIM e classe FECHADA: SIM; cross-audit S2 concluiu APROVA_S2: SIM; cross-audit faxina 0027 concluiu APROVA_0027: SIM"
-  gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15, autorizou a selagem S1, decidiu tratar B17 antes do S2, autorizou B18, ratificou a selagem B18 com B19a como próxima onda, autorizou B19 antes do S2, autorizou a selagem B19 após cross-audit, autorizou S2 com guards bloqueantes sem rampa, autorizou a selagem S2 apos duplo APROVA_S2 SIM e autorizou lixo-zero na selagem da faxina 0027"
-proxima_acao: "Definir S3: hardening prosa-trailer do G-EXC e evolução do protocolo."
+  gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15, autorizou a selagem S1, decidiu tratar B17 antes do S2, autorizou B18, ratificou a selagem B18 com B19a como próxima onda, autorizou B19 antes do S2, autorizou a selagem B19 após cross-audit, autorizou S2 com guards bloqueantes sem rampa, autorizou a selagem S2 apos duplo APROVA_S2 SIM, autorizou lixo-zero na selagem da faxina 0027 e autorizou S3 incremental com INDEX vivo da knowledge em S3.1"
+proxima_acao: "Cross-audit S3.1; depois S3.2."
 sinais_abertos:
+  - "🟢 S3.1 ENTREGUE — .hbn/knowledge/INDEX.md lista as 8 entradas atuais e G-KNOW-INDEX entrou bloqueante no runner; run-guard-tests fechou 156/156 e adversarial-battery bloqueou B1-B24."
+  - "🟢 INDEX VIVO DA KNOWLEDGE — qualquer .hbn/knowledge/*.md, exceto INDEX.md, precisa aparecer citado pelo basename no INDEX; ausência/ilegibilidade do INDEX falha fechado."
+  - "🟡 PRÓXIMO PASSO — cross-audit S3.1; se aprovado, seguir para S3.2 (cartões de papel / read-list mínima)."
   - "🟢 S2 + FAXINA 0027 FECHADOS — S2 foi ratificada e selada; faxina 0027 foi ratificada por Cursor e Gemini/Antigravity com APROVA_0027: SIM e selada na micro-onda 0028."
   - "🟢 S2 RATIFICADA E SELADA — Gemini registrou APROVA_S2: SIM com confiança 100/100; Cursor registrou APROVA_S2: SIM com confiança 90/100; pareceres e despachos foram depositados nesta micro-onda."
   - "🟢 FAXINA 0027 RATIFICADA E SELADA — pareceres Cursor/Gemini depositados, tres despachos do orquestrador selados, brainstorm versionado e fixes lixo-zero aplicados sem mudar logica de guard."
@@ -34,18 +37,18 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟡 branch protection no GitHub (hbn-shield obrigatório no push) = ação humana pendente."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0028-selagem-faxina-lixo-zero.json"
-handoff_mais_recente: ".hbn/messages/20260616-032113-codex-handoff-selagem-faxina.md"
+readback_ativo: ".hbn/readbacks/0029-knowledge-index-vivo.json"
+handoff_mais_recente: ".hbn/messages/20260616-113920-codex-handoff-s3-1.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "Faxina 0027 ratificada e selada; bastao volta ao orquestrador para definir S3."
-ultima_atualizacao: "2026-06-16T03:21:13-03:00"
-atualizado_por: codex-implementador-selagem-faxina-0028
+ciclo_ativo: "S3.1 entregue; bastao volta ao orquestrador para cross-audit S3.1 e, depois, S3.2."
+ultima_atualizacao: "2026-06-16T11:39:20-03:00"
+atualizado_por: codex-implementador-s3-1
 atribuicao:
   chapeu_atual: orquestrador
   implementador: codex
   auditores: [gemini-3-5, cursor]
-  gravada_em: "2026-06-16T03:21:13-03:00"
+  gravada_em: "2026-06-16T11:39:20-03:00"
   hearback_ref: null
 ---
 
@@ -185,3 +188,15 @@ front-matter do doc-fonte de criterios (`status: superseded` +
 hardening: (1) prosa-trailer do G-EXC, pois `%B` inteiro ainda aceita linhas de
 corpo iniciadas por `HBN-...:`; (2) convencao de incluir o handoff da onda no
 `files_allowed` do readback.
+
+Nota S3.1 / readback 0029: entregue em 2026-06-16. O INDEX da knowledge deixou
+de ser amostra estatica e passou a listar as 8 entradas atuais:
+`0001-comandos-atomicos-copiaveis.md`,
+`0002-entrega-operacional-minimalista.md`,
+`0003-git-sandbox-sem-lock.md`, `0019-severidades-veto.md`,
+`0022-firewall-workflow-fast-track.md`, `distribution-model.md`,
+`relay-protocol.md` e `runtime-command-model.md`. O novo G-KNOW-INDEX entrou
+bloqueante em `guards/hbn-guards-runner.sh`, falhando fechado se o INDEX estiver
+ausente/ilegivel ou se qualquer `.hbn/knowledge/*.md` nao for citado pelo
+basename. `run-guard-tests` fechou 156/156 e `adversarial-battery` bloqueou
+B1-B24, incluindo B24 (knowledge nova ausente do INDEX).

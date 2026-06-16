@@ -725,3 +725,10 @@ nova ou existente que não esteja citada no índice.
 |---|---|---|---|---|---|
 | 20260616-113239-codex-readback-knowledge-index-vivo | .hbn/readbacks/0029-knowledge-index-vivo.json | readback | quente | — | 2026-06-16T11:32:39-03:00 |
 | 20260616-113601-codex-assert-knowledge-index | guards/assert-knowledge-index.sh | guard | quente | — | 2026-06-16T11:36:01-03:00 |
+| 20260616-113920-codex-knowledge-index-vivo | .hbn/knowledge/INDEX.md | knowledge-index | quente | — | 2026-06-16T11:39:20-03:00 |
+| 20260616-113920-codex-runner-g-know-index | guards/hbn-guards-runner.sh | guard-runner | quente | — | 2026-06-16T11:39:20-03:00 |
+| 20260616-113920-codex-guards-readme-g-know-index | guards/README.md | docs-guard | quente | — | 2026-06-16T11:39:20-03:00 |
+| 20260616-113920-codex-run-guard-tests-g-know-index | guards/tests/run-guard-tests.sh | test-suite | quente | — | 2026-06-16T11:39:20-03:00 |
+| 20260616-113920-codex-adversarial-b24 | guards/tests/adversarial-battery.sh | adversarial-test | quente | — | 2026-06-16T11:39:20-03:00 |
+| 20260616-113920-codex-state-s3-1 | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T11:39:20-03:00 |
+| 20260616-113920-codex-handoff-s3-1 | .hbn/messages/20260616-113920-codex-handoff-s3-1.md | handoff | quente | — | 2026-06-16T11:39:20-03:00 |
