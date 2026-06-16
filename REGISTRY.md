@@ -636,3 +636,5 @@ objeto versionado. A proxima onda do roadmap e S2 (dispatch schema).
 | 20260615-235600-codex-readback-selagem-b19-cross-audit | .hbn/readbacks/0024-selagem-b19-cross-audit.json | readback | quente | — | 2026-06-15T23:56:00-03:00 |
 | 20260615-234638-gemini-3-5-cross-ia-b19-symlink-geral | .hbn/results/20260615-234638-gemini-3-5-cross-ia-b19-symlink-geral.md | audit-result | frio | — | 2026-06-15T23:46:38-03:00 |
 | 20260615-234641-cursor-cross-ia-b19-symlink-geral | .hbn/results/20260615-234641-cursor-cross-ia-b19-symlink-geral.md | audit-result | frio | — | 2026-06-15T23:46:41-03:00 |
+| 20260616-000450-codex-state-selagem-b19 | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T00:04:50-03:00 |
+| 20260616-000450-codex-handoff-selagem-b19 | .hbn/messages/20260616-000450-codex-handoff-selagem-b19.md | handoff | quente | — | 2026-06-16T00:04:50-03:00 |
