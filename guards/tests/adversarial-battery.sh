@@ -512,6 +512,39 @@ EOF
 try_burla "B30 frontdoor path inexistente" "G-FRONT" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-frontdoor.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
+# B31 — prosa no corpo com linhas HBN-* nao substitui trailers reais no ultimo
+# paragrafo.
+d="$(mk_repo)"
+(
+  cd "$d"
+  mkdir -p .hbn/relay .hbn/readbacks
+  cat > .hbn/readbacks/0007-t.json <<'EOF'
+{"readback_id":"0007-t","agent_id":"ego-1","authorization":{"human":"Tester Humano","evidence":"ordem em chat 2026-06-16"},"track":"safe_track","human_status":"confirmed","scope":{"files_allowed":["**"],"files_forbidden":[]}}
+EOF
+  cat > .hbn/relay/STATE.md <<'EOF'
+---
+sinais_abertos:
+  - "🔴 EXCEÇÃO F-01 ATIVA — PROPOSED_UNTIL_CROSS_AUDIT"
+atribuicao:
+  implementador: ego-1
+  auditores: [outro-2]
+---
+EOF
+  git add -A -f
+  git commit -qm init
+  cat > msg-b31.txt <<'EOF'
+feat: b31
+
+Corpo menciona trailers antigos:
+HBN-Readback: 0007
+HBN-Human-Authorization: ordem-tester
+
+Resumo final sem trailers reais.
+EOF
+) >/dev/null 2>&1
+try_burla "B31 prosa HBN-* no corpo sem trailers finais" "G-EXC" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-exception-traceable.sh" "$d/msg-b31.txt" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------
 echo ""
 printf '%-52s | %-8s | %s\n' "BURLA" "GUARD" "RESULTADO"

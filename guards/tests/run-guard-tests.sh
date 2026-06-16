@@ -84,6 +84,8 @@
 #   anti-ponteiro-morto no INDEX. Total: 167.
 #   W2 C3 (readback 0034): +3 checks G-FRONTDOOR para teto em bytes,
 #   marcador robusto e existencia de paths da read-list. Total: 170.
+#   W2 C4 (readback 0034): +2 checks G-EXC ancorando trailers no ultimo
+#   paragrafo em commit-msg e CI. Total: 172.
 # =============================================================================
 set -uo pipefail
 
@@ -1184,18 +1186,35 @@ printf 'feat: x\n\nHBN-Readback: 0006\n' > "$d/msg-cm-bad.txt"
 check "exc: commit-msg STATE SEM sinais + msg sem trailer (c) -> BLOCK"              block "$(run_exc "$d" "$d/msg-cm-bad.txt")"
 rm -rf "$d"
 
-# Faxina 0027: em CI o G-EXC deve ler a mensagem bruta (%B), nao o parser
-# nativo de trailers. Isso evita falso-positivo quando os dois trailers existem
-# mas estao separados por linha em branco; e ainda bloqueia ausencia real.
+# W2: commit-msg so aceita trailers no ultimo paragrafo. Prosa no corpo com
+# linhas HBN-* nao substitui trailers reais.
+d="$(make_exc_repo "mesmo-1" "mesmo-1" n "$SINAL_SEM")"
+printf 'feat: x\n\nCorpo menciona trailers antigos:\nHBN-Readback: 0006\nHBN-Human-Authorization: ordem-mauricio\n\nResumo final sem trailers reais.\n' > "$d/msg-prosa-b31.txt"
+check "exc: commit-msg prosa HBN-* no corpo sem trailers finais -> BLOCK" block "$(run_exc "$d" "$d/msg-prosa-b31.txt")"
+rm -rf "$d"
+
+# Faxina 0027 + W2: em CI o G-EXC le a mensagem bruta (%B), mas so aceita os
+# trailers quando eles aparecem contiguos no ultimo paragrafo.
 d="$(make_exc_repo "mesmo-1" "mesmo-1" y "$SINAL_OK")"
 base="$(git -C "$d" rev-parse HEAD)"
 (
     cd "$d"
-    echo ok > docs/ci-trailers-separados.md
-    git add docs/ci-trailers-separados.md
-    git commit -qm $'feat: ci trailers separados\n\nHBN-Readback: 0007\n\nHBN-Human-Authorization: ordem-tester'
+    echo ok > docs/ci-trailers-contiguos.md
+    git add docs/ci-trailers-contiguos.md
+    git commit -qm $'feat: ci trailers contiguos\n\nHBN-Readback: 0007\nHBN-Human-Authorization: ordem-tester'
 ) >/dev/null 2>&1
-check "exc: CI trailers separados por linha em branco -> passa" pass "$(run_exc_ci "$d" "$base")"
+check "exc: CI trailers contiguos no ultimo paragrafo -> passa" pass "$(run_exc_ci "$d" "$base")"
+rm -rf "$d"
+
+d="$(make_exc_repo "mesmo-1" "mesmo-1" y "$SINAL_OK")"
+base="$(git -C "$d" rev-parse HEAD)"
+(
+    cd "$d"
+    echo bad > docs/ci-prosa-b31.md
+    git add docs/ci-prosa-b31.md
+    git commit -qm $'feat: ci prosa b31\n\nCorpo menciona trailers antigos:\nHBN-Readback: 0007\nHBN-Human-Authorization: ordem-tester\n\nResumo final sem trailers reais.'
+) >/dev/null 2>&1
+check "exc: CI prosa HBN-* no corpo sem trailers finais -> BLOCK" block "$(run_exc_ci "$d" "$base")"
 rm -rf "$d"
 
 d="$(make_exc_repo "mesmo-1" "mesmo-1" y "$SINAL_OK")"

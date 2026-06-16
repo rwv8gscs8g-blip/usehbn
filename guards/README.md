@@ -117,5 +117,5 @@ nao conta: o blob validado e o que entra no commit local, ou `HEAD` em CI.
 `assert-exception-traceable` (G-EXC) valida trailers de commit-msg lendo o texto
 da mensagem em curso. Em CI, desde a faxina 0027, aplica a mesma regra sobre a
 mensagem bruta de cada commit (`git log --format=%B`), em vez do parser nativo
-`%(trailers)`: trailers separados por linha em branco continuam visíveis ao
-grep do guard, igualando o comportamento local e o comportamento do range.
+`%(trailers)`. Desde W2/readback 0034, os trailers precisam estar no ultimo
+paragrafo nao-vazio da mensagem; linhas `HBN-*` em prosa no corpo nao contam.

@@ -28,8 +28,9 @@
 #   ativá-lo antes bloquearia a própria onda 0006 (e o guard estaria CERTO:
 #   o sinal ainda não existia no STATE).
 # Fix 0027: CI deixou de usar %(trailers), porque o parser nativo normaliza
-# trailers separados por linha em branco. O guard agora usa %B e aplica o mesmo
-# grep sobre a mensagem completa que ja era usado no modo commit-msg.
+# trailers separados por linha em branco. O guard usa %B.
+# W2/readback 0034: a busca dos trailers fica ancorada no ultimo paragrafo
+# nao-vazio da mensagem, fechando falso verde de prosa no corpo.
 # Teste negativo: guards/tests/run-guard-tests.sh (seção G-EXC).
 # =============================================================================
 set -euo pipefail
@@ -134,10 +135,32 @@ fi
 fi  # fim dos sinais (a)+(d) restritos ao pre-commit
 
 # --- Sinais (b)+(c): trailers — onde forem legíveis ---------------------------
+last_paragraph() {
+    awk '
+        /^[[:space:]]*$/ {
+            if (current != "") {
+                last = current
+                current = ""
+            }
+            next
+        }
+        {
+            current = current (current == "" ? "" : "\n") $0
+        }
+        END {
+            if (current != "") {
+                last = current
+            }
+            print last
+        }
+    '
+}
+
 require_trailers_in() { # <texto> <origem-para-log>
-    local txt="$1" origem="$2" miss=0
-    grep -qE '^HBN-Readback:[[:space:]]*[^[:space:]]' <<< "$txt" || { guard_fail "Sinal (b) AUSENTE em ${origem}: trailer 'HBN-Readback: <id>'."; miss=1; }
-    grep -qE '^HBN-Human-Authorization:[[:space:]]*[^[:space:]]' <<< "$txt" || { guard_fail "Sinal (c) AUSENTE em ${origem}: trailer 'HBN-Human-Authorization: <ref>'."; miss=1; }
+    local txt="$1" origem="$2" trailer_block miss=0
+    trailer_block="$(printf '%s\n' "$txt" | last_paragraph)"
+    grep -qE '^HBN-Readback:[[:space:]]*[^[:space:]]' <<< "$trailer_block" || { guard_fail "Sinal (b) AUSENTE em ${origem}: trailer 'HBN-Readback: <id>' no ultimo paragrafo."; miss=1; }
+    grep -qE '^HBN-Human-Authorization:[[:space:]]*[^[:space:]]' <<< "$trailer_block" || { guard_fail "Sinal (c) AUSENTE em ${origem}: trailer 'HBN-Human-Authorization: <ref>' no ultimo paragrafo."; miss=1; }
     return $miss
 }
 
