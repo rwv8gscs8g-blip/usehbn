@@ -712,3 +712,5 @@ hardening.
 | 20260616-021934-opus-4-8-despacho-cross-audit-faxina-0027 | .hbn/messages/20260616-021934-opus-4-8-despacho-cross-audit-faxina-0027.md | despacho | quente | — | 2026-06-16T02:19:34-03:00 |
 | 20260616-024603-codex-brainstorm-exuvia-evolucao-conceitual | docs/brainstorm/exuvia-evolucao-conceitual.md | brainstorm-zona-livre | frio | — | 2026-06-16T02:46:03-03:00 |
 | 20260616-024603-codex-brainstorm-principios-candidatos | docs/brainstorm/principios-candidatos.md | brainstorm-zona-livre | frio | — | 2026-06-16T02:46:03-03:00 |
+| 20260616-032113-codex-state-selagem-faxina | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T03:21:13-03:00 |
+| 20260616-032113-codex-handoff-selagem-faxina | .hbn/messages/20260616-032113-codex-handoff-selagem-faxina.md | handoff | quente | — | 2026-06-16T03:21:13-03:00 |

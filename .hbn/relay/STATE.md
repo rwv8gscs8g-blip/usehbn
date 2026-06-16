@@ -1,22 +1,25 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19 ratificado e selado; S2 ratificada e selada; faxina 0027 implementada)"
-onda_atual: "FAXINA 0027 IMPLEMENTADA: divida H do parser CI corrigida, testes/adversarial ampliados, scratch ignorado, seis artefatos historicos selados e criterios de exuvia promovidos ao core"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19 ratificado e selado; S2 ratificada e selada; faxina 0027 ratificada e selada)"
+onda_atual: "SELAGEM FAXINA 0027 CONCLUIDA: cross-audit APROVA_0027 SIM depositado; despachos e brainstorm versionados; gitignore/superseded corrigidos; dividas S3 rastreadas"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
 modo_educacional: "intermediário"
 papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
-  auditores_validadores: "gemini-3-5 + cursor — cross-audit S1 concluiu APROVA_S1: SIM; cross-audit B17 concluiu APROVA_B17: SIM; cross-audit B18 concluiu APROVA_B18: SIM; cross-audit B19 concluiu APROVA_B19: SIM e classe FECHADA: SIM; cross-audit S2 concluiu APROVA_S2: SIM"
-  gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15, autorizou a selagem S1, decidiu tratar B17 antes do S2, autorizou B18, ratificou a selagem B18 com B19a como próxima onda, autorizou B19 antes do S2, autorizou a selagem B19 após cross-audit, autorizou S2 com guards bloqueantes sem rampa e autorizou a selagem S2 apos duplo APROVA_S2 SIM"
-proxima_acao: "Enviar a faxina 0027 para cross-audit Gemini+Cursor; se aprovada, selar em micro-onda 0028."
+  auditores_validadores: "gemini-3-5 + cursor — cross-audit S1 concluiu APROVA_S1: SIM; cross-audit B17 concluiu APROVA_B17: SIM; cross-audit B18 concluiu APROVA_B18: SIM; cross-audit B19 concluiu APROVA_B19: SIM e classe FECHADA: SIM; cross-audit S2 concluiu APROVA_S2: SIM; cross-audit faxina 0027 concluiu APROVA_0027: SIM"
+  gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15, autorizou a selagem S1, decidiu tratar B17 antes do S2, autorizou B18, ratificou a selagem B18 com B19a como próxima onda, autorizou B19 antes do S2, autorizou a selagem B19 após cross-audit, autorizou S2 com guards bloqueantes sem rampa, autorizou a selagem S2 apos duplo APROVA_S2 SIM e autorizou lixo-zero na selagem da faxina 0027"
+proxima_acao: "Definir S3: hardening prosa-trailer do G-EXC e evolução do protocolo."
 sinais_abertos:
+  - "🟢 S2 + FAXINA 0027 FECHADOS — S2 foi ratificada e selada; faxina 0027 foi ratificada por Cursor e Gemini/Antigravity com APROVA_0027: SIM e selada na micro-onda 0028."
   - "🟢 S2 RATIFICADA E SELADA — Gemini registrou APROVA_S2: SIM com confiança 100/100; Cursor registrou APROVA_S2: SIM com confiança 90/100; pareceres e despachos foram depositados nesta micro-onda."
-  - "🟢 FAXINA 0027 IMPLEMENTADA — seis artefatos historicos selados, triagem/criterios de exuvia versionados, core/exuvia-fitness-criteria.md promovido e bastao volta para cross-audit."
+  - "🟢 FAXINA 0027 RATIFICADA E SELADA — pareceres Cursor/Gemini depositados, tres despachos do orquestrador selados, brainstorm versionado e fixes lixo-zero aplicados sem mudar logica de guard."
   - "🟢 DÍVIDA H RESOLVIDA — G-EXC em CI agora le mensagem bruta (%B), igual ao commit-msg local; run-guard-tests fechou 154/154 e adversarial-battery bloqueou B1-B23."
-  - "🟢 D2 RESOLVIDA — scratch de guards/tests coberto por .gitignore (cr-*, adv-cr-*, tmp-pass.*, wt-main.*) e diretorios remanescentes removidos best-effort."
+  - "🟢 D2 RESOLVIDA — scratch de guards/tests coberto por .gitignore (cr-*, adv-cr*, tmp-pass.*, wt-main.*) e diretorios remanescentes removidos best-effort."
+  - "🟡 DÍVIDA RASTREADA PARA HARDENING — G-EXC ainda aceita prosa iniciada por 'HBN-...:' no corpo porque valida %B inteiro; destino: restringir a busca ao ultimo paragrafo/trailer block em onda propria."
+  - "🟡 CONVENÇÃO RASTREADA — todo handoff de onda deve estar no files_allowed do readback; o lapso do handoff 0027 fica registrado e a 0028 incluiu seu handoff no escopo."
   - "🟢 B19 RATIFICADO E SELADO — cross-audit Gemini+Cursor registrou APROVA_B19: SIM e CLASSE FECHADA: SIM; classe symlink/meta-path FECHADA apos B17+B18+B19; hardlink = non-issue (git 100644); proxima onda: S2 (dispatch schema)."
   - "🟢 B18 RATIFICADO E SELADO — cross-audit Gemini+Cursor registrou APROVA_B18: SIM; symlink staged sob .hbn/** segue bloqueado por modo git 120000 antes da dispensa de meta-path; run-guard-tests 141/141 e adversarial-battery B1-B18 verdes."
   - "🟢 B17 RATIFICADO E SELADO — cross-audit Gemini+Cursor registrou APROVA_B17: SIM; meta-paths em guards/assert-scope-lock.sh auto-permitem somente .json/.md com basename ADR-025, hearback do readback ativo ou nome-endereco conhecido."
@@ -31,18 +34,18 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟡 branch protection no GitHub (hbn-shield obrigatório no push) = ação humana pendente."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0027-faxina-pendencias.json"
-handoff_mais_recente: ".hbn/messages/20260616-020135-codex-handoff-faxina.md"
+readback_ativo: ".hbn/readbacks/0028-selagem-faxina-lixo-zero.json"
+handoff_mais_recente: ".hbn/messages/20260616-032113-codex-handoff-selagem-faxina.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "Faxina 0027 implementada; bastao volta ao orquestrador para cross-audit Gemini+Cursor; selagem da faxina vira micro-onda 0028."
-ultima_atualizacao: "2026-06-16T02:01:35-03:00"
-atualizado_por: codex-implementador-faxina-0027
+ciclo_ativo: "Faxina 0027 ratificada e selada; bastao volta ao orquestrador para definir S3."
+ultima_atualizacao: "2026-06-16T03:21:13-03:00"
+atualizado_por: codex-implementador-selagem-faxina-0028
 atribuicao:
   chapeu_atual: orquestrador
   implementador: codex
   auditores: [gemini-3-5, cursor]
-  gravada_em: "2026-06-16T02:01:35-03:00"
+  gravada_em: "2026-06-16T03:21:13-03:00"
   hearback_ref: null
 ---
 
@@ -170,3 +173,15 @@ documento-fonte de criterios de exuvia foram selados, e
 `core/exuvia-fitness-criteria.md` virou a referencia normativa. Os
 endurecimentos EXTRA-1/EXTRA-2 do Cursor seguem fora desta onda e devem ser
 tratados em S3.
+
+Nota selagem da faxina 0027 / readback 0028: concluida em 2026-06-16. Cursor
+(`.hbn/results/20260616-023446-cursor-cross-ia-faxina-0027.md`) e Gemini
+(`.hbn/results/20260616-024241-gemini-3-5-cross-ia-faxina-0027.md`) registraram
+`APROVA_0027: SIM`. A selagem depositou os pareceres, tres despachos do
+orquestrador e dois docs de brainstorm como zona-livre versionada. O lixo-zero
+sem mudanca de logica ficou aplicado em `.gitignore` (`adv-cr*`) e no
+front-matter do doc-fonte de criterios (`status: superseded` +
+`superseded_by: core/exuvia-fitness-criteria.md`). Ficam rastreadas para S3 /
+hardening: (1) prosa-trailer do G-EXC, pois `%B` inteiro ainda aceita linhas de
+corpo iniciadas por `HBN-...:`; (2) convencao de incluir o handoff da onda no
+`files_allowed` do readback.
