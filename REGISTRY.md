@@ -656,3 +656,14 @@ readback ativo, token do STATE e autorizacao humana.
 | 20260616-004223-codex-dispatch-s2-dogfood | .hbn/dispatch/0025-s2-dispatch-auto-declarante.md | dispatch | quente | — | 2026-06-16T00:42:23-03:00 |
 | 20260616-004342-codex-state-s2 | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T00:43:42-03:00 |
 | 20260616-004342-codex-handoff-s2 | .hbn/messages/20260616-004342-codex-handoff-s2.md | handoff | quente | — | 2026-06-16T00:43:42-03:00 |
+
+## Selagem S2 (2026-06-16) — cross-audit Gemini+Cursor aprovado — status: in_progress, readback 0026
+
+S2 foi aprovada por cross-audit independente de Gemini 3.5 e Cursor, ambos com
+`APROVA_S2: SIM`. Esta micro-onda sela os pareceres e despachos, atualiza o
+STATE para S2 selada e aponta a faxina 0027 como proxima acao, sem alterar
+logica de guard.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260616-011004-codex-readback-selagem-s2-cross-audit | .hbn/readbacks/0026-selagem-s2-cross-audit.json | readback | quente | — | 2026-06-16T01:10:04-03:00 |
