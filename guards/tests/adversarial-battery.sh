@@ -245,6 +245,30 @@ EOF
 try_burla "B18 symlink ADR-025 em meta-path governado"  "G-SCO"   "$( ( cd "$d" && bash "$GUARDS_DIR/assert-scope-lock.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
+# B19 — symlink em path governado nao-.hbn com nome que casa files_allowed
+# permissivo tambem deve ser bloqueado.
+d="$(mk_repo)"
+(
+  cd "$d" && git commit -q --allow-empty -m i && mkdir -p .hbn/readbacks guards \
+  && cat > .hbn/readbacks/0001-t.json <<'EOF'
+{
+  "readback_id": "0001-t",
+  "track": "safe_track",
+  "human_status": "confirmed",
+  "scope": {
+    "files_allowed": ["guards/**"],
+    "files_forbidden": []
+  }
+}
+EOF
+  git add .hbn/readbacks/0001-t.json && git commit -qm readback \
+  && printf 'echo payload\n' > payload.sh \
+  && ln -s ../payload.sh guards/falso-guard.sh \
+  && git add guards/falso-guard.sh
+) >/dev/null 2>&1
+try_burla "B19 symlink em guards/ permitido por escopo" "G-SCO"   "$( ( cd "$d" && bash "$GUARDS_DIR/assert-scope-lock.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------
 echo ""
 printf '%-52s | %-8s | %s\n' "BURLA" "GUARD" "RESULTADO"

@@ -65,6 +65,9 @@
 #   ativo e nota de bypass ADR-025). Total: 140.
 #   B18 (readback 0021): +1 check G-SCO bloqueando symlink staged sob .hbn/**
 #   com basename ADR-025 e modo git 120000. Total: 141.
+#   B19 (readback 0023): +4 checks G-SCO generalizando bloqueio de symlink
+#   para todo path governado, mantendo arquivos regulares e hardlink como
+#   arquivo regular. Total: 145.
 # =============================================================================
 set -uo pipefail
 
@@ -995,6 +998,30 @@ rm -rf "$d"
 d="$(make_sco_repo safe_track confirmed '["docs/**"]')"
 ( cd "$d" && mkdir -p .hbn/messages && echo 'echo payload' > payload.sh && ln -s ../../payload.sh .hbn/messages/20260615-120000-codex-handoff-x.md && git add .hbn/messages/20260615-120000-codex-handoff-x.md ) >/dev/null 2>&1
 check "sco: B18 bloqueia symlink ADR-025 em .hbn/messages/" block "$(run_sco "$d")"
+rm -rf "$d"
+
+# B19: symlink em qualquer path governado avaliado pelo scope-lock deve bloquear,
+# mesmo quando o path casa com files_allowed permissivo.
+d="$(make_sco_repo safe_track confirmed '["guards/**"]')"
+( cd "$d" && mkdir -p guards && echo 'echo payload' > payload.sh && ln -s ../payload.sh guards/falso-guard.sh && git add guards/falso-guard.sh ) >/dev/null 2>&1
+check "sco: B19 bloqueia symlink em guards/ permitido" block "$(run_sco "$d")"
+rm -rf "$d"
+
+d="$(make_sco_repo safe_track confirmed '[".hbn/notes/**"]')"
+( cd "$d" && mkdir -p .hbn/notes && echo nota > .hbn/notes/regular.md && git add .hbn/notes/regular.md ) >/dev/null 2>&1
+check "sco: B19 arquivo regular .hbn/ declarado passa" pass "$(run_sco "$d")"
+rm -rf "$d"
+
+d="$(make_sco_repo safe_track confirmed '["guards/**","core/**","src/**"]')"
+( cd "$d" && mkdir -p guards core src && echo '#!/usr/bin/env bash' > guards/regular.sh && echo core > core/regular.md && echo 'print("ok")' > src/regular.py && git add guards/regular.sh core/regular.md src/regular.py ) >/dev/null 2>&1
+check "sco: B19 arquivos regulares guards/core/src passam" pass "$(run_sco "$d")"
+rm -rf "$d"
+
+# Hardlink e non-issue: o Git o materializa no indice como arquivo regular
+# 100644, sem semantica de link no commit.
+d="$(make_sco_repo safe_track confirmed '["guards/**"]')"
+( cd "$d" && mkdir -p guards && echo regular > alvo-regular.txt && ln alvo-regular.txt guards/hardlink-regular.sh && git add guards/hardlink-regular.sh ) >/dev/null 2>&1
+check "sco: B19 hardlink regular passa como arquivo" pass "$(run_sco "$d")"
 rm -rf "$d"
 
 # G-CR: assert-canonical-root
