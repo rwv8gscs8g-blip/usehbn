@@ -783,3 +783,5 @@ guard.
 | id | artefato (path) | tipo | temperatura | superseded_by | created_at |
 |---|---|---|---|---|---|
 | 20260616-164000-codex-readback-selagem-s3-2 | .hbn/readbacks/0032-selagem-s3-2.json | readback | quente | — | 2026-06-16T16:40:00-03:00 |
+| 20260616-132743-cursor-cross-ia-s3-2 | .hbn/results/20260616-132743-cursor-cross-ia-s3-2.md | audit-result | frio | — | 2026-06-16T13:27:43-03:00 |
+| 20260616-132813-gemini-3-5-cross-ia-s3-2 | .hbn/results/20260616-132813-gemini-3-5-cross-ia-s3-2.md | audit-result | frio | — | 2026-06-16T13:28:13-03:00 |
