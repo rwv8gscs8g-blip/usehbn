@@ -86,6 +86,8 @@
 #   marcador robusto e existencia de paths da read-list. Total: 170.
 #   W2 C4 (readback 0034): +2 checks G-EXC ancorando trailers no ultimo
 #   paragrafo em commit-msg e CI. Total: 172.
+#   W2 C5 (readback 0034): +3 checks G-SCRATCH fail-closed quando
+#   active-version nao resolve. Total: 175.
 # =============================================================================
 set -uo pipefail
 
@@ -1755,6 +1757,21 @@ rm -rf "$d"
 d="$(make_repo)"
 ( cd "$d" && printf '!/scratch/README.md\n' > .gitignore && git add .gitignore ) >/dev/null 2>&1
 check "scratch-ignore: .gitignore sem /scratch/ → BLOCK" block "$(run_scratch_ignore "$d")"
+rm -rf "$d"
+
+d="$(make_repo)"
+( cd "$d" && rm -f .hbn/active-version && mkdir -p scratch && echo segredo > scratch/segredo.txt && git add scratch/segredo.txt ) >/dev/null 2>&1
+check "scratch-lock: active-version ausente + arquivo scratch/ → BLOCK" block "$(run_scratch_lock "$d")"
+rm -rf "$d"
+
+d="$(make_repo)"
+( cd "$d" && rm -f .hbn/active-version && mkdir -p scratch && ln -s ../core scratch/link && git add scratch/link ) >/dev/null 2>&1
+check "scratch-symlink: active-version ausente + symlink scratch/ → BLOCK" block "$(run_scratch_symlink "$d")"
+rm -rf "$d"
+
+d="$(make_repo)"
+( cd "$d" && rm -f .hbn/active-version && printf '/scratch/\n!/scratch/README.md\n' > .gitignore && git add .gitignore ) >/dev/null 2>&1
+check "scratch-ignore: active-version ausente + .gitignore staged → BLOCK" block "$(run_scratch_ignore "$d")"
 rm -rf "$d"
 
 # --- Read-list viva (onda 0006 I-01 — F-08 dos cross-audits 0036/0037) -------

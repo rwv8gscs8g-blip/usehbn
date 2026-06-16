@@ -11,6 +11,11 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=lib/common.sh
 source "${SCRIPT_DIR}/lib/common.sh"
 
+if ! get_canonical_root >/dev/null; then
+    guard_fail "Versao ativa invalida: ${HBN_ACTIVE_VERSION_ERROR:-erro desconhecido}. Nao e possivel mapear scratch/ com seguranca."
+    exit 1
+fi
+
 scratch_diff_files() {
     if [[ -n "${HBN_DIFF_BASE:-}" ]]; then
         git diff --name-only --diff-filter=ACMRD "${HBN_DIFF_BASE}...HEAD" 2>/dev/null || true

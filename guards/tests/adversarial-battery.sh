@@ -545,6 +545,19 @@ EOF
 try_burla "B31 prosa HBN-* no corpo sem trailers finais" "G-EXC" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-exception-traceable.sh" "$d/msg-b31.txt" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
+# B32 — sem active-version, path staged em scratch/ nao pode sumir por falha de
+# mapeamento; G-SCRATCH-LOCK falha fechado.
+d="$(mk_repo)"
+(
+  cd "$d"
+  rm -f .hbn/active-version
+  mkdir -p scratch
+  echo segredo > scratch/segredo.txt
+  git add scratch/segredo.txt
+) >/dev/null 2>&1
+try_burla "B32 active-version ausente + scratch staged" "G-SCRATCH-LOCK" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-scratch-lock.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------
 echo ""
 printf '%-52s | %-8s | %s\n' "BURLA" "GUARD" "RESULTADO"

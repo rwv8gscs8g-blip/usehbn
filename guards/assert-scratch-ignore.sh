@@ -11,6 +11,11 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=lib/common.sh
 source "${SCRIPT_DIR}/lib/common.sh"
 
+if ! get_canonical_root >/dev/null; then
+    guard_fail "Versao ativa invalida: ${HBN_ACTIVE_VERSION_ERROR:-erro desconhecido}. Nao e possivel mapear .gitignore com seguranca."
+    exit 1
+fi
+
 GITIGNORE_PATH=".gitignore"
 GITIGNORE_REPO_PATH="$(guard_version_repo_path "$GITIGNORE_PATH" || true)"
 if [[ -z "$GITIGNORE_REPO_PATH" ]]; then

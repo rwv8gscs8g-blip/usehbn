@@ -62,15 +62,16 @@ somente `scratch/README.md` como contrato de uso. A area nao aceita segredos,
 PII, credenciais, fixtures permanentes nem artefatos de entrega.
 
 `assert-scratch-lock` (G-SCRATCH-LOCK) falha se qualquer path staged sob
-`scratch/` nao for exatamente `scratch/README.md`.
+`scratch/` nao for exatamente `scratch/README.md`. Tambem falha fechado se a
+versao ativa nao resolve, antes de converter paths do diff.
 
 `assert-scratch-symlink` (G-SCRATCH-SYMLINK) falha se qualquer entrada staged
 sob `scratch/` tiver modo Git `120000`, fechando o vetor de symlink escapando da
-area efemera.
+area efemera. Tambem falha fechado se a versao ativa nao resolve.
 
 `assert-scratch-ignore` (G-SCRATCH-IGNORE) roda quando `.gitignore` esta staged
 e exige que o blob staged preserve as linhas `/scratch/` e
-`!/scratch/README.md`.
+`!/scratch/README.md`. Tambem falha fechado se a versao ativa nao resolve.
 
 Conforme knowledge 0021 (Credenciamento): em sandbox o guard é informativo;
 conclusivo no Terminal do operador. O CI (Shield, `.github/workflows/hbn-shield.yml`)
