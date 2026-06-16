@@ -27,6 +27,12 @@ temp/
 logs/*.json
 state/*.json
 
+# Scratch de suites de guards
+guards/tests/cr-*
+guards/tests/adv-cr-*
+guards/tests/tmp-pass.*
+guards/tests/wt-main.*
+
 # Claude Code local-only settings (per-developer, do not commit)
 .claude/settings.local.json
 
