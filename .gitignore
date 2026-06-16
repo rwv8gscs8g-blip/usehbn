@@ -29,7 +29,7 @@ state/*.json
 
 # Scratch de suites de guards
 guards/tests/cr-*
-guards/tests/adv-cr-*
+guards/tests/adv-cr*
 guards/tests/tmp-pass.*
 guards/tests/wt-main.*
 

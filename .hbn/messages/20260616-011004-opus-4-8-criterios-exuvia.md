@@ -1,7 +1,8 @@
 ---
 titulo: "Critérios objetivos de exúvia — o que sobrevive ao molt"
 tipo: spec-proposta
-status: proposto
+status: superseded
+superseded_by: core/exuvia-fitness-criteria.md
 temperatura: quente
 path: .hbn/messages/20260616-011004-opus-4-8-criterios-exuvia.md
 id-global: 20260616-011004-opus-4-8-criterios-exuvia
@@ -11,8 +12,8 @@ created_at: "2026-06-16T01:10:04-03:00"
 ---
 
 RELATO DE ESTADO — opus-4-8 · documento · 2026-06-16T01:10:04-03:00
-STATE: ultima_atualizacao=2026-06-16T01:24:52-03:00 (carimbo de deposito 0027)
-PRÓXIMA AÇÃO: Abrir a faxina 0027 para tratar os untracked antigos, a triagem/criterios de exuvia e os marginais H/EXTRA documentados, sem alterar logica de guard nesta selagem.
+STATE: ultima_atualizacao=2026-06-16T02:01:35-03:00 (carimbo de deposito 0028)
+PRÓXIMA AÇÃO: Enviar a faxina 0027 para cross-audit Gemini+Cursor; se aprovada, selar em micro-onda 0028.
 
 # Critérios objetivos de exúvia
 
