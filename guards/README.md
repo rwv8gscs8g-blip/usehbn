@@ -106,8 +106,10 @@ do INDEX precisam entrar no mesmo commit.
 
 `assert-frontdoor` (G-FRONTDOOR) confere `core/role-cards.md` como porta da
 frente minima para qualquer IA que assuma o bastao. O guard falha fechado se o
-arquivo estiver ausente ou ilegivel no indice/HEAD, se passar de 140 linhas
-(anti-monolito), ou se a `PARTE A` listar mais de 6 itens. A working tree solta
+arquivo estiver ausente ou ilegivel no indice/HEAD, se passar de 140 linhas ou
+8192 bytes (anti-monolito), se a `PARTE A` listar mais de 6 itens, se houver
+linha de read-list sem marcador valido seguido de espaco, ou se um path
+concreto citado na read-list nao existir no indice/HEAD. A working tree solta
 nao conta: o blob validado e o que entra no commit local, ou `HEAD` em CI.
 
 ## Exceção rastreável

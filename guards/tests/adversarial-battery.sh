@@ -469,6 +469,49 @@ EOF
 try_burla "B29 knowledge substring + ponteiro morto" "G-KNOW" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-knowledge-index.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
+# B30 — linha unica densa abaixo do teto de linhas antigo nao pode passar.
+d="$(mk_repo)"
+(
+  cd "$d"
+  mkdir -p core
+  {
+    echo "# Porta Da Frente De Papeis"
+    printf 'x%.0s' {1..9000}
+    echo
+    echo "## PARTE A - READ-LIST DA PORTA DA FRENTE"
+    echo "1. \`.hbn/relay/STATE.md\`"
+    echo "## PARTE B - TRES CARTOES"
+  } > core/role-cards.md
+  mkdir -p .hbn/relay
+  echo "---" > .hbn/relay/STATE.md
+  git add core/role-cards.md .hbn/relay/STATE.md
+) >/dev/null 2>&1
+try_burla "B30 frontdoor linha unica densa" "G-FRONT" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-frontdoor.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+# B30 — path concreto inexistente na read-list tambem deve bloquear.
+d="$(mk_repo)"
+(
+  cd "$d"
+  mkdir -p core .hbn/relay .hbn/knowledge
+  cat > core/role-cards.md <<'EOF'
+# Porta Da Frente De Papeis
+
+## PARTE A - READ-LIST DA PORTA DA FRENTE
+
+1. `.hbn/relay/STATE.md`
+2. O readback ativo apontado no STATE.
+3. `core/role-cards.md`
+4. `core/inexistente-na-read-list.md`
+
+## PARTE B - TRES CARTOES
+EOF
+  echo "---" > .hbn/relay/STATE.md
+  git add core/role-cards.md .hbn/relay/STATE.md
+) >/dev/null 2>&1
+try_burla "B30 frontdoor path inexistente" "G-FRONT" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-frontdoor.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------
 echo ""
 printf '%-52s | %-8s | %s\n' "BURLA" "GUARD" "RESULTADO"

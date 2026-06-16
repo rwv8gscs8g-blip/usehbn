@@ -82,6 +82,8 @@
 #   scratch/, symlink em scratch/ e remocao sorrateira de /scratch/. Total: 165.
 #   W2 C2 (readback 0034): +2 checks G-KNOW-INDEX para token inteiro e
 #   anti-ponteiro-morto no INDEX. Total: 167.
+#   W2 C3 (readback 0034): +3 checks G-FRONTDOOR para teto em bytes,
+#   marcador robusto e existencia de paths da read-list. Total: 170.
 # =============================================================================
 set -uo pipefail
 
@@ -1617,9 +1619,16 @@ make_frontdoor_repo() {
     local d; d="$(make_repo)"
     (
         cd "$d"
-        mkdir -p core
+        mkdir -p core .hbn/relay .hbn/knowledge
+        echo "---" > .hbn/relay/STATE.md
+        echo "# Comandos atomicos" > .hbn/knowledge/0001-comandos-atomicos-copiaveis.md
+        echo "# Entrega operacional" > .hbn/knowledge/0002-entrega-operacional-minimalista.md
+        echo "# Area temporaria" > .hbn/knowledge/0023-area-temporaria-e-fixtures-efemeras.md
         write_frontdoor_valid
-        git add core/role-cards.md
+        git add core/role-cards.md .hbn/relay/STATE.md \
+            .hbn/knowledge/0001-comandos-atomicos-copiaveis.md \
+            .hbn/knowledge/0002-entrega-operacional-minimalista.md \
+            .hbn/knowledge/0023-area-temporaria-e-fixtures-efemeras.md
         git commit -qm frontdoor
     ) >/dev/null 2>&1
     echo "$d"
@@ -1653,6 +1662,42 @@ d="$(make_frontdoor_repo)"
     git add core/role-cards.md
 ) >/dev/null 2>&1
 check "frontdoor: read-list com 7 itens → BLOCK" block "$(run_frontdoor "$d")"
+rm -rf "$d"
+
+d="$(make_frontdoor_repo)"
+(
+    cd "$d"
+    {
+        echo "# Porta Da Frente De Papeis"
+        printf 'x%.0s' {1..9000}
+        echo
+        echo "## PARTE A - READ-LIST DA PORTA DA FRENTE"
+        echo "1. \`.hbn/relay/STATE.md\`"
+        echo "## PARTE B - TRES CARTOES"
+    } > core/role-cards.md
+    git add core/role-cards.md
+) >/dev/null 2>&1
+check "frontdoor: linha unica densa >8192 bytes → BLOCK" block "$(run_frontdoor "$d")"
+rm -rf "$d"
+
+d="$(make_frontdoor_repo)"
+(
+    cd "$d"
+    sed -i.bak 's/^3\. `core\/role-cards.md`/3.`core\/role-cards.md`/' core/role-cards.md
+    rm -f core/role-cards.md.bak
+    git add core/role-cards.md
+) >/dev/null 2>&1
+check "frontdoor: marcador sem espaco na read-list → BLOCK" block "$(run_frontdoor "$d")"
+rm -rf "$d"
+
+d="$(make_frontdoor_repo)"
+(
+    cd "$d"
+    sed -i.bak 's#^4\. `\.hbn/knowledge/0001-comandos-atomicos-copiaveis.md`#4. `core/inexistente-na-read-list.md`#' core/role-cards.md
+    rm -f core/role-cards.md.bak
+    git add core/role-cards.md
+) >/dev/null 2>&1
+check "frontdoor: path concreto inexistente na read-list → BLOCK" block "$(run_frontdoor "$d")"
 rm -rf "$d"
 
 # --- G-SCRATCH: area temporaria deny-by-default (P-CAND-04) ------------------
