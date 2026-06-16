@@ -592,3 +592,15 @@ legitimamente nomeados de handoff, hearback e nota de bypass seguem permitidos.
 | 20260615-220621-codex-readback-b18-block-symlink-meta-path | .hbn/readbacks/0021-b18-block-symlink-meta-path.json | readback | quente | — | 2026-06-15T22:06:21-03:00 |
 | 20260615-221034-codex-state-b18 | .hbn/relay/STATE.md | state | quente | — | 2026-06-15T22:10:34-03:00 |
 | 20260615-221034-codex-handoff-b18 | .hbn/messages/20260615-221034-codex-handoff-b18.md | handoff | quente | — | 2026-06-15T22:10:34-03:00 |
+
+## Selagem B18 (2026-06-15) — cross-audit Gemini+Cursor aprovado, B19a para próxima onda
+
+B18 foi ratificado por cross-audit independente Gemini+Cursor com
+`APROVA_B18: SIM`. O achado B19a sobre symlink em path governado fora de
+`.hbn/**` e real e estreito; fica como proxima onda antes do S2. O vetor
+hardlink fica registrado como non-issue/won't-fix: o Git trata hardlink como
+arquivo regular `100644`, sem semantica de link no objeto versionado.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260615-225952-codex-readback-selagem-b18-cross-audit | .hbn/readbacks/0022-selagem-b18-cross-audit.json | readback | quente | — | 2026-06-15T22:59:52-03:00 |
