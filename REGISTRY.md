@@ -579,3 +579,14 @@ B17 e fica como proxima onda antes do S2.
 | 20260615-213850-cursor-cross-ia-b17-meta-path | .hbn/results/20260615-213850-cursor-cross-ia-b17-meta-path.md | audit-result | frio | — | 2026-06-15T21:38:50-03:00 |
 | 20260615-215312-codex-state-selagem-b17 | .hbn/relay/STATE.md | state | quente | — | 2026-06-15T21:53:12-03:00 |
 | 20260615-215312-codex-handoff-selagem-b17 | .hbn/messages/20260615-215312-codex-handoff-selagem-b17.md | handoff | quente | — | 2026-06-15T21:53:12-03:00 |
+
+## Onda B18 (2026-06-15) — bloquear symlink em meta-path governado — status: in_progress, readback 0021
+
+Endurecimento do `assert-scope-lock` contra smuggling por symlink em paths de
+coordenacao governados: qualquer arquivo staged sob `.hbn/**` com modo git
+`120000` deve ser bloqueado antes da dispensa por meta-path. Arquivos regulares
+legitimamente nomeados de handoff, hearback e nota de bypass seguem permitidos.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260615-220621-codex-readback-b18-block-symlink-meta-path | .hbn/readbacks/0021-b18-block-symlink-meta-path.json | readback | quente | — | 2026-06-15T22:06:21-03:00 |

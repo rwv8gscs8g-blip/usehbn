@@ -1,0 +1,76 @@
+{
+  "readback_id": "0021-b18-block-symlink-meta-path",
+  "execution_id": "b18-block-symlink-meta-path-2026-06-15",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0021-b18-block-symlink-meta-path.json",
+  "understanding": "Executar B18 antes do S2: impedir que symlink staged sob .hbn/** seja auto-permitido por meta-path governado. O problema residual de B17 e que is_meta_auto_allowed valida apenas a string do basename ADR-025, entao um symlink .md bem nomeado pode apontar para payload fora do escopo. A correcao deve detectar modo git 120000 no indice/HEAD para caminhos de coordenacao governados e bloquear com mensagem clara, preservando arquivos regulares legitimamente nomeados de handoff, hearback e nota de bypass.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio autorizou em 2026-06-15 tratar B18 antes do S2, com recorte: bloquear symlink em meta-path governado.",
+    "created_at": "2026-06-15T22:06:21-03:00",
+    "note": "Autorizacao humana para safe_track B18. Nao autoriza merge em main, --no-verify, git add ., D-ORQ-WRITE operacional ou tocar nos seis untracked antigos."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0021-b18-block-symlink-meta-path.json",
+      "REGISTRY.md",
+      ".hbn/relay/STATE.md",
+      "guards/assert-scope-lock.sh",
+      "guards/README.md",
+      "guards/tests/run-guard-tests.sh",
+      "guards/tests/adversarial-battery.sh"
+    ],
+    "files_forbidden": [
+      ".hbn/messages/20260612-122102-fable5-handoff-orquestracao-pos-onda-0006.md",
+      ".hbn/messages/20260613-112502-fable5-handoff-orquestracao-pos-adocao-onda-0006.md",
+      ".hbn/results/20260614-032800-gemini-3-5-cross-ia-onda-0011-plano-v2.md",
+      ".hbn/results/20260614-043647-antigravity-cross-ia-exuvia-impl.md",
+      ".hbn/results/20260614-043826-codex-cross-ia-exuvia-impl.md",
+      ".hbn/results/20260614-044555-opus-4-8-consolidacao-cross-audit-exuvia-impl.md",
+      "main",
+      "src/**",
+      "site/**",
+      "examples/**",
+      "inbox/**",
+      ".hbn/models/**"
+    ]
+  },
+  "action_plan": [
+    "Abrir readback 0021 e registrar seu nascimento no REGISTRY.",
+    "Alterar guards/assert-scope-lock.sh para bloquear symlink staged sob .hbn/** por modo git 120000, antes da dispensa de meta-path.",
+    "Atualizar guards/README.md com a proibicao de symlink em meta-path governado.",
+    "Adicionar B18 negativo em guards/tests/adversarial-battery.sh e caso correspondente em guards/tests/run-guard-tests.sh, mantendo positivos B17.",
+    "Atualizar STATE e handoff para B18 implementado, cross-audit pendente e S2 depois."
+  ],
+  "invariants_to_preserve": [
+    "Nao tocar main, nao fazer merge e nao usar --no-verify.",
+    "Nao usar git add .; adicionar somente paths exatos.",
+    "Nao tocar nos seis untracked antigos listados no despacho.",
+    "D-ORQ-WRITE permanece nao habilitada.",
+    "Commits separados: WAVE-OPEN, IMPLEMENTACAO, TESTES, STATE+HANDOFF.",
+    "Antes de cada commit: bash guards/hbn-guards-runner.sh verde com o indice do commit.",
+    "Trailers obrigatorios: HBN-Readback: 0021, HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin), HBN-Token-FP: 34a7f2f9."
+  ],
+  "out_of_scope": [
+    "Iniciar S2 antes de cross-audit de B18.",
+    "Alterar main, src, site, examples, inbox ou modelos.",
+    "Registrar, remover ou editar os seis untracked antigos."
+  ],
+  "read_evidence": [
+    "guards/assert-scope-lock.sh:236-249",
+    ".hbn/results/20260615-213850-cursor-cross-ia-b17-meta-path.md:140-163"
+  ],
+  "mechanical_evidence": [
+    "pwd -> /Users/macbookpro/Projetos",
+    "GIT_OPTIONAL_LOCKS=0 git status -> branch proposta/reestruturacao-m-a-s0; tip inicial 4ed86cd; main 4db6928; seis untracked antigos presentes mais residuos de teste.",
+    "git rev-parse HEAD -> 4ed86cde9af1bf31ee009215c75f8df27c0c8a28",
+    "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04"
+  ],
+  "created_at": "2026-06-15T22:06:21-03:00",
+  "protocol_version": "0.3.0"
+}
