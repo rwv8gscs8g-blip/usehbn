@@ -853,3 +853,13 @@ pareceres cross-audit, STATE e handoff. Sem alterar logica de guard.
 | 20260616-203400-codex-state-auditores-grande-selagem | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T20:34:00-03:00 |
 | 20260616-203500-codex-state-grande-selagem | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T20:35:00-03:00 |
 | 20260616-203500-codex-handoff-grande-selagem | .hbn/messages/20260616-203500-codex-handoff-grande-selagem.md | handoff | quente | — | 2026-06-16T20:35:00-03:00 |
+
+## W3 (2026-06-16) — deny-by-default da zona livre — status: in_progress, readback 0036
+
+W3 fecha a zona livre por padrao: qualquer arquivo staged sob
+`docs/brainstorm/**` passa a exigir curadoria humana explicita no readback
+ativo.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260616-213000-codex-readback-deny-zona-livre | .hbn/readbacks/0036-deny-zona-livre.json | readback | quente | — | 2026-06-16T21:30:00-03:00 |
