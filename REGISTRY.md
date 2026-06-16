@@ -851,3 +851,5 @@ pareceres cross-audit, STATE e handoff. Sem alterar logica de guard.
 | 20260616-184500-grok-cross-ia-proposta-arvores-mvp | .hbn/results/20260616-184500-grok-cross-ia-proposta-arvores-mvp.md | audit-result | frio | — | 2026-06-16T18:45:00-03:00 |
 | 20260616-204530-grok-cross-ia-p-cand-04 | .hbn/results/20260616-204530-grok-cross-ia-p-cand-04.md | audit-result | frio | — | 2026-06-16T20:45:30-03:00 |
 | 20260616-203400-codex-state-auditores-grande-selagem | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T20:34:00-03:00 |
+| 20260616-203500-codex-state-grande-selagem | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T20:35:00-03:00 |
+| 20260616-203500-codex-handoff-grande-selagem | .hbn/messages/20260616-203500-codex-handoff-grande-selagem.md | handoff | quente | — | 2026-06-16T20:35:00-03:00 |

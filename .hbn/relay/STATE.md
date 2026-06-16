@@ -1,35 +1,42 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2 selados; P-CAND-04 entregue; W2 hardening entregue)"
-onda_atual: "W2 ENTREGUE: hardening dos guards fechou B29-B32; P-CAND-04 sera selado junto na proxima selagem"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida)"
+onda_atual: "Grande selagem 0035 CONCLUIDA: P-CAND-04 + W2 + pendencias selados; proxima W3 deny-by-default"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
 modo_educacional: "intermediário"
 papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
-  auditores_validadores: "gemini-3-5 + cursor — cross-audit S1 concluiu APROVA_S1: SIM; cross-audit B17 concluiu APROVA_B17: SIM; cross-audit B18 concluiu APROVA_B18: SIM; cross-audit B19 concluiu APROVA_B19: SIM e classe FECHADA: SIM; cross-audit S2 concluiu APROVA_S2: SIM; cross-audit faxina 0027 concluiu APROVA_0027: SIM; cross-audit S3.1 concluiu APROVA_0029: SIM; cross-audit S3.2 concluiu APROVA_0031: SIM"
-  gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15, autorizou a selagem S1, decidiu tratar B17 antes do S2, autorizou B18, ratificou a selagem B18 com B19a como próxima onda, autorizou B19 antes do S2, autorizou a selagem B19 após cross-audit, autorizou S2 com guards bloqueantes sem rampa, autorizou a selagem S2 apos duplo APROVA_S2 SIM, autorizou lixo-zero na selagem da faxina 0027, autorizou S3 incremental com INDEX vivo da knowledge em S3.1, autorizou a selagem S3.1 lixo-zero, autorizou a selagem S3.2 lixo-zero com hardening de guards em onda propria e autorizou P-CAND-04 em 2026-06-16"
-proxima_acao: "Cross-audit W2; P-CAND-04 sera selado junto na proxima selagem; depois avaliar deny-by-default/freeze."
+  auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM"
+  gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou a grande selagem 0035, registro das licoes 0024/0025 e sequencia hardening->deny->freeze"
+proxima_acao: "W3 deny-by-default (G-ZONA-LIVRE) sobre base endurecida."
 sinais_abertos:
-  - "🟢 W2 ENTREGUE — hardening dos guards concluido: G-KNOW-INDEX token inteiro + anti-ponteiro-morto; G-FRONTDOOR teto bytes + read-list robusta + existencia; G-EXC trailers no ultimo paragrafo; G-SCRATCH fail-closed sem active-version; comentario G-REG corrigido."
+  - "🟢 GRANDE SELAGEM 0035 CONCLUIDA — readback 0035, knowledge 0024/0025, proposta arvores+MVP, oito pareceres cross-audit, STATE e handoff selados."
+  - "🟢 P-CAND-04 RATIFICADO E SELADO — Cursor registrou APROVA_0033: SIM; Grok registrou APROVA_0033: NAO, resolvido pelo W2 fail-closed de G-SCRATCH."
+  - "🟢 W2 RATIFICADO E SELADO — Grok+Antigravity registraram APROVA_0034: SIM; cinco bypasses fechados: G-KNOW token-match/anti-ponteiro-morto, G-FRONTDOOR bytes/contagem/existencia, G-EXC ultimo-paragrafo, G-SCRATCH fail-closed, comentario G-REG."
+  - "🟢 COMMIT-POLLUTION REMOVIDA — cfe9c33 (fixture --no-verify de auditor) foi removido por reset humano para 635e01b antes desta selagem."
+  - "🟢 KNOWLEDGE 0024/0025 INDEXADAS — zona livre exige aprovacao humana explicita; auditor cruzado e read-only e nao usa --no-verify na branch de trabalho."
+  - "🟡 PLANO MVP — arvores registry-centric leve; sequencia hardening->deny->freeze; W3 = deny-by-default (G-ZONA-LIVRE) sobre base endurecida."
+  - "🟡 GATES HUMANOS — branch protection biometrico pendente; futuro registro de chave para G-HRB."
+  - "🟢 W2 SELADO — hardening dos guards concluido e ratificado: G-KNOW-INDEX token inteiro + anti-ponteiro-morto; G-FRONTDOOR teto bytes + read-list robusta + existencia; G-EXC trailers no ultimo paragrafo; G-SCRATCH fail-closed sem active-version; comentario G-REG corrigido."
   - "🟢 TESTES W2 VERDES — run-guard-tests fechou 175/175; adversarial-battery bloqueou B1-B32, incluindo B29, B30, B31 e B32."
-  - "🟡 P-CAND-04 SERA SELADO JUNTO — area temporaria /scratch/ ja foi entregue; a proxima selagem deve cobrir P-CAND-04 junto com W2."
-  - "🟡 PRÓXIMA AÇÃO — Cross-audit W2; P-CAND-04 sera selado junto na proxima selagem; depois avaliar deny-by-default/freeze."
-  - "🟢 P-CAND-04 ENTREGUE — area temporaria /scratch/ ativa: .gitignore ignora /scratch/ e versiona somente scratch/README.md como contrato de uso."
+  - "🟢 P-CAND-04 SELADO — area temporaria /scratch/ foi ratificada e selada junto com W2 na grande selagem 0035."
+  - "🟡 PRÓXIMA AÇÃO — W3 deny-by-default (G-ZONA-LIVRE) sobre base endurecida."
+  - "🟢 P-CAND-04 RATIFICADO — area temporaria /scratch/ ativa: .gitignore ignora /scratch/ e versiona somente scratch/README.md como contrato de uso."
   - "🟢 G-SCRATCH ATIVOS — guards/assert-scratch-lock.sh, guards/assert-scratch-symlink.sh e guards/assert-scratch-ignore.sh entraram bloqueantes no runner."
   - "🟢 TESTES P-CAND-04 VERDES — run-guard-tests fechou 165/165; adversarial-battery bloqueou B1-B28, incluindo B26 arquivo em scratch/, B27 symlink em scratch/ e B28 .gitignore sem /scratch/."
-  - "🟡 PRÓXIMA AÇÃO — Cross-audit P-CAND-04; depois bloqueio total deny-by-default da zona livre."
+  - "🟡 PRÓXIMA AÇÃO HISTÓRICA PAGA — cross-audit P-CAND-04 concluido; agora W3 deny-by-default da zona livre."
   - "🟢 S3.2 SELADA — porta da frente ativa: core/role-cards.md + G-FRONTDOOR; Cursor registrou APROVA_0031: SIM com confiança 90/100 e Gemini/Antigravity registrou APROVA_0031: SIM com confiança 100/100."
-  - "🟡 DÍVIDA RASTREADA — hardening de guards em onda propria: G-KNOW-INDEX usa substring no grep -Fq e permite ponteiro-morto INDEX->arquivo; G-FRONTDOOR conta linhas e nao bytes, conta itens por marcador com espaco/formatos mapeados e nao verifica existencia dos paths da read-list."
+  - "🟢 DÍVIDA HARDENING PAGA — W2 fechou G-KNOW-INDEX substring/ponteiro-morto, G-FRONTDOOR bytes/contagem/existencia, G-EXC ultimo-paragrafo, G-SCRATCH fail-closed e comentario G-REG."
   - "🟢 P-CAND-04 EXECUTADA — a antiga proxima acao de implementar area temporaria foi entregue nesta onda."
   - "🟢 S3.2 ENTREGUE — porta da frente ativa em core/role-cards.md: read-list de 6 itens + tres cartoes curtos por papel, apontando para specs sem duplicar."
   - "🟢 G-FRONTDOOR ATIVO — guards/assert-frontdoor.sh entrou bloqueante no runner; falha fechado se core/role-cards.md ausente/ilegivel, >140 linhas ou read-list >6."
   - "🟢 TESTES S3.2 VERDES — run-guard-tests fechou 160/160; adversarial-battery bloqueou B1-B25, incluindo B25 role-cards inflado/read-list estourada."
   - "🟢 S3.1 SELADA — G-KNOW-INDEX segue ativo no runner; knowledge 0023 foi indexada e selada; pareceres Gemini/Cursor, despacho e brainstorm foram versionados."
-  - "🟢 INDEX VIVO DA KNOWLEDGE — qualquer .hbn/knowledge/*.md, exceto INDEX.md, precisa aparecer citado pelo basename no INDEX; ausencia/ilegibilidade do INDEX falha fechado; estado atual: 9 entradas."
-  - "🟡 DÍVIDA RASTREADA G-KNOW-INDEX — substring por grep -Fq do basename em guards/assert-knowledge-index.sh:63 e ponteiro-morto quando INDEX cita arquivo inexistente; destino: onda de hardening propria."
+  - "🟢 INDEX VIVO DA KNOWLEDGE — qualquer .hbn/knowledge/*.md, exceto INDEX.md, precisa aparecer citado pelo basename no INDEX; ausencia/ilegibilidade do INDEX falha fechado; estado atual: 11 entradas."
+  - "🟢 DÍVIDA G-KNOW-INDEX PAGA — W2 trocou substring por token inteiro e bloqueou ponteiro-morto INDEX->arquivo."
   - "🟡 DECISÃO AREA TEMPORARIA — P-CAND-04 convergiu no cross-audit: tmp do ambiente primeiro; scratch/ no repo so em onda propria com gitignore + guards anti-stage/symlink/ignore."
   - "🟡 NOTA DE CONTINUIDADE — proximo orquestrador deve ler STATE + handoff + core/role-cards.md e seguir a read-list da porta da frente."
   - "🟢 S2 + FAXINA 0027 FECHADOS — S2 foi ratificada e selada; faxina 0027 foi ratificada por Cursor e Gemini/Antigravity com APROVA_0027: SIM e selada na micro-onda 0028."
@@ -45,7 +52,7 @@ sinais_abertos:
   - "🟢 S1 RATIFICADO E SELADO — assert-scope-lock endurecido contra auto-emenda de files_allowed; cross-audit Gemini+Cursor registrou APROVA_S1: SIM."
   - "🟢 REESTRUTURAÇÃO M-A+S0 SELADA — linha limpa proposta/reestruturacao-m-a-s0 @ 5a0587d; tree 61fa290e ancorada por tag."
   - "🟢 CROSS-AUDIT SIM — Cursor e Gemini 3.5 registraram APROVA_REESTRUTURACAO: SIM para o Modelo B."
-  - "🔴 EXCEÇÃO F-01 ATIVA — implementador == agente do readback ativo (codex) nesta selagem; PROPOSED_UNTIL_CROSS_AUDIT."
+  - "🟢 EXCEÇÃO F-01 ENCERRADA NESTA SELAGEM — C5 devolve o bastao ao orquestrador e nao deixa implementador ativo igual ao agente do readback."
   - "🔴 PONTE VETADA — 0034 Codex e 0035 Antigravity retornaram VETO_ADOCAO: SIM; corrigir bloqueadores antes de descongelar."
   - "🔴 ATIVAÇÃO DA EXÚVIA BLOQUEADA — Fitness Gate pendente: baseline funcional + Ponte verde + confronto incumbente×desafiante."
   - "🟡 D-ORQ-WRITE NÃO HABILITADA — doutrina no replay; escrita do orquestrador e G-ACTOR-WRITE-MATRIX seguem para rito futuro."
@@ -53,20 +60,33 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟡 branch protection no GitHub (hbn-shield obrigatório no push) = ação humana pendente."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0034-hardening-guards.json"
-handoff_mais_recente: ".hbn/messages/20260616-194500-codex-handoff-w2-hardening.md"
+readback_ativo: ".hbn/readbacks/0035-grande-selagem.json"
+handoff_mais_recente: ".hbn/messages/20260616-203500-codex-handoff-grande-selagem.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "W2 hardening de guards entregue; bastao volta ao orquestrador para cross-audit W2. P-CAND-04 sera selado junto na proxima selagem."
-ultima_atualizacao: "2026-06-16T19:45:00-03:00"
-atualizado_por: codex-implementador-w2-hardening
+ciclo_ativo: "Grande selagem 0035 fechada; bastao volta ao orquestrador para W3 deny-by-default sobre base endurecida."
+ultima_atualizacao: "2026-06-16T20:35:00-03:00"
+atualizado_por: codex-implementador-grande-selagem
 atribuicao:
   chapeu_atual: orquestrador
-  implementador: codex
-  auditores: [gemini-3-5, cursor, antigravity]
-  gravada_em: "2026-06-16T19:45:00-03:00"
+  implementador: null
+  auditores: [cursor, grok, antigravity]
+  gravada_em: "2026-06-16T20:35:00-03:00"
   hearback_ref: null
 ---
+
+Nota grande selagem 0035: concluida em 2026-06-16. P-CAND-04 (readback 0033)
+fica RATIFICADO e SELADO: Cursor registrou `APROVA_0033: SIM`; o `NAO` do
+Grok foi resolvido pelo hardening W2, que tornou G-SCRATCH fail-closed quando
+`active-version` nao resolve. W2 (readback 0034) fica RATIFICADO e SELADO por
+Grok+Antigravity com `APROVA_0034: SIM`, fechando cinco bypasses: G-KNOW
+token-match/anti-ponteiro-morto, G-FRONTDOOR bytes/contagem/existencia,
+G-EXC ultimo-paragrafo, G-SCRATCH fail-closed e comentario G-REG. A pollution
+`cfe9c33` (fixture `--no-verify` de auditor) foi removida por reset humano para
+`635e01b`. As licoes 0024 e 0025 foram indexadas. Plano MVP preservado:
+arvores registry-centric leve; sequencia hardening->deny->freeze; proxima acao
+W3 deny-by-default (G-ZONA-LIVRE) sobre base endurecida; gates humanos =
+branch protection biometrico + futura chave G-HRB.
 
 Nota W2 / readback 0034: entregue em 2026-06-16. A onda fechou os bypasses
 apontados nas auditorias: B29 (G-KNOW-INDEX substring e ponteiro morto), B30
