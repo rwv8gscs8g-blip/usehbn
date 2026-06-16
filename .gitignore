@@ -39,3 +39,5 @@ guards/tests/wt-main.*
 # junk macOS/Office
 .DS_Store
 ~$*
+/scratch/
+!/scratch/README.md
