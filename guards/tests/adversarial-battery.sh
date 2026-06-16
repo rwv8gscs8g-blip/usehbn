@@ -413,6 +413,38 @@ EOF
 try_burla "B25 role-cards inflado/read-list >6" "G-FRONT" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-frontdoor.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
+# B26 — arquivo staged em scratch/ nao pode entrar no historico.
+d="$(mk_repo)"
+(
+  cd "$d"
+  mkdir -p scratch
+  echo segredo > scratch/segredo.txt
+  git add scratch/segredo.txt
+) >/dev/null 2>&1
+try_burla "B26 arquivo staged em scratch/" "G-SCRATCH-LOCK" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-scratch-lock.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+# B27 — symlink staged em scratch/ nao pode escapar da area efemera.
+d="$(mk_repo)"
+(
+  cd "$d"
+  mkdir -p scratch
+  ln -s ../core scratch/link
+  git add scratch/link
+) >/dev/null 2>&1
+try_burla "B27 symlink staged em scratch/" "G-SCRATCH-SYMLINK" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-scratch-symlink.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+# B28 — .gitignore staged sem /scratch/ remove a protecao da area efemera.
+d="$(mk_repo)"
+(
+  cd "$d"
+  printf '!/scratch/README.md\n' > .gitignore
+  git add .gitignore
+) >/dev/null 2>&1
+try_burla "B28 .gitignore staged sem /scratch/" "G-SCRATCH-IGNORE" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-scratch-ignore.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------
 echo ""
 printf '%-52s | %-8s | %s\n' "BURLA" "GUARD" "RESULTADO"

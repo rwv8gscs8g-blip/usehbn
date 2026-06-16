@@ -77,6 +77,9 @@
 #   garantindo INDEX completo e knowledge nova sem índice bloqueada. Total: 156.
 #   S3.2 (readback 0031): +4 checks G-FRONTDOOR (1 pass, 3 block)
 #   garantindo role-cards presente, <=140 linhas e read-list <=6. Total: 160.
+#   P-CAND-04 (readback 0033): +5 checks G-SCRATCH-* (2 pass, 3 block)
+#   cobrindo README versionado, .gitignore protegido, arquivo proibido em
+#   scratch/, symlink em scratch/ e remocao sorrateira de /scratch/. Total: 165.
 # =============================================================================
 set -uo pipefail
 
@@ -1629,6 +1632,44 @@ d="$(make_frontdoor_repo)"
     git add core/role-cards.md
 ) >/dev/null 2>&1
 check "frontdoor: read-list com 7 itens → BLOCK" block "$(run_frontdoor "$d")"
+rm -rf "$d"
+
+# --- G-SCRATCH: area temporaria deny-by-default (P-CAND-04) ------------------
+echo "== scratch guards (G-SCRATCH-LOCK/SYMLINK/IGNORE) =="
+run_scratch_lock() { ( cd "$1" && bash "$GUARDS_DIR/assert-scratch-lock.sh" >/dev/null 2>&1 ); echo $?; }
+run_scratch_symlink() { ( cd "$1" && bash "$GUARDS_DIR/assert-scratch-symlink.sh" >/dev/null 2>&1 ); echo $?; }
+run_scratch_ignore() { ( cd "$1" && bash "$GUARDS_DIR/assert-scratch-ignore.sh" >/dev/null 2>&1 ); echo $?; }
+run_scratch_all() {
+    ( cd "$1" \
+        && bash "$GUARDS_DIR/assert-scratch-lock.sh" >/dev/null 2>&1 \
+        && bash "$GUARDS_DIR/assert-scratch-symlink.sh" >/dev/null 2>&1 \
+        && bash "$GUARDS_DIR/assert-scratch-ignore.sh" >/dev/null 2>&1 )
+    echo $?
+}
+
+d="$(make_repo)"
+( cd "$d" && mkdir -p scratch && echo "# scratch" > scratch/README.md && git add scratch/README.md ) >/dev/null 2>&1
+check "scratch: README staged passa" pass "$(run_scratch_all "$d")"
+rm -rf "$d"
+
+d="$(make_repo)"
+( cd "$d" && printf '/scratch/\n!/scratch/README.md\n' > .gitignore && git add .gitignore ) >/dev/null 2>&1
+check "scratch-ignore: .gitignore com linhas obrigatorias passa" pass "$(run_scratch_ignore "$d")"
+rm -rf "$d"
+
+d="$(make_repo)"
+( cd "$d" && mkdir -p scratch && echo segredo > scratch/segredo.txt && git add scratch/segredo.txt ) >/dev/null 2>&1
+check "scratch-lock: arquivo qualquer em scratch/ → BLOCK" block "$(run_scratch_lock "$d")"
+rm -rf "$d"
+
+d="$(make_repo)"
+( cd "$d" && mkdir -p scratch && ln -s ../core scratch/link && git add scratch/link ) >/dev/null 2>&1
+check "scratch-symlink: symlink em scratch/ → BLOCK" block "$(run_scratch_symlink "$d")"
+rm -rf "$d"
+
+d="$(make_repo)"
+( cd "$d" && printf '!/scratch/README.md\n' > .gitignore && git add .gitignore ) >/dev/null 2>&1
+check "scratch-ignore: .gitignore sem /scratch/ → BLOCK" block "$(run_scratch_ignore "$d")"
 rm -rf "$d"
 
 # --- Read-list viva (onda 0006 I-01 — F-08 dos cross-audits 0036/0037) -------
