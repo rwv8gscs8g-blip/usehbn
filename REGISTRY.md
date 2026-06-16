@@ -604,3 +604,5 @@ arquivo regular `100644`, sem semantica de link no objeto versionado.
 | id | artefato (path) | tipo | temperatura | superseded_by | created_at |
 |---|---|---|---|---|---|
 | 20260615-225952-codex-readback-selagem-b18-cross-audit | .hbn/readbacks/0022-selagem-b18-cross-audit.json | readback | quente | — | 2026-06-15T22:59:52-03:00 |
+| 20260615-223941-gemini-3-5-cross-ia-b18-symlink | .hbn/results/20260615-223941-gemini-3-5-cross-ia-b18-symlink.md | audit-result | frio | — | 2026-06-15T22:39:41-03:00 |
+| 20260615-224921-cursor-cross-ia-b18-symlink | .hbn/results/20260615-224921-cursor-cross-ia-b18-symlink.md | audit-result | frio | — | 2026-06-15T22:49:21-03:00 |
