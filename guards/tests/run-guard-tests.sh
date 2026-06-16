@@ -75,6 +75,8 @@
 #   HBN-Readback ou HBN-Human-Authorization bloqueia. Total: 154.
 #   S3.1 (readback 0029): +2 checks G-KNOW-INDEX (1 pass, 1 block)
 #   garantindo INDEX completo e knowledge nova sem índice bloqueada. Total: 156.
+#   S3.2 (readback 0031): +4 checks G-FRONTDOOR (1 pass, 3 block)
+#   garantindo role-cards presente, <=140 linhas e read-list <=6. Total: 160.
 # =============================================================================
 set -uo pipefail
 
@@ -1561,6 +1563,72 @@ rm -rf "$d"
 d="$(make_know_repo)"
 ( cd "$d" && echo "# Nova" > .hbn/knowledge/0002-nova.md && git add .hbn/knowledge/0002-nova.md ) >/dev/null 2>&1
 check "know: knowledge nova sem linha no INDEX → BLOCK" block "$(run_know "$d")"
+rm -rf "$d"
+
+# --- G-FRONTDOOR: porta da frente minima (S3.2) -----------------------------
+echo "== assert-frontdoor (G-FRONTDOOR) =="
+write_frontdoor_valid() {
+    cat > core/role-cards.md <<'EOF'
+# Porta Da Frente De Papeis
+
+## PARTE A - READ-LIST DA PORTA DA FRENTE
+
+1. `.hbn/relay/STATE.md`
+2. O readback ativo apontado no STATE.
+3. `core/role-cards.md`
+4. `.hbn/knowledge/0001-comandos-atomicos-copiaveis.md`
+5. `.hbn/knowledge/0002-entrega-operacional-minimalista.md`
+6. `.hbn/knowledge/0023-area-temporaria-e-fixtures-efemeras.md`
+
+## PARTE B - TRES CARTOES
+
+### Orquestrador
+FAZ: Decide a proxima onda.
+ENTREGA COMO: Despacho colavel.
+NAO FAZ: Nao implementa no lugar do implementador.
+SPEC COMPLETA: `core/orchestrator-profile-spec.md`.
+EOF
+}
+make_frontdoor_repo() {
+    local d; d="$(make_repo)"
+    (
+        cd "$d"
+        mkdir -p core
+        write_frontdoor_valid
+        git add core/role-cards.md
+        git commit -qm frontdoor
+    ) >/dev/null 2>&1
+    echo "$d"
+}
+run_frontdoor() { ( cd "$1" && bash "$GUARDS_DIR/assert-frontdoor.sh" >/dev/null 2>&1 ); echo $?; }
+
+d="$(make_frontdoor_repo)"
+check "frontdoor: role-cards valido passa" pass "$(run_frontdoor "$d")"
+rm -rf "$d"
+
+d="$(make_frontdoor_repo)"
+( cd "$d" && git rm -q core/role-cards.md ) >/dev/null 2>&1
+check "frontdoor: role-cards ausente → BLOCK" block "$(run_frontdoor "$d")"
+rm -rf "$d"
+
+d="$(make_frontdoor_repo)"
+(
+    cd "$d"
+    write_frontdoor_valid
+    for i in {1..130}; do echo "linha extra $i"; done >> core/role-cards.md
+    git add core/role-cards.md
+) >/dev/null 2>&1
+check "frontdoor: role-cards >140 linhas → BLOCK" block "$(run_frontdoor "$d")"
+rm -rf "$d"
+
+d="$(make_frontdoor_repo)"
+(
+    cd "$d"
+    awk '1; /^6\. / { print "7. `extra/read-list-estourada.md`" }' core/role-cards.md > core/role-cards.tmp
+    mv core/role-cards.tmp core/role-cards.md
+    git add core/role-cards.md
+) >/dev/null 2>&1
+check "frontdoor: read-list com 7 itens → BLOCK" block "$(run_frontdoor "$d")"
 rm -rf "$d"
 
 # --- Read-list viva (onda 0006 I-01 — F-08 dos cross-audits 0036/0037) -------

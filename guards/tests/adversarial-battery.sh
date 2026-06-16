@@ -387,6 +387,32 @@ EOF
 try_burla "B24 knowledge nova ausente do INDEX" "G-KNOW" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-knowledge-index.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
+# B25 — role-cards inflado e read-list estourada nao pode entrar.
+d="$(mk_repo)"
+(
+  cd "$d"
+  mkdir -p core
+  cat > core/role-cards.md <<'EOF'
+# Porta Da Frente De Papeis
+
+## PARTE A - READ-LIST DA PORTA DA FRENTE
+
+1. `.hbn/relay/STATE.md`
+2. O readback ativo apontado no STATE.
+3. `core/role-cards.md`
+4. `.hbn/knowledge/0001-comandos-atomicos-copiaveis.md`
+5. `.hbn/knowledge/0002-entrega-operacional-minimalista.md`
+6. `.hbn/knowledge/0023-area-temporaria-e-fixtures-efemeras.md`
+7. `docs/tentativa-de-monolito.md`
+
+## PARTE B - TRES CARTOES
+EOF
+  for i in {1..135}; do echo "linha inflada $i"; done >> core/role-cards.md
+  git add core/role-cards.md
+) >/dev/null 2>&1
+try_burla "B25 role-cards inflado/read-list >6" "G-FRONT" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-frontdoor.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------
 echo ""
 printf '%-52s | %-8s | %s\n' "BURLA" "GUARD" "RESULTADO"
