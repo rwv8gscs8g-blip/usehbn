@@ -1,22 +1,24 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1 selados; S3.2 entregue)"
-onda_atual: "S3.2 ENTREGUE: porta da frente ativa em core/role-cards.md; G-FRONTDOOR bloqueante no runner; testes 160/160 e adversarial B1-B25 verdes"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2 selados)"
+onda_atual: "S3.2 SELADA: porta da frente ativa em core/role-cards.md + G-FRONTDOOR; pareceres Cursor/Gemini depositados; hardening de guards rastreado"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
 modo_educacional: "intermediário"
 papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
-  auditores_validadores: "gemini-3-5 + cursor — cross-audit S1 concluiu APROVA_S1: SIM; cross-audit B17 concluiu APROVA_B17: SIM; cross-audit B18 concluiu APROVA_B18: SIM; cross-audit B19 concluiu APROVA_B19: SIM e classe FECHADA: SIM; cross-audit S2 concluiu APROVA_S2: SIM; cross-audit faxina 0027 concluiu APROVA_0027: SIM; cross-audit S3.1 concluiu APROVA_0029: SIM"
-  gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15, autorizou a selagem S1, decidiu tratar B17 antes do S2, autorizou B18, ratificou a selagem B18 com B19a como próxima onda, autorizou B19 antes do S2, autorizou a selagem B19 após cross-audit, autorizou S2 com guards bloqueantes sem rampa, autorizou a selagem S2 apos duplo APROVA_S2 SIM, autorizou lixo-zero na selagem da faxina 0027, autorizou S3 incremental com INDEX vivo da knowledge em S3.1 e autorizou a selagem S3.1 lixo-zero"
-proxima_acao: "Cross-audit S3.2; depois implementar area temporaria (P-CAND-04)."
+  auditores_validadores: "gemini-3-5 + cursor — cross-audit S1 concluiu APROVA_S1: SIM; cross-audit B17 concluiu APROVA_B17: SIM; cross-audit B18 concluiu APROVA_B18: SIM; cross-audit B19 concluiu APROVA_B19: SIM e classe FECHADA: SIM; cross-audit S2 concluiu APROVA_S2: SIM; cross-audit faxina 0027 concluiu APROVA_0027: SIM; cross-audit S3.1 concluiu APROVA_0029: SIM; cross-audit S3.2 concluiu APROVA_0031: SIM"
+  gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15, autorizou a selagem S1, decidiu tratar B17 antes do S2, autorizou B18, ratificou a selagem B18 com B19a como próxima onda, autorizou B19 antes do S2, autorizou a selagem B19 após cross-audit, autorizou S2 com guards bloqueantes sem rampa, autorizou a selagem S2 apos duplo APROVA_S2 SIM, autorizou lixo-zero na selagem da faxina 0027, autorizou S3 incremental com INDEX vivo da knowledge em S3.1, autorizou a selagem S3.1 lixo-zero e autorizou a selagem S3.2 lixo-zero com hardening de guards em onda propria"
+proxima_acao: "Implementar area temporaria P-CAND-04 (/scratch/ + guards G-SCRATCH-LOCK/SYMLINK/IGNORE)."
 sinais_abertos:
+  - "🟢 S3.2 SELADA — porta da frente ativa: core/role-cards.md + G-FRONTDOOR; Cursor registrou APROVA_0031: SIM com confiança 90/100 e Gemini/Antigravity registrou APROVA_0031: SIM com confiança 100/100."
+  - "🟡 DÍVIDA RASTREADA — hardening de guards em onda propria: G-KNOW-INDEX usa substring no grep -Fq e permite ponteiro-morto INDEX->arquivo; G-FRONTDOOR conta linhas e nao bytes, conta itens por marcador com espaco/formatos mapeados e nao verifica existencia dos paths da read-list."
+  - "🟡 PRÓXIMA AÇÃO — implementar area temporaria P-CAND-04 (/scratch/ + guards G-SCRATCH-LOCK/SYMLINK/IGNORE)."
   - "🟢 S3.2 ENTREGUE — porta da frente ativa em core/role-cards.md: read-list de 6 itens + tres cartoes curtos por papel, apontando para specs sem duplicar."
   - "🟢 G-FRONTDOOR ATIVO — guards/assert-frontdoor.sh entrou bloqueante no runner; falha fechado se core/role-cards.md ausente/ilegivel, >140 linhas ou read-list >6."
   - "🟢 TESTES S3.2 VERDES — run-guard-tests fechou 160/160; adversarial-battery bloqueou B1-B25, incluindo B25 role-cards inflado/read-list estourada."
-  - "🟡 PRÓXIMO PASSO — Cross-audit S3.2; depois implementar area temporaria (P-CAND-04)."
   - "🟢 S3.1 SELADA — G-KNOW-INDEX segue ativo no runner; knowledge 0023 foi indexada e selada; pareceres Gemini/Cursor, despacho e brainstorm foram versionados."
   - "🟢 INDEX VIVO DA KNOWLEDGE — qualquer .hbn/knowledge/*.md, exceto INDEX.md, precisa aparecer citado pelo basename no INDEX; ausencia/ilegibilidade do INDEX falha fechado; estado atual: 9 entradas."
   - "🟡 DÍVIDA RASTREADA G-KNOW-INDEX — substring por grep -Fq do basename em guards/assert-knowledge-index.sh:63 e ponteiro-morto quando INDEX cita arquivo inexistente; destino: onda de hardening propria."
@@ -43,18 +45,18 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟡 branch protection no GitHub (hbn-shield obrigatório no push) = ação humana pendente."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0031-porta-da-frente-cartoes.json"
-handoff_mais_recente: ".hbn/messages/20260616-160400-codex-handoff-s3-2.md"
+readback_ativo: ".hbn/readbacks/0032-selagem-s3-2.json"
+handoff_mais_recente: ".hbn/messages/20260616-164000-codex-handoff-selagem-s3-2.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "S3.2 entregue; bastao volta ao orquestrador para cross-audit S3.2 e depois P-CAND-04."
-ultima_atualizacao: "2026-06-16T16:04:00-03:00"
-atualizado_por: codex-implementador-s3-2
+ciclo_ativo: "S3.2 selada; bastao volta ao orquestrador para implementar P-CAND-04 e deixar hardening G-KNOW/G-FRONTDOOR para onda propria."
+ultima_atualizacao: "2026-06-16T16:40:00-03:00"
+atualizado_por: codex-implementador-selagem-s3-2
 atribuicao:
   chapeu_atual: orquestrador
   implementador: codex
   auditores: [gemini-3-5, cursor]
-  gravada_em: "2026-06-16T16:04:00-03:00"
+  gravada_em: "2026-06-16T16:40:00-03:00"
   hearback_ref: null
 ---
 
@@ -220,3 +222,18 @@ convergiu para tmp do ambiente primeiro; `/scratch/` no repo, se adotado, deve
 ter onda propria com gitignore + guards anti-stage/symlink/ignore. Continuidade:
 o proximo orquestrador deve ler STATE + handoff + `.hbn/knowledge/0001`,
 `.hbn/knowledge/0002` e `.hbn/knowledge/0023` ao assumir o bastao.
+
+Nota selagem S3.2 / readback 0032: concluida em 2026-06-16. Cursor
+(`.hbn/results/20260616-132743-cursor-cross-ia-s3-2.md`) registrou
+`APROVA_0031: SIM` com confiança 90/100; Gemini/Antigravity
+(`.hbn/results/20260616-132813-gemini-3-5-cross-ia-s3-2.md`) registrou
+`APROVA_0031: SIM` com confiança 100/100. A selagem depositou os dois
+pareceres e versionou os tres docs de brainstorm de Fronteira
+(`docs/brainstorm/exuvia-evolucao-conceitual.md`,
+`docs/brainstorm/PROMPTS-PF-ARVORES-AGORA-DRAFT.md` e
+`docs/brainstorm/PROPOSTA-arvores-agora.md`), sem alterar logica de guard.
+Divida rastreada agrupada para hardening de guards: G-KNOW-INDEX ainda aceita
+substring no `grep -Fq` e ponteiro morto no INDEX; G-FRONTDOOR tem teto por
+linhas, nao por bytes, conta itens por marcador/espaco conhecido e nao verifica
+existencia dos paths da read-list. Proxima acao: implementar area temporaria
+P-CAND-04 (`/scratch/` + guards G-SCRATCH-LOCK/SYMLINK/IGNORE).

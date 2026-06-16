@@ -788,3 +788,5 @@ guard.
 | 20260616-164000-codex-brainstorm-exuvia-evolucao-conceitual-s3-2 | docs/brainstorm/exuvia-evolucao-conceitual.md | brainstorm-zona-livre | frio | — | 2026-06-16T16:40:00-03:00 |
 | 20260616-164000-codex-brainstorm-prompts-pf-arvores-agora-draft | docs/brainstorm/PROMPTS-PF-ARVORES-AGORA-DRAFT.md | brainstorm-zona-livre | frio | — | 2026-06-16T16:40:00-03:00 |
 | 20260616-164000-codex-brainstorm-proposta-arvores-agora | docs/brainstorm/PROPOSTA-arvores-agora.md | brainstorm-zona-livre | frio | — | 2026-06-16T16:40:00-03:00 |
+| 20260616-164000-codex-state-selagem-s3-2 | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T16:40:00-03:00 |
+| 20260616-164000-codex-handoff-selagem-s3-2 | .hbn/messages/20260616-164000-codex-handoff-selagem-s3-2.md | handoff | quente | — | 2026-06-16T16:40:00-03:00 |
