@@ -1,20 +1,20 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19 ratificado e selado; S2 implementada, aguardando cross-audit)"
-onda_atual: "S2 implementada: dispatch auto-declarante versionado, schema/spec e guards G-DSP-FMT/G-DSP-INT bloqueantes; aguardando cross-audit Gemini+Cursor"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19 ratificado e selado; S2 ratificada e selada)"
+onda_atual: "S2 SELADA: dispatch auto-declarante versionado ratificado por Gemini+Cursor com APROVA_S2: SIM; pareceres e despachos depositados"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
 modo_educacional: "intermediário"
 papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
-  auditores_validadores: "gemini-3-5 + cursor — cross-audit S1 concluiu APROVA_S1: SIM; cross-audit B17 concluiu APROVA_B17: SIM; cross-audit B18 concluiu APROVA_B18: SIM; cross-audit B19 concluiu APROVA_B19: SIM e classe FECHADA: SIM; cross-audit S2 pendente"
-  gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15, autorizou a selagem S1, decidiu tratar B17 antes do S2, autorizou B18, ratificou a selagem B18 com B19a como próxima onda, autorizou B19 antes do S2, autorizou a selagem B19 após cross-audit e autorizou S2 com guards bloqueantes sem rampa"
-proxima_acao: "Submeter S2 (dispatch auto-declarante) ao cross-audit Gemini+Cursor antes de qualquer selagem."
+  auditores_validadores: "gemini-3-5 + cursor — cross-audit S1 concluiu APROVA_S1: SIM; cross-audit B17 concluiu APROVA_B17: SIM; cross-audit B18 concluiu APROVA_B18: SIM; cross-audit B19 concluiu APROVA_B19: SIM e classe FECHADA: SIM; cross-audit S2 concluiu APROVA_S2: SIM"
+  gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15, autorizou a selagem S1, decidiu tratar B17 antes do S2, autorizou B18, ratificou a selagem B18 com B19a como próxima onda, autorizou B19 antes do S2, autorizou a selagem B19 após cross-audit, autorizou S2 com guards bloqueantes sem rampa e autorizou a selagem S2 apos duplo APROVA_S2 SIM"
+proxima_acao: "Abrir a faxina 0027 para tratar os untracked antigos, a triagem/criterios de exuvia e os marginais H/EXTRA documentados, sem alterar logica de guard nesta selagem."
 sinais_abertos:
-  - "🟢 S2 IMPLEMENTADA — dispatch schema/spec criados; G-DSP-FMT e G-DSP-INT entram bloqueantes no runner; run-guard-tests 151/151 verde; adversarial-battery bloqueou B1-B22; dispatch 0025 dogfood validado no índice."
-  - "🟡 S2 AGUARDA CROSS-AUDIT — Gemini+Cursor devem auditar antes de qualquer selagem; selagem futura e micro-onda própria com readback 0026."
+  - "🟢 S2 RATIFICADA E SELADA — Gemini registrou APROVA_S2: SIM com confiança 100/100; Cursor registrou APROVA_S2: SIM com confiança 90/100; pareceres e despachos foram depositados nesta micro-onda."
+  - "🟡 FAXINA 0027 PENDENTE — seis untracked antigos, triagem/criterios de exuvia e marginais H/EXTRA ficam para onda propria; esta selagem não altera logica de guard."
   - "🟢 B19 RATIFICADO E SELADO — cross-audit Gemini+Cursor registrou APROVA_B19: SIM e CLASSE FECHADA: SIM; classe symlink/meta-path FECHADA apos B17+B18+B19; hardlink = non-issue (git 100644); proxima onda: S2 (dispatch schema)."
   - "🟢 B18 RATIFICADO E SELADO — cross-audit Gemini+Cursor registrou APROVA_B18: SIM; symlink staged sob .hbn/** segue bloqueado por modo git 120000 antes da dispensa de meta-path; run-guard-tests 141/141 e adversarial-battery B1-B18 verdes."
   - "🟢 B17 RATIFICADO E SELADO — cross-audit Gemini+Cursor registrou APROVA_B17: SIM; meta-paths em guards/assert-scope-lock.sh auto-permitem somente .json/.md com basename ADR-025, hearback do readback ativo ou nome-endereco conhecido."
@@ -29,18 +29,18 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟡 branch protection no GitHub (hbn-shield obrigatório no push) = ação humana pendente."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0025-s2-dispatch-auto-declarante.json"
-handoff_mais_recente: ".hbn/messages/20260616-004342-codex-handoff-s2.md"
+readback_ativo: ".hbn/readbacks/0026-selagem-s2-cross-audit.json"
+handoff_mais_recente: ".hbn/messages/20260616-012452-codex-handoff-selagem-s2.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "S2 implementada e entregue ao orquestrador para cross-audit Gemini+Cursor antes de qualquer selagem."
-ultima_atualizacao: "2026-06-16T00:43:42-03:00"
-atualizado_por: codex-implementador-s2
+ciclo_ativo: "S2 ratificada e selada; bastao volta ao orquestrador para abrir a faxina 0027 em onda propria."
+ultima_atualizacao: "2026-06-16T01:24:52-03:00"
+atualizado_por: codex-implementador-selagem-s2
 atribuicao:
   chapeu_atual: orquestrador
   implementador: codex
   auditores: [gemini-3-5, cursor]
-  gravada_em: "2026-06-16T00:43:42-03:00"
+  gravada_em: "2026-06-16T01:24:52-03:00"
   hearback_ref: null
 ---
 
@@ -144,3 +144,15 @@ STATE e autorização humana vazia. Ambos entraram no runner sem rampa.
 `.hbn/dispatch/0025-s2-dispatch-auto-declarante.md`, foi validado como dogfood.
 Próximo passo: cross-audit Gemini+Cursor; selagem de S2 é micro-onda própria
 com readback 0026, não feita aqui.
+
+Nota selagem S2: concluida em 2026-06-16. Gemini
+(`.hbn/results/20260616-010326-gemini-3-5-cross-ia-s2-dispatch.md`) registrou
+`APROVA_S2: SIM` com confiança 100/100; Cursor
+(`.hbn/results/20260616-010221-cursor-cross-ia-s2-dispatch.md`) registrou
+`APROVA_S2: SIM` com confiança 90/100. Os despachos do orquestrador de abertura
+S2 e cross-audit S2 foram depositados no historico. O marginal H (trailers
+historicos nao-contiguos para parser nativo) e os marginais EXTRA do Cursor
+(dispatch-like fora de `.hbn/dispatch/` e relacao `dispatch_id` x
+`readback_id`) ficam documentados para triagem na faxina 0027, junto com os
+untracked antigos e os criterios/triagem de exuvia; esta selagem nao altera
+logica de guard.

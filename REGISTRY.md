@@ -671,3 +671,5 @@ logica de guard.
 | 20260616-010221-cursor-cross-ia-s2-dispatch | .hbn/results/20260616-010221-cursor-cross-ia-s2-dispatch.md | audit-result | frio | — | 2026-06-16T01:02:21-03:00 |
 | 20260616-002331-opus-4-8-despacho-s2-dispatch-auto-declarante | .hbn/messages/20260616-002331-opus-4-8-despacho-s2-dispatch-auto-declarante.md | despacho | quente | — | 2026-06-16T00:23:31-03:00 |
 | 20260616-005144-opus-4-8-despacho-cross-audit-s2 | .hbn/messages/20260616-005144-opus-4-8-despacho-cross-audit-s2.md | despacho | quente | — | 2026-06-16T00:51:44-03:00 |
+| 20260616-012452-codex-state-selagem-s2 | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T01:24:52-03:00 |
+| 20260616-012452-codex-handoff-selagem-s2 | .hbn/messages/20260616-012452-codex-handoff-selagem-s2.md | handoff | quente | — | 2026-06-16T01:24:52-03:00 |
