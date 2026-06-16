@@ -732,3 +732,14 @@ nova ou existente que não esteja citada no índice.
 | 20260616-113920-codex-adversarial-b24 | guards/tests/adversarial-battery.sh | adversarial-test | quente | — | 2026-06-16T11:39:20-03:00 |
 | 20260616-113920-codex-state-s3-1 | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T11:39:20-03:00 |
 | 20260616-113920-codex-handoff-s3-1 | .hbn/messages/20260616-113920-codex-handoff-s3-1.md | handoff | quente | — | 2026-06-16T11:39:20-03:00 |
+
+## Selagem S3.1 (2026-06-16) — lixo-zero — status: in_progress, readback 0030
+
+S3.1 foi ratificada por cross-audit independente de Gemini/Antigravity e
+Cursor, ambos com `APROVA_0029: SIM`. Esta micro-onda sela os pareceres, o
+despacho do orquestrador, a knowledge 0023, o brainstorm de fronteira e o
+handoff, sem alterar logica de guard.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260616-153000-codex-readback-selagem-s3-1 | .hbn/readbacks/0030-selagem-s3-1.json | readback | quente | — | 2026-06-16T15:30:00-03:00 |

@@ -1,0 +1,76 @@
+{
+  "readback_id": "0030-selagem-s3-1",
+  "execution_id": "selagem-s3-1-2026-06-16",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0030-selagem-s3-1.json",
+  "understanding": "Selar S3.1 (INDEX vivo + G-KNOW-INDEX) ratificada por Gemini/Antigravity (APROVA_0029 SIM, 100) e Cursor (APROVA_0029 SIM, 88). Depositar os dois pareceres e o despacho de cross-audit; indexar e selar a knowledge 0023 (adicionando-a ao INDEX no mesmo commit, como o G-KNOW-INDEX exige); versionar os tres docs de brainstorm. Registrar como divida rastreada os dois marginais do G-KNOW-INDEX (substring no grep -Fq; ponteiro-morto INDEX->arquivo) e a decisao de design da area temporaria (P-CAND-04). Sem alterar logica de guard. Worktree termina sem untracked de governanca.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio em 2026-06-16: seguir S3 incremental e fechar lixo-zero a cada onda; registrar licao da area temporaria e jogar o design ao cross-audit; mudancas de logica de guard ficam para onda propria.",
+    "created_at": "2026-06-16T15:30:00-03:00",
+    "note": "Autorizacao humana para safe_track de selagem+higiene S3.1. Nao autoriza tocar main, merge, --no-verify, git add ., alterar logica de guard, core, habilitar D-ORQ-WRITE."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0030-selagem-s3-1.json",
+      ".hbn/results/20260616-121025-gemini-3-5-cross-ia-s3-1.md",
+      ".hbn/results/20260616-124526-cursor-cross-ia-s3-1.md",
+      ".hbn/messages/20260616-150000-opus-4-8-despacho-cross-audit-s3-1.md",
+      ".hbn/knowledge/0023-area-temporaria-e-fixtures-efemeras.md",
+      ".hbn/knowledge/INDEX.md",
+      "docs/brainstorm/exuvia-evolucao-conceitual.md",
+      "docs/brainstorm/principios-candidatos.md",
+      "docs/brainstorm/EXPLICACAO-PUBLICA-usehbn-DRAFT.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/messages/20260616-HHMMSS-codex-handoff-selagem-s3-1.md"
+    ],
+    "files_forbidden": [
+      "main",
+      "src/**",
+      "core/**",
+      "schemas/**",
+      "guards/**"
+    ]
+  },
+  "action_plan": [
+    "C1: abrir readback 0030 e registrar nascimento.",
+    "C2: selar os dois pareceres cross-audit de S3.1.",
+    "C3: selar o despacho de cross-audit do orquestrador.",
+    "C4: indexar (INDEX) e selar a knowledge 0023 no mesmo commit.",
+    "C5: versionar os tres docs de brainstorm.",
+    "C6: atualizar STATE (selada; dividas; design area-temp; continuidade) e handoff."
+  ],
+  "invariants_to_preserve": [
+    "Nao tocar main, nao merge, nao --no-verify.",
+    "Nao alterar logica de guard nesta onda.",
+    "Nao usar git add .; somente paths exatos.",
+    "knowledge 0023 citada no INDEX no mesmo commit (G-KNOW-INDEX).",
+    "Handoff da onda dentro do files_allowed.",
+    "Antes de cada commit: runner verde com o indice.",
+    "Trailers CONTIGUOS: HBN-Readback: 0030, HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin), HBN-Token-FP: 34a7f2f9."
+  ],
+  "out_of_scope": [
+    "Corrigir os marginais do G-KNOW-INDEX (substring; ponteiro-morto) -> onda de hardening.",
+    "Implementar a area temporaria /scratch/ e seus guards (P-CAND-04) -> onda propria.",
+    "Promover principios candidatos a core -> onda de evolucao."
+  ],
+  "read_evidence": [
+    ".hbn/results/20260616-121025-gemini-3-5-cross-ia-s3-1.md (APROVA_0029 SIM)",
+    ".hbn/results/20260616-124526-cursor-cross-ia-s3-1.md (APROVA_0029 SIM; vetores substring e ponteiro-morto)",
+    "guards/assert-knowledge-index.sh:63 (grep -Fq substring)",
+    "docs/brainstorm/principios-candidatos.md (P-CAND-04 design area temporaria)"
+  ],
+  "mechanical_evidence": [
+    "pwd -> /Users/macbookpro/Projetos/usehbn",
+    "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04",
+    "readback ativo atual = 0029"
+  ],
+  "created_at": "2026-06-16T15:30:00-03:00",
+  "protocol_version": "0.3.0"
+}
