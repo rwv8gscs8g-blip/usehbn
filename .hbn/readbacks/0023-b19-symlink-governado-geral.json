@@ -1,0 +1,76 @@
+{
+  "readback_id": "0023-b19-symlink-governado-geral",
+  "execution_id": "b19-symlink-governado-geral-2026-06-15",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0023-b19-symlink-governado-geral.json",
+  "understanding": "Implementar B19 para fechar a classe symlink: nenhum symlink com modo git 120000 pode ser commitado em arquivo staged avaliado pelo assert-scope-lock, nao apenas sob .hbn/**. Manter B18 bloqueado, preservar deteccao por indice local e por HEAD em CI, adicionar provas negativas/positivas nas suites e documentar que hardlink e non-issue porque o Git o materializa como arquivo regular modo 100644.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio autorizou em 2026-06-15: B19 fecha a classe symlink antes do S2; hardlink deve ser apenas documentado como non-issue.",
+    "created_at": "2026-06-15T23:18:47-03:00",
+    "note": "Autorizacao humana para safe_track de implementacao B19. Nao autoriza tocar main, merge, --no-verify, git add ., D-ORQ-WRITE operacional ou os seis untracked antigos."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0023-b19-symlink-governado-geral.json",
+      "REGISTRY.md",
+      ".hbn/relay/STATE.md",
+      "guards/assert-scope-lock.sh",
+      "guards/README.md",
+      "guards/tests/run-guard-tests.sh",
+      "guards/tests/adversarial-battery.sh"
+    ],
+    "files_forbidden": [
+      "main",
+      "src/**",
+      "site/**",
+      "examples/**",
+      "inbox/**",
+      ".hbn/models/**",
+      ".hbn/hearbacks/**",
+      ".hbn/messages/20260612-122102-fable5-handoff-orquestracao-pos-onda-0006.md",
+      ".hbn/messages/20260613-112502-fable5-handoff-orquestracao-pos-adocao-onda-0006.md",
+      ".hbn/results/20260614-032800-gemini-3-5-cross-ia-onda-0011-plano-v2.md",
+      ".hbn/results/20260614-043647-antigravity-cross-ia-exuvia-impl.md",
+      ".hbn/results/20260614-043826-codex-cross-ia-exuvia-impl.md",
+      ".hbn/results/20260614-044555-opus-4-8-consolidacao-cross-audit-exuvia-impl.md"
+    ]
+  },
+  "action_plan": [
+    "C1: abrir readback 0023 e registrar seu nascimento no REGISTRY.",
+    "C2: generalizar o bloqueio de symlink em guards/assert-scope-lock.sh e atualizar guards/README.md.",
+    "C3: acrescentar B19 em guards/tests/run-guard-tests.sh e guards/tests/adversarial-battery.sh, preservando B18 e positivos de arquivos regulares/hardlink.",
+    "C4: atualizar STATE, criar handoff fresco e registrar as linhas finais no REGISTRY."
+  ],
+  "invariants_to_preserve": [
+    "Nao tocar main, nao fazer merge e nao usar --no-verify.",
+    "Nao habilitar D-ORQ-WRITE operacional.",
+    "Nao usar git add .; adicionar somente paths exatos.",
+    "Nao tocar nos seis untracked antigos listados no despacho.",
+    "Antes de cada commit: bash guards/hbn-guards-runner.sh verde com o indice do commit.",
+    "Trailers obrigatorios: HBN-Readback: 0023, HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin), HBN-Token-FP: 34a7f2f9."
+  ],
+  "out_of_scope": [
+    "Mitigar hardlink como se fosse symlink.",
+    "Iniciar S2 antes do cross-audit de B19.",
+    "Alterar escopo fora dos arquivos permitidos."
+  ],
+  "read_evidence": [
+    "guards/assert-scope-lock.sh:256",
+    ".hbn/results/20260615-223941-gemini-3-5-cross-ia-b18-symlink.md:70-72",
+    ".hbn/results/20260615-223941-gemini-3-5-cross-ia-b18-symlink.md:74-75"
+  ],
+  "mechanical_evidence": [
+    "pwd -> /Users/macbookpro/Projetos",
+    "GIT_OPTIONAL_LOCKS=0 git status -> branch proposta/reestruturacao-m-a-s0; seis untracked antigos presentes; nada staged.",
+    "git rev-parse HEAD -> a434095ffd35fe8c7788408a53c6c1a053417149",
+    "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04"
+  ],
+  "created_at": "2026-06-15T23:18:47-03:00",
+  "protocol_version": "0.3.0"
+}

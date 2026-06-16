@@ -608,3 +608,15 @@ arquivo regular `100644`, sem semantica de link no objeto versionado.
 | 20260615-224921-cursor-cross-ia-b18-symlink | .hbn/results/20260615-224921-cursor-cross-ia-b18-symlink.md | audit-result | frio | — | 2026-06-15T22:49:21-03:00 |
 | 20260615-230143-codex-state-selagem-b18 | .hbn/relay/STATE.md | state | quente | — | 2026-06-15T23:01:43-03:00 |
 | 20260615-230143-codex-handoff-selagem-b18 | .hbn/messages/20260615-230143-codex-handoff-selagem-b18.md | handoff | quente | — | 2026-06-15T23:01:43-03:00 |
+
+## Onda B19 (2026-06-15) — bloquear symlink em qualquer path governado — status: in_progress, readback 0023
+
+B19 generaliza o bloqueio de symlink do B18: qualquer arquivo staged avaliado
+pelo `assert-scope-lock` com modo git `120000` deve ser bloqueado, inclusive em
+`guards/`, `core/`, `src/`, `methodology/` e afins quando cobertos por
+`scope.files_allowed`. Hardlink permanece non-issue: no Git entra como arquivo
+regular `100644`, sem semantica de link no objeto versionado.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260615-231847-codex-readback-b19-symlink-governado-geral | .hbn/readbacks/0023-b19-symlink-governado-geral.json | readback | quente | — | 2026-06-15T23:18:47-03:00 |
