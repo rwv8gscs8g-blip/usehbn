@@ -878,3 +878,7 @@ para arvores registry-centric.
 | id | artefato (path) | tipo | temperatura | superseded_by | created_at |
 |---|---|---|---|---|---|
 | 20260616-230000-codex-readback-selagem-w3 | .hbn/readbacks/0037-selagem-w3.json | readback | quente | — | 2026-06-16T23:00:00-03:00 |
+| 20260616-203624-grok-cross-ia-w3-deny-zona-livre | .hbn/results/20260616-203624-grok-cross-ia-w3-deny-zona-livre.md | audit-result | frio | — | 2026-06-16T20:36:24-03:00 |
+| 20260616-210800-grok-cross-ia-w3-deny-zona-livre | .hbn/results/20260616-210800-grok-cross-ia-w3-deny-zona-livre.md | audit-result | frio | — | 2026-06-16T21:08:00-03:00 |
+| 20260616-225300-antigravity-cross-ia-w3-deny-zona-livre | .hbn/results/20260616-225300-antigravity-cross-ia-w3-deny-zona-livre.md | audit-result | frio | — | 2026-06-16T22:53:00-03:00 |
+| 20260616-225600-cursor-cross-ia-w3-deny-zona-livre | .hbn/results/20260616-225600-cursor-cross-ia-w3-deny-zona-livre.md | audit-result | frio | — | 2026-06-16T22:56:00-03:00 |
