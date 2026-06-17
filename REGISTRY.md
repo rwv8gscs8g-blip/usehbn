@@ -1069,3 +1069,5 @@ bloco, linhas going-forward usam 7 colunas na ordem fixa:
 | 20260617-184001-codex-state-r2-arvores-abertura | .hbn/relay/STATE.md | state | quente | fronteira | — | 2026-06-17T18:40:01-03:00 |
 | 20260617-184002-codex-parallel-id-created-at-column-aware | guards/assert-parallel-id.sh | guard | quente | fronteira | — | 2026-06-17T18:40:02-03:00 |
 | 20260617-184100-codex-arvores-spec-core | core/arvores-spec.md | spec-core | quente | fronteira | — | 2026-06-17T18:41:00-03:00 |
+| 20260617-184200-codex-registry-line-arvore-column-aware | guards/assert-registry-line.sh | guard | quente | fronteira | — | 2026-06-17T18:42:00-03:00 |
+| 20260617-184201-codex-guard-tests-arvore-registry | guards/tests/run-guard-tests.sh | guard-test | quente | fronteira | — | 2026-06-17T18:42:01-03:00 |

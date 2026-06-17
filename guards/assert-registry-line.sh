@@ -35,6 +35,12 @@
 #   (e) doc órfão também em docs/** e methodology/** (F-04 da 0026): .md novo
 #       nessas pastas exige id AAAAMMDD-NN OU linha exata no REGISTRY (nome
 #       estável registrado ao nascer — ADR-011 Decisão 2).
+# R2/readback 0049:
+#   (f) o bloco going-forward do REGISTRY tem 7 colunas:
+#       id | path | tipo | temperatura | arvore | superseded_by | created_at.
+#       Artefato novo que paga linha no REGISTRY precisa declarar arvore valida
+#       (fronteira|intermediaria|estavel). Linhas legadas 5/6-col seguem
+#       toleradas como historico, mas nao servem para nascimento novo.
 # =============================================================================
 set -euo pipefail
 
@@ -114,13 +120,54 @@ is_numbered_artifact() {
     return 1
 }
 
-# Casamento EXATO: o path precisa ser uma coluna inteira da tabela do
-# REGISTRY (| <path> |) — substring NÃO conta (ADR-020; bug F-02).
-# Grepa o REGISTRY STAGED, não a working tree (E-FECH-02).
+# Casamento EXATO: o path precisa estar na coluna 2 da tabela do REGISTRY.
+# Substring em outra coluna NÃO conta (ADR-020; bug F-02). Le o REGISTRY
+# STAGED, não a working tree (E-FECH-02), e tolera blocos 5/6/7-col.
+registry_lines_for_exact() {
+    local f="$1"
+    registry_content | awk -F'|' -v target="$f" '
+        /^[[:space:]]*\|/ {
+            path = $3
+            gsub(/^[ \t]+|[ \t]+$/, "", path)
+            if (path == target) print $0
+        }
+    '
+}
+
 registry_has_exact() {
-    local f="$1" esc
-    esc="$(printf '%s' "$f" | sed 's/[][\.^$*+?(){}|]/\\&/g')"
-    registry_content | grep -qE "\|[[:space:]]*${esc}[[:space:]]*\|"
+    [[ -n "$(registry_lines_for_exact "$1")" ]]
+}
+
+registry_col_count() {
+    awk -F'|' '{ print (NF >= 2 ? NF - 2 : 0) }' <<< "$1"
+}
+
+registry_col() {
+    local line="$1" logical="$2" field
+    field=$((logical + 1))
+    awk -F'|' -v idx="$field" '{ gsub(/^[ \t]+|[ \t]+$/, "", $idx); print $idx }' <<< "$line"
+}
+
+valid_arvore() {
+    case "$1" in
+        fronteira|intermediaria|estavel) return 0 ;;
+    esac
+    return 1
+}
+
+registry_has_valid_arvore_for_path() {
+    local f="$1" line cols arvore
+    while IFS= read -r line; do
+        [[ -z "$line" ]] && continue
+        cols="$(registry_col_count "$line")"
+        if [[ "$cols" -ge 7 ]]; then
+            arvore="$(registry_col "$line" 5)"
+            if valid_arvore "$arvore"; then
+                return 0
+            fi
+        fi
+    done <<< "$(registry_lines_for_exact "$f")"
+    return 1
 }
 
 FAIL=0
@@ -133,6 +180,9 @@ while IFS= read -r f; do
             FAIL=1
         elif ! registry_has_exact "$f"; then
             guard_fail "Artefato governado novo '${f}' não aparece como coluna exata (| path |) em nenhuma linha do ${REGISTRY} STAGED (ADR-011 Decisão 4 + ADR-020: substring não conta; E-FECH-02: linha só na working tree não conta — git add ${REGISTRY})."
+            FAIL=1
+        elif ! registry_has_valid_arvore_for_path "$f"; then
+            guard_fail "Artefato governado novo '${f}' aparece no ${REGISTRY} staged sem coluna arvore valida (fronteira|intermediaria|estavel) em linha 7-col (R2/readback 0049)."
             FAIL=1
         fi
     fi
@@ -163,10 +213,10 @@ while IFS= read -r f; do
         case "$(basename "$f")" in
             README.md|INDEX.md) continue ;;
         esac
-        if registry_has_exact "$f"; then
+        if registry_has_exact "$f" && registry_has_valid_arvore_for_path "$f"; then
             continue
         fi
-        guard_fail "Doc órfão em pasta de documentação: '${f}' sem id AAAAMMDD-NN e sem linha exata no ${REGISTRY} (ADR-011 Decisão 2; 0026/F-04)."
+        guard_fail "Doc órfão em pasta de documentação: '${f}' sem id AAAAMMDD-NN e sem linha exata 7-col com arvore valida no ${REGISTRY} (ADR-011 Decisão 2; 0026/F-04; R2/readback 0049)."
         FAIL=1
         continue
     fi

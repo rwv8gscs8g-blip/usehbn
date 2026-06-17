@@ -208,7 +208,7 @@ d="$(make_repo)"
 (
     cd "$d"
     echo "r" > reports/20260101-02-report-teste.md
-    echo "| 20260101-02 | reports/20260101-02-report-teste.md | report | frio | — |" >> REGISTRY.md
+    echo "| 20260101-02 | reports/20260101-02-report-teste.md | report | frio | fronteira | — | 2026-01-01T09:00:00-03:00 |" >> REGISTRY.md
     git add -A
 ) >/dev/null 2>&1
 check "reg: depósito correto com linha exata"           pass  "$(run_reg "$d")"
@@ -250,7 +250,7 @@ d="$(make_repo)"
 (
     cd "$d"
     echo "pratica" > methodology/pratica-nova.md
-    echo "| 20260101-03 | methodology/pratica-nova.md | spec | quente | — |" >> REGISTRY.md
+    echo "| 20260101-03 | methodology/pratica-nova.md | spec | quente | fronteira | — | 2026-01-01T09:00:00-03:00 |" >> REGISTRY.md
     git add -A
 ) >/dev/null 2>&1
 check "reg: doc estável em methodology/ com linha exata" pass "$(run_reg "$d")"
@@ -265,7 +265,7 @@ d="$(make_repo)"
     echo "r" > reports/20260101-04-skew.md
     echo "" >> REGISTRY.md
     git add -A
-    echo "| 20260101-04 | reports/20260101-04-skew.md | report | frio | — |" >> REGISTRY.md
+    echo "| 20260101-04 | reports/20260101-04-skew.md | report | frio | fronteira | — | 2026-01-01T09:00:00-03:00 |" >> REGISTRY.md
 ) >/dev/null 2>&1
 check "reg: linha só na working tree, staged sem (E-FECH-02)" block "$(run_reg "$d")"
 rm -rf "$d"
@@ -276,7 +276,7 @@ d="$(make_repo)"
 (
     cd "$d"
     echo "r" > reports/20260101-05-skew-ok.md
-    echo "| 20260101-05 | reports/20260101-05-skew-ok.md | report | frio | — |" >> REGISTRY.md
+    echo "| 20260101-05 | reports/20260101-05-skew-ok.md | report | frio | fronteira | — | 2026-01-01T09:00:00-03:00 |" >> REGISTRY.md
     git add -A
     grep -v "20260101-05" REGISTRY.md > REGISTRY.tmp && mv REGISTRY.tmp REGISTRY.md
 ) >/dev/null 2>&1
@@ -315,7 +315,7 @@ d="$(make_version_repo)"
 (
     cd "$d"
     echo "r" > versao_1_0_0/reports/20260101-10-versioned-ok.md
-    echo "| 20260101-10 | reports/20260101-10-versioned-ok.md | report | frio | — |" >> versao_1_0_0/REGISTRY.md
+    echo "| 20260101-10 | reports/20260101-10-versioned-ok.md | report | frio | fronteira | — | 2026-01-01T09:00:00-03:00 |" >> versao_1_0_0/REGISTRY.md
     git add -A
 ) >/dev/null 2>&1
 check "reg: versão ativa valida contra REGISTRY local sem prefixo" pass "$(run_reg "$d")"
@@ -695,16 +695,16 @@ d="$(make_num_repo "[alpha-1, beta-1]")"
 check "num: REGISTRY staged sem created_at; working tree com (skew)" block "$(run_num "$d")"
 rm -rf "$d"
 
-# compatibilidade G-REG × created_at (ADR-024 risco R5): linha de 6 colunas
-# continua casando o grep de coluna exata do assert-registry-line.
+# compatibilidade G-REG × created_at/arvore (R2): linha de 7 colunas continua
+# casando por coluna exata do assert-registry-line.
 d="$(make_repo)"
 (
     cd "$d"
     echo "r" > reports/20260101-06-compat.md
-    echo "| 20260101-06 | reports/20260101-06-compat.md | report | frio | — | 2026-01-01T09:00:00-03:00 |" >> REGISTRY.md
+    echo "| 20260101-06 | reports/20260101-06-compat.md | report | frio | fronteira | — | 2026-01-01T09:00:00-03:00 |" >> REGISTRY.md
     git add -A
 ) >/dev/null 2>&1
-check "num: linha de 6 colunas com created_at passa no G-REG (R5)" pass "$(run_reg "$d")"
+check "num: linha de 7 colunas com arvore+created_at passa no G-REG" pass "$(run_reg "$d")"
 rm -rf "$d"
 
 # --- G-PTR: assert-pointer-honest (ADR-024 D3 / pointer-spec §3) --------------
