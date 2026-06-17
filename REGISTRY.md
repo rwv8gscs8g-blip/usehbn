@@ -1077,3 +1077,16 @@ bloco, linhas going-forward usam 7 colunas na ordem fixa:
 | 20260617-184401-codex-adversarial-b38-arvore-label | guards/tests/adversarial-battery.sh | guard-test | quente | fronteira | — | 2026-06-17T18:44:01-03:00 |
 | 20260617-184501-codex-state-r2-arvores-handoff | .hbn/relay/STATE.md | state | quente | fronteira | — | 2026-06-17T18:45:01-03:00 |
 | 20260617-184500-codex-handoff-arvores | .hbn/messages/20260617-184500-codex-handoff-arvores.md | handoff | quente | fronteira | — | 2026-06-17T18:45:00-03:00 |
+
+## Selagem R2 arvores (2026-06-17) — duplo APROVA_0049 — status: in_progress, readback 0050
+
+R2 arvores registry-centric (readback 0049) foi ratificada por dois pareceres
+cross-audit de familias distintas de OpenAI: Grok/xAI registrou
+`APROVA_0049: SIM` com confianca 93/100 e Antigravity/Google registrou
+`APROVA_0049: SIM` com confianca 100/100. Esta selagem ratifica a spec como
+accepted, torna tracked os pareceres e deixa a promocao para intermediaria em
+onda propria.
+
+| id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
+|---|---|---|---|---|---|---|
+| 20260617-193000-codex-readback-selagem-arvores | .hbn/readbacks/0050-selagem-arvores.json | readback | quente | fronteira | — | 2026-06-17T19:30:00-03:00 |
