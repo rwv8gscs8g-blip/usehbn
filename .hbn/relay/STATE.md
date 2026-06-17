@@ -1,18 +1,19 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente)"
-onda_atual: "Esteira de Pre-Transicao SELADA e vigente em core/esteira-pre-transicao.md; readback 0044 encerrado operacionalmente; bastao retorna ao orquestrador"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs em andamento)"
+onda_atual: "Curadoria P0 docs em andamento: honestidade da porta de entrada e docs canonicos; readback 0045 ativo; implementador=codex"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
-proprietario_bastao: claude-opus-4-8
-papel_bastao: "orquestrador"
+proprietario_bastao: codex
+papel_bastao: "implementador"
 modo_educacional: "intermediário"
 papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM; W3 ratificado por Grok, Antigravity 100 e Cursor 92 com APROVA_0036 SIM"
   gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou grande selagem 0035, hardening->deny->freeze, selagem W3, cartao de entrada e branch protection biometrica na main"
-proxima_acao: "Curar dossie pre-transicao + R2 arvores registry-centric."
+proxima_acao: "Executar C2-C5 da Curadoria P0: AGENTS verbatim, glossario canonico, stub de docs/MATURITY-MATRIX.md, STATE/handoff; depois cross-audit ≠-familia + selagem; depois R2."
 sinais_abertos:
+  - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0045 safe_track, implementador=codex, autorização humana Mauricio e trailers contiguos; excecao permanece proposta ate cross-audit ≠-familia + hearback/selagem."
   - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0044 safe_track, implementador=codex, autorização humana Mauricio e trailers contiguos; selagem encerrada com duplo APROVA_0043 + hearback."
   - "🟢 ESTEIRA PRE-TRANSICAO SELADA E VIGENTE — `core/esteira-pre-transicao.md` esta `status: accepted` e sem front-matter `arvore:`; corpo preservado."
   - "🟢 PARECERES ESTEIRA TRACKED — .hbn/results/20260617-102800-antigravity-cross-ia-esteira-0043.md e .hbn/results/20260617-104500-grok-build-0.1-cross-ia-esteira-0043.md versionados com linhas G-REG."
@@ -91,20 +92,31 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟢 branch protection no GitHub: ruleset Active na main (require PR, restrict deletions, block force pushes); passkey Touch ID no boundary."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0044-selagem-esteira.json"
+readback_ativo: ".hbn/readbacks/0045-curadoria-p0-docs.json"
 handoff_mais_recente: ".hbn/messages/20260617-111500-codex-handoff-selagem-esteira.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "Readback 0044 encerrado operacionalmente; Esteira de Pre-Transicao selada e vigente; bastao retorna ao orquestrador."
-ultima_atualizacao: "2026-06-17T11:15:00-03:00"
-atualizado_por: codex-implementador-handoff-selagem-esteira
+ciclo_ativo: "Readback 0045 ativo; Curadoria P0 docs em andamento; bastao com codex implementador."
+ultima_atualizacao: "2026-06-17T11:30:00-03:00"
+atualizado_por: codex-implementador-curadoria-p0-abertura
 atribuicao:
   chapeu_atual: implementador
   implementador: codex
-  auditores: [antigravity, grok-build-0.1]
-  gravada_em: "2026-06-17T11:00:00-03:00"
-  hearback_ref: "Mauricio 2026-06-17: aprova selagem da Esteira apos duplo APROVA_0043, com remocao do rotulo arvore premature e status accepted"
+  auditores: []
+  gravada_em: "2026-06-17T11:30:00-03:00"
+  hearback_ref: "Mauricio 2026-06-17: escolheu Curadoria P0 (docs) primeiro e aprovou aplicar AGENTS.md corrigido + glossario + dedup da matriz"
 ---
+
+Nota Curadoria P0 docs / readback 0045: aberta em
+2026-06-17T11:30:00-03:00. A onda corrige a porta de entrada e docs canonicos:
+substituir `AGENTS.md` pelo texto aprovado da proposta, criar
+`docs/GLOSSARY.md`, reduzir `docs/MATURITY-MATRIX.md` a redirect e registrar
+o necessario no REGISTRY. Excecao G-EXC segue proposta e visivel porque
+implementador=codex coincide com o agente do readback 0045 autorizado por
+Mauricio. Fora de escopo preservado: `main`, `guards/**`, `schemas/**`,
+`src/**`, `core/**`, `methodology/**`, outros `docs/**` e
+`docs/brainstorm/**`. Proxima acao: C2 aplicar `AGENTS.md` verbatim da
+proposta; depois C3 glossario, C4 stub da matriz, C5 STATE/handoff.
 
 Nota selagem Esteira / readback 0044: concluida em
 2026-06-17T11:15:00-03:00. A Esteira de Pre-Transicao fica SELADA e vigente:

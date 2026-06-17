@@ -989,3 +989,15 @@ registry-centric.
 | 20260617-104500-grok-build-0.1-cross-ia-esteira-0043 | .hbn/results/20260617-104500-grok-build-0.1-cross-ia-esteira-0043.md | audit-result; autor=grok-build-0.1; familia=xAI; veredito=APROVA_0043:SIM; onda=esteira | frio | — | 2026-06-17T10:45:00-03:00 |
 | 20260617-111500-codex-state-selagem-esteira | .hbn/relay/STATE.md | state | quente | — | 2026-06-17T11:15:00-03:00 |
 | 20260617-111500-codex-handoff-selagem-esteira | .hbn/messages/20260617-111500-codex-handoff-selagem-esteira.md | handoff | quente | — | 2026-06-17T11:15:00-03:00 |
+
+## Curadoria P0 docs (2026-06-17) — honestidade da porta de entrada e docs canonicos — status: in_progress, readback 0045
+
+A Curadoria P0 corrige a porta de entrada (`AGENTS.md`), cria o glossario
+canonico em `docs/GLOSSARY.md` e reduz a copia superseded
+`docs/MATURITY-MATRIX.md` a redirect, sem tocar `core/**`, `methodology/**`,
+`guards/**`, `schemas/**`, `src/**` ou `docs/brainstorm/**`.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260617-113000-codex-readback-curadoria-p0-docs | .hbn/readbacks/0045-curadoria-p0-docs.json | readback | quente | — | 2026-06-17T11:30:00-03:00 |
+| 20260617-113000-codex-state-curadoria-p0-abertura | .hbn/relay/STATE.md | state | quente | — | 2026-06-17T11:30:00-03:00 |
