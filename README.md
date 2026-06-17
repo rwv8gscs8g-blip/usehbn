@@ -2,9 +2,9 @@
 
 > **An open protocol for safe, structured, and evolvable AI-assisted software engineering.**
 > v0.3.0 — Honest Foundation. Created by Luis Mauricio Junqueira Zanin.
-> License: Apache 2.0 + DCO. Tests: 211/211.
+> License: Apache 2.0 + DCO. Tests: 212/212.
 
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE) [![Python: 3.9+](https://img.shields.io/badge/Python-3.9+-blue.svg)](setup.cfg) [![Tests](https://img.shields.io/badge/Tests-211%2F211-brightgreen)](tests/) [![Status: alpha](https://img.shields.io/badge/Status-alpha-orange)](methodology/MATURITY-MATRIX.md) [![Principles: 13](https://img.shields.io/badge/Principles-13-purple)](methodology/PRINCIPIOS-CONSTITUCIONAIS.md)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE) [![Python: 3.9+](https://img.shields.io/badge/Python-3.9+-blue.svg)](setup.cfg) [![Tests](https://img.shields.io/badge/Tests-212%2F212-brightgreen)](tests/) [![Status: alpha](https://img.shields.io/badge/Status-alpha-orange)](methodology/MATURITY-MATRIX.md) [![Principles: 13](https://img.shields.io/badge/Principles-13-purple)](methodology/PRINCIPIOS-CONSTITUCIONAIS.md)
 
 ## Quickstart in 60 seconds
 
