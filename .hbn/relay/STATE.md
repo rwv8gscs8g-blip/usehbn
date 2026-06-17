@@ -1,8 +1,8 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID entregue; Selagem G-AUDITOR-ID em andamento)"
-onda_atual: "Selagem G-AUDITOR-ID em andamento; readback 0048 aberto para tornar tracked 2 pareceres APROVA_0047"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente)"
+onda_atual: "G-AUDITOR-ID selado e vigente; readback 0048 encerrado operacionalmente"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
@@ -11,10 +11,11 @@ papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM; W3 ratificado por Grok, Antigravity 100 e Cursor 92 com APROVA_0036 SIM"
   gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou grande selagem 0035, hardening->deny->freeze, selagem W3, cartao de entrada e branch protection biometrica na main"
-proxima_acao: "C2 selar os 2 pareceres do G-AUDITOR-ID com validacao pelo proprio G-AUDITOR-ID; depois C3 STATE/handoff."
+proxima_acao: "Decisao do orquestrador entre Camada 2 (diversidade), R2 arvores registry-centric ou mais P0."
 sinais_abertos:
-  - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0048 safe_track de selagem, implementador=codex, autorização humana Mauricio e trailers contiguos; permanece proposto ate selagem/handoff."
-  - "🟡 SELAGEM G-AUDITOR-ID EM ANDAMENTO — readback 0047 ratificado por antigravity/Google APROVA_0047 SIM conf 100 e grok/xAI APROVA_0047 SIM conf 95, ambos verificados no disco com SOU canonico."
+  - "🟢 G-AUDITOR-ID SELADO E VIGENTE — readback 0047 ratificado por antigravity/Google APROVA_0047 SIM conf 100 e grok/xAI APROVA_0047 SIM conf 95; auto-ID do auditor agora esta enforcada no runner."
+  - "🟢 PARECERES G-AUDITOR-ID TRACKED — .hbn/results/20260617-160500-antigravity-cross-ia-g-auditor-id-0047.md e .hbn/results/20260617-160546-grok-cross-ia-g-auditor-id-0047.md versionados com linhas G-REG; o proprio G-AUDITOR-ID aprovou os dois no C2."
+  - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0048 safe_track, implementador=codex, autorização humana Mauricio e trailers contiguos; selagem encerrada com duplo APROVA_0047 + hearback."
   - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0047 safe_track entregue por codex, autorização humana Mauricio e trailers contiguos; permanece proposto ate cross-audit/hearback/selagem."
   - "🟢 G-AUDITOR-ID ENTREGUE — guards/assert-auditor-id.sh ativo no runner; .hbn/results/*.md adicionado exige nome canonico, SOU canonico, apelido coerente e familia canonica por guards/data/auditor-families.txt."
   - "🟢 TESTES G-AUDITOR-ID VERDES — runner verde; run-guard-tests fechou 183/183; adversarial-battery bloqueou B1-B37; pytest fechou 213 passed."
@@ -104,19 +105,36 @@ sinais_abertos:
   - "🟢 branch protection no GitHub: ruleset Active na main (require PR, restrict deletions, block force pushes); passkey Touch ID no boundary."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
 readback_ativo: ".hbn/readbacks/0048-selagem-g-auditor-id.json"
-handoff_mais_recente: ".hbn/messages/20260617-154109-codex-handoff-g-auditor-id.md"
+handoff_mais_recente: ".hbn/messages/20260617-161730-codex-handoff-selagem-g-auditor-id.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "Readback 0048 aberto para selagem do G-AUDITOR-ID; C2 deve tornar tracked os dois pareceres e validar via G-AUDITOR-ID."
-ultima_atualizacao: "2026-06-17T16:12:00-03:00"
-atualizado_por: codex-implementador-selagem-g-auditor-id-abertura
+ciclo_ativo: "Readback 0048 encerrado operacionalmente; G-AUDITOR-ID selado e vigente; bastao retorna ao orquestrador."
+ultima_atualizacao: "2026-06-17T16:17:30-03:00"
+atualizado_por: codex-implementador-handoff-selagem-g-auditor-id
 atribuicao:
   chapeu_atual: orquestrador
   implementador: codex
   auditores: [antigravity, grok]
-  gravada_em: "2026-06-17T16:12:00-03:00"
+  gravada_em: "2026-06-17T16:17:30-03:00"
   hearback_ref: "Mauricio 2026-06-17: hearback aprovando a selagem do G-AUDITOR-ID apos 2 pareceres ≠-OpenAI com SOU canonico"
 ---
+
+Nota selagem G-AUDITOR-ID / readback 0048: concluida em
+2026-06-17T16:17:30-03:00. O G-AUDITOR-ID fica SELADO e vigente: o readback
+0047 foi ratificado por dois pareceres cross-audit de familias distintas de
+OpenAI, antigravity/Google `APROVA_0047: SIM` conf 100 e grok/xAI
+`APROVA_0047: SIM` conf 95, ambos verificados no disco com SOU canonico. Os
+dois pareceres foram versionados em `.hbn/results/` com front matter `path:`
+e linhas G-REG; no C2, `guards/assert-auditor-id.sh` aprovou ambos como
+primeiro dogfood real. Evidencia mecanica: runner C2 verde incluindo
+`assert-auditor-id`; `bash guards/tests/run-guard-tests.sh` fechou
+`183 passaram, 0 falharam`; `bash guards/tests/adversarial-battery.sh`
+fechou `BATERIA VERDE` com B1-B37 bloqueadas; `.venv/bin/pytest -q` fechou
+`213 passed in 0.98s`; `main` permanece em
+`4db692876381a0d7909985c8500d999f2e677b04`. Fora de escopo preservado:
+`main`, `guards/**`, `src/**`, `core/**`, `schemas/**`, `methodology/**` e
+`docs/brainstorm/**`. Proxima acao: decisao do orquestrador entre Camada 2
+(diversidade), R2 arvores registry-centric ou mais P0.
 
 Nota selagem G-AUDITOR-ID / readback 0048: aberta em
 2026-06-17T16:12:00-03:00. A onda sela o G-AUDITOR-ID (readback 0047) apos

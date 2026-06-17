@@ -1053,3 +1053,5 @@ pareceres e valida os dois pelo proprio G-AUDITOR-ID.
 | 20260617-161200-codex-state-selagem-g-auditor-id-abertura | .hbn/relay/STATE.md | state | quente | — | 2026-06-17T16:12:00-03:00 |
 | 20260617-160500-antigravity-cross-ia-g-auditor-id-0047 | .hbn/results/20260617-160500-antigravity-cross-ia-g-auditor-id-0047.md | audit-result; autor=antigravity; familia=Google; veredito=APROVA_0047:SIM; onda=g-auditor-id | frio | — | 2026-06-17T16:05:00-03:00 |
 | 20260617-160546-grok-cross-ia-g-auditor-id-0047 | .hbn/results/20260617-160546-grok-cross-ia-g-auditor-id-0047.md | audit-result; autor=grok; familia=xAI; veredito=APROVA_0047:SIM; onda=g-auditor-id | frio | — | 2026-06-17T16:05:46-03:00 |
+| 20260617-161730-codex-state-selagem-g-auditor-id | .hbn/relay/STATE.md | state | quente | — | 2026-06-17T16:17:30-03:00 |
+| 20260617-161730-codex-handoff-selagem-g-auditor-id | .hbn/messages/20260617-161730-codex-handoff-selagem-g-auditor-id.md | handoff | quente | — | 2026-06-17T16:17:30-03:00 |
