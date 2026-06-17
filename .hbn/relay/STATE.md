@@ -1,18 +1,20 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada)"
-onda_atual: "Curadoria P0 SELADA; readback 0046 encerrado operacionalmente; bastao retorna ao orquestrador para onda G-AUDITOR-ID; depois R2 arvores registry-centric"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID em execucao)"
+onda_atual: "G-AUDITOR-ID em execucao; readback 0047 ativo; Camada 1 auto-ID do auditor como guard fail-closed"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
-proprietario_bastao: claude-opus-4-8
-papel_bastao: "orquestrador"
+proprietario_bastao: codex
+papel_bastao: "implementador"
 modo_educacional: "intermediário"
 papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM; W3 ratificado por Grok, Antigravity 100 e Cursor 92 com APROVA_0036 SIM"
   gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou grande selagem 0035, hardening->deny->freeze, selagem W3, cartao de entrada e branch protection biometrica na main"
-proxima_acao: "Onda G-AUDITOR-ID; depois R2 arvores registry-centric."
+proxima_acao: "C2 adicionar mapa canonico de familias; C3 implementar guard e runner; C4 testes; C5 knowledge 0026; C6 handoff."
 sinais_abertos:
+  - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0047 safe_track, implementador=codex, autorização humana Mauricio e trailers contiguos desde C1."
+  - "🟡 G-AUDITOR-ID EM EXECUCAO — Camada 1 vai bloquear .hbn/results/*.md adicionado sem SOU canonico, apelido coerente e familia canonica pelo mapa guards/data/auditor-families.txt."
   - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0046 safe_track, implementador=codex, autorização humana Mauricio e trailers contiguos; selagem encerrada com duplo APROVA_0045 nao-OpenAI + hearback."
   - "🟢 CURADORIA P0 SELADA — readback 0045 ratificado por antigravity/Google APROVA_0045 SIM conf 98 e grok/xAI APROVA_0045 SIM conf 95; marginal do stub da matriz aceita."
   - "🟢 PARECERES CURADORIA P0 TRACKED — .hbn/results/20260617-124513-antigravity-cross-ia-curadoria-p0-0045.md e .hbn/results/20260617-125600-grok-cross-ia-curadoria-p0-0045.md versionados com linhas G-REG."
@@ -98,20 +100,33 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟢 branch protection no GitHub: ruleset Active na main (require PR, restrict deletions, block force pushes); passkey Touch ID no boundary."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0046-selagem-curadoria-p0.json"
+readback_ativo: ".hbn/readbacks/0047-g-auditor-id.json"
 handoff_mais_recente: ".hbn/messages/20260617-151103-codex-handoff-selagem-curadoria-p0.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "Readback 0046 encerrado operacionalmente; Curadoria P0 selada; bastao retorna ao orquestrador para G-AUDITOR-ID."
-ultima_atualizacao: "2026-06-17T15:11:03-03:00"
-atualizado_por: codex-implementador-handoff-selagem-curadoria-p0
+ciclo_ativo: "Readback 0047 em execucao: G-AUDITOR-ID Camada 1; bastao com codex implementador."
+ultima_atualizacao: "2026-06-17T15:28:22-03:00"
+atualizado_por: codex-implementador-g-auditor-id-c1
 atribuicao:
-  chapeu_atual: orquestrador
+  chapeu_atual: implementador
   implementador: codex
   auditores: [antigravity, grok]
-  gravada_em: "2026-06-17T15:11:03-03:00"
-  hearback_ref: "Mauricio 2026-06-17: aprovou a selagem da Curadoria P0 apos 2 pareceres nao-OpenAI verificados no disco"
+  gravada_em: "2026-06-17T15:28:22-03:00"
+  hearback_ref: "Mauricio 2026-06-17: 'Sim desenhe o G-Auditor-ID' + aprovacao de implementa-lo como proxima onda"
 ---
+
+Nota G-AUDITOR-ID / readback 0047: aberta em
+2026-06-17T15:28:22-03:00. A onda implementa a Camada 1 do G-AUDITOR-ID:
+guard fail-closed para arquivos `.hbn/results/*.md` adicionados, exigindo
+nome canonico, linha `SOU:` canonica nas primeiras 12 linhas, apelido coerente
+entre arquivo e `SOU:` e familia canonica/coerente via
+`guards/data/auditor-families.txt`. Camada 2 (contagem de diversidade) fica
+fora de escopo. Excecao G-EXC segue proposta e visivel porque
+implementador=codex coincide com o agente do readback 0047 autorizado por
+Mauricio. Fora de escopo preservado: `main`, `src/**`, `core/**`,
+`methodology/**`, `schemas/**`, outros guards e `docs/brainstorm/**`.
+Proxima acao: C2 mapa de familias; depois C3 guard+runner, C4 testes, C5
+knowledge 0026, C6 STATE/handoff.
 
 Nota selagem Curadoria P0 / readback 0046: concluida em
 2026-06-17T15:11:03-03:00. A Curadoria P0 fica SELADA: o readback 0045 foi

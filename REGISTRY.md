@@ -1022,3 +1022,15 @@ registry-centric.
 | 20260617-125600-grok-cross-ia-curadoria-p0-0045 | .hbn/results/20260617-125600-grok-cross-ia-curadoria-p0-0045.md | audit-result; autor=grok; familia=xAI; veredito=APROVA_0045:SIM; onda=curadoria-p0 | frio | — | 2026-06-17T12:56:00-03:00 |
 | 20260617-151103-codex-state-selagem-curadoria-p0 | .hbn/relay/STATE.md | state | quente | — | 2026-06-17T15:11:03-03:00 |
 | 20260617-151103-codex-handoff-selagem-curadoria-p0 | .hbn/messages/20260617-151103-codex-handoff-selagem-curadoria-p0.md | handoff | quente | — | 2026-06-17T15:11:03-03:00 |
+
+## G-AUDITOR-ID (2026-06-17) — auto-ID do auditor como gate enforcado — status: in_progress, readback 0047
+
+G-AUDITOR-ID transforma a autoidentificacao do auditor em guard fail-closed
+para `.hbn/results/*.md` adicionados: nome, linha `SOU:`, apelido e familia
+canonica precisam bater com o mapa curado. Esta onda cobre a Camada 1; a
+contagem de diversidade fica para fast-follow.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260617-133000-codex-readback-g-auditor-id | .hbn/readbacks/0047-g-auditor-id.json | readback | quente | — | 2026-06-17T13:30:00-03:00 |
+| 20260617-152822-codex-state-g-auditor-id-abertura | .hbn/relay/STATE.md | state | quente | — | 2026-06-17T15:28:22-03:00 |
