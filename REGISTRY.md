@@ -1002,3 +1002,4 @@ canonico em `docs/GLOSSARY.md` e reduz a copia superseded
 | 20260617-113000-codex-readback-curadoria-p0-docs | .hbn/readbacks/0045-curadoria-p0-docs.json | readback | quente | — | 2026-06-17T11:30:00-03:00 |
 | 20260617-113000-codex-state-curadoria-p0-abertura | .hbn/relay/STATE.md | state | quente | — | 2026-06-17T11:30:00-03:00 |
 | 20260617-113100-codex-glossario-canonico | docs/GLOSSARY.md | doc | quente | — | 2026-06-17T11:31:00-03:00 |
+| 20260617-113200-codex-maturity-matrix-redirect | docs/MATURITY-MATRIX.md | doc-redirect | frio | methodology/MATURITY-MATRIX.md | 2026-06-17T11:32:00-03:00 |
