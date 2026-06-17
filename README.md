@@ -2,9 +2,9 @@
 
 > **An open protocol for safe, structured, and evolvable AI-assisted software engineering.**
 > v0.3.0 — Honest Foundation. Created by Luis Mauricio Junqueira Zanin.
-> License: Apache 2.0 + DCO. Tests: 114/114.
+> License: Apache 2.0 + DCO. Tests: 211/211.
 
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE) [![Python: 3.9+](https://img.shields.io/badge/Python-3.9+-blue.svg)](setup.cfg) [![Tests](https://img.shields.io/badge/Tests-114%2F114-brightgreen)](tests/) [![Status: alpha](https://img.shields.io/badge/Status-alpha-orange)](methodology/MATURITY-MATRIX.md) [![Principles: 13](https://img.shields.io/badge/Principles-13-purple)](methodology/PRINCIPIOS-CONSTITUCIONAIS.md)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE) [![Python: 3.9+](https://img.shields.io/badge/Python-3.9+-blue.svg)](setup.cfg) [![Tests](https://img.shields.io/badge/Tests-211%2F211-brightgreen)](tests/) [![Status: alpha](https://img.shields.io/badge/Status-alpha-orange)](methodology/MATURITY-MATRIX.md) [![Principles: 13](https://img.shields.io/badge/Principles-13-purple)](methodology/PRINCIPIOS-CONSTITUCIONAIS.md)
 
 ## Quickstart in 60 seconds
 
@@ -50,7 +50,7 @@ Fonte canônica: [`methodology/MATURITY-MATRIX.md`](methodology/MATURITY-MATRIX.
 | Readback | Implementado | Funciona via CLI; limite atual: nao e chamado automaticamente pelo engine. |
 | Hearback | Implementado | Funciona como gate quando ha Readback associado. |
 | ERP (Result) | Implementado | Funciona hoje com gates de Hearback e Readback em `safe_track`. |
-| Relay | Parcial honesto (Onda 3) | Path-mismatch fix aplicado; lê pendentes em `.hbn/readbacks/` e `.usehbn/readbacks/` com dedup. |
+| Relay | Parcial honesto | Lê pendentes no canônico `.hbn/readbacks/` e mantém fallback read-only para `.usehbn/readbacks/` com dedup. |
 | Baton | Parcial honesto (Onda 3) | `audit_trail` (cap 10 entries) + `baton_stale` advisory (opt-in via `baton_staleness_seconds`). |
 | Handoff | Implementado | Funciona hoje para transferencia validada e arquivamento. |
 | Universal Translator | Scaffold | Hoje e roteador honesto: detecta ambiente/tecnologia e resolve connector; nao traduz semanticamente. |
@@ -59,7 +59,8 @@ Fonte canônica: [`methodology/MATURITY-MATRIX.md`](methodology/MATURITY-MATRIX.
 | Connectors (lifecycle) | Scaffold (Onda 4 aplicada) | 6 estados canônicos registrados (`detected/resolved/installed/verified/active/revoked`); migração tolerante; sem FSM ainda. |
 | Connectors (verify) | Stub | Apenas placeholder; sem verificacao funcional. |
 | Connectors (remote lookup) | Scaffold | Estrutura existe; registry remoto real nao existe e default e off. |
-| State (json append-only) | Parcial honesto (Onda 5 aplicada) | Canonical em `.usehbn/hbn-state.json`; dual-read com merge dedup do legacy `state/hbn-state.json` para back-compat. |
+| State (json append-only) | Parcial honesto | Canonical em `.hbn/state/hbn-state.json`; leitura tolerante de legados `.usehbn/hbn-state.json` e `state/hbn-state.json` com dedup. |
+| Autoevolve | Parcial / Scaffold | CLI status/audit/approve/rollback e audit report existem; orchestrator/worker/queue/approval são scaffold. Não faz evolução autônoma em v0.3.0. |
 | Schemas | Implementado | Schemas e validador customizado funcionam hoje. |
 | Privacy Contract | Parcial / declarativo | Parte e codificada; parte ainda e declarativa, sem certificacao legal. |
 | Bridge generation (legado) | Stub | Produz scaffold documental; nao gera bridges executaveis. |
@@ -318,8 +319,8 @@ usehbn "use hbn analyze this system"
 
 Each execution writes:
 
-- a structured execution log to `logs/`
-- persistent state to `.usehbn/hbn-state.json` (canonical from v0.3.0; legacy `state/hbn-state.json` still readable for backward compatibility — Onda 5 dual-read)
+- a structured execution log to `.hbn/logs/`
+- persistent state to `.hbn/state/hbn-state.json` (canonical from R1; legacy `.usehbn/hbn-state.json` and `state/hbn-state.json` remain readable for backward compatibility)
 - protocol-local coordination artifacts to `.hbn/` after `hbn init`
 
 Inside `.hbn/`, the current local contract now distinguishes:
@@ -532,7 +533,7 @@ The repository currently provides a real local runtime for:
 - `hbn handoff` for validated relay baton transfer with archive enforcement
 - `hbn hearback --last` for quick confirmation of the most recent pending readback
 - self-describing adapter fallback that works without CLI installed
-- connector strategy resolution across runtime, device, target technology, and human language, with lifecycle and verify limits documented in `docs/MATURITY-MATRIX.md`
+- connector strategy resolution across runtime, device, target technology, and human language, with lifecycle and verify limits documented in `methodology/MATURITY-MATRIX.md`
 - compatibility alias `usehbn`
 - `.hbn/relay/` and `.hbn/knowledge/` as the basis for inter-IA continuity
 - `.hbn/relay/state.json` as structured relay state for baton tracking
@@ -553,12 +554,13 @@ This repository does not yet provide:
 - executable legacy bridge generation; current legacy bridge generation is Stub/scaffold documental
 - connector lifecycle enforcement or automatic connector verification
 - Guardian or Truth Barrier blocking; both are advisory until a future accepted RFC enables opt-in enforcement
+- autonomous code evolution through `hbn autoevolve`; in v0.3.0 it is an audit/report scaffold with human-controlled approval toggles
 
 ## Current Status
 
-HBN is now at a solid L4 level: installable, inspectable, protocolized, traceable, and able to generate local adapter files for multiple AI runtimes. The relay system now includes structured baton tracking, validated handoff, dual-read of pending readbacks (Onda 3 — `.hbn/readbacks/` and `.usehbn/readbacks/`), audit trail of last 10 handoffs, and an advisory baton-staleness flag. Adapters include a self-describing fallback block for graceful operation without the CLI plus the full 16-signal HBN vocabulary (10 single-repo + 6 multi-repo per ADR-006).
+HBN v0.3.0 combines Implementado, Parcial, Scaffold, Stub, and Visao components as defined in the maturity matrix. The implemented/parcial surface is installable, inspectable, protocolized, traceable, and able to generate local adapter files for multiple AI runtimes. The relay system includes structured baton tracking, validated handoff, canonical pending readbacks in `.hbn/readbacks/` with legacy `.usehbn/readbacks/` fallback, audit trail of last 10 handoffs, and an advisory baton-staleness flag. Adapters include a self-describing fallback block for graceful operation without the CLI plus the full 16-signal HBN vocabulary (10 single-repo + 6 multi-repo per ADR-006).
 
-The repository is currently in the **v0.3.0 "Honest Foundation"** cycle. Pre-v0.3.0 builds were managed as a hardened `0.2.x` runtime; the v0.3.0 cycle materializes the post-2026-05-09 architectural decisions (9 ADRs in `methodology/adr/`, license migrated to Apache 2.0 + DCO, package and protocol versions split, Onda 3 Relay Invariants applied, Connector Lifecycle Registry registered, Onda 5 cleanup with `.usehbn/` as canonical state location). Public distribution via PyPI is the next delivery milestone. See [`auditoria/00_status/09_PROPOSTA_CRONOGRAMA_AUTONOMO_2026_05_10.md`](auditoria/00_status/09_PROPOSTA_CRONOGRAMA_AUTONOMO_2026_05_10.md), `docs/EXECUTION-DECISION.md`, and `ROADMAP.md`.
+The repository is currently in the **v0.3.0 "Honest Foundation"** cycle. Pre-v0.3.0 builds were managed as a hardened `0.2.x` runtime; the v0.3.0 cycle materializes the post-2026-05-09 architectural decisions (9 ADRs in `methodology/adr/`, license migrated to Apache 2.0 + DCO, package and protocol versions split, Relay Invariants applied, Connector Lifecycle Registry registered, and R1 state unification with `.hbn/` as the canonical runtime state root). Public distribution via PyPI is the next delivery milestone. See [`auditoria/00_status/09_PROPOSTA_CRONOGRAMA_AUTONOMO_2026_05_10.md`](auditoria/00_status/09_PROPOSTA_CRONOGRAMA_AUTONOMO_2026_05_10.md), `docs/EXECUTION-DECISION.md`, and `ROADMAP.md`.
 
 For a safe first test before public distribution, use `hbn quickstart` plus
 `hbn doctor` and follow `docs/SAFE-TESTING.md`.

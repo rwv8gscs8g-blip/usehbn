@@ -14,7 +14,7 @@
 - **Repository:** `~/Projetos/usehbn/` (local canonical) → public mirror to be published per `methodology/adr/ADR-005-licenciamento-apache-cla.md`.
 - **License:** Apache License, Version 2.0 (see `LICENSE`). Migrated from AGPLv3 on 2026-05-10 — see `CHANGELOG.md` and `methodology/adr/ADR-005-licenciamento-apache-cla.md`.
 - **Contributor agreement:** Developer Certificate of Origin (DCO). Use `git commit -s`. See `CONTRIBUTING.md`.
-- **Maturity reference:** [`docs/MATURITY-MATRIX.md`](docs/MATURITY-MATRIX.md) — single source of truth for what works, what is partial, what is vision. No public claim may exceed it.
+- **Maturity reference:** [`methodology/MATURITY-MATRIX.md`](methodology/MATURITY-MATRIX.md) — single source of truth for what works, what is partial, what is vision. No public claim may exceed it.
 
 ## Typology (per ADR-002)
 
@@ -54,7 +54,7 @@ Quick reference:
 ## Stack and topology (per ADR-003)
 
 - **Runtime:** Python 3.9+ (`src/usehbn/`).
-- **Tests:** pytest (`tests/`, currently 93/93 passing).
+- **Tests:** pytest (`tests/`, currently 211/211 passing).
 - **Schemas:** custom JSON-Schema validator (`schemas/`, 7 contracts).
 - **Adapters:** 7 supported runtimes — Claude Code, Codex, ChatGPT, Gemini, Antigravity, Copilot, Cursor (`src/usehbn/runtime.py`).
 

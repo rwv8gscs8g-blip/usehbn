@@ -613,10 +613,10 @@ def build_root_parser() -> argparse.ArgumentParser:
     )
 
     # autoevolve is dispatched early in main() and uses its own parser
-    # (usehbn.autoevolve.cli). We expose a stub here so `hbn --help` lists it.
+    # (usehbn.autoevolve.cli). The root help states its v0.3.0 limit plainly.
     subparsers.add_parser(
         "autoevolve",
-        help="Run microdelta cycles (status, audit, approve, rollback).",
+        help="Inspect the autoevolve audit scaffold; no autonomous evolution in v0.3.0.",
     )
 
     return parser

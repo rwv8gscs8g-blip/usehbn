@@ -14,6 +14,8 @@ def test_root_help_lists_autoevolve():
     parser = build_root_parser()
     help_text = parser.format_help()
     assert "autoevolve" in help_text
+    assert "autonomous" in help_text
+    assert "evolution in v0.3.0" in help_text
 
 
 def test_autoevolve_appears_in_subparsers():
