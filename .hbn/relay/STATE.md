@@ -1,8 +1,8 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado)"
-onda_atual: "Selagem W3 concluida: G-ZONA-LIVRE ratificado, branch protection biometrica armada, cartao de entrada universal depositado"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue)"
+onda_atual: "R1 runtime + honestidade entregue: golden tests CLI, exit codes honestos, .hbn/ canonico e autoevolve declarado scaffold"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
@@ -11,8 +11,12 @@ papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM; W3 ratificado por Grok, Antigravity 100 e Cursor 92 com APROVA_0036 SIM"
   gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou grande selagem 0035, hardening->deny->freeze, selagem W3, cartao de entrada e branch protection biometrica na main"
-proxima_acao: "Arvores registry-centric (coluna arvore no REGISTRY), depois freeze + tag v1-estavel."
+proxima_acao: "Cross-audit R1 por familia nao-OpenAI; depois R2 arvores registry-centric (G-REG M + anti-mislabel)."
 sinais_abertos:
+  - "🟢 R1 ENTREGUE — readback 0038 implementado em seis commits: golden tests dos subcomandos, exit codes honestos, estado canonico em .hbn/, docs alinhados e handoff final."
+  - "🟢 TESTES R1 VERDES — pytest fechou 211/211 antes do handoff C6."
+  - "🟢 GUARDS R1 VERDES — guards/hbn-guards-runner.sh passou antes de cada commit R1."
+  - "🟡 PRÓXIMA AÇÃO — cross-audit R1 por familia nao-OpenAI; depois R2 arvores registry-centric (G-REG M + anti-mislabel)."
   - "🟢 W3 RATIFICADO E SELADO — readback 0036 ratificado por Grok, Antigravity 100 e Cursor 92 com APROVA_0036: SIM; G-ZONA-LIVRE ativo; deny-by-default da zona livre por construcao."
   - "🟢 BRANCH PROTECTION BIOMETRICA ARMADA — main com ruleset Active: require PR, restrict deletions, block force pushes; passkey Touch ID como gate do boundary."
   - "🟢 CARTAO DE ENTRADA UNIVERSAL DEPOSITADO — .hbn/messages/20260616-220000-opus-4-8-cartao-entrada-universal-ia.md versionado como candidato a core/cartao-entrada.md."
@@ -68,20 +72,30 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟢 branch protection no GitHub: ruleset Active na main (require PR, restrict deletions, block force pushes); passkey Touch ID no boundary."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0037-selagem-w3.json"
-handoff_mais_recente: ".hbn/messages/20260616-230100-codex-handoff-selagem-w3.md"
+readback_ativo: ".hbn/readbacks/0038-r1-runtime-honestidade.json"
+handoff_mais_recente: ".hbn/messages/20260616-235900-codex-handoff-r1.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "Selagem W3 concluida; bastao volta ao orquestrador para arvores registry-centric, depois freeze + tag v1-estavel."
-ultima_atualizacao: "2026-06-16T23:01:00-03:00"
-atualizado_por: codex-implementador-selagem-w3
+ciclo_ativo: "R1 runtime + honestidade entregue; bastao volta ao orquestrador para cross-audit R1 por familia nao-OpenAI, depois R2 arvores registry-centric."
+ultima_atualizacao: "2026-06-16T23:59:00-03:00"
+atualizado_por: codex-implementador-r1
 atribuicao:
   chapeu_atual: orquestrador
   implementador: null
   auditores: [cursor, grok, antigravity]
-  gravada_em: "2026-06-16T23:01:00-03:00"
+  gravada_em: "2026-06-16T23:59:00-03:00"
   hearback_ref: null
 ---
+
+Nota R1 / readback 0038: entregue em 2026-06-16. A onda fechou runtime e
+honestidade pre-freeze em seis commits: readback 0038 depositado, golden tests
+dos subcomandos, exit codes honestos, unificacao de estado em `.hbn/`, docs e
+matriz de maturidade alinhadas, e este STATE + handoff final. A suite pytest
+fechou 211/211; o guard runner ficou verde antes de cada commit R1. Escopo
+preservado: `main`, `core/**`, `guards/**`, `schemas/**` e `docs/brainstorm/**`
+nao foram alterados; `docs/brainstorm/**` foi apenas lido como contexto.
+Proxima acao: cross-audit R1 por familia nao-OpenAI; depois R2 arvores
+registry-centric (G-REG M + anti-mislabel).
 
 Nota selagem W3 / readback 0037: concluida em 2026-06-16. W3 (readback
 0036) fica RATIFICADO e SELADO: Grok, Antigravity 100 e Cursor 92 registraram

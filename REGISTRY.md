@@ -895,3 +895,5 @@ golden tests dos subcomandos, exit codes honestos, diretorio de estado canonico
 | id | artefato (path) | tipo | temperatura | superseded_by | created_at |
 |---|---|---|---|---|---|
 | 20260616-234000-codex-readback-r1-runtime-honestidade | .hbn/readbacks/0038-r1-runtime-honestidade.json | readback | quente | — | 2026-06-16T23:40:00-03:00 |
+| 20260616-235900-codex-state-r1-runtime-honestidade | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T23:59:00-03:00 |
+| 20260616-235900-codex-handoff-r1-runtime-honestidade | .hbn/messages/20260616-235900-codex-handoff-r1.md | handoff | quente | — | 2026-06-16T23:59:00-03:00 |
