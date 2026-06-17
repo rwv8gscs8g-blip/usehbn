@@ -897,3 +897,13 @@ golden tests dos subcomandos, exit codes honestos, diretorio de estado canonico
 | 20260616-234000-codex-readback-r1-runtime-honestidade | .hbn/readbacks/0038-r1-runtime-honestidade.json | readback | quente | — | 2026-06-16T23:40:00-03:00 |
 | 20260616-235900-codex-state-r1-runtime-honestidade | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T23:59:00-03:00 |
 | 20260616-235900-codex-handoff-r1-runtime-honestidade | .hbn/messages/20260616-235900-codex-handoff-r1.md | handoff | quente | — | 2026-06-16T23:59:00-03:00 |
+
+## R1-fix (2026-06-17) — dedup estado dual-read — status: in_progress, readback 0039
+
+R1-fix corrige o bloqueador achado no cross-audit R1: `decisions` e
+`context_history` nao podem duplicar entradas ao mesclar estado canonico e
+legado.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260617-010000-codex-readback-r1-fix-dedup-estado | .hbn/readbacks/0039-r1-fix-dedup-estado.json | readback | quente | — | 2026-06-17T01:00:00-03:00 |

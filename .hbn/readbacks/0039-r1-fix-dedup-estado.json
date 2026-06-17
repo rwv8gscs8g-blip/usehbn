@@ -1,0 +1,61 @@
+{
+  "readback_id": "0039-r1-fix-dedup-estado",
+  "execution_id": "r1-fix-dedup-estado-2026-06-17",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0039-r1-fix-dedup-estado.json",
+  "understanding": "Corrigir o bloqueador achado no cross-audit R1: store.py:104-105 concatena decisions e context_history sem dedup ao mesclar canonico+legado, duplicando entradas (viola R1.3). Dedup por identidade estavel (execution_id/traceability se houver; senao por chave de conteudo), preservando ordem e canonico-vence. Corrigir tests/test_state_dual_read.py para popular esses campos com entradas sobrepostas e asserir nao-duplicacao (teste falha sem o fix, passa com). Definir implementador=codex no STATE para o G-EXC exigir trailers contiguos. Sem tocar guards/core/schemas/constituicao/brainstorm.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio em 2026-06-17: corrigir o bloqueador de R1 (dup de estado) achado pela auditoria nao-OpenAI antes de selar R1 e seguir para R2/freeze.",
+    "created_at": "2026-06-17T01:00:00-03:00",
+    "note": "Autorizacao humana para safe_track de R1-fix. Nao autoriza tocar main, merge, --no-verify, git add ., guards, core, schemas, brainstorm, mudar contrato do CLI, habilitar D-ORQ-WRITE."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0039-r1-fix-dedup-estado.json",
+      "src/usehbn/state/store.py",
+      "tests/test_state_dual_read.py",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/messages/20260617-HHMMSS-codex-handoff-r1-fix.md"
+    ],
+    "files_forbidden": ["main","core/**","guards/**","schemas/**","docs/brainstorm/**","src/usehbn/cli.py"]
+  },
+  "action_plan": [
+    "C1: abrir readback 0039.",
+    "C2: dedup de decisions e context_history no merge (store.py).",
+    "C3: teste de nao-duplicacao com fixtures nao-vazias.",
+    "C4: STATE (implementador=codex) + handoff."
+  ],
+  "invariants_to_preserve": [
+    "Nao mudar contrato externo do CLI.",
+    "Nao tocar main, guards, core, schemas, constituicao, brainstorm.",
+    "Nao usar git add .; somente paths exatos.",
+    "implementador=codex no STATE; trailers CONTIGUOS (G-EXC ativo).",
+    "Antes de cada commit: runner verde; adversarial B1-B33 sem regressao.",
+    "Trailers CONTIGUOS: HBN-Readback: 0039, HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin), HBN-Token-FP: 34a7f2f9."
+  ],
+  "out_of_scope": [
+    "G-EXC inativo com implementador=null (hardening de guard).",
+    "arvores/R2, R3, freeze.",
+    "Habilitar D-ORQ-WRITE."
+  ],
+  "read_evidence": [
+    "src/usehbn/state/store.py:104-105 (concat sem dedup)",
+    "tests/test_state_dual_read.py:95-97 (fixture com listas vazias mascara o bug)",
+    ".hbn/results/20260617-003532-antigravity-cross-ia-r1-runtime.md (APROVA_0038 NAO; bloqueador)"
+  ],
+  "mechanical_evidence": [
+    "pwd -> /Users/macbookpro/Projetos/usehbn",
+    "git rev-parse HEAD -> 0692d15 (tip R1)",
+    "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04",
+    "readback ativo atual = 0038"
+  ],
+  "created_at": "2026-06-17T01:00:00-03:00",
+  "protocol_version": "0.3.0"
+}
