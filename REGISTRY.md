@@ -971,3 +971,17 @@ promove a proposta para `core/esteira-pre-transicao.md` como spec-core
 | 20260617-103000-codex-esteira-pre-transicao-core | core/esteira-pre-transicao.md | spec-core | quente | — | 2026-06-17T10:30:00-03:00 |
 | 20260617-103500-codex-state-promove-esteira | .hbn/relay/STATE.md | state | quente | — | 2026-06-17T10:35:00-03:00 |
 | 20260617-103500-codex-handoff-promove-esteira | .hbn/messages/20260617-103500-codex-handoff-promove-esteira.md | handoff | quente | — | 2026-06-17T10:35:00-03:00 |
+
+## Selagem Esteira de Pre-Transicao (2026-06-17) — duplo APROVA_0043 — status: in_progress, readback 0044
+
+A Esteira de Pre-Transicao (readback 0043) foi ratificada por dois pareceres
+cross-audit de familias distintas de OpenAI: Antigravity/Google e
+Grok-build-0.1/xAI registraram `APROVA_0043: SIM`. Esta selagem resolve a
+marginal de arvore removendo o rotulo prematuro do front-matter, ratifica a
+spec como accepted, torna tracked os pareceres e devolve o bastao ao
+orquestrador para curadoria do dossie pre-transicao e R2 arvores
+registry-centric.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260617-110000-codex-readback-selagem-esteira | .hbn/readbacks/0044-selagem-esteira.json | readback | quente | — | 2026-06-17T11:00:00-03:00 |
