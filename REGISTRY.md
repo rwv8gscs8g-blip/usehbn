@@ -907,3 +907,5 @@ legado.
 | id | artefato (path) | tipo | temperatura | superseded_by | created_at |
 |---|---|---|---|---|---|
 | 20260617-010000-codex-readback-r1-fix-dedup-estado | .hbn/readbacks/0039-r1-fix-dedup-estado.json | readback | quente | — | 2026-06-17T01:00:00-03:00 |
+| 20260617-010500-codex-state-r1-fix-dedup-estado | .hbn/relay/STATE.md | state | quente | — | 2026-06-17T01:05:00-03:00 |
+| 20260617-010500-codex-handoff-r1-fix-dedup-estado | .hbn/messages/20260617-010500-codex-handoff-r1-fix.md | handoff | quente | — | 2026-06-17T01:05:00-03:00 |

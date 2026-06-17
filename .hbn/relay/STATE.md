@@ -1,8 +1,8 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue)"
-onda_atual: "R1 runtime + honestidade entregue: golden tests CLI, exit codes honestos, .hbn/ canonico e autoevolve declarado scaffold"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue)"
+onda_atual: "R1-fix dedup estado entregue: decisions e context_history deduplicam no dual-read canonico+legado"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
@@ -11,8 +11,13 @@ papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM; W3 ratificado por Grok, Antigravity 100 e Cursor 92 com APROVA_0036 SIM"
   gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou grande selagem 0035, hardening->deny->freeze, selagem W3, cartao de entrada e branch protection biometrica na main"
-proxima_acao: "Cross-audit R1 por familia nao-OpenAI; depois R2 arvores registry-centric (G-REG M + anti-mislabel)."
+proxima_acao: "re-cross-audit R1+R1-fix nao-OpenAI, depois selagem R1."
 sinais_abertos:
+  - "🟢 R1-FIX ENTREGUE — readback 0039 corrigiu dedup de decisions/context_history no dual-read de estado canonico+legado."
+  - "🟢 TESTES R1-FIX VERDES — pytest completo fechou 212/212; tests/test_state_dual_read.py fechou 7/7 com fixtures nao-vazias."
+  - "🟢 ADVERSARIAL B1-B33 VERDE — guards/tests/adversarial-battery.sh bloqueou todas as burlas documentadas."
+  - "🔴 EXCEÇÃO R1-FIX PROPOSED_UNTIL_CROSS_AUDIT — implementador=codex coincide com agent_id do readback 0039 para manter G-EXC ativo; adocao exige re-cross-audit nao-OpenAI + selagem R1."
+  - "🟡 PRÓXIMA AÇÃO — re-cross-audit R1+R1-fix nao-OpenAI, depois selagem R1."
   - "🟢 R1 ENTREGUE — readback 0038 implementado em seis commits: golden tests dos subcomandos, exit codes honestos, estado canonico em .hbn/, docs alinhados e handoff final."
   - "🟢 TESTES R1 VERDES — pytest fechou 211/211 antes do handoff C6."
   - "🟢 GUARDS R1 VERDES — guards/hbn-guards-runner.sh passou antes de cada commit R1."
@@ -72,20 +77,31 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟢 branch protection no GitHub: ruleset Active na main (require PR, restrict deletions, block force pushes); passkey Touch ID no boundary."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0038-r1-runtime-honestidade.json"
-handoff_mais_recente: ".hbn/messages/20260616-235900-codex-handoff-r1.md"
+readback_ativo: ".hbn/readbacks/0039-r1-fix-dedup-estado.json"
+handoff_mais_recente: ".hbn/messages/20260617-010500-codex-handoff-r1-fix.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "R1 runtime + honestidade entregue; bastao volta ao orquestrador para cross-audit R1 por familia nao-OpenAI, depois R2 arvores registry-centric."
-ultima_atualizacao: "2026-06-16T23:59:00-03:00"
-atualizado_por: codex-implementador-r1
+ciclo_ativo: "R1-fix dedup estado entregue; bastao volta ao orquestrador para re-cross-audit R1+R1-fix nao-OpenAI, depois selagem R1."
+ultima_atualizacao: "2026-06-17T01:05:00-03:00"
+atualizado_por: codex-implementador-r1-fix
 atribuicao:
-  chapeu_atual: orquestrador
-  implementador: null
+  chapeu_atual: implementador
+  implementador: codex
   auditores: [cursor, grok, antigravity]
-  gravada_em: "2026-06-16T23:59:00-03:00"
+  gravada_em: "2026-06-17T01:05:00-03:00"
   hearback_ref: null
 ---
+
+Nota R1-fix / readback 0039: entregue em 2026-06-17. A onda corrigiu o
+bloqueador achado no cross-audit R1: `load_state_document` agora deduplica
+`decisions` e `context_history` pela mesma identidade estavel de `executions`
+e `results` (`traceability.execution_id`/`execution_id` quando presente; caso
+contrario conteudo JSON deterministico), preservando a ordem canonico ->
+`.usehbn/` -> `state/` e a regra canonico-vence. `tests/test_state_dual_read.py`
+passou a usar fixtures nao-vazias e cobre item sem id por dedup de conteudo.
+Evidencia mecanica: `.venv/bin/pytest -q` fechou 212/212; `bash
+guards/tests/adversarial-battery.sh` bloqueou B1-B33. Proxima acao:
+re-cross-audit R1+R1-fix nao-OpenAI, depois selagem R1.
 
 Nota R1 / readback 0038: entregue em 2026-06-16. A onda fechou runtime e
 honestidade pre-freeze em seis commits: readback 0038 depositado, golden tests
