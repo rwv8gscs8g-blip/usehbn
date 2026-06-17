@@ -1005,3 +1005,16 @@ canonico em `docs/GLOSSARY.md` e reduz a copia superseded
 | 20260617-113200-codex-maturity-matrix-redirect | docs/MATURITY-MATRIX.md | doc-redirect | frio | methodology/MATURITY-MATRIX.md | 2026-06-17T11:32:00-03:00 |
 | 20260617-113500-codex-state-handoff-curadoria-p0 | .hbn/relay/STATE.md | state | quente | — | 2026-06-17T11:35:00-03:00 |
 | 20260617-113500-codex-handoff-curadoria-p0 | .hbn/messages/20260617-113500-codex-handoff-curadoria-p0.md | handoff | quente | — | 2026-06-17T11:35:00-03:00 |
+
+## Selagem Curadoria P0 (2026-06-17) — duplo APROVA_0045 — status: in_progress, readback 0046
+
+A Curadoria P0 (readback 0045) foi ratificada por dois pareceres cross-audit
+de familias distintas de OpenAI: Antigravity/Google e Grok/xAI registraram
+`APROVA_0045: SIM`. Esta selagem torna tracked os pareceres, registra o placar
+e devolve o bastao ao orquestrador para a onda G-AUDITOR-ID; depois R2 arvores
+registry-centric.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260617-130000-codex-readback-selagem-curadoria-p0 | .hbn/readbacks/0046-selagem-curadoria-p0.json | readback | quente | — | 2026-06-17T13:00:00-03:00 |
+| 20260617-130000-codex-state-selagem-curadoria-p0-abertura | .hbn/relay/STATE.md | state | quente | — | 2026-06-17T13:00:00-03:00 |

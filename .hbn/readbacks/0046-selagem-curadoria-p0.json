@@ -1,0 +1,55 @@
+{
+  "readback_id": "0046-selagem-curadoria-p0",
+  "execution_id": "selagem-curadoria-p0-2026-06-17",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0046-selagem-curadoria-p0.json",
+  "understanding": "Selar a Curadoria P0 (readback 0045: AGENTS.md corrigido, glossario canonico, dedup da matriz), ratificada por 2 auditores de familia distinta de OpenAI verificados no disco (antigravity/Google APROVA_0045 SIM conf 98; grok/xAI APROVA_0045 SIM conf 95), ambos com linha SOU. Marginal aceita (texto do stub da matriz difere do proposto mas cumpre a funcao, sem conteudo stale). Tornar tracked os 2 pareceres com linha no REGISTRY e atualizar STATE/handoff. Sem tocar main, guards, core, schemas, src, methodology, outros docs, brainstorm.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio em 2026-06-17: hearback aprovando a selagem da Curadoria P0 apos 2 pareceres ≠-OpenAI verificados no disco (antigravity/Google + grok/xAI).",
+    "created_at": "2026-06-17T13:00:00-03:00",
+    "note": "Autorizacao humana para safe_track de selagem. Nao autoriza tocar main, merge, --no-verify, git add ., guards, core, schemas, src, methodology, outros docs, brainstorm."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0046-selagem-curadoria-p0.json",
+      ".hbn/results/20260617-124513-antigravity-cross-ia-curadoria-p0-0045.md",
+      ".hbn/results/20260617-125600-grok-cross-ia-curadoria-p0-0045.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/messages/20260617-HHMMSS-codex-handoff-selagem-curadoria-p0.md"
+    ],
+    "files_forbidden": ["main","guards/**","schemas/**","src/**","core/**","methodology/**","docs/brainstorm/**"]
+  },
+  "action_plan": [
+    "C1: abrir readback 0046 + STATE(impl=codex, 🔴).",
+    "C2: selar 2 pareceres + REGISTRY.",
+    "C3: STATE + handoff."
+  ],
+  "invariants_to_preserve": [
+    "Nao tocar main, guards, core, schemas, src, methodology, outros docs, brainstorm.",
+    "Nao usar git add .; somente paths exatos.",
+    "implementador=codex e 🔴 G-EXC PROPOSED no STATE desde C1; trailers CONTIGUOS.",
+    "Antes de cada commit: runner verde; adversarial B1-B33 sem regressao.",
+    "Trailers: HBN-Readback: 0046, HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin), HBN-Token-FP: 34a7f2f9."
+  ],
+  "out_of_scope": [
+    "Onda G-AUDITOR-ID; arvores/R2; freeze; habilitar D-ORQ-WRITE."
+  ],
+  "read_evidence": [
+    ".hbn/results/20260617-124513-antigravity-cross-ia-curadoria-p0-0045.md (APROVA_0045 SIM, conf 98, SOU antigravity/Google)",
+    ".hbn/results/20260617-125600-grok-cross-ia-curadoria-p0-0045.md (APROVA_0045 SIM, conf 95, SOU grok/xAI)"
+  ],
+  "mechanical_evidence": [
+    "ls .hbn/results/*curadoria-p0-0045*.md -> 2 arquivos no disco, ambos com linha SOU canonica",
+    "git rev-parse HEAD -> f8e655d (tip curadoria P0)",
+    "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04"
+  ],
+  "created_at": "2026-06-17T13:00:00-03:00",
+  "protocol_version": "0.3.0"
+}
