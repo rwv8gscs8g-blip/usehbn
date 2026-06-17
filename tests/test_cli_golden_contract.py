@@ -816,3 +816,174 @@ def test_cli_autoevolve_golden_contract(
 
     assert code == 0
     assert raw == "(no entries for cycle golden-empty)\n"
+
+
+def _assert_json_error(
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+    tmp_path: Path,
+    argv: List[str],
+    *,
+    expected_exit_code: int,
+    expected_error: str,
+    expected_code: str | None = None,
+) -> Dict[str, Any]:
+    code, raw = _run_cli(monkeypatch, capsys, argv, tmp_path)
+    payload = _json_output(raw, tmp_path)
+
+    assert code == expected_exit_code
+    assert payload["error"] == expected_error
+    if expected_code is not None:
+        assert payload["code"] == expected_code
+    return payload
+
+
+def test_cli_error_exit_code_for_handler_usage_error(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    _assert_json_error(
+        monkeypatch,
+        capsys,
+        tmp_path,
+        ["attention", "--target", str(tmp_path / "attention-error")],
+        expected_exit_code=2,
+        expected_error="Either --mode or --choice is required",
+        expected_code="cli_error",
+    )
+
+
+@pytest.mark.parametrize(
+    "argv, expected_error",
+    [
+        (["connector"], "Unknown connector subcommand. Use: hbn connector inspect|ensure"),
+        (["relay"], "Unknown relay subcommand. Use: hbn relay status"),
+    ],
+)
+def test_cli_error_exit_code_for_unknown_nested_subcommand(
+    argv: List[str],
+    expected_error: str,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    _assert_json_error(
+        monkeypatch,
+        capsys,
+        tmp_path,
+        argv,
+        expected_exit_code=2,
+        expected_error=expected_error,
+    )
+
+
+def test_cli_error_exit_code_for_hearback_missing_exec_id(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    _assert_json_error(
+        monkeypatch,
+        capsys,
+        tmp_path,
+        ["hearback", "--status", "confirmed", "--storage-dir", str(tmp_path / "hearback-error")],
+        expected_exit_code=2,
+        expected_error="exec_id is required. Use --last to operate on the most recent pending readback.",
+    )
+
+
+def test_protocol_violation_exit_code_for_pending_readback_result(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    storage = tmp_path / "protocol-violation"
+    code, _ = _run_cli(
+        monkeypatch,
+        capsys,
+        [
+            "readback",
+            "exec-pending",
+            "--agent-id",
+            "codex",
+            "--intent-json",
+            '{"objective":"test","constraints":[],"risks":["risk"]}',
+            "--track",
+            "safe_track",
+            "--understanding",
+            "Understand",
+            "--invariant",
+            "Keep contract",
+            "--plan-step",
+            "Test CLI",
+            "--storage-dir",
+            str(storage),
+        ],
+        tmp_path,
+    )
+    assert code == 0
+
+    _assert_json_error(
+        monkeypatch,
+        capsys,
+        tmp_path,
+        [
+            "result",
+            "exec-pending",
+            "--agent-id",
+            "codex",
+            "--action",
+            "Recorded result",
+            "--outcome",
+            "executed",
+            "--human-status",
+            "approved",
+            "--storage-dir",
+            str(storage),
+        ],
+        expected_exit_code=3,
+        expected_error="HBN protocol violation: hearback_status must be confirmed before ERP creation",
+        expected_code="protocol_violation",
+    )
+
+
+def test_protocol_violation_exit_code_for_handoff_pending_readbacks(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    target = _setup_init(monkeypatch, capsys, tmp_path, "handoff-pending")
+    readbacks_dir = target / ".hbn" / "readbacks"
+    readbacks_dir.mkdir(parents=True, exist_ok=True)
+    (readbacks_dir / "exec-pending.json").write_text(
+        json.dumps(
+            {
+                "readback_id": "readback-exec-pending",
+                "execution_id": "exec-pending",
+                "agent_id": "codex",
+                "track": "safe_track",
+                "hearback_status": "pending",
+                "understanding": "Understand",
+                "invariants_preserved": ["Keep contract"],
+                "action_plan": ["Test CLI"],
+                "classification_basis": {
+                    "has_guardian_warnings": False,
+                    "has_risks": True,
+                    "has_constraints": False,
+                },
+                "created_at": "2026-06-16T00:00:00Z",
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    payload = _assert_json_error(
+        monkeypatch,
+        capsys,
+        tmp_path,
+        ["handoff", "--to", "orchestrator", "--summary", "Blocked", "--target", str(target)],
+        expected_exit_code=3,
+        expected_error="Cannot handoff: pending readbacks require hearback confirmation.",
+    )
+    assert payload["pending_readbacks"] == ["exec-pending"]

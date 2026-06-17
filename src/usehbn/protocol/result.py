@@ -31,6 +31,20 @@ RISK_FLAG_NAMES = (
 )
 
 
+class HbnCliError(ValueError):
+    """User-facing CLI error with a stable exit code."""
+
+    exit_code = 2
+    error_code = "cli_error"
+
+
+class HbnProtocolViolation(HbnCliError):
+    """Protocol invariant violation that must fail closed."""
+
+    exit_code = 3
+    error_code = "protocol_violation"
+
+
 def _results_dir(storage_dir: Optional[Path] = None) -> Path:
     results_dir = default_state_dir(storage_dir) / RESULTS_DIRNAME
     results_dir.mkdir(parents=True, exist_ok=True)
@@ -53,11 +67,11 @@ def create_result_record(
 ) -> Dict[str, Any]:
     readback = find_readback_by_execution(execution_id, storage_dir)
     if readback is not None and readback["hearback_status"] != "confirmed":
-        raise ValueError("HBN protocol violation: hearback_status must be confirmed before ERP creation")
+        raise HbnProtocolViolation("HBN protocol violation: hearback_status must be confirmed before ERP creation")
     if readback is not None and readback["track"] == "safe_track" and not readback_id:
-        raise ValueError("HBN protocol violation: readback_id is required for safe_track ERP creation")
+        raise HbnProtocolViolation("HBN protocol violation: readback_id is required for safe_track ERP creation")
     if readback is not None and readback_id and readback_id != readback["readback_id"]:
-        raise ValueError("HBN protocol violation: readback_id must match the existing readback for this execution_id")
+        raise HbnProtocolViolation("HBN protocol violation: readback_id must match the existing readback for this execution_id")
 
     risk_profile = {name: False for name in RISK_FLAG_NAMES}
     if risk_flags:

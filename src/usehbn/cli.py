@@ -22,7 +22,12 @@ from usehbn.protocol.readback import (
     create_readback_record,
     update_hearback_status,
 )
-from usehbn.protocol.result import RISK_FLAG_NAMES, create_result_record
+from usehbn.protocol.result import (
+    RISK_FLAG_NAMES,
+    HbnCliError,
+    HbnProtocolViolation,
+    create_result_record,
+)
 from usehbn.runtime import (
     SUPPORTED_RUNTIMES,
     detect_runtime_context,
@@ -630,9 +635,9 @@ def _parse_json_argument(raw_value: str, argument_name: str) -> Dict[str, Any]:
     try:
         parsed = json.loads(raw_value)
     except json.JSONDecodeError as exc:
-        raise ValueError(f"Invalid JSON for {argument_name}: {exc.msg}") from exc
+        raise HbnCliError(f"Invalid JSON for {argument_name}: {exc.msg}") from exc
     if not isinstance(parsed, dict):
-        raise ValueError(f"{argument_name} must decode to a JSON object")
+        raise HbnCliError(f"{argument_name} must decode to a JSON object")
     return parsed
 
 
@@ -1355,7 +1360,7 @@ def _parse_risk_flags(risk_flags: str) -> Dict[str, bool]:
         if not flag:
             continue
         if flag not in RISK_FLAG_NAMES:
-            raise ValueError(f"Unknown risk flag: {flag}")
+            raise HbnCliError(f"Unknown risk flag: {flag}")
         selected_flags[flag] = True
     return selected_flags
 
@@ -1364,14 +1369,14 @@ def _parse_evidence(entries: List[str]) -> List[Dict[str, str]]:
     evidence: List[Dict[str, str]] = []
     for entry in entries:
         if ":" not in entry:
-            raise ValueError(f"Evidence must use type:reference format: {entry}")
+            raise HbnCliError(f"Evidence must use type:reference format: {entry}")
         evidence_type, reference = entry.split(":", 1)
         evidence_type = evidence_type.strip()
         reference = reference.strip()
         if not evidence_type:
-            raise ValueError(f"Evidence type must be non-empty: {entry}")
+            raise HbnCliError(f"Evidence type must be non-empty: {entry}")
         if not reference:
-            raise ValueError(f"Evidence reference must be non-empty: {entry}")
+            raise HbnCliError(f"Evidence reference must be non-empty: {entry}")
         evidence.append({"type": evidence_type, "reference": reference})
     return evidence
 
@@ -1451,7 +1456,7 @@ def _parse_env_keys(entries: List[str]) -> Dict[str, str]:
     env: Dict[str, str] = {}
     for entry in entries:
         if "=" not in entry:
-            raise ValueError(f"Environment key must use key=value format: {entry}")
+            raise HbnCliError(f"Environment key must use key=value format: {entry}")
         key, value = entry.split("=", 1)
         env[key.strip()] = value.strip()
     return env
@@ -1692,7 +1697,29 @@ def run_handoff(args: argparse.Namespace) -> Dict[str, Any]:
     }
 
 
-def main() -> int:
+def _result_exit_code(result: Dict[str, Any]) -> int:
+    if "error" not in result:
+        return 0
+    if "pending_readbacks" in result:
+        return HbnProtocolViolation.exit_code
+    return HbnCliError.exit_code
+
+
+def _error_payload(message: str, error_code: str) -> Dict[str, Any]:
+    return {
+        "project": "HBN — Human Brain Net",
+        "protocol_version": PROTOCOL_VERSION,
+        "error": message,
+        "code": error_code,
+    }
+
+
+def _print_error(message: str, error_code: str, exit_code: int, *, indent: int = 2) -> int:
+    print(json.dumps(_error_payload(message, error_code), indent=indent, ensure_ascii=True))
+    return exit_code
+
+
+def _main() -> int:
     subcommands = {
         "run",
         "translate",
@@ -1761,7 +1788,7 @@ def main() -> int:
             result = run_handoff(args)
         else:
             result = run_result_protocol(args)
-        indent = args.indent
+        indent = getattr(args, "indent", 2)
     else:
         parser = build_parser()
         args = parser.parse_args()
@@ -1769,7 +1796,23 @@ def main() -> int:
         indent = args.indent
 
     print(json.dumps(result, indent=indent, ensure_ascii=True))
-    return 0
+    return _result_exit_code(result)
+
+
+def main() -> int:
+    try:
+        return _main()
+    except HbnCliError as exc:
+        return _print_error(str(exc), exc.error_code, exc.exit_code)
+    except ValueError as exc:
+        message = str(exc)
+        if message.startswith("HBN protocol violation:"):
+            return _print_error(
+                message,
+                HbnProtocolViolation.error_code,
+                HbnProtocolViolation.exit_code,
+            )
+        return _print_error(message, HbnCliError.error_code, HbnCliError.exit_code)
 
 
 if __name__ == "__main__":
