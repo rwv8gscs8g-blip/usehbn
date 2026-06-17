@@ -1,8 +1,8 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; selagem Esteira 0044 em andamento)"
-onda_atual: "Selagem da Esteira de Pre-Transicao (readback 0044) em andamento; duplo APROVA_0043 recebido; ajuste marginal e tracking dos pareceres pendentes nos commits C2/C3"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente)"
+onda_atual: "Esteira de Pre-Transicao SELADA e vigente em core/esteira-pre-transicao.md; readback 0044 encerrado operacionalmente; bastao retorna ao orquestrador"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
@@ -11,12 +11,12 @@ papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM; W3 ratificado por Grok, Antigravity 100 e Cursor 92 com APROVA_0036 SIM"
   gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou grande selagem 0035, hardening->deny->freeze, selagem W3, cartao de entrada e branch protection biometrica na main"
-proxima_acao: "Executar selagem 0044 em commits separados: ratificar spec accepted/remover arvore, tornar 2 pareceres tracked no REGISTRY, atualizar STATE/handoff; depois curar dossie pre-transicao + R2 arvores registry-centric."
+proxima_acao: "Curar dossie pre-transicao + R2 arvores registry-centric."
 sinais_abertos:
-  - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT ATIVO — readback 0044 safe_track, implementador=codex, autorização humana Mauricio e trailers contiguos; selagem Esteira em andamento."
-  - "🟡 SELAGEM ESTEIRA 0044 EM ANDAMENTO — duplo APROVA_0043 recebido; C2 remove `arvore: intermediaria` e vira status accepted; C3 torna pareceres tracked."
-  - "🟢 CROSS-AUDIT ESTEIRA 0043 APROVADO — antigravity/Google APROVA_0043 SIM conf 100; grok-build-0.1/xAI APROVA_0043 SIM conf 88 com marginal de arvore."
-  - "🟢 TESTES 0043 VERDES — `.venv/bin/pytest -q` fechou 213 passed in 0.77s; `bash guards/tests/adversarial-battery.sh` bloqueou B1-B33."
+  - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0044 safe_track, implementador=codex, autorização humana Mauricio e trailers contiguos; selagem encerrada com duplo APROVA_0043 + hearback."
+  - "🟢 ESTEIRA PRE-TRANSICAO SELADA E VIGENTE — `core/esteira-pre-transicao.md` esta `status: accepted` e sem front-matter `arvore:`; corpo preservado."
+  - "🟢 PARECERES ESTEIRA TRACKED — .hbn/results/20260617-102800-antigravity-cross-ia-esteira-0043.md e .hbn/results/20260617-104500-grok-build-0.1-cross-ia-esteira-0043.md versionados com linhas G-REG."
+  - "🟢 TESTES 0044 VERDES — `.venv/bin/pytest -q` fechou 213 passed in 0.76s; `bash guards/tests/adversarial-battery.sh` bloqueou B1-B33."
   - "🟢 R1-FIX-2 SELADO — readback 0041 ratificado por Grok/xAI e Antigravity/Google com APROVA_0041 SIM; ambos trouxeram prova engine-real ANTES/DEPOIS."
   - "🟢 PARECERES TRACKED — .hbn/results/20260617-085700-antigravity-cross-ia-r1-fix2.md e .hbn/results/20260617-091000-grok-build-0.1-cross-ia-r1-fix2.md versionados com linhas G-REG."
   - "🟢 TESTES SELAGEM R1-FIX-2 VERDES — `.venv/bin/pytest -q` fechou 213 passed in 0.78s; `bash guards/tests/adversarial-battery.sh` bloqueou B1-B33."
@@ -92,12 +92,12 @@ sinais_abertos:
   - "🟢 branch protection no GitHub: ruleset Active na main (require PR, restrict deletions, block force pushes); passkey Touch ID no boundary."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
 readback_ativo: ".hbn/readbacks/0044-selagem-esteira.json"
-handoff_mais_recente: ".hbn/messages/20260617-103500-codex-handoff-promove-esteira.md"
+handoff_mais_recente: ".hbn/messages/20260617-111500-codex-handoff-selagem-esteira.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "Selagem da Esteira de Pre-Transicao sob readback 0044; cross-audit 0043 aprovado por antigravity/Google e grok-build-0.1/xAI; aguardando C2/C3/C4."
-ultima_atualizacao: "2026-06-17T11:00:00-03:00"
-atualizado_por: codex-implementador-selagem-esteira
+ciclo_ativo: "Readback 0044 encerrado operacionalmente; Esteira de Pre-Transicao selada e vigente; bastao retorna ao orquestrador."
+ultima_atualizacao: "2026-06-17T11:15:00-03:00"
+atualizado_por: codex-implementador-handoff-selagem-esteira
 atribuicao:
   chapeu_atual: implementador
   implementador: codex
@@ -105,6 +105,19 @@ atribuicao:
   gravada_em: "2026-06-17T11:00:00-03:00"
   hearback_ref: "Mauricio 2026-06-17: aprova selagem da Esteira apos duplo APROVA_0043, com remocao do rotulo arvore premature e status accepted"
 ---
+
+Nota selagem Esteira / readback 0044: concluida em
+2026-06-17T11:15:00-03:00. A Esteira de Pre-Transicao fica SELADA e vigente:
+`core/esteira-pre-transicao.md` esta `status: accepted`, sem linha
+`arvore:`, e o corpo da spec foi preservado. Os dois pareceres cross-audit
+ficaram tracked e registrados no REGISTRY: antigravity/Google
+`APROVA_0043: SIM` conf 100 e grok-build-0.1/xAI `APROVA_0043: SIM` conf 88.
+Evidencia mecanica local: `.venv/bin/pytest -q` fechou `213 passed in 0.76s`;
+`bash guards/tests/adversarial-battery.sh` fechou `BATERIA VERDE`; `main`
+permaneceu em `4db692876381a0d7909985c8500d999f2e677b04`. Escopo preservado:
+`main`, `guards/**`, `schemas/**`, `src/**`, outras specs de `core/` e
+`docs/brainstorm/**` nao foram alterados. Proxima acao: curar dossie
+pre-transicao + R2 arvores registry-centric.
 
 Nota selagem Esteira / readback 0044: aberta em
 2026-06-17T11:00:00-03:00. A onda sela a promocao da Esteira de
