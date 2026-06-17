@@ -54,7 +54,7 @@ Quick reference:
 ## Stack and topology (per ADR-003)
 
 - **Runtime:** Python 3.9+ (`src/usehbn/`).
-- **Tests:** pytest (`tests/`, currently 212/212 passing).
+- **Tests:** pytest (`tests/`, currently 213/213 passing).
 - **Schemas:** custom JSON-Schema validator (`schemas/`, 7 contracts).
 - **Adapters:** 7 supported runtimes — Claude Code, Codex, ChatGPT, Gemini, Antigravity, Copilot, Cursor (`src/usehbn/runtime.py`).
 
