@@ -48,6 +48,35 @@ def _decision_record(execution_id: str, source: str) -> dict:
     }
 
 
+def _engine_decision_records(execution_id: str, source: str) -> list[dict]:
+    return [
+        {
+            "execution_id": execution_id,
+            "category": "activation",
+            "decision": "activated",
+            "stage": "triggered",
+            "reason": "Activation marker detected.",
+            "source": source,
+        },
+        {
+            "execution_id": execution_id,
+            "category": "validation",
+            "decision": "valid",
+            "truth_barrier_status": "passed",
+            "guardian_status": "passed",
+            "reason": "Truth Barrier and Guardian produced no warnings.",
+            "source": source,
+        },
+        {
+            "execution_id": execution_id,
+            "category": "consent",
+            "decision": "granted",
+            "reason": "User opted in.",
+            "source": source,
+        },
+    ]
+
+
 def _context_record(execution_id: str, source: str) -> dict:
     return {
         "traceability": {"execution_id": execution_id, "agent_id": "test-agent"},
@@ -178,19 +207,96 @@ def test_load_state_document_merges_dedup_when_both_exist():
         shared = [r for r in document["results"] if r["traceability"]["execution_id"] == "exec-shared"][0]
         assert shared["action_taken"] == "from-canonical"
 
-        for key in ["decisions", "context_history"]:
-            execution_ids = [
-                item["traceability"]["execution_id"]
-                for item in document[key]
-            ]
-            assert sorted(execution_ids) == [
-                "exec-only-canonical", "exec-only-legacy", "exec-shared"
-            ]
-            shared = [
-                item for item in document[key]
-                if item["traceability"]["execution_id"] == "exec-shared"
-            ][0]
-            assert shared["source"] == "from-canonical"
+        decision_ids = [
+            item["traceability"]["execution_id"]
+            for item in document["decisions"]
+        ]
+        assert sorted(decision_ids) == [
+            "exec-only-canonical", "exec-only-legacy", "exec-shared"
+        ]
+        shared_decision = [
+            item for item in document["decisions"]
+            if item["traceability"]["execution_id"] == "exec-shared"
+        ][0]
+        assert shared_decision["source"] == "from-canonical"
+
+        context_ids = [
+            item["traceability"]["execution_id"]
+            for item in document["context_history"]
+        ]
+        assert sorted(context_ids) == [
+            "exec-only-canonical", "exec-only-legacy",
+            "exec-shared", "exec-shared",
+        ]
+        shared_context_sources = [
+            item["source"] for item in document["context_history"]
+            if item["traceability"]["execution_id"] == "exec-shared"
+        ]
+        assert sorted(shared_context_sources) == ["from-canonical", "from-legacy"]
+
+
+def test_load_state_document_keeps_engine_decision_categories_for_same_execution():
+    """Engine writes 3 decisions with one execution_id; merge must keep all categories."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        target = Path(tmpdir)
+        execution_id = "exec-engine-real-001"
+
+        canonical_decisions = _engine_decision_records(execution_id, "from-canonical")
+        canonical_context = _context_record(execution_id, "from-canonical")
+        canonical_path = state_file_path(target)
+        canonical_path.parent.mkdir(parents=True, exist_ok=True)
+        canonical_path.write_text(
+            json.dumps(
+                {
+                    "executions": [],
+                    "decisions": canonical_decisions,
+                    "context_history": [canonical_context],
+                    "results": [],
+                }
+            ),
+            encoding="utf-8",
+        )
+
+        legacy_path = _legacy_usehbn_state_file_path(target)
+        legacy_path.parent.mkdir(parents=True, exist_ok=True)
+        legacy_path.write_text(
+            json.dumps(
+                {
+                    "executions": [],
+                    "decisions": [
+                        canonical_decisions[0],
+                        *_engine_decision_records(execution_id, "from-legacy"),
+                    ],
+                    "context_history": [
+                        canonical_context,
+                        _context_record(execution_id, "from-legacy"),
+                    ],
+                    "results": [],
+                }
+            ),
+            encoding="utf-8",
+        )
+
+        document = load_state_document(target)
+
+        merged_decisions = [
+            item for item in document["decisions"]
+            if item["execution_id"] == execution_id
+        ]
+        assert [item["category"] for item in merged_decisions] == [
+            "activation", "validation", "consent"
+        ]
+        assert [item["source"] for item in merged_decisions] == [
+            "from-canonical", "from-canonical", "from-canonical"
+        ]
+
+        merged_context = [
+            item for item in document["context_history"]
+            if item["traceability"]["execution_id"] == execution_id
+        ]
+        assert [item["source"] for item in merged_context] == [
+            "from-canonical", "from-legacy"
+        ]
 
 
 def test_load_state_document_dedups_idless_items_by_content():
