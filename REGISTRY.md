@@ -938,3 +938,5 @@ compartilham `execution_id` no merge canonico+legado, preservando
 | id | artefato (path) | tipo | temperatura | superseded_by | created_at |
 |---|---|---|---|---|---|
 | 20260617-090000-codex-readback-r1-fix2-dedup-decisions | .hbn/readbacks/0041-r1-fix2-dedup-decisions.json | readback | quente | — | 2026-06-17T09:00:00-03:00 |
+| 20260617-093000-codex-state-r1-fix2-dedup-decisions | .hbn/relay/STATE.md | state | quente | — | 2026-06-17T09:30:00-03:00 |
+| 20260617-093000-codex-handoff-r1-fix2 | .hbn/messages/20260617-093000-codex-handoff-r1-fix2.md | handoff | quente | — | 2026-06-17T09:30:00-03:00 |
