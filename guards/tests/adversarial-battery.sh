@@ -631,6 +631,29 @@ write_auditor_id_result "$d" "cursor" "b37-familia-incoerente" "SOU: cursor · f
 try_burla "B37 apelido/familia incoerentes" "G-AUD-ID" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-auditor-id.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
+# B38 — mislabel de arvore: artefato nasce estavel sem evento append-only de
+# promocao rastreavel.
+d="$(mk_repo)"
+(
+  cd "$d"
+  mkdir -p .hbn/relay docs
+  cat > .hbn/relay/STATE.md <<'EOF'
+---
+proxima_acao: "testar B38"
+---
+EOF
+  cat > REGISTRY.md <<'EOF'
+| id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
+|---|---|---|---|---|---|---|
+EOF
+  git add .hbn/relay/STATE.md REGISTRY.md
+  git commit -qm init
+  echo "| 20260101-01 | docs/b38-mislabel.md | doc | quente | estavel | — | 2026-01-01T09:00:00-03:00 |" >> REGISTRY.md
+  git add REGISTRY.md
+) >/dev/null 2>&1
+try_burla "B38 arvore estavel sem promocao" "G-ARVORE" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-arvore-label.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------
 echo ""
 printf '%-52s | %-8s | %s\n' "BURLA" "GUARD" "RESULTADO"

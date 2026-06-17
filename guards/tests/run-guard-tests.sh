@@ -93,6 +93,9 @@
 #   G-AUDITOR-ID (readback 0047): +5 checks (1 pass, 4 block) para SOU
 #   canonico, familia fora do mapa, apelido divergente e familia incoerente.
 #   Total: 183.
+#   R2 arvores (readback 0049): +4 checks G-ARVORE-LABEL (1 pass, 3 block)
+#   para fronteira valida, arvore invalida, estavel sem promocao e
+#   estavel nao-quente. Total: 187.
 # =============================================================================
 set -uo pipefail
 
@@ -705,6 +708,75 @@ d="$(make_repo)"
     git add -A
 ) >/dev/null 2>&1
 check "num: linha de 7 colunas com arvore+created_at passa no G-REG" pass "$(run_reg "$d")"
+rm -rf "$d"
+
+# --- G-ARVORE-LABEL: anti-mislabel registry-centric --------------------------
+echo "== assert-arvore-label (G-ARVORE-LABEL) =="
+make_arvore_repo() {
+    local d; d="$(mktemp -d)"
+    (
+        cd "$d"
+        git init -q
+        git config user.email "tests@hbn.local"
+        git config user.name "hbn-guard-tests"
+        mkdir -p .hbn/relay .hbn/readbacks docs
+        echo "." > .hbn/active-version
+        cat > .hbn/relay/STATE.md <<'EOF'
+---
+proxima_acao: "testar arvores"
+---
+EOF
+        cat > .hbn/readbacks/0001-selado.json <<'EOF'
+{"readback_id":"0001-selado","track":"safe_track","human_status":"confirmed","hearback_status":"confirmed","path":".hbn/readbacks/0001-selado.json"}
+EOF
+        cat > REGISTRY.md <<'EOF'
+| id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
+|---|---|---|---|---|---|---|
+EOF
+        git add -A
+        git commit -qm "init"
+    ) >/dev/null 2>&1
+    echo "$d"
+}
+run_arvore() {
+    ( cd "$1" && bash "$GUARDS_DIR/assert-arvore-label.sh" >/dev/null 2>&1 )
+    echo $?
+}
+
+d="$(make_arvore_repo)"
+(
+    cd "$d"
+    echo "| 20260101-01 | docs/fronteira.md | doc | frio | fronteira | — | 2026-01-01T09:00:00-03:00 |" >> REGISTRY.md
+    git add REGISTRY.md
+) >/dev/null 2>&1
+check "arvore: linha fronteira valida passa" pass "$(run_arvore "$d")"
+rm -rf "$d"
+
+d="$(make_arvore_repo)"
+(
+    cd "$d"
+    echo "| 20260101-02 | docs/experimental.md | doc | frio | experimental | — | 2026-01-01T09:00:00-03:00 |" >> REGISTRY.md
+    git add REGISTRY.md
+) >/dev/null 2>&1
+check "arvore: valor invalido bloqueia" block "$(run_arvore "$d")"
+rm -rf "$d"
+
+d="$(make_arvore_repo)"
+(
+    cd "$d"
+    echo "| 20260101-03 | docs/nasce-estavel.md | doc | quente | estavel | — | 2026-01-01T09:00:00-03:00 |" >> REGISTRY.md
+    git add REGISTRY.md
+) >/dev/null 2>&1
+check "arvore: nascer estavel sem promocao bloqueia" block "$(run_arvore "$d")"
+rm -rf "$d"
+
+d="$(make_arvore_repo)"
+(
+    cd "$d"
+    echo "| 20260101-04 | docs/fria-estavel.md | arvore-promocao | frio | estavel | .hbn/readbacks/0001-selado.json | 2026-01-01T09:00:00-03:00 |" >> REGISTRY.md
+    git add REGISTRY.md
+) >/dev/null 2>&1
+check "arvore: estavel nao-quente bloqueia" block "$(run_arvore "$d")"
 rm -rf "$d"
 
 # --- G-PTR: assert-pointer-honest (ADR-024 D3 / pointer-spec §3) --------------
