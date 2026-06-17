@@ -39,6 +39,23 @@ def _result_record(execution_id: str) -> dict:
     }
 
 
+def _decision_record(execution_id: str, source: str) -> dict:
+    return {
+        "traceability": {"execution_id": execution_id, "agent_id": "test-agent"},
+        "category": "activation",
+        "decision": "allow",
+        "source": source,
+    }
+
+
+def _context_record(execution_id: str, source: str) -> dict:
+    return {
+        "traceability": {"execution_id": execution_id, "agent_id": "test-agent"},
+        "objective": "test objective",
+        "source": source,
+    }
+
+
 def test_state_file_path_now_canonical_in_hbn_state_subdir():
     """Canonical write path is `.hbn/state/hbn-state.json` from R1 onward."""
     with tempfile.TemporaryDirectory() as tmpdir:
@@ -107,7 +124,7 @@ def test_load_state_document_falls_back_to_state_dir_when_only_state_exists():
 
 
 def test_load_state_document_merges_dedup_when_both_exist():
-    """If canonical and legacy exist, results dedup by execution_id (canonical wins)."""
+    """If canonical and legacy exist, state arrays dedup by execution_id."""
     with tempfile.TemporaryDirectory() as tmpdir:
         target = Path(tmpdir)
 
@@ -115,8 +132,14 @@ def test_load_state_document_merges_dedup_when_both_exist():
         legacy_path.parent.mkdir(parents=True, exist_ok=True)
         legacy_doc = {
             "executions": [],
-            "decisions": [],
-            "context_history": [],
+            "decisions": [
+                _decision_record("exec-shared", "from-legacy"),
+                _decision_record("exec-only-legacy", "from-legacy"),
+            ],
+            "context_history": [
+                _context_record("exec-shared", "from-legacy"),
+                _context_record("exec-only-legacy", "from-legacy"),
+            ],
             "results": [
                 _result_record("exec-shared"),
                 _result_record("exec-only-legacy"),
@@ -130,8 +153,14 @@ def test_load_state_document_merges_dedup_when_both_exist():
         canonical_path.parent.mkdir(parents=True, exist_ok=True)
         canonical_doc = {
             "executions": [],
-            "decisions": [],
-            "context_history": [],
+            "decisions": [
+                _decision_record("exec-shared", "from-canonical"),
+                _decision_record("exec-only-canonical", "from-canonical"),
+            ],
+            "context_history": [
+                _context_record("exec-shared", "from-canonical"),
+                _context_record("exec-only-canonical", "from-canonical"),
+            ],
             "results": [
                 {**_result_record("exec-shared"), "action_taken": "from-canonical"},
                 _result_record("exec-only-canonical"),
@@ -148,6 +177,81 @@ def test_load_state_document_merges_dedup_when_both_exist():
         # Canonical wins for the shared id.
         shared = [r for r in document["results"] if r["traceability"]["execution_id"] == "exec-shared"][0]
         assert shared["action_taken"] == "from-canonical"
+
+        for key in ["decisions", "context_history"]:
+            execution_ids = [
+                item["traceability"]["execution_id"]
+                for item in document[key]
+            ]
+            assert sorted(execution_ids) == [
+                "exec-only-canonical", "exec-only-legacy", "exec-shared"
+            ]
+            shared = [
+                item for item in document[key]
+                if item["traceability"]["execution_id"] == "exec-shared"
+            ][0]
+            assert shared["source"] == "from-canonical"
+
+
+def test_load_state_document_dedups_idless_items_by_content():
+    """Records without execution_id dedup by deterministic content."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        target = Path(tmpdir)
+        shared_decision = {
+            "category": "operator-note",
+            "decision": "preserve-context",
+            "reason": ["same", "content"],
+        }
+        shared_context = {
+            "objective": "recover context",
+            "notes": ["same", "content"],
+        }
+
+        legacy_path = _legacy_usehbn_state_file_path(target)
+        legacy_path.parent.mkdir(parents=True, exist_ok=True)
+        legacy_path.write_text(
+            json.dumps(
+                {
+                    "executions": [],
+                    "decisions": [
+                        shared_decision,
+                        {"category": "legacy-only", "decision": "keep"},
+                    ],
+                    "context_history": [
+                        shared_context,
+                        {"objective": "legacy-only"},
+                    ],
+                    "results": [],
+                }
+            ),
+            encoding="utf-8",
+        )
+
+        canonical_path = state_file_path(target)
+        canonical_path.parent.mkdir(parents=True, exist_ok=True)
+        canonical_path.write_text(
+            json.dumps(
+                {
+                    "executions": [],
+                    "decisions": [
+                        shared_decision,
+                        {"category": "canonical-only", "decision": "keep"},
+                    ],
+                    "context_history": [
+                        shared_context,
+                        {"objective": "canonical-only"},
+                    ],
+                    "results": [],
+                }
+            ),
+            encoding="utf-8",
+        )
+
+        document = load_state_document(target)
+        assert document["decisions"].count(shared_decision) == 1
+        assert document["context_history"].count(shared_context) == 1
+        assert len(document["decisions"]) == 3
+        assert len(document["context_history"]) == 3
 
 
 def test_append_result_state_writes_only_to_canonical_dir():
