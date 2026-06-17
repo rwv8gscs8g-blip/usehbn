@@ -1,7 +1,7 @@
 ---
 titulo: "Arvores registry-centric"
 tipo: spec-core
-status: proposed
+status: accepted
 temperatura: quente
 path: core/arvores-spec.md
 id-global: 20260617-184100-codex-arvores-spec-core
