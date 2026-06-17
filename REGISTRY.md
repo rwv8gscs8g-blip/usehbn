@@ -926,3 +926,5 @@ registry-centric.
 | 20260617-060212-cursor-cross-ia-r1-mais-fix | .hbn/results/20260617-060212-cursor-cross-ia-r1-mais-fix.md | audit-result; autor=cursor-gpt52; familia=OpenAI; veredito=APROVA_R1:SIM; onda=R1+R1-fix | frio | — | 2026-06-17T06:02:12-03:00 |
 | 20260617-072143-antigravity-cross-ia-r1-mais-fix | .hbn/results/20260617-072143-antigravity-cross-ia-r1-mais-fix.md | audit-result; autor=antigravity; familia=Google; veredito=APROVA_R1:SIM; onda=R1+R1-fix | frio | — | 2026-06-17T07:21:43-03:00 |
 | 20260617-072901-grok-cross-ia-r1-mais-fix | .hbn/results/20260617-072901-grok-cross-ia-r1-mais-fix.md | audit-result; autor=grok; familia=xAI; veredito=APROVA_R1:SIM; onda=R1+R1-fix | frio | — | 2026-06-17T07:29:01-03:00 |
+| 20260617-081500-codex-state-selagem-r1 | .hbn/relay/STATE.md | state | quente | — | 2026-06-17T08:15:00-03:00 |
+| 20260617-081500-codex-handoff-selagem-r1 | .hbn/messages/20260617-081500-codex-handoff-selagem-r1.md | handoff | quente | — | 2026-06-17T08:15:00-03:00 |
