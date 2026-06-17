@@ -1003,3 +1003,5 @@ canonico em `docs/GLOSSARY.md` e reduz a copia superseded
 | 20260617-113000-codex-state-curadoria-p0-abertura | .hbn/relay/STATE.md | state | quente | — | 2026-06-17T11:30:00-03:00 |
 | 20260617-113100-codex-glossario-canonico | docs/GLOSSARY.md | doc | quente | — | 2026-06-17T11:31:00-03:00 |
 | 20260617-113200-codex-maturity-matrix-redirect | docs/MATURITY-MATRIX.md | doc-redirect | frio | methodology/MATURITY-MATRIX.md | 2026-06-17T11:32:00-03:00 |
+| 20260617-113500-codex-state-handoff-curadoria-p0 | .hbn/relay/STATE.md | state | quente | — | 2026-06-17T11:35:00-03:00 |
+| 20260617-113500-codex-handoff-curadoria-p0 | .hbn/messages/20260617-113500-codex-handoff-curadoria-p0.md | handoff | quente | — | 2026-06-17T11:35:00-03:00 |
