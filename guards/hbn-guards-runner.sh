@@ -60,6 +60,7 @@ GUARDS=(
     "assert-dispatch-integrity.sh"
     "assert-self-path.sh"
     "assert-registry-line.sh"
+    "assert-auditor-id.sh"
     "assert-parallel-id.sh"
     "assert-pointer-honest.sh"
     "assert-knowledge-index.sh"

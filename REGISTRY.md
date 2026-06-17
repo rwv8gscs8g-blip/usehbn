@@ -1034,3 +1034,4 @@ contagem de diversidade fica para fast-follow.
 |---|---|---|---|---|---|
 | 20260617-133000-codex-readback-g-auditor-id | .hbn/readbacks/0047-g-auditor-id.json | readback | quente | — | 2026-06-17T13:30:00-03:00 |
 | 20260617-152822-codex-state-g-auditor-id-abertura | .hbn/relay/STATE.md | state | quente | — | 2026-06-17T15:28:22-03:00 |
+| 20260617-153000-codex-guard-auditor-id | guards/assert-auditor-id.sh | guard | quente | — | 2026-06-17T15:30:00-03:00 |
