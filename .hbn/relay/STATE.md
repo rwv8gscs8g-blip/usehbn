@@ -2,7 +2,7 @@
 state_version: 1
 projeto: usehbn (canônico)
 protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente; R2 arvores registry-centric em execucao)"
-onda_atual: "R2 arvores registry-centric em execucao; readback 0049 ativo"
+onda_atual: "R2 arvores registry-centric entregue operacionalmente; readback 0049 aguarda cross-audit/hearback/selagem"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
@@ -11,8 +11,10 @@ papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM; W3 ratificado por Grok, Antigravity 100 e Cursor 92 com APROVA_0036 SIM"
   gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou grande selagem 0035, hardening->deny->freeze, selagem W3, cartao de entrada e branch protection biometrica na main"
-proxima_acao: "Implementar R2 arvores registry-centric: spec curta, REGISTRY 7-col going-forward, G-REG column-aware, G-NUM column-aware e G-ARVORE-LABEL; depois cross-audit ≠-OpenAI + hearback + selagem."
+proxima_acao: "cross-audit ≠-OpenAI + hearback + selagem do R2; depois curadoria dos 4 batch1-fronteira; depois R3/freeze."
 sinais_abertos:
+  - "🟢 R2 ARVORES ENTREGUE — spec registry-centric criada, REGISTRY 7-col going-forward, G-REG/G-NUM column-aware e G-ARVORE-LABEL ativo no runner."
+  - "🟢 TESTES R2 VERDES — runner verde; run-guard-tests 187/187; adversarial-battery B1-B38 bloqueada; pytest 213 passed."
   - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0049 safe_track, implementador=codex, autorização humana Mauricio e trailers contiguos; R2 arvores registry-centric em execucao."
   - "🟢 G-AUDITOR-ID SELADO E VIGENTE — readback 0047 ratificado por antigravity/Google APROVA_0047 SIM conf 100 e grok/xAI APROVA_0047 SIM conf 95; auto-ID do auditor agora esta enforcada no runner."
   - "🟢 PARECERES G-AUDITOR-ID TRACKED — .hbn/results/20260617-160500-antigravity-cross-ia-g-auditor-id-0047.md e .hbn/results/20260617-160546-grok-cross-ia-g-auditor-id-0047.md versionados com linhas G-REG; o proprio G-AUDITOR-ID aprovou os dois no C2."
@@ -106,19 +108,35 @@ sinais_abertos:
   - "🟢 branch protection no GitHub: ruleset Active na main (require PR, restrict deletions, block force pushes); passkey Touch ID no boundary."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
 readback_ativo: ".hbn/readbacks/0049-arvores-registry-centric.json"
-handoff_mais_recente: ".hbn/messages/20260617-161730-codex-handoff-selagem-g-auditor-id.md"
+handoff_mais_recente: ".hbn/messages/20260617-184500-codex-handoff-arvores.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "Readback 0049 ativo; R2 arvores registry-centric em execucao por codex sob safe_track."
-ultima_atualizacao: "2026-06-17T18:40:00-03:00"
-atualizado_por: codex-implementador-r2-arvores-abertura
+ciclo_ativo: "Readback 0049 entregue operacionalmente; bastao volta ao orquestrador para cross-audit/hearback/selagem."
+ultima_atualizacao: "2026-06-17T18:45:00-03:00"
+atualizado_por: codex-implementador-r2-arvores-handoff
 atribuicao:
-  chapeu_atual: implementador
+  chapeu_atual: orquestrador
   implementador: codex
   auditores: []
-  gravada_em: "2026-06-17T18:40:00-03:00"
+  gravada_em: "2026-06-17T18:45:00-03:00"
   hearback_ref: "Mauricio 2026-06-17: 'quero exaurir o R2 (arvores) com urgencia' + aprovacao do aditamento de escopo (+assert-parallel-id.sh)"
 ---
+
+Nota R2 arvores registry-centric / readback 0049: entregue operacionalmente em
+2026-06-17T18:45:00-03:00. Entregas: `core/arvores-spec.md` registry-centric
+sem front-matter `arvore:`, bloco REGISTRY going-forward com 7 colunas,
+`guards/assert-registry-line.sh` column-aware e exigindo `arvore` valida para
+nascimento novo, `guards/assert-parallel-id.sh` lendo `created_at` como ultima
+coluna em blocos 6-col e 7-col, e `guards/assert-arvore-label.sh` ativo no
+runner contra mislabel intermediaria/estavel e contra `estavel` nao-quente.
+Evidencia mecanica local: runner verde; `bash guards/tests/run-guard-tests.sh`
+fechou `187 passaram, 0 falharam`; `bash guards/tests/adversarial-battery.sh`
+fechou `BATERIA VERDE` com B38 bloqueada; `.venv/bin/pytest -q` fechou
+`213 passed`. Fora de escopo preservado: `main`, `src/**`, `methodology/**`,
+`schemas/**`, outras specs de `core/**`, `docs/brainstorm/**`, selagem dos 4
+batch1-fronteira, extensao G-REG para M geral, Camada 2 do G-AUDITOR-ID e
+exuvia. Proxima acao: cross-audit ≠-OpenAI + hearback + selagem do R2; depois
+curadoria dos 4 batch1-fronteira; depois R3/freeze.
 
 Nota R2 arvores registry-centric / readback 0049: aberta em
 2026-06-17T18:40:00-03:00. A onda implementa o mecanismo registry-centric de

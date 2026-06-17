@@ -1075,3 +1075,5 @@ bloco, linhas going-forward usam 7 colunas na ordem fixa:
 | 20260617-184301-codex-runner-arvore-label | guards/hbn-guards-runner.sh | guard-runner | quente | fronteira | — | 2026-06-17T18:43:01-03:00 |
 | 20260617-184400-codex-guard-tests-arvore-label | guards/tests/run-guard-tests.sh | guard-test | quente | fronteira | — | 2026-06-17T18:44:00-03:00 |
 | 20260617-184401-codex-adversarial-b38-arvore-label | guards/tests/adversarial-battery.sh | guard-test | quente | fronteira | — | 2026-06-17T18:44:01-03:00 |
+| 20260617-184501-codex-state-r2-arvores-handoff | .hbn/relay/STATE.md | state | quente | fronteira | — | 2026-06-17T18:45:01-03:00 |
+| 20260617-184500-codex-handoff-arvores | .hbn/messages/20260617-184500-codex-handoff-arvores.md | handoff | quente | fronteira | — | 2026-06-17T18:45:00-03:00 |
