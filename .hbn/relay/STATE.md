@@ -1,8 +1,8 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente; R2 arvores registry-centric entregue; Selagem R2 arvores em andamento)"
-onda_atual: "Selagem R2 arvores em andamento; readback 0050 aberto para ratificar core/arvores-spec.md e selar 2 pareceres APROVA_0049"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente; R2 arvores selada e vigente)"
+onda_atual: "R2 arvores registry-centric SELADA e vigente; readback 0050 encerrado operacionalmente"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
@@ -11,10 +11,11 @@ papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM; W3 ratificado por Grok, Antigravity 100 e Cursor 92 com APROVA_0036 SIM"
   gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou grande selagem 0035, hardening->deny->freeze, selagem W3, cartao de entrada e branch protection biometrica na main"
-proxima_acao: "C2 ratificar core/arvores-spec.md status accepted; C3 selar os 2 pareceres APROVA_0049 com REGISTRY 7-col; C4 STATE/handoff."
+proxima_acao: "promocao demonstrativa dos artefatos R2 para intermediaria OU curadoria dos 4 batch1 OU R3 — decisao do orquestrador."
 sinais_abertos:
-  - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0050 safe_track de selagem, implementador=codex, autorização humana Mauricio e trailers contiguos; permanece proposto ate handoff da selagem."
-  - "🟡 SELAGEM R2 ARVORES EM ANDAMENTO — readback 0049 ratificado por grok/xAI APROVA_0049 SIM conf 93 e antigravity/Google APROVA_0049 SIM conf 100, ambos verificados no disco com SOU canonico."
+  - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0050 safe_track, implementador=codex, autorização humana Mauricio e trailers contiguos; selagem encerrada com duplo APROVA_0049 + hearback."
+  - "🟢 R2 ARVORES SELADA E VIGENTE — core/arvores-spec.md status accepted; pareceres grok/xAI e antigravity/Google tracked com REGISTRY 7-col arvore=fronteira; promocao para intermediaria fica para onda propria."
+  - "🟢 TESTES SELAGEM R2 VERDES — runner verde; run-guard-tests 187/187; adversarial-battery B1-B38 bloqueada; pytest 213 passed."
   - "🟢 R2 ARVORES ENTREGUE — spec registry-centric criada, REGISTRY 7-col going-forward, G-REG/G-NUM column-aware e G-ARVORE-LABEL ativo no runner."
   - "🟢 TESTES R2 VERDES — runner verde; run-guard-tests 187/187; adversarial-battery B1-B38 bloqueada; pytest 213 passed."
   - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0049 safe_track, implementador=codex, autorização humana Mauricio e trailers contiguos; R2 arvores registry-centric em execucao."
@@ -110,19 +111,38 @@ sinais_abertos:
   - "🟢 branch protection no GitHub: ruleset Active na main (require PR, restrict deletions, block force pushes); passkey Touch ID no boundary."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
 readback_ativo: ".hbn/readbacks/0050-selagem-arvores.json"
-handoff_mais_recente: ".hbn/messages/20260617-184500-codex-handoff-arvores.md"
+handoff_mais_recente: ".hbn/messages/20260617-193300-codex-handoff-selagem-arvores.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "Readback 0050 aberto para selagem da R2 arvores; C2 deve ratificar a spec como accepted."
-ultima_atualizacao: "2026-06-17T19:30:00-03:00"
-atualizado_por: codex-implementador-selagem-arvores-abertura
+ciclo_ativo: "Readback 0050 concluido operacionalmente; R2 arvores selada e vigente; bastao volta ao orquestrador."
+ultima_atualizacao: "2026-06-17T19:33:00-03:00"
+atualizado_por: codex-implementador-selagem-arvores-handoff
 atribuicao:
-  chapeu_atual: implementador
+  chapeu_atual: orquestrador
   implementador: codex
   auditores: [grok, antigravity]
-  gravada_em: "2026-06-17T19:30:00-03:00"
+  gravada_em: "2026-06-17T19:33:00-03:00"
   hearback_ref: "Mauricio 2026-06-17: hearback aprovando a selagem da R2 apos 2 pareceres ≠-OpenAI com SOU canonico"
 ---
+
+Nota selagem R2 arvores / readback 0050: concluida em
+2026-06-17T19:33:00-03:00. R2 arvores registry-centric fica SELADA e vigente:
+o readback 0049 foi ratificado por dois pareceres cross-audit de familias
+distintas de OpenAI, grok/xAI `APROVA_0049: SIM` conf 93 e
+antigravity/Google `APROVA_0049: SIM` conf 100, ambos verificados no disco com
+SOU canonico. `core/arvores-spec.md` foi ratificada com `status: accepted`,
+sem mexer no corpo nem na linha original de arvore do REGISTRY. Os dois
+pareceres foram versionados em `.hbn/results/` e registrados no REGISTRY com
+7 colunas e `arvore=fronteira`; o proprio G-AUDITOR-ID aprovou os dois no C3.
+Evidencia mecanica: runner verde antes de cada commit; `bash
+guards/tests/run-guard-tests.sh` fechou `187 passaram, 0 falharam`; `bash
+guards/tests/adversarial-battery.sh` fechou `BATERIA VERDE` com B1-B38
+bloqueadas; `.venv/bin/pytest -q` fechou `213 passed`; `main` permanece em
+`4db692876381a0d7909985c8500d999f2e677b04`. Fora de escopo preservado:
+`main`, `guards/**`, `src/**`, `methodology/**`, `schemas/**`, outras specs
+de `core/**` e `docs/brainstorm/**`. Proxima acao: promocao demonstrativa dos
+artefatos R2 para intermediaria OU curadoria dos 4 batch1 OU R3 — decisao do
+orquestrador.
 
 Nota selagem R2 arvores / readback 0050: aberta em
 2026-06-17T19:30:00-03:00. A onda sela R2 arvores registry-centric (readback

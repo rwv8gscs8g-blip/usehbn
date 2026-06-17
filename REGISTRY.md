@@ -1092,3 +1092,4 @@ onda propria.
 | 20260617-193000-codex-readback-selagem-arvores | .hbn/readbacks/0050-selagem-arvores.json | readback | quente | fronteira | — | 2026-06-17T19:30:00-03:00 |
 | 20260617-192141-grok-cross-ia-arvores-0049 | .hbn/results/20260617-192141-grok-cross-ia-arvores-0049.md | audit-result; autor=grok; familia=xAI; veredito=APROVA_0049:SIM; onda=arvores-0049 | frio | fronteira | — | 2026-06-17T19:21:41-03:00 |
 | 20260617-192729-antigravity-cross-ia-arvores-0049 | .hbn/results/20260617-192729-antigravity-cross-ia-arvores-0049.md | audit-result; autor=antigravity; familia=Google; veredito=APROVA_0049:SIM; onda=arvores-0049 | frio | fronteira | — | 2026-06-17T19:27:29-03:00 |
+| 20260617-193300-codex-handoff-selagem-arvores | .hbn/messages/20260617-193300-codex-handoff-selagem-arvores.md | handoff | quente | fronteira | — | 2026-06-17T19:33:00-03:00 |
