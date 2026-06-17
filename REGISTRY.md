@@ -928,3 +928,13 @@ registry-centric.
 | 20260617-072901-grok-cross-ia-r1-mais-fix | .hbn/results/20260617-072901-grok-cross-ia-r1-mais-fix.md | audit-result; autor=grok; familia=xAI; veredito=APROVA_R1:SIM; onda=R1+R1-fix | frio | — | 2026-06-17T07:29:01-03:00 |
 | 20260617-081500-codex-state-selagem-r1 | .hbn/relay/STATE.md | state | quente | — | 2026-06-17T08:15:00-03:00 |
 | 20260617-081500-codex-handoff-selagem-r1 | .hbn/messages/20260617-081500-codex-handoff-selagem-r1.md | handoff | quente | — | 2026-06-17T08:15:00-03:00 |
+
+## R1-fix-2 (2026-06-17) — dedup decisions/context_history engine-real — status: in_progress, readback 0041
+
+R1-fix-2 corrige a perda de `decisions` e `context_history` distintos que
+compartilham `execution_id` no merge canonico+legado, preservando
+`executions`/`results` deduplicados por execucao.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260617-090000-codex-readback-r1-fix2-dedup-decisions | .hbn/readbacks/0041-r1-fix2-dedup-decisions.json | readback | quente | — | 2026-06-17T09:00:00-03:00 |

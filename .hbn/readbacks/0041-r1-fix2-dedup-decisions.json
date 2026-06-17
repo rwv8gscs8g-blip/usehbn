@@ -1,0 +1,66 @@
+{
+  "readback_id": "0041-r1-fix2-dedup-decisions",
+  "execution_id": "r1-fix2-dedup-decisions-2026-06-17",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0041-r1-fix2-dedup-decisions.json",
+  "understanding": "Corrigir bloqueador de runtime achado na analise profunda pos-selagem R1-fix: store.py deduplica decisions/context_history por execution_id, mas engine.py:101-125 grava 3 decisions com o mesmo execution_id (activation/validation/consent); no merge canonico+legado as 3 colapsam em 1, perdendo validation e consent. Corrigir a identidade de dedup para (execution_id, category) e/ou conteudo integral, mantendo executions/results por execution_id (canonico vence). Adicionar teste engine-real (3 decisions/execucao) que falha sem o fix e passa com. Sincronizar a contagem real de testes nos docs no mesmo commit para nao repetir a deriva H2. Definir implementador=codex e 🔴 G-EXC PROPOSED no STATE desde C1 para o guard ficar ativo durante os commits de codigo. Sem tocar main, engine, guards, core, schemas, cli, runtime, brainstorm.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio em 2026-06-17: apos analise profunda multi-subagente que provou a perda de decisions no merge, autorizar R1-fix-2 antes da R2/freeze.",
+    "created_at": "2026-06-17T09:00:00-03:00",
+    "note": "Autorizacao humana para safe_track. Nao autoriza tocar main, merge, --no-verify, git add ., guards, core, schemas, engine, cli, runtime, brainstorm, habilitar D-ORQ-WRITE."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0041-r1-fix2-dedup-decisions.json",
+      "src/usehbn/state/store.py",
+      "tests/test_state_dual_read.py",
+      "AGENTS.md",
+      "README.md",
+      "methodology/MATURITY-MATRIX.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/messages/20260617-HHMMSS-codex-handoff-r1-fix2.md"
+    ],
+    "files_forbidden": ["main","src/usehbn/execution/engine.py","src/usehbn/cli.py","src/usehbn/runtime.py","guards/**","core/**","schemas/**","docs/brainstorm/**"]
+  },
+  "action_plan": [
+    "C1: abrir readback 0041 + STATE(impl=codex, 🔴 PROPOSED).",
+    "C2: identidade de dedup por (execution_id, category) para decisions/context_history.",
+    "C3: teste engine-real de nao-perda.",
+    "C4: sincronizar contagem real nos docs.",
+    "C5: STATE + handoff."
+  ],
+  "invariants_to_preserve": [
+    "Nao mudar contrato externo do CLI.",
+    "Nao tocar main, engine, guards, core, schemas, cli, runtime, brainstorm.",
+    "executions/results continuam dedup por execution_id (canonico vence).",
+    "decisions/context_history: registros distintos com mesmo execution_id sobrevivem.",
+    "Nao usar git add .; somente paths exatos.",
+    "implementador=codex e 🔴 G-EXC PROPOSED no STATE desde C1; trailers CONTIGUOS.",
+    "Antes de cada commit: runner verde; adversarial B1-B33 sem regressao.",
+    "Contagem nos 3 docs == saida real do pytest.",
+    "Trailers: HBN-Readback: 0041, HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin), HBN-Token-FP: 34a7f2f9."
+  ],
+  "out_of_scope": [
+    "arvores/R2; G-EXC implementador=null hardening (R3); freeze.",
+    "Habilitar D-ORQ-WRITE."
+  ],
+  "read_evidence": [
+    "src/usehbn/execution/engine.py:101-125 (3 decisions, mesmo execution_id)",
+    "src/usehbn/state/store.py (_record_identity por execution_id; _merged_with_dedup colapsa)",
+    "tests/test_state_dual_read.py (fixture 1 decision/id mascara o bug)"
+  ],
+  "mechanical_evidence": [
+    "Reproducao: load_state_document(.hbn 3 decisions mesmo id + .usehbn legado) -> decisions=1 (so activation)",
+    "git rev-parse HEAD -> 2396e38 (tip selagem R1)",
+    "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04"
+  ],
+  "created_at": "2026-06-17T09:00:00-03:00",
+  "protocol_version": "0.3.0"
+}

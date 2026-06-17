@@ -1,8 +1,8 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados)"
-onda_atual: "Selagem R1+R1-fix concluida: pareceres R1 tracked, docs 212/212 sincronizados, bastao devolvido ao orquestrador"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 em andamento)"
+onda_atual: "R1-fix-2 em andamento: corrigir perda de decisions/context_history engine-real no merge canonico+legado"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
@@ -11,8 +11,10 @@ papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM; W3 ratificado por Grok, Antigravity 100 e Cursor 92 com APROVA_0036 SIM"
   gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou grande selagem 0035, hardening->deny->freeze, selagem W3, cartao de entrada e branch protection biometrica na main"
-proxima_acao: "R2 arvores registry-centric (G-REG M + anti-mislabel)."
+proxima_acao: "R1-fix-2 C2: corrigir identidade de dedup por (execution_id, category) para decisions/context_history."
 sinais_abertos:
+  - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT ATIVO — readback 0041 safe_track, implementador=codex, autorização humana Mauricio e trailers contiguos obrigatorios desde C1."
+  - "🟡 R1-FIX-2 EM ANDAMENTO — corrigir perda de decisions/context_history com mesmo execution_id no merge canonico+legado; depois teste engine-real, docs, handoff e cross-audit nao-OpenAI."
   - "🟢 R1+R1-FIX SELADO — readbacks 0038 e 0039 ratificados por Antigravity/Google, Grok/xAI e Cursor/OpenAI; cinco pareceres versionados na selagem 0040."
   - "🟢 TESTES 212/212 VERDES — `.venv/bin/pytest -q` fechou 212 passed in 0.75s; AGENTS, README e MATURITY-MATRIX sincronizados."
   - "🟢 ADVERSARIAL B1-B33 VERDE — guards/tests/adversarial-battery.sh bloqueou todas as burlas documentadas."
@@ -78,20 +80,29 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟢 branch protection no GitHub: ruleset Active na main (require PR, restrict deletions, block force pushes); passkey Touch ID no boundary."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0040-selagem-r1.json"
+readback_ativo: ".hbn/readbacks/0041-r1-fix2-dedup-decisions.json"
 handoff_mais_recente: ".hbn/messages/20260617-081500-codex-handoff-selagem-r1.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "Selagem R1+R1-fix encerrada; bastao volta ao orquestrador para R2 arvores registry-centric (G-REG M + anti-mislabel)."
-ultima_atualizacao: "2026-06-17T08:15:00-03:00"
-atualizado_por: codex-implementador-selagem-r1
+ciclo_ativo: "R1-fix-2 ativo sob readback 0041; safe_track autorizado para corrigir dedup decisions/context_history antes de R2."
+ultima_atualizacao: "2026-06-17T09:00:00-03:00"
+atualizado_por: codex-implementador-r1-fix2
 atribuicao:
   chapeu_atual: implementador
   implementador: codex
   auditores: [cursor, grok, antigravity]
-  gravada_em: "2026-06-17T08:15:00-03:00"
+  gravada_em: "2026-06-17T09:00:00-03:00"
   hearback_ref: null
 ---
+
+Nota R1-fix-2 / readback 0041: aberta em 2026-06-17. A onda corrige o
+bloqueador provado apos a selagem R1-fix: o engine grava tres decisions por
+execucao (`activation`, `validation`, `consent`) com o mesmo `execution_id`,
+mas o merge canonico+legado deduplicava `decisions` e `context_history` apenas
+por `execution_id`, descartando registros distintos. Excecao G-EXC fica
+proposta e visivel desde C1 porque implementador=codex coincide com o agente
+do readback 0041 autorizado por Maurício. Proxima acao: C2 corrigir a
+identidade de dedup, mantendo `executions`/`results` por `execution_id`.
 
 Nota selagem R1+R1-fix / readback 0040: concluida em 2026-06-17. A onda
 selou os cinco pareceres de cross-audit R1/R1-fix em `.hbn/results/`,
