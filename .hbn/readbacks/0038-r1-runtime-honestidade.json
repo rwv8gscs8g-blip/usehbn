@@ -1,0 +1,72 @@
+{
+  "readback_id": "0038-r1-runtime-honestidade",
+  "execution_id": "r1-runtime-honestidade-2026-06-16",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0038-r1-runtime-honestidade.json",
+  "understanding": "Onda R1: tornar o runtime Python honesto e correto antes do freeze/Ponte, sem mudar o contrato externo do CLI, sem tocar a constituicao, sem promover Fronteira. R1.1 golden tests dos 17 subcomandos (rede de seguranca). R1.2 exit codes honestos (!=0 em erro/violacao). R1.3 unificar diretorio de estado (.hbn canonico, migracao tolerante). R1.4 honestidade (contagem real de testes alinhada nos docs; autoevolve declarado como scaffold/parcial; ponteiro AGENTS.md:17; L4 do README). Base validada por cross-audit de 3 familias (CONSOLIDACAO-batch1). Sem tocar guards/core/schemas/brainstorm.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio em 2026-06-16: aceita a sequencia R1 -> R2(arvores fundida) -> freeze; corrigir runtime+honestidade antes do freeze, conforme convergencia das 3 familias auditoras.",
+    "created_at": "2026-06-16T23:40:00-03:00",
+    "note": "Autorizacao humana para safe_track de R1 (runtime). Nao autoriza tocar main, merge, --no-verify, git add ., guards, core, schemas, commitar brainstorm, mudar contrato do CLI, habilitar D-ORQ-WRITE."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0038-r1-runtime-honestidade.json",
+      "src/usehbn/cli.py",
+      "src/usehbn/utils/config.py",
+      "src/usehbn/runtime.py",
+      "src/usehbn/state/store.py",
+      "src/usehbn/protocol/result.py",
+      "tests/**",
+      "methodology/MATURITY-MATRIX.md",
+      "AGENTS.md",
+      "README.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/messages/20260616-HHMMSS-codex-handoff-r1.md"
+    ],
+    "files_forbidden": ["main","core/**","guards/**","schemas/**","docs/brainstorm/**"]
+  },
+  "action_plan": [
+    "C1: abrir readback 0038.",
+    "C2: R1.1 golden tests dos 17 subcomandos.",
+    "C3: R1.2 exit codes honestos.",
+    "C4: R1.3 unificar diretorio de estado.",
+    "C5: R1.4 honestidade (docs + autoevolve).",
+    "C6: STATE + handoff com placar de evidencias."
+  ],
+  "invariants_to_preserve": [
+    "Nao mudar contrato externo do CLI (golden tests provam).",
+    "Nao tocar main, guards, core, schemas, constituicao, brainstorm.",
+    "Nao usar git add .; somente paths exatos.",
+    "Handoff dentro do files_allowed.",
+    "Antes de cada commit: runner verde; adversarial B1-B33 sem regressao.",
+    "Trailers CONTIGUOS: HBN-Readback: 0038, HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin), HBN-Token-FP: 34a7f2f9."
+  ],
+  "out_of_scope": [
+    "G-REG diff-filter M e anti-mislabel arvore (R2).",
+    "Etiquetagem arvore registry-centric (R2).",
+    "HBN-Spec-Source / G-PROV / G-FDACK (R3); assinatura cripto; emenda P13/CRISPR/exuvia/esteiras (ADR proprio).",
+    "Habilitar D-ORQ-WRITE."
+  ],
+  "read_evidence": [
+    "docs/brainstorm/rodada-2026-06-16/B1-code-review-cli-runtime.md (achados de runtime)",
+    "docs/brainstorm/rodada-2026-06-16/B2-honestidade-maturity-matrix.md (honestidade)",
+    "docs/brainstorm/rodada-2026-06-16/CONSOLIDACAO-batch1-cross-audit.md (3 familias)",
+    "guards/assert-registry-line.sh:70 (diff-filter=AR; M nao re-paga — confirmado pelo orquestrador, fica para R2)"
+  ],
+  "mechanical_evidence": [
+    "pwd -> /Users/macbookpro/Projetos/usehbn",
+    "git rev-parse HEAD -> da75a2b (tip selagem W3)",
+    "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04",
+    "readback ativo atual = 0037"
+  ],
+  "created_at": "2026-06-16T23:40:00-03:00",
+  "protocol_version": "0.3.0"
+}

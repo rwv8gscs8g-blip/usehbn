@@ -885,3 +885,13 @@ para arvores registry-centric.
 | 20260616-220000-opus-4-8-cartao-entrada-universal-ia | .hbn/messages/20260616-220000-opus-4-8-cartao-entrada-universal-ia.md | proposta | quente | core/cartao-entrada.md | 2026-06-16T22:00:00-03:00 |
 | 20260616-230100-codex-state-selagem-w3 | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T23:01:00-03:00 |
 | 20260616-230100-codex-handoff-selagem-w3 | .hbn/messages/20260616-230100-codex-handoff-selagem-w3.md | handoff | quente | — | 2026-06-16T23:01:00-03:00 |
+
+## R1 (2026-06-16) — runtime + honestidade — status: in_progress, readback 0038
+
+R1 corrige runtime Python e honestidade documental antes do freeze/Ponte:
+golden tests dos subcomandos, exit codes honestos, diretorio de estado canonico
+`.hbn/`, classificacao honesta do autoevolve e handoff final ao orquestrador.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260616-234000-codex-readback-r1-runtime-honestidade | .hbn/readbacks/0038-r1-runtime-honestidade.json | readback | quente | — | 2026-06-16T23:40:00-03:00 |
