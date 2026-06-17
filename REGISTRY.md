@@ -883,3 +883,5 @@ para arvores registry-centric.
 | 20260616-225300-antigravity-cross-ia-w3-deny-zona-livre | .hbn/results/20260616-225300-antigravity-cross-ia-w3-deny-zona-livre.md | audit-result | frio | — | 2026-06-16T22:53:00-03:00 |
 | 20260616-225600-cursor-cross-ia-w3-deny-zona-livre | .hbn/results/20260616-225600-cursor-cross-ia-w3-deny-zona-livre.md | audit-result | frio | — | 2026-06-16T22:56:00-03:00 |
 | 20260616-220000-opus-4-8-cartao-entrada-universal-ia | .hbn/messages/20260616-220000-opus-4-8-cartao-entrada-universal-ia.md | proposta | quente | core/cartao-entrada.md | 2026-06-16T22:00:00-03:00 |
+| 20260616-230100-codex-state-selagem-w3 | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T23:01:00-03:00 |
+| 20260616-230100-codex-handoff-selagem-w3 | .hbn/messages/20260616-230100-codex-handoff-selagem-w3.md | handoff | quente | — | 2026-06-16T23:01:00-03:00 |

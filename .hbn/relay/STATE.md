@@ -1,28 +1,33 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ativo)"
-onda_atual: "W3 deny-by-default ENTREGUE: G-ZONA-LIVRE bloqueante no runner; zona livre curada por readback ativo"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado)"
+onda_atual: "Selagem W3 concluida: G-ZONA-LIVRE ratificado, branch protection biometrica armada, cartao de entrada universal depositado"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
 modo_educacional: "intermediário"
 papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
-  auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM"
-  gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou a grande selagem 0035, registro das licoes 0024/0025 e sequencia hardening->deny->freeze"
-proxima_acao: "Cross-audit W3; depois arvores registry-centric."
+  auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM; W3 ratificado por Grok, Antigravity 100 e Cursor 92 com APROVA_0036 SIM"
+  gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou grande selagem 0035, hardening->deny->freeze, selagem W3, cartao de entrada e branch protection biometrica na main"
+proxima_acao: "Arvores registry-centric (coluna arvore no REGISTRY), depois freeze + tag v1-estavel."
 sinais_abertos:
+  - "🟢 W3 RATIFICADO E SELADO — readback 0036 ratificado por Grok, Antigravity 100 e Cursor 92 com APROVA_0036: SIM; G-ZONA-LIVRE ativo; deny-by-default da zona livre por construcao."
+  - "🟢 BRANCH PROTECTION BIOMETRICA ARMADA — main com ruleset Active: require PR, restrict deletions, block force pushes; passkey Touch ID como gate do boundary."
+  - "🟢 CARTAO DE ENTRADA UNIVERSAL DEPOSITADO — .hbn/messages/20260616-220000-opus-4-8-cartao-entrada-universal-ia.md versionado como candidato a core/cartao-entrada.md."
+  - "🟡 DIVIDA RASTREADA — marcador zona_livre_curada auto-declarado; hardening futuro: banir docs/brainstorm/** de todo files_allowed exceto onda de curadoria dedicada."
+  - "🟡 PRÓXIMA AÇÃO — arvores registry-centric (coluna arvore no REGISTRY), depois freeze + tag v1-estavel."
   - "🟢 W3 ENTREGUE — G-ZONA-LIVRE ativo no runner; docs/brainstorm/** exige zona_livre_curada: true + zona_livre_nota nao-vazio no readback ativo."
   - "🟢 TESTES W3 VERDES — run-guard-tests fechou 178/178; adversarial-battery bloqueou B1-B33, incluindo B33 docs/brainstorm sem curadoria."
-  - "🟡 PRÓXIMA AÇÃO — cross-audit W3; depois arvores registry-centric."
+  - "🟢 CROSS-AUDIT W3 CONCLUIDO — quatro pareceres depositados: Grok 20:36, Grok 21:08, Antigravity 100 e Cursor 92."
   - "🟢 GRANDE SELAGEM 0035 CONCLUIDA — readback 0035, knowledge 0024/0025, proposta arvores+MVP, oito pareceres cross-audit, STATE e handoff selados."
   - "🟢 P-CAND-04 RATIFICADO E SELADO — Cursor registrou APROVA_0033: SIM; Grok registrou APROVA_0033: NAO, resolvido pelo W2 fail-closed de G-SCRATCH."
   - "🟢 W2 RATIFICADO E SELADO — Grok+Antigravity registraram APROVA_0034: SIM; cinco bypasses fechados: G-KNOW token-match/anti-ponteiro-morto, G-FRONTDOOR bytes/contagem/existencia, G-EXC ultimo-paragrafo, G-SCRATCH fail-closed, comentario G-REG."
   - "🟢 COMMIT-POLLUTION REMOVIDA — cfe9c33 (fixture --no-verify de auditor) foi removido por reset humano para 635e01b antes desta selagem."
   - "🟢 KNOWLEDGE 0024/0025 INDEXADAS — zona livre exige aprovacao humana explicita; auditor cruzado e read-only e nao usa --no-verify na branch de trabalho."
   - "🟡 PLANO MVP — arvores registry-centric leve; sequencia hardening->deny->freeze; W3 = deny-by-default (G-ZONA-LIVRE) sobre base endurecida."
-  - "🟡 GATES HUMANOS — branch protection biometrico pendente; futuro registro de chave para G-HRB."
+  - "🟢 GATE DO BOUNDARY ARMADO — branch protection biometrico ativo na main; futura chave G-HRB continua pendente."
   - "🟢 W2 SELADO — hardening dos guards concluido e ratificado: G-KNOW-INDEX token inteiro + anti-ponteiro-morto; G-FRONTDOOR teto bytes + read-list robusta + existencia; G-EXC trailers no ultimo paragrafo; G-SCRATCH fail-closed sem active-version; comentario G-REG corrigido."
   - "🟢 TESTES W2 VERDES — run-guard-tests fechou 175/175; adversarial-battery bloqueou B1-B32, incluindo B29, B30, B31 e B32."
   - "🟢 P-CAND-04 SELADO — area temporaria /scratch/ foi ratificada e selada junto com W2 na grande selagem 0035."
@@ -61,22 +66,34 @@ sinais_abertos:
   - "🟡 D-ORQ-WRITE NÃO HABILITADA — doutrina no replay; escrita do orquestrador e G-ACTOR-WRITE-MATRIX seguem para rito futuro."
   - "🟡 G-HRB assinatura PENDENTE DE CHAVE — Maurício gera/registra .hbn/operators/<nome>.pub para ativar ssh-keygen -Y verify."
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
-  - "🟡 branch protection no GitHub (hbn-shield obrigatório no push) = ação humana pendente."
+  - "🟢 branch protection no GitHub: ruleset Active na main (require PR, restrict deletions, block force pushes); passkey Touch ID no boundary."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0036-deny-zona-livre.json"
-handoff_mais_recente: ".hbn/messages/20260616-213600-codex-handoff-w3-deny-zona-livre.md"
+readback_ativo: ".hbn/readbacks/0037-selagem-w3.json"
+handoff_mais_recente: ".hbn/messages/20260616-230100-codex-handoff-selagem-w3.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "W3 deny-by-default entregue; bastao volta ao orquestrador para cross-audit W3 e depois arvores registry-centric."
-ultima_atualizacao: "2026-06-16T21:36:00-03:00"
-atualizado_por: codex-implementador-w3-deny-zona-livre
+ciclo_ativo: "Selagem W3 concluida; bastao volta ao orquestrador para arvores registry-centric, depois freeze + tag v1-estavel."
+ultima_atualizacao: "2026-06-16T23:01:00-03:00"
+atualizado_por: codex-implementador-selagem-w3
 atribuicao:
   chapeu_atual: orquestrador
   implementador: null
   auditores: [cursor, grok, antigravity]
-  gravada_em: "2026-06-16T21:36:00-03:00"
+  gravada_em: "2026-06-16T23:01:00-03:00"
   hearback_ref: null
 ---
+
+Nota selagem W3 / readback 0037: concluida em 2026-06-16. W3 (readback
+0036) fica RATIFICADO e SELADO: Grok, Antigravity 100 e Cursor 92 registraram
+`APROVA_0036: SIM` nos quatro pareceres depositados. `G-ZONA-LIVRE` segue
+ativo no runner e o deny-by-default da zona livre fica selado por construcao.
+A branch protection biometrica da main esta armada (ruleset Active: require PR,
+restrict deletions, block force pushes; passkey Touch ID). O cartao de entrada
+universal foi depositado como candidato a `core/cartao-entrada.md`. Divida
+rastreada: o marcador `zona_livre_curada` ainda e auto-declarado; hardening
+futuro deve banir `docs/brainstorm/**` de todo `files_allowed`, exceto onda de
+curadoria dedicada. Proxima acao: arvores registry-centric (coluna `arvore` no
+REGISTRY), depois freeze + tag `v1-estavel`.
 
 Nota W3 / readback 0036: entregue em 2026-06-16. `guards/assert-zona-livre.sh`
 entrou bloqueante no runner como G-ZONA-LIVRE: qualquer path staged sob
