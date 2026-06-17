@@ -969,3 +969,5 @@ promove a proposta para `core/esteira-pre-transicao.md` como spec-core
 |---|---|---|---|---|---|
 | 20260617-103000-codex-readback-promove-esteira-pre-transicao | .hbn/readbacks/0043-promove-esteira-pre-transicao.json | readback | quente | — | 2026-06-17T10:30:00-03:00 |
 | 20260617-103000-codex-esteira-pre-transicao-core | core/esteira-pre-transicao.md | spec-core | quente | — | 2026-06-17T10:30:00-03:00 |
+| 20260617-103500-codex-state-promove-esteira | .hbn/relay/STATE.md | state | quente | — | 2026-06-17T10:35:00-03:00 |
+| 20260617-103500-codex-handoff-promove-esteira | .hbn/messages/20260617-103500-codex-handoff-promove-esteira.md | handoff | quente | — | 2026-06-17T10:35:00-03:00 |

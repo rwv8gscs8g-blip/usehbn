@@ -1,8 +1,8 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao aberta)"
-onda_atual: "Promocao da Esteira de Pre-Transicao em andamento: readback 0043 aberto para criar core/esteira-pre-transicao.md como spec-core proposed"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core)"
+onda_atual: "Esteira de Pre-Transicao promovida para core/esteira-pre-transicao.md em status proposed; aguardando cross-audit ≠-familia antes de selagem"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
@@ -11,11 +11,11 @@ papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM; W3 ratificado por Grok, Antigravity 100 e Cursor 92 com APROVA_0036 SIM"
   gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou grande selagem 0035, hardening->deny->freeze, selagem W3, cartao de entrada e branch protection biometrica na main"
-proxima_acao: "Criar core/esteira-pre-transicao.md com REGISTRY; depois STATE/handoff; em seguida cross-audit ≠-familia da spec, selagem, curadoria do dossie e R2."
+proxima_acao: "Cross-audit ≠-familia da spec core/esteira-pre-transicao.md; depois selar 0043; depois curar o dossie de pre-transicao e seguir R2 arvores registry-centric."
 sinais_abertos:
-  - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT ATIVO — readback 0043 safe_track, implementador=codex, autorização humana Mauricio e trailers contiguos; Esteira de Pre-Transicao em promocao para core."
-  - "🟡 ESTEIRA PRE-TRANSICAO EM PROMOCAO — criar core/esteira-pre-transicao.md como spec-core proposed; nao tocar freeze-gate/schema, guards, src, outras specs de core ou brainstorm."
-  - "🟡 PROXIMA ACAO 0043 — criar a spec verbatim + REGISTRY, depois STATE/handoff; na sequencia, cross-audit ≠-familia antes de selar como regra."
+  - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT ATIVO — readback 0043 safe_track, implementador=codex, autorização humana Mauricio e trailers contiguos; spec promoted proposed aguardando cross-audit ≠-familia."
+  - "🟡 ESTEIRA PRE-TRANSICAO AGUARDANDO CROSS-AUDIT — core/esteira-pre-transicao.md criado como spec-core proposed; nao virou lei selada ate auditoria ≠-familia + selagem."
+  - "🟢 TESTES 0043 VERDES — `.venv/bin/pytest -q` fechou 213 passed in 0.77s; `bash guards/tests/adversarial-battery.sh` bloqueou B1-B33."
   - "🟢 R1-FIX-2 SELADO — readback 0041 ratificado por Grok/xAI e Antigravity/Google com APROVA_0041 SIM; ambos trouxeram prova engine-real ANTES/DEPOIS."
   - "🟢 PARECERES TRACKED — .hbn/results/20260617-085700-antigravity-cross-ia-r1-fix2.md e .hbn/results/20260617-091000-grok-build-0.1-cross-ia-r1-fix2.md versionados com linhas G-REG."
   - "🟢 TESTES SELAGEM R1-FIX-2 VERDES — `.venv/bin/pytest -q` fechou 213 passed in 0.78s; `bash guards/tests/adversarial-battery.sh` bloqueou B1-B33."
@@ -91,19 +91,29 @@ sinais_abertos:
   - "🟢 branch protection no GitHub: ruleset Active na main (require PR, restrict deletions, block force pushes); passkey Touch ID no boundary."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
 readback_ativo: ".hbn/readbacks/0043-promove-esteira-pre-transicao.json"
-handoff_mais_recente: ".hbn/messages/20260617-100500-codex-handoff-selagem-r1-fix2.md"
+handoff_mais_recente: ".hbn/messages/20260617-103500-codex-handoff-promove-esteira.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "Promocao da Esteira de Pre-Transicao aberta sob readback 0043; C1 depositou readback/STATE/REGISTRY e a spec core ainda sera criada no C2."
-ultima_atualizacao: "2026-06-17T10:30:00-03:00"
+ciclo_ativo: "Esteira de Pre-Transicao promovida para core sob readback 0043; spec esta proposed e aguardando cross-audit ≠-familia antes de selagem."
+ultima_atualizacao: "2026-06-17T10:35:00-03:00"
 atualizado_por: codex-implementador-promove-esteira
 atribuicao:
   chapeu_atual: implementador
   implementador: codex
   auditores: [cursor, grok, antigravity]
-  gravada_em: "2026-06-17T10:30:00-03:00"
+  gravada_em: "2026-06-17T10:35:00-03:00"
   hearback_ref: "Mauricio 2026-06-17: ficou muito boa a esteira de transicao; vamos fortalece-la e deixar como regra"
 ---
+
+Nota promocao Esteira de Pre-Transicao / readback 0043: concluida
+operacionalmente em 2026-06-17T10:35:00-03:00. A spec
+`core/esteira-pre-transicao.md` foi criada em status `proposed` com o conteudo
+aprovado por Maurício, registrada no REGISTRY como `spec-core`, e nao altera
+freeze-gate, schemas, guards, src, outras specs de core ou
+`docs/brainstorm/**`. Evidencia local: `.venv/bin/pytest -q` fechou
+`213 passed in 0.77s`; `bash guards/tests/adversarial-battery.sh` fechou
+`BATERIA VERDE`. A proxima acao obrigatoria e cross-audit ≠-familia da spec;
+so depois vem selagem 0043, curadoria do dossie de pre-transicao e R2.
 
 Nota Esteira de Pre-Transicao / readback 0043: aberta em
 2026-06-17T10:30:00-03:00. A onda promove a proposta de esteira para
