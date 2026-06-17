@@ -62,9 +62,9 @@ def _read_json_or_empty(path: Path) -> Dict[str, Any]:
 def load_state_document(base_dir: Optional[Path] = None) -> Dict[str, Any]:
     """Load canonical `.hbn/state/` plus read-only legacy state files.
 
-    If multiple files exist, merge `results` and `executions` deduplicating by
-    execution id and preferring canonical `.hbn/state/`, then `.usehbn/`, then
-    legacy `state/`. Other arrays are concatenated in the same precedence order.
+    If multiple files exist, merge arrays deduplicating by execution identity
+    when present, otherwise by deterministic item content, and preferring
+    canonical `.hbn/state/`, then `.usehbn/`, then legacy `state/`.
     """
     paths = [
         state_file_path(base_dir),
@@ -83,26 +83,39 @@ def load_state_document(base_dir: Optional[Path] = None) -> Dict[str, Any]:
     def _record_execution_id(item: Any) -> Optional[str]:
         if not isinstance(item, dict):
             return None
-        traceability_id = item.get("traceability", {}).get("execution_id")
+        traceability = item.get("traceability")
+        traceability_id = (
+            traceability.get("execution_id")
+            if isinstance(traceability, dict)
+            else None
+        )
         return traceability_id or item.get("execution_id")
 
+    def _record_identity(item: Any) -> tuple[str, str]:
+        exec_id = _record_execution_id(item)
+        if exec_id is not None:
+            return ("execution_id", str(exec_id))
+        return (
+            "content",
+            json.dumps(item, sort_keys=True, separators=(",", ":"), ensure_ascii=False),
+        )
+
     def _merged_with_dedup(key: str) -> list:
-        seen_ids = set()
+        seen_identities = set()
         out = []
         for document in documents:
             for item in document[key]:
-                exec_id = _record_execution_id(item)
-                if exec_id is not None:
-                    if exec_id in seen_ids:
-                        continue
-                    seen_ids.add(exec_id)
+                identity = _record_identity(item)
+                if identity in seen_identities:
+                    continue
+                seen_identities.add(identity)
                 out.append(item)
         return out
 
     return {
         "executions": _merged_with_dedup("executions"),
-        "decisions": [item for document in documents for item in document["decisions"]],
-        "context_history": [item for document in documents for item in document["context_history"]],
+        "decisions": _merged_with_dedup("decisions"),
+        "context_history": _merged_with_dedup("context_history"),
         "results": _merged_with_dedup("results"),
     }
 
