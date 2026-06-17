@@ -1038,3 +1038,16 @@ contagem de diversidade fica para fast-follow.
 | 20260617-153913-codex-knowledge-0026-auto-id-auditor | .hbn/knowledge/0026-auto-id-auditor-gate-enforcado.md | knowledge | quente | — | 2026-06-17T15:39:13-03:00 |
 | 20260617-154109-codex-state-g-auditor-id-handoff | .hbn/relay/STATE.md | state | quente | — | 2026-06-17T15:41:09-03:00 |
 | 20260617-154109-codex-handoff-g-auditor-id | .hbn/messages/20260617-154109-codex-handoff-g-auditor-id.md | handoff | quente | — | 2026-06-17T15:41:09-03:00 |
+
+## Selagem G-AUDITOR-ID (2026-06-17) — duplo APROVA_0047 — status: in_progress, readback 0048
+
+O G-AUDITOR-ID (readback 0047) foi ratificado por dois pareceres cross-audit
+de familias distintas de OpenAI: Antigravity/Google registrou
+`APROVA_0047: SIM` com confiança 100/100 e Grok/xAI registrou
+`APROVA_0047: SIM` com confiança 95/100. Esta selagem torna tracked os
+pareceres e valida os dois pelo proprio G-AUDITOR-ID.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260617-140000-codex-readback-selagem-g-auditor-id | .hbn/readbacks/0048-selagem-g-auditor-id.json | readback | quente | — | 2026-06-17T14:00:00-03:00 |
+| 20260617-161200-codex-state-selagem-g-auditor-id-abertura | .hbn/relay/STATE.md | state | quente | — | 2026-06-17T16:12:00-03:00 |
