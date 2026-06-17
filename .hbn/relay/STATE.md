@@ -1,8 +1,8 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida)"
-onda_atual: "Selagem R1-fix-2 selada: readback 0041 ratificado por Grok/xAI e Antigravity/Google com APROVA_0041 SIM; readback 0042 encerrado operacionalmente"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao aberta)"
+onda_atual: "Promocao da Esteira de Pre-Transicao em andamento: readback 0043 aberto para criar core/esteira-pre-transicao.md como spec-core proposed"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
@@ -11,9 +11,11 @@ papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM; W3 ratificado por Grok, Antigravity 100 e Cursor 92 com APROVA_0036 SIM"
   gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou grande selagem 0035, hardening->deny->freeze, selagem W3, cartao de entrada e branch protection biometrica na main"
-proxima_acao: "Promover Esteira de Pre-Transicao para core; curar o dossie docs/brainstorm/rodada-2026-06-17/; depois R2 arvores registry-centric (G-REG M + anti-mislabel)."
+proxima_acao: "Criar core/esteira-pre-transicao.md com REGISTRY; depois STATE/handoff; em seguida cross-audit ≠-familia da spec, selagem, curadoria do dossie e R2."
 sinais_abertos:
-  - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT ATIVO — readback 0042 safe_track, implementador=codex, autorização humana Mauricio e trailers contiguos; selagem R1-fix-2 concluida e excecao mantida visivel."
+  - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT ATIVO — readback 0043 safe_track, implementador=codex, autorização humana Mauricio e trailers contiguos; Esteira de Pre-Transicao em promocao para core."
+  - "🟡 ESTEIRA PRE-TRANSICAO EM PROMOCAO — criar core/esteira-pre-transicao.md como spec-core proposed; nao tocar freeze-gate/schema, guards, src, outras specs de core ou brainstorm."
+  - "🟡 PROXIMA ACAO 0043 — criar a spec verbatim + REGISTRY, depois STATE/handoff; na sequencia, cross-audit ≠-familia antes de selar como regra."
   - "🟢 R1-FIX-2 SELADO — readback 0041 ratificado por Grok/xAI e Antigravity/Google com APROVA_0041 SIM; ambos trouxeram prova engine-real ANTES/DEPOIS."
   - "🟢 PARECERES TRACKED — .hbn/results/20260617-085700-antigravity-cross-ia-r1-fix2.md e .hbn/results/20260617-091000-grok-build-0.1-cross-ia-r1-fix2.md versionados com linhas G-REG."
   - "🟢 TESTES SELAGEM R1-FIX-2 VERDES — `.venv/bin/pytest -q` fechou 213 passed in 0.78s; `bash guards/tests/adversarial-battery.sh` bloqueou B1-B33."
@@ -88,20 +90,31 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟢 branch protection no GitHub: ruleset Active na main (require PR, restrict deletions, block force pushes); passkey Touch ID no boundary."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0042-selagem-r1-fix2.json"
+readback_ativo: ".hbn/readbacks/0043-promove-esteira-pre-transicao.json"
 handoff_mais_recente: ".hbn/messages/20260617-100500-codex-handoff-selagem-r1-fix2.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "Selagem R1-fix-2 encerrada operacionalmente sob readback 0042; bastao volta ao orquestrador para Esteira de Pre-Transicao, curadoria do dossie e R2 arvores."
-ultima_atualizacao: "2026-06-17T10:05:00-03:00"
-atualizado_por: codex-implementador-selagem-r1-fix2
+ciclo_ativo: "Promocao da Esteira de Pre-Transicao aberta sob readback 0043; C1 depositou readback/STATE/REGISTRY e a spec core ainda sera criada no C2."
+ultima_atualizacao: "2026-06-17T10:30:00-03:00"
+atualizado_por: codex-implementador-promove-esteira
 atribuicao:
   chapeu_atual: implementador
   implementador: codex
   auditores: [cursor, grok, antigravity]
-  gravada_em: "2026-06-17T10:05:00-03:00"
-  hearback_ref: "Mauricio 2026-06-17: aprovou selagem R1-fix-2 apos duplo APROVA_0041"
+  gravada_em: "2026-06-17T10:30:00-03:00"
+  hearback_ref: "Mauricio 2026-06-17: ficou muito boa a esteira de transicao; vamos fortalece-la e deixar como regra"
 ---
+
+Nota Esteira de Pre-Transicao / readback 0043: aberta em
+2026-06-17T10:30:00-03:00. A onda promove a proposta de esteira para
+`core/esteira-pre-transicao.md` como `spec-core` em status `proposed`, sem
+alterar freeze-gate, schema, guards, src, outras specs de core ou
+`docs/brainstorm/**`. O escopo autorizado fica restrito a readback 0043,
+`core/esteira-pre-transicao.md`, REGISTRY, STATE e handoff. Excecao G-EXC segue
+proposta e visivel porque implementador=codex coincide com o agente do
+readback 0043 autorizado por Maurício. Proxima acao: criar a spec verbatim e
+registrar no REGISTRY; depois atualizar STATE/handoff e devolver o bastao para
+cross-audit ≠-familia.
 
 Nota selagem R1-fix-2 / readback 0042: concluida em
 2026-06-17T10:05:00-03:00. A micro-onda selou R1-fix-2 (readback 0041) apos

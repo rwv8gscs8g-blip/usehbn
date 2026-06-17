@@ -957,3 +957,14 @@ R2 arvores registry-centric.
 | 20260617-091000-grok-build-0.1-cross-ia-r1-fix2 | .hbn/results/20260617-091000-grok-build-0.1-cross-ia-r1-fix2.md | audit-result; autor=grok-build-0.1; familia=xAI; veredito=APROVA_0041:SIM; onda=r1-fix2 | frio | — | 2026-06-17T09:10:00-03:00 |
 | 20260617-100500-codex-state-selagem-r1-fix2 | .hbn/relay/STATE.md | state | quente | — | 2026-06-17T10:05:00-03:00 |
 | 20260617-100500-codex-handoff-selagem-r1-fix2 | .hbn/messages/20260617-100500-codex-handoff-selagem-r1-fix2.md | handoff | quente | — | 2026-06-17T10:05:00-03:00 |
+
+## Esteira de Pre-Transicao (2026-06-17) — promocao para core — status: in_progress, readback 0043
+
+A Esteira de Pre-Transicao formaliza ondas read-only de subagentes tematicos
+antes do freeze e da exuvia, com regras vinculantes R-PT1..R-PT5. Esta onda
+promove a proposta para `core/esteira-pre-transicao.md` como spec-core
+`proposed`, aguardando cross-audit ≠-familia antes de selagem.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260617-103000-codex-readback-promove-esteira-pre-transicao | .hbn/readbacks/0043-promove-esteira-pre-transicao.json | readback | quente | — | 2026-06-17T10:30:00-03:00 |

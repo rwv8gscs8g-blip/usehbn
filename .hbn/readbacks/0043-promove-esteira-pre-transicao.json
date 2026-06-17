@@ -1,0 +1,55 @@
+{
+  "readback_id": "0043-promove-esteira-pre-transicao",
+  "execution_id": "promove-esteira-pre-transicao-2026-06-17",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0043-promove-esteira-pre-transicao.json",
+  "understanding": "Promover a Esteira de Pre-Transicao (ondas de subagentes tematicos read-only antes do freeze e da exuvia, com regras vinculantes R-PT1..R-PT5) de fronteira para core/esteira-pre-transicao.md, conforme aprovacao do Mauricio. Apenas CRIAR a spec + registrar no REGISTRY + STATE/handoff. NAO mudar freeze-gate/schema (onda futura). Sem tocar main, guards, schemas, src, outras specs de core, brainstorm. A spec entra como proposta-aguardando-cross-audit (≠-familia) antes de virar lei selada.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio em 2026-06-17: 'ficou muito boa a esteira de transicao. Vamos fortalece-la e deixa como regra a ser seguida.'",
+    "created_at": "2026-06-17T10:30:00-03:00",
+    "note": "Autorizacao humana para safe_track. Nao autoriza tocar main, merge, --no-verify, git add ., guards, schemas, src, freeze-gate, brainstorm, habilitar D-ORQ-WRITE."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0043-promove-esteira-pre-transicao.json",
+      "core/esteira-pre-transicao.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/messages/20260617-HHMMSS-codex-handoff-promove-esteira.md"
+    ],
+    "files_forbidden": ["main","guards/**","schemas/**","src/**","docs/brainstorm/**"]
+  },
+  "action_plan": [
+    "C1: abrir readback 0043 + STATE(impl=codex, 🔴).",
+    "C2: criar core/esteira-pre-transicao.md + REGISTRY.",
+    "C3: STATE + handoff."
+  ],
+  "invariants_to_preserve": [
+    "Nao tocar main, guards, schemas, src, outras specs de core, brainstorm.",
+    "Nao mudar freeze-gate nem freeze-checklist.schema (onda futura).",
+    "Nao usar git add .; somente paths exatos.",
+    "implementador=codex e 🔴 G-EXC PROPOSED no STATE desde C1; trailers CONTIGUOS.",
+    "Antes de cada commit: runner verde; adversarial B1-B33 sem regressao.",
+    "Trailers: HBN-Readback: 0043, HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin), HBN-Token-FP: 34a7f2f9."
+  ],
+  "out_of_scope": [
+    "Mudanca no freeze-gate/schema (onda de implementacao futura).",
+    "Curadoria do dossie; arvores/R2; freeze.",
+    "Habilitar D-ORQ-WRITE."
+  ],
+  "read_evidence": [
+    "docs/brainstorm/rodada-2026-06-17/analise-pre-transicao/06-esteira-pre-transicao-proposta.md (proposta-fonte)"
+  ],
+  "mechanical_evidence": [
+    "git rev-parse HEAD -> d7eca55 (tip selagem r1-fix2)",
+    "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04"
+  ],
+  "created_at": "2026-06-17T10:30:00-03:00",
+  "protocol_version": "0.3.0"
+}
