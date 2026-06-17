@@ -953,3 +953,5 @@ R2 arvores registry-centric.
 | id | artefato (path) | tipo | temperatura | superseded_by | created_at |
 |---|---|---|---|---|---|
 | 20260617-100000-codex-readback-selagem-r1-fix2 | .hbn/readbacks/0042-selagem-r1-fix2.json | readback | quente | — | 2026-06-17T10:00:00-03:00 |
+| 20260617-085700-antigravity-cross-ia-r1-fix2 | .hbn/results/20260617-085700-antigravity-cross-ia-r1-fix2.md | audit-result; autor=antigravity; familia=Google; veredito=APROVA_0041:SIM; onda=r1-fix2 | frio | — | 2026-06-17T08:57:00-03:00 |
+| 20260617-091000-grok-build-0.1-cross-ia-r1-fix2 | .hbn/results/20260617-091000-grok-build-0.1-cross-ia-r1-fix2.md | audit-result; autor=grok-build-0.1; familia=xAI; veredito=APROVA_0041:SIM; onda=r1-fix2 | frio | — | 2026-06-17T09:10:00-03:00 |
