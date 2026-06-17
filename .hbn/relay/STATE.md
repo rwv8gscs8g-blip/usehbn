@@ -1,8 +1,8 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue)"
-onda_atual: "R1-fix-2 entregue: decisions/context_history engine-real preservados no merge canonico+legado; docs 213/213 sincronizados"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 aberta)"
+onda_atual: "Selagem R1-fix-2 em andamento: readback 0041 ratificado por Grok/xAI e Antigravity/Google com APROVA_0041 SIM"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
@@ -11,13 +11,16 @@ papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM; W3 ratificado por Grok, Antigravity 100 e Cursor 92 com APROVA_0036 SIM"
   gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou grande selagem 0035, hardening->deny->freeze, selagem W3, cartao de entrada e branch protection biometrica na main"
-proxima_acao: "Cross-audit nao-OpenAI de R1-fix-2 + hearback + selagem; depois R2 arvores registry-centric (G-REG M + anti-mislabel)."
+proxima_acao: "Selar os 2 pareceres cross-audit de R1-fix-2 no REGISTRY, atualizar STATE/handoff e devolver bastao ao orquestrador."
 sinais_abertos:
+  - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT ATIVO — readback 0042 safe_track, implementador=codex, autorização humana Mauricio e trailers contiguos; selagem R1-fix-2 em curso."
+  - "🟡 SELAGEM R1-FIX-2 EM ANDAMENTO — readback 0041 ratificado por Grok/xAI e Antigravity/Google; tornar tracked os dois pareceres e registrar placar."
+  - "🟢 CROSS-AUDIT R1-FIX-2 APROVADO — Grok/xAI APROVA_0041 SIM conf 95; Antigravity/Google APROVA_0041 SIM conf 100; ambos com prova engine-real ANTES/DEPOIS."
   - "🟢 R1-FIX-2 ENTREGUE — store.py preserva decisions/context_history distintos que compartilham execution_id; teste engine-real cobre activation/validation/consent."
   - "🟢 TESTES R1-FIX-2 VERDES — `.venv/bin/pytest -q` fechou 213 passed in 0.74s; AGENTS, README e MATURITY-MATRIX sincronizados."
   - "🟢 ADVERSARIAL B1-B33 VERDE — guards/tests/adversarial-battery.sh bloqueou todas as burlas documentadas."
-  - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT ATIVO — readback 0041 safe_track, implementador=codex, autorização humana Mauricio e trailers contiguos; pendente cross-audit nao-OpenAI."
-  - "🟡 PRÓXIMA AÇÃO — cross-audit nao-OpenAI de R1-fix-2 + hearback + selagem; depois R2 arvores registry-centric."
+  - "🟢 G-EXC 0041 COBERTO POR CROSS-AUDIT — readback 0041 recebeu duplo APROVA_0041 nao-OpenAI; selagem 0042 mantém exceção proposta visível ate fechamento."
+  - "🟡 PRÓXIMA AÇÃO — concluir selagem R1-fix-2; depois promover Esteira de Pre-Transicao para core, curar dossie e seguir R2 arvores."
   - "🟢 R1+R1-FIX SELADO — readbacks 0038 e 0039 ratificados por Antigravity/Google, Grok/xAI e Cursor/OpenAI; cinco pareceres versionados na selagem 0040."
   - "🟢 TESTES 212/212 VERDES — `.venv/bin/pytest -q` fechou 212 passed in 0.75s; AGENTS, README e MATURITY-MATRIX sincronizados."
   - "🟢 ADVERSARIAL B1-B33 VERDE — guards/tests/adversarial-battery.sh bloqueou todas as burlas documentadas."
@@ -83,20 +86,30 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟢 branch protection no GitHub: ruleset Active na main (require PR, restrict deletions, block force pushes); passkey Touch ID no boundary."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0041-r1-fix2-dedup-decisions.json"
+readback_ativo: ".hbn/readbacks/0042-selagem-r1-fix2.json"
 handoff_mais_recente: ".hbn/messages/20260617-093000-codex-handoff-r1-fix2.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "R1-fix-2 entregue sob readback 0041; bastao volta ao orquestrador para cross-audit nao-OpenAI + hearback + selagem antes de R2."
-ultima_atualizacao: "2026-06-17T09:30:00-03:00"
-atualizado_por: codex-implementador-r1-fix2
+ciclo_ativo: "Selagem R1-fix-2 aberta sob readback 0042; dois pareceres nao-OpenAI APROVA_0041 SIM aguardam tracking e handoff final."
+ultima_atualizacao: "2026-06-17T10:00:00-03:00"
+atualizado_por: codex-implementador-selagem-r1-fix2
 atribuicao:
   chapeu_atual: implementador
   implementador: codex
   auditores: [cursor, grok, antigravity]
-  gravada_em: "2026-06-17T09:30:00-03:00"
-  hearback_ref: null
+  gravada_em: "2026-06-17T10:00:00-03:00"
+  hearback_ref: "Mauricio 2026-06-17: aprovou selagem R1-fix-2 apos duplo APROVA_0041"
 ---
+
+Nota selagem R1-fix-2 / readback 0042: aberta em 2026-06-17T10:00:00-03:00.
+O objetivo desta micro-onda e selar R1-fix-2 (readback 0041) apos duplo
+APROVA_0041 nao-OpenAI: Grok/xAI registrou `APROVA_0041: SIM` com confiança
+95 e Antigravity/Google registrou `APROVA_0041: SIM` com confiança 100, ambos
+com prova engine-real ANTES/DEPOIS. Escopo fechado: readback 0042, os dois
+pareceres em `.hbn/results/`, REGISTRY, STATE e handoff. Fora de escopo:
+`main`, `src/**`, `guards/**`, `core/**`, `schemas/**` e `docs/brainstorm/**`.
+Excecao G-EXC segue proposta e visivel porque implementador=codex coincide com
+o agente do readback 0042 autorizado por Maurício.
 
 Nota R1-fix-2 / readback 0041: entregue em 2026-06-17. A onda corrigiu o
 bloqueador provado apos a selagem R1-fix: `load_state_document` agora mantem

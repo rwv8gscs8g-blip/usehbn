@@ -940,3 +940,16 @@ compartilham `execution_id` no merge canonico+legado, preservando
 | 20260617-090000-codex-readback-r1-fix2-dedup-decisions | .hbn/readbacks/0041-r1-fix2-dedup-decisions.json | readback | quente | — | 2026-06-17T09:00:00-03:00 |
 | 20260617-093000-codex-state-r1-fix2-dedup-decisions | .hbn/relay/STATE.md | state | quente | — | 2026-06-17T09:30:00-03:00 |
 | 20260617-093000-codex-handoff-r1-fix2 | .hbn/messages/20260617-093000-codex-handoff-r1-fix2.md | handoff | quente | — | 2026-06-17T09:30:00-03:00 |
+
+## Selagem R1-fix-2 (2026-06-17) — duplo APROVA_0041 — status: in_progress, readback 0042
+
+R1-fix-2 (readback 0041) foi ratificado por dois pareceres cross-audit de
+familias distintas de OpenAI, ambos com prova engine-real ANTES/DEPOIS:
+Antigravity/Google e Grok/xAI registraram `APROVA_0041: SIM`. Esta selagem
+torna tracked os pareceres, registra o placar e devolve o bastao ao
+orquestrador para a promocao da Esteira de Pre-Transicao, curadoria do dossie e
+R2 arvores registry-centric.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260617-100000-codex-readback-selagem-r1-fix2 | .hbn/readbacks/0042-selagem-r1-fix2.json | readback | quente | — | 2026-06-17T10:00:00-03:00 |
