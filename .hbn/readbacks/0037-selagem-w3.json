@@ -1,0 +1,64 @@
+{
+  "readback_id": "0037-selagem-w3",
+  "execution_id": "selagem-w3-2026-06-16",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0037-selagem-w3.json",
+  "understanding": "Selar W3 (G-ZONA-LIVRE) ratificado por quatro cross-audits (Grok, Antigravity 100, Cursor 92: APROVA_0036 SIM). Depositar os quatro pareceres e o cartao de entrada universal (candidato a core). Registrar no STATE: W3 selado, branch protection biometrica armada na main, divida rastreada do marcador auto-declarado (hardening futuro: banir brainstorm de files_allowed exceto onda de curadoria), proxima acao arvores registry-centric. NAO incluir docs/brainstorm/** (zona livre viva). Sem alterar logica de guard. Worktree termina sem untracked de governanca.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio em 2026-06-16: disparar a selagem do W3 apos ratificacao; incluir o cartao de entrada para curadoria; manter cadencia rumo ao freeze.",
+    "created_at": "2026-06-16T23:00:00-03:00",
+    "note": "Autorizacao humana para safe_track de selagem W3. Nao autoriza tocar main, merge, --no-verify, git add ., alterar logica de guard, core, brainstorm, habilitar D-ORQ-WRITE."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0037-selagem-w3.json",
+      ".hbn/messages/20260616-220000-opus-4-8-cartao-entrada-universal-ia.md",
+      ".hbn/results/20260616-203624-grok-cross-ia-w3-deny-zona-livre.md",
+      ".hbn/results/20260616-210800-grok-cross-ia-w3-deny-zona-livre.md",
+      ".hbn/results/20260616-225300-antigravity-cross-ia-w3-deny-zona-livre.md",
+      ".hbn/results/20260616-225600-cursor-cross-ia-w3-deny-zona-livre.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/messages/20260616-HHMMSS-codex-handoff-selagem-w3.md"
+    ],
+    "files_forbidden": ["main","src/**","core/**","schemas/**","guards/**","docs/brainstorm/**"]
+  },
+  "action_plan": [
+    "C1: abrir readback 0037.",
+    "C2: selar os quatro pareceres cross-audit do W3.",
+    "C3: selar o cartao de entrada universal.",
+    "C4: atualizar STATE e handoff."
+  ],
+  "invariants_to_preserve": [
+    "Nao tocar main, core, guards, schemas, brainstorm.",
+    "Nao alterar logica de guard.",
+    "Nao usar git add .; somente paths exatos.",
+    "Handoff dentro do files_allowed.",
+    "Antes de cada commit: runner verde com o indice.",
+    "Trailers CONTIGUOS: HBN-Readback: 0037, HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin), HBN-Token-FP: 34a7f2f9."
+  ],
+  "out_of_scope": [
+    "arvores registry-centric e freeze (ondas seguintes).",
+    "Hardening do marcador auto-declarado (onda futura).",
+    "Habilitar D-ORQ-WRITE."
+  ],
+  "read_evidence": [
+    ".hbn/results/20260616-225300-antigravity-cross-ia-w3-deny-zona-livre.md (APROVA SIM 100)",
+    ".hbn/results/20260616-225600-cursor-cross-ia-w3-deny-zona-livre.md (APROVA_0036 SIM 92)",
+    ".hbn/knowledge/0024-orquestrador-nao-sela-zona-livre-sem-aprovacao.md (regra enforcada por G-ZONA-LIVRE)"
+  ],
+  "mechanical_evidence": [
+    "pwd -> /Users/macbookpro/Projetos/usehbn",
+    "git rev-parse HEAD -> 55291e1 (tip W3)",
+    "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04",
+    "readback ativo atual = 0036"
+  ],
+  "created_at": "2026-06-16T23:00:00-03:00",
+  "protocol_version": "0.3.0"
+}

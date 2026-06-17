@@ -866,3 +866,15 @@ ativo.
 | 20260616-213100-codex-assert-zona-livre | guards/assert-zona-livre.sh | guard | quente | — | 2026-06-16T21:31:00-03:00 |
 | 20260616-213500-codex-state-w3-deny-zona-livre | .hbn/relay/STATE.md | state | quente | — | 2026-06-16T21:35:00-03:00 |
 | 20260616-213600-codex-handoff-w3-deny-zona-livre | .hbn/messages/20260616-213600-codex-handoff-w3-deny-zona-livre.md | handoff | quente | — | 2026-06-16T21:36:00-03:00 |
+
+## Selagem W3 (2026-06-16) — G-ZONA-LIVRE ratificado — status: in_progress, readback 0037
+
+W3 foi ratificado por quatro pareceres cross-audit (Grok, Antigravity e
+Cursor) com `APROVA_0036: SIM`. Esta micro-onda sela os pareceres, deposita o
+cartao de entrada universal como candidato a `core/cartao-entrada.md`, registra
+branch protection biometrica armada na main e devolve o bastao ao orquestrador
+para arvores registry-centric.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260616-230000-codex-readback-selagem-w3 | .hbn/readbacks/0037-selagem-w3.json | readback | quente | — | 2026-06-16T23:00:00-03:00 |
