@@ -1,8 +1,8 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente)"
-onda_atual: "G-AUDITOR-ID selado e vigente; readback 0048 encerrado operacionalmente"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente; R2 arvores registry-centric em execucao)"
+onda_atual: "R2 arvores registry-centric em execucao; readback 0049 ativo"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
@@ -11,8 +11,9 @@ papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM; W3 ratificado por Grok, Antigravity 100 e Cursor 92 com APROVA_0036 SIM"
   gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou grande selagem 0035, hardening->deny->freeze, selagem W3, cartao de entrada e branch protection biometrica na main"
-proxima_acao: "Decisao do orquestrador entre Camada 2 (diversidade), R2 arvores registry-centric ou mais P0."
+proxima_acao: "Implementar R2 arvores registry-centric: spec curta, REGISTRY 7-col going-forward, G-REG column-aware, G-NUM column-aware e G-ARVORE-LABEL; depois cross-audit ≠-OpenAI + hearback + selagem."
 sinais_abertos:
+  - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0049 safe_track, implementador=codex, autorização humana Mauricio e trailers contiguos; R2 arvores registry-centric em execucao."
   - "🟢 G-AUDITOR-ID SELADO E VIGENTE — readback 0047 ratificado por antigravity/Google APROVA_0047 SIM conf 100 e grok/xAI APROVA_0047 SIM conf 95; auto-ID do auditor agora esta enforcada no runner."
   - "🟢 PARECERES G-AUDITOR-ID TRACKED — .hbn/results/20260617-160500-antigravity-cross-ia-g-auditor-id-0047.md e .hbn/results/20260617-160546-grok-cross-ia-g-auditor-id-0047.md versionados com linhas G-REG; o proprio G-AUDITOR-ID aprovou os dois no C2."
   - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0048 safe_track, implementador=codex, autorização humana Mauricio e trailers contiguos; selagem encerrada com duplo APROVA_0047 + hearback."
@@ -104,20 +105,34 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟢 branch protection no GitHub: ruleset Active na main (require PR, restrict deletions, block force pushes); passkey Touch ID no boundary."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0048-selagem-g-auditor-id.json"
+readback_ativo: ".hbn/readbacks/0049-arvores-registry-centric.json"
 handoff_mais_recente: ".hbn/messages/20260617-161730-codex-handoff-selagem-g-auditor-id.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "Readback 0048 encerrado operacionalmente; G-AUDITOR-ID selado e vigente; bastao retorna ao orquestrador."
-ultima_atualizacao: "2026-06-17T16:17:30-03:00"
-atualizado_por: codex-implementador-handoff-selagem-g-auditor-id
+ciclo_ativo: "Readback 0049 ativo; R2 arvores registry-centric em execucao por codex sob safe_track."
+ultima_atualizacao: "2026-06-17T18:40:00-03:00"
+atualizado_por: codex-implementador-r2-arvores-abertura
 atribuicao:
-  chapeu_atual: orquestrador
+  chapeu_atual: implementador
   implementador: codex
-  auditores: [antigravity, grok]
-  gravada_em: "2026-06-17T16:17:30-03:00"
-  hearback_ref: "Mauricio 2026-06-17: hearback aprovando a selagem do G-AUDITOR-ID apos 2 pareceres ≠-OpenAI com SOU canonico"
+  auditores: []
+  gravada_em: "2026-06-17T18:40:00-03:00"
+  hearback_ref: "Mauricio 2026-06-17: 'quero exaurir o R2 (arvores) com urgencia' + aprovacao do aditamento de escopo (+assert-parallel-id.sh)"
 ---
+
+Nota R2 arvores registry-centric / readback 0049: aberta em
+2026-06-17T18:40:00-03:00. A onda implementa o mecanismo registry-centric de
+arvores: coluna `arvore` no REGISTRY going-forward, spec curta
+`core/arvores-spec.md`, G-REG column-aware com `arvore` obrigatoria para
+artefato novo, G-NUM column-aware para `created_at` em blocos 6-col e 7-col, e
+G-ARVORE-LABEL anti-mislabel. Excecao G-EXC segue proposta e visivel porque
+implementador=codex coincide com o agente do readback 0049 autorizado por
+Mauricio. Fora de escopo preservado: `main`, `src/**`, `methodology/**`,
+`schemas/**`, outras specs de `core/**`, `docs/brainstorm/**`, selagem dos 4
+batch1-fronteira, extensao G-REG para M geral, Camada 2 do G-AUDITOR-ID e
+exuvia. Nota de bootstrap: `assert-parallel-id.sh` precisa ler `created_at`
+como ultima coluna ja no C1; sem isso, a primeira linha 7-col do REGISTRY
+ficaria bloqueada pelo G-NUM legado.
 
 Nota selagem G-AUDITOR-ID / readback 0048: concluida em
 2026-06-17T16:17:30-03:00. O G-AUDITOR-ID fica SELADO e vigente: o readback

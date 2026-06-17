@@ -15,7 +15,9 @@
 #   (2) BLOQUEADOR: linha NOVA do REGISTRY staged sem coluna created_at
 #       ISO8601 com offset, com sufixo Z/UTC (ADR-025 Decisão 2.2 — relógio
 #       único é o do OPERADOR), ou com HHMMSS/data do id divergente do
-#       created_at da mesma linha. Vale também FORA de ciclo paralelo.
+#       created_at da mesma linha. Vale também FORA de ciclo paralelo. O
+#       parser é column-aware: aceita o bloco legado de 6 colunas e o bloco
+#       novo de 7 colunas com arvore (R2/readback 0049).
 #   (3) BLOQUEADOR: dois artefatos novos com id idêntico no mesmo diff.
 #
 # status: accepted (adoção orquestração-start, readback 0004) — FORA do runner.
@@ -175,14 +177,17 @@ fi
 
 # --- Regra 2: linha nova do REGISTRY exige created_at coerente ---------------
 ISO_RE='^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[+-][0-9]{2}:[0-9]{2}$'
+registry_last_cell() {
+    awk -F'|' '{ idx=NF-1; gsub(/^[ \t]+|[ \t]+$/,"",$idx); print $idx }' <<< "$1"
+}
 while IFS= read -r line; do
     [[ -z "$line" ]] && continue
     id_col="$(awk -F'|' '{gsub(/^[ \t]+|[ \t]+$/,"",$2); print $2}' <<< "$line")"
     [[ -z "$id_col" || "$id_col" == "id" ]] && continue
     [[ "$id_col" =~ ^:?-+:?$ ]] && continue
-    created="$(awk -F'|' '{gsub(/^[ \t]+|[ \t]+$/,"",$7); print $7}' <<< "$line")"
+    created="$(registry_last_cell "$line")"
     if [[ -z "$created" || "$created" == "—" ]]; then
-        guard_fail "Linha nova do ${REGISTRY} staged sem coluna created_at: '| ${id_col} | …' (ADR-024 Decisão 5.3: linhas novas usam o bloco de 6 colunas; created_at é a linha do tempo autoritativa)."
+        guard_fail "Linha nova do ${REGISTRY} staged sem coluna created_at: '| ${id_col} | …' (ADR-024 Decisão 5.3 + R2/readback 0049: linhas novas usam created_at como ultima coluna, em bloco legado de 6 colunas ou novo de 7 colunas com arvore)."
         FAIL=1
         continue
     fi
