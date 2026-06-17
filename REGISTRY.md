@@ -1071,3 +1071,5 @@ bloco, linhas going-forward usam 7 colunas na ordem fixa:
 | 20260617-184100-codex-arvores-spec-core | core/arvores-spec.md | spec-core | quente | fronteira | — | 2026-06-17T18:41:00-03:00 |
 | 20260617-184200-codex-registry-line-arvore-column-aware | guards/assert-registry-line.sh | guard | quente | fronteira | — | 2026-06-17T18:42:00-03:00 |
 | 20260617-184201-codex-guard-tests-arvore-registry | guards/tests/run-guard-tests.sh | guard-test | quente | fronteira | — | 2026-06-17T18:42:01-03:00 |
+| 20260617-184300-codex-guard-arvore-label | guards/assert-arvore-label.sh | guard | quente | fronteira | — | 2026-06-17T18:43:00-03:00 |
+| 20260617-184301-codex-runner-arvore-label | guards/hbn-guards-runner.sh | guard-runner | quente | fronteira | — | 2026-06-17T18:43:01-03:00 |
