@@ -1036,3 +1036,5 @@ contagem de diversidade fica para fast-follow.
 | 20260617-152822-codex-state-g-auditor-id-abertura | .hbn/relay/STATE.md | state | quente | — | 2026-06-17T15:28:22-03:00 |
 | 20260617-153000-codex-guard-auditor-id | guards/assert-auditor-id.sh | guard | quente | — | 2026-06-17T15:30:00-03:00 |
 | 20260617-153913-codex-knowledge-0026-auto-id-auditor | .hbn/knowledge/0026-auto-id-auditor-gate-enforcado.md | knowledge | quente | — | 2026-06-17T15:39:13-03:00 |
+| 20260617-154109-codex-state-g-auditor-id-handoff | .hbn/relay/STATE.md | state | quente | — | 2026-06-17T15:41:09-03:00 |
+| 20260617-154109-codex-handoff-g-auditor-id | .hbn/messages/20260617-154109-codex-handoff-g-auditor-id.md | handoff | quente | — | 2026-06-17T15:41:09-03:00 |
