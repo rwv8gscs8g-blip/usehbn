@@ -909,3 +909,15 @@ legado.
 | 20260617-010000-codex-readback-r1-fix-dedup-estado | .hbn/readbacks/0039-r1-fix-dedup-estado.json | readback | quente | — | 2026-06-17T01:00:00-03:00 |
 | 20260617-010500-codex-state-r1-fix-dedup-estado | .hbn/relay/STATE.md | state | quente | — | 2026-06-17T01:05:00-03:00 |
 | 20260617-010500-codex-handoff-r1-fix-dedup-estado | .hbn/messages/20260617-010500-codex-handoff-r1-fix.md | handoff | quente | — | 2026-06-17T01:05:00-03:00 |
+
+## Selagem R1+R1-fix (2026-06-17) — triplo APROVA_R1 — status: in_progress, readback 0040
+
+R1 (0038) e R1-fix (0039) foram ratificados por pareceres cross-audit de
+Antigravity/Google, Grok/xAI e Cursor/OpenAI. Esta selagem torna tracked os
+pareceres R1, sincroniza a contagem real da suite para 212/212 nos documentos
+publicos permitidos e devolve o bastao ao orquestrador para R2 arvores
+registry-centric.
+
+| id | artefato (path) | tipo | temperatura | superseded_by | created_at |
+|---|---|---|---|---|---|
+| 20260617-080000-codex-readback-selagem-r1 | .hbn/readbacks/0040-selagem-r1.json | readback | quente | — | 2026-06-17T08:00:00-03:00 |
