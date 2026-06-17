@@ -921,3 +921,8 @@ registry-centric.
 | id | artefato (path) | tipo | temperatura | superseded_by | created_at |
 |---|---|---|---|---|---|
 | 20260617-080000-codex-readback-selagem-r1 | .hbn/readbacks/0040-selagem-r1.json | readback | quente | — | 2026-06-17T08:00:00-03:00 |
+| 20260617-003532-antigravity-cross-ia-r1-runtime | .hbn/results/20260617-003532-antigravity-cross-ia-r1-runtime.md | audit-result; autor=antigravity; familia=Google; veredito=APROVA_0038:NAO; onda=R1-runtime | frio | — | 2026-06-17T00:35:32-03:00 |
+| 20260617-033849-cursor-composer-cross-ia-r1-runtime | .hbn/results/20260617-033849-cursor-composer-cross-ia-r1-runtime.md | audit-result; autor=cursor-composer; familia=Cursor/Antigravity; veredito=APROVA_0038:SIM; onda=R1-runtime | frio | — | 2026-06-17T03:38:49-03:00 |
+| 20260617-060212-cursor-cross-ia-r1-mais-fix | .hbn/results/20260617-060212-cursor-cross-ia-r1-mais-fix.md | audit-result; autor=cursor-gpt52; familia=OpenAI; veredito=APROVA_R1:SIM; onda=R1+R1-fix | frio | — | 2026-06-17T06:02:12-03:00 |
+| 20260617-072143-antigravity-cross-ia-r1-mais-fix | .hbn/results/20260617-072143-antigravity-cross-ia-r1-mais-fix.md | audit-result; autor=antigravity; familia=Google; veredito=APROVA_R1:SIM; onda=R1+R1-fix | frio | — | 2026-06-17T07:21:43-03:00 |
+| 20260617-072901-grok-cross-ia-r1-mais-fix | .hbn/results/20260617-072901-grok-cross-ia-r1-mais-fix.md | audit-result; autor=grok; familia=xAI; veredito=APROVA_R1:SIM; onda=R1+R1-fix | frio | — | 2026-06-17T07:29:01-03:00 |
