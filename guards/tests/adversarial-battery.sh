@@ -578,6 +578,59 @@ EOF
 try_burla "B33 docs/brainstorm sem curadoria" "G-ZONA" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-zona-livre.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
+# B34-B37 — G-AUDITOR-ID: autoidentificacao do auditor deve falhar fechado.
+mk_auditor_id_repo() {
+  local d; d="$(mk_repo)"
+  (
+    cd "$d"
+    mkdir -p guards/data .hbn/results
+    cp "$REPO_ROOT/guards/data/auditor-families.txt" guards/data/auditor-families.txt
+    git add guards/data/auditor-families.txt
+    git commit -qm auditor-map
+  ) >/dev/null 2>&1
+  echo "$d"
+}
+write_auditor_id_result() { # <repo> <apelido-arquivo> <onda> <sou-line|NONE>
+  local d="$1" file_alias="$2" wave="$3" sou_line="$4" f
+  f=".hbn/results/20260617-160100-${file_alias}-cross-ia-${wave}.md"
+  (
+    cd "$d"
+    mkdir -p .hbn/results
+    {
+      echo "---"
+      echo "path: ${f}"
+      echo "---"
+      echo "APROVA_0047: SIM"
+      if [[ "$sou_line" != "NONE" ]]; then
+        echo "$sou_line"
+      fi
+      echo ""
+      echo "Parecer adversarial."
+    } > "$f"
+    git add "$f"
+  ) >/dev/null 2>&1
+}
+
+d="$(mk_auditor_id_repo)"
+write_auditor_id_result "$d" "grok" "b34-sem-sou" "NONE"
+try_burla "B34 result sem SOU canonico" "G-AUD-ID" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-auditor-id.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_auditor_id_repo)"
+write_auditor_id_result "$d" "grok" "b35-familia-fora-mapa" "SOU: grok · familia Klingon · papel auditor"
+try_burla "B35 familia fora do mapa canonico" "G-AUD-ID" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-auditor-id.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_auditor_id_repo)"
+write_auditor_id_result "$d" "grok" "b36-apelido-divergente" "SOU: antigravity · familia Google · papel auditor"
+try_burla "B36 apelido arquivo != SOU" "G-AUD-ID" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-auditor-id.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_auditor_id_repo)"
+write_auditor_id_result "$d" "cursor" "b37-familia-incoerente" "SOU: cursor · familia Google · papel auditor"
+try_burla "B37 apelido/familia incoerentes" "G-AUD-ID" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-auditor-id.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------
 echo ""
 printf '%-52s | %-8s | %s\n' "BURLA" "GUARD" "RESULTADO"

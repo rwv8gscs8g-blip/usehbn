@@ -90,6 +90,9 @@
 #   active-version nao resolve. Total: 175.
 #   W3 (readback 0036): +3 checks G-ZONA-LIVRE (curadoria passa; sem
 #   marcador bloqueia; readback ilegivel bloqueia). Total: 178.
+#   G-AUDITOR-ID (readback 0047): +5 checks (1 pass, 4 block) para SOU
+#   canonico, familia fora do mapa, apelido divergente e familia incoerente.
+#   Total: 183.
 # =============================================================================
 set -uo pipefail
 
@@ -372,6 +375,66 @@ d="$(make_repo)"
     printf -- '---\npath: docs/outro-lugar.md\n---\ncorpo\n' > methodology/adr/ADR-099-teste.md
 ) >/dev/null 2>&1
 check "slf: staged correto, working tree mente (espelho E-FECH-01)" pass "$(run_slf "$d")"
+rm -rf "$d"
+
+# --- G-AUDITOR-ID: auto-ID canonico do auditor ------------------------------
+echo "== assert-auditor-id (G-AUDITOR-ID) =="
+make_auditor_id_repo() {
+    local d; d="$(make_repo)"
+    (
+        cd "$d"
+        mkdir -p guards/data .hbn/results
+        cp "$REPO_ROOT/guards/data/auditor-families.txt" guards/data/auditor-families.txt
+        git add guards/data/auditor-families.txt
+        git commit -qm auditor-map
+    ) >/dev/null 2>&1
+    echo "$d"
+}
+write_auditor_result() { # <repo> <apelido-arquivo> <onda> <sou-line|NONE>
+    local d="$1" file_alias="$2" wave="$3" sou_line="$4" f
+    f=".hbn/results/20260617-160000-${file_alias}-cross-ia-${wave}.md"
+    (
+        cd "$d"
+        mkdir -p .hbn/results
+        {
+            echo "---"
+            echo "path: ${f}"
+            echo "---"
+            echo "APROVA_0047: SIM"
+            if [[ "$sou_line" != "NONE" ]]; then
+                echo "$sou_line"
+            fi
+            echo ""
+            echo "Parecer de teste."
+        } > "$f"
+        git add "$f"
+    ) >/dev/null 2>&1
+}
+run_auditor_id() { ( cd "$1" && bash "$GUARDS_DIR/assert-auditor-id.sh" >/dev/null 2>&1 ); echo $?; }
+
+d="$(make_auditor_id_repo)"
+write_auditor_result "$d" "grok" "positivo" "SOU: grok · familia xAI · papel auditor"
+check "auditor-id: grok/xAI canonico passa" pass "$(run_auditor_id "$d")"
+rm -rf "$d"
+
+d="$(make_auditor_id_repo)"
+write_auditor_result "$d" "grok" "sem-sou" "NONE"
+check "auditor-id: result sem SOU → BLOCK" block "$(run_auditor_id "$d")"
+rm -rf "$d"
+
+d="$(make_auditor_id_repo)"
+write_auditor_result "$d" "grok" "familia-fora-mapa" "SOU: grok · familia Klingon · papel auditor"
+check "auditor-id: familia fora do mapa → BLOCK" block "$(run_auditor_id "$d")"
+rm -rf "$d"
+
+d="$(make_auditor_id_repo)"
+write_auditor_result "$d" "grok" "apelido-divergente" "SOU: antigravity · familia Google · papel auditor"
+check "auditor-id: apelido arquivo != SOU → BLOCK" block "$(run_auditor_id "$d")"
+rm -rf "$d"
+
+d="$(make_auditor_id_repo)"
+write_auditor_result "$d" "cursor" "familia-incoerente" "SOU: cursor · familia Google · papel auditor"
+check "auditor-id: cursor/Google incoerente → BLOCK" block "$(run_auditor_id "$d")"
 rm -rf "$d"
 
 # --- G-HRB: assert-hearback-integrity (ADR-023 — anti-auto-assinatura F-05) --
