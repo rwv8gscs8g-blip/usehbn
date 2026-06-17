@@ -34,9 +34,48 @@ def test_valid_erp_creation(tmp_path):
     assert "+00:00" not in record["created_at"]
 
     persisted = json.loads(
-        (tmp_path / ".usehbn" / "results" / "exec-123.json").read_text(encoding="utf-8")
+        (tmp_path / ".hbn" / "results" / "exec-123.json").read_text(encoding="utf-8")
     )
     assert persisted["action_taken"] == "Created ERP ledger entry."
+
+
+def test_erp_reads_legacy_usehbn_readback_and_writes_canonical_result(tmp_path):
+    legacy_readbacks = tmp_path / ".usehbn" / "readbacks"
+    legacy_readbacks.mkdir(parents=True, exist_ok=True)
+    legacy_readback = {
+        "readback_id": "readback-exec-legacy-rb",
+        "execution_id": "exec-legacy-rb",
+        "agent_id": "agent-codex",
+        "track": "safe_track",
+        "hearback_status": "confirmed",
+        "understanding": "Legacy readback stays readable.",
+        "invariants_preserved": ["Public API unchanged"],
+        "action_plan": ["Create ERP"],
+        "classification_basis": {
+            "has_guardian_warnings": False,
+            "has_risks": True,
+            "has_constraints": False,
+        },
+        "created_at": "2026-06-16T00:00:00Z",
+    }
+    (legacy_readbacks / "exec-legacy-rb.json").write_text(
+        json.dumps(legacy_readback),
+        encoding="utf-8",
+    )
+
+    record = create_result_record(
+        execution_id="exec-legacy-rb",
+        agent_id="agent-codex",
+        hbn_outcome="executed",
+        human_status="approved",
+        action_taken="Created ERP from legacy readback.",
+        readback_id="readback-exec-legacy-rb",
+        storage_dir=tmp_path,
+    )
+
+    assert record["readback_id"] == "readback-exec-legacy-rb"
+    assert (tmp_path / ".hbn" / "results" / "exec-legacy-rb.json").exists()
+    assert not (tmp_path / ".usehbn" / "results" / "exec-legacy-rb.json").exists()
 
 
 def test_result_record_includes_protocol_version(tmp_path):

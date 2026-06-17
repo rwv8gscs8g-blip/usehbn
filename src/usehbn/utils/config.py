@@ -9,7 +9,8 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Optional
 
-STATE_DIRNAME = ".usehbn"
+STATE_DIRNAME = ".hbn"
+LEGACY_STATE_DIRNAME = ".usehbn"
 LOGS_DIRNAME = "logs"
 PERSISTENCE_DIRNAME = "state"
 
@@ -29,15 +30,18 @@ def default_state_dir(base_dir: Optional[Path] = None) -> Path:
     return state_dir
 
 
-def logs_dir(base_dir: Optional[Path] = None) -> Path:
+def legacy_state_dir(base_dir: Optional[Path] = None) -> Path:
     root = base_dir if base_dir is not None else Path.cwd()
-    log_dir = root / LOGS_DIRNAME
+    return root / LEGACY_STATE_DIRNAME
+
+
+def logs_dir(base_dir: Optional[Path] = None) -> Path:
+    log_dir = default_state_dir(base_dir) / LOGS_DIRNAME
     log_dir.mkdir(parents=True, exist_ok=True)
     return log_dir
 
 
 def persistence_dir(base_dir: Optional[Path] = None) -> Path:
-    root = base_dir if base_dir is not None else Path.cwd()
-    state_dir = root / PERSISTENCE_DIRNAME
+    state_dir = default_state_dir(base_dir) / PERSISTENCE_DIRNAME
     state_dir.mkdir(parents=True, exist_ok=True)
     return state_dir

@@ -37,6 +37,7 @@ from usehbn.runtime import (
 )
 from usehbn.state.store import append_result_state
 from usehbn.translation import translate_natural_entry
+from usehbn.utils.config import default_state_dir, legacy_state_dir
 from usehbn.utils.logger import write_json
 from usehbn.utils.time import utc_now_iso
 
@@ -1383,21 +1384,37 @@ def _parse_evidence(entries: List[str]) -> List[Dict[str, str]]:
 
 def _find_latest_pending_readback(storage_dir: Optional[Path] = None) -> Optional[str]:
     """Find the most recent readback file with pending hearback status."""
-    from usehbn.utils.config import default_state_dir
-
-    base = default_state_dir(storage_dir)
-    readbacks_dir = base / "readbacks"
-    if not readbacks_dir.exists():
-        return None
     candidates = []
-    for path in sorted(readbacks_dir.glob("*.json"), reverse=True):
-        record = json.loads(path.read_text(encoding="utf-8"))
-        if record.get("hearback_status") == "pending":
-            candidates.append((record.get("created_at", ""), record["execution_id"]))
+    for readbacks_dir in _readback_dirs(storage_dir):
+        if not readbacks_dir.exists():
+            continue
+        for path in sorted(readbacks_dir.glob("*.json"), reverse=True):
+            record = json.loads(path.read_text(encoding="utf-8"))
+            if record.get("hearback_status") == "pending":
+                candidates.append((record.get("created_at", ""), record["execution_id"]))
     if not candidates:
         return None
     candidates.sort(key=lambda x: x[0], reverse=True)
     return candidates[0][1]
+
+
+def _readback_dirs(storage_dir: Optional[Path]) -> List[Path]:
+    base = storage_dir if storage_dir is not None else Path.cwd()
+    return [
+        default_state_dir(base) / "readbacks",
+        legacy_state_dir(base) / "readbacks",
+    ]
+
+
+def _migrate_legacy_readback_if_needed(execution_id: str, storage_dir: Optional[Path]) -> None:
+    canonical_path = default_state_dir(storage_dir) / "readbacks" / f"{execution_id}.json"
+    if canonical_path.exists():
+        return
+    legacy_path = legacy_state_dir(storage_dir) / "readbacks" / f"{execution_id}.json"
+    if not legacy_path.exists():
+        return
+    canonical_path.parent.mkdir(parents=True, exist_ok=True)
+    canonical_path.write_text(legacy_path.read_text(encoding="utf-8"), encoding="utf-8")
 
 
 def run_readback_protocol(args: argparse.Namespace) -> Dict[str, Any]:
@@ -1440,6 +1457,7 @@ def run_hearback_protocol(args: argparse.Namespace) -> Dict[str, Any]:
             "protocol_version": PROTOCOL_VERSION,
             "error": "exec_id is required. Use --last to operate on the most recent pending readback.",
         }
+    _migrate_legacy_readback_if_needed(exec_id, storage_dir)
     record = update_hearback_status(
         execution_id=exec_id,
         hearback_status=args.status,
@@ -1567,16 +1585,11 @@ def run_relay_status(args: argparse.Namespace) -> Dict[str, Any]:
 
 
 def _find_pending_readbacks(target: Path) -> List[str]:
-    """Find pending readbacks across both .hbn/readbacks/ and the default state dir.
+    """Find pending readbacks across canonical `.hbn/` and legacy `.usehbn/`.
 
-    Onda 3 (Relay Invariants) — path-mismatch fix. Pre-Onda-3, this function only
-    inspected `.hbn/readbacks/`, but `create_readback_record` writes to
-    `default_state_dir(target) / "readbacks/"` (typically `.usehbn/readbacks/`),
-    so handoff silently let pending readbacks through. We now read both dirs and
-    dedup by execution_id, preferring records still in `pending` state.
+    R1 makes `.hbn/readbacks/` canonical. The legacy `.usehbn/readbacks/` path
+    remains read-only for tolerant migration and is deduplicated by execution_id.
     """
-    from usehbn.utils.config import default_state_dir
-
     candidates: Dict[str, str] = {}  # execution_id -> hearback_status
 
     def _scan(dir_path: Path) -> None:
@@ -1596,8 +1609,8 @@ def _find_pending_readbacks(target: Path) -> List[str]:
             if existing != "pending":
                 candidates[exec_id] = status
 
-    _scan(_hbn_dir(target) / "readbacks")
     _scan(default_state_dir(target) / "readbacks")
+    _scan(legacy_state_dir(target) / "readbacks")
 
     return sorted(exec_id for exec_id, status in candidates.items() if status == "pending")
 

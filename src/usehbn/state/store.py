@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from usehbn.utils.config import default_state_dir, persistence_dir
+from usehbn.utils.config import LEGACY_STATE_DIRNAME, STATE_DIRNAME
 from usehbn.utils.logger import write_json
 
 STATE_FILENAME = "hbn-state.json"
@@ -26,19 +26,27 @@ def _empty_state() -> Dict[str, Any]:
 
 
 def state_file_path(base_dir: Optional[Path] = None) -> Path:
-    """Canonical state file path: `.usehbn/hbn-state.json` (Onda 5).
+    """Canonical state file path: `.hbn/state/hbn-state.json`.
 
-    Pre-Onda-5, this returned `state/hbn-state.json`. Writes now go
-    exclusively to `.usehbn/` per the wave plan; reads still fall back
-    to the legacy `state/` location via `_legacy_state_file_path` for
-    backward compatibility (see `load_state_document`).
+    R1 consolidates runtime state under `.hbn/` while preserving read-only
+    fallbacks for the older `.usehbn/hbn-state.json` and `state/hbn-state.json`
+    locations.
     """
-    return default_state_dir(base_dir) / STATE_FILENAME
+    return _root(base_dir) / STATE_DIRNAME / "state" / STATE_FILENAME
+
+
+def _root(base_dir: Optional[Path] = None) -> Path:
+    return base_dir if base_dir is not None else Path.cwd()
+
+
+def _legacy_usehbn_state_file_path(base_dir: Optional[Path] = None) -> Path:
+    """Pre-R1 location: `.usehbn/hbn-state.json`. Read-only fallback."""
+    return _root(base_dir) / LEGACY_STATE_DIRNAME / STATE_FILENAME
 
 
 def _legacy_state_file_path(base_dir: Optional[Path] = None) -> Path:
     """Pre-Onda-5 location: `state/hbn-state.json`. Read-only fallback."""
-    return persistence_dir(base_dir) / STATE_FILENAME
+    return _root(base_dir) / "state" / STATE_FILENAME
 
 
 def _read_json_or_empty(path: Path) -> Dict[str, Any]:
@@ -52,47 +60,50 @@ def _read_json_or_empty(path: Path) -> Dict[str, Any]:
 
 
 def load_state_document(base_dir: Optional[Path] = None) -> Dict[str, Any]:
-    """Onda 5 dual-read: prefer `.usehbn/`, fall back to legacy `state/`.
+    """Load canonical `.hbn/state/` plus read-only legacy state files.
 
-    If both exist, merge `results` and `executions` deduplicating by
-    `traceability.execution_id` (preferring entries from `.usehbn/`).
-    Other arrays (`decisions`, `context_history`) are concatenated with
-    `.usehbn/` first to keep newer entries at the head when iterating.
+    If multiple files exist, merge `results` and `executions` deduplicating by
+    execution id and preferring canonical `.hbn/state/`, then `.usehbn/`, then
+    legacy `state/`. Other arrays are concatenated in the same precedence order.
     """
-    canonical = state_file_path(base_dir)
-    legacy = _legacy_state_file_path(base_dir)
+    paths = [
+        state_file_path(base_dir),
+        _legacy_usehbn_state_file_path(base_dir),
+        _legacy_state_file_path(base_dir),
+    ]
+    existing_paths = [path for path in paths if path.exists()]
 
-    if not canonical.exists() and not legacy.exists():
+    if not existing_paths:
         return _empty_state()
-    if not legacy.exists():
-        return _read_json_or_empty(canonical)
-    if not canonical.exists():
-        return _read_json_or_empty(legacy)
+    if len(existing_paths) == 1:
+        return _read_json_or_empty(existing_paths[0])
 
-    # Both exist — merge with dedup.
-    canonical_doc = _read_json_or_empty(canonical)
-    legacy_doc = _read_json_or_empty(legacy)
+    documents = [_read_json_or_empty(path) for path in existing_paths]
 
-    def _merged_with_dedup(canonical_list: list, legacy_list: list) -> list:
+    def _record_execution_id(item: Any) -> Optional[str]:
+        if not isinstance(item, dict):
+            return None
+        traceability_id = item.get("traceability", {}).get("execution_id")
+        return traceability_id or item.get("execution_id")
+
+    def _merged_with_dedup(key: str) -> list:
         seen_ids = set()
         out = []
-        for item in canonical_list:
-            exec_id = (item or {}).get("traceability", {}).get("execution_id")
-            if exec_id is not None:
-                seen_ids.add(exec_id)
-            out.append(item)
-        for item in legacy_list:
-            exec_id = (item or {}).get("traceability", {}).get("execution_id")
-            if exec_id is not None and exec_id in seen_ids:
-                continue
-            out.append(item)
+        for document in documents:
+            for item in document[key]:
+                exec_id = _record_execution_id(item)
+                if exec_id is not None:
+                    if exec_id in seen_ids:
+                        continue
+                    seen_ids.add(exec_id)
+                out.append(item)
         return out
 
     return {
-        "executions": _merged_with_dedup(canonical_doc["executions"], legacy_doc["executions"]),
-        "decisions": canonical_doc["decisions"] + legacy_doc["decisions"],
-        "context_history": canonical_doc["context_history"] + legacy_doc["context_history"],
-        "results": _merged_with_dedup(canonical_doc["results"], legacy_doc["results"]),
+        "executions": _merged_with_dedup("executions"),
+        "decisions": [item for document in documents for item in document["decisions"]],
+        "context_history": [item for document in documents for item in document["context_history"]],
+        "results": _merged_with_dedup("results"),
     }
 
 

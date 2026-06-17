@@ -396,9 +396,9 @@ CLI_JSON_CASES: List[Tuple[str, CaseFactory, SummaryFactory, Dict[str, Any]]] = 
             "execution": {
                 "engine": "minimal_execution_engine_v0",
                 "id": "<EXEC_ID>",
-                "log_path": "<TMP>/run-storage/logs/<EXEC_ID>.json",
+                "log_path": "<TMP>/run-storage/.hbn/logs/<EXEC_ID>.json",
                 "started_at": "<ISO8601>",
-                "state_path": "<TMP>/run-storage/.usehbn/hbn-state.json",
+                "state_path": "<TMP>/run-storage/.hbn/state/hbn-state.json",
             },
         },
     ),
@@ -518,7 +518,7 @@ CLI_JSON_CASES: List[Tuple[str, CaseFactory, SummaryFactory, Dict[str, Any]]] = 
                 "signal_type": "none",
                 "source": "",
             },
-            "state_path": "<TMP>/inspect-target/state/hbn-state.json",
+            "state_path": "<TMP>/inspect-target/.hbn/state/hbn-state.json",
             "state_exists": False,
             "packaging": {
                 "distribution_name": "usehbn",
@@ -723,7 +723,7 @@ CLI_JSON_CASES: List[Tuple[str, CaseFactory, SummaryFactory, Dict[str, Any]]] = 
             },
             "project": PROJECT,
             "protocol_version": PROTOCOL_VERSION,
-            "state_path": "<TMP>/result-storage/.usehbn/hbn-state.json",
+            "state_path": "<TMP>/result-storage/.hbn/state/hbn-state.json",
         },
     ),
     (

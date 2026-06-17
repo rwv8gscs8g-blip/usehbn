@@ -12,7 +12,7 @@ from typing import Any, Dict, List, Optional
 
 from usehbn import PROTOCOL_VERSION
 from usehbn.protocol.readback import find_readback_by_execution
-from usehbn.utils.config import default_state_dir
+from usehbn.utils.config import default_state_dir, legacy_state_dir
 from usehbn.utils.logger import write_json
 from usehbn.utils.time import utc_now_iso
 from usehbn.utils.validators import assert_valid_payload
@@ -50,6 +50,24 @@ def _results_dir(storage_dir: Optional[Path] = None) -> Path:
     results_dir.mkdir(parents=True, exist_ok=True)
     return results_dir
 
+
+def _legacy_results_dir(storage_dir: Optional[Path] = None) -> Path:
+    return legacy_state_dir(storage_dir) / RESULTS_DIRNAME
+
+
+def _legacy_readback_by_execution(execution_id: str, storage_dir: Optional[Path] = None) -> Optional[Dict[str, Any]]:
+    path = legacy_state_dir(storage_dir) / "readbacks" / f"{execution_id}.json"
+    if not path.exists():
+        return None
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _find_readback_for_result(execution_id: str, storage_dir: Optional[Path] = None) -> Optional[Dict[str, Any]]:
+    return find_readback_by_execution(execution_id, storage_dir) or _legacy_readback_by_execution(
+        execution_id,
+        storage_dir,
+    )
+
 def create_result_record(
     *,
     execution_id: str,
@@ -65,7 +83,7 @@ def create_result_record(
     environment: Optional[Dict[str, Any]] = None,
     storage_dir: Optional[Path] = None,
 ) -> Dict[str, Any]:
-    readback = find_readback_by_execution(execution_id, storage_dir)
+    readback = _find_readback_for_result(execution_id, storage_dir)
     if readback is not None and readback["hearback_status"] != "confirmed":
         raise HbnProtocolViolation("HBN protocol violation: hearback_status must be confirmed before ERP creation")
     if readback is not None and readback["track"] == "safe_track" and not readback_id:
@@ -107,7 +125,8 @@ def create_result_record(
     assert_valid_payload(record, "result.schema.json")
 
     output_path = _results_dir(storage_dir) / f"{execution_id}.json"
-    if output_path.exists():
+    legacy_output_path = _legacy_results_dir(storage_dir) / f"{execution_id}.json"
+    if output_path.exists() or legacy_output_path.exists():
         raise ValueError(f"Result record already exists for execution_id: {execution_id}")
     write_json(output_path, record)
     return record
@@ -115,6 +134,9 @@ def create_result_record(
 
 def load_result_record(execution_id: str, storage_dir: Optional[Path] = None) -> Optional[Dict[str, Any]]:
     result_path = _results_dir(storage_dir) / f"{execution_id}.json"
-    if not result_path.exists():
-        return None
-    return json.loads(result_path.read_text(encoding="utf-8"))
+    if result_path.exists():
+        return json.loads(result_path.read_text(encoding="utf-8"))
+    legacy_result_path = _legacy_results_dir(storage_dir) / f"{execution_id}.json"
+    if legacy_result_path.exists():
+        return json.loads(legacy_result_path.read_text(encoding="utf-8"))
+    return None

@@ -355,7 +355,7 @@ def test_two_agent_handoff_cycle():
         ])
         run_handoff(handoff_args)
 
-        # Step 3: Agent "codex" creates readback in .usehbn/ (default state dir)
+        # Step 3: Agent "codex" creates readback in canonical .hbn/readbacks/
         readback_args = _parse_args([
             "readback", "exec-cycle-001",
             "--agent-id", "codex",
@@ -369,11 +369,8 @@ def test_two_agent_handoff_cycle():
         assert readback_result["readback_record"]["hearback_status"] == "pending"
 
         # Step 4: Attempt handoff with pending readback → must fail.
-        # Onda 3 (Relay Invariants) — _find_pending_readbacks now reads BOTH
-        # .hbn/readbacks/ AND default_state_dir(target)/readbacks/ (typically
-        # .usehbn/readbacks/), so the manual copy hack that was needed
-        # pre-Onda-3 is no longer required. The pending readback in
-        # .usehbn/readbacks/ is detected directly.
+        # R1 state unification — _find_pending_readbacks reads canonical
+        # .hbn/readbacks/ plus legacy .usehbn/readbacks/ read-only.
         handoff_fail_args = _parse_args([
             "handoff", "--to", "claude", "--summary", "Should fail",
             "--target", str(target)
@@ -389,8 +386,7 @@ def test_two_agent_handoff_cycle():
         hearback_result = run_hearback_protocol(hearback_args)
         assert hearback_result["readback_record"]["hearback_status"] == "confirmed"
 
-        # Onda 3: dual-read elimina a necessidade de duplicar o readback em
-        # .hbn/readbacks/ — _find_pending_readbacks lê ambos os diretórios.
+        # R1: canonical readbacks live in .hbn/readbacks/.
 
         # Step 6: Handoff to claude → should succeed
         handoff_ok_args = _parse_args([
@@ -420,8 +416,8 @@ def test_two_agent_handoff_cycle():
 # ----------------------------------------------------------------------------
 
 
-def test_handoff_blocks_on_pending_usehbn_readback():
-    """Pending readback in .usehbn/readbacks/ must block handoff (path mismatch fix)."""
+def test_handoff_blocks_on_pending_canonical_readback():
+    """Pending readback in canonical .hbn/readbacks/ must block handoff."""
     with tempfile.TemporaryDirectory() as tmpdir:
         target = Path(tmpdir)
         init_args = _parse_args(["init", "--target", str(target)])
@@ -444,16 +440,9 @@ def test_handoff_blocks_on_pending_usehbn_readback():
         ])
         run_readback_protocol(readback_args)
 
-        usehbn_readbacks = target / ".usehbn" / "readbacks"
-        assert (usehbn_readbacks / "readback-exec-pending-001.json").exists() or \
-               any(usehbn_readbacks.glob("*.json")), \
-               "Readback should land in .usehbn/readbacks/"
-
-        # Sanity: nothing in .hbn/readbacks/ pre-Onda-3 (no manual copy hack).
         hbn_readbacks = target / ".hbn" / "readbacks"
-        if hbn_readbacks.exists():
-            assert not list(hbn_readbacks.glob("*.json")), \
-                "Pre-handoff: no readback should be in .hbn/readbacks/"
+        assert any(hbn_readbacks.glob("*.json")), \
+            "Readback should land in canonical .hbn/readbacks/"
 
         handoff_args = _parse_args([
             "handoff", "--to", "claude", "--summary", "Should fail (pending)",
@@ -462,6 +451,72 @@ def test_handoff_blocks_on_pending_usehbn_readback():
         result = run_handoff(handoff_args)
         assert "error" in result, "Handoff must fail with pending readback"
         assert "pending" in result["error"].lower()
+
+
+def test_handoff_blocks_on_pending_legacy_usehbn_readback():
+    """Pending legacy readback in .usehbn/readbacks/ remains a read-only blocker."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        target = Path(tmpdir)
+        init_args = _parse_args(["init", "--target", str(target)])
+        run_init(init_args)
+
+        legacy_dir = target / ".usehbn" / "readbacks"
+        legacy_dir.mkdir(parents=True, exist_ok=True)
+        (legacy_dir / "exec-legacy-pending.json").write_text(
+            json.dumps({"execution_id": "exec-legacy-pending", "hearback_status": "pending"}),
+            encoding="utf-8",
+        )
+
+        handoff_args = _parse_args([
+            "handoff", "--to", "claude", "--summary", "Should fail (legacy pending)",
+            "--target", str(target)
+        ])
+        result = run_handoff(handoff_args)
+        assert "error" in result, "Handoff must fail with pending legacy readback"
+        assert result["pending_readbacks"] == ["exec-legacy-pending"]
+
+
+def test_hearback_migrates_legacy_usehbn_readback_to_canonical_hbn():
+    """Hearback can read legacy .usehbn/readbacks/ and writes the update to .hbn/."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        target = Path(tmpdir)
+        legacy_dir = target / ".usehbn" / "readbacks"
+        legacy_dir.mkdir(parents=True, exist_ok=True)
+        legacy_record = {
+            "readback_id": "readback-exec-legacy-hearback",
+            "execution_id": "exec-legacy-hearback",
+            "agent_id": "codex",
+            "track": "safe_track",
+            "hearback_status": "pending",
+            "understanding": "Legacy pending readback.",
+            "invariants_preserved": ["Keep contract"],
+            "action_plan": ["Confirm hearback"],
+            "classification_basis": {
+                "has_guardian_warnings": False,
+                "has_risks": True,
+                "has_constraints": False,
+            },
+            "created_at": "2026-06-16T00:00:00Z",
+        }
+        (legacy_dir / "exec-legacy-hearback.json").write_text(
+            json.dumps(legacy_record),
+            encoding="utf-8",
+        )
+
+        hearback_args = _parse_args([
+            "hearback", "exec-legacy-hearback", "--status", "confirmed",
+            "--storage-dir", str(target),
+        ])
+        result = run_hearback_protocol(hearback_args)
+        assert result["readback_record"]["hearback_status"] == "confirmed"
+
+        canonical_path = target / ".hbn" / "readbacks" / "exec-legacy-hearback.json"
+        assert canonical_path.exists()
+        canonical = json.loads(canonical_path.read_text(encoding="utf-8"))
+        assert canonical["hearback_status"] == "confirmed"
+
+        legacy = json.loads((legacy_dir / "exec-legacy-hearback.json").read_text(encoding="utf-8"))
+        assert legacy["hearback_status"] == "pending"
 
 
 def test_find_pending_readbacks_dedups_when_present_in_both_dirs():
