@@ -1,8 +1,7 @@
 ---
 titulo: "Esteira de Pre-Transicao — gate de subagentes tematicos antes do freeze e da exuvia"
 tipo: spec-core
-status: proposed
-arvore: intermediaria
+status: accepted
 temperatura: quente
 created_at: "2026-06-17T10:30:00-03:00"
 origem: docs/brainstorm/rodada-2026-06-17/analise-pre-transicao/06-esteira-pre-transicao-proposta.md
