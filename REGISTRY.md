@@ -1018,3 +1018,5 @@ registry-centric.
 |---|---|---|---|---|---|
 | 20260617-130000-codex-readback-selagem-curadoria-p0 | .hbn/readbacks/0046-selagem-curadoria-p0.json | readback | quente | — | 2026-06-17T13:00:00-03:00 |
 | 20260617-130000-codex-state-selagem-curadoria-p0-abertura | .hbn/relay/STATE.md | state | quente | — | 2026-06-17T13:00:00-03:00 |
+| 20260617-124513-antigravity-cross-ia-curadoria-p0-0045 | .hbn/results/20260617-124513-antigravity-cross-ia-curadoria-p0-0045.md | audit-result; autor=antigravity; familia=Google; veredito=APROVA_0045:SIM; onda=curadoria-p0 | frio | — | 2026-06-17T12:45:13-03:00 |
+| 20260617-125600-grok-cross-ia-curadoria-p0-0045 | .hbn/results/20260617-125600-grok-cross-ia-curadoria-p0-0045.md | audit-result; autor=grok; familia=xAI; veredito=APROVA_0045:SIM; onda=curadoria-p0 | frio | — | 2026-06-17T12:56:00-03:00 |
