@@ -985,3 +985,5 @@ registry-centric.
 | id | artefato (path) | tipo | temperatura | superseded_by | created_at |
 |---|---|---|---|---|---|
 | 20260617-110000-codex-readback-selagem-esteira | .hbn/readbacks/0044-selagem-esteira.json | readback | quente | — | 2026-06-17T11:00:00-03:00 |
+| 20260617-102800-antigravity-cross-ia-esteira-0043 | .hbn/results/20260617-102800-antigravity-cross-ia-esteira-0043.md | audit-result; autor=antigravity; familia=Google; veredito=APROVA_0043:SIM; onda=esteira | frio | — | 2026-06-17T10:28:00-03:00 |
+| 20260617-104500-grok-build-0.1-cross-ia-esteira-0043 | .hbn/results/20260617-104500-grok-build-0.1-cross-ia-esteira-0043.md | audit-result; autor=grok-build-0.1; familia=xAI; veredito=APROVA_0043:SIM; onda=esteira | frio | — | 2026-06-17T10:45:00-03:00 |
