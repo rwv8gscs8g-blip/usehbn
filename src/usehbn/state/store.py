@@ -91,21 +91,28 @@ def load_state_document(base_dir: Optional[Path] = None) -> Dict[str, Any]:
         )
         return traceability_id or item.get("execution_id")
 
-    def _record_identity(item: Any) -> tuple[str, str]:
-        exec_id = _record_execution_id(item)
-        if exec_id is not None:
-            return ("execution_id", str(exec_id))
+    def _content_identity(item: Any) -> tuple[str, str]:
         return (
             "content",
             json.dumps(item, sort_keys=True, separators=(",", ":"), ensure_ascii=False),
         )
+
+    def _record_identity(key: str, item: Any) -> tuple[str, ...]:
+        exec_id = _record_execution_id(item)
+        if key in {"executions", "results"} and exec_id is not None:
+            return ("execution_id", str(exec_id))
+        if key in {"decisions", "context_history"} and exec_id is not None:
+            category = item.get("category") if isinstance(item, dict) else None
+            if category is not None:
+                return ("execution_id_category", str(exec_id), str(category))
+        return _content_identity(item)
 
     def _merged_with_dedup(key: str) -> list:
         seen_identities = set()
         out = []
         for document in documents:
             for item in document[key]:
-                identity = _record_identity(item)
+                identity = _record_identity(key, item)
                 if identity in seen_identities:
                     continue
                 seen_identities.add(identity)
