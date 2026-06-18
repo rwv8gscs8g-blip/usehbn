@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "selagem-g-orq-entrada-v2-2026-06-18",
+  "execution_id": "w-orq-3-2026-06-18",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-18T08:27:36-03:00",
-  "manifest_sha256": "a04377e3bacc9786d6594d8c9dd712c3b8f821b54da323408125216c3ad3e640",
+  "atestado_em": "2026-06-18T12:18:48-03:00",
+  "manifest_sha256": "f33cc6e4feb61e7e01bf84c714545cd9b59ee8410436d293d80cd6bd9bec97b2",
   "challenge": {
-    "seed_sha256": "3b5c5ed73c5683963bf1d1f546c817a72e16f67d4e04a990f4bb39832a16762c",
+    "seed_sha256": "c9bcc42b71951de48914e4efe51d52d75b45e12f263807472763674810c27e46",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 544,
-        "line_text": "pareceres tracked, C4 encerrar STATE/handoff e devolver o bastao ao",
-        "line_sha256": "796e16a5c17748e14c740d8b364e83910081b75f93bec86ee7f0a0a8fa0a4a1b"
+        "line_no": 365,
+        "line_text": "distintas de OpenAI, grok/xAI `APROVA_0049: SIM` conf 93 e",
+        "line_sha256": "49f34c856a270ea74e8216c79c841caeb50c6fcc4f59ac37c426c3e1e7011cd2"
       },
       {
-        "path": ".hbn/readbacks/0060-selagem-g-orq-entrada-v2.json",
-        "line_no": 14,
-        "line_text": "    \"evidence\": \"DESPACHO useHBN — selagem G-ORQ-ENTRADA v2 vigente (readback 0060) — APOS hearback. Quorum G-DIVERSITY fechado: grok/xAI APROVA_0058 SIM (92) + antigravity/Google APROVA_0058 SIM (100). Hearback humano de Mauricio confirmado. Bastao token_fp 34a7f2f9 com atestacao v2 valida.\",",
-        "line_sha256": "11b58f4c4690f37a7097ffc8266257a4fa1ae6d452aee84e2c6ef2e7da033d7b"
+        "path": ".hbn/readbacks/0061-w-orq-3.json",
+        "line_no": 45,
+        "line_text": "    \"C4: adicionar B48-B51 na bateria adversarial: ref omitido, dangling, fp trocado e auto-repin.\",",
+        "line_sha256": "d25faa134ed04878b88ad3802fdffdbddb68e30d1d651ba4cf141f8e9ce57617"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 133,
-        "line_text": "## §3 Reinicialização (warm boot por leitura, nunca por colagem)",
-        "line_sha256": "d0abe221a98ca6fd7ee3bf1e905d44597435a8fcaa207fd55fa6e257a3517837"
+        "line_no": 153,
+        "line_text": "## §5 Enforcement honesto",
+        "line_sha256": "123b87ee47cf800d998c118629a62f133fc922373057d0c227e5bbd552d47dc4"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0060-selagem-g-orq-entrada-v2.json"
+        "value": ".hbn/readbacks/0061-w-orq-3.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "W-FREEZE. Recomendacao: handoff para novo orquestrador antes do freeze."
+        "value": "Cross-audit W-ORQ-3 por grok/xAI e antigravity/Google com APROVA_0061: SIM; depois hearback humano de Mauricio e selagem em readback proprio 0062+ antes do W-FREEZE."
       }
     ]
   }

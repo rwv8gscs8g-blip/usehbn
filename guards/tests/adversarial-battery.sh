@@ -955,6 +955,79 @@ PY
 try_burla "B47 tentativa sem ler linhas" "G-ORQ" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-orq-entrada.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
+# B48-B51 — G-ORQ-REF: atos de autoridade do orquestrador devem carregar
+# orq_entrada_ref valido e nao podem auto-repinar a atestacao no mesmo commit.
+set_orq_ref_on_active_readback_adv() { # <repo> <ref>
+  local d="$1" ref="$2"
+  python3 - "$d/.hbn/readbacks/0056-g-orq-entrada.json" "$ref" <<'PY'
+import json, sys
+path, ref = sys.argv[1:3]
+data = json.load(open(path, encoding="utf-8"))
+data["orq_entrada_ref"] = ref
+json.dump(data, open(path, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+open(path, "a", encoding="utf-8").write("\n")
+PY
+  ( cd "$d" && git add .hbn/readbacks/0056-g-orq-entrada.json ) >/dev/null 2>&1
+  write_valid_orq_attestation_adv "$d"
+  ( cd "$d" && git add .hbn/attestations/34a7f2f9-orq-entrada.json && git commit -qm orq-ref-base ) >/dev/null 2>&1
+}
+
+stage_orq_dispatch_adv() {
+  local d="$1"
+  (
+    cd "$d"
+    mkdir -p .hbn/dispatch
+    cat > .hbn/dispatch/0056-g-orq-entrada.md <<'EOF'
+---
+dispatch_id: 0056-g-orq-entrada
+path: .hbn/dispatch/0056-g-orq-entrada.md
+readback_id: 0056-g-orq-entrada
+token_fp: 34a7f2f9
+human_authorization: Mauricio
+---
+Executar despacho de autoridade.
+EOF
+    git add .hbn/dispatch/0056-g-orq-entrada.md
+  ) >/dev/null 2>&1
+}
+
+mk_orq_ref_base_adv() { # [ref]
+  local ref="${1:-.hbn/attestations/34a7f2f9-orq-entrada.json}" d
+  d="$(mk_orq_entrada_repo_adv)"
+  set_orq_ref_on_active_readback_adv "$d" "$ref"
+  echo "$d"
+}
+
+d="$(mk_orq_entrada_repo_adv)"
+stage_orq_dispatch_adv "$d"
+try_burla "B48 despacho com orq_entrada_ref omitido" "G-ORQREF" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-orq-entrada-ref.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_orq_ref_base_adv)"
+( cd "$d" && git rm -q .hbn/attestations/34a7f2f9-orq-entrada.json && git commit -qm remove-orq-attestation ) >/dev/null 2>&1
+stage_orq_dispatch_adv "$d"
+try_burla "B49 orq_entrada_ref dangling/ausente" "G-ORQREF" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-orq-entrada-ref.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_orq_ref_base_adv ".hbn/attestations/deadbeef-orq-entrada.json")"
+stage_orq_dispatch_adv "$d"
+try_burla "B50 orq_entrada_ref com fp trocado" "G-ORQREF" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-orq-entrada-ref.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_orq_ref_base_adv)"
+stage_orq_dispatch_adv "$d"
+python3 - "$d/.hbn/attestations/34a7f2f9-orq-entrada.json" <<'PY'
+import json, sys
+path = sys.argv[1]
+data = json.load(open(path, encoding="utf-8"))
+data["nota_repin"] = "alteracao no mesmo commit de autoridade"
+json.dump(data, open(path, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+open(path, "a", encoding="utf-8").write("\n")
+PY
+( cd "$d" && git add .hbn/attestations/34a7f2f9-orq-entrada.json ) >/dev/null 2>&1
+try_burla "B51 auto-repin no ato de autoridade" "G-ORQREF" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-orq-entrada-ref.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------
 echo ""
 printf '%-52s | %-8s | %s\n' "BURLA" "GUARD" "RESULTADO"

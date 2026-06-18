@@ -93,6 +93,7 @@ GUARDS=(
     "assert-orq-entrada.sh"
     "validate-dispatch.sh"
     "assert-dispatch-integrity.sh"
+    "assert-orq-entrada-ref.sh"
     "assert-self-path.sh"
     "assert-registry-line.sh"
     "assert-arvore-label.sh"

@@ -111,6 +111,10 @@
 #   soma 7 checks (1 pass, 6 block): valido sem gabarito, sem atestacao,
 #   linha errada, line_sha256 errado, seed de manifest velho, field ausente e
 #   arquivo da read-list mudado. Total: 202.
+#   W-ORQ-3 (readback 0061): +6 checks G-ORQ-REF (2 pass, 4 block) para
+#   despacho com orq_entrada_ref valido, ref omitido, atestacao dangling,
+#   fp trocado, auto-repin no mesmo commit e entrega nao-autoridade isenta.
+#   Total: 208.
 # =============================================================================
 set -uo pipefail
 
@@ -2339,6 +2343,97 @@ rm -rf "$d"
 d="$(make_orq_entrada_repo)"
 ( cd "$d" && printf '\ndrift staged\n' >> core/relay-spec.md && git add core/relay-spec.md ) >/dev/null 2>&1
 check "orq-entrada: arquivo da read-list mudado → BLOCK" block "$(run_orq_entrada "$d")"
+rm -rf "$d"
+
+# --- G-ORQ-REF: orq_entrada_ref em atos de autoridade ------------------------
+echo "== assert-orq-entrada-ref (G-ORQ-REF) =="
+run_orq_ref() { ( cd "$1" && bash "$GUARDS_DIR/assert-orq-entrada-ref.sh" >/dev/null 2>&1 ); echo $?; }
+
+set_orq_ref_on_active_readback() { # <repo> <ref>
+    local d="$1" ref="$2"
+    python3 - "$d/.hbn/readbacks/0056-g-orq-entrada.json" "$ref" <<'PY'
+import json, sys
+path, ref = sys.argv[1:3]
+data = json.load(open(path, encoding="utf-8"))
+data["orq_entrada_ref"] = ref
+json.dump(data, open(path, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+open(path, "a", encoding="utf-8").write("\n")
+PY
+    ( cd "$d" && git add .hbn/readbacks/0056-g-orq-entrada.json ) >/dev/null 2>&1
+    write_valid_orq_attestation "$d"
+    ( cd "$d" && git add .hbn/attestations/34a7f2f9-orq-entrada.json && git commit -qm orq-ref-base ) >/dev/null 2>&1
+}
+
+stage_orq_dispatch() {
+    local d="$1"
+    (
+        cd "$d"
+        mkdir -p .hbn/dispatch
+        cat > .hbn/dispatch/0056-g-orq-entrada.md <<'EOF'
+---
+dispatch_id: 0056-g-orq-entrada
+path: .hbn/dispatch/0056-g-orq-entrada.md
+readback_id: 0056-g-orq-entrada
+token_fp: 34a7f2f9
+human_authorization: Mauricio
+---
+Executar despacho de autoridade.
+EOF
+        git add .hbn/dispatch/0056-g-orq-entrada.md
+    ) >/dev/null 2>&1
+}
+
+make_orq_ref_base() { # [ref]
+    local ref="${1:-.hbn/attestations/34a7f2f9-orq-entrada.json}" d
+    d="$(make_orq_entrada_repo)"
+    set_orq_ref_on_active_readback "$d" "$ref"
+    echo "$d"
+}
+
+d="$(make_orq_ref_base)"
+stage_orq_dispatch "$d"
+check "orq-ref: despacho com ref valida passa" pass "$(run_orq_ref "$d")"
+rm -rf "$d"
+
+d="$(make_orq_entrada_repo)"
+stage_orq_dispatch "$d"
+check "orq-ref: despacho com ref omitido → BLOCK" block "$(run_orq_ref "$d")"
+rm -rf "$d"
+
+d="$(make_orq_ref_base)"
+( cd "$d" && git rm -q .hbn/attestations/34a7f2f9-orq-entrada.json && git commit -qm remove-orq-attestation ) >/dev/null 2>&1
+stage_orq_dispatch "$d"
+check "orq-ref: ref dangling/atestacao ausente → BLOCK" block "$(run_orq_ref "$d")"
+rm -rf "$d"
+
+d="$(make_orq_ref_base ".hbn/attestations/deadbeef-orq-entrada.json")"
+stage_orq_dispatch "$d"
+check "orq-ref: fp trocado no ref → BLOCK" block "$(run_orq_ref "$d")"
+rm -rf "$d"
+
+d="$(make_orq_ref_base)"
+stage_orq_dispatch "$d"
+python3 - "$d/.hbn/attestations/34a7f2f9-orq-entrada.json" <<'PY'
+import json, sys
+path = sys.argv[1]
+data = json.load(open(path, encoding="utf-8"))
+data["nota_repin"] = "alteracao no mesmo commit de autoridade"
+json.dump(data, open(path, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+open(path, "a", encoding="utf-8").write("\n")
+PY
+( cd "$d" && git add .hbn/attestations/34a7f2f9-orq-entrada.json ) >/dev/null 2>&1
+check "orq-ref: auto-repin no mesmo commit → BLOCK" block "$(run_orq_ref "$d")"
+rm -rf "$d"
+
+d="$(make_orq_entrada_repo)"
+(
+    cd "$d"
+    cat > .hbn/readbacks/0061-w-orq-3.json <<'EOF'
+{"readback_id":"0061-w-orq-3","execution_id":"w-orq-3-test","track":"safe_track","status":"in_progress","human_status":"confirmed"}
+EOF
+    git add .hbn/readbacks/0061-w-orq-3.json
+) >/dev/null 2>&1
+check "orq-ref: entrega nao-autoridade sem ref passa" pass "$(run_orq_ref "$d")"
 rm -rf "$d"
 
 # --- Read-list viva (onda 0006 I-01 — F-08 dos cross-audits 0036/0037) -------

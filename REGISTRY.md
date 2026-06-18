@@ -1246,3 +1246,22 @@ foi regenerada contra os blobs staged do readback ativo 0060.
 | 20260618-072906-grok-cross-ia-g-orq-entrada-0058 | .hbn/results/20260618-072906-grok-cross-ia-g-orq-entrada-0058.md | audit-result; autor=grok; familia=xAI; veredito=APROVA_0058:SIM (92); onda=g-orq-entrada-v2 | frio | fronteira | — | 2026-06-18T07:29:06-03:00 |
 | 20260618-082736-codex-readback-selagem-g-orq-v2 | .hbn/readbacks/0060-selagem-g-orq-entrada-v2.json | readback | frio | fronteira | — | 2026-06-18T08:27:36-03:00 |
 | 20260618-082736-codex-handoff-selagem-g-orq-v2 | .hbn/messages/20260618-082736-codex-handoff-selagem-g-orq-v2.md | handoff | frio | fronteira | — | 2026-06-18T08:27:36-03:00 |
+
+## W-ORQ-3 (2026-06-18) — orq_entrada_ref em atos de autoridade — status: in_progress, readback 0061
+
+W-ORQ-3 adiciona G-ORQ-REF: somente atos de autoridade do orquestrador
+(despacho, selagem e freeze) exigem `orq_entrada_ref` no readback/freeze-json
+em curso, dereferenciado pelo FP do bastao no STATE e validado pelo
+`assert-orq-entrada.sh` vigente. Entregas de implementacao e pareceres de
+auditor ficam fora do gate.
+
+| id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
+|---|---|---|---|---|---|---|
+| 20260618-121842-codex-readback-w-orq-3 | .hbn/readbacks/0061-w-orq-3.json | readback | frio | fronteira | — | 2026-06-18T12:18:42-03:00 |
+| 20260618-121843-codex-guard-orq-entrada-ref | guards/assert-orq-entrada-ref.sh | guard | frio | fronteira | — | 2026-06-18T12:18:43-03:00 |
+| 20260618-121844-codex-runner-orq-entrada-ref | guards/hbn-guards-runner.sh | guard-runner | frio | fronteira | — | 2026-06-18T12:18:44-03:00 |
+| 20260618-121845-codex-guard-tests-orq-ref | guards/tests/run-guard-tests.sh | guard-test | frio | fronteira | — | 2026-06-18T12:18:45-03:00 |
+| 20260618-121846-codex-adversarial-b48-b51 | guards/tests/adversarial-battery.sh | guard-test | frio | fronteira | — | 2026-06-18T12:18:46-03:00 |
+| 20260618-121847-codex-state-w-orq-3 | .hbn/relay/STATE.md | state | frio | fronteira | — | 2026-06-18T12:18:47-03:00 |
+| 20260618-121848-codex-atestacao-orq-entrada-w-orq-3 | .hbn/attestations/34a7f2f9-orq-entrada.json | attestation | frio | fronteira | — | 2026-06-18T12:18:48-03:00 |
+| 20260618-121842-codex-handoff-w-orq-3 | .hbn/messages/20260618-121842-codex-handoff-w-orq-3.md | handoff | frio | fronteira | — | 2026-06-18T12:18:42-03:00 |
