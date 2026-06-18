@@ -708,6 +708,135 @@ EOF
 try_burla "B40 selagem com diversidade insuficiente" "G-DIV" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-audit-diversity.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
+# B41-B44 — G-ORQ-ENTRADA: bastao de orquestrador sem atestacao valida nao
+# pode seguir.
+write_valid_orq_attestation_adv() {
+  local d="$1"
+  (
+    cd "$d"
+    cat > .hbn/attestations/34a7f2f9-orq-entrada.json <<EOF
+{
+  "papel": "orquestrador",
+  "identidade": "opus-4-8",
+  "bastao_token_fp": "34a7f2f9",
+  "read_list_ref": "core/read-list-canonica.txt",
+  "atestado_por": "opus-4-8",
+  "atestado_em": "2026-06-18T00:33:00-03:00",
+  "itens": [
+    {"path": ".hbn/relay/STATE.md", "blob_hash": "$(git hash-object .hbn/relay/STATE.md)"},
+    {"path": ".hbn/messages/20260618-003300-codex-handoff-g-orq-entrada.md", "blob_hash": "$(git hash-object .hbn/messages/20260618-003300-codex-handoff-g-orq-entrada.md)"},
+    {"path": ".hbn/readbacks/0056-g-orq-entrada.json", "blob_hash": "$(git hash-object .hbn/readbacks/0056-g-orq-entrada.json)"},
+    {"path": "agents/role-templates.md", "blob_hash": "$(git hash-object agents/role-templates.md)"},
+    {"path": ".hbn/knowledge/0022-firewall-workflow-fast-track.md", "blob_hash": "$(git hash-object .hbn/knowledge/0022-firewall-workflow-fast-track.md)"},
+    {"path": "core/role-cards.md", "blob_hash": "$(git hash-object core/role-cards.md)"},
+    {"path": ".hbn/knowledge/0001-comandos-atomicos-copiaveis.md", "blob_hash": "$(git hash-object .hbn/knowledge/0001-comandos-atomicos-copiaveis.md)"},
+    {"path": ".hbn/knowledge/0002-entrega-operacional-minimalista.md", "blob_hash": "$(git hash-object .hbn/knowledge/0002-entrega-operacional-minimalista.md)"},
+    {"path": ".hbn/knowledge/0023-area-temporaria-e-fixtures-efemeras.md", "blob_hash": "$(git hash-object .hbn/knowledge/0023-area-temporaria-e-fixtures-efemeras.md)"},
+    {"path": ".hbn/knowledge/0024-orquestrador-nao-sela-zona-livre-sem-aprovacao.md", "blob_hash": "$(git hash-object .hbn/knowledge/0024-orquestrador-nao-sela-zona-livre-sem-aprovacao.md)"},
+    {"path": ".hbn/knowledge/0025-auditor-read-only-sem-no-verify.md", "blob_hash": "$(git hash-object .hbn/knowledge/0025-auditor-read-only-sem-no-verify.md)"},
+    {"path": "core/orchestrator-profile-spec.md", "blob_hash": "$(git hash-object core/orchestrator-profile-spec.md)"},
+    {"path": "core/relay-spec.md", "blob_hash": "$(git hash-object core/relay-spec.md)"}
+  ],
+  "desafios": {
+    "D1": {"resposta_desafio": "apenas um gate enforcado que falha fechado; instrucao escrita nao vincula."},
+    "D2": {"resposta_desafio": "fornecedor(implementador) != fornecedor(orquestrador), excecao so por hearback."},
+    "D3": {"resposta_desafio": "80."},
+    "D4": {"resposta_desafio": "pelo humano; a IA propoe."}
+  }
+}
+EOF
+  )
+}
+
+mk_orq_entrada_repo_adv() {
+  local d; d="$(mk_repo)"
+  (
+    cd "$d"
+    mkdir -p .hbn/relay .hbn/readbacks .hbn/messages .hbn/attestations \
+      .hbn/knowledge agents core guards/data
+    cat > .hbn/relay/STATE.md <<'EOF'
+---
+bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
+proprietario_bastao: claude-opus-4-8
+papel_bastao: "orquestrador"
+readback_ativo: ".hbn/readbacks/0056-g-orq-entrada.json"
+handoff_mais_recente: ".hbn/messages/20260618-003300-codex-handoff-g-orq-entrada.md"
+atribuicao:
+  chapeu_atual: orquestrador
+  implementador: codex
+---
+EOF
+    echo '{"readback_id":"0056-g-orq-entrada","agent_id":"codex","track":"safe_track","human_status":"confirmed","authorization":{"human":"Mauricio","evidence":"teste"}}' > .hbn/readbacks/0056-g-orq-entrada.json
+    echo "# Handoff G-ORQ-ENTRADA" > .hbn/messages/20260618-003300-codex-handoff-g-orq-entrada.md
+    echo "# role templates" > agents/role-templates.md
+    echo "# firewall 0022" > .hbn/knowledge/0022-firewall-workflow-fast-track.md
+    echo "# role cards" > core/role-cards.md
+    echo "# comandos" > .hbn/knowledge/0001-comandos-atomicos-copiaveis.md
+    echo "# entrega" > .hbn/knowledge/0002-entrega-operacional-minimalista.md
+    echo "# temporaria" > .hbn/knowledge/0023-area-temporaria-e-fixtures-efemeras.md
+    echo "# gate enforcado falha fechado" > .hbn/knowledge/0024-orquestrador-nao-sela-zona-livre-sem-aprovacao.md
+    echo "# auditor read-only" > .hbn/knowledge/0025-auditor-read-only-sem-no-verify.md
+    echo "# fornecedor(implementador) != fornecedor(orquestrador)" > core/orchestrator-profile-spec.md
+    echo "# STATE <= 80 linhas" > core/relay-spec.md
+    cat > guards/data/orq-entrada-desafios.txt <<'EOF'
+D1: gate.*fechad|enforc
+D2: fornecedor.*!=.*fornecedor|implementador.*orquestrador
+D3: \b80\b
+D4: humano
+EOF
+    cat > core/read-list-canonica.txt <<EOF
+$(git hash-object .hbn/relay/STATE.md) .hbn/relay/STATE.md
+DYNAMIC handoff_mais_recente
+DYNAMIC readback_ativo
+$(git hash-object agents/role-templates.md) agents/role-templates.md
+$(git hash-object .hbn/knowledge/0022-firewall-workflow-fast-track.md) .hbn/knowledge/0022-firewall-workflow-fast-track.md
+$(git hash-object core/role-cards.md) core/role-cards.md
+$(git hash-object .hbn/knowledge/0001-comandos-atomicos-copiaveis.md) .hbn/knowledge/0001-comandos-atomicos-copiaveis.md
+$(git hash-object .hbn/knowledge/0002-entrega-operacional-minimalista.md) .hbn/knowledge/0002-entrega-operacional-minimalista.md
+$(git hash-object .hbn/knowledge/0023-area-temporaria-e-fixtures-efemeras.md) .hbn/knowledge/0023-area-temporaria-e-fixtures-efemeras.md
+$(git hash-object .hbn/knowledge/0024-orquestrador-nao-sela-zona-livre-sem-aprovacao.md) .hbn/knowledge/0024-orquestrador-nao-sela-zona-livre-sem-aprovacao.md
+$(git hash-object .hbn/knowledge/0025-auditor-read-only-sem-no-verify.md) .hbn/knowledge/0025-auditor-read-only-sem-no-verify.md
+$(git hash-object core/orchestrator-profile-spec.md) core/orchestrator-profile-spec.md
+$(git hash-object core/relay-spec.md) core/relay-spec.md
+EOF
+  ) >/dev/null 2>&1
+  write_valid_orq_attestation_adv "$d"
+  ( cd "$d" && git add -A && git commit -qm orq-entrada ) >/dev/null 2>&1
+  echo "$d"
+}
+
+d="$(mk_orq_entrada_repo_adv)"
+( cd "$d" && rm -f .hbn/attestations/34a7f2f9-orq-entrada.json ) >/dev/null 2>&1
+try_burla "B41 orquestrador sem atestacao" "G-ORQ" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-orq-entrada.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_orq_entrada_repo_adv)"
+( cd "$d" && printf '\ndrift\n' >> core/relay-spec.md ) >/dev/null 2>&1
+try_burla "B42 hash de read-list divergente" "G-ORQ" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-orq-entrada.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_orq_entrada_repo_adv)"
+python3 - "$d/.hbn/attestations/34a7f2f9-orq-entrada.json" <<'PY'
+import json, sys
+path = sys.argv[1]
+data = json.load(open(path))
+data["itens"] = [i for i in data["itens"] if i.get("path") != "core/relay-spec.md"]
+json.dump(data, open(path, "w"), indent=2)
+PY
+try_burla "B43 item de read-list ausente" "G-ORQ" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-orq-entrada.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_orq_entrada_repo_adv)"
+python3 - "$d/.hbn/attestations/34a7f2f9-orq-entrada.json" <<'PY'
+import json, sys
+path = sys.argv[1]
+data = json.load(open(path))
+data["desafios"]["D4"]["resposta_desafio"] = "pela IA autonomamente"
+json.dump(data, open(path, "w"), indent=2)
+PY
+try_burla "B44 resposta de desafio invalida" "G-ORQ" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-orq-entrada.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------
 echo ""
 printf '%-52s | %-8s | %s\n' "BURLA" "GUARD" "RESULTADO"

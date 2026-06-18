@@ -90,6 +90,7 @@ GUARDS=(
     "assert-scratch-ignore.sh"
     "assert-scope-lock.sh"
     "assert-zona-livre.sh"
+    "assert-orq-entrada.sh"
     "validate-dispatch.sh"
     "assert-dispatch-integrity.sh"
     "assert-self-path.sh"

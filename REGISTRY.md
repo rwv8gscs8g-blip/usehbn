@@ -1178,3 +1178,24 @@ a-g de R-PT5 no indice.
 | 20260617-233006-codex-dossie-pre-transicao-06-esteira-meta | docs/brainstorm/rodada-2026-06-17/analise-pre-transicao/06-esteira-pre-transicao-proposta.md | dossie-pre-transicao; meta=proposta-esteira; nao-conta-tema | frio | fronteira | — | 2026-06-17T23:30:06-03:00 |
 | 20260617-233007-codex-dossie-pre-transicao-sintese | docs/brainstorm/rodada-2026-06-17/SINTESE-PROFUNDA-pre-freeze.md | dossie-pre-transicao; tema=a-auditoria-profunda | frio | fronteira | — | 2026-06-17T23:30:07-03:00 |
 | 20260617-232230-codex-handoff-curadoria-dossie | .hbn/messages/20260617-232230-codex-handoff-curadoria-dossie.md | handoff | quente | fronteira | — | 2026-06-17T23:22:30-03:00 |
+
+## G-ORQ-ENTRADA (2026-06-18) — atestacao de leitura para bastao de orquestrador — status: in_progress, readback 0056
+
+G-ORQ-ENTRADA torna bloqueante, no runner local, a ausencia de atestacao de
+leitura valida no disco quando o STATE indica bastao de orquestrador. O guard
+resolve a atestacao pelo FP do bastao, valida a read-list canonica, compara
+hashes atuais por `git hash-object <path>` e exige respostas D1-D4 conforme
+gabarito.
+
+| id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
+|---|---|---|---|---|---|---|
+| 20260618-003300-codex-readback-g-orq-entrada | .hbn/readbacks/0056-g-orq-entrada.json | readback | quente | fronteira | — | 2026-06-18T00:33:00-03:00 |
+| 20260618-003301-codex-read-list-canonica | core/read-list-canonica.txt | spec-core; read-list | quente | fronteira | — | 2026-06-18T00:33:01-03:00 |
+| 20260618-003302-codex-atestacao-orq-entrada | .hbn/attestations/34a7f2f9-orq-entrada.json | attestation | quente | fronteira | — | 2026-06-18T00:33:02-03:00 |
+| 20260618-003303-codex-gabarito-orq-entrada | guards/data/orq-entrada-desafios.txt | guard-data | quente | fronteira | — | 2026-06-18T00:33:03-03:00 |
+| 20260618-003304-codex-guard-orq-entrada | guards/assert-orq-entrada.sh | guard | quente | fronteira | — | 2026-06-18T00:33:04-03:00 |
+| 20260618-003305-codex-runner-g-orq-entrada | guards/hbn-guards-runner.sh | guard-runner | quente | fronteira | — | 2026-06-18T00:33:05-03:00 |
+| 20260618-003306-codex-guard-tests-g-orq-entrada | guards/tests/run-guard-tests.sh | guard-test | quente | fronteira | — | 2026-06-18T00:33:06-03:00 |
+| 20260618-003307-codex-adversarial-b41-b44 | guards/tests/adversarial-battery.sh | guard-test | quente | fronteira | — | 2026-06-18T00:33:07-03:00 |
+| 20260618-003308-codex-state-g-orq-entrada | .hbn/relay/STATE.md | state | quente | fronteira | — | 2026-06-18T00:33:08-03:00 |
+| 20260618-003300-codex-handoff-g-orq-entrada | .hbn/messages/20260618-003300-codex-handoff-g-orq-entrada.md | handoff | quente | fronteira | — | 2026-06-18T00:33:00-03:00 |
