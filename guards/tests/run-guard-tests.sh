@@ -99,6 +99,10 @@
 #   R3a G-TRAILERS (readback 0051): +4 checks (2 pass, 2 block) para
 #   trailers HBN contiguos em commit governado, nao-contiguidade, trailer
 #   ausente e zona livre isenta. Total: 191.
+#   R3b G-DIVERSITY (readback 0053): +4 checks (1 pass, 3 block) para
+#   >=2 familias distintas != implementador com APROVA SIM na selagem,
+#   incluindo tracked+added, so 1 nao-impl, ambos impl-family e misto
+#   1 nao-impl + 1 impl-family. Total: 195.
 # =============================================================================
 set -uo pipefail
 
@@ -441,6 +445,66 @@ rm -rf "$d"
 d="$(make_auditor_id_repo)"
 write_auditor_result "$d" "cursor" "familia-incoerente" "SOU: cursor · familia Google · papel auditor"
 check "auditor-id: cursor/Google incoerente → BLOCK" block "$(run_auditor_id "$d")"
+rm -rf "$d"
+
+# --- G-DIVERSITY: diversidade de familia na selagem --------------------------
+echo "== assert-audit-diversity (G-DIVERSITY) =="
+make_audit_diversity_repo() {
+    local d; d="$(make_repo)"
+    (
+        cd "$d"
+        mkdir -p guards/data .hbn/readbacks .hbn/results
+        cp "$REPO_ROOT/guards/data/auditor-families.txt" guards/data/auditor-families.txt
+        cat > .hbn/readbacks/0099-diversity-fixture.json <<'EOF'
+{"readback_id":"0099-diversity-fixture","implementador_id":"codex","track":"safe_track","human_status":"confirmed","scope":{"files_allowed":[".hbn/results/*.md"],"files_forbidden":[]}}
+EOF
+        git add guards/data/auditor-families.txt .hbn/readbacks/0099-diversity-fixture.json
+        git commit -qm diversity-base
+    ) >/dev/null 2>&1
+    echo "$d"
+}
+write_diversity_result() { # <repo> <alias> <stamp> <familia> <veredito>
+    local d="$1" alias="$2" stamp="$3" family="$4" verdict="$5" f
+    f=".hbn/results/20260617-${stamp}-${alias}-cross-ia-diversity-0099.md"
+    (
+        cd "$d"
+        mkdir -p .hbn/results
+        {
+            echo "---"
+            echo "path: ${f}"
+            echo "---"
+            echo "SOU: ${alias} · familia ${family} · papel auditor"
+            echo "APROVA_0099: ${verdict}"
+            echo ""
+            echo "Parecer de diversidade."
+        } > "$f"
+        git add "$f"
+    ) >/dev/null 2>&1
+}
+run_diversity() { ( cd "$1" && bash "$GUARDS_DIR/assert-audit-diversity.sh" >/dev/null 2>&1 ); echo $?; }
+
+d="$(make_audit_diversity_repo)"
+write_diversity_result "$d" "grok" "170001" "xAI" "SIM"
+( cd "$d" && git commit -qm tracked-grok ) >/dev/null 2>&1
+write_diversity_result "$d" "antigravity" "170002" "Google" "SIM"
+check "diversity: tracked xAI + added Google != OpenAI passa" pass "$(run_diversity "$d")"
+rm -rf "$d"
+
+d="$(make_audit_diversity_repo)"
+write_diversity_result "$d" "grok" "170003" "xAI" "SIM"
+check "diversity: so 1 familia nao-impl -> BLOCK" block "$(run_diversity "$d")"
+rm -rf "$d"
+
+d="$(make_audit_diversity_repo)"
+write_diversity_result "$d" "codex" "170004" "OpenAI" "SIM"
+write_diversity_result "$d" "cursor" "170005" "OpenAI" "SIM"
+check "diversity: 2 results ambos familia do impl -> BLOCK" block "$(run_diversity "$d")"
+rm -rf "$d"
+
+d="$(make_audit_diversity_repo)"
+write_diversity_result "$d" "grok" "170006" "xAI" "SIM"
+write_diversity_result "$d" "cursor" "170007" "OpenAI" "SIM"
+check "diversity: 1 nao-impl + 1 impl-family -> BLOCK" block "$(run_diversity "$d")"
 rm -rf "$d"
 
 # --- G-HRB: assert-hearback-integrity (ADR-023 — anti-auto-assinatura F-05) --

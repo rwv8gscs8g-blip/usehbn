@@ -682,6 +682,32 @@ EOF
 try_burla "B39 impl=null + trailers nao-contiguos" "G-TRAIL" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-trailers-contiguous.sh" "$d/msg-b39.txt" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
+# B40 — selagem com diversidade insuficiente: apenas uma familia distinta
+# diferente da familia do implementador com APROVA SIM nao pode selar.
+d="$(mk_repo)"
+(
+  cd "$d"
+  mkdir -p guards/data .hbn/readbacks .hbn/results
+  cp "$REPO_ROOT/guards/data/auditor-families.txt" guards/data/auditor-families.txt
+  cat > .hbn/readbacks/0099-diversity-fixture.json <<'EOF'
+{"readback_id":"0099-diversity-fixture","implementador_id":"codex","track":"safe_track","human_status":"confirmed","scope":{"files_allowed":[".hbn/results/*.md"],"files_forbidden":[]}}
+EOF
+  git add guards/data/auditor-families.txt .hbn/readbacks/0099-diversity-fixture.json
+  git commit -qm init
+  cat > .hbn/results/20260617-170100-grok-cross-ia-diversity-0099.md <<'EOF'
+---
+path: .hbn/results/20260617-170100-grok-cross-ia-diversity-0099.md
+---
+SOU: grok · familia xAI · papel auditor
+APROVA_0099: SIM
+
+Parecer adversarial: so uma familia nao-implementador.
+EOF
+  git add .hbn/results/20260617-170100-grok-cross-ia-diversity-0099.md
+) >/dev/null 2>&1
+try_burla "B40 selagem com diversidade insuficiente" "G-DIV" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-audit-diversity.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------
 echo ""
 printf '%-52s | %-8s | %s\n' "BURLA" "GUARD" "RESULTADO"
