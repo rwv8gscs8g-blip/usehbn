@@ -21,6 +21,40 @@ fi
 
 echo "${C_BOLD}[hbn-guards] Iniciando bateria de guards de governança…${C_END}" >&2
 
+if [[ "${1:-}" == "--commit-msg" ]]; then
+    MSG_FILE="${2:-}"
+    if [[ -z "$MSG_FILE" || ! -f "$MSG_FILE" ]]; then
+        guard_fail "Uso: hbn-guards-runner.sh --commit-msg <arquivo-da-mensagem>."
+        exit 1
+    fi
+    COMMIT_MSG_GUARDS=(
+        "assert-baton-token.sh"
+        "assert-exception-traceable.sh"
+        "assert-trailers-contiguous.sh"
+    )
+    OVERALL=0
+    for g in "${COMMIT_MSG_GUARDS[@]}"; do
+        echo "${C_DIM}---${C_END}" >&2
+        if bash "${SCRIPT_DIR}/${g}" "$MSG_FILE"; then
+            :
+        else
+            rc=$?
+            OVERALL=$rc
+            break
+        fi
+    done
+    echo "${C_DIM}---${C_END}" >&2
+    if [[ $OVERALL -eq 0 ]]; then
+        echo "${C_BOLD}[hbn-guards] Guards de commit-msg passaram.${C_END}" >&2
+    else
+        echo "${C_BOLD}[hbn-guards] Guards de commit-msg FALHARAM (código $OVERALL).${C_END}" >&2
+    fi
+    exit $OVERALL
+elif [[ $# -gt 0 ]]; then
+    guard_fail "Uso: hbn-guards-runner.sh [--commit-msg <arquivo-da-mensagem>]."
+    exit 1
+fi
+
 ACTIVE_ROOT="$(get_canonical_root || true)"
 if [[ -z "$ACTIVE_ROOT" ]]; then
     guard_fail "Versão ativa inválida: ${HBN_ACTIVE_VERSION_ERROR:-erro desconhecido}. Enforcement bloqueado até resolução explícita."
@@ -72,6 +106,10 @@ GUARDS=(
     "assert-hearback-integrity.sh"
     "assert-exception-traceable.sh"
 )
+
+if [[ -n "${HBN_DIFF_BASE:-}" ]]; then
+    GUARDS+=("assert-trailers-contiguous.sh")
+fi
 
 OVERALL=0
 for g in "${GUARDS[@]}"; do
