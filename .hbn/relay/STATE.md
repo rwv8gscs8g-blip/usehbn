@@ -1,18 +1,22 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente; R2 arvores selada e vigente; R3a G-TRAILERS selada e vigente; R3b G-DIVERSITY em execucao)"
-onda_atual: "R3b G-DIVERSITY em execucao; readback 0053 aberto; implementador codex; G-EXC PROPOSED visivel desde C1"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente; R2 arvores selada e vigente; R3a G-TRAILERS selada e vigente; R3b G-DIVERSITY entregue)"
+onda_atual: "R3b G-DIVERSITY entregue operacionalmente; readback 0053 aguarda cross-audit/hearback/selagem; R3c registrada como C-DEBT aceita"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
-proprietario_bastao: codex
-papel_bastao: "implementador"
+proprietario_bastao: claude-opus-4-8
+papel_bastao: "orquestrador"
 modo_educacional: "intermediário"
 papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM; W3 ratificado por Grok, Antigravity 100 e Cursor 92 com APROVA_0036 SIM"
   gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou grande selagem 0035, hardening->deny->freeze, selagem W3, cartao de entrada e branch protection biometrica na main"
-proxima_acao: "C2: implementar guards/assert-audit-diversity.sh e integrar no runner."
+proxima_acao: "cross-audit ≠-OpenAI + hearback + selagem; depois W-FREEZE."
 sinais_abertos:
+  - "🟢 R3b G-DIVERSITY ENTREGUE — guards/assert-audit-diversity.sh ativo no runner; selagem com result cross-ia adicionado exige >=2 familias distintas ≠-implementador com APROVA SIM."
+  - "🟢 TESTES R3b VERDES — runner verde; run-guard-tests 195/195; adversarial-battery B1-B40 bloqueada; pytest 213 passed."
+  - "🟡 C-DEBT R3c G-REG-M GERAL — divida aceita para o freeze; nao implementada nesta onda por decisao de cadencia."
+  - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0053 safe_track entregue por codex, autorização humana Mauricio e trailers contiguos; permanece proposto ate cross-audit ≠-OpenAI + hearback + selagem."
   - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0053 safe_track, implementador=codex, autorização humana Mauricio e trailers contiguos obrigatorios; R3b G-DIVERSITY em execucao."
   - "🟡 R3b G-DIVERSITY ABERTA — guard aditivo deve exigir >=2 familias distintas ≠-implementador com APROVA SIM na selagem; R3c G-REG-M geral fica como divida aceita para freeze."
   - "🟢 R3a G-TRAILERS SELADA E VIGENTE — readback 0051 ratificado por grok/xAI APROVA_0051 SIM e antigravity/Google APROVA_0051 SIM; readback 0052 encerrado operacionalmente."
@@ -120,19 +124,35 @@ sinais_abertos:
   - "🟢 branch protection no GitHub: ruleset Active na main (require PR, restrict deletions, block force pushes); passkey Touch ID no boundary."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
 readback_ativo: ".hbn/readbacks/0053-g-diversity.json"
-handoff_mais_recente: ".hbn/messages/20260617-220500-codex-handoff-selagem-g-trailers.md"
+handoff_mais_recente: ".hbn/messages/20260617-223500-codex-handoff-g-diversity.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "Readback 0053 aberto; R3b G-DIVERSITY em execucao por codex; C1 registra escopo e estado inicial."
-ultima_atualizacao: "2026-06-17T22:30:01-03:00"
-atualizado_por: codex-implementador-g-diversity-abertura
+ciclo_ativo: "Readback 0053 entregue operacionalmente; R3b G-DIVERSITY aguarda cross-audit/hearback/selagem; R3c registrada como C-DEBT; bastao devolvido ao orquestrador."
+ultima_atualizacao: "2026-06-17T22:35:01-03:00"
+atualizado_por: codex-implementador-g-diversity-handoff
 atribuicao:
-  chapeu_atual: implementador
+  chapeu_atual: orquestrador
   implementador: codex
   auditores: [grok, antigravity]
-  gravada_em: "2026-06-17T22:30:01-03:00"
-  hearback_ref: "Mauricio 2026-06-17: cadencia ACELERADA (R3b agora; R3c vira divida; depois W-FREEZE)"
+  gravada_em: "2026-06-17T22:35:01-03:00"
+  hearback_ref: "Mauricio 2026-06-17: cadencia ACELERADA (R3b agora; R3c vira divida; depois W-FREEZE); entrega R3b concluida, aguardando cross-audit/hearback/selagem"
 ---
+
+Nota R3b G-DIVERSITY / readback 0053: entregue operacionalmente em
+2026-06-17T22:35:01-03:00. Entregas: `guards/assert-audit-diversity.sh`
+criado como guard fail-closed; runner integra G-DIVERSITY apos G-AUDITOR-ID;
+`guards/tests/run-guard-tests.sh` subiu para `195 passaram, 0 falharam`; a
+bateria adversarial ganhou B40 e bloqueia selagem com diversidade
+insuficiente; knowledge 0028 foi depositada e indexada. Evidencia mecanica:
+runner verde antes de cada commit; `bash guards/tests/run-guard-tests.sh`
+fechou `195 passaram, 0 falharam`; `bash guards/tests/adversarial-battery.sh`
+fechou B1-B40 bloqueadas; `.venv/bin/pytest -q` fechou `213 passed`; `main`
+permanece em `4db692876381a0d7909985c8500d999f2e677b04`. R3c G-REG-M geral
+fica registrada como C-DEBT aceita para freeze. Fora de escopo preservado:
+`main`, `src/**`, `core/**`, `methodology/**`, `schemas/**`,
+`guards/assert-auditor-id.sh`, `guards/assert-exception-traceable.sh` e
+`docs/brainstorm/**`. Proxima acao: cross-audit ≠-OpenAI + hearback +
+selagem; depois W-FREEZE.
 
 Nota R3b G-DIVERSITY / readback 0053: aberta em
 2026-06-17T22:30:01-03:00. A onda adiciona guard aditivo de diversidade de

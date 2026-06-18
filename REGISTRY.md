@@ -1141,3 +1141,5 @@ com `APROVA_<NNNN>: SIM`. Fecha a Camada 2 do design do G-AUDITOR-ID.
 | 20260617-223300-codex-guard-tests-g-diversity | guards/tests/run-guard-tests.sh | guard-test | quente | fronteira | — | 2026-06-17T22:33:00-03:00 |
 | 20260617-223301-codex-adversarial-b40-g-diversity | guards/tests/adversarial-battery.sh | guard-test | quente | fronteira | — | 2026-06-17T22:33:01-03:00 |
 | 20260617-223400-codex-knowledge-0028-diversidade | .hbn/knowledge/0028-diversidade-familia-enforced-selagem.md | knowledge | quente | fronteira | — | 2026-06-17T22:34:00-03:00 |
+| 20260617-223500-codex-handoff-g-diversity | .hbn/messages/20260617-223500-codex-handoff-g-diversity.md | handoff | quente | fronteira | — | 2026-06-17T22:35:00-03:00 |
+| 20260617-223501-codex-state-g-diversity-handoff | .hbn/relay/STATE.md | state | quente | fronteira | — | 2026-06-17T22:35:01-03:00 |
