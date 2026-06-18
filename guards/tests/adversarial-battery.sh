@@ -654,6 +654,34 @@ EOF
 try_burla "B38 arvore estavel sem promocao" "G-ARVORE" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-arvore-label.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
+# B39 — G-TRAILERS independe de implementador no STATE. Mesmo com
+# implementador=null, commit governado com trailers nao-contiguos deve bloquear.
+d="$(mk_repo)"
+(
+  cd "$d"
+  mkdir -p .hbn/relay guards
+  cat > .hbn/relay/STATE.md <<'EOF'
+---
+atribuicao:
+  implementador: null
+---
+EOF
+  git add -A -f
+  git commit -qm init
+  echo payload > guards/b39.sh
+  git add guards/b39.sh
+  cat > msg-b39.txt <<'EOF'
+feat: b39
+
+HBN-Readback: 0051
+HBN-Human-Authorization: Mauricio
+
+HBN-Token-FP: 34a7f2f9
+EOF
+) >/dev/null 2>&1
+try_burla "B39 impl=null + trailers nao-contiguos" "G-TRAIL" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-trailers-contiguous.sh" "$d/msg-b39.txt" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------
 echo ""
 printf '%-52s | %-8s | %s\n' "BURLA" "GUARD" "RESULTADO"

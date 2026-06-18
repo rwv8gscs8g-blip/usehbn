@@ -96,6 +96,9 @@
 #   R2 arvores (readback 0049): +4 checks G-ARVORE-LABEL (1 pass, 3 block)
 #   para fronteira valida, arvore invalida, estavel sem promocao e
 #   estavel nao-quente. Total: 187.
+#   R3a G-TRAILERS (readback 0051): +4 checks (2 pass, 2 block) para
+#   trailers HBN contiguos em commit governado, nao-contiguidade, trailer
+#   ausente e zona livre isenta. Total: 191.
 # =============================================================================
 set -uo pipefail
 
@@ -1376,6 +1379,70 @@ base="$(git -C "$d" rev-parse HEAD)"
     git commit -qm $'feat: ci sem human authorization\n\nHBN-Readback: 0007\nHBN-Token-FP: 34a7f2f9'
 ) >/dev/null 2>&1
 check "exc: CI sem HBN-Human-Authorization -> BLOCK" block "$(run_exc_ci "$d" "$base")"
+rm -rf "$d"
+
+# --- G-TRAILERS: contiguidade dos 3 trailers HBN (R3a/readback 0051) ---------
+echo "== assert-trailers-contiguous (G-TRAILERS) =="
+make_trailers_repo() {
+    local d; d="$(mktemp -d)"
+    (
+        cd "$d"
+        git init -q
+        git config user.email "tests@hbn.local"
+        git config user.name "hbn-guard-tests"
+        mkdir -p .hbn/relay docs/brainstorm
+        echo "." > .hbn/active-version
+        cat > .hbn/relay/STATE.md <<'EOF'
+---
+atribuicao:
+  implementador: null
+---
+EOF
+        git add -A -f
+        git commit -qm "init"
+    ) >/dev/null 2>&1
+    echo "$d"
+}
+run_trailers() { ( cd "$1" && bash "$GUARDS_DIR/assert-trailers-contiguous.sh" "$2" >/dev/null 2>&1 ); echo $?; }
+
+d="$(make_trailers_repo)"
+(
+    cd "$d"
+    echo x >> REGISTRY.md
+    git add REGISTRY.md
+    printf 'feat: governado trailers ok\n\nHBN-Readback: 0007\nHBN-Human-Authorization: ordem-tester\nHBN-Token-FP: 34a7f2f9\n' > msg-ok.txt
+) >/dev/null 2>&1
+check "trailers: commit governado com 3 trailers contiguos -> passa" pass "$(run_trailers "$d" "$d/msg-ok.txt")"
+rm -rf "$d"
+
+d="$(make_trailers_repo)"
+(
+    cd "$d"
+    echo x >> REGISTRY.md
+    git add REGISTRY.md
+    printf 'feat: governado trailers quebrados\n\nHBN-Readback: 0007\nHBN-Human-Authorization: ordem-tester\n\nHBN-Token-FP: 34a7f2f9\n' > msg-nao-contiguos.txt
+) >/dev/null 2>&1
+check "trailers: commit governado com trailers nao-contiguos -> BLOCK" block "$(run_trailers "$d" "$d/msg-nao-contiguos.txt")"
+rm -rf "$d"
+
+d="$(make_trailers_repo)"
+(
+    cd "$d"
+    echo x >> REGISTRY.md
+    git add REGISTRY.md
+    printf 'feat: governado sem human\n\nHBN-Readback: 0007\nHBN-Token-FP: 34a7f2f9\n' > msg-falta-human.txt
+) >/dev/null 2>&1
+check "trailers: commit governado faltando um trailer -> BLOCK" block "$(run_trailers "$d" "$d/msg-falta-human.txt")"
+rm -rf "$d"
+
+d="$(make_trailers_repo)"
+(
+    cd "$d"
+    echo ideia > docs/brainstorm/ideia-livre.md
+    git add docs/brainstorm/ideia-livre.md
+    printf 'docs: zona livre sem trailers\n' > msg-zona-livre.txt
+) >/dev/null 2>&1
+check "trailers: commit so de zona livre sem trailers -> passa" pass "$(run_trailers "$d" "$d/msg-zona-livre.txt")"
 rm -rf "$d"
 
 # --- G-HRB modo runner + assinatura SSH (onda 0006 I-08) ---------------------
