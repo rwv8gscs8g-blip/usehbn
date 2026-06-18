@@ -14,6 +14,7 @@ liste a entrada e o uso; nao replique o conteudo da knowledge.
 | `0024-orquestrador-nao-sela-zona-livre-sem-aprovacao.md` | accepted | quente | Zona livre nao entra em commit/selagem sem aprovacao humana explicita por arquivo. |
 | `0025-auditor-read-only-sem-no-verify.md` | accepted | quente | Auditor cruzado fica read-only; commit de fixture com --no-verify so em branch descartavel e limpa. |
 | `0026-auto-id-auditor-gate-enforcado.md` | accepted | quente | Auto-ID e familia do auditor viram gate enforcado antes de contar parecer na diversidade. |
+| `0027-trailers-contiguos-independente-de-excecao.md` | accepted | quente | G-TRAILERS exige os 3 trailers HBN contiguos em todo commit governado, independente de implementador no STATE. |
 | `distribution-model.md` | decisao atual | — | Distribuicao fase 2, bootstrap local e adapters de runtime. |
 | `relay-protocol.md` | decisao atual | — | Continuidade de bastao e uso dos arquivos de relay. |
 | `runtime-command-model.md` | decisao atual | — | `hbn` como CLI operacional primario e `usehbn` como compatibilidade. |
