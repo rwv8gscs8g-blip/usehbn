@@ -1,0 +1,50 @@
+{
+  "readback_id": "0054-selagem-g-diversity",
+  "execution_id": "selagem-g-diversity-2026-06-17",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0054-selagem-g-diversity.json",
+  "understanding": "Selar a R3b G-DIVERSITY (readback 0053), ratificada por 2 auditores de familia distinta de OpenAI verificados no disco com SOU canonico (antigravity/Google APROVA_0053 SIM 100; grok/xAI APROVA_0053 SIM 95). Tornar tracked os 2 pareceres com linha 7-col (arvore=fronteira); o G-AUDITOR-ID e o G-DIVERSITY validam a selagem (dogfood). Marcar hardening pre-freeze concluido (R3a+R3b); R3c segue C-DEBT. Sem tocar main, guards, src, core, methodology, schemas, brainstorm.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio em 2026-06-17: seguir com R3b; hearback aprovando selagem apos 2 pareceres ≠-OpenAI verificados no disco.",
+    "created_at": "2026-06-17T17:00:00-03:00",
+    "note": "Autorizacao humana para safe_track de selagem. Nao autoriza tocar main, merge, --no-verify, git add ., guards, src, core, methodology, schemas, brainstorm."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0054-selagem-g-diversity.json",
+      ".hbn/results/20260617-222025-antigravity-cross-ia-g-diversity-0053.md",
+      ".hbn/results/20260617-225500-grok-cross-ia-g-diversity-0053.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/messages/20260617-HHMMSS-codex-handoff-selagem-g-diversity.md"
+    ],
+    "files_forbidden": ["main","guards/**","src/**","core/**","methodology/**","schemas/**","docs/brainstorm/**"]
+  },
+  "action_plan": ["C1: abrir readback 0054 + STATE(impl=codex,🔴) + REGISTRY 7-col.","C2: selar 2 pareceres + 2 linhas 7-col.","C3: STATE + handoff."],
+  "invariants_to_preserve": [
+    "Nao tocar main, guards, src, core, methodology, schemas, brainstorm.",
+    "As 2 linhas novas de REGISTRY = 7-col arvore=fronteira.",
+    "Os 2 pareceres devem PASSAR no G-AUDITOR-ID e no G-DIVERSITY; se bloquear, parar e relatar.",
+    "Nao usar git add .; somente paths exatos.",
+    "implementador=codex e 🔴 G-EXC PROPOSED no STATE desde C1; trailers CONTIGUOS.",
+    "Antes de cada commit: runner + run-guard-tests + adversarial verdes; pytest 213.",
+    "Trailers: HBN-Readback: 0054, HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin), HBN-Token-FP: 34a7f2f9."
+  ],
+  "out_of_scope": ["W-FREEZE; R3c (divida); exuvia; habilitar D-ORQ-WRITE."],
+  "read_evidence": [
+    ".hbn/results/20260617-222025-antigravity-cross-ia-g-diversity-0053.md (APROVA_0053 SIM, SOU antigravity/Google)",
+    ".hbn/results/20260617-225500-grok-cross-ia-g-diversity-0053.md (APROVA_0053 SIM, SOU grok/xAI)"
+  ],
+  "mechanical_evidence": [
+    "git rev-parse HEAD -> 00b115c (tip R3b)",
+    "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04"
+  ],
+  "created_at": "2026-06-17T17:00:00-03:00",
+  "protocol_version": "0.3.0"
+}

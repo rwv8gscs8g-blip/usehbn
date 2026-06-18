@@ -1,18 +1,20 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente; R2 arvores selada e vigente; R3a G-TRAILERS selada e vigente; R3b G-DIVERSITY entregue)"
-onda_atual: "R3b G-DIVERSITY entregue operacionalmente; readback 0053 aguarda cross-audit/hearback/selagem; R3c registrada como C-DEBT aceita"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente; R2 arvores selada e vigente; R3a G-TRAILERS selada e vigente; R3b G-DIVERSITY entregue; selagem R3b G-DIVERSITY em execucao)"
+onda_atual: "Selagem R3b G-DIVERSITY em execucao; readback 0054 aberto; implementador codex; G-EXC PROPOSED visivel desde C1"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
-proprietario_bastao: claude-opus-4-8
-papel_bastao: "orquestrador"
+proprietario_bastao: codex
+papel_bastao: "implementador"
 modo_educacional: "intermediário"
 papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM; W3 ratificado por Grok, Antigravity 100 e Cursor 92 com APROVA_0036 SIM"
   gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou grande selagem 0035, hardening->deny->freeze, selagem W3, cartao de entrada e branch protection biometrica na main"
-proxima_acao: "cross-audit ≠-OpenAI + hearback + selagem; depois W-FREEZE."
+proxima_acao: "C2: tornar tracked os 2 pareceres R3b com REGISTRY 7-col; depois C3 STATE/handoff."
 sinais_abertos:
+  - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0054 safe_track, implementador=codex, autorização humana Mauricio e trailers contiguos obrigatorios; selagem R3b G-DIVERSITY em execucao."
+  - "🟡 SELAGEM R3b G-DIVERSITY ABERTA — readback 0053 ratificado por antigravity/Google APROVA_0053 SIM e grok/xAI APROVA_0053 SIM; C2 deve tornar os 2 pareceres tracked com REGISTRY 7-col arvore=fronteira."
   - "🟢 R3b G-DIVERSITY ENTREGUE — guards/assert-audit-diversity.sh ativo no runner; selagem com result cross-ia adicionado exige >=2 familias distintas ≠-implementador com APROVA SIM."
   - "🟢 TESTES R3b VERDES — runner verde; run-guard-tests 195/195; adversarial-battery B1-B40 bloqueada; pytest 213 passed."
   - "🟡 C-DEBT R3c G-REG-M GERAL — divida aceita para o freeze; nao implementada nesta onda por decisao de cadencia."
@@ -123,20 +125,34 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟢 branch protection no GitHub: ruleset Active na main (require PR, restrict deletions, block force pushes); passkey Touch ID no boundary."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0053-g-diversity.json"
+readback_ativo: ".hbn/readbacks/0054-selagem-g-diversity.json"
 handoff_mais_recente: ".hbn/messages/20260617-223500-codex-handoff-g-diversity.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "Readback 0053 entregue operacionalmente; R3b G-DIVERSITY aguarda cross-audit/hearback/selagem; R3c registrada como C-DEBT; bastao devolvido ao orquestrador."
-ultima_atualizacao: "2026-06-17T22:35:01-03:00"
-atualizado_por: codex-implementador-g-diversity-handoff
+ciclo_ativo: "Selagem R3b G-DIVERSITY aberta no readback 0054; implementador codex; G-EXC PROPOSED visivel; C2 deve versionar os dois pareceres."
+ultima_atualizacao: "2026-06-17T23:00:00-03:00"
+atualizado_por: codex-implementador-selagem-g-diversity-abertura
 atribuicao:
-  chapeu_atual: orquestrador
+  chapeu_atual: implementador
   implementador: codex
   auditores: [grok, antigravity]
-  gravada_em: "2026-06-17T22:35:01-03:00"
-  hearback_ref: "Mauricio 2026-06-17: cadencia ACELERADA (R3b agora; R3c vira divida; depois W-FREEZE); entrega R3b concluida, aguardando cross-audit/hearback/selagem"
+  gravada_em: "2026-06-17T23:00:00-03:00"
+  hearback_ref: "Mauricio 2026-06-17: hearback aprovando selagem da R3b apos 2 pareceres ≠-OpenAI verificados no disco; seguir com readback 0054."
 ---
+
+Nota selagem R3b G-DIVERSITY / readback 0054: aberta em
+2026-06-17T23:00:00-03:00. A onda sela a R3b G-DIVERSITY (readback 0053)
+apos dois pareceres cross-audit de familias distintas de OpenAI verificados no
+disco com SOU canonico: antigravity/Google `APROVA_0053: SIM` com confianca
+100/100 e grok/xAI `APROVA_0053: SIM` com confianca 95. Escopo restrito:
+readback 0054, os dois pareceres em `.hbn/results/`, REGISTRY 7-col com
+`arvore=fronteira`, STATE e handoff. A excecao G-EXC segue proposta e visivel
+porque implementador=codex coincide com o agente do readback 0054 autorizado
+por Mauricio; os trailers HBN devem ficar contiguos em todos os commits desta
+selagem. Fora de escopo preservado: `main`, `guards/**`, `src/**`, `core/**`,
+`methodology/**`, `schemas/**` e `docs/brainstorm/**`. Proxima acao: C2 tornar
+tracked os dois pareceres; C3 encerrar STATE/handoff e devolver o bastao ao
+orquestrador.
 
 Nota R3b G-DIVERSITY / readback 0053: entregue operacionalmente em
 2026-06-17T22:35:01-03:00. Entregas: `guards/assert-audit-diversity.sh`

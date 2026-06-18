@@ -1143,3 +1143,16 @@ com `APROVA_<NNNN>: SIM`. Fecha a Camada 2 do design do G-AUDITOR-ID.
 | 20260617-223400-codex-knowledge-0028-diversidade | .hbn/knowledge/0028-diversidade-familia-enforced-selagem.md | knowledge | quente | fronteira | — | 2026-06-17T22:34:00-03:00 |
 | 20260617-223500-codex-handoff-g-diversity | .hbn/messages/20260617-223500-codex-handoff-g-diversity.md | handoff | quente | fronteira | — | 2026-06-17T22:35:00-03:00 |
 | 20260617-223501-codex-state-g-diversity-handoff | .hbn/relay/STATE.md | state | quente | fronteira | — | 2026-06-17T22:35:01-03:00 |
+
+## Selagem R3b G-DIVERSITY (2026-06-17) — duplo APROVA_0053 — status: in_progress, readback 0054
+
+R3b G-DIVERSITY (readback 0053) foi ratificada por dois pareceres cross-audit
+de familias distintas de OpenAI: Antigravity/Google registrou
+`APROVA_0053: SIM` com confianca 100/100 e Grok/xAI registrou
+`APROVA_0053: SIM` com confianca 95. Esta selagem torna tracked os pareceres,
+validados por G-AUDITOR-ID e G-DIVERSITY, e marca o hardening pre-freeze R3a+R3b
+como concluido; R3c segue C-DEBT.
+
+| id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
+|---|---|---|---|---|---|---|
+| 20260617-230000-codex-readback-selagem-g-diversity | .hbn/readbacks/0054-selagem-g-diversity.json | readback | quente | fronteira | — | 2026-06-17T23:00:00-03:00 |
