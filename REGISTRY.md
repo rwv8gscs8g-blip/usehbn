@@ -1124,3 +1124,15 @@ os pareceres e encerra o rito de selagem antes da R3b.
 | 20260617-212200-grok-cross-ia-g-trailers-0051 | .hbn/results/20260617-212200-grok-cross-ia-g-trailers-0051.md | audit-result; autor=grok; familia=xAI; veredito=APROVA_0051:SIM; onda=g-trailers-0051 | frio | fronteira | — | 2026-06-17T21:22:00-03:00 |
 | 20260617-212500-antigravity-cross-ia-g-trailers-0051 | .hbn/results/20260617-212500-antigravity-cross-ia-g-trailers-0051.md | audit-result; autor=antigravity; familia=Google; veredito=APROVA_0051:SIM; onda=g-trailers-0051 | frio | fronteira | — | 2026-06-17T21:25:00-03:00 |
 | 20260617-220500-codex-handoff-selagem-g-trailers | .hbn/messages/20260617-220500-codex-handoff-selagem-g-trailers.md | handoff | quente | fronteira | — | 2026-06-17T22:05:00-03:00 |
+
+## R3b G-DIVERSITY (2026-06-17) — diversidade de familia na selagem — status: in_progress, readback 0053
+
+R3b adiciona G-DIVERSITY como guard aditivo: ao adicionar pareceres
+cross-audit de selagem, o readback auditado so pode selar com pelo menos duas
+familias distintas de auditores, ambas diferentes da familia do implementador,
+com `APROVA_<NNNN>: SIM`. Fecha a Camada 2 do design do G-AUDITOR-ID.
+
+| id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
+|---|---|---|---|---|---|---|
+| 20260617-223000-codex-readback-g-diversity | .hbn/readbacks/0053-g-diversity.json | readback | quente | fronteira | — | 2026-06-17T22:30:00-03:00 |
+| 20260617-223001-codex-state-g-diversity-abertura | .hbn/relay/STATE.md | state | quente | fronteira | — | 2026-06-17T22:30:01-03:00 |

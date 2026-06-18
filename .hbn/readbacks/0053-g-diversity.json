@@ -1,0 +1,63 @@
+{
+  "readback_id": "0053-g-diversity",
+  "execution_id": "g-diversity-2026-06-17",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0053-g-diversity.json",
+  "understanding": "R3b: guard NOVO G-DIVERSITY (guards/assert-audit-diversity.sh) que, na selagem, exige >=2 familias DISTINTAS ≠-implementador com APROVA SIM entre os pareceres de um readback auditado (deriva o readback do APROVA_<NNNN> no result; a familia do implementador do readback.json; as familias dos auditores do SOU via mapa canonico). Fecha a Camada 2 do design do G-AUDITOR-ID (diversidade antes verificada a mao). Aditivo: nao modifica assert-auditor-id.sh nem assert-exception-traceable.sh. Testes + burla B40 + knowledge 0028. R3c (G-REG-M geral) fica registrada como divida aceita (C-DEBT) para o freeze. Sem tocar src, core, methodology, schemas.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio em 2026-06-17: cadencia ACELERADA (R3b agora; R3c vira divida; depois W-FREEZE).",
+    "created_at": "2026-06-17T16:30:00-03:00",
+    "note": "Autorizacao humana para safe_track. Nao autoriza tocar main, merge, --no-verify, git add ., src, core, methodology, schemas, assert-auditor-id.sh, assert-exception-traceable.sh, brainstorm, habilitar D-ORQ-WRITE."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0053-g-diversity.json",
+      "guards/assert-audit-diversity.sh",
+      "guards/hbn-guards-runner.sh",
+      "guards/tests/run-guard-tests.sh",
+      "guards/tests/adversarial-battery.sh",
+      ".hbn/knowledge/0028-diversidade-familia-enforced-selagem.md",
+      ".hbn/knowledge/INDEX.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/messages/20260617-HHMMSS-codex-handoff-g-diversity.md"
+    ],
+    "files_forbidden": ["main","src/**","core/**","methodology/**","schemas/**","guards/assert-auditor-id.sh","guards/assert-exception-traceable.sh","docs/brainstorm/**"]
+  },
+  "action_plan": [
+    "C1: abre readback 0053 + STATE(impl=codex, 🔴).",
+    "C2: guard G-DIVERSITY + runner.",
+    "C3: testes + burla B40.",
+    "C4: knowledge 0028 + INDEX.",
+    "C5: STATE (R3c=divida) + handoff."
+  ],
+  "invariants_to_preserve": [
+    "Nao tocar main, src, core, methodology, schemas, assert-auditor-id.sh, assert-exception-traceable.sh, brainstorm.",
+    "G-DIVERSITY aditivo e fail-closed; so checa results ADICIONADOS.",
+    "Novas linhas de REGISTRY = 7-col arvore=fronteira.",
+    "Nao usar git add .; somente paths exatos.",
+    "implementador=codex e 🔴 G-EXC PROPOSED no STATE desde C1; trailers CONTIGUOS.",
+    "Antes de cada commit: runner + run-guard-tests + adversarial verdes; pytest 213.",
+    "Trailers: HBN-Readback: 0053, HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin), HBN-Token-FP: 34a7f2f9."
+  ],
+  "out_of_scope": [
+    "R3c (G-REG-M geral) — divida registrada; freeze; habilitar D-ORQ-WRITE."
+  ],
+  "read_evidence": [
+    "guards/data/auditor-families.txt (mapa canonico apelido->familia)",
+    "docs/brainstorm/rodada-2026-06-17/G-AUDITOR-ID-design.md secao 3 (Camada 2)",
+    "docs/brainstorm/rodada-2026-06-17/ROADMAP-cadencia-ate-v207.md (cadencia acelerada)"
+  ],
+  "mechanical_evidence": [
+    "git rev-parse HEAD -> 65a3ec1 (tip selagem R3a)",
+    "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04"
+  ],
+  "created_at": "2026-06-17T16:30:00-03:00",
+  "protocol_version": "0.3.0"
+}
