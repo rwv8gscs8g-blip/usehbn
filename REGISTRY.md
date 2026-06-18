@@ -1108,3 +1108,5 @@ STATE. Fecha a divida da R1 em que o G-EXC ficava inativo com
 | 20260617-210200-codex-guard-trailers-contiguous | guards/assert-trailers-contiguous.sh | guard | quente | fronteira | — | 2026-06-17T21:02:00-03:00 |
 | 20260617-210201-codex-runner-g-trailers | guards/hbn-guards-runner.sh | guard-runner | quente | fronteira | — | 2026-06-17T21:02:01-03:00 |
 | 20260617-210900-codex-knowledge-0027-trailers-contiguos | .hbn/knowledge/0027-trailers-contiguos-independente-de-excecao.md | knowledge | quente | fronteira | — | 2026-06-17T21:09:00-03:00 |
+| 20260617-211038-codex-handoff-g-trailers | .hbn/messages/20260617-211038-codex-handoff-g-trailers.md | handoff | quente | fronteira | — | 2026-06-17T21:10:38-03:00 |
+| 20260617-211039-codex-state-g-trailers-handoff | .hbn/relay/STATE.md | state | quente | fronteira | — | 2026-06-17T21:10:39-03:00 |
