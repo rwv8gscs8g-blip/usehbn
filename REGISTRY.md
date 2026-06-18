@@ -1159,3 +1159,13 @@ como concluido; R3c segue C-DEBT.
 | 20260617-222025-antigravity-cross-ia-g-diversity-0053 | .hbn/results/20260617-222025-antigravity-cross-ia-g-diversity-0053.md | audit-result; autor=antigravity; familia=Google; veredito=APROVA_0053:SIM; onda=g-diversity-0053 | frio | fronteira | — | 2026-06-17T22:20:25-03:00 |
 | 20260617-225500-grok-cross-ia-g-diversity-0053 | .hbn/results/20260617-225500-grok-cross-ia-g-diversity-0053.md | audit-result; autor=grok; familia=xAI; veredito=APROVA_0053:SIM; onda=g-diversity-0053 | frio | fronteira | — | 2026-06-17T22:55:00-03:00 |
 | 20260617-231500-codex-handoff-selagem-g-diversity | .hbn/messages/20260617-231500-codex-handoff-selagem-g-diversity.md | handoff | quente | fronteira | — | 2026-06-17T23:15:00-03:00 |
+
+## Curadoria Dossie de Pre-Transicao (2026-06-17) — cobertura R-PT5 auditavel — status: in_progress, readback 0055
+
+Curadoria dedicada para tornar tracked o dossie de pre-transicao antes do
+W-FREEZE, com zona_livre_curada:true e mapa de cobertura dos temas minimos
+a-g de R-PT5 no indice.
+
+| id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
+|---|---|---|---|---|---|---|
+| 20260617-232230-codex-readback-curadoria-dossie | .hbn/readbacks/0055-curadoria-dossie-pre-transicao.json | readback | quente | fronteira | — | 2026-06-17T23:22:30-03:00 |

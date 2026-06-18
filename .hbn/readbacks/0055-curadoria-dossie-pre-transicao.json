@@ -1,0 +1,81 @@
+{
+  "readback_id": "0055-curadoria-dossie-pre-transicao",
+  "execution_id": "curadoria-dossie-pre-transicao-2026-06-17",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0055-curadoria-dossie-pre-transicao.json",
+  "zona_livre_curada": true,
+  "zona_livre_nota": "Curadoria dedicada do dossie de pre-transicao: tornar tracked os relatorios a-g + adicionar mapa de cobertura em 00-INDICE para satisfazer R-PT5 (core/esteira-pre-transicao.md) antes do W-FREEZE.",
+  "understanding": "Curadoria dedicada do dossie de pre-transicao para tornar tracked os relatorios 00-06 e a SINTESE-PROFUNDA, acrescentando em 00-INDICE.md um mapa auditavel de cobertura dos temas minimos a-g de R-PT5. 06 e proposta/meta da esteira e nao conta como tema. Docs/brainstorm/** fica liberado somente nesta onda, por zona_livre_curada:true. Sem tocar main, guards, src, core, methodology, schemas, .hbn/freeze, nem outros docs/brainstorm/**.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio em 2026-06-17: prompt de execucao da Curadoria do Dossie de Pre-Transicao — readback 0055, track=safe_track, implementador=codex.",
+    "created_at": "2026-06-17T23:22:30-03:00",
+    "note": "Autorizacao humana para safe_track e para zona_livre_curada:true exclusivamente nos paths exatos listados. Nao autoriza tocar main, merge, --no-verify, git add ., guards, src, core, methodology, schemas, .hbn/freeze ou docs/brainstorm fora da lista."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0055-curadoria-dossie-pre-transicao.json",
+      "docs/brainstorm/rodada-2026-06-17/analise-pre-transicao/00-INDICE.md",
+      "docs/brainstorm/rodada-2026-06-17/analise-pre-transicao/01-estrutura-pastas-e-documentacao.md",
+      "docs/brainstorm/rodada-2026-06-17/analise-pre-transicao/02-mapa-migracao-genoma-autocontido.md",
+      "docs/brainstorm/rodada-2026-06-17/analise-pre-transicao/03-qualidade-documentacao-software.md",
+      "docs/brainstorm/rodada-2026-06-17/analise-pre-transicao/04-prontidao-github-transicao.md",
+      "docs/brainstorm/rodada-2026-06-17/analise-pre-transicao/05-protocolos-de-teste-e-novos-testes.md",
+      "docs/brainstorm/rodada-2026-06-17/analise-pre-transicao/06-esteira-pre-transicao-proposta.md",
+      "docs/brainstorm/rodada-2026-06-17/SINTESE-PROFUNDA-pre-freeze.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/messages/20260617-232230-codex-handoff-curadoria-dossie.md"
+    ],
+    "files_forbidden": [
+      "main",
+      "guards/**",
+      "src/**",
+      "core/**",
+      "methodology/**",
+      "schemas/**",
+      ".hbn/freeze/**",
+      "docs/brainstorm/_cursor-audit-w3-probe.md",
+      "docs/brainstorm/rodada-2026-06-16/**",
+      "docs/brainstorm/rodada-2026-06-17/NUMERACAO-analise-fronteira-opus.md"
+    ]
+  },
+  "action_plan": [
+    "C1: criar readback 0055; abrir STATE com sinal G-EXC PROPOSED_UNTIL_CROSS_AUDIT e implementador=codex desde C1.",
+    "C2: editar somente 00-INDICE.md adicionando a secao Cobertura de temas a-g (R-PT5), sem reescrever o resto do indice.",
+    "C3: tornar tracked 00-06 + SINTESE e adicionar uma linha REGISTRY 7-col por arquivo, arvore=fronteira, temperatura=frio.",
+    "C4: atualizar STATE para curadoria entregue, criar handoff e devolver o bastao."
+  ],
+  "invariants_to_preserve": [
+    "main NUNCA tocada; git rev-parse main deve permanecer 4db692876381a0d7909985c8500d999f2e677b04.",
+    "Sem merge, sem --no-verify, sem git add .; usar somente paths exatos.",
+    "Se um guard bloquear, parar e relatar; nao contornar. Se houver conflito de escopo, parar e pedir aditamento.",
+    "docs/brainstorm/** liberado somente para os arquivos listados nesta curadoria dedicada.",
+    "Nao tocar guards/**, src/**, core/**, methodology/**, schemas/**, .hbn/freeze/** ou docs/brainstorm fora da lista.",
+    "Trailers contiguos no ultimo paragrafo de todo commit: HBN-Readback: 0055; HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin); HBN-Token-FP: 34a7f2f9."
+  ],
+  "out_of_scope": [
+    "W-FREEZE em si.",
+    "Cross-audit do dossie por familia nao-OpenAI.",
+    "Qualquer correcao de conteudo nos relatorios alem do mapa R-PT5 em 00-INDICE.md."
+  ],
+  "read_evidence": [
+    "core/role-cards.md (porta da frente e read-list)",
+    ".hbn/relay/STATE.md (estado ativo antes da onda)",
+    ".hbn/readbacks/0054-selagem-g-diversity.json (readback ativo anterior)",
+    ".hbn/knowledge/0001-comandos-atomicos-copiaveis.md",
+    ".hbn/knowledge/0002-entrega-operacional-minimalista.md",
+    ".hbn/knowledge/0023-area-temporaria-e-fixtures-efemeras.md",
+    "core/esteira-pre-transicao.md (R-PT5 e temas minimos a-g)"
+  ],
+  "mechanical_evidence": [
+    "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04"
+  ],
+  "created_at": "2026-06-17T23:22:30-03:00",
+  "protocol_version": "0.3.0"
+}
