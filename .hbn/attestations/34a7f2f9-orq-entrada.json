@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "w-orq-3b-2026-06-18",
+  "execution_id": "selagem-w-orq-3b-2026-06-18",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-18T15:30:06-03:00",
-  "manifest_sha256": "ec8625c2629ed87431037c01150507c2f0505b6a00b1cdb07f58f6be1de6c23a",
+  "atestado_em": "2026-06-18T21:03:14-03:00",
+  "manifest_sha256": "98cc62740ee535bbf17d843f0497de8e15351a626d42b1cd9e9efd2f8034c0c6",
   "challenge": {
-    "seed_sha256": "95714f284f6263b00cad4f5da87ee6695b6d637380096ccd1df15582fcd37c26",
+    "seed_sha256": "5eaa43778f513760222e7a311f26ed77b51bc4d225d4d60950e4cad067e775a7",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 574,
-        "line_text": "`core/esteira-pre-transicao.md` foi criada em status `proposed` com o conteudo",
-        "line_sha256": "47c583ab6b40e05e4cd27a501d833a857134047687cebb1cb2f24cca8225f463"
+        "line_no": 529,
+        "line_text": "preservado: `main`, `guards/**`, `schemas/**`, `src/**`, `core/**`,",
+        "line_sha256": "307917a93bb43d2166ff75357b77b579129c6b72e1f9c1f086372f6e5dda440e"
       },
       {
-        "path": ".hbn/readbacks/0062-w-orq-3b.json",
-        "line_no": 8,
-        "line_text": "  \"hearback_status\": \"confirmed\",",
-        "line_sha256": "e93260a00e4834c7e3e2f84bb7f111122daac0d0a6ee1ccadc20ad0a08318671"
+        "path": ".hbn/readbacks/0063-selagem-w-orq-3b.json",
+        "line_no": 37,
+        "line_text": "      \"schemas/**\",",
+        "line_sha256": "6c679b863f9902260153447f124aee66dddee1342a59f37aced56bcfca8fdfb4"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 121,
-        "line_text": "   guards, src/ ou core spec de terceiros — nada de implementação; (b) escrever",
-        "line_sha256": "384d98a76317741d3e6479adc7822d7c1aeb8dde2af93b052679e742f23663cb"
+        "line_no": 127,
+        "line_text": "   enfraquecia a provenance. Trazer o orquestrador PARA DENTRO dos guards, como",
+        "line_sha256": "3cbf0647943d9403e3d16d45511fd0ebfbeba020088d1c794e8bf827189d14cf"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0062-w-orq-3b.json"
+        "value": ".hbn/readbacks/0063-selagem-w-orq-3b.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "Cross-audit W-ORQ-3b por grok/xAI e antigravity/Google exigindo dogfood P1; depois hearback humano de Mauricio e selagem 0063 antes do W-FREEZE."
+        "value": "Aguardar novo despacho do orquestrador; nao iniciar W-ORQ-4 nem W-FREEZE nesta selagem."
       }
     ]
   }

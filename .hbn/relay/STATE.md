@@ -1,8 +1,8 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente; R2 arvores selada e vigente; R3a G-TRAILERS selada e vigente; R3b G-DIVERSITY selada e vigente; hardening pre-freeze R3a+R3b concluido; Curadoria do Dossie de Pre-Transicao 0055 selada; G-ORQ-ENTRADA 0056 entregue; W-ORQ-2 0058 entregue; G-ORQ-ENTRADA v2 selado e vigente; W-ORQ-3 0061 entregue; W-ORQ-3b 0062 entregue para cross-audit)"
-onda_atual: "W-ORQ-3b ENTREGUE — Exit A' para G-ORQ-REF; aguardando cross-audit grok/xAI + antigravity/Google exigindo dogfood P1 antes da selagem 0063"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente; R2 arvores selada e vigente; R3a G-TRAILERS selada e vigente; R3b G-DIVERSITY selada e vigente; hardening pre-freeze R3a+R3b concluido; Curadoria do Dossie de Pre-Transicao 0055 selada; G-ORQ-ENTRADA 0056 entregue; W-ORQ-2 0058 entregue; G-ORQ-ENTRADA v2 selado e vigente; W-ORQ-3 0061 entregue; W-ORQ-3b 0062 selado e vigente via 0063)"
+onda_atual: "W-ORQ-3b SELADO E VIGENTE — readback 0063; Exit A' para G-ORQ-REF ratificado por antigravity/Google + grok/xAI e hearback Mauricio"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
@@ -11,13 +11,13 @@ papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM; W3 ratificado por Grok, Antigravity 100 e Cursor 92 com APROVA_0036 SIM"
   gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou grande selagem 0035, hardening->deny->freeze, selagem W3, cartao de entrada e branch protection biometrica na main"
-proxima_acao: "Cross-audit W-ORQ-3b por grok/xAI e antigravity/Google exigindo dogfood P1; depois hearback humano de Mauricio e selagem 0063 antes do W-FREEZE."
+proxima_acao: "Aguardar novo despacho do orquestrador; nao iniciar W-ORQ-4 nem W-FREEZE nesta selagem."
 sinais_abertos:
-  - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0062 safe_track, implementador=codex, hearback humano Mauricio confirmado, token_fp 34a7f2f9; W-ORQ-3b aguarda cross-audit != OpenAI + hearback humano + selagem 0063."
-  - "🟢 W-ORQ-3b ENTREGUE — G-ORQ-REF agora permite somente regeneracao real same-fp da atestacao esperada em ato de autoridade; bloqueia fp divergente, SHA completo do bastao alterado, atestacao extra, manifest decorativo e proveniencia divergente."
-  - "🟢 DOGFOOD P1 DEMONSTRADO — run-guard-tests cobre selagem real same-fp com readback_ativo dinamico, STATE alterado e atestacao regenerada; G-ORQ-ENTRADA e G-ORQ-REF passam juntos."
-  - "🟢 B48-B54 BLOQUEADOS — ref omitido, dangling, ref fp trocado, auto-repin sem regeneracao real, fp JSON trocado, full-SHA trocado com mesmo fp e atestacao extra bloqueiam fail-closed."
-  - "🟢 TESTES 0062 VERDES — bash guards/tests/run-guard-tests.sh fechou 217/217; bash guards/tests/adversarial-battery.sh bloqueou B1-B54 com BATERIA VERDE."
+  - "🟢 W-ORQ-3b SELADO E VIGENTE — readback 0063 ativo; duplo APROVA_0062 antigravity/Google + grok/xAI; hearback Mauricio confirmado; files_allowed do despacho 20260618-210314 trackeados."
+  - "🟢 PARECERES 0062 TRACKED — .hbn/results/20260618-151334-antigravity-cross-ia-w-orq-3b-0062.md e .hbn/results/20260618-184500-grok-cross-ia-w-orq-3b-0062.md versionados; pareceres grok nao-canonicos 182500/183600 permanecem zona-livre."
+  - "🟢 DOGFOOD SELAGEM 0063 DEMONSTRADO — ato de autoridade passou sob G-ORQ-REF com atestacao 34a7f2f9 regenerada same-fp contra readback_ativo 0063; Exit A' usado sem bypass."
+  - "🟢 B48-B54 BLOQUEADOS — run-guard-tests/adversarial-battery mantem ref omitido, dangling, fp trocado, auto-repin sem regeneracao real, fp JSON trocado, full-SHA trocado e atestacao extra fail-closed."
+  - "🟡 PROXIMA ACAO — parar apos a selagem; W-ORQ-4/W-FREEZE exigem novo despacho e nao foram iniciados neste commit."
   - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0061 safe_track, implementador=codex, autorização humana Mauricio, orq_entrada_ref presente e trailers contiguos obrigatorios; W-ORQ-3 aguarda cross-audit != OpenAI + hearback humano + selagem 0062+."
   - "🟢 W-ORQ-3 ENTREGUE — guards/assert-orq-entrada-ref.sh gateia somente atos de autoridade do orquestrador (despacho, selagem, freeze), exige orq_entrada_ref e reusa assert-orq-entrada.sh para validar a atestacao vigente."
   - "🟢 B48-B51 BLOQUEADOS — ref omitido, atestacao dangling/ausente, fp trocado e auto-repin no mesmo commit de ato de autoridade bloqueiam fail-closed; entrega nao-autoridade permanece isenta."
@@ -154,20 +154,33 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟢 branch protection no GitHub: ruleset Active na main (require PR, restrict deletions, block force pushes); passkey Touch ID no boundary."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0062-w-orq-3b.json"
-handoff_mais_recente: ".hbn/messages/20260618-153000-codex-handoff-w-orq-3b.md"
+readback_ativo: ".hbn/readbacks/0063-selagem-w-orq-3b.json"
+handoff_mais_recente: ".hbn/messages/20260618-171615-opus-4-8-handoff-orquestrador-faseb.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "W-ORQ-3b ENTREGUE — Exit A' para G-ORQ-REF; cross-audit e hearback pendentes antes da selagem 0063."
-ultima_atualizacao: "2026-06-18T15:30:00-03:00"
-atualizado_por: codex-implementador-w-orq-3b
+ciclo_ativo: "W-ORQ-3b SELADO E VIGENTE — readback 0063; parar e aguardar novo despacho antes de W-ORQ-4/W-FREEZE."
+ultima_atualizacao: "2026-06-18T21:03:14-03:00"
+atualizado_por: codex-selagem-w-orq-3b-0063
 atribuicao:
   chapeu_atual: orquestrador
   implementador: codex
   auditores: [grok, antigravity]
-  gravada_em: "2026-06-18T15:30:00-03:00"
-  hearback_ref: "Mauricio 2026-06-18: hearback confirmado para readback 0062-w-orq-3b; executar C1-C7 dentro de files_allowed, guards verdes, dogfood P1 demonstrado e parar no handoff para cross-audit."
+  gravada_em: "2026-06-18T21:03:14-03:00"
+  hearback_ref: "Mauricio 2026-06-18: hearback confirmado para readback 0063-selagem-w-orq-3b; autorizada a selagem de W-ORQ-3b como vigente, o tracking do parecer grok canonico 184500 via re-prompt e o tracking exato dos files_allowed do despacho 20260618-210314; parar apos selagem, sem W-ORQ-4/W-FREEZE."
 ---
+
+Nota selagem W-ORQ-3b / readback 0063: concluida em 2026-06-18T21:03:14-03:00.
+W-ORQ-3b fica SELADO E VIGENTE por duplo APROVA_0062 de familias !=-OpenAI:
+antigravity/Google e grok/xAI canonico via re-prompt. O parecer grok 184500
+traz apelido canonico no nome/SOU/autor, `path:` real e uma linha isolada
+`APROVA_0062: SIM`; os pareceres grok nao-canonicos 182500/183600 ficam
+zona-livre. O parecer antigravity 151334 e o cartao de entrada Fase B foram
+tornados tracked. Esta
+selagem dogfooda o G-ORQ-REF corrigido: o ato de autoridade referencia
+`.hbn/attestations/34a7f2f9-orq-entrada.json`, e a atestacao foi regenerada
+same-fp contra os blobs staged com `readback_ativo` resolvendo para 0063.
+Proxima acao: parar e aguardar novo despacho; W-ORQ-4/W-FREEZE nao foram
+iniciados nesta selagem.
 
 Nota W-ORQ-3 / readback 0061: entregue em 2026-06-18T12:18:42-03:00.
 G-ORQ-REF foi criado em `guards/assert-orq-entrada-ref.sh` e registrado no

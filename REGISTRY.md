@@ -1267,14 +1267,16 @@ auditor ficam fora do gate.
 | 20260618-121842-codex-handoff-w-orq-3 | .hbn/messages/20260618-121842-codex-handoff-w-orq-3.md | handoff | frio | fronteira | — | 2026-06-18T12:18:42-03:00 |
 | 20260618-134230-antigravity-design-w-orq-3-deadlock | .hbn/results/20260618-134230-antigravity-design-w-orq-3-deadlock.md | audit-result; autor=antigravity; familia=Google; veredito=AUDITORIA:CONCLUIDA; onda=w-orq-3-deadlock | frio | fronteira | — | 2026-06-18T13:42:30-03:00 |
 
-## W-ORQ-3b (2026-06-18) — Exit A' para deadlock G-ORQ-REF — status: entregue, aguardando cross-audit 0062
+## W-ORQ-3b (2026-06-18) — Exit A' para deadlock G-ORQ-REF — status: selada e vigente via 0063
 
 W-ORQ-3b corrige o deadlock de selagem/freeze do G-ORQ-REF: atos de autoridade
 podem regenerar somente a atestacao orq-entrada esperada do mesmo fp, com
 manifesto novo, SHA completo do bastao inalterado, proveniencia preservada e
 validacao G-ORQ-ENTRADA. Dogfood P1 demonstrou selagem real same-fp passando;
-B48-B54 seguem bloqueados. Proxima acao: cross-audit grok/xAI +
-antigravity/Google exigindo P1, depois hearback humano e selagem 0063.
+B48-B54 seguem bloqueados. W-ORQ-3b foi ratificada por antigravity/Google e
+grok/xAI canonico via re-prompt com APROVA_0062: SIM, recebeu hearback humano de Mauricio e fica
+vigente pelo readback 0063. Proxima acao: parar e aguardar novo despacho; sem
+W-ORQ-4/W-FREEZE neste commit.
 
 | 20260618-134916-opus-despacho-w-orq-3b | .hbn/messages/20260618-134916-opus-4-8-despacho-w-orq-3b.md | despacho | frio | fronteira | — | 2026-06-18T13:49:16-03:00 |
 | 20260618-153000-codex-readback-w-orq-3b | .hbn/readbacks/0062-w-orq-3b.json | readback | frio | fronteira | — | 2026-06-18T15:30:00-03:00 |
@@ -1285,3 +1287,8 @@ antigravity/Google exigindo P1, depois hearback humano e selagem 0063.
 | 20260618-153005-codex-state-w-orq-3b | .hbn/relay/STATE.md | state | frio | fronteira | — | 2026-06-18T15:30:05-03:00 |
 | 20260618-153006-codex-atestacao-orq-entrada-w-orq-3b | .hbn/attestations/34a7f2f9-orq-entrada.json | attestation | frio | fronteira | — | 2026-06-18T15:30:06-03:00 |
 | 20260618-153000-codex-handoff-w-orq-3b | .hbn/messages/20260618-153000-codex-handoff-w-orq-3b.md | handoff | frio | fronteira | — | 2026-06-18T15:30:00-03:00 |
+| 20260618-151334-antigravity-cross-ia-w-orq-3b-0062 | .hbn/results/20260618-151334-antigravity-cross-ia-w-orq-3b-0062.md | audit-result; autor=antigravity; familia=Google; veredito=APROVA_0062:SIM; onda=w-orq-3b | frio | fronteira | — | 2026-06-18T15:13:34-03:00 |
+| 20260618-184500-grok-cross-ia-w-orq-3b-0062 | .hbn/results/20260618-184500-grok-cross-ia-w-orq-3b-0062.md | audit-result; autor=grok; familia=xAI; veredito=APROVA_0062:SIM; onda=w-orq-3b | frio | fronteira | — | 2026-06-18T18:45:00-03:00 |
+| 20260618-171615-opus-handoff-orquestrador-faseb | .hbn/messages/20260618-171615-opus-4-8-handoff-orquestrador-faseb.md | handoff | frio | fronteira | — | 2026-06-18T17:16:15-03:00 |
+| 20260618-210314-opus-despacho-selagem-0063 | .hbn/messages/20260618-210314-opus-4-8-despacho-selagem-0063.md | despacho | frio | fronteira | — | 2026-06-18T21:03:14-03:00 |
+| 20260618-210314-codex-readback-selagem-w-orq-3b | .hbn/readbacks/0063-selagem-w-orq-3b.json | readback; selagem; vigente | frio | fronteira | — | 2026-06-18T21:03:14-03:00 |
