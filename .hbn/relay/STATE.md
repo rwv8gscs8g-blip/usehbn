@@ -1,18 +1,20 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente; R2 arvores selada e vigente)"
-onda_atual: "R2 arvores registry-centric SELADA e vigente; readback 0050 encerrado operacionalmente"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente; R2 arvores selada e vigente; R3a G-TRAILERS em execucao)"
+onda_atual: "R3a G-TRAILERS em execucao; readback 0051 aberto operacionalmente"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
-proprietario_bastao: claude-opus-4-8
-papel_bastao: "orquestrador"
+proprietario_bastao: codex
+papel_bastao: "implementador"
 modo_educacional: "intermediário"
 papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM; W3 ratificado por Grok, Antigravity 100 e Cursor 92 com APROVA_0036 SIM"
   gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou grande selagem 0035, hardening->deny->freeze, selagem W3, cartao de entrada e branch protection biometrica na main"
-proxima_acao: "promocao demonstrativa dos artefatos R2 para intermediaria OU curadoria dos 4 batch1 OU R3 — decisao do orquestrador."
+proxima_acao: "R3a C2: implementar guards/assert-trailers-contiguous.sh e integrar runner/hook no ponto commit-msg/CI sem tocar G-EXC."
 sinais_abertos:
+  - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0051 safe_track, implementador=codex, autorização humana Mauricio e trailers contiguos exigidos nesta onda."
+  - "🟡 R3a G-TRAILERS EM EXECUCAO — objetivo: exigir HBN-Readback, HBN-Human-Authorization e HBN-Token-FP contiguos no ultimo paragrafo de todo commit governado, independente de implementador no STATE."
   - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0050 safe_track, implementador=codex, autorização humana Mauricio e trailers contiguos; selagem encerrada com duplo APROVA_0049 + hearback."
   - "🟢 R2 ARVORES SELADA E VIGENTE — core/arvores-spec.md status accepted; pareceres grok/xAI e antigravity/Google tracked com REGISTRY 7-col arvore=fronteira; promocao para intermediaria fica para onda propria."
   - "🟢 TESTES SELAGEM R2 VERDES — runner verde; run-guard-tests 187/187; adversarial-battery B1-B38 bloqueada; pytest 213 passed."
@@ -110,20 +112,31 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟢 branch protection no GitHub: ruleset Active na main (require PR, restrict deletions, block force pushes); passkey Touch ID no boundary."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0050-selagem-arvores.json"
+readback_ativo: ".hbn/readbacks/0051-g-trailers.json"
 handoff_mais_recente: ".hbn/messages/20260617-193300-codex-handoff-selagem-arvores.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "Readback 0050 concluido operacionalmente; R2 arvores selada e vigente; bastao volta ao orquestrador."
-ultima_atualizacao: "2026-06-17T19:33:00-03:00"
-atualizado_por: codex-implementador-selagem-arvores-handoff
+ciclo_ativo: "Readback 0051 aberto operacionalmente; R3a G-TRAILERS em execucao por codex."
+ultima_atualizacao: "2026-06-17T20:58:00-03:00"
+atualizado_por: codex-implementador-g-trailers-abertura
 atribuicao:
-  chapeu_atual: orquestrador
+  chapeu_atual: implementador
   implementador: codex
   auditores: [grok, antigravity]
-  gravada_em: "2026-06-17T19:33:00-03:00"
-  hearback_ref: "Mauricio 2026-06-17: hearback aprovando a selagem da R2 apos 2 pareceres ≠-OpenAI com SOU canonico"
+  gravada_em: "2026-06-17T20:58:00-03:00"
+  hearback_ref: "Mauricio 2026-06-17: escolheu R3 hardening pre-freeze; R3a fecha a divida do G-EXC null"
 ---
+
+Nota R3a G-TRAILERS / readback 0051: aberta em
+2026-06-17T20:58:00-03:00. A onda adiciona um guard aditivo para exigir os
+3 trailers HBN contiguos no ultimo paragrafo de todo commit que toca path
+governado, independente do campo `implementador` no STATE. O objetivo e
+fechar a divida observada na meta-validacao R1: com `implementador: null`, o
+G-EXC ficava inativo e commits governados com trailers nao-contiguos passavam.
+Fora de escopo preservado: `main`, `src/**`, `core/**`, `methodology/**`,
+`schemas/**`, `guards/assert-exception-traceable.sh` e `docs/brainstorm/**`.
+Proxima acao: C2 implementar `guards/assert-trailers-contiguous.sh` e a
+integracao no ponto commit-msg/CI.
 
 Nota selagem R2 arvores / readback 0050: concluida em
 2026-06-17T19:33:00-03:00. R2 arvores registry-centric fica SELADA e vigente:

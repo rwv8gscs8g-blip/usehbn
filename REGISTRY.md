@@ -1093,3 +1093,15 @@ onda propria.
 | 20260617-192141-grok-cross-ia-arvores-0049 | .hbn/results/20260617-192141-grok-cross-ia-arvores-0049.md | audit-result; autor=grok; familia=xAI; veredito=APROVA_0049:SIM; onda=arvores-0049 | frio | fronteira | — | 2026-06-17T19:21:41-03:00 |
 | 20260617-192729-antigravity-cross-ia-arvores-0049 | .hbn/results/20260617-192729-antigravity-cross-ia-arvores-0049.md | audit-result; autor=antigravity; familia=Google; veredito=APROVA_0049:SIM; onda=arvores-0049 | frio | fronteira | — | 2026-06-17T19:27:29-03:00 |
 | 20260617-193300-codex-handoff-selagem-arvores | .hbn/messages/20260617-193300-codex-handoff-selagem-arvores.md | handoff | quente | fronteira | — | 2026-06-17T19:33:00-03:00 |
+
+## R3a G-TRAILERS (2026-06-17) — contiguidade de trailers independente da excecao — status: in_progress, readback 0051
+
+R3a adiciona um guard aditivo para exigir os 3 trailers HBN contiguos no ultimo
+paragrafo de todo commit governado, independente do campo `implementador` no
+STATE. Fecha a divida da R1 em que o G-EXC ficava inativo com
+`implementador=null` e trailers nao-contiguos passavam.
+
+| id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
+|---|---|---|---|---|---|---|
+| 20260617-205800-codex-readback-g-trailers | .hbn/readbacks/0051-g-trailers.json | readback | quente | fronteira | — | 2026-06-17T20:58:00-03:00 |
+| 20260617-205801-codex-state-g-trailers-abertura | .hbn/relay/STATE.md | state | quente | fronteira | — | 2026-06-17T20:58:01-03:00 |
