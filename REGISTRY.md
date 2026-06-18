@@ -1158,3 +1158,4 @@ como concluido; R3c segue C-DEBT.
 | 20260617-230000-codex-readback-selagem-g-diversity | .hbn/readbacks/0054-selagem-g-diversity.json | readback | quente | fronteira | — | 2026-06-17T23:00:00-03:00 |
 | 20260617-222025-antigravity-cross-ia-g-diversity-0053 | .hbn/results/20260617-222025-antigravity-cross-ia-g-diversity-0053.md | audit-result; autor=antigravity; familia=Google; veredito=APROVA_0053:SIM; onda=g-diversity-0053 | frio | fronteira | — | 2026-06-17T22:20:25-03:00 |
 | 20260617-225500-grok-cross-ia-g-diversity-0053 | .hbn/results/20260617-225500-grok-cross-ia-g-diversity-0053.md | audit-result; autor=grok; familia=xAI; veredito=APROVA_0053:SIM; onda=g-diversity-0053 | frio | fronteira | — | 2026-06-17T22:55:00-03:00 |
+| 20260617-231500-codex-handoff-selagem-g-diversity | .hbn/messages/20260617-231500-codex-handoff-selagem-g-diversity.md | handoff | quente | fronteira | — | 2026-06-17T23:15:00-03:00 |
