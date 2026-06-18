@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "selagem-curadoria-0055-2026-06-18",
+  "execution_id": "selagem-g-orq-entrada-v2-2026-06-18",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-18T06:00:00-03:00",
-  "manifest_sha256": "de02a4d1bab852c818d705029d0dd8e526a2abb6071a637d8d0960528dee3532",
+  "atestado_em": "2026-06-18T08:27:36-03:00",
+  "manifest_sha256": "a04377e3bacc9786d6594d8c9dd712c3b8f821b54da323408125216c3ad3e640",
   "challenge": {
-    "seed_sha256": "0634b1f6d76312a02fe502493390418898081bebf5cd407bbd0375eb5d21e218",
+    "seed_sha256": "3b5c5ed73c5683963bf1d1f546c817a72e16f67d4e04a990f4bb39832a16762c",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 261,
-        "line_text": "Nota R3b G-DIVERSITY / readback 0053: aberta em",
-        "line_sha256": "1f5f1d1413e5242a5e06b220d8b2f269beb8d0f68cf6de44200f638c31c9ae1f"
+        "line_no": 544,
+        "line_text": "pareceres tracked, C4 encerrar STATE/handoff e devolver o bastao ao",
+        "line_sha256": "796e16a5c17748e14c740d8b364e83910081b75f93bec86ee7f0a0a8fa0a4a1b"
       },
       {
-        "path": ".hbn/readbacks/0059-selagem-curadoria-0055.json",
-        "line_no": 32,
-        "line_text": "      \"schemas/**\",",
-        "line_sha256": "6c679b863f9902260153447f124aee66dddee1342a59f37aced56bcfca8fdfb4"
+        "path": ".hbn/readbacks/0060-selagem-g-orq-entrada-v2.json",
+        "line_no": 14,
+        "line_text": "    \"evidence\": \"DESPACHO useHBN — selagem G-ORQ-ENTRADA v2 vigente (readback 0060) — APOS hearback. Quorum G-DIVERSITY fechado: grok/xAI APROVA_0058 SIM (92) + antigravity/Google APROVA_0058 SIM (100). Hearback humano de Mauricio confirmado. Bastao token_fp 34a7f2f9 com atestacao v2 valida.\",",
+        "line_sha256": "11b58f4c4690f37a7097ffc8266257a4fa1ae6d452aee84e2c6ef2e7da033d7b"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 94,
-        "line_text": "   de modelo. Invariantes:",
-        "line_sha256": "56474a0689ebc9e63cb33bb923426753da4f290c661c577496515e15d54f0c5b"
+        "line_no": 133,
+        "line_text": "## §3 Reinicialização (warm boot por leitura, nunca por colagem)",
+        "line_sha256": "d0abe221a98ca6fd7ee3bf1e905d44597435a8fcaa207fd55fa6e257a3517837"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0059-selagem-curadoria-0055.json"
+        "value": ".hbn/readbacks/0060-selagem-g-orq-entrada-v2.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "Cross-audit ≠-OpenAI do readback 0058; depois hearback humano + APROVA_0058 + selagem do G-ORQ-ENTRADA v2; Curadoria 0055 selada por grok/xAI 88 + antigravity/Google 100, pendente de hearback humano para vigorar."
+        "value": "W-FREEZE. Recomendacao: handoff para novo orquestrador antes do freeze."
       }
     ]
   }

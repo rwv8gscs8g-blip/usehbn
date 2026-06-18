@@ -1232,3 +1232,17 @@ humano.
 | 20260618-044500-antigravity-cross-ia-curadoria-dossie-0055 | .hbn/results/20260618-044500-antigravity-cross-ia-curadoria-dossie-0055.md | audit-result; autor=antigravity; familia=Google; veredito=APROVA_0055:SIM (100); onda=curadoria-dossie-0055 | frio | fronteira | — | 2026-06-18T04:45:00-03:00 |
 | 20260618-060000-codex-readback-selagem-curadoria-0055 | .hbn/readbacks/0059-selagem-curadoria-0055.json | readback | frio | fronteira | — | 2026-06-18T06:00:00-03:00 |
 | 20260618-060000-codex-handoff-selagem-0055 | .hbn/messages/20260618-060000-codex-handoff-selagem-0055.md | handoff | frio | fronteira | — | 2026-06-18T06:00:00-03:00 |
+
+## Selagem G-ORQ-ENTRADA v2 (2026-06-18) — status: vigente, readback 0060
+
+G-ORQ-ENTRADA v2 SELADO E VIGENTE por duplo APROVA_0058 de familias
+!=-OpenAI: grok/xAI APROVA_0058: SIM (92) e antigravity/Google
+APROVA_0058: SIM (100). Os pareceres passam a ser tracked e a atestacao v2
+foi regenerada contra os blobs staged do readback ativo 0060.
+
+| id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
+|---|---|---|---|---|---|---|
+| 20260618-023926-antigravity-cross-ia-g-orq-entrada-0058 | .hbn/results/20260618-023926-antigravity-cross-ia-g-orq-entrada-0058.md | audit-result; autor=antigravity; familia=Google; veredito=APROVA_0058:SIM (100); onda=g-orq-entrada-v2 | frio | fronteira | — | 2026-06-18T02:39:26-03:00 |
+| 20260618-072906-grok-cross-ia-g-orq-entrada-0058 | .hbn/results/20260618-072906-grok-cross-ia-g-orq-entrada-0058.md | audit-result; autor=grok; familia=xAI; veredito=APROVA_0058:SIM (92); onda=g-orq-entrada-v2 | frio | fronteira | — | 2026-06-18T07:29:06-03:00 |
+| 20260618-082736-codex-readback-selagem-g-orq-v2 | .hbn/readbacks/0060-selagem-g-orq-entrada-v2.json | readback | frio | fronteira | — | 2026-06-18T08:27:36-03:00 |
+| 20260618-082736-codex-handoff-selagem-g-orq-v2 | .hbn/messages/20260618-082736-codex-handoff-selagem-g-orq-v2.md | handoff | frio | fronteira | — | 2026-06-18T08:27:36-03:00 |
