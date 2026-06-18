@@ -34,7 +34,9 @@ fi
 
 repo_path_content() {
     local repo_path="$1"
-    if [[ -n "${HBN_DIFF_BASE:-}" ]]; then
+    if [[ -n "${HBN_ORQ_ENTRADA_GIT_REF:-}" ]]; then
+        git show "${HBN_ORQ_ENTRADA_GIT_REF}:${repo_path}" 2>/dev/null
+    elif [[ -n "${HBN_DIFF_BASE:-}" ]]; then
         git show "HEAD:${repo_path}" 2>/dev/null
     else
         git show ":${repo_path}" 2>/dev/null
@@ -150,7 +152,7 @@ fi
 
 if ! (
     cd "$REPO_ROOT"
-    python3 - "$TOKEN_FP" "$ATTEST_REPO_PATH" "$EXPECTED_FILE" "$STATE_PATH" "$READBACK_PATH" <<'PY'
+        python3 - "$TOKEN_FP" "$ATTEST_REPO_PATH" "$EXPECTED_FILE" "$STATE_PATH" "$READBACK_PATH" "${HBN_ORQ_ENTRADA_GIT_REF:-}" <<'PY'
 import hashlib
 import json
 import pathlib
@@ -159,7 +161,7 @@ import subprocess
 import sys
 
 ALGORITHM = "orq-entrada.v2/extractive-lines"
-token_fp, attest_repo_path, expected_file, state_path, readback_path = sys.argv[1:6]
+token_fp, attest_repo_path, expected_file, state_path, readback_path, git_ref = sys.argv[1:7]
 use_head = bool(__import__("os").environ.get("HBN_DIFF_BASE"))
 errors = []
 
@@ -170,7 +172,12 @@ def git_bytes(*args):
     return subprocess.check_output(["git", *args], stderr=subprocess.DEVNULL)
 
 def blob_oid(repo_path):
-    spec = f"HEAD:{repo_path}" if use_head else f":{repo_path}"
+    if git_ref:
+        spec = f"{git_ref}:{repo_path}"
+    elif use_head:
+        spec = f"HEAD:{repo_path}"
+    else:
+        spec = f":{repo_path}"
     return git_bytes("rev-parse", spec).decode("utf-8").strip()
 
 def blob_bytes(repo_path):
@@ -255,6 +262,7 @@ if not isinstance(data, dict):
     fail("atestacao deve ser um objeto JSON")
     data = {}
 
+state_text = content_by_path.get(state_path, (b"", "", []))[1]
 readback_execution_id = ""
 if readback_path not in repo_by_path:
     fail(f"readback_ativo nao faz parte da read-list resolvida: {readback_path}")
@@ -275,6 +283,14 @@ if data.get("bastao_token_fp") != token_fp:
     fail(f"bastao_token_fp divergente: esperado {token_fp}, obtido {data.get('bastao_token_fp')!r}")
 if data.get("papel") != "orquestrador":
     fail("campo papel deve ser 'orquestrador'")
+state_owner = state_value(state_text, "proprietario_bastao")
+if state_owner:
+    if data.get("proprietario_bastao") != state_owner:
+        fail(f"proprietario_bastao divergente do STATE: esperado {state_owner!r}")
+state_identity = state_value(state_text, "identidade") or state_value(state_text, "identidade_bastao")
+if state_identity:
+    if data.get("identidade") != state_identity:
+        fail(f"identidade divergente do STATE: esperado {state_identity!r}")
 if data.get("read_list_ref") != "core/read-list-canonica.txt":
     fail("read_list_ref deve apontar para core/read-list-canonica.txt")
 if data.get("execution_id") != readback_execution_id:
@@ -350,7 +366,6 @@ if not isinstance(field_responses, list):
     fail("challenge.field_responses deve ser lista")
     field_responses = []
 
-state_text = content_by_path.get(state_path, (b"", "", []))[1]
 expected_fields = {
     ("readback_ativo", state_value(state_text, "readback_ativo")),
     ("proxima_acao", state_value(state_text, "proxima_acao")),

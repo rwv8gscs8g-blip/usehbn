@@ -955,8 +955,8 @@ PY
 try_burla "B47 tentativa sem ler linhas" "G-ORQ" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-orq-entrada.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
-# B48-B51 — G-ORQ-REF: atos de autoridade do orquestrador devem carregar
-# orq_entrada_ref valido e nao podem auto-repinar a atestacao no mesmo commit.
+# B48-B54 — G-ORQ-REF: atos de autoridade do orquestrador devem carregar
+# orq_entrada_ref valido e so aceitam regeneracao real same-fp da atestacao.
 set_orq_ref_on_active_readback_adv() { # <repo> <ref>
   local d="$1" ref="$2"
   python3 - "$d/.hbn/readbacks/0056-g-orq-entrada.json" "$ref" <<'PY'
@@ -998,6 +998,27 @@ mk_orq_ref_base_adv() { # [ref]
   echo "$d"
 }
 
+stage_orq_selagem_same_fp_adv() {
+  local d="$1"
+  (
+    cd "$d"
+    cat > .hbn/readbacks/0062-selagem-w-orq-3b.json <<'EOF'
+{"readback_id":"0062-selagem-w-orq-3b","execution_id":"w-orq-3b-selagem-adv","track":"safe_track","human_status":"confirmed","status":"selado","authority_act":"selagem","orq_entrada_ref":".hbn/attestations/34a7f2f9-orq-entrada.json"}
+EOF
+    python3 - <<'PY'
+from pathlib import Path
+path = Path(".hbn/relay/STATE.md")
+text = path.read_text(encoding="utf-8")
+text = text.replace('readback_ativo: ".hbn/readbacks/0056-g-orq-entrada.json"', 'readback_ativo: ".hbn/readbacks/0062-selagem-w-orq-3b.json"')
+text = text.replace('proxima_acao: "Cross-audit do gate G-ORQ-ENTRADA."', 'proxima_acao: "Cross-audit W-ORQ-3b apos dogfood P1."')
+path.write_text(text, encoding="utf-8")
+PY
+    git add .hbn/relay/STATE.md .hbn/readbacks/0062-selagem-w-orq-3b.json
+  ) >/dev/null 2>&1
+  write_valid_orq_attestation_adv "$d"
+  ( cd "$d" && git add .hbn/attestations/34a7f2f9-orq-entrada.json ) >/dev/null 2>&1
+}
+
 d="$(mk_orq_entrada_repo_adv)"
 stage_orq_dispatch_adv "$d"
 try_burla "B48 despacho com orq_entrada_ref omitido" "G-ORQREF" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-orq-entrada-ref.sh" >/dev/null 2>&1 ); echo $? )"
@@ -1025,7 +1046,49 @@ json.dump(data, open(path, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
 open(path, "a", encoding="utf-8").write("\n")
 PY
 ( cd "$d" && git add .hbn/attestations/34a7f2f9-orq-entrada.json ) >/dev/null 2>&1
-try_burla "B51 auto-repin no ato de autoridade" "G-ORQREF" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-orq-entrada-ref.sh" >/dev/null 2>&1 ); echo $? )"
+try_burla "B51 auto-repin sem regeneracao real" "G-ORQREF" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-orq-entrada-ref.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_orq_ref_base_adv)"
+stage_orq_selagem_same_fp_adv "$d"
+python3 - "$d/.hbn/attestations/34a7f2f9-orq-entrada.json" <<'PY'
+import json, sys
+path = sys.argv[1]
+data = json.load(open(path, encoding="utf-8"))
+data["bastao_token_fp"] = "deadbeef"
+json.dump(data, open(path, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+open(path, "a", encoding="utf-8").write("\n")
+PY
+( cd "$d" && git add .hbn/attestations/34a7f2f9-orq-entrada.json ) >/dev/null 2>&1
+try_burla "B52 atestacao esperada com fp JSON trocado" "G-ORQREF" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-orq-entrada-ref.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_orq_ref_base_adv)"
+(
+  cd "$d"
+  cat > .hbn/readbacks/0062-selagem-w-orq-3b.json <<'EOF'
+{"readback_id":"0062-selagem-w-orq-3b","execution_id":"w-orq-3b-selagem-adv","track":"safe_track","human_status":"confirmed","status":"selado","authority_act":"selagem","orq_entrada_ref":".hbn/attestations/34a7f2f9-orq-entrada.json"}
+EOF
+  python3 - <<'PY'
+from pathlib import Path
+path = Path(".hbn/relay/STATE.md")
+text = path.read_text(encoding="utf-8")
+text = text.replace("34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf", "34a7f2f900000000000000000000000000000000000000000000000000000000")
+text = text.replace('readback_ativo: ".hbn/readbacks/0056-g-orq-entrada.json"', 'readback_ativo: ".hbn/readbacks/0062-selagem-w-orq-3b.json"')
+text = text.replace('proxima_acao: "Cross-audit do gate G-ORQ-ENTRADA."', 'proxima_acao: "Cross-audit W-ORQ-3b apos dogfood P1."')
+path.write_text(text, encoding="utf-8")
+PY
+  git add .hbn/relay/STATE.md .hbn/readbacks/0062-selagem-w-orq-3b.json
+) >/dev/null 2>&1
+write_valid_orq_attestation_adv "$d"
+( cd "$d" && git add .hbn/attestations/34a7f2f9-orq-entrada.json ) >/dev/null 2>&1
+try_burla "B53 full-SHA do bastao trocado com mesmo fp" "G-ORQREF" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-orq-entrada-ref.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_orq_ref_base_adv)"
+stage_orq_selagem_same_fp_adv "$d"
+( cd "$d" && cp .hbn/attestations/34a7f2f9-orq-entrada.json .hbn/attestations/deadbeef-orq-entrada.json && git add .hbn/attestations/deadbeef-orq-entrada.json ) >/dev/null 2>&1
+try_burla "B54 atestacao extra staged junto ao ato" "G-ORQREF" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-orq-entrada-ref.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------

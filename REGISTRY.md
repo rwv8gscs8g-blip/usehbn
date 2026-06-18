@@ -1265,3 +1265,23 @@ auditor ficam fora do gate.
 | 20260618-121847-codex-state-w-orq-3 | .hbn/relay/STATE.md | state | frio | fronteira | — | 2026-06-18T12:18:47-03:00 |
 | 20260618-121848-codex-atestacao-orq-entrada-w-orq-3 | .hbn/attestations/34a7f2f9-orq-entrada.json | attestation | frio | fronteira | — | 2026-06-18T12:18:48-03:00 |
 | 20260618-121842-codex-handoff-w-orq-3 | .hbn/messages/20260618-121842-codex-handoff-w-orq-3.md | handoff | frio | fronteira | — | 2026-06-18T12:18:42-03:00 |
+| 20260618-134230-antigravity-design-w-orq-3-deadlock | .hbn/results/20260618-134230-antigravity-design-w-orq-3-deadlock.md | audit-result; autor=antigravity; familia=Google; veredito=AUDITORIA:CONCLUIDA; onda=w-orq-3-deadlock | frio | fronteira | — | 2026-06-18T13:42:30-03:00 |
+
+## W-ORQ-3b (2026-06-18) — Exit A' para deadlock G-ORQ-REF — status: entregue, aguardando cross-audit 0062
+
+W-ORQ-3b corrige o deadlock de selagem/freeze do G-ORQ-REF: atos de autoridade
+podem regenerar somente a atestacao orq-entrada esperada do mesmo fp, com
+manifesto novo, SHA completo do bastao inalterado, proveniencia preservada e
+validacao G-ORQ-ENTRADA. Dogfood P1 demonstrou selagem real same-fp passando;
+B48-B54 seguem bloqueados. Proxima acao: cross-audit grok/xAI +
+antigravity/Google exigindo P1, depois hearback humano e selagem 0063.
+
+| 20260618-134916-opus-despacho-w-orq-3b | .hbn/messages/20260618-134916-opus-4-8-despacho-w-orq-3b.md | despacho | frio | fronteira | — | 2026-06-18T13:49:16-03:00 |
+| 20260618-153000-codex-readback-w-orq-3b | .hbn/readbacks/0062-w-orq-3b.json | readback | frio | fronteira | — | 2026-06-18T15:30:00-03:00 |
+| 20260618-153001-codex-guard-orq-ref-exit-a | guards/assert-orq-entrada-ref.sh | guard | frio | fronteira | — | 2026-06-18T15:30:01-03:00 |
+| 20260618-153002-codex-guard-orq-entrada-ref-mode | guards/assert-orq-entrada.sh | guard | frio | fronteira | — | 2026-06-18T15:30:02-03:00 |
+| 20260618-153003-codex-guard-tests-w-orq-3b | guards/tests/run-guard-tests.sh | guard-test | frio | fronteira | — | 2026-06-18T15:30:03-03:00 |
+| 20260618-153004-codex-adversarial-b48-b54 | guards/tests/adversarial-battery.sh | guard-test | frio | fronteira | — | 2026-06-18T15:30:04-03:00 |
+| 20260618-153005-codex-state-w-orq-3b | .hbn/relay/STATE.md | state | frio | fronteira | — | 2026-06-18T15:30:05-03:00 |
+| 20260618-153006-codex-atestacao-orq-entrada-w-orq-3b | .hbn/attestations/34a7f2f9-orq-entrada.json | attestation | frio | fronteira | — | 2026-06-18T15:30:06-03:00 |
+| 20260618-153000-codex-handoff-w-orq-3b | .hbn/messages/20260618-153000-codex-handoff-w-orq-3b.md | handoff | frio | fronteira | — | 2026-06-18T15:30:00-03:00 |

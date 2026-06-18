@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "w-orq-3-2026-06-18",
+  "execution_id": "w-orq-3b-2026-06-18",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-18T12:18:48-03:00",
-  "manifest_sha256": "f33cc6e4feb61e7e01bf84c714545cd9b59ee8410436d293d80cd6bd9bec97b2",
+  "atestado_em": "2026-06-18T15:30:06-03:00",
+  "manifest_sha256": "ec8625c2629ed87431037c01150507c2f0505b6a00b1cdb07f58f6be1de6c23a",
   "challenge": {
-    "seed_sha256": "c9bcc42b71951de48914e4efe51d52d75b45e12f263807472763674810c27e46",
+    "seed_sha256": "95714f284f6263b00cad4f5da87ee6695b6d637380096ccd1df15582fcd37c26",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 365,
-        "line_text": "distintas de OpenAI, grok/xAI `APROVA_0049: SIM` conf 93 e",
-        "line_sha256": "49f34c856a270ea74e8216c79c841caeb50c6fcc4f59ac37c426c3e1e7011cd2"
+        "line_no": 574,
+        "line_text": "`core/esteira-pre-transicao.md` foi criada em status `proposed` com o conteudo",
+        "line_sha256": "47c583ab6b40e05e4cd27a501d833a857134047687cebb1cb2f24cca8225f463"
       },
       {
-        "path": ".hbn/readbacks/0061-w-orq-3.json",
-        "line_no": 45,
-        "line_text": "    \"C4: adicionar B48-B51 na bateria adversarial: ref omitido, dangling, fp trocado e auto-repin.\",",
-        "line_sha256": "d25faa134ed04878b88ad3802fdffdbddb68e30d1d651ba4cf141f8e9ce57617"
+        "path": ".hbn/readbacks/0062-w-orq-3b.json",
+        "line_no": 8,
+        "line_text": "  \"hearback_status\": \"confirmed\",",
+        "line_sha256": "e93260a00e4834c7e3e2f84bb7f111122daac0d0a6ee1ccadc20ad0a08318671"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 153,
-        "line_text": "## §5 Enforcement honesto",
-        "line_sha256": "123b87ee47cf800d998c118629a62f133fc922373057d0c227e5bbd552d47dc4"
+        "line_no": 121,
+        "line_text": "   guards, src/ ou core spec de terceiros — nada de implementação; (b) escrever",
+        "line_sha256": "384d98a76317741d3e6479adc7822d7c1aeb8dde2af93b052679e742f23663cb"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0061-w-orq-3.json"
+        "value": ".hbn/readbacks/0062-w-orq-3b.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "Cross-audit W-ORQ-3 por grok/xAI e antigravity/Google com APROVA_0061: SIM; depois hearback humano de Mauricio e selagem em readback proprio 0062+ antes do W-FREEZE."
+        "value": "Cross-audit W-ORQ-3b por grok/xAI e antigravity/Google exigindo dogfood P1; depois hearback humano de Mauricio e selagem 0063 antes do W-FREEZE."
       }
     ]
   }
