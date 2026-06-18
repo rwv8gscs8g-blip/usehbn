@@ -1,8 +1,8 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente; R2 arvores selada e vigente; R3a G-TRAILERS selada e vigente; R3b G-DIVERSITY selada e vigente; hardening pre-freeze R3a+R3b concluido; Curadoria do Dossie de Pre-Transicao 0055 aberta)"
-onda_atual: "Curadoria do Dossie de Pre-Transicao 0055 em execucao; objetivo R-PT5 cobertura a-g auditavel antes do W-FREEZE"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente; R2 arvores selada e vigente; R3a G-TRAILERS selada e vigente; R3b G-DIVERSITY selada e vigente; hardening pre-freeze R3a+R3b concluido; Curadoria do Dossie de Pre-Transicao 0055 entregue)"
+onda_atual: "Curadoria do Dossie de Pre-Transicao 0055 entregue; R-PT5 cobertura a-g auditavel fechada; aguarda cross-audit ≠-OpenAI"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
@@ -11,8 +11,12 @@ papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM; W3 ratificado por Grok, Antigravity 100 e Cursor 92 com APROVA_0036 SIM"
   gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou grande selagem 0035, hardening->deny->freeze, selagem W3, cartao de entrada e branch protection biometrica na main"
-proxima_acao: "C2: adicionar mapa de cobertura a-g (R-PT5) no 00-INDICE.md."
+proxima_acao: "Cross-audit ≠-OpenAI do readback 0055; depois hearback humano + selagem antes do W-FREEZE."
 sinais_abertos:
+  - "🟢 CURADORIA DOSSIE PRE-TRANSICAO ENTREGUE — relatorios 00-06 + SINTESE-PROFUNDA agora tracked; REGISTRY recebeu linhas 7-col com arvore=fronteira e temperatura=frio."
+  - "🟢 R-PT5 COBERTURA A-G AUDITAVEL — 00-INDICE.md contem mapa: a=SINTESE, b=01, c=02, d=03, e=01, f=04, g=05; 06 fica meta/proposta e nao conta como tema."
+  - "🟢 TESTES 0055 VERDES — runner verde antes de cada commit; run-guard-tests 195/195; adversarial-battery B1-B40 bloqueada; pytest 213 passed; main permanece 4db692876381a0d7909985c8500d999f2e677b04."
+  - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0055 safe_track entregue por codex, autorização humana Mauricio e trailers contiguos; permanece proposto ate cross-audit ≠-OpenAI + hearback + selagem."
   - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0055 safe_track, implementador=codex, autorização humana Mauricio e zona_livre_curada:true; curadoria do dossie de pre-transicao em execucao."
   - "🟡 CURADORIA DOSSIE PRE-TRANSICAO ABERTA — objetivo: tornar tracked os relatorios 00-06 + SINTESE e registrar cobertura auditavel dos temas a-g de R-PT5 antes do W-FREEZE."
   - "🟢 R3b G-DIVERSITY SELADA E VIGENTE — readback 0053 ratificado por antigravity/Google APROVA_0053 SIM e grok/xAI APROVA_0053 SIM; readback 0054 encerrado operacionalmente."
@@ -131,19 +135,35 @@ sinais_abertos:
   - "🟢 branch protection no GitHub: ruleset Active na main (require PR, restrict deletions, block force pushes); passkey Touch ID no boundary."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
 readback_ativo: ".hbn/readbacks/0055-curadoria-dossie-pre-transicao.json"
-handoff_mais_recente: ".hbn/messages/20260617-231500-codex-handoff-selagem-g-diversity.md"
+handoff_mais_recente: ".hbn/messages/20260617-232230-codex-handoff-curadoria-dossie.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "Curadoria do Dossie de Pre-Transicao 0055 em execucao; R-PT5 cobertura a-g auditavel antes do W-FREEZE."
-ultima_atualizacao: "2026-06-17T23:22:30-03:00"
-atualizado_por: codex-implementador-curadoria-dossie-abertura
+ciclo_ativo: "Curadoria do Dossie de Pre-Transicao 0055 entregue; proxima acao e cross-audit ≠-OpenAI, hearback humano e selagem antes do W-FREEZE."
+ultima_atualizacao: "2026-06-17T23:32:46-03:00"
+atualizado_por: codex-implementador-curadoria-dossie-handoff
 atribuicao:
-  chapeu_atual: implementador
+  chapeu_atual: orquestrador
   implementador: codex
   auditores: []
-  gravada_em: "2026-06-17T23:22:30-03:00"
-  hearback_ref: "Mauricio 2026-06-17: autorizacao para readback 0055, curadoria dedicada do dossie de pre-transicao, zona_livre_curada:true, implementador=codex."
+  gravada_em: "2026-06-17T23:32:46-03:00"
+  hearback_ref: "Mauricio 2026-06-17: autorizacao para readback 0055, curadoria dedicada do dossie de pre-transicao, zona_livre_curada:true, implementador=codex; entrega requer cross-audit ≠-OpenAI antes de selagem."
 ---
+
+Nota curadoria dossie pre-transicao / readback 0055: entregue em
+2026-06-17T23:32:46-03:00. O dossie de pre-transicao ficou tracked nos
+relatorios `00-06` e `../SINTESE-PROFUNDA-pre-freeze.md`; `00-INDICE.md`
+passou a conter o mapa auditavel dos temas minimos a-g de R-PT5:
+a=SINTESE, b=01, c=02, d=03, e=01, f=04, g=05; `06` e meta/proposta e nao
+conta como tema. REGISTRY recebeu linhas 7-col com `arvore=fronteira` e
+`temperatura=frio` para cada arquivo do dossie. Evidencia mecanica: runner
+verde antes de cada commit; `bash guards/tests/run-guard-tests.sh` fechou
+`195 passaram, 0 falharam`; `bash guards/tests/adversarial-battery.sh` fechou
+B1-B40 bloqueadas; `.venv/bin/pytest -q` fechou `213 passed`; `main`
+permanece em `4db692876381a0d7909985c8500d999f2e677b04`. Fora de escopo
+preservado: `main`, `guards/**`, `src/**`, `core/**`, `methodology/**`,
+`schemas/**`, `.hbn/freeze/**` e todo `docs/brainstorm/**` fora da lista.
+Proxima acao: cross-audit ≠-OpenAI do readback 0055, depois hearback humano
++ selagem antes do W-FREEZE.
 
 Nota curadoria dossie pre-transicao / readback 0055: aberta em
 2026-06-17T23:22:30-03:00. A onda torna tracked o dossie de pre-transicao e

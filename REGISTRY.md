@@ -1177,3 +1177,4 @@ a-g de R-PT5 no indice.
 | 20260617-233005-codex-dossie-pre-transicao-05-testes | docs/brainstorm/rodada-2026-06-17/analise-pre-transicao/05-protocolos-de-teste-e-novos-testes.md | dossie-pre-transicao; tema=g-protocolos-teste | frio | fronteira | — | 2026-06-17T23:30:05-03:00 |
 | 20260617-233006-codex-dossie-pre-transicao-06-esteira-meta | docs/brainstorm/rodada-2026-06-17/analise-pre-transicao/06-esteira-pre-transicao-proposta.md | dossie-pre-transicao; meta=proposta-esteira; nao-conta-tema | frio | fronteira | — | 2026-06-17T23:30:06-03:00 |
 | 20260617-233007-codex-dossie-pre-transicao-sintese | docs/brainstorm/rodada-2026-06-17/SINTESE-PROFUNDA-pre-freeze.md | dossie-pre-transicao; tema=a-auditoria-profunda | frio | fronteira | — | 2026-06-17T23:30:07-03:00 |
+| 20260617-232230-codex-handoff-curadoria-dossie | .hbn/messages/20260617-232230-codex-handoff-curadoria-dossie.md | handoff | quente | fronteira | — | 2026-06-17T23:22:30-03:00 |
