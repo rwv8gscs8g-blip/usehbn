@@ -96,6 +96,7 @@ GUARDS=(
     "assert-registry-line.sh"
     "assert-arvore-label.sh"
     "assert-auditor-id.sh"
+    "assert-audit-diversity.sh"
     "assert-parallel-id.sh"
     "assert-pointer-honest.sh"
     "assert-knowledge-index.sh"
