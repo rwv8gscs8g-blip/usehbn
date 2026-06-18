@@ -1,8 +1,8 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente; R2 arvores selada e vigente; R3a G-TRAILERS selada e vigente; R3b G-DIVERSITY selada e vigente; hardening pre-freeze R3a+R3b concluido; Curadoria do Dossie de Pre-Transicao 0055 pendente; G-ORQ-ENTRADA 0056 entregue; W-ORQ-2 0058 entregue)"
-onda_atual: "W-ORQ-2 0058 entregue; Curadoria 0055 pendente por decisao humana, nao abandonada"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente; R2 arvores selada e vigente; R3a G-TRAILERS selada e vigente; R3b G-DIVERSITY selada e vigente; hardening pre-freeze R3a+R3b concluido; Curadoria do Dossie de Pre-Transicao 0055 selada; G-ORQ-ENTRADA 0056 entregue; W-ORQ-2 0058 entregue)"
+onda_atual: "W-ORQ-2 0058 entregue; Curadoria 0055 selada por duplo APROVA_0055, pendente de hearback humano para vigorar"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
@@ -11,7 +11,7 @@ papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM; W3 ratificado por Grok, Antigravity 100 e Cursor 92 com APROVA_0036 SIM"
   gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou grande selagem 0035, hardening->deny->freeze, selagem W3, cartao de entrada e branch protection biometrica na main"
-proxima_acao: "Cross-audit ≠-OpenAI do readback 0058; depois hearback humano + APROVA_0058 + selagem do G-ORQ-ENTRADA v2; Curadoria 0055 segue pendente."
+proxima_acao: "Cross-audit ≠-OpenAI do readback 0058; depois hearback humano + APROVA_0058 + selagem do G-ORQ-ENTRADA v2; Curadoria 0055 selada por grok/xAI 88 + antigravity/Google 100, pendente de hearback humano para vigorar."
 sinais_abertos:
   - "🟢 W-ORQ-2 ENTREGUE — guards/assert-orq-entrada.sh agora valida orq-entrada.v2/extractive-lines por manifest_sha256, seed_sha256, line_responses e field_responses recomputados do indice staged; em CI usa HEAD:path com HBN_DIFF_BASE."
   - "🟢 GABARITO FISICO REMOVIDO — guards/data/orq-entrada-desafios.txt foi eliminado; o gate nao depende mais de regex ou respostas abertas D1-D4."
@@ -19,11 +19,12 @@ sinais_abertos:
   - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0058 safe_track entregue por codex, autorização humana Mauricio e trailers contiguos; permanece proposto ate cross-audit >=2 familias != OpenAI + hearback + selagem."
   - "🟢 G-ORQ-ENTRADA ENTREGUE — guards/assert-orq-entrada.sh ativo no runner local; bastao de orquestrador exige .hbn/attestations/<fp>-orq-entrada.json valida contra read-list canonica, hashes atuais e desafios."
   - "🟢 TESTES 0056 VERDES — bash guards/tests/run-guard-tests.sh fechou 200/200; bash guards/tests/adversarial-battery.sh bloqueou B1-B44, incluindo B41-B44 de G-ORQ-ENTRADA."
-  - "🟡 CURADORIA 0055 PENDENTE — cross-audit pausado por decisao humana; nao abandonada; G-ORQ-ENTRADA teve prioridade."
+  - "🟢 CURADORIA 0055 SELADA — readback 0055 ratificado por grok/xAI APROVA_0055: SIM (88) + antigravity/Google APROVA_0055: SIM (100); duas familias !=-OpenAI cumprem G-DIVERSITY; readback 0059 registra a selagem, pendente de hearback humano para vigorar."
   - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0056 safe_track entregue por codex, autorização humana Mauricio e trailers contiguos; permanece proposto ate cross-audit ≠-OpenAI + hearback + selagem."
   - "🟢 CURADORIA DOSSIE PRE-TRANSICAO ENTREGUE — relatorios 00-06 + SINTESE-PROFUNDA agora tracked; REGISTRY recebeu linhas 7-col com arvore=fronteira e temperatura=frio."
   - "🟢 R-PT5 COBERTURA A-G AUDITAVEL — 00-INDICE.md contem mapa: a=SINTESE, b=01, c=02, d=03, e=01, f=04, g=05; 06 fica meta/proposta e nao conta como tema."
   - "🟢 TESTES 0055 VERDES — runner verde antes de cada commit; run-guard-tests 195/195; adversarial-battery B1-B40 bloqueada; pytest 213 passed; main permanece 4db692876381a0d7909985c8500d999f2e677b04."
+  - "🟢 PARECERES 0055 TRACKED — .hbn/results/20260618-001647-grok-cross-ia-curadoria-dossie-0055.md e .hbn/results/20260618-044500-antigravity-cross-ia-curadoria-dossie-0055.md versionados com REGISTRY 7-col arvore=fronteira/frio."
   - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0055 safe_track entregue por codex, autorização humana Mauricio e trailers contiguos; permanece proposto ate cross-audit ≠-OpenAI + hearback + selagem."
   - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0055 safe_track, implementador=codex, autorização humana Mauricio e zona_livre_curada:true; curadoria do dossie de pre-transicao em execucao."
   - "🟡 CURADORIA DOSSIE PRE-TRANSICAO ABERTA — objetivo: tornar tracked os relatorios 00-06 + SINTESE e registrar cobertura auditavel dos temas a-g de R-PT5 antes do W-FREEZE."
@@ -142,7 +143,7 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟢 branch protection no GitHub: ruleset Active na main (require PR, restrict deletions, block force pushes); passkey Touch ID no boundary."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0058-w-orq-2.json"
+readback_ativo: ".hbn/readbacks/0059-selagem-curadoria-0055.json"
 handoff_mais_recente: ".hbn/messages/20260618-015800-codex-handoff-w-orq-2.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
@@ -829,3 +830,14 @@ substring no `grep -Fq` e ponteiro morto no INDEX; G-FRONTDOOR tem teto por
 linhas, nao por bytes, conta itens por marcador/espaco conhecido e nao verifica
 existencia dos paths da read-list. Proxima acao: implementar area temporaria
 P-CAND-04 (`/scratch/` + guards G-SCRATCH-LOCK/SYMLINK/IGNORE).
+
+Nota selagem Curadoria 0055 / readback 0059: concluida em 2026-06-18.
+A Curadoria 0055 (dossie pre-transicao) fica SELADA: o readback 0055 foi
+ratificado por dois pareceres cross-audit de familias distintas de OpenAI,
+grok/xAI APROVA_0055: SIM conf 88 e antigravity/Google APROVA_0055: SIM conf
+100. Os 2 pareceres foram tornados tracked (adicionados ao git + linhas
+REGISTRY 7-col com arvore=fronteira/frio). Evidencia mecanica: main em
+4db692876381a0d7909985c8500d999f2e677b04; bash guards/hbn-guards-runner.sh
+passou (todos guards verdes); bash guards/tests/run-guard-tests.sh passou;
+bash guards/tests/adversarial-battery.sh retornou BATERIA VERDE. Escopo exato respeitado. Selagem so vigora
+apos hearback humano. Preconds todas satisfeitas antes do commit.

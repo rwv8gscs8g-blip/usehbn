@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "w-orq-2-2026-06-18",
+  "execution_id": "selagem-curadoria-0055-2026-06-18",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-18T01:58:00-03:00",
-  "manifest_sha256": "69be9960656232a3adedd72d8457052edaea3f58f0c9cff935e5905001f25322",
+  "atestado_em": "2026-06-18T06:00:00-03:00",
+  "manifest_sha256": "de02a4d1bab852c818d705029d0dd8e526a2abb6071a637d8d0960528dee3532",
   "challenge": {
-    "seed_sha256": "02a274c0f366721e8acf81b15d22206770a83e8e22db11b95e040fb029c1c789",
+    "seed_sha256": "0634b1f6d76312a02fe502493390418898081bebf5cd407bbd0375eb5d21e218",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 591,
-        "line_text": "Nota R1-fix / readback 0039: entregue em 2026-06-17. A onda corrigiu o",
-        "line_sha256": "68df230f4b95cb84d67ecc056530d6dce914d623b4a397a86ad80c95f4444c44"
+        "line_no": 261,
+        "line_text": "Nota R3b G-DIVERSITY / readback 0053: aberta em",
+        "line_sha256": "1f5f1d1413e5242a5e06b220d8b2f269beb8d0f68cf6de44200f638c31c9ae1f"
       },
       {
-        "path": ".hbn/readbacks/0058-w-orq-2.json",
-        "line_no": 74,
-        "line_text": "  \"trailers_required\": {",
-        "line_sha256": "f69041e8a5eb8e7f37f4ab93abd8b3dfa6f9689d3d5b69b372a4b39317d0f98a"
+        "path": ".hbn/readbacks/0059-selagem-curadoria-0055.json",
+        "line_no": 32,
+        "line_text": "      \"schemas/**\",",
+        "line_sha256": "6c679b863f9902260153447f124aee66dddee1342a59f37aced56bcfca8fdfb4"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 115,
-        "line_text": "10. **Escrita dos próprios artefatos sob o mesmo rito** — o orquestrador AUTORA e",
-        "line_sha256": "dc3fe2bd0ae49691daeb83605ff35f5398c6bc6459110de7b0d17de38f786f5f"
+        "line_no": 94,
+        "line_text": "   de modelo. Invariantes:",
+        "line_sha256": "56474a0689ebc9e63cb33bb923426753da4f290c661c577496515e15d54f0c5b"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0058-w-orq-2.json"
+        "value": ".hbn/readbacks/0059-selagem-curadoria-0055.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "Cross-audit ≠-OpenAI do readback 0058; depois hearback humano + APROVA_0058 + selagem do G-ORQ-ENTRADA v2; Curadoria 0055 segue pendente."
+        "value": "Cross-audit ≠-OpenAI do readback 0058; depois hearback humano + APROVA_0058 + selagem do G-ORQ-ENTRADA v2; Curadoria 0055 selada por grok/xAI 88 + antigravity/Google 100, pendente de hearback humano para vigorar."
       }
     ]
   }

@@ -1218,3 +1218,17 @@ humano.
 | 20260618-015805-codex-adversarial-b45-b47 | guards/tests/adversarial-battery.sh | guard-test | quente | fronteira | — | 2026-06-18T01:58:05-03:00 |
 | 20260618-015806-codex-state-w-orq-2 | .hbn/relay/STATE.md | state | quente | fronteira | — | 2026-06-18T01:58:06-03:00 |
 | 20260618-015800-codex-handoff-w-orq-2 | .hbn/messages/20260618-015800-codex-handoff-w-orq-2.md | handoff | quente | fronteira | — | 2026-06-18T01:58:00-03:00 |
+
+## Selagem Curadoria 0055 (2026-06-18) — status: selada, readback 0059
+
+Curadoria 0055 SELADA por duplo APROVA_0055 de familias !=-OpenAI:
+grok/xAI APROVA_0055: SIM (88) e antigravity/Google APROVA_0055: SIM (100).
+Os pareceres passam a ser tracked; a selagem vigora somente apos hearback
+humano.
+
+| id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
+|---|---|---|---|---|---|---|
+| 20260618-001647-grok-cross-ia-curadoria-dossie-0055 | .hbn/results/20260618-001647-grok-cross-ia-curadoria-dossie-0055.md | audit-result; autor=grok; familia=xAI; veredito=APROVA_0055:SIM (88); onda=curadoria-dossie-0055 | frio | fronteira | — | 2026-06-18T00:16:47-03:00 |
+| 20260618-044500-antigravity-cross-ia-curadoria-dossie-0055 | .hbn/results/20260618-044500-antigravity-cross-ia-curadoria-dossie-0055.md | audit-result; autor=antigravity; familia=Google; veredito=APROVA_0055:SIM (100); onda=curadoria-dossie-0055 | frio | fronteira | — | 2026-06-18T04:45:00-03:00 |
+| 20260618-060000-codex-readback-selagem-curadoria-0055 | .hbn/readbacks/0059-selagem-curadoria-0055.json | readback | frio | fronteira | — | 2026-06-18T06:00:00-03:00 |
+| 20260618-060000-codex-handoff-selagem-0055 | .hbn/messages/20260618-060000-codex-handoff-selagem-0055.md | handoff | frio | fronteira | — | 2026-06-18T06:00:00-03:00 |

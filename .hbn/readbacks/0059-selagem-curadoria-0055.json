@@ -1,0 +1,47 @@
+{
+  "readback_id": "0059-selagem-curadoria-0055",
+  "execution_id": "selagem-curadoria-0055-2026-06-18",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "selada",
+  "hearback_status": "pending",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0059-selagem-curadoria-0055.json",
+  "understanding": "Selagem minima da Curadoria 0055 apos quorum G-DIVERSITY. Tornar tracked os 2 pareceres cross-ia (grok/xAI APROVA_0055 SIM 88 + antigravity/Google APROVA_0055 SIM 100). Escopo exato: 2 results .hbn/results/*0055*, REGISTRY (linhas 7-col), STATE (marcar SELADA + duplo APROVA), este readback, handoff. Preconds verificadas: main==4db6928, runner verde, run-guard-tests 0 falharam, adversarial todas BLOQUEADAS. Nada alem do escopo. Selagem so vigora apos hearback humano.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "DESPACHO useHBN — selagem Curadoria 0055 (quorum G-DIVERSITY ja atingido) PARA codex (implementador OpenAI) SOB bastao orquestrador token_fp 34a7f2f9 (atestacao v2 valida). CONTEXT: grok APROVA_0055 SIM(88) + antigravity APROVA_0055 SIM(100) — duas familias !=-OpenAI. READBACK NOVO: 0059-selagem-curadoria-0055.json",
+    "note": "implementador=codex autorizado; trailers HBN contiguos obrigatorios no commit"
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0059-selagem-curadoria-0055.json",
+      ".hbn/messages/20260618-060000-codex-handoff-selagem-0055.md",
+      ".hbn/results/20260618-001647-grok-cross-ia-curadoria-dossie-0055.md",
+      ".hbn/results/20260618-044500-antigravity-cross-ia-curadoria-dossie-0055.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": [
+      "guards/**",
+      "src/**",
+      "core/**",
+      "methodology/**",
+      "schemas/**",
+      ".hbn/freeze/**",
+      "main/src/**/docs/brainstorm/**/core/**"
+    ]
+  },
+  "invariants_preserved": [
+    "main == 4db692876381a0d7909985c8500d999f2e677b04",
+    "runner (hbn-guards-runner.sh) verde: Todos os guards passaram",
+    "run-guard-tests: 125 passaram, 0 falharam",
+    "adversarial-battery: BATERIA VERDE — todas burlas BLOQUEADAS"
+  ],
+  "HBN-Readback": "0059",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-18T06:00:00-03:00"
+}
