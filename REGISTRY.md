@@ -1169,3 +1169,4 @@ a-g de R-PT5 no indice.
 | id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
 |---|---|---|---|---|---|---|
 | 20260617-232230-codex-readback-curadoria-dossie | .hbn/readbacks/0055-curadoria-dossie-pre-transicao.json | readback | quente | fronteira | — | 2026-06-17T23:22:30-03:00 |
+| 20260617-232731-codex-dossie-pre-transicao-00-indice | docs/brainstorm/rodada-2026-06-17/analise-pre-transicao/00-INDICE.md | dossie-pre-transicao; tema=indice; cobre=R-PT5 | frio | fronteira | — | 2026-06-17T23:27:31-03:00 |
