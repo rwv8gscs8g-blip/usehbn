@@ -106,6 +106,11 @@
 #   G-ORQ-ENTRADA (readback 0056): +5 checks (1 pass, 4 block) para
 #   atestacao valida, ausente, hash divergente, item ausente e resposta de
 #   desafio invalida. Total: 200.
+#   W-ORQ-2 (readback 0058): substitui desafio aberto+regex por prova
+#   extrativa deterministica v2 e remove gabarito fisico. Bloco G-ORQ agora
+#   soma 7 checks (1 pass, 6 block): valido sem gabarito, sem atestacao,
+#   linha errada, line_sha256 errado, seed de manifest velho, field ausente e
+#   arquivo da read-list mudado. Total: 202.
 # =============================================================================
 set -uo pipefail
 
@@ -2103,37 +2108,114 @@ write_valid_orq_attestation() {
     local d="$1"
     (
         cd "$d"
-        cat > .hbn/attestations/34a7f2f9-orq-entrada.json <<EOF
-{
-  "papel": "orquestrador",
-  "identidade": "opus-4-8",
-  "bastao_token_fp": "34a7f2f9",
-  "read_list_ref": "core/read-list-canonica.txt",
-  "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-18T00:33:00-03:00",
-  "itens": [
-    {"path": ".hbn/relay/STATE.md", "blob_hash": "$(git hash-object .hbn/relay/STATE.md)"},
-    {"path": ".hbn/messages/20260618-003300-codex-handoff-g-orq-entrada.md", "blob_hash": "$(git hash-object .hbn/messages/20260618-003300-codex-handoff-g-orq-entrada.md)"},
-    {"path": ".hbn/readbacks/0056-g-orq-entrada.json", "blob_hash": "$(git hash-object .hbn/readbacks/0056-g-orq-entrada.json)"},
-    {"path": "agents/role-templates.md", "blob_hash": "$(git hash-object agents/role-templates.md)"},
-    {"path": ".hbn/knowledge/0022-firewall-workflow-fast-track.md", "blob_hash": "$(git hash-object .hbn/knowledge/0022-firewall-workflow-fast-track.md)"},
-    {"path": "core/role-cards.md", "blob_hash": "$(git hash-object core/role-cards.md)"},
-    {"path": ".hbn/knowledge/0001-comandos-atomicos-copiaveis.md", "blob_hash": "$(git hash-object .hbn/knowledge/0001-comandos-atomicos-copiaveis.md)"},
-    {"path": ".hbn/knowledge/0002-entrega-operacional-minimalista.md", "blob_hash": "$(git hash-object .hbn/knowledge/0002-entrega-operacional-minimalista.md)"},
-    {"path": ".hbn/knowledge/0023-area-temporaria-e-fixtures-efemeras.md", "blob_hash": "$(git hash-object .hbn/knowledge/0023-area-temporaria-e-fixtures-efemeras.md)"},
-    {"path": ".hbn/knowledge/0024-orquestrador-nao-sela-zona-livre-sem-aprovacao.md", "blob_hash": "$(git hash-object .hbn/knowledge/0024-orquestrador-nao-sela-zona-livre-sem-aprovacao.md)"},
-    {"path": ".hbn/knowledge/0025-auditor-read-only-sem-no-verify.md", "blob_hash": "$(git hash-object .hbn/knowledge/0025-auditor-read-only-sem-no-verify.md)"},
-    {"path": "core/orchestrator-profile-spec.md", "blob_hash": "$(git hash-object core/orchestrator-profile-spec.md)"},
-    {"path": "core/relay-spec.md", "blob_hash": "$(git hash-object core/relay-spec.md)"}
-  ],
-  "desafios": {
-    "D1": {"resposta_desafio": "apenas um gate enforcado que falha fechado; instrucao escrita nao vincula."},
-    "D2": {"resposta_desafio": "fornecedor(implementador) != fornecedor(orquestrador), excecao so por hearback."},
-    "D3": {"resposta_desafio": "80."},
-    "D4": {"resposta_desafio": "pelo humano; a IA propoe."}
-  }
+        python3 - <<'PY'
+import hashlib, json, re, subprocess
+
+TOKEN_FP = "34a7f2f9"
+ALGORITHM = "orq-entrada.v2/extractive-lines"
+STATE = ".hbn/relay/STATE.md"
+READ_LIST = "core/read-list-canonica.txt"
+
+def git_bytes(*args):
+    return subprocess.check_output(["git", *args], stderr=subprocess.DEVNULL)
+
+def blob(path):
+    oid = git_bytes("rev-parse", f":{path}").decode().strip()
+    return oid, git_bytes("cat-file", "-p", oid)
+
+def sha256_b(value):
+    return hashlib.sha256(value).hexdigest()
+
+def sha256_s(value):
+    return sha256_b(value.encode())
+
+def canonical(value):
+    return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+
+def state_value(text, key):
+    for line in text.splitlines():
+        if not re.match(rf"^\s*{re.escape(key)}:", line):
+            continue
+        value = re.sub(r"\s+#.*$", "", line.split(":", 1)[1]).strip()
+        if len(value) >= 2 and value[0] == value[-1] and value[0] in ("'", '"'):
+            value = value[1:-1]
+        return value
+    return ""
+
+_, state_content = blob(STATE)
+state_text = state_content.decode()
+handoff = state_value(state_text, "handoff_mais_recente")
+readback = state_value(state_text, "readback_ativo")
+
+_, read_list_content = blob(READ_LIST)
+paths = []
+for raw in read_list_content.decode().splitlines():
+    line = raw.split("#", 1)[0].strip()
+    if not line:
+        continue
+    if line == "DYNAMIC handoff_mais_recente":
+        paths.append(handoff)
+    elif line == "DYNAMIC readback_ativo":
+        paths.append(readback)
+    else:
+        paths.append(line.split(None, 1)[1])
+
+manifest = []
+content_by_path = {}
+for path in paths:
+    oid, content = blob(path)
+    text = content.decode()
+    nonempty = [(i, line) for i, line in enumerate(text.splitlines(), 1) if line.strip()]
+    content_by_path[path] = (content, nonempty)
+    manifest.append({
+        "path": path,
+        "blob_oid": oid,
+        "sha256": sha256_b(content),
+        "bytes": len(content),
+        "nonempty_lines": len(nonempty),
+    })
+
+manifest_sha = sha256_s(canonical(manifest))
+readback_data = json.loads(content_by_path[readback][0].decode())
+execution_id = readback_data["execution_id"]
+seed = sha256_s(f"orq-entrada.v2\n{execution_id}\n{TOKEN_FP}\n{manifest_sha}")
+
+line_responses = []
+for path in [STATE, readback, "core/orchestrator-profile-spec.md"]:
+    record = next(item for item in manifest if item["path"] == path)
+    idx = int(sha256_s(f"{seed}\n{path}\n{record['blob_oid']}")[:8], 16) % record["nonempty_lines"]
+    line_no, line_text = content_by_path[path][1][idx]
+    line_responses.append({
+        "path": path,
+        "line_no": line_no,
+        "line_text": line_text,
+        "line_sha256": sha256_s(line_text),
+    })
+
+data = {
+    "papel": "orquestrador",
+    "identidade": "opus-4-8",
+    "proprietario_bastao": "claude-opus-4-8",
+    "bastao_token_fp": TOKEN_FP,
+    "algorithm": ALGORITHM,
+    "execution_id": execution_id,
+    "read_list_ref": READ_LIST,
+    "atestado_por": "opus-4-8",
+    "atestado_em": "2026-06-18T01:58:00-03:00",
+    "manifest_sha256": manifest_sha,
+    "challenge": {
+        "seed_sha256": seed,
+        "line_responses": line_responses,
+        "field_responses": [
+            {"path": STATE, "field": "readback_ativo", "value": readback},
+            {"path": STATE, "field": "proxima_acao", "value": state_value(state_text, "proxima_acao")},
+        ],
+    },
 }
-EOF
+with open(".hbn/attestations/34a7f2f9-orq-entrada.json", "w", encoding="utf-8") as f:
+    json.dump(data, f, indent=2, ensure_ascii=False)
+    f.write("\n")
+PY
     )
 }
 
@@ -2150,12 +2232,13 @@ proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
 readback_ativo: ".hbn/readbacks/0056-g-orq-entrada.json"
 handoff_mais_recente: ".hbn/messages/20260618-003300-codex-handoff-g-orq-entrada.md"
+proxima_acao: "Cross-audit do gate G-ORQ-ENTRADA."
 atribuicao:
   chapeu_atual: orquestrador
   implementador: codex
 ---
 EOF
-        echo '{"readback_id":"0056-g-orq-entrada","agent_id":"codex","track":"safe_track","human_status":"confirmed","authorization":{"human":"Mauricio","evidence":"teste"}}' > .hbn/readbacks/0056-g-orq-entrada.json
+        echo '{"readback_id":"0056-g-orq-entrada","execution_id":"g-orq-entrada-test-2026-06-18","agent_id":"codex","track":"safe_track","human_status":"confirmed","authorization":{"human":"Mauricio","evidence":"teste"}}' > .hbn/readbacks/0056-g-orq-entrada.json
         echo "# Handoff G-ORQ-ENTRADA" > .hbn/messages/20260618-003300-codex-handoff-g-orq-entrada.md
         echo "# role templates" > agents/role-templates.md
         echo "# firewall 0022" > .hbn/knowledge/0022-firewall-workflow-fast-track.md
@@ -2167,12 +2250,6 @@ EOF
         echo "# auditor read-only" > .hbn/knowledge/0025-auditor-read-only-sem-no-verify.md
         echo "# fornecedor(implementador) != fornecedor(orquestrador)" > core/orchestrator-profile-spec.md
         echo "# STATE <= 80 linhas" > core/relay-spec.md
-        cat > guards/data/orq-entrada-desafios.txt <<'EOF'
-D1: gate.*fechad|enforc
-D2: fornecedor.*!=.*fornecedor|implementador.*orquestrador
-D3: \b80\b
-D4: humano
-EOF
         cat > core/read-list-canonica.txt <<EOF
 $(git hash-object .hbn/relay/STATE.md) .hbn/relay/STATE.md
 DYNAMIC handoff_mais_recente
@@ -2188,24 +2265,32 @@ $(git hash-object .hbn/knowledge/0025-auditor-read-only-sem-no-verify.md) .hbn/k
 $(git hash-object core/orchestrator-profile-spec.md) core/orchestrator-profile-spec.md
 $(git hash-object core/relay-spec.md) core/relay-spec.md
 EOF
+        git add -A
     ) >/dev/null 2>&1
     write_valid_orq_attestation "$d"
-    ( cd "$d" && git add -A && git commit -qm orq-entrada ) >/dev/null 2>&1
+    ( cd "$d" && git add .hbn/attestations/34a7f2f9-orq-entrada.json && git commit -qm orq-entrada ) >/dev/null 2>&1
     echo "$d"
 }
 
 d="$(make_orq_entrada_repo)"
-check "orq-entrada: atestacao valida passa" pass "$(run_orq_entrada "$d")"
+check "orq-entrada: atestacao v2 valida sem gabarito.txt passa" pass "$(run_orq_entrada "$d")"
 rm -rf "$d"
 
 d="$(make_orq_entrada_repo)"
-( cd "$d" && rm -f .hbn/attestations/34a7f2f9-orq-entrada.json ) >/dev/null 2>&1
+( cd "$d" && git rm -q .hbn/attestations/34a7f2f9-orq-entrada.json ) >/dev/null 2>&1
 check "orq-entrada: sem atestacao → BLOCK" block "$(run_orq_entrada "$d")"
 rm -rf "$d"
 
 d="$(make_orq_entrada_repo)"
-( cd "$d" && printf '\ndrift\n' >> core/relay-spec.md ) >/dev/null 2>&1
-check "orq-entrada: hash divergente → BLOCK" block "$(run_orq_entrada "$d")"
+python3 - "$d/.hbn/attestations/34a7f2f9-orq-entrada.json" <<'PY'
+import json, sys
+path = sys.argv[1]
+data = json.load(open(path))
+data["challenge"]["line_responses"][0]["line_text"] = "linha forjada"
+json.dump(data, open(path, "w"), indent=2, ensure_ascii=False)
+PY
+( cd "$d" && git add .hbn/attestations/34a7f2f9-orq-entrada.json ) >/dev/null 2>&1
+check "orq-entrada: linha extrativa errada → BLOCK" block "$(run_orq_entrada "$d")"
 rm -rf "$d"
 
 d="$(make_orq_entrada_repo)"
@@ -2213,10 +2298,27 @@ python3 - "$d/.hbn/attestations/34a7f2f9-orq-entrada.json" <<'PY'
 import json, sys
 path = sys.argv[1]
 data = json.load(open(path))
-data["itens"] = [i for i in data["itens"] if i.get("path") != "core/relay-spec.md"]
-json.dump(data, open(path, "w"), indent=2)
+data["challenge"]["line_responses"][0]["line_sha256"] = "0" * 64
+json.dump(data, open(path, "w"), indent=2, ensure_ascii=False)
 PY
-check "orq-entrada: item da read-list ausente → BLOCK" block "$(run_orq_entrada "$d")"
+( cd "$d" && git add .hbn/attestations/34a7f2f9-orq-entrada.json ) >/dev/null 2>&1
+check "orq-entrada: line_sha256 errado → BLOCK" block "$(run_orq_entrada "$d")"
+rm -rf "$d"
+
+d="$(make_orq_entrada_repo)"
+python3 - "$d/.hbn/attestations/34a7f2f9-orq-entrada.json" <<'PY'
+import hashlib, json, sys
+path = sys.argv[1]
+data = json.load(open(path))
+old_manifest = "1" * 64
+data["manifest_sha256"] = old_manifest
+data["challenge"]["seed_sha256"] = hashlib.sha256(
+    f"orq-entrada.v2\n{data['execution_id']}\n34a7f2f9\n{old_manifest}".encode()
+).hexdigest()
+json.dump(data, open(path, "w"), indent=2, ensure_ascii=False)
+PY
+( cd "$d" && git add .hbn/attestations/34a7f2f9-orq-entrada.json ) >/dev/null 2>&1
+check "orq-entrada: seed de manifest velho → BLOCK" block "$(run_orq_entrada "$d")"
 rm -rf "$d"
 
 d="$(make_orq_entrada_repo)"
@@ -2224,10 +2326,19 @@ python3 - "$d/.hbn/attestations/34a7f2f9-orq-entrada.json" <<'PY'
 import json, sys
 path = sys.argv[1]
 data = json.load(open(path))
-data["desafios"]["D4"]["resposta_desafio"] = "pela IA autonomamente"
-json.dump(data, open(path, "w"), indent=2)
+data["challenge"]["field_responses"] = [
+    item for item in data["challenge"]["field_responses"]
+    if item.get("field") != "proxima_acao"
+]
+json.dump(data, open(path, "w"), indent=2, ensure_ascii=False)
 PY
-check "orq-entrada: resposta fora do gabarito → BLOCK" block "$(run_orq_entrada "$d")"
+( cd "$d" && git add .hbn/attestations/34a7f2f9-orq-entrada.json ) >/dev/null 2>&1
+check "orq-entrada: field ausente → BLOCK" block "$(run_orq_entrada "$d")"
+rm -rf "$d"
+
+d="$(make_orq_entrada_repo)"
+( cd "$d" && printf '\ndrift staged\n' >> core/relay-spec.md && git add core/relay-spec.md ) >/dev/null 2>&1
+check "orq-entrada: arquivo da read-list mudado → BLOCK" block "$(run_orq_entrada "$d")"
 rm -rf "$d"
 
 # --- Read-list viva (onda 0006 I-01 — F-08 dos cross-audits 0036/0037) -------

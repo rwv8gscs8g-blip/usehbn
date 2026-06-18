@@ -1199,3 +1199,22 @@ gabarito.
 | 20260618-003307-codex-adversarial-b41-b44 | guards/tests/adversarial-battery.sh | guard-test | quente | fronteira | — | 2026-06-18T00:33:07-03:00 |
 | 20260618-003308-codex-state-g-orq-entrada | .hbn/relay/STATE.md | state | quente | fronteira | — | 2026-06-18T00:33:08-03:00 |
 | 20260618-003300-codex-handoff-g-orq-entrada | .hbn/messages/20260618-003300-codex-handoff-g-orq-entrada.md | handoff | quente | fronteira | — | 2026-06-18T00:33:00-03:00 |
+
+## W-ORQ-2 (2026-06-18) — desafio extrativo deterministico e remocao do gabarito fisico — status: in_progress, readback 0058
+
+W-ORQ-2 endurece G-ORQ-ENTRADA antes de declarar o gate vigente: substitui
+respostas abertas D1-D4 por prova extrativa deterministica recomputavel pelo
+guard a partir do indice staged, remove o gabarito fisico e mantem a selagem
+pendente ate cross-audit >=2 familias != OpenAI com `APROVA_0058` e hearback
+humano.
+
+| id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
+|---|---|---|---|---|---|---|
+| 20260618-015800-codex-readback-w-orq-2 | .hbn/readbacks/0058-w-orq-2.json | readback | quente | fronteira | — | 2026-06-18T01:58:00-03:00 |
+| 20260618-015801-codex-guard-orq-entrada-v2 | guards/assert-orq-entrada.sh | guard | quente | fronteira | — | 2026-06-18T01:58:01-03:00 |
+| 20260618-015802-codex-remove-gabarito-orq-entrada | guards/data/orq-entrada-desafios.txt | guard-data; removed | quente | fronteira | removido-por-w-orq-2 | 2026-06-18T01:58:02-03:00 |
+| 20260618-015803-codex-atestacao-orq-entrada-v2 | .hbn/attestations/34a7f2f9-orq-entrada.json | attestation | quente | fronteira | — | 2026-06-18T01:58:03-03:00 |
+| 20260618-015804-codex-guard-tests-orq-entrada-v2 | guards/tests/run-guard-tests.sh | guard-test | quente | fronteira | — | 2026-06-18T01:58:04-03:00 |
+| 20260618-015805-codex-adversarial-b45-b47 | guards/tests/adversarial-battery.sh | guard-test | quente | fronteira | — | 2026-06-18T01:58:05-03:00 |
+| 20260618-015806-codex-state-w-orq-2 | .hbn/relay/STATE.md | state | quente | fronteira | — | 2026-06-18T01:58:06-03:00 |
+| 20260618-015800-codex-handoff-w-orq-2 | .hbn/messages/20260618-015800-codex-handoff-w-orq-2.md | handoff | quente | fronteira | — | 2026-06-18T01:58:00-03:00 |

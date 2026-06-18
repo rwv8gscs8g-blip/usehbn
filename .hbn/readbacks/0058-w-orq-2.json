@@ -1,0 +1,81 @@
+{
+  "readback_id": "0058-w-orq-2",
+  "execution_id": "w-orq-2-2026-06-18",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0058-w-orq-2.json",
+  "understanding": "Endurecer G-ORQ-ENTRADA antes de declarar o gate vigente: substituir o desafio aberto+regex por prova extrativa deterministica recomputavel pelo guard e remover o gabarito fisico. O gate permanece fail-closed e a selagem fica pendente ate cross-audit >=2 familias nao-OpenAI, hearback humano e APROVA_0058.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio em 2026-06-18: despacho W-ORQ-2, readback 0058, execution_id=w-orq-2-2026-06-18, track=safe_track, implementador=codex, token FP 34a7f2f9; decisao humana: endurecer antes de declarar o gate vigente, nao selar o piso nu.",
+    "created_at": "2026-06-18T01:58:00-03:00",
+    "note": "Autorizacao humana para remover o gabarito fisico e exigir prova extrativa deterministica; core/** permanece fora de escopo."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0058-w-orq-2.json",
+      "guards/assert-orq-entrada.sh",
+      "guards/data/orq-entrada-desafios.txt",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json",
+      "guards/tests/run-guard-tests.sh",
+      "guards/tests/adversarial-battery.sh",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/messages/20260618-015800-codex-handoff-w-orq-2.md"
+    ],
+    "files_forbidden": [
+      "main",
+      "src/**",
+      "methodology/**",
+      "schemas/**",
+      "docs/brainstorm/**",
+      "core/**"
+    ]
+  },
+  "action_plan": [
+    "C1: criar readback 0058 e atualizar STATE para W-ORQ-2.",
+    "C2: reescrever guards/assert-orq-entrada.sh para algoritmo orq-entrada.v2/extractive-lines, lendo blobs do indice staged ou HEAD em CI.",
+    "C3: remover guards/data/orq-entrada-desafios.txt e regenerar a atestacao 34a7f2f9 no schema v2 sem desafios D1-D4.",
+    "C4: atualizar run-guard-tests com casos valido, linha errada, line_sha256 errado, seed de manifest velho, field ausente, arquivo da read-list mudado e ausencia do gabarito.",
+    "C5: atualizar adversarial-battery com B45+ para linha extrativa forjada, replay de seed antigo e tentativa sem ler linhas.",
+    "C6: dogfood do guard v2 no mesmo commit staged e handoff devolvendo o bastao."
+  ],
+  "invariants_to_preserve": [
+    "main NUNCA tocada; git rev-parse main deve permanecer 4db692876381a0d7909985c8500d999f2e677b04.",
+    "Sem merge, sem --no-verify, sem git add .; usar somente paths exatos.",
+    "Se um guard bloquear, parar e relatar; nao contornar.",
+    "Sem auto-emenda de escopo; core/** permanece proibido nesta onda.",
+    "Runner verde inclui assert-orq-entrada.sh v2 antes do commit.",
+    "Selagem somente apos cross-audit >=2 familias != OpenAI com APROVA_0058 e hearback humano."
+  ],
+  "out_of_scope": [
+    "main",
+    "src/**",
+    "methodology/**",
+    "schemas/**",
+    "docs/brainstorm/**",
+    "core/**"
+  ],
+  "read_evidence": [
+    "SOU: codex · familia OpenAI · papel implementador",
+    ".hbn/relay/STATE.md",
+    ".hbn/messages/20260618-003300-codex-handoff-g-orq-entrada.md",
+    ".hbn/readbacks/0056-g-orq-entrada.json",
+    "core/read-list-canonica.txt",
+    "core/orchestrator-profile-spec.md",
+    "guards/assert-orq-entrada.sh",
+    "guards/tests/run-guard-tests.sh",
+    "guards/tests/adversarial-battery.sh"
+  ],
+  "trailers_required": {
+    "HBN-Readback": "0058",
+    "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "HBN-Token-FP": "34a7f2f9"
+  },
+  "created_at": "2026-06-18T01:58:00-03:00",
+  "protocol_version": "0.3.0"
+}

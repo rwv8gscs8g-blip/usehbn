@@ -6,8 +6,8 @@
 # Gatilho: STATE staged (local) ou HEAD (CI) com papel_bastao=orquestrador ou
 # atribuicao.chapeu_atual contendo "orquestrador". Fora desse caso, nao opina.
 #
-# Fail-closed: sem STATE legivel, sem token, sem atestacao, read-list ausente,
-# item ausente, hash divergente ou desafio invalido bloqueia commit local.
+# v2: desafio extrativo deterministico, recomputado do indice staged (:path);
+# em CI, recomputado de HEAD:path quando HBN_DIFF_BASE esta presente.
 # =============================================================================
 set -euo pipefail
 
@@ -24,21 +24,24 @@ REPO_ROOT="$(guard_repo_root)"
 ACTIVE_ROOT="$(get_canonical_root || true)"
 STATE_PATH=".hbn/relay/STATE.md"
 STATE_REPO_PATH="$(guard_version_repo_path "$STATE_PATH" || true)"
+READ_LIST_PATH="core/read-list-canonica.txt"
+READ_LIST_REPO_PATH="$(guard_version_repo_path "$READ_LIST_PATH" || true)"
 
-if [[ -z "$ACTIVE_ROOT" || -z "$STATE_REPO_PATH" ]]; then
-    guard_fail "Versao ativa invalida: ${HBN_ACTIVE_VERSION_ERROR:-erro desconhecido}. Nao e possivel localizar STATE."
+if [[ -z "$ACTIVE_ROOT" || -z "$STATE_REPO_PATH" || -z "$READ_LIST_REPO_PATH" ]]; then
+    guard_fail "Versao ativa invalida: ${HBN_ACTIVE_VERSION_ERROR:-erro desconhecido}. Nao e possivel localizar STATE/read-list."
     exit 1
 fi
 
-state_content() {
+repo_path_content() {
+    local repo_path="$1"
     if [[ -n "${HBN_DIFF_BASE:-}" ]]; then
-        git show "HEAD:${STATE_REPO_PATH}" 2>/dev/null
+        git show "HEAD:${repo_path}" 2>/dev/null
     else
-        git show ":${STATE_REPO_PATH}" 2>/dev/null || git show "HEAD:${STATE_REPO_PATH}" 2>/dev/null
+        git show ":${repo_path}" 2>/dev/null
     fi
 }
 
-STATE_CONTENT="$(state_content || true)"
+STATE_CONTENT="$(repo_path_content "$STATE_REPO_PATH" || true)"
 if [[ -z "$STATE_CONTENT" ]]; then
     guard_fail "STATE ausente/ilegivel no indice/HEAD: ${STATE_PATH}."
     exit 1
@@ -70,20 +73,17 @@ TOKEN_FP="${TOKEN_SHA:0:8}"
 
 HANDOFF_PATH="$(state_value "handoff_mais_recente")"
 READBACK_PATH="$(state_value "readback_ativo")"
-CANON_FILE="${ACTIVE_ROOT}/core/read-list-canonica.txt"
-ATTEST_FILE="${ACTIVE_ROOT}/.hbn/attestations/${TOKEN_FP}-orq-entrada.json"
-GABARITO_FILE="${ACTIVE_ROOT}/guards/data/orq-entrada-desafios.txt"
+ATTEST_PATH=".hbn/attestations/${TOKEN_FP}-orq-entrada.json"
+ATTEST_REPO_PATH="$(guard_version_repo_path "$ATTEST_PATH" || true)"
 
-if [[ ! -r "$CANON_FILE" ]]; then
-    guard_fail "Read-list canonica ausente/ilegivel: core/read-list-canonica.txt."
+if [[ -z "$ATTEST_REPO_PATH" ]]; then
+    guard_fail "Nao foi possivel resolver path da atestacao ${ATTEST_PATH}."
     exit 1
 fi
-if [[ ! -r "$GABARITO_FILE" ]]; then
-    guard_fail "Gabarito de desafios ausente/ilegivel: guards/data/orq-entrada-desafios.txt."
-    exit 1
-fi
-if [[ ! -r "$ATTEST_FILE" ]]; then
-    guard_fail "Atestacao de entrada ausente para bastao ${TOKEN_FP}: .hbn/attestations/${TOKEN_FP}-orq-entrada.json."
+
+CANON_CONTENT="$(repo_path_content "$READ_LIST_REPO_PATH" || true)"
+if [[ -z "$CANON_CONTENT" ]]; then
+    guard_fail "Read-list canonica ausente/ilegivel no indice/HEAD: ${READ_LIST_PATH}."
     exit 1
 fi
 
@@ -91,7 +91,7 @@ EXPECTED_FILE="$(mktemp)"
 trap 'rm -f "$EXPECTED_FILE"' EXIT
 
 CANON_FAIL=0
-while IFS= read -r raw_line; do
+while IFS= read -r raw_line || [[ -n "$raw_line" ]]; do
     line="${raw_line%%#*}"
     line="$(printf '%s' "$line" | sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//')"
     [[ -z "$line" ]] && continue
@@ -112,14 +112,27 @@ while IFS= read -r raw_line; do
             CANON_FAIL=1
             continue
         fi
-        printf '%s\n' "$resolved" >> "$EXPECTED_FILE"
     elif [[ "$line" =~ ^[0-9a-fA-F]{7,40}[[:space:]]+(.+)$ ]]; then
-        printf '%s\n' "${BASH_REMATCH[1]}" >> "$EXPECTED_FILE"
+        resolved="${BASH_REMATCH[1]}"
     else
         guard_fail "Linha invalida em core/read-list-canonica.txt: ${raw_line}"
         CANON_FAIL=1
+        continue
     fi
-done < "$CANON_FILE"
+
+    if [[ "$resolved" == *$'\t'* ]]; then
+        guard_fail "Path invalido na read-list canonica (TAB): ${resolved}"
+        CANON_FAIL=1
+        continue
+    fi
+    resolved_repo="$(guard_version_repo_path "$resolved" || true)"
+    if [[ -z "$resolved_repo" ]]; then
+        guard_fail "Nao foi possivel resolver path da read-list: ${resolved}"
+        CANON_FAIL=1
+        continue
+    fi
+    printf '%s\t%s\n' "$resolved" "$resolved_repo" >> "$EXPECTED_FILE"
+done <<< "$CANON_CONTENT"
 
 EXPECTED_COUNT="$(sed '/^[[:space:]]*$/d' "$EXPECTED_FILE" | wc -l | tr -d '[:space:]')"
 if [[ "$EXPECTED_COUNT" != "13" ]]; then
@@ -137,125 +150,239 @@ fi
 
 if ! (
     cd "$REPO_ROOT"
-    python3 - "$TOKEN_FP" "$ATTEST_FILE" "$EXPECTED_FILE" "$GABARITO_FILE" <<'PY'
+    python3 - "$TOKEN_FP" "$ATTEST_REPO_PATH" "$EXPECTED_FILE" "$STATE_PATH" "$READBACK_PATH" <<'PY'
+import hashlib
 import json
 import pathlib
 import re
 import subprocess
 import sys
 
-token_fp, attest_path, expected_file, gabarito_file = sys.argv[1:5]
+ALGORITHM = "orq-entrada.v2/extractive-lines"
+token_fp, attest_repo_path, expected_file, state_path, readback_path = sys.argv[1:6]
+use_head = bool(__import__("os").environ.get("HBN_DIFF_BASE"))
 errors = []
 
 def fail(message):
     errors.append(message)
 
+def git_bytes(*args):
+    return subprocess.check_output(["git", *args], stderr=subprocess.DEVNULL)
+
+def blob_oid(repo_path):
+    spec = f"HEAD:{repo_path}" if use_head else f":{repo_path}"
+    return git_bytes("rev-parse", spec).decode("utf-8").strip()
+
+def blob_bytes(repo_path):
+    oid = blob_oid(repo_path)
+    return oid, git_bytes("cat-file", "-p", oid)
+
+def sha256_bytes(value):
+    return hashlib.sha256(value).hexdigest()
+
+def sha256_text(value):
+    return sha256_bytes(value.encode("utf-8"))
+
+def canonical_json(value):
+    return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+
+def state_value(state_text, key):
+    pat = re.compile(rf"^\s*{re.escape(key)}:")
+    for line in state_text.splitlines():
+        if not pat.search(line):
+            continue
+        value = line.split(":", 1)[1]
+        value = re.sub(r"\s+#.*$", "", value).strip()
+        if len(value) >= 2 and value[0] == value[-1] and value[0] in ("'", '"'):
+            value = value[1:-1]
+        return value
+    return ""
+
+expected = []
 try:
-    with open(attest_path, encoding="utf-8") as f:
-        data = json.load(f)
+    for raw in pathlib.Path(expected_file).read_text(encoding="utf-8").splitlines():
+        if not raw.strip():
+            continue
+        path, repo_path = raw.split("\t", 1)
+        expected.append((path, repo_path))
+except Exception as exc:
+    print(f"G-ORQ-ENTRADA: lista esperada ilegivel: {exc}", file=sys.stderr)
+    sys.exit(1)
+
+manifest = []
+content_by_path = {}
+repo_by_path = {}
+for path, repo_path in expected:
+    if path in repo_by_path:
+        fail(f"path duplicado na read-list resolvida: {path}")
+        continue
+    repo_by_path[path] = repo_path
+    try:
+        oid, content = blob_bytes(repo_path)
+    except subprocess.CalledProcessError:
+        fail(f"item da read-list ausente no indice/HEAD: {path}")
+        continue
+    try:
+        text = content.decode("utf-8")
+    except UnicodeDecodeError:
+        fail(f"item da read-list nao e UTF-8: {path}")
+        continue
+    nonempty = [(i, line) for i, line in enumerate(text.splitlines(), 1) if line.strip()]
+    content_by_path[path] = (content, text, nonempty)
+    manifest.append({
+        "path": path,
+        "blob_oid": oid,
+        "sha256": sha256_bytes(content),
+        "bytes": len(content),
+        "nonempty_lines": len(nonempty),
+    })
+
+manifest_sha256 = sha256_text(canonical_json(manifest))
+
+try:
+    _, attest_content = blob_bytes(attest_repo_path)
+except subprocess.CalledProcessError:
+    fail(f"atestacao ausente no indice/HEAD: .hbn/attestations/{token_fp}-orq-entrada.json")
+    attest_content = b"{}"
+
+try:
+    data = json.loads(attest_content.decode("utf-8"))
 except Exception as exc:
     print(f"G-ORQ-ENTRADA: atestacao JSON ilegivel: {exc}", file=sys.stderr)
     sys.exit(1)
 
 if not isinstance(data, dict):
     fail("atestacao deve ser um objeto JSON")
+    data = {}
 
+readback_execution_id = ""
+if readback_path not in repo_by_path:
+    fail(f"readback_ativo nao faz parte da read-list resolvida: {readback_path}")
+else:
+    try:
+        readback_json = json.loads(content_by_path[readback_path][0].decode("utf-8"))
+        if isinstance(readback_json, dict):
+            readback_execution_id = readback_json.get("execution_id", "")
+    except Exception as exc:
+        fail(f"readback_ativo JSON ilegivel para extrair execution_id: {exc}")
+
+if not isinstance(readback_execution_id, str) or not readback_execution_id.strip():
+    fail("readback_ativo sem execution_id valido")
+
+if data.get("algorithm") != ALGORITHM:
+    fail(f"algorithm deve ser {ALGORITHM!r}")
 if data.get("bastao_token_fp") != token_fp:
     fail(f"bastao_token_fp divergente: esperado {token_fp}, obtido {data.get('bastao_token_fp')!r}")
-
 if data.get("papel") != "orquestrador":
     fail("campo papel deve ser 'orquestrador'")
-
 if data.get("read_list_ref") != "core/read-list-canonica.txt":
     fail("read_list_ref deve apontar para core/read-list-canonica.txt")
+if data.get("execution_id") != readback_execution_id:
+    fail(f"execution_id divergente do readback ativo: esperado {readback_execution_id!r}")
+if data.get("manifest_sha256") != manifest_sha256:
+    fail("manifest_sha256 divergente da read-list recomputada")
+if "desafios" in data:
+    fail("bloco legado 'desafios' nao e permitido no schema v2")
+if "itens" in data:
+    fail("bloco legado 'itens' nao e permitido no schema v2")
 
-items = data.get("itens")
-item_map = {}
-if not isinstance(items, list):
-    fail("campo itens deve ser lista de objetos {path, blob_hash}")
-else:
-    for idx, item in enumerate(items, 1):
-        if not isinstance(item, dict):
-            fail(f"itens[{idx}] nao e objeto")
-            continue
-        path = item.get("path")
-        blob_hash = item.get("blob_hash")
-        if not isinstance(path, str) or not path.strip():
-            fail(f"itens[{idx}] sem path valido")
-            continue
-        if path in item_map:
-            fail(f"item duplicado em itens: {path}")
-            continue
-        item_map[path] = blob_hash
+seed_sha256 = ""
+if isinstance(readback_execution_id, str) and readback_execution_id.strip():
+    seed_sha256 = sha256_text(f"orq-entrada.v2\n{readback_execution_id}\n{token_fp}\n{manifest_sha256}")
 
-expected_paths = [
-    line.strip()
-    for line in pathlib.Path(expected_file).read_text(encoding="utf-8").splitlines()
-    if line.strip()
-]
+challenge = data.get("challenge")
+if not isinstance(challenge, dict):
+    fail("challenge deve ser objeto")
+    challenge = {}
+if challenge.get("seed_sha256") != seed_sha256:
+    fail("challenge.seed_sha256 divergente")
 
-for path in expected_paths:
-    att_hash = item_map.get(path)
-    if not att_hash:
-        fail(f"item ausente na atestacao: {path}")
-        continue
-    try:
-        current = subprocess.check_output(
-            ["git", "hash-object", "--", path],
-            text=True,
-            stderr=subprocess.DEVNULL,
-        ).strip()
-    except subprocess.CalledProcessError:
-        fail(f"nao foi possivel calcular git hash-object do item: {path}")
-        continue
-    if att_hash != current:
-        fail(f"blob_hash divergente para {path}: atestacao={att_hash}; atual={current}")
+line_responses = challenge.get("line_responses")
+if not isinstance(line_responses, list):
+    fail("challenge.line_responses deve ser lista")
+    line_responses = []
+if len(line_responses) < 3:
+    fail("challenge.line_responses deve conter pelo menos 3 itens")
 
-gabaritos = {}
-for raw in pathlib.Path(gabarito_file).read_text(encoding="utf-8").splitlines():
-    line = raw.strip()
-    if not line or line.startswith("#"):
+line_by_path = {}
+for item in line_responses:
+    if not isinstance(item, dict):
+        fail("line_responses contem item nao-objeto")
         continue
-    if ":" not in line:
-        fail(f"linha invalida no gabarito: {raw}")
+    path = item.get("path")
+    if not isinstance(path, str) or not path:
+        fail("line_response sem path valido")
         continue
-    key, pattern = line.split(":", 1)
-    key = key.strip()
-    pattern = pattern.strip()
-    if not key or not pattern:
-        fail(f"linha invalida no gabarito: {raw}")
+    if path in line_by_path:
+        fail(f"line_response duplicada para path: {path}")
         continue
-    gabaritos[key] = pattern
+    if path not in repo_by_path:
+        fail(f"line_response para path fora da read-list: {path}")
+        continue
+    line_by_path[path] = item
 
-desafios = data.get("desafios")
-
-def resposta_para(chave):
-    if isinstance(desafios, dict):
-        value = desafios.get(chave)
-        if isinstance(value, dict):
-            return value.get("resposta_desafio") or value.get("resposta") or ""
-        if isinstance(value, str):
-            return value
-    if isinstance(desafios, list):
-        for item in desafios:
-            if not isinstance(item, dict):
-                continue
-            if item.get("id") == chave or item.get("desafio") == chave:
-                return item.get("resposta_desafio") or item.get("resposta") or ""
-    return ""
-
-for chave, pattern in sorted(gabaritos.items()):
-    resposta = resposta_para(chave)
-    if not isinstance(resposta, str) or not resposta.strip():
-        fail(f"resposta_desafio vazia ou ausente para {chave}")
+required_line_paths = [state_path, readback_path, "core/orchestrator-profile-spec.md"]
+for path in required_line_paths:
+    item = line_by_path.get(path)
+    if item is None:
+        fail(f"line_response obrigatoria ausente: {path}")
         continue
-    try:
-        ok = re.search(pattern, resposta, flags=re.IGNORECASE) is not None
-    except re.error as exc:
-        fail(f"regex invalido no gabarito {chave}: {exc}")
+    record = next((r for r in manifest if r["path"] == path), None)
+    if record is None:
+        fail(f"path obrigatorio ausente do manifest: {path}")
         continue
-    if not ok:
-        fail(f"resposta_desafio de {chave} nao satisfaz gabarito: {pattern}")
+    if record["nonempty_lines"] <= 0:
+        fail(f"path obrigatorio sem linhas nao-vazias: {path}")
+        continue
+    challenge_hash = sha256_text(f"{seed_sha256}\n{path}\n{record['blob_oid']}")
+    idx = int(challenge_hash[:8], 16) % record["nonempty_lines"]
+    line_no, line_text = content_by_path[path][2][idx]
+    line_sha256 = sha256_text(line_text)
+    if item.get("line_no") != line_no:
+        fail(f"line_no divergente para {path}: esperado {line_no}, obtido {item.get('line_no')!r}")
+    if item.get("line_text") != line_text:
+        fail(f"line_text divergente para {path}")
+    if item.get("line_sha256") != line_sha256:
+        fail(f"line_sha256 divergente para {path}")
+
+field_responses = challenge.get("field_responses")
+if not isinstance(field_responses, list):
+    fail("challenge.field_responses deve ser lista")
+    field_responses = []
+
+state_text = content_by_path.get(state_path, (b"", "", []))[1]
+expected_fields = {
+    ("readback_ativo", state_value(state_text, "readback_ativo")),
+    ("proxima_acao", state_value(state_text, "proxima_acao")),
+}
+field_seen = {}
+for item in field_responses:
+    if not isinstance(item, dict):
+        fail("field_responses contem item nao-objeto")
+        continue
+    path = item.get("path")
+    field = item.get("field")
+    value = item.get("value")
+    if path != state_path:
+        fail(f"field_response deve apontar para {state_path}: {path!r}")
+        continue
+    if field not in {"readback_ativo", "proxima_acao"}:
+        fail(f"field_response com campo desconhecido: {field!r}")
+        continue
+    if field in field_seen:
+        fail(f"field_response duplicada para campo: {field}")
+        continue
+    field_seen[field] = value
+
+for field, expected_value in sorted(expected_fields):
+    if not expected_value:
+        fail(f"STATE sem campo obrigatorio para challenge: {field}")
+        continue
+    if field not in field_seen:
+        fail(f"field_response obrigatoria ausente: {field}")
+        continue
+    if field_seen[field] != expected_value:
+        fail(f"field_response divergente para {field}")
 
 if errors:
     for message in errors:
@@ -267,5 +394,5 @@ PY
     exit 1
 fi
 
-guard_ok "Atestacao de entrada valida para bastao de orquestrador ${TOKEN_FP}."
+guard_ok "Atestacao de entrada v2 valida para bastao de orquestrador ${TOKEN_FP}."
 exit 0

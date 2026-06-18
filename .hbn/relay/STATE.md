@@ -1,8 +1,8 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente; R2 arvores selada e vigente; R3a G-TRAILERS selada e vigente; R3b G-DIVERSITY selada e vigente; hardening pre-freeze R3a+R3b concluido; Curadoria do Dossie de Pre-Transicao 0055 pendente; G-ORQ-ENTRADA 0056 entregue)"
-onda_atual: "G-ORQ-ENTRADA 0056 entregue; Curadoria 0055 pendente por decisao humana, nao abandonada"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente; R2 arvores selada e vigente; R3a G-TRAILERS selada e vigente; R3b G-DIVERSITY selada e vigente; hardening pre-freeze R3a+R3b concluido; Curadoria do Dossie de Pre-Transicao 0055 pendente; G-ORQ-ENTRADA 0056 entregue; W-ORQ-2 0058 entregue)"
+onda_atual: "W-ORQ-2 0058 entregue; Curadoria 0055 pendente por decisao humana, nao abandonada"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
@@ -11,8 +11,12 @@ papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM; W3 ratificado por Grok, Antigravity 100 e Cursor 92 com APROVA_0036 SIM"
   gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou grande selagem 0035, hardening->deny->freeze, selagem W3, cartao de entrada e branch protection biometrica na main"
-proxima_acao: "Cross-audit ≠-OpenAI do readback 0056; depois hearback humano + selagem do gate G-ORQ-ENTRADA; retomar Curadoria 0055 pendente."
+proxima_acao: "Cross-audit ≠-OpenAI do readback 0058; depois hearback humano + APROVA_0058 + selagem do G-ORQ-ENTRADA v2; Curadoria 0055 segue pendente."
 sinais_abertos:
+  - "🟢 W-ORQ-2 ENTREGUE — guards/assert-orq-entrada.sh agora valida orq-entrada.v2/extractive-lines por manifest_sha256, seed_sha256, line_responses e field_responses recomputados do indice staged; em CI usa HEAD:path com HBN_DIFF_BASE."
+  - "🟢 GABARITO FISICO REMOVIDO — guards/data/orq-entrada-desafios.txt foi eliminado; o gate nao depende mais de regex ou respostas abertas D1-D4."
+  - "🟢 TESTES 0058 VERDES — bash guards/tests/run-guard-tests.sh fecha 202/202; bash guards/tests/adversarial-battery.sh bloqueia B1-B47, incluindo B45-B47 contra linha forjada, seed antigo e tentativa sem ler."
+  - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0058 safe_track entregue por codex, autorização humana Mauricio e trailers contiguos; permanece proposto ate cross-audit >=2 familias != OpenAI + hearback + selagem."
   - "🟢 G-ORQ-ENTRADA ENTREGUE — guards/assert-orq-entrada.sh ativo no runner local; bastao de orquestrador exige .hbn/attestations/<fp>-orq-entrada.json valida contra read-list canonica, hashes atuais e desafios."
   - "🟢 TESTES 0056 VERDES — bash guards/tests/run-guard-tests.sh fechou 200/200; bash guards/tests/adversarial-battery.sh bloqueou B1-B44, incluindo B41-B44 de G-ORQ-ENTRADA."
   - "🟡 CURADORIA 0055 PENDENTE — cross-audit pausado por decisao humana; nao abandonada; G-ORQ-ENTRADA teve prioridade."
@@ -138,20 +142,34 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟢 branch protection no GitHub: ruleset Active na main (require PR, restrict deletions, block force pushes); passkey Touch ID no boundary."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0056-g-orq-entrada.json"
-handoff_mais_recente: ".hbn/messages/20260618-003300-codex-handoff-g-orq-entrada.md"
+readback_ativo: ".hbn/readbacks/0058-w-orq-2.json"
+handoff_mais_recente: ".hbn/messages/20260618-015800-codex-handoff-w-orq-2.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "G-ORQ-ENTRADA 0056 entregue; Curadoria 0055 pendente por decisao humana, nao abandonada."
-ultima_atualizacao: "2026-06-18T00:33:00-03:00"
-atualizado_por: codex-implementador-g-orq-entrada-handoff
+ciclo_ativo: "W-ORQ-2 0058 entregue; Curadoria 0055 pendente por decisao humana, nao abandonada."
+ultima_atualizacao: "2026-06-18T01:58:00-03:00"
+atualizado_por: codex-implementador-w-orq-2-handoff
 atribuicao:
   chapeu_atual: orquestrador
   implementador: codex
   auditores: []
-  gravada_em: "2026-06-18T00:33:00-03:00"
-  hearback_ref: "Mauricio 2026-06-18: autorizacao para readback 0056, G-ORQ-ENTRADA safe_track, implementador=codex; Curadoria 0055 fica pendente por decisao humana; entrega requer cross-audit ≠-OpenAI antes de selagem."
+  gravada_em: "2026-06-18T01:58:00-03:00"
+  hearback_ref: "Mauricio 2026-06-18: autorizacao para readback 0058, W-ORQ-2 safe_track, implementador=codex, token_fp 34a7f2f9; endurecer G-ORQ-ENTRADA antes de declarar vigente; selagem so apos cross-audit >=2 familias != OpenAI + hearback."
 ---
+
+Nota W-ORQ-2 / readback 0058: entregue em
+2026-06-18T01:58:00-03:00. O guard G-ORQ-ENTRADA deixou de aceitar desafio
+aberto com regex e passou a recomputar `orq-entrada.v2/extractive-lines` a
+partir dos blobs do indice staged (`:path`), usando `HEAD:path` em CI com
+`HBN_DIFF_BASE`. A atestacao v2 contem `manifest_sha256`,
+`challenge.seed_sha256`, `challenge.line_responses` e
+`challenge.field_responses`; o bloco legado D1-D4 foi removido. O gabarito
+fisico `guards/data/orq-entrada-desafios.txt` foi eliminado. Evidencia
+mecanica: `bash guards/tests/run-guard-tests.sh` fechou
+`202 passaram, 0 falharam`; `bash guards/tests/adversarial-battery.sh`
+bloqueou B1-B47, incluindo B45-B47. Proxima acao: cross-audit >=2 familias
+!= OpenAI com `APROVA_0058`, depois hearback humano e selagem; nao selar piso
+nu.
 
 Nota G-ORQ-ENTRADA / readback 0056: entregue em
 2026-06-18T00:33:00-03:00. O runner local agora chama

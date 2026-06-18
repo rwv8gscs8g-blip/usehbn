@@ -1,4 +1,0 @@
-D1: gate.*fechad|enforc
-D2: fornecedor.*!=.*fornecedor|implementador.*orquestrador
-D3: \b80\b
-D4: humano
