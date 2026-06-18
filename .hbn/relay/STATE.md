@@ -1,8 +1,8 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente; R2 arvores selada e vigente; R3a G-TRAILERS entregue; selagem R3a aberta)"
-onda_atual: "Selagem da R3a G-TRAILERS em andamento; readback 0052 aberto com hearback humano confirmado e dois pareceres ≠-OpenAI no disco"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente; R2 arvores selada e vigente; R3a G-TRAILERS selada e vigente)"
+onda_atual: "R3a G-TRAILERS selada e vigente; readback 0052 encerrado operacionalmente; bastao volta ao orquestrador"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
@@ -11,10 +11,12 @@ papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM; W3 ratificado por Grok, Antigravity 100 e Cursor 92 com APROVA_0036 SIM"
   gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou grande selagem 0035, hardening->deny->freeze, selagem W3, cartao de entrada e branch protection biometrica na main"
-proxima_acao: "C2 da selagem R3a: tornar tracked os dois pareceres grok/xAI e antigravity/Google com REGISTRY 7-col; depois C3 encerrar STATE/handoff e seguir para R3b Camada 2 do G-AUDITOR-ID."
+proxima_acao: "R3b Camada 2 do G-AUDITOR-ID."
 sinais_abertos:
-  - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0052 safe_track, implementador=codex, autorização humana Mauricio e trailers contiguos; selagem R3a em andamento com duplo APROVA_0051 no disco."
-  - "🟡 SELAGEM R3a G-TRAILERS ABERTA — readback 0052 confirma hearback humano e escopo restrito a readback, dois pareceres, STATE, REGISTRY e handoff; main/guards/src/core/methodology/schemas/brainstorm fora de escopo."
+  - "🟢 R3a G-TRAILERS SELADA E VIGENTE — readback 0051 ratificado por grok/xAI APROVA_0051 SIM e antigravity/Google APROVA_0051 SIM; readback 0052 encerrado operacionalmente."
+  - "🟢 PARECERES G-TRAILERS TRACKED — .hbn/results/20260617-212200-grok-cross-ia-g-trailers-0051.md e .hbn/results/20260617-212500-antigravity-cross-ia-g-trailers-0051.md versionados com linhas REGISTRY 7-col arvore=fronteira; G-AUDITOR-ID aprovou os dois."
+  - "🟢 TESTES SELAGEM R3a VERDES — runner verde; run-guard-tests 191/191; adversarial-battery B1-B39 bloqueada; pytest 213 passed."
+  - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0052 safe_track, implementador=codex, autorização humana Mauricio e trailers contiguos; selagem encerrada com duplo APROVA_0051 + hearback."
   - "🟢 R3a G-TRAILERS ENTREGUE — guard aditivo exige HBN-Readback, HBN-Human-Authorization e HBN-Token-FP contiguos no ultimo paragrafo de todo commit governado, independente de implementador no STATE."
   - "🟢 TESTES R3a VERDES — runner verde; modo commit-msg com G-TRAILERS verde; run-guard-tests 191/191; adversarial-battery B1-B39 bloqueada; pytest 213 passed."
   - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0051 safe_track, implementador=codex, autorização humana Mauricio e trailers contiguos; entrega concluida, excecao permanece proposta ate cross-audit ≠-OpenAI + hearback + selagem."
@@ -116,19 +118,34 @@ sinais_abertos:
   - "🟢 branch protection no GitHub: ruleset Active na main (require PR, restrict deletions, block force pushes); passkey Touch ID no boundary."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
 readback_ativo: ".hbn/readbacks/0052-selagem-g-trailers.json"
-handoff_mais_recente: ".hbn/messages/20260617-211038-codex-handoff-g-trailers.md"
+handoff_mais_recente: ".hbn/messages/20260617-220500-codex-handoff-selagem-g-trailers.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "Readback 0052 em andamento; selagem R3a G-TRAILERS aberta por codex com G-EXC proposto visivel, aguardando C2 pareceres tracked e C3 handoff."
-ultima_atualizacao: "2026-06-17T22:00:00-03:00"
-atualizado_por: codex-implementador-selagem-g-trailers-c1
+ciclo_ativo: "Readback 0052 encerrado operacionalmente; R3a G-TRAILERS selada e vigente; bastao devolvido ao orquestrador."
+ultima_atualizacao: "2026-06-17T22:05:00-03:00"
+atualizado_por: codex-implementador-selagem-g-trailers-handoff
 atribuicao:
   chapeu_atual: orquestrador
   implementador: codex
   auditores: [grok, antigravity]
-  gravada_em: "2026-06-17T22:00:00-03:00"
-  hearback_ref: "Mauricio 2026-06-17: aprovou selagem da R3a apos 2 pareceres ≠-OpenAI verificados no disco com SOU canonico"
+  gravada_em: "2026-06-17T22:05:00-03:00"
+  hearback_ref: "Mauricio 2026-06-17: aprovou selagem da R3a apos 2 pareceres ≠-OpenAI verificados no disco com SOU canonico; selagem encerrada"
 ---
+
+Nota selagem R3a G-TRAILERS / readback 0052: concluida em
+2026-06-17T22:05:00-03:00. R3a G-TRAILERS fica SELADA e vigente: o readback
+0051 foi ratificado por dois pareceres cross-audit de familias distintas de
+OpenAI, grok/xAI `APROVA_0051: SIM` e antigravity/Google `APROVA_0051: SIM`,
+ambos verificados no disco com SOU canonico nas 12 primeiras linhas. Os dois
+pareceres foram versionados em `.hbn/results/` e registrados no REGISTRY com
+7 colunas e `arvore=fronteira`; o G-AUDITOR-ID aprovou os dois no C2.
+Evidencia mecanica: runner verde antes de cada commit; `bash
+guards/tests/run-guard-tests.sh` fechou `191 passaram, 0 falharam`; `bash
+guards/tests/adversarial-battery.sh` fechou B1-B39 bloqueadas; `.venv/bin/pytest -q`
+fechou `213 passed`; `main` permanece em
+`4db692876381a0d7909985c8500d999f2e677b04`. Fora de escopo preservado:
+`main`, `guards/**`, `src/**`, `core/**`, `methodology/**`, `schemas/**` e
+`docs/brainstorm/**`. Proxima acao: R3b Camada 2 do G-AUDITOR-ID.
 
 Nota selagem R3a G-TRAILERS / readback 0052: aberta em
 2026-06-17T22:00:00-03:00. A onda sela o readback 0051 apos dois pareceres

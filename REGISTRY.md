@@ -1123,3 +1123,4 @@ os pareceres e encerra o rito de selagem antes da R3b.
 | 20260617-220000-codex-readback-selagem-g-trailers | .hbn/readbacks/0052-selagem-g-trailers.json | readback | quente | fronteira | — | 2026-06-17T22:00:00-03:00 |
 | 20260617-212200-grok-cross-ia-g-trailers-0051 | .hbn/results/20260617-212200-grok-cross-ia-g-trailers-0051.md | audit-result; autor=grok; familia=xAI; veredito=APROVA_0051:SIM; onda=g-trailers-0051 | frio | fronteira | — | 2026-06-17T21:22:00-03:00 |
 | 20260617-212500-antigravity-cross-ia-g-trailers-0051 | .hbn/results/20260617-212500-antigravity-cross-ia-g-trailers-0051.md | audit-result; autor=antigravity; familia=Google; veredito=APROVA_0051:SIM; onda=g-trailers-0051 | frio | fronteira | — | 2026-06-17T21:25:00-03:00 |
+| 20260617-220500-codex-handoff-selagem-g-trailers | .hbn/messages/20260617-220500-codex-handoff-selagem-g-trailers.md | handoff | quente | fronteira | — | 2026-06-17T22:05:00-03:00 |
