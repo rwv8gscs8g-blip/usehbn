@@ -1110,3 +1110,14 @@ STATE. Fecha a divida da R1 em que o G-EXC ficava inativo com
 | 20260617-210900-codex-knowledge-0027-trailers-contiguos | .hbn/knowledge/0027-trailers-contiguos-independente-de-excecao.md | knowledge | quente | fronteira | — | 2026-06-17T21:09:00-03:00 |
 | 20260617-211038-codex-handoff-g-trailers | .hbn/messages/20260617-211038-codex-handoff-g-trailers.md | handoff | quente | fronteira | — | 2026-06-17T21:10:38-03:00 |
 | 20260617-211039-codex-state-g-trailers-handoff | .hbn/relay/STATE.md | state | quente | fronteira | — | 2026-06-17T21:10:39-03:00 |
+
+## Selagem R3a G-TRAILERS (2026-06-17) — duplo APROVA_0051 — status: in_progress, readback 0052
+
+R3a G-TRAILERS (readback 0051) foi ratificada por dois pareceres cross-audit
+de familias distintas de OpenAI: Grok/xAI registrou `APROVA_0051: SIM` e
+Antigravity/Google registrou `APROVA_0051: SIM`. Esta selagem torna tracked
+os pareceres e encerra o rito de selagem antes da R3b.
+
+| id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
+|---|---|---|---|---|---|---|
+| 20260617-220000-codex-readback-selagem-g-trailers | .hbn/readbacks/0052-selagem-g-trailers.json | readback | quente | fronteira | — | 2026-06-17T22:00:00-03:00 |
