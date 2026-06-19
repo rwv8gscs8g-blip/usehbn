@@ -1292,3 +1292,23 @@ W-ORQ-4/W-FREEZE neste commit.
 | 20260618-171615-opus-handoff-orquestrador-faseb | .hbn/messages/20260618-171615-opus-4-8-handoff-orquestrador-faseb.md | handoff | frio | fronteira | — | 2026-06-18T17:16:15-03:00 |
 | 20260618-210314-opus-despacho-selagem-0063 | .hbn/messages/20260618-210314-opus-4-8-despacho-selagem-0063.md | despacho | frio | fronteira | — | 2026-06-18T21:03:14-03:00 |
 | 20260618-210314-codex-readback-selagem-w-orq-3b | .hbn/readbacks/0063-selagem-w-orq-3b.json | readback; selagem; vigente | frio | fronteira | — | 2026-06-18T21:03:14-03:00 |
+
+## W-COPY / G-COPY (2026-06-18) — bloco copiavel deterministico — status: proposto, readback 0064
+
+G-COPY torna mecanico o contrato do bloco copiavel: todo despacho/prompt novo
+adicionado em `.hbn/messages/` ou `docs/prompts/` com `tipo: despacho|prompt`
+deve conter exatamente um bloco `HBN-COPY`, destino canonico e payload
+nao-vazio. O guard entra no runner nesta entrega, mas permanece
+PROPOSED_UNTIL_CROSS_AUDIT ate cross-audit >=2 familias != OpenAI e hearback
+humano antes da selagem.
+
+| id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
+|---|---|---|---|---|---|---|
+| 20260618-214500-opus-despacho-g-copy | .hbn/messages/20260618-214500-opus-4-8-despacho-g-copy.md | despacho | frio | fronteira | — | 2026-06-18T21:45:00-03:00 |
+| 20260618-214500-codex-readback-g-copy | .hbn/readbacks/0064-w-copy-g-copy.json | readback | frio | fronteira | — | 2026-06-18T21:45:00-03:00 |
+| 20260618-214501-codex-guard-copy-block | guards/assert-copy-block.sh | guard | frio | fronteira | — | 2026-06-18T21:45:01-03:00 |
+| 20260618-214502-codex-runner-g-copy | guards/hbn-guards-runner.sh | guard-runner | frio | fronteira | — | 2026-06-18T21:45:02-03:00 |
+| 20260618-214503-codex-guard-tests-g-copy | guards/tests/run-guard-tests.sh | guard-test | frio | fronteira | — | 2026-06-18T21:45:03-03:00 |
+| 20260618-214504-codex-adversarial-b55-b62 | guards/tests/adversarial-battery.sh | guard-test | frio | fronteira | — | 2026-06-18T21:45:04-03:00 |
+| 20260618-214505-codex-state-g-copy | .hbn/relay/STATE.md | state | frio | fronteira | — | 2026-06-18T21:45:05-03:00 |
+| 20260618-214506-codex-atestacao-orq-entrada-g-copy | .hbn/attestations/34a7f2f9-orq-entrada.json | attestation | frio | fronteira | — | 2026-06-18T21:45:06-03:00 |

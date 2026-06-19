@@ -1091,6 +1091,108 @@ stage_orq_selagem_same_fp_adv "$d"
 try_burla "B54 atestacao extra staged junto ao ato" "G-ORQREF" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-orq-entrada-ref.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
+# B55-B62 — G-COPY: bloco copiavel em despacho/prompt novo deve ser mecanico.
+mk_copy_repo_adv() {
+  local d; d="$(mk_repo)"
+  (
+    cd "$d"
+    mkdir -p .hbn/messages docs/prompts guards/data
+    cat > guards/data/auditor-families.txt <<'EOF'
+codex OpenAI
+opus Anthropic
+grok xAI
+antigravity Google
+EOF
+    git add -A
+    git commit -qm copy-base
+  ) >/dev/null 2>&1
+  echo "$d"
+}
+
+write_copy_doc_adv() { # <path> <tipo> <body>
+  local path="$1" tipo="$2" body="$3"
+  {
+    printf -- '---\n'
+    printf 'tipo: %s\n' "$tipo"
+    printf 'path: %s\n' "$path"
+    printf -- '---\n'
+    printf '%s\n' "$body"
+  } > "$path"
+}
+
+d="$(mk_copy_repo_adv)"
+(
+  cd "$d"
+  write_copy_doc_adv ".hbn/messages/20260101-010101-opus-despacho.md" "despacho" "sem bloco copiavel"
+  git add -A
+) >/dev/null 2>&1
+try_burla "B55 despacho novo sem bloco HBN-COPY" "G-COPY" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-copy-block.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_copy_repo_adv)"
+(
+  cd "$d"
+  write_copy_doc_adv ".hbn/messages/20260101-010101-opus-despacho.md" "despacho" $'⟦HBN-COPY dest=codex⟧ BEGIN\num\n⟦HBN-COPY END⟧\n⟦HBN-COPY dest=human⟧ BEGIN\ndois\n⟦HBN-COPY END⟧'
+  git add -A
+) >/dev/null 2>&1
+try_burla "B56 dois blocos HBN-COPY no mesmo artefato" "G-COPY" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-copy-block.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_copy_repo_adv)"
+(
+  cd "$d"
+  write_copy_doc_adv ".hbn/messages/20260101-010101-opus-despacho.md" "despacho" $'⟦HBN-COPY dest=codex⟧ BEGIN\npayload'
+  git add -A
+) >/dev/null 2>&1
+try_burla "B57 BEGIN HBN-COPY sem END" "G-COPY" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-copy-block.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_copy_repo_adv)"
+(
+  cd "$d"
+  write_copy_doc_adv ".hbn/messages/20260101-010101-opus-despacho.md" "despacho" $'⟦HBN-COPY END⟧\n⟦HBN-COPY dest=codex⟧ BEGIN\npayload\n⟦HBN-COPY END⟧'
+  git add -A
+) >/dev/null 2>&1
+try_burla "B58 END HBN-COPY antes de BEGIN" "G-COPY" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-copy-block.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_copy_repo_adv)"
+(
+  cd "$d"
+  write_copy_doc_adv ".hbn/messages/20260101-010101-opus-despacho.md" "despacho" $'⟦HBN-COPY dest=desconhecido⟧ BEGIN\npayload\n⟦HBN-COPY END⟧'
+  git add -A
+) >/dev/null 2>&1
+try_burla "B59 dest fora do mapa canonico" "G-COPY" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-copy-block.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_copy_repo_adv)"
+(
+  cd "$d"
+  write_copy_doc_adv ".hbn/messages/20260101-010101-opus-despacho.md" "despacho" $'⟦HBN-COPY dest =codex⟧ BEGIN\npayload\n⟦HBN-COPY END⟧'
+  git add -A
+) >/dev/null 2>&1
+try_burla "B60 dest HBN-COPY malformado" "G-COPY" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-copy-block.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_copy_repo_adv)"
+(
+  cd "$d"
+  write_copy_doc_adv ".hbn/messages/20260101-010101-opus-despacho.md" "despacho" $'⟦HBN-COPY dest=codex⟧ BEGIN\n⟦HBN-COPY END⟧'
+  git add -A
+) >/dev/null 2>&1
+try_burla "B61 payload HBN-COPY vazio" "G-COPY" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-copy-block.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_copy_repo_adv)"
+(
+  cd "$d"
+  write_copy_doc_adv ".hbn/messages/20260101-010101-opus-despacho.md" "despacho" "sem bloco no staged"
+  git add -A
+  write_copy_doc_adv ".hbn/messages/20260101-010101-opus-despacho.md" "despacho" $'⟦HBN-COPY dest=codex⟧ BEGIN\npayload so na working tree\n⟦HBN-COPY END⟧'
+) >/dev/null 2>&1
+try_burla "B62 working tree boa com staged ruim" "G-COPY" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-copy-block.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------
 echo ""
 printf '%-52s | %-8s | %s\n' "BURLA" "GUARD" "RESULTADO"

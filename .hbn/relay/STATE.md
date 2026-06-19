@@ -1,8 +1,8 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente; R2 arvores selada e vigente; R3a G-TRAILERS selada e vigente; R3b G-DIVERSITY selada e vigente; hardening pre-freeze R3a+R3b concluido; Curadoria do Dossie de Pre-Transicao 0055 selada; G-ORQ-ENTRADA 0056 entregue; W-ORQ-2 0058 entregue; G-ORQ-ENTRADA v2 selado e vigente; W-ORQ-3 0061 entregue; W-ORQ-3b 0062 selado e vigente via 0063)"
-onda_atual: "W-ORQ-3b SELADO E VIGENTE — readback 0063; Exit A' para G-ORQ-REF ratificado por antigravity/Google + grok/xAI e hearback Mauricio"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente; R2 arvores selada e vigente; R3a G-TRAILERS selada e vigente; R3b G-DIVERSITY selada e vigente; hardening pre-freeze R3a+R3b concluido; Curadoria do Dossie de Pre-Transicao 0055 selada; G-ORQ-ENTRADA 0056 entregue; W-ORQ-2 0058 entregue; G-ORQ-ENTRADA v2 selado e vigente; W-ORQ-3 0061 entregue; W-ORQ-3b 0062 selado e vigente via 0063; G-COPY 0064 entregue como PROPOSED_UNTIL_CROSS_AUDIT)"
+onda_atual: "G-COPY PROPOSTO — readback 0064; guard de bloco copiavel ativo no runner, aguardando cross-audit >=2 familias != OpenAI e hearback humano antes da selagem"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
@@ -11,8 +11,13 @@ papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM; W3 ratificado por Grok, Antigravity 100 e Cursor 92 com APROVA_0036 SIM"
   gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou grande selagem 0035, hardening->deny->freeze, selagem W3, cartao de entrada e branch protection biometrica na main"
-proxima_acao: "Aguardar novo despacho do orquestrador; nao iniciar W-ORQ-4 nem W-FREEZE nesta selagem."
+proxima_acao: "Cross-audit G-COPY por >=2 familias != OpenAI e hearback humano antes da selagem; nao iniciar W-ORQ-4 nem W-FREEZE."
 sinais_abertos:
+  - "🔴 EXCEÇÃO F-01 / G-COPY PROPOSED_UNTIL_CROSS_AUDIT — readback 0064 safe_track, implementador=codex, autorização humana Mauricio, stop_condition exige cross-audit >=2 familias != OpenAI + hearback antes de selagem."
+  - "🟢 G-COPY ENTREGUE — guards/assert-copy-block.sh valida exatamente um bloco HBN-COPY em despacho/prompt novo adicionado, dest canonico e payload nao-vazio, lendo blob staged/HEAD."
+  - "🟢 B55-B62 ADICIONADOS — adversarial-battery cobre zero blocos, dois blocos, BEGIN sem END, END antes de BEGIN, dest invalido, dest malformado, payload vazio e staged ruim com working tree boa."
+  - "🟢 TESTES 0064 VERDES — runner passou; run-guard-tests fechou 227/227; adversarial-battery bloqueou B1-B62 com B55-B62 de G-COPY; main permanece 4db692876381a0d7909985c8500d999f2e677b04."
+  - "🟡 G-COPY NAO SELADO — guard entra no runner nesta entrega, mas selo de vigencia fica pendente de cross-audit != OpenAI e hearback humano em readback >=0065."
   - "🟢 W-ORQ-3b SELADO E VIGENTE — readback 0063 ativo; duplo APROVA_0062 antigravity/Google + grok/xAI; hearback Mauricio confirmado; files_allowed do despacho 20260618-210314 trackeados."
   - "🟢 PARECERES 0062 TRACKED — .hbn/results/20260618-151334-antigravity-cross-ia-w-orq-3b-0062.md e .hbn/results/20260618-184500-grok-cross-ia-w-orq-3b-0062.md versionados; pareceres grok nao-canonicos 182500/183600 permanecem zona-livre."
   - "🟢 DOGFOOD SELAGEM 0063 DEMONSTRADO — ato de autoridade passou sob G-ORQ-REF com atestacao 34a7f2f9 regenerada same-fp contra readback_ativo 0063; Exit A' usado sem bypass."
@@ -154,20 +159,30 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟢 branch protection no GitHub: ruleset Active na main (require PR, restrict deletions, block force pushes); passkey Touch ID no boundary."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0063-selagem-w-orq-3b.json"
-handoff_mais_recente: ".hbn/messages/20260618-171615-opus-4-8-handoff-orquestrador-faseb.md"
+readback_ativo: ".hbn/readbacks/0064-w-copy-g-copy.json"
+handoff_mais_recente: ".hbn/messages/20260618-214500-opus-4-8-despacho-g-copy.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "W-ORQ-3b SELADO E VIGENTE — readback 0063; parar e aguardar novo despacho antes de W-ORQ-4/W-FREEZE."
-ultima_atualizacao: "2026-06-18T21:03:14-03:00"
-atualizado_por: codex-selagem-w-orq-3b-0063
+ciclo_ativo: "G-COPY PROPOSTO — readback 0064; parar no handoff para cross-audit != OpenAI; sem W-ORQ-4/W-FREEZE."
+ultima_atualizacao: "2026-06-18T21:45:00-03:00"
+atualizado_por: codex-w-copy-g-copy-0064
 atribuicao:
   chapeu_atual: orquestrador
   implementador: codex
   auditores: [grok, antigravity]
-  gravada_em: "2026-06-18T21:03:14-03:00"
-  hearback_ref: "Mauricio 2026-06-18: hearback confirmado para readback 0063-selagem-w-orq-3b; autorizada a selagem de W-ORQ-3b como vigente, o tracking do parecer grok canonico 184500 via re-prompt e o tracking exato dos files_allowed do despacho 20260618-210314; parar apos selagem, sem W-ORQ-4/W-FREEZE."
+  gravada_em: "2026-06-18T21:45:00-03:00"
+  hearback_ref: "Mauricio 2026-06-18: despacho W-COPY/G-COPY autorizado sob token_fp 34a7f2f9; implementar guard, runner, suites, STATE, REGISTRY e atestacao dentro do files_allowed; parar para cross-audit != OpenAI, sem selar G-COPY e sem iniciar W-ORQ-4/W-FREEZE."
 ---
+
+Nota G-COPY / readback 0064: entregue em 2026-06-18T21:45:00-03:00.
+G-COPY adiciona `guards/assert-copy-block.sh` e o ativa no runner para exigir,
+em despachos/prompts novos adicionados, exatamente um bloco `HBN-COPY` com
+destino canonico e payload nao-vazio. O guard e PROPOSED_UNTIL_CROSS_AUDIT:
+exige suite verde, cross-audit >=2 familias != OpenAI e hearback humano antes
+da selagem em readback posterior. Evidencia mecanica: runner verde,
+`run-guard-tests.sh` 227/227 e `adversarial-battery.sh` B1-B62 bloqueada,
+incluindo B55-B62. Proxima acao: cross-audit G-COPY; nao iniciar W-ORQ-4 nem
+W-FREEZE.
 
 Nota selagem W-ORQ-3b / readback 0063: concluida em 2026-06-18T21:03:14-03:00.
 W-ORQ-3b fica SELADO E VIGENTE por duplo APROVA_0062 de familias !=-OpenAI:

@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "selagem-w-orq-3b-2026-06-18",
+  "execution_id": "w-copy-g-copy-2026-06-18",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-18T21:03:14-03:00",
-  "manifest_sha256": "98cc62740ee535bbf17d843f0497de8e15351a626d42b1cd9e9efd2f8034c0c6",
+  "atestado_em": "2026-06-18T21:45:00-03:00",
+  "manifest_sha256": "6721345480fd5be8427f9cec80b6250bd4413c8a5e6ba1fbd63fdb2702dcb38e",
   "challenge": {
-    "seed_sha256": "5eaa43778f513760222e7a311f26ed77b51bc4d225d4d60950e4cad067e775a7",
+    "seed_sha256": "d4ccb9f1ce3cf42295475331def20c4b19f94beffb86407f33dcf5ff73bddea6",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 529,
-        "line_text": "preservado: `main`, `guards/**`, `schemas/**`, `src/**`, `core/**`,",
-        "line_sha256": "307917a93bb43d2166ff75357b77b579129c6b72e1f9c1f086372f6e5dda440e"
+        "line_no": 113,
+        "line_text": "  - \"🟢 TESTES W3 VERDES — run-guard-tests fechou 178/178; adversarial-battery bloqueou B1-B33, incluindo B33 docs/brainstorm sem curadoria.\"",
+        "line_sha256": "281ea9ad7e1b242034597e914cac003bc563dd1f76cf81b53ca915c591a4ef76"
       },
       {
-        "path": ".hbn/readbacks/0063-selagem-w-orq-3b.json",
-        "line_no": 37,
-        "line_text": "      \"schemas/**\",",
-        "line_sha256": "6c679b863f9902260153447f124aee66dddee1342a59f37aced56bcfca8fdfb4"
+        "path": ".hbn/readbacks/0064-w-copy-g-copy.json",
+        "line_no": 53,
+        "line_text": "    \"O token HBN-COPY nao pode acionar G-PTR, cujo marcador permanece o literal HBN.\",",
+        "line_sha256": "952e11cd2bf9513922b1de847e0e9dc033e4863cec548adfd4c6f4213c0aba64"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 127,
-        "line_text": "   enfraquecia a provenance. Trazer o orquestrador PARA DENTRO dos guards, como",
-        "line_sha256": "3cbf0647943d9403e3d16d45511fd0ebfbeba020088d1c794e8bf827189d14cf"
+        "line_no": 29,
+        "line_text": "   chat; todo julgamento cita arquivo:linha ou comando+saída (Truth",
+        "line_sha256": "e26f787132907f7a8d8e920605bbc939e862049b84386cae5c6454c0697e152b"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0063-selagem-w-orq-3b.json"
+        "value": ".hbn/readbacks/0064-w-copy-g-copy.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "Aguardar novo despacho do orquestrador; nao iniciar W-ORQ-4 nem W-FREEZE nesta selagem."
+        "value": "Cross-audit G-COPY por >=2 familias != OpenAI e hearback humano antes da selagem; nao iniciar W-ORQ-4 nem W-FREEZE."
       }
     ]
   }

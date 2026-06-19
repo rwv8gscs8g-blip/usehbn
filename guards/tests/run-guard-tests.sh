@@ -118,6 +118,9 @@
 #   W-ORQ-3b (readback 0062): +9 checks G-ORQ-REF (2 pass, 7 block) para
 #   P1 selagem real same-fp, N1-N6 e simetria CI same-fp/fp-trocado.
 #   Total: 217.
+#   G-COPY (readback 0064): +10 checks (2 pass, 8 block) para bloco copiavel
+#   unico, destinos canonicos, payload nao-vazio, nao-colisao com G-PTR e
+#   skew staged/worktree. Total: 227.
 # =============================================================================
 set -uo pipefail
 
@@ -929,6 +932,16 @@ d="$(make_ptr_repo)"
 check "ptr: exemplo ⟦HBN⟧ em code-fence ignorado (0031/F-02)"           pass  "$(run_ptr "$d")"
 rm -rf "$d"
 
+# caso-bom G-COPY/G-PTR: sentinelas ⟦HBN-COPY ...⟧ NAO sao o gatilho ⟦HBN⟧
+d="$(make_ptr_repo)"
+(
+    cd "$d"
+    printf -- '⟦HBN-COPY dest=codex⟧ BEGIN\npayload\n⟦HBN-COPY END⟧\n' > .hbn/messages/20260610-90-h.md
+    git add -A
+) >/dev/null 2>&1
+check "ptr: sentinela HBN-COPY nao dispara G-PTR"                      pass  "$(run_ptr "$d")"
+rm -rf "$d"
+
 # caso-ruim skew (herda E-FECH-01/02): destino bom só na working tree
 d="$(make_ptr_repo)"
 (
@@ -938,6 +951,125 @@ d="$(make_ptr_repo)"
     printf -- '---\npath: core/so-na-worktree.md\n---\ncorpo\n' > core/so-na-worktree.md
 ) >/dev/null 2>&1
 check "ptr: destino bom só na working tree, ausente do staged (skew)"   block "$(run_ptr "$d")"
+rm -rf "$d"
+
+# --- G-COPY: assert-copy-block (bloco copiavel deterministico) ---------------
+echo "== assert-copy-block (G-COPY) =="
+make_copy_repo() {
+    local d; d="$(mktemp -d)"
+    (
+        cd "$d"
+        git init -q
+        git config user.email "tests@hbn.local"
+        git config user.name "hbn-guard-tests"
+        mkdir -p .hbn/messages docs/prompts guards/data
+        echo "." > .hbn/active-version
+        cat > guards/data/auditor-families.txt <<'EOF'
+codex OpenAI
+opus Anthropic
+grok xAI
+antigravity Google
+EOF
+        git add -A
+        git commit -qm "init"
+    ) >/dev/null 2>&1
+    echo "$d"
+}
+run_copy() {
+    ( cd "$1" && bash "$GUARDS_DIR/assert-copy-block.sh" >/dev/null 2>&1 )
+    echo $?
+}
+write_copy_doc() { # <path> <tipo> <body>
+    local path="$1" tipo="$2" body="$3"
+    {
+        printf -- '---\n'
+        printf 'tipo: %s\n' "$tipo"
+        printf 'path: %s\n' "$path"
+        printf -- '---\n'
+        printf '%s\n' "$body"
+    } > "$path"
+}
+
+d="$(make_copy_repo)"
+(
+    cd "$d"
+    write_copy_doc "docs/prompts/20260101-010101-opus-prompt.md" "prompt" $'⟦HBN-COPY dest=codex⟧ BEGIN\npayload\n⟦HBN-COPY END⟧'
+    git add -A
+) >/dev/null 2>&1
+check "copy: bloco unico bem-formado passa"                            pass  "$(run_copy "$d")"
+rm -rf "$d"
+
+d="$(make_copy_repo)"
+(
+    cd "$d"
+    write_copy_doc ".hbn/messages/20260101-010101-opus-despacho.md" "despacho" "sem bloco copiavel"
+    git add -A
+) >/dev/null 2>&1
+check "copy: zero blocos bloqueia"                                     block "$(run_copy "$d")"
+rm -rf "$d"
+
+d="$(make_copy_repo)"
+(
+    cd "$d"
+    write_copy_doc ".hbn/messages/20260101-010101-opus-despacho.md" "despacho" $'⟦HBN-COPY dest=codex⟧ BEGIN\num\n⟦HBN-COPY END⟧\n⟦HBN-COPY dest=human⟧ BEGIN\ndois\n⟦HBN-COPY END⟧'
+    git add -A
+) >/dev/null 2>&1
+check "copy: dois blocos bloqueia"                                     block "$(run_copy "$d")"
+rm -rf "$d"
+
+d="$(make_copy_repo)"
+(
+    cd "$d"
+    write_copy_doc ".hbn/messages/20260101-010101-opus-despacho.md" "despacho" $'⟦HBN-COPY dest=codex⟧ BEGIN\npayload'
+    git add -A
+) >/dev/null 2>&1
+check "copy: BEGIN sem END bloqueia"                                   block "$(run_copy "$d")"
+rm -rf "$d"
+
+d="$(make_copy_repo)"
+(
+    cd "$d"
+    write_copy_doc ".hbn/messages/20260101-010101-opus-despacho.md" "despacho" $'⟦HBN-COPY END⟧\n⟦HBN-COPY dest=codex⟧ BEGIN\npayload\n⟦HBN-COPY END⟧'
+    git add -A
+) >/dev/null 2>&1
+check "copy: END antes de BEGIN bloqueia"                              block "$(run_copy "$d")"
+rm -rf "$d"
+
+d="$(make_copy_repo)"
+(
+    cd "$d"
+    write_copy_doc ".hbn/messages/20260101-010101-opus-despacho.md" "despacho" $'⟦HBN-COPY dest=desconhecido⟧ BEGIN\npayload\n⟦HBN-COPY END⟧'
+    git add -A
+) >/dev/null 2>&1
+check "copy: dest fora do mapa bloqueia"                               block "$(run_copy "$d")"
+rm -rf "$d"
+
+d="$(make_copy_repo)"
+(
+    cd "$d"
+    write_copy_doc ".hbn/messages/20260101-010101-opus-despacho.md" "despacho" $'⟦HBN-COPY dest =codex⟧ BEGIN\npayload\n⟦HBN-COPY END⟧'
+    git add -A
+) >/dev/null 2>&1
+check "copy: dest malformado bloqueia"                                 block "$(run_copy "$d")"
+rm -rf "$d"
+
+d="$(make_copy_repo)"
+(
+    cd "$d"
+    write_copy_doc ".hbn/messages/20260101-010101-opus-despacho.md" "despacho" $'⟦HBN-COPY dest=codex⟧ BEGIN\n⟦HBN-COPY END⟧'
+    git add -A
+) >/dev/null 2>&1
+check "copy: payload vazio bloqueia"                                   block "$(run_copy "$d")"
+rm -rf "$d"
+
+d="$(make_copy_repo)"
+(
+    cd "$d"
+    write_copy_doc ".hbn/messages/20260101-010101-opus-despacho.md" "despacho" "sem bloco no staged"
+    git add -A
+    write_copy_doc ".hbn/messages/20260101-010101-opus-despacho.md" "despacho" $'⟦HBN-COPY dest=codex⟧ BEGIN\npayload so na working tree\n⟦HBN-COPY END⟧'
+) >/dev/null 2>&1
+check "copy: bloco bom so na working tree nao salva staged ruim"       block "$(run_copy "$d")"
 rm -rf "$d"
 
 # --- G-RLT: assert-report-fresh (ADR-024 D4+D6 / state-report-spec §4) --------
