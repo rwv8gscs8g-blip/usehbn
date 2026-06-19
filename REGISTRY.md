@@ -1312,3 +1312,16 @@ humano antes da selagem.
 | 20260618-214504-codex-adversarial-b55-b62 | guards/tests/adversarial-battery.sh | guard-test | frio | fronteira | — | 2026-06-18T21:45:04-03:00 |
 | 20260618-214505-codex-state-g-copy | .hbn/relay/STATE.md | state | frio | fronteira | — | 2026-06-18T21:45:05-03:00 |
 | 20260618-214506-codex-atestacao-orq-entrada-g-copy | .hbn/attestations/34a7f2f9-orq-entrada.json | attestation | frio | fronteira | — | 2026-06-18T21:45:06-03:00 |
+
+## Selagem G-COPY (2026-06-19) — status: vigente, readback 0065
+
+G-COPY fica SELADO E VIGENTE por duplo APROVA_0064 de familias !=-OpenAI:
+antigravity/Google e grok/xAI, com hearback humano confirmado. A selagem
+regenera a atestacao same-fp no mesmo commit e passa sob G-ORQ-REF (Exit A').
+
+| id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
+|---|---|---|---|---|---|---|
+| 20260619-120000-antigravity-cross-ia-g-copy-0064 | .hbn/results/20260619-120000-antigravity-cross-ia-g-copy-0064.md | audit-result; autor=antigravity; familia=Google; veredito=APROVA_0064:SIM; onda=g-copy | frio | fronteira | — | 2026-06-19T12:00:00-03:00 |
+| 20260619-123000-grok-cross-ia-g-copy-0064 | .hbn/results/20260619-123000-grok-cross-ia-g-copy-0064.md | audit-result; autor=grok; familia=xAI; veredito=APROVA_0064:SIM; onda=g-copy | frio | fronteira | — | 2026-06-19T12:30:00-03:00 |
+| 20260619-130000-opus-despacho-selagem-0065 | .hbn/messages/20260619-130000-opus-4-8-despacho-selagem-0065.md | despacho | frio | fronteira | — | 2026-06-19T13:00:00-03:00 |
+| 20260619-130000-codex-readback-selagem-g-copy | .hbn/readbacks/0065-selagem-g-copy.json | readback; selagem; vigente | frio | fronteira | — | 2026-06-19T13:00:00-03:00 |

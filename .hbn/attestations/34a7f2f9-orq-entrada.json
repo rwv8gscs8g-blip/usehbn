@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "w-copy-g-copy-2026-06-18",
+  "execution_id": "selagem-g-copy-2026-06-19",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-18T21:45:00-03:00",
-  "manifest_sha256": "6721345480fd5be8427f9cec80b6250bd4413c8a5e6ba1fbd63fdb2702dcb38e",
+  "atestado_em": "2026-06-19T13:00:00-03:00",
+  "manifest_sha256": "c79b99248a52497044fee0f1d97f6cfea028e01e4d8379dd3257252d24409184",
   "challenge": {
-    "seed_sha256": "d4ccb9f1ce3cf42295475331def20c4b19f94beffb86407f33dcf5ff73bddea6",
+    "seed_sha256": "6b9085fac971a13b3d5fd4c66500a8b895d86a700fea1a4c5a3bba4e76ef1602",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 113,
-        "line_text": "  - \"🟢 TESTES W3 VERDES — run-guard-tests fechou 178/178; adversarial-battery bloqueou B1-B33, incluindo B33 docs/brainstorm sem curadoria.\"",
-        "line_sha256": "281ea9ad7e1b242034597e914cac003bc563dd1f76cf81b53ca915c591a4ef76"
+        "line_no": 222,
+        "line_text": "para ref omitido, dangling, fp trocado e auto-repin. A entrega nao sela o",
+        "line_sha256": "b6182ea1b5c759f4c3d941fbb2e4c52e2599ac275fab3cac5fe30ed47b4c83e5"
       },
       {
-        "path": ".hbn/readbacks/0064-w-copy-g-copy.json",
-        "line_no": 53,
-        "line_text": "    \"O token HBN-COPY nao pode acionar G-PTR, cujo marcador permanece o literal HBN.\",",
-        "line_sha256": "952e11cd2bf9513922b1de847e0e9dc033e4863cec548adfd4c6f4213c0aba64"
+        "path": ".hbn/readbacks/0065-selagem-g-copy.json",
+        "line_no": 5,
+        "line_text": "  \"implementador_id\": \"codex\",",
+        "line_sha256": "41545b843bee7030b5d2c2d4279ec4e419f4ba160ca328f98c052cea6c0a1fcd"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 29,
-        "line_text": "   chat; todo julgamento cita arquivo:linha ou comando+saída (Truth",
-        "line_sha256": "e26f787132907f7a8d8e920605bbc939e862049b84386cae5c6454c0697e152b"
+        "line_no": 162,
+        "line_text": "nesta adoção. Torná-lo checável é proposta futura separada (M-01); nenhum",
+        "line_sha256": "28221f05d04fcb44292dee9a80ecd6d40d742e2e2292d12d92d9b7c29a0bfacb"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0064-w-copy-g-copy.json"
+        "value": ".hbn/readbacks/0065-selagem-g-copy.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "Cross-audit G-COPY por >=2 familias != OpenAI e hearback humano antes da selagem; nao iniciar W-ORQ-4 nem W-FREEZE."
+        "value": "Proximo destino: W-ORQ-4 conforme §6 do cartao Fase B; nao iniciar W-ORQ-4 nem W-FREEZE neste commit de selagem."
       }
     ]
   }
