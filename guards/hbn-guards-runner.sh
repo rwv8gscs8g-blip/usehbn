@@ -102,6 +102,7 @@ GUARDS=(
     "assert-parallel-id.sh"
     "assert-pointer-honest.sh"
     "assert-copy-block.sh"
+    "assert-next-checkpoint.sh"
     "assert-knowledge-index.sh"
     "assert-frontdoor.sh"
     "assert-report-fresh.sh"

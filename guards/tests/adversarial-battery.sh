@@ -1193,6 +1193,122 @@ d="$(mk_copy_repo_adv)"
 try_burla "B62 working tree boa com staged ruim" "G-COPY" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-copy-block.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
+# B63-B67 — G-NEXT: proximo_ponto em STATE deve ser unico, canonico e
+# dereferenciar bloco versionado existente no blob staged/HEAD.
+mk_next_repo_adv() {
+  local variant="$1" d
+  d="$(mk_repo)"
+  (
+    cd "$d"
+    mkdir -p .hbn/relay .hbn/messages guards/data
+    cat > guards/data/auditor-families.txt <<'EOF'
+codex OpenAI
+opus Anthropic
+grok xAI
+antigravity Google
+EOF
+    echo "# Despacho G-NEXT" > .hbn/messages/next.md
+    case "$variant" in
+      sem-mapa)
+        cat > .hbn/relay/STATE.md <<'EOF'
+---
+state_version: 1
+proxima_acao: "texto legado sem campo de maquina"
+---
+EOF
+        ;;
+      ato-invalido)
+        cat > .hbn/relay/STATE.md <<'EOF'
+---
+state_version: 1
+proximo_ponto:
+  passo: "cross-audit do G-NEXT"
+  ato: teleporte
+  destino: human
+  gate: hearback_humano
+  bloco_ref: .hbn/messages/next.md
+  status: pendente
+---
+EOF
+        ;;
+      destino-invalido)
+        cat > .hbn/relay/STATE.md <<'EOF'
+---
+state_version: 1
+proximo_ponto:
+  passo: "cross-audit do G-NEXT"
+  ato: cross-audit
+  destino: bard
+  gate: hearback_humano
+  bloco_ref: .hbn/messages/next.md
+  status: pendente
+---
+EOF
+        ;;
+      bloco-inexistente)
+        cat > .hbn/relay/STATE.md <<'EOF'
+---
+state_version: 1
+proximo_ponto:
+  passo: "cross-audit do G-NEXT"
+  ato: cross-audit
+  destino: human
+  gate: hearback_humano
+  bloco_ref: .hbn/messages/ausente.md
+  status: pendente
+---
+EOF
+        ;;
+      duplicado)
+        cat > .hbn/relay/STATE.md <<'EOF'
+---
+state_version: 1
+proximo_ponto:
+  passo: "cross-audit do G-NEXT"
+  ato: cross-audit
+  destino: human
+  gate: hearback_humano
+  bloco_ref: .hbn/messages/next.md
+  status: pendente
+proximo_ponto:
+  passo: "hearback duplicado"
+  ato: hearback
+  destino: human
+  gate: hearback_humano
+  bloco_ref: .hbn/messages/next.md
+  status: pendente
+---
+EOF
+        ;;
+    esac
+    git add .hbn/active-version guards/data/auditor-families.txt .hbn/relay/STATE.md
+    if [[ "$variant" != "bloco-inexistente" ]]; then
+      git add .hbn/messages/next.md
+    fi
+  ) >/dev/null 2>&1
+  echo "$d"
+}
+
+d="$(mk_next_repo_adv sem-mapa)"
+try_burla "B63 STATE sem proximo_ponto" "G-NEXT" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-next-checkpoint.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_next_repo_adv ato-invalido)"
+try_burla "B64 proximo_ponto.ato fora do enum" "G-NEXT" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-next-checkpoint.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_next_repo_adv destino-invalido)"
+try_burla "B65 destino nao-canonico" "G-NEXT" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-next-checkpoint.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_next_repo_adv bloco-inexistente)"
+try_burla "B66 bloco_ref inexistente" "G-NEXT" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-next-checkpoint.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_next_repo_adv duplicado)"
+try_burla "B67 proximo_ponto duplicado" "G-NEXT" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-next-checkpoint.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------
 echo ""
 printf '%-52s | %-8s | %s\n' "BURLA" "GUARD" "RESULTADO"

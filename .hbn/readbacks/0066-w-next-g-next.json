@@ -1,0 +1,80 @@
+{
+  "readback_id": "0066-w-next-g-next",
+  "execution_id": "w-next-g-next-2026-06-19",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "implemented_pending_cross_audit",
+  "activation_status": "PROPOSED_UNTIL_CROSS_AUDIT",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0066-w-next-g-next.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260619-140000-opus-4-8-despacho-w-next-g-next.md",
+  "understanding": "Implementar G-NEXT para exigir que todo commit que adiciona/modifica .hbn/relay/STATE.md declare exatamente um proximo_ponto top-level no front-matter, validado no blob staged localmente e em HEAD no CI. O guard entra no runner nesta entrega, mas fica PROPOSED_UNTIL_CROSS_AUDIT ate suite verde, cross-audit >=2 familias != OpenAI e hearback humano antes da selagem em readback >=0067.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Despacho W-NEXT/G-NEXT de 2026-06-19T14:00:00-03:00, sob bastao token_fp 34a7f2f9, com HBN-Human-Authorization Mauricio e stop_condition para cross-audit antes de selagem.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      "guards/assert-next-checkpoint.sh",
+      "guards/hbn-guards-runner.sh",
+      "guards/tests/run-guard-tests.sh",
+      "guards/tests/adversarial-battery.sh",
+      ".hbn/messages/20260619-140000-opus-4-8-despacho-w-next-g-next.md",
+      ".hbn/readbacks/0066-w-next-g-next.json",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": [
+      "main",
+      "core/**",
+      "methodology/**",
+      "schemas/**",
+      "src/**",
+      "docs/brainstorm/**",
+      ".hbn/freeze/**",
+      "guards/data/**"
+    ]
+  },
+  "done": [
+    "guards/assert-next-checkpoint.sh criado e executavel.",
+    "guards/hbn-guards-runner.sh chama G-NEXT apos G-COPY.",
+    "guards/tests/run-guard-tests.sh cobre G-NEXT com caso bom, ausencia de proximo_ponto, ato fora do enum, destino nao-canonico, bloco_ref inexistente e proximo_ponto duplicado.",
+    "guards/tests/adversarial-battery.sh adiciona B63-B67 para as burlas de G-NEXT.",
+    ".hbn/relay/STATE.md recebeu proximo_ponto bootstrap apontando para o despacho 0066."
+  ],
+  "invariants_to_preserve": [
+    "G-NEXT so avalia STATE quando .hbn/relay/STATE.md e adicionado/modificado no diff do commit.",
+    "Validacao local usa git show :path; CI usa HEAD:path no range HBN_DIFF_BASE...HEAD.",
+    "bloco_ref deve existir no indice/HEAD quando nao for 'nenhum'.",
+    "O mapa guards/data/auditor-families.txt nao e alterado.",
+    "main permanece em 4db692876381a0d7909985c8500d999f2e677b04.",
+    "Nao selar G-NEXT nesta entrega; parar para cross-audit != OpenAI."
+  ],
+  "criteria": {
+    "runner": "bash guards/hbn-guards-runner.sh -> Todos os guards passaram",
+    "suite": "bash guards/tests/run-guard-tests.sh -> 233 passaram, 0 falharam",
+    "adversarial": "bash guards/tests/adversarial-battery.sh -> BATERIA VERDE, incluindo B63-B67",
+    "main": "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04",
+    "trailers_required": {
+      "HBN-Readback": "0066",
+      "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+      "HBN-Token-FP": "34a7f2f9"
+    }
+  },
+  "out_of_scope": [
+    "Selar G-NEXT antes de cross-audit >=2 familias != OpenAI e novo hearback humano.",
+    "Iniciar W-ORQ-4 ou W-FREEZE.",
+    "Tocar guards/data/**, core/**, methodology/**, schemas/**, src/**, docs/brainstorm/** ou .hbn/freeze/**."
+  ],
+  "stop_condition": "PARAR no handoff para cross-audit != OpenAI; nao selar G-NEXT nesta entrega; nao iniciar W-ORQ-4/W-FREEZE.",
+  "HBN-Readback": "0066",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-19T14:00:00-03:00",
+  "protocol_version": "0.3.0"
+}

@@ -121,6 +121,9 @@
 #   G-COPY (readback 0064): +10 checks (2 pass, 8 block) para bloco copiavel
 #   unico, destinos canonicos, payload nao-vazio, nao-colisao com G-PTR e
 #   skew staged/worktree. Total: 227.
+#   G-NEXT (readback 0066): +6 checks (1 pass, 5 block) para proximo_ponto
+#   valido, ausencia do mapa, ato invalido, destino nao-canonico, bloco_ref
+#   inexistente e mapa duplicado. Total: 233.
 # =============================================================================
 set -uo pipefail
 
@@ -2718,6 +2721,146 @@ open(path, "a", encoding="utf-8").write("\n")
 PY
 ( cd "$d" && git add .hbn/readbacks/0062-selagem-w-orq-3b.json && git commit -qm selagem-fp-trocado ) >/dev/null 2>&1
 check "orq-ref CI: fp trocado bloqueia no range" block "$( ( cd "$d" && HBN_DIFF_BASE="$base" bash "$GUARDS_DIR/assert-orq-entrada-ref.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+# --- G-NEXT: proximo ponto de conferencia em STATE ---------------------------
+echo "== assert-next-checkpoint (G-NEXT) =="
+run_next() { ( cd "$1" && bash "$GUARDS_DIR/assert-next-checkpoint.sh" >/dev/null 2>&1 ); echo $?; }
+
+make_next_repo() { # <good|sem-mapa|ato-invalido|destino-invalido|bloco-inexistente|duplicado>
+    local variant="$1" d
+    d="$(mktemp -d)"
+    (
+        cd "$d"
+        git init -q
+        git config user.email "tests@hbn.local"
+        git config user.name "hbn-guard-tests"
+        mkdir -p .hbn/relay .hbn/messages guards/data
+        echo "." > .hbn/active-version
+        cat > guards/data/auditor-families.txt <<'EOF'
+codex OpenAI
+opus Anthropic
+grok xAI
+antigravity Google
+EOF
+        echo "# Despacho G-NEXT" > .hbn/messages/next.md
+        case "$variant" in
+            good)
+                cat > .hbn/relay/STATE.md <<'EOF'
+---
+state_version: 1
+proximo_ponto:
+  passo: "cross-audit do G-NEXT"
+  ato: cross-audit
+  destino: human
+  gate: hearback_humano
+  bloco_ref: .hbn/messages/next.md
+  status: pendente
+---
+EOF
+                ;;
+            sem-mapa)
+                cat > .hbn/relay/STATE.md <<'EOF'
+---
+state_version: 1
+proxima_acao: "texto legado sem campo de maquina"
+---
+EOF
+                ;;
+            ato-invalido)
+                cat > .hbn/relay/STATE.md <<'EOF'
+---
+state_version: 1
+proximo_ponto:
+  passo: "cross-audit do G-NEXT"
+  ato: teleporte
+  destino: human
+  gate: hearback_humano
+  bloco_ref: .hbn/messages/next.md
+  status: pendente
+---
+EOF
+                ;;
+            destino-invalido)
+                cat > .hbn/relay/STATE.md <<'EOF'
+---
+state_version: 1
+proximo_ponto:
+  passo: "cross-audit do G-NEXT"
+  ato: cross-audit
+  destino: bard
+  gate: hearback_humano
+  bloco_ref: .hbn/messages/next.md
+  status: pendente
+---
+EOF
+                ;;
+            bloco-inexistente)
+                cat > .hbn/relay/STATE.md <<'EOF'
+---
+state_version: 1
+proximo_ponto:
+  passo: "cross-audit do G-NEXT"
+  ato: cross-audit
+  destino: human
+  gate: hearback_humano
+  bloco_ref: .hbn/messages/ausente.md
+  status: pendente
+---
+EOF
+                ;;
+            duplicado)
+                cat > .hbn/relay/STATE.md <<'EOF'
+---
+state_version: 1
+proximo_ponto:
+  passo: "cross-audit do G-NEXT"
+  ato: cross-audit
+  destino: human
+  gate: hearback_humano
+  bloco_ref: .hbn/messages/next.md
+  status: pendente
+proximo_ponto:
+  passo: "hearback duplicado"
+  ato: hearback
+  destino: human
+  gate: hearback_humano
+  bloco_ref: .hbn/messages/next.md
+  status: pendente
+---
+EOF
+                ;;
+        esac
+        git add .hbn/active-version guards/data/auditor-families.txt .hbn/relay/STATE.md
+        if [[ "$variant" != "bloco-inexistente" ]]; then
+            git add .hbn/messages/next.md
+        fi
+    ) >/dev/null 2>&1
+    echo "$d"
+}
+
+d="$(make_next_repo good)"
+check "next: STATE com proximo_ponto bem-formado passa" pass "$(run_next "$d")"
+rm -rf "$d"
+
+d="$(make_next_repo sem-mapa)"
+check "next: STATE sem proximo_ponto → BLOCK" block "$(run_next "$d")"
+rm -rf "$d"
+
+d="$(make_next_repo ato-invalido)"
+check "next: ato fora do enum → BLOCK" block "$(run_next "$d")"
+rm -rf "$d"
+
+d="$(make_next_repo destino-invalido)"
+check "next: destino nao-canonico → BLOCK" block "$(run_next "$d")"
+rm -rf "$d"
+
+d="$(make_next_repo bloco-inexistente)"
+check "next: bloco_ref inexistente → BLOCK" block "$(run_next "$d")"
+rm -rf "$d"
+
+d="$(make_next_repo duplicado)"
+check "next: proximo_ponto duplicado → BLOCK" block "$(run_next "$d")"
 rm -rf "$d"
 
 # --- Read-list viva (onda 0006 I-01 — F-08 dos cross-audits 0036/0037) -------

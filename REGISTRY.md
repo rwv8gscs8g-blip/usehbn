@@ -1325,3 +1325,23 @@ regenera a atestacao same-fp no mesmo commit e passa sob G-ORQ-REF (Exit A').
 | 20260619-123000-grok-cross-ia-g-copy-0064 | .hbn/results/20260619-123000-grok-cross-ia-g-copy-0064.md | audit-result; autor=grok; familia=xAI; veredito=APROVA_0064:SIM; onda=g-copy | frio | fronteira | — | 2026-06-19T12:30:00-03:00 |
 | 20260619-130000-opus-despacho-selagem-0065 | .hbn/messages/20260619-130000-opus-4-8-despacho-selagem-0065.md | despacho | frio | fronteira | — | 2026-06-19T13:00:00-03:00 |
 | 20260619-130000-codex-readback-selagem-g-copy | .hbn/readbacks/0065-selagem-g-copy.json | readback; selagem; vigente | frio | fronteira | — | 2026-06-19T13:00:00-03:00 |
+
+## W-NEXT / G-NEXT (2026-06-19) — proximo checkpoint legivel por maquina — status: proposto, readback 0066
+
+G-NEXT torna mecanico o proximo ponto de conferencia: todo commit que adiciona
+ou modifica `.hbn/relay/STATE.md` deve carregar no front-matter exatamente um
+`proximo_ponto` top-level, com enums canonicos, destino canonico e `bloco_ref`
+existente no blob staged/HEAD. O guard entra no runner nesta entrega, mas
+permanece PROPOSED_UNTIL_CROSS_AUDIT ate cross-audit >=2 familias != OpenAI e
+hearback humano antes da selagem em readback >=0067.
+
+| id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
+|---|---|---|---|---|---|---|
+| 20260619-140000-opus-despacho-w-next-g-next | .hbn/messages/20260619-140000-opus-4-8-despacho-w-next-g-next.md | despacho | frio | fronteira | — | 2026-06-19T14:00:00-03:00 |
+| 20260619-140000-codex-readback-w-next-g-next | .hbn/readbacks/0066-w-next-g-next.json | readback | frio | fronteira | — | 2026-06-19T14:00:00-03:00 |
+| 20260619-140001-codex-guard-next-checkpoint | guards/assert-next-checkpoint.sh | guard | frio | fronteira | — | 2026-06-19T14:00:01-03:00 |
+| 20260619-140002-codex-runner-g-next | guards/hbn-guards-runner.sh | guard-runner | frio | fronteira | — | 2026-06-19T14:00:02-03:00 |
+| 20260619-140003-codex-guard-tests-g-next | guards/tests/run-guard-tests.sh | guard-test | frio | fronteira | — | 2026-06-19T14:00:03-03:00 |
+| 20260619-140004-codex-adversarial-b63-b67 | guards/tests/adversarial-battery.sh | guard-test | frio | fronteira | — | 2026-06-19T14:00:04-03:00 |
+| 20260619-140005-codex-state-g-next | .hbn/relay/STATE.md | state | frio | fronteira | — | 2026-06-19T14:00:05-03:00 |
+| 20260619-140006-codex-atestacao-orq-entrada-g-next | .hbn/attestations/34a7f2f9-orq-entrada.json | attestation | frio | fronteira | — | 2026-06-19T14:00:06-03:00 |
