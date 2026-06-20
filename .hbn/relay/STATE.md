@@ -11,13 +11,13 @@ papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM; W3 ratificado por Grok, Antigravity 100 e Cursor 92 com APROVA_0036 SIM"
   gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou grande selagem 0035, hardening->deny->freeze, selagem W3, cartao de entrada e branch protection biometrica na main"
-proxima_acao: "cross-audit do W-RET (readback 0067)"
+proxima_acao: "selagem do W-RET (readback 0067)"
 proximo_ponto:
-  passo: "cross-audit do W-RET (readback 0067)"
-  ato: cross-audit
-  destino: human
+  passo: "selagem do W-RET (readback 0067)"
+  ato: selagem
+  destino: codex
   gate: hearback_humano
-  bloco_ref: .hbn/messages/20260620-100000-opus-4-8-despacho-w-ret.md
+  bloco_ref: .hbn/messages/20260620-183000-opus-4-8-entrada-orquestrador-fasec.md
   status: pendente
 sinais_abertos:
   - "🔴 W-RET PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0067 safe_track, implementador=codex, autorizacao humana Mauricio e trailers contiguos; permanece proposto ate cross-audit >=2 familias != OpenAI + hearback + selagem posterior."
@@ -176,11 +176,11 @@ sinais_abertos:
   - "🟢 branch protection no GitHub: ruleset Active na main (require PR, restrict deletions, block force pushes); passkey Touch ID no boundary."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
 readback_ativo: ".hbn/readbacks/0067-w-ret.json"
-handoff_mais_recente: ".hbn/messages/20260620-100000-opus-4-8-despacho-w-ret.md"
+handoff_mais_recente: ".hbn/messages/20260620-183000-opus-4-8-entrada-orquestrador-fasec.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
 ciclo_ativo: "W-RET PROPOSTO — readback 0067; canal de retorno A+C entregue; parar para cross-audit != OpenAI e hearback antes de selar."
-ultima_atualizacao: "2026-06-20T10:00:00-03:00"
+ultima_atualizacao: "2026-06-20T18:30:00-03:00"
 atualizado_por: codex-w-ret-0067
 atribuicao:
   chapeu_atual: orquestrador

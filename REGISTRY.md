@@ -1359,3 +1359,4 @@ humano antes da selagem.
 | 20260620-100000-opus-despacho-w-ret | .hbn/messages/20260620-100000-opus-4-8-despacho-w-ret.md | despacho | frio | fronteira | — | 2026-06-20T10:00:00-03:00 |
 | 20260620-100001-codex-relay-return-spec | core/relay-return-spec.md | spec-core | frio | fronteira | — | 2026-06-20T10:00:01-03:00 |
 | 20260620-100002-codex-readback-w-ret | .hbn/readbacks/0067-w-ret.json | readback | frio | fronteira | — | 2026-06-20T10:00:02-03:00 |
+| 20260620-183000-opus-entrada-fasec | .hbn/messages/20260620-183000-opus-4-8-entrada-orquestrador-fasec.md | entrada | frio | fronteira | — | 2026-06-20T18:30:00-03:00 |
