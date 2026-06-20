@@ -1382,3 +1382,7 @@ familias != OpenAI e hearback humano antes da selagem posterior.
 | 20260620-213000-opus-despacho-w-quorum | .hbn/messages/20260620-213000-opus-4-8-despacho-w-quorum-g-quorum.md | despacho | frio | fronteira | — | 2026-06-20T21:30:00-03:00 |
 | 20260620-213000-codex-readback-w-quorum | .hbn/readbacks/0070-w-quorum-g-quorum.json | readback | frio | fronteira | — | 2026-06-20T21:30:00-03:00 |
 | 20260620-213001-codex-guard-quorum-selagem | guards/assert-quorum-selagem.sh | guard | frio | fronteira | — | 2026-06-20T21:30:01-03:00 |
+| 20260620-220000-antigravity-cross-g-quorum-0070 | .hbn/results/20260620-220000-antigravity-cross-ia-g-quorum-0070.md | result | frio | fronteira | — | 2026-06-20T22:00:00-03:00 |
+| 20260620-223000-grok-cross-g-quorum-0070 | .hbn/results/20260620-223000-grok-cross-ia-g-quorum-0070.md | result | frio | fronteira | — | 2026-06-20T22:30:00-03:00 |
+| 20260620-224500-opus-selagem-0071 | .hbn/messages/20260620-224500-opus-4-8-despacho-selagem-0071.md | despacho | frio | fronteira | — | 2026-06-20T22:45:00-03:00 |
+| 20260620-224502-codex-readback-selagem-0071 | .hbn/readbacks/0071-selagem-g-quorum.json | readback | frio | fronteira | — | 2026-06-20T22:45:02-03:00 |

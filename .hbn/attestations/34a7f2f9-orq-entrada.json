@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "w-quorum-g-quorum-2026-06-20",
+  "execution_id": "selagem-g-quorum-2026-06-20",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-20T21:30:00-03:00",
-  "manifest_sha256": "b4f301c6071175f02324271493bc9041849ab4a7b837c047b4166ad13a3d1950",
+  "atestado_em": "2026-06-20T22:45:00-03:00",
+  "manifest_sha256": "44148cfdd39f362f6f8f384ca492e242b9c72f5bb63a216423be185574b0f5a3",
   "challenge": {
-    "seed_sha256": "28af90c8b6f3ff8444737df9b619e5f20230b0845882bc4e5c1eee1b22f54bd1",
+    "seed_sha256": "cde53f12365e3898ba314bf9b29ba6f6c8e227d4e5ede6c5061d02d3890c2944",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 887,
-        "line_text": "154/154 e `adversarial-battery` bloqueou B1-B23. Os seis artefatos historicos",
-        "line_sha256": "dddfe659a477e87d93e62b1c8b1cac50697c496cca225dac58e5c3c122340881"
+        "line_no": 863,
+        "line_text": "auto-declarante em `.hbn/dispatch/NNNN-*.md`, validado por",
+        "line_sha256": "92dcfd95915d308d1c7b733704215a70a1a9bfc4803d8b20b4a23f22f5706381"
       },
       {
-        "path": ".hbn/readbacks/0070-w-quorum-g-quorum.json",
-        "line_no": 44,
-        "line_text": "  \"stop_condition\": \"Entrega 0070 (G-QUORUM) em commit unico; parar para cross-audit != OpenAI. NAO selar. NAO iniciar W-ORQ-4/W-FREEZE.\",",
-        "line_sha256": "a19c1473bd5261bd801ae1a7a70f65af84dbdc2f6c8d6d7461f7079c75ec4f9d"
+        "path": ".hbn/readbacks/0071-selagem-g-quorum.json",
+        "line_no": 36,
+        "line_text": "  \"created_at\": \"2026-06-20T22:45:00-03:00\",",
+        "line_sha256": "d7cc5a601ab75b614b408532fe1e35d02269bda8a0dc92426f597ad161034b16"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 124,
-        "line_text": "   (arquivo solto, sem readback, sem REGISTRY). Racional: o orquestrador-bug não foi",
-        "line_sha256": "172febec21961dae11474dadaad433e92ce84cb375b3edaccb51d339ca2ce0e5"
+        "line_no": 157,
+        "line_text": "checáveis moram alhures: saída de sessão → G-RLT (state-report-spec §4);",
+        "line_sha256": "4ccaa6f583de92daa8e733b3c9aa97acc7972644326336ca681bc56c1e92e303"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0070-w-quorum-g-quorum.json"
+        "value": ".hbn/readbacks/0071-selagem-g-quorum.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "cross-audit do G-QUORUM (readback 0070)"
+        "value": "implementacao do W-LEX (knowledge 0032 + INDEX.md + clausula vinculante em core/orchestrator-profile-spec.md)"
       }
     ]
   }
