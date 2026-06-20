@@ -1309,6 +1309,86 @@ d="$(mk_next_repo_adv duplicado)"
 try_burla "B67 proximo_ponto duplicado" "G-NEXT" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-next-checkpoint.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
+# B71-B75 — G-QUORUM: selagem vigente exige seals_proposal e quorum
+# canonico com >=2 familias distintas != OpenAI.
+mk_quorum_repo_adv() {
+  local variant="$1" d
+  d="$(mk_repo)"
+  (
+    cd "$d"
+    mkdir -p .hbn/readbacks .hbn/results guards/data
+    cat > guards/data/auditor-families.txt <<'EOF'
+codex OpenAI
+grok xAI
+grok2 xAI
+antigravity Google
+EOF
+    if [[ "$variant" == "sem-seals" ]]; then
+      printf '{"readback_id":"0100-selagem-teste","status":"vigente"}\n' > .hbn/readbacks/0100-selagem-teste.json
+    else
+      printf '{"readback_id":"0100-selagem-teste","status":"vigente","seals_proposal":"0099"}\n' > .hbn/readbacks/0100-selagem-teste.json
+    fi
+    write_quorum_adv_result() {
+      local path="$1" autor="$2" familia="$3" verdict="$4"
+      {
+        printf -- '---\n'
+        printf 'autor: %s\n' "$autor"
+        printf 'familia: %s\n' "$familia"
+        printf -- '---\n'
+        printf '# Parecer\n'
+        if [[ -n "$verdict" ]]; then
+          printf '%s\n' "$verdict"
+        else
+          printf 'Sem aprovacao canonica.\n'
+        fi
+      } > "$path"
+    }
+    case "$variant" in
+      sem-seals)
+        write_quorum_adv_result .hbn/results/20260101-010101-grok-cross-ia-quorum-0099.md grok xAI "APROVA_0099: SIM"
+        write_quorum_adv_result .hbn/results/20260101-010102-antigravity-cross-ia-quorum-0099.md antigravity Google "APROVA_0099: SIM"
+        ;;
+      um-parecer)
+        write_quorum_adv_result .hbn/results/20260101-010101-grok-cross-ia-quorum-0099.md grok xAI "APROVA_0099: SIM"
+        ;;
+      mesma-familia)
+        write_quorum_adv_result .hbn/results/20260101-010101-grok-cross-ia-quorum-0099.md grok xAI "APROVA_0099: SIM"
+        write_quorum_adv_result .hbn/results/20260101-010102-grok2-cross-ia-quorum-0099.md grok2 xAI "APROVA_0099: SIM"
+        ;;
+      openai-nao-conta)
+        write_quorum_adv_result .hbn/results/20260101-010101-grok-cross-ia-quorum-0099.md grok xAI "APROVA_0099: SIM"
+        write_quorum_adv_result .hbn/results/20260101-010102-codex-cross-ia-quorum-0099.md codex OpenAI "APROVA_0099: SIM"
+        ;;
+      sem-aprova)
+        write_quorum_adv_result .hbn/results/20260101-010101-grok-cross-ia-quorum-0099.md grok xAI "APROVA_0099: SIM"
+        write_quorum_adv_result .hbn/results/20260101-010102-antigravity-cross-ia-quorum-0099.md antigravity Google ""
+        ;;
+    esac
+    git add .hbn/active-version guards/data/auditor-families.txt .hbn/readbacks/0100-selagem-teste.json .hbn/results
+  ) >/dev/null 2>&1
+  echo "$d"
+}
+
+d="$(mk_quorum_repo_adv sem-seals)"
+try_burla "B71 selagem sem seals_proposal" "G-QUORUM" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-quorum-selagem.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_quorum_repo_adv um-parecer)"
+try_burla "B72 selagem com so 1 parecer nao-OpenAI" "G-QUORUM" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-quorum-selagem.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_quorum_repo_adv mesma-familia)"
+try_burla "B73 quorum falso por mesma familia" "G-QUORUM" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-quorum-selagem.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_quorum_repo_adv openai-nao-conta)"
+try_burla "B74 parecer OpenAI contado como quorum" "G-QUORUM" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-quorum-selagem.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_quorum_repo_adv sem-aprova)"
+try_burla "B75 parecer sem APROVA_NNNN SIM" "G-QUORUM" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-quorum-selagem.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------
 echo ""
 printf '%-52s | %-8s | %s\n' "BURLA" "GUARD" "RESULTADO"

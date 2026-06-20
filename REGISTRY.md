@@ -1368,3 +1368,17 @@ humano antes da selagem.
 | 20260620-203000-grok-cross-g-next-0066 | .hbn/results/20260620-203000-grok-cross-ia-g-next-0066.md | result | frio | fronteira | — | 2026-06-20T20:30:00-03:00 |
 | 20260620-210000-opus-selagem-0069 | .hbn/messages/20260620-210000-opus-4-8-despacho-selagem-0069.md | despacho | frio | fronteira | — | 2026-06-20T21:00:00-03:00 |
 | 20260620-210002-codex-readback-selagem-0069 | .hbn/readbacks/0069-selagem-g-next.json | readback | frio | fronteira | — | 2026-06-20T21:00:02-03:00 |
+
+## W-QUORUM / G-QUORUM (2026-06-20) — quorum mecanico de selagem — status: proposto, readback 0070
+
+G-QUORUM torna mecanica a regra de selagem: todo readback vigente adicionado
+deve declarar `seals_proposal` e ter >=2 pareceres canonicos de familias
+distintas != OpenAI com `APROVA_<NNNN>: SIM` no disco. O guard entra no runner
+nesta entrega, mas permanece PROPOSED_UNTIL_CROSS_AUDIT ate cross-audit >=2
+familias != OpenAI e hearback humano antes da selagem posterior.
+
+| id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
+|---|---|---|---|---|---|---|
+| 20260620-213000-opus-despacho-w-quorum | .hbn/messages/20260620-213000-opus-4-8-despacho-w-quorum-g-quorum.md | despacho | frio | fronteira | — | 2026-06-20T21:30:00-03:00 |
+| 20260620-213000-codex-readback-w-quorum | .hbn/readbacks/0070-w-quorum-g-quorum.json | readback | frio | fronteira | — | 2026-06-20T21:30:00-03:00 |
+| 20260620-213001-codex-guard-quorum-selagem | guards/assert-quorum-selagem.sh | guard | frio | fronteira | — | 2026-06-20T21:30:01-03:00 |

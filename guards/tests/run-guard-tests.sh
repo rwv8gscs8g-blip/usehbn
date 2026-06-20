@@ -124,6 +124,10 @@
 #   G-NEXT (readback 0066): +6 checks (1 pass, 5 block) para proximo_ponto
 #   valido, ausencia do mapa, ato invalido, destino nao-canonico, bloco_ref
 #   inexistente e mapa duplicado. Total: 233.
+#   G-QUORUM (readback 0070): +6 checks (1 pass, 5 block) para selagem
+#   vigente com seals_proposal e >=2 familias distintas != OpenAI com
+#   APROVA SIM, bloqueando sem seals, 1 parecer, mesma familia, OpenAI e
+#   parecer sem APROVA. Total: 239.
 # =============================================================================
 set -uo pipefail
 
@@ -2861,6 +2865,101 @@ rm -rf "$d"
 
 d="$(make_next_repo duplicado)"
 check "next: proximo_ponto duplicado → BLOCK" block "$(run_next "$d")"
+rm -rf "$d"
+
+# --- G-QUORUM: quorum canonico de selagem -----------------------------------
+echo "== assert-quorum-selagem (G-QUORUM) =="
+run_quorum() { ( cd "$1" && bash "$GUARDS_DIR/assert-quorum-selagem.sh" >/dev/null 2>&1 ); echo $?; }
+
+make_quorum_repo() { # <good|sem-seals|um-parecer|mesma-familia|openai-nao-conta|sem-aprova>
+    local variant="$1" d
+    d="$(mktemp -d)"
+    (
+        cd "$d"
+        git init -q
+        git config user.email "tests@hbn.local"
+        git config user.name "hbn-guard-tests"
+        mkdir -p .hbn/readbacks .hbn/results guards/data
+        echo "." > .hbn/active-version
+        cat > guards/data/auditor-families.txt <<'EOF'
+codex OpenAI
+gpt-5 OpenAI
+grok xAI
+grok2 xAI
+antigravity Google
+EOF
+        if [[ "$variant" == "sem-seals" ]]; then
+            cat > .hbn/readbacks/0100-selagem-teste.json <<'EOF'
+{"readback_id":"0100-selagem-teste","status":"vigente"}
+EOF
+        else
+            cat > .hbn/readbacks/0100-selagem-teste.json <<'EOF'
+{"readback_id":"0100-selagem-teste","status":"vigente","seals_proposal":"0099"}
+EOF
+        fi
+        write_quorum_result() {
+            local path="$1" autor="$2" familia="$3" verdict="$4"
+            {
+                printf -- '---\n'
+                printf 'autor: %s\n' "$autor"
+                printf 'familia: %s\n' "$familia"
+                printf -- '---\n'
+                printf '# Parecer\n'
+                if [[ -n "$verdict" ]]; then
+                    printf '%s\n' "$verdict"
+                else
+                    printf 'Sem aprovacao canonica.\n'
+                fi
+            } > "$path"
+        }
+        case "$variant" in
+            good|sem-seals)
+                write_quorum_result .hbn/results/20260101-010101-grok-cross-ia-quorum-0099.md grok xAI "APROVA_0099: SIM"
+                write_quorum_result .hbn/results/20260101-010102-antigravity-cross-ia-quorum-0099.md antigravity Google "APROVA_0099: SIM"
+                ;;
+            um-parecer)
+                write_quorum_result .hbn/results/20260101-010101-grok-cross-ia-quorum-0099.md grok xAI "APROVA_0099: SIM"
+                ;;
+            mesma-familia)
+                write_quorum_result .hbn/results/20260101-010101-grok-cross-ia-quorum-0099.md grok xAI "APROVA_0099: SIM"
+                write_quorum_result .hbn/results/20260101-010102-grok2-cross-ia-quorum-0099.md grok2 xAI "APROVA_0099: SIM"
+                ;;
+            openai-nao-conta)
+                write_quorum_result .hbn/results/20260101-010101-grok-cross-ia-quorum-0099.md grok xAI "APROVA_0099: SIM"
+                write_quorum_result .hbn/results/20260101-010102-codex-cross-ia-quorum-0099.md codex OpenAI "APROVA_0099: SIM"
+                ;;
+            sem-aprova)
+                write_quorum_result .hbn/results/20260101-010101-grok-cross-ia-quorum-0099.md grok xAI "APROVA_0099: SIM"
+                write_quorum_result .hbn/results/20260101-010102-antigravity-cross-ia-quorum-0099.md antigravity Google ""
+                ;;
+        esac
+        git add .hbn/active-version guards/data/auditor-families.txt .hbn/readbacks/0100-selagem-teste.json .hbn/results
+    ) >/dev/null 2>&1
+    echo "$d"
+}
+
+d="$(make_quorum_repo good)"
+check "quorum: selagem com seals_proposal + 2 familias != OpenAI passa" pass "$(run_quorum "$d")"
+rm -rf "$d"
+
+d="$(make_quorum_repo sem-seals)"
+check "quorum: readback vigente sem seals_proposal → BLOCK" block "$(run_quorum "$d")"
+rm -rf "$d"
+
+d="$(make_quorum_repo um-parecer)"
+check "quorum: so 1 parecer != OpenAI → BLOCK" block "$(run_quorum "$d")"
+rm -rf "$d"
+
+d="$(make_quorum_repo mesma-familia)"
+check "quorum: 2 pareceres da mesma familia → BLOCK" block "$(run_quorum "$d")"
+rm -rf "$d"
+
+d="$(make_quorum_repo openai-nao-conta)"
+check "quorum: parecer OpenAI nao conta para quorum → BLOCK" block "$(run_quorum "$d")"
+rm -rf "$d"
+
+d="$(make_quorum_repo sem-aprova)"
+check "quorum: parecer sem APROVA_NNNN SIM → BLOCK" block "$(run_quorum "$d")"
 rm -rf "$d"
 
 # --- Read-list viva (onda 0006 I-01 — F-08 dos cross-audits 0036/0037) -------

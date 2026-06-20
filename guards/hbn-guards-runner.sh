@@ -99,6 +99,7 @@ GUARDS=(
     "assert-arvore-label.sh"
     "assert-auditor-id.sh"
     "assert-audit-diversity.sh"
+    "assert-quorum-selagem.sh"
     "assert-parallel-id.sh"
     "assert-pointer-honest.sh"
     "assert-copy-block.sh"

@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "selagem-g-next-2026-06-20",
+  "execution_id": "w-quorum-g-quorum-2026-06-20",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-20T21:00:00-03:00",
-  "manifest_sha256": "52a7fec427a38d65af735445f62debef9573fffce3a54f9abcc606946ff74840",
+  "atestado_em": "2026-06-20T21:30:00-03:00",
+  "manifest_sha256": "b4f301c6071175f02324271493bc9041849ab4a7b837c047b4166ad13a3d1950",
   "challenge": {
-    "seed_sha256": "ed8c3b65bce297b3bd5ee8505c0feb8a8288d5d232f634e0357b40e4176f9730",
+    "seed_sha256": "28af90c8b6f3ff8444737df9b619e5f20230b0845882bc4e5c1eee1b22f54bd1",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 654,
-        "line_text": "`213 passed in 0.77s`; `bash guards/tests/adversarial-battery.sh` fechou",
-        "line_sha256": "1a028eab45fbcc2c169240d6cbc820a19df0f9bcc4d810576c86d343e8faf4b8"
+        "line_no": 887,
+        "line_text": "154/154 e `adversarial-battery` bloqueou B1-B23. Os seis artefatos historicos",
+        "line_sha256": "dddfe659a477e87d93e62b1c8b1cac50697c496cca225dac58e5c3c122340881"
       },
       {
-        "path": ".hbn/readbacks/0069-selagem-g-next.json",
-        "line_no": 34,
-        "line_text": "  \"HBN-Token-FP\": \"34a7f2f9\",",
-        "line_sha256": "879d5cf9981131178e306e848c7bf3178fd953fbab98b5b54d513a5d1c32e653"
+        "path": ".hbn/readbacks/0070-w-quorum-g-quorum.json",
+        "line_no": 44,
+        "line_text": "  \"stop_condition\": \"Entrega 0070 (G-QUORUM) em commit unico; parar para cross-audit != OpenAI. NAO selar. NAO iniciar W-ORQ-4/W-FREEZE.\",",
+        "line_sha256": "a19c1473bd5261bd801ae1a7a70f65af84dbdc2f6c8d6d7461f7079c75ec4f9d"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 91,
-        "line_text": "9. **Roteamento de modelo (a IA certa para a tarefa)** — o orquestrador",
-        "line_sha256": "50e59bcce62d95ac8e0bf1ee8c25cc0a84edfbec06ece0b2a88298a5d21f67b1"
+        "line_no": 124,
+        "line_text": "   (arquivo solto, sem readback, sem REGISTRY). Racional: o orquestrador-bug não foi",
+        "line_sha256": "172febec21961dae11474dadaad433e92ce84cb375b3edaccb51d339ca2ce0e5"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0069-selagem-g-next.json"
+        "value": ".hbn/readbacks/0070-w-quorum-g-quorum.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "implementacao do G-QUORUM (guard de quorum de selagem >=2 familias != OpenAI)"
+        "value": "cross-audit do G-QUORUM (readback 0070)"
       }
     ]
   }
