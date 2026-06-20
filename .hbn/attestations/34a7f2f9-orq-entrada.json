@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "w-ret-2026-06-20",
+  "execution_id": "selagem-w-ret-2026-06-20",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-20T18:30:00-03:00",
-  "manifest_sha256": "9f267c9beddf775f488ebc24dda86dcd2b032374c367a5d61802286304fd942f",
+  "atestado_em": "2026-06-20T19:00:00-03:00",
+  "manifest_sha256": "94bf48c20e9bd3da8b8db098e1273f3e9ddb7c4a46af9a8bb1dd024ed9bfc19f",
   "challenge": {
-    "seed_sha256": "7a9e9f1686f70e30c77805967b9f5646d4a0e7321825ec3b1ce54acbd5abedd5",
+    "seed_sha256": "8c973a49461269144422d5ff4af5cc1616a52eb66c43aed2623d2e0511b3c852",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 263,
-        "line_text": "Mauricio confirmado. Os dois pareceres 0058 foram tornados tracked e",
-        "line_sha256": "c7e24a36c79a9d90601217498f81db42f192b0cd4e0a4119142b5ae8016b82f1"
+        "line_no": 196,
+        "line_text": "W-RET documenta o canal de retorno A+C em `core/relay-return-spec.md`: todo",
+        "line_sha256": "4d82dd524958404ac3baf235b5433534edaa04f8131a7cb93f109973b55f0465"
       },
       {
-        "path": ".hbn/readbacks/0067-w-ret.json",
-        "line_no": 43,
-        "line_text": "  \"done\": [",
-        "line_sha256": "897753d322257799d6a63bebb0e88c1519ba4c0a920871fa2aa79142aa5bd0b6"
+        "path": ".hbn/readbacks/0068-selagem-w-ret.json",
+        "line_no": 16,
+        "line_text": "    \"evidence\": \"Hearback humano confirmado para a selagem 0068 (W-RET 0067) e tracking dos files_allowed no despacho de 2026-06-20T19:00:00-03:00.\",",
+        "line_sha256": "b58d0c2c65e43aa637cf0d7fbff9935a757d0b62e7b98da966d7203c0b741481"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 106,
-        "line_text": "   (c) casar a complexidade da tarefa ao modelo: mecânico simples ≠ modelo",
-        "line_sha256": "195740c32f77370da3f41a624ff3380a2b242b01b08a59866f1ab593bd3856ce"
+        "line_no": 98,
+        "line_text": "   fornecedor como AVISO, não bloqueio; esta cláusula ELEVA isso a doutrina",
+        "line_sha256": "95fbbf90659b925e7dc4f983ecbf26f33a9ff24894d9d6e8bbe419e1f9b3c477"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0067-w-ret.json"
+        "value": ".hbn/readbacks/0068-selagem-w-ret.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "selagem do W-RET (readback 0067)"
+        "value": "cross-audit do G-NEXT (readback 0066)"
       }
     ]
   }
