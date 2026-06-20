@@ -21,6 +21,10 @@ Codex should operate as an execution agent under human authority.
 
 Codex must not introduce hidden behavior, bypass existing validation, or make undocumented protocol claims.
 
+## Return Receipt Expectation
+
+Ao final de TODA execução — sucesso, bloqueio ou erro — escreva o recibo `.hbn/relay/RETURN.json` conforme `core/relay-return-spec.md`, antes de encerrar.
+
 ## Semantic Readback Expectation
 
 Before executing `safe_track` work, Codex should produce a readback that records:

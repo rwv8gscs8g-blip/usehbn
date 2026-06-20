@@ -7,6 +7,8 @@ __pycache__/
 .usehbn/
 .hbn/manifest.json
 .hbn/state.json
+.hbn/relay/RETURN.json
+.hbn/relay/inbox/
 .hbn/readbacks/
 .hbn/results/*
 # Preserve cross-IA review evidence (audit-permanent), keep runtime ERPs ignored

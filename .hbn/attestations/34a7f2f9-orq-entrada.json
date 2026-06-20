@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "w-next-g-next-2026-06-19",
+  "execution_id": "w-ret-2026-06-20",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-19T14:00:00-03:00",
-  "manifest_sha256": "b151a8be93ee72856ff7e8eb3549639d8300b5e270f6480b8f0697ca72d0d6de",
+  "atestado_em": "2026-06-20T10:00:00-03:00",
+  "manifest_sha256": "af2d61a201dda19479f7dd1a43dd876e6e9ae6bfd3293039ab596855c705ac80",
   "challenge": {
-    "seed_sha256": "40fca53fa48b71a2db6f72e9d66855b457a78a7937375bb4b1480bfbc3ff6417",
+    "seed_sha256": "af21ad1e70366c2d4fb54bd50000e2100ee43bb600eea8af285869057cd63a69",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 15,
-        "line_text": "proximo_ponto:",
-        "line_sha256": "dbc76bb68142051f62514d41d862c8755db55da334c2bef0ba44b1de3042ceb6"
+        "line_no": 159,
+        "line_text": "  - \"🟢 FAXINA 0027 RATIFICADA E SELADA — pareceres Cursor/Gemini depositados, tres despachos do orquestrador selados, brainstorm versionado e fixes lixo-zero aplicados sem mudar logica de guard.\"",
+        "line_sha256": "1e49f5810dc1acc6c01d15c8415225066782dd01d4c17bb2ebefd1cfd07f9a35"
       },
       {
-        "path": ".hbn/readbacks/0066-w-next-g-next.json",
-        "line_no": 33,
-        "line_text": "      \"main\",",
-        "line_sha256": "cde5fa7619b2937392f39c684b5ed31684832bd790c032000cdf34dda5d17340"
+        "path": ".hbn/readbacks/0067-w-ret.json",
+        "line_no": 52,
+        "line_text": "    \"O consumidor deve descartar o recibo apos uso, movendo para .hbn/relay/inbox/.consumed/<ts>-RETURN.json ou apagando.\",",
+        "line_sha256": "ac8ee126e38913f6863d5a25d6dc46d7c5ae028c4fc36a32a0e6c77e68172c75"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 153,
-        "line_text": "## §5 Enforcement honesto",
-        "line_sha256": "123b87ee47cf800d998c118629a62f133fc922373057d0c227e5bbd552d47dc4"
+        "line_no": 72,
+        "line_text": "     foco no trade-off.",
+        "line_sha256": "63505c1b689bc7f434184f99c211fbf435325e75827236b559e63ba72d4a863b"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0066-w-next-g-next.json"
+        "value": ".hbn/readbacks/0067-w-ret.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "Cross-audit do G-NEXT (readback 0066); aguardar >=2 familias != OpenAI + hearback humano antes de selar; nao iniciar W-ORQ-4/W-FREEZE."
+        "value": "cross-audit do W-RET (readback 0067)"
       }
     ]
   }

@@ -1333,7 +1333,7 @@ ou modifica `.hbn/relay/STATE.md` deve carregar no front-matter exatamente um
 `proximo_ponto` top-level, com enums canonicos, destino canonico e `bloco_ref`
 existente no blob staged/HEAD. O guard entra no runner nesta entrega, mas
 permanece PROPOSED_UNTIL_CROSS_AUDIT ate cross-audit >=2 familias != OpenAI e
-hearback humano antes da selagem em readback >=0067.
+hearback humano antes de selagem posterior.
 
 | id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
 |---|---|---|---|---|---|---|
@@ -1345,3 +1345,17 @@ hearback humano antes da selagem em readback >=0067.
 | 20260619-140004-codex-adversarial-b63-b67 | guards/tests/adversarial-battery.sh | guard-test | frio | fronteira | — | 2026-06-19T14:00:04-03:00 |
 | 20260619-140005-codex-state-g-next | .hbn/relay/STATE.md | state | frio | fronteira | — | 2026-06-19T14:00:05-03:00 |
 | 20260619-140006-codex-atestacao-orq-entrada-g-next | .hbn/attestations/34a7f2f9-orq-entrada.json | attestation | frio | fronteira | — | 2026-06-19T14:00:06-03:00 |
+
+## W-RET (2026-06-20) — canal de retorno A+C — status: proposto, readback 0067
+
+W-RET define o recibo efemero `.hbn/relay/RETURN.json`: todo implementador
+escreve o recibo como ultima acao, o consumidor descarta apos uso, e ausencia
+de recibo novo apos timeout T e erro do harness. O contrato permanece
+PROPOSED_UNTIL_CROSS_AUDIT ate cross-audit >=2 familias != OpenAI e hearback
+humano antes da selagem.
+
+| id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
+|---|---|---|---|---|---|---|
+| 20260620-100000-opus-despacho-w-ret | .hbn/messages/20260620-100000-opus-4-8-despacho-w-ret.md | despacho | frio | fronteira | — | 2026-06-20T10:00:00-03:00 |
+| 20260620-100001-codex-relay-return-spec | core/relay-return-spec.md | spec-core | frio | fronteira | — | 2026-06-20T10:00:01-03:00 |
+| 20260620-100002-codex-readback-w-ret | .hbn/readbacks/0067-w-ret.json | readback | frio | fronteira | — | 2026-06-20T10:00:02-03:00 |

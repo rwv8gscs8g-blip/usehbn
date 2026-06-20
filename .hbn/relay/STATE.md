@@ -1,8 +1,8 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente; R2 arvores selada e vigente; R3a G-TRAILERS selada e vigente; R3b G-DIVERSITY selada e vigente; hardening pre-freeze R3a+R3b concluido; Curadoria do Dossie de Pre-Transicao 0055 selada; G-ORQ-ENTRADA 0056 entregue; W-ORQ-2 0058 entregue; G-ORQ-ENTRADA v2 selado e vigente; W-ORQ-3 0061 entregue; W-ORQ-3b 0062 selado e vigente via 0063; G-COPY 0064 selado e vigente via 0065; G-NEXT 0066 entregue/proposto)"
-onda_atual: "G-NEXT PROPOSTO — readback 0066; guard de proximo checkpoint legivel por maquina entregue por codex e aguardando cross-audit >=2 familias != OpenAI + hearback antes de selar"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente; R2 arvores selada e vigente; R3a G-TRAILERS selada e vigente; R3b G-DIVERSITY selada e vigente; hardening pre-freeze R3a+R3b concluido; Curadoria do Dossie de Pre-Transicao 0055 selada; G-ORQ-ENTRADA 0056 entregue; W-ORQ-2 0058 entregue; G-ORQ-ENTRADA v2 selado e vigente; W-ORQ-3 0061 entregue; W-ORQ-3b 0062 selado e vigente via 0063; G-COPY 0064 selado e vigente via 0065; G-NEXT 0066 entregue/proposto; W-RET 0067 entregue/proposto)"
+onda_atual: "W-RET PROPOSTO — readback 0067; canal de retorno A+C documentado para recibo efemero RETURN.json, aguardando cross-audit >=2 familias != OpenAI + hearback antes de selar"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
@@ -11,16 +11,20 @@ papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM; W3 ratificado por Grok, Antigravity 100 e Cursor 92 com APROVA_0036 SIM"
   gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou grande selagem 0035, hardening->deny->freeze, selagem W3, cartao de entrada e branch protection biometrica na main"
-proxima_acao: "Cross-audit do G-NEXT (readback 0066); aguardar >=2 familias != OpenAI + hearback humano antes de selar; nao iniciar W-ORQ-4/W-FREEZE."
+proxima_acao: "cross-audit do W-RET (readback 0067)"
 proximo_ponto:
-  passo: "cross-audit do G-NEXT (readback 0066)"
+  passo: "cross-audit do W-RET (readback 0067)"
   ato: cross-audit
   destino: human
   gate: hearback_humano
-  bloco_ref: .hbn/messages/20260619-140000-opus-4-8-despacho-w-next-g-next.md
+  bloco_ref: .hbn/messages/20260620-100000-opus-4-8-despacho-w-ret.md
   status: pendente
 sinais_abertos:
-  - "🔴 G-NEXT PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0066 safe_track, implementador=codex, autorizacao humana Mauricio e trailers contiguos; permanece proposto ate cross-audit >=2 familias != OpenAI + hearback + selagem 0067+."
+  - "🔴 W-RET PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0067 safe_track, implementador=codex, autorizacao humana Mauricio e trailers contiguos; permanece proposto ate cross-audit >=2 familias != OpenAI + hearback + selagem posterior."
+  - "🟢 W-RET ENTREGUE — core/relay-return-spec.md define .hbn/relay/RETURN.json efemero, schema de retorno, descarte pelo consumidor e ausencia apos timeout como erro."
+  - "🟢 DOGFOOD RETURN PREVISTO — esta propria execucao deve escrever .hbn/relay/RETURN.json apos o commit; recibo fica gitignored e fora do versionamento."
+  - "🟡 PROXIMA ACAO — cross-audit W-RET por familias != OpenAI; nao selar W-RET, nao iniciar W-ORQ-4 nem W-FREEZE nesta entrega."
+  - "🔴 G-NEXT PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0066 safe_track, implementador=codex, autorizacao humana Mauricio e trailers contiguos; permanece proposto ate cross-audit >=2 familias != OpenAI + hearback + selagem posterior."
   - "🟢 G-NEXT ENTREGUE — guards/assert-next-checkpoint.sh ativo no runner; STATE adicionado/modificado exige exatamente um proximo_ponto top-level validado no blob staged/HEAD, sem ler working tree."
   - "🟢 B63-B67 COBERTOS — run-guard-tests/adversarial-battery bloqueiam ausencia do mapa, ato fora do enum, destino nao-canonico, bloco_ref inexistente e proximo_ponto duplicado."
   - "🟡 PROXIMA ACAO — cross-audit G-NEXT por familias != OpenAI; nao selar G-NEXT, nao iniciar W-ORQ-4 nem W-FREEZE nesta entrega."
@@ -171,20 +175,28 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟢 branch protection no GitHub: ruleset Active na main (require PR, restrict deletions, block force pushes); passkey Touch ID no boundary."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0066-w-next-g-next.json"
-handoff_mais_recente: ".hbn/messages/20260619-140000-opus-4-8-despacho-w-next-g-next.md"
+readback_ativo: ".hbn/readbacks/0067-w-ret.json"
+handoff_mais_recente: ".hbn/messages/20260620-100000-opus-4-8-despacho-w-ret.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
-ciclo_ativo: "G-NEXT PROPOSTO — readback 0066; proximo checkpoint agora esta em proximo_ponto; parar para cross-audit != OpenAI e hearback antes de selar."
-ultima_atualizacao: "2026-06-19T14:00:00-03:00"
-atualizado_por: codex-w-next-g-next-0066
+ciclo_ativo: "W-RET PROPOSTO — readback 0067; canal de retorno A+C entregue; parar para cross-audit != OpenAI e hearback antes de selar."
+ultima_atualizacao: "2026-06-20T10:00:00-03:00"
+atualizado_por: codex-w-ret-0067
 atribuicao:
   chapeu_atual: orquestrador
   implementador: codex
   auditores: [grok, antigravity]
-  gravada_em: "2026-06-19T14:00:00-03:00"
-  hearback_ref: "Mauricio 2026-06-19: implementacao G-NEXT 0066 autorizada sob token_fp 34a7f2f9; criar guard de proximo checkpoint no STATE, suite verde, regenerar atestacao same-fp, parar para cross-audit != OpenAI; nao selar, nao iniciar W-ORQ-4/W-FREEZE."
+  gravada_em: "2026-06-20T10:00:00-03:00"
+  hearback_ref: "Mauricio 2026-06-20: implementacao W-RET 0067 autorizada sob token_fp 34a7f2f9; criar canal de retorno A+C com recibo efemero RETURN.json, suite verde, regenerar atestacao same-fp, escrever RETURN.json ao final, parar para cross-audit != OpenAI; nao selar, nao iniciar W-ORQ-4/W-FREEZE."
 ---
+
+Nota W-RET / readback 0067: entregue em 2026-06-20T10:00:00-03:00.
+W-RET documenta o canal de retorno A+C em `core/relay-return-spec.md`: todo
+implementador escreve `.hbn/relay/RETURN.json` ao final de qualquer execucao,
+o consumidor le e descarta/move o recibo, e ausencia de recibo novo apos
+timeout T e erro do harness. `.gitignore` mantem o recibo e a inbox efemeros
+fora do versionamento. Proxima acao: cross-audit W-RET; nao iniciar W-ORQ-4
+nem W-FREEZE.
 
 Nota G-NEXT / readback 0066: entregue em 2026-06-19T14:00:00-03:00.
 G-NEXT adiciona `guards/assert-next-checkpoint.sh` e o ativa no runner para
@@ -192,7 +204,7 @@ exigir que todo commit com `.hbn/relay/STATE.md` adicionado/modificado carregue
 exatamente um `proximo_ponto` top-level no front-matter, com campos canonicos,
 destino canonico e `bloco_ref` existente no indice/HEAD. O guard e
 PROPOSED_UNTIL_CROSS_AUDIT: exige suite verde, cross-audit >=2 familias !=
-OpenAI e hearback humano antes da selagem em readback >=0067. Evidencia
+OpenAI e hearback humano antes de selagem posterior. Evidencia
 mecanica: runner verde, `run-guard-tests.sh` 233/233 e
 `adversarial-battery.sh` B1-B67 bloqueada, incluindo B63-B67. Proxima acao:
 cross-audit G-NEXT; nao iniciar W-ORQ-4 nem W-FREEZE.
