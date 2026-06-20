@@ -1,0 +1,37 @@
+{
+  "readback_id": "0069-selagem-g-next",
+  "execution_id": "selagem-g-next-2026-06-20",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "vigente",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0069-selagem-g-next.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260620-210000-opus-4-8-despacho-selagem-0069.md",
+  "understanding": "Selar G-NEXT (readback 0066) como vigente apos quorum != OpenAI (antigravity/Google + grok/xAI, ambos APROVA_0066: SIM) e hearback humano. Trackear os 2 pareceres, marcar G-NEXT SELADO E VIGENTE, REGISTRY e regenerar atestacao same-fp com readback_ativo->0069. Ato de autoridade sob G-ORQ-REF (Exit A') — 4o dogfood.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Hearback humano confirmado para a selagem 0069 (G-NEXT 0066) e tracking dos files_allowed no despacho de 2026-06-20T21:00:00-03:00.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0069-selagem-g-next.json",
+      ".hbn/messages/20260620-210000-opus-4-8-despacho-selagem-0069.md",
+      ".hbn/results/20260620-200000-antigravity-cross-ia-g-next-0066.md",
+      ".hbn/results/20260620-203000-grok-cross-ia-g-next-0066.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": ["main","guards/**","src/**","core/**","methodology/**","schemas/**","docs/brainstorm/**",".hbn/freeze/**"]
+  },
+  "stop_condition": "Selagem 0069 (G-NEXT vigente) concluida. NAO iniciar a implementacao do G-QUORUM, W-ORQ-4 nem W-FREEZE neste commit.",
+  "HBN-Readback": "0069",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-20T21:00:00-03:00",
+  "protocol_version": "0.3.0"
+}

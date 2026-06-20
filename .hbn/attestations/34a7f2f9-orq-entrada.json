@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "selagem-w-ret-2026-06-20",
+  "execution_id": "selagem-g-next-2026-06-20",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-20T19:00:00-03:00",
-  "manifest_sha256": "94bf48c20e9bd3da8b8db098e1273f3e9ddb7c4a46af9a8bb1dd024ed9bfc19f",
+  "atestado_em": "2026-06-20T21:00:00-03:00",
+  "manifest_sha256": "52a7fec427a38d65af735445f62debef9573fffce3a54f9abcc606946ff74840",
   "challenge": {
-    "seed_sha256": "8c973a49461269144422d5ff4af5cc1616a52eb66c43aed2623d2e0511b3c852",
+    "seed_sha256": "ed8c3b65bce297b3bd5ee8505c0feb8a8288d5d232f634e0357b40e4176f9730",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 196,
-        "line_text": "W-RET documenta o canal de retorno A+C em `core/relay-return-spec.md`: todo",
-        "line_sha256": "4d82dd524958404ac3baf235b5433534edaa04f8131a7cb93f109973b55f0465"
+        "line_no": 654,
+        "line_text": "`213 passed in 0.77s`; `bash guards/tests/adversarial-battery.sh` fechou",
+        "line_sha256": "1a028eab45fbcc2c169240d6cbc820a19df0f9bcc4d810576c86d343e8faf4b8"
       },
       {
-        "path": ".hbn/readbacks/0068-selagem-w-ret.json",
-        "line_no": 16,
-        "line_text": "    \"evidence\": \"Hearback humano confirmado para a selagem 0068 (W-RET 0067) e tracking dos files_allowed no despacho de 2026-06-20T19:00:00-03:00.\",",
-        "line_sha256": "b58d0c2c65e43aa637cf0d7fbff9935a757d0b62e7b98da966d7203c0b741481"
+        "path": ".hbn/readbacks/0069-selagem-g-next.json",
+        "line_no": 34,
+        "line_text": "  \"HBN-Token-FP\": \"34a7f2f9\",",
+        "line_sha256": "879d5cf9981131178e306e848c7bf3178fd953fbab98b5b54d513a5d1c32e653"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 98,
-        "line_text": "   fornecedor como AVISO, não bloqueio; esta cláusula ELEVA isso a doutrina",
-        "line_sha256": "95fbbf90659b925e7dc4f983ecbf26f33a9ff24894d9d6e8bbe419e1f9b3c477"
+        "line_no": 91,
+        "line_text": "9. **Roteamento de modelo (a IA certa para a tarefa)** — o orquestrador",
+        "line_sha256": "50e59bcce62d95ac8e0bf1ee8c25cc0a84edfbec06ece0b2a88298a5d21f67b1"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0068-selagem-w-ret.json"
+        "value": ".hbn/readbacks/0069-selagem-g-next.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "cross-audit do G-NEXT (readback 0066)"
+        "value": "implementacao do G-QUORUM (guard de quorum de selagem >=2 familias != OpenAI)"
       }
     ]
   }

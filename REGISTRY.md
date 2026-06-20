@@ -1364,3 +1364,7 @@ humano antes da selagem.
 | 20260620-163000-grok-cross-w-ret-0067 | .hbn/results/20260620-163000-grok-cross-ia-w-ret-0067.md | result | frio | fronteira | — | 2026-06-20T16:30:00-03:00 |
 | 20260620-190000-opus-selagem-0068 | .hbn/messages/20260620-190000-opus-4-8-despacho-selagem-0068.md | despacho | frio | fronteira | — | 2026-06-20T19:00:00-03:00 |
 | 20260620-190002-codex-readback-selagem-0068 | .hbn/readbacks/0068-selagem-w-ret.json | readback | frio | fronteira | — | 2026-06-20T19:00:02-03:00 |
+| 20260620-200000-antigravity-cross-g-next-0066 | .hbn/results/20260620-200000-antigravity-cross-ia-g-next-0066.md | result | frio | fronteira | — | 2026-06-20T20:00:00-03:00 |
+| 20260620-203000-grok-cross-g-next-0066 | .hbn/results/20260620-203000-grok-cross-ia-g-next-0066.md | result | frio | fronteira | — | 2026-06-20T20:30:00-03:00 |
+| 20260620-210000-opus-selagem-0069 | .hbn/messages/20260620-210000-opus-4-8-despacho-selagem-0069.md | despacho | frio | fronteira | — | 2026-06-20T21:00:00-03:00 |
+| 20260620-210002-codex-readback-selagem-0069 | .hbn/readbacks/0069-selagem-g-next.json | readback | frio | fronteira | — | 2026-06-20T21:00:02-03:00 |
