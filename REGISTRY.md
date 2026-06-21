@@ -1407,3 +1407,7 @@ humano antes de selagem posterior.
 | 20260621-003000-opus-despacho-w-orq-4a-readlist-rite | .hbn/messages/20260621-003000-opus-4-8-despacho-w-orq-4a-readlist-rite.md | despacho | frio | fronteira | — | 2026-06-21T00:30:00-03:00 |
 | 20260621-003001-codex-guard-readlist-rite | guards/assert-readlist-rite.sh | guard | frio | fronteira | — | 2026-06-21T00:30:01-03:00 |
 | 20260621-003002-codex-readback-w-orq-4a-readlist-rite | .hbn/readbacks/0074-w-orq-4a-readlist-rite.json | readback | frio | fronteira | — | 2026-06-21T00:30:02-03:00 |
+| 20260621-010000-antigravity-cross-w-orq-4a-0074 | .hbn/results/20260621-010000-antigravity-cross-ia-w-orq-4a-0074.md | result | frio | fronteira | — | 2026-06-21T01:00:00-03:00 |
+| 20260621-011000-grok-cross-w-orq-4a-0074 | .hbn/results/20260621-011000-grok-cross-ia-w-orq-4a-0074.md | result | frio | fronteira | — | 2026-06-21T01:10:00-03:00 |
+| 20260621-013000-opus-selagem-0075 | .hbn/messages/20260621-013000-opus-4-8-despacho-selagem-0075.md | despacho | frio | fronteira | — | 2026-06-21T01:30:00-03:00 |
+| 20260621-013002-codex-readback-selagem-0075 | .hbn/readbacks/0075-selagem-w-orq-4a.json | readback | frio | fronteira | — | 2026-06-21T01:30:02-03:00 |

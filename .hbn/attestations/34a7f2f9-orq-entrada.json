@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "w-orq-4a-readlist-rite-2026-06-21",
+  "execution_id": "selagem-w-orq-4a-2026-06-21",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-21T00:30:00-03:00",
-  "manifest_sha256": "5a69d306ebe9e112b78316e5ed77ef79bf334c330fa46903b9ac964221c32c8e",
+  "atestado_em": "2026-06-21T01:30:00-03:00",
+  "manifest_sha256": "ebcc8e4d1a1ad7878af0dc974b2035b7ce7189e2818b1cf04fc3d717a688768a",
   "challenge": {
-    "seed_sha256": "148281e9e99e42db142822d32e5501328932de4e98a09d556038b4e4eacf4efb",
+    "seed_sha256": "703ffa8f7425b949c717aaabdd7c21a4756a1319b06985af95af45a4cbdcac6f",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 800,
-        "line_text": "Nota depósito S0: Gemini (Google) aprovou S0 com confiança 100/100; Cursor",
-        "line_sha256": "aff504e8a1c2c298dc42ef820629c37ffb19ccf17b74cb6ddc7fe7e0789f28e6"
+        "line_no": 548,
+        "line_text": "pareceres em `.hbn/results/`, REGISTRY, STATE e handoff. Excecao G-EXC segue",
+        "line_sha256": "cc9ec94a39bee5c1b24d918a745a55773ecb1f02e0d9e87c28344806699c381b"
       },
       {
-        "path": ".hbn/readbacks/0074-w-orq-4a-readlist-rite.json",
-        "line_no": 32,
-        "line_text": "    \"files_forbidden\": [\"main\", \"core/**\", \"methodology/**\", \"schemas/**\", \"src/**\", \"docs/brainstorm/**\", \".hbn/freeze/**\", \"guards/data/**\"]",
-        "line_sha256": "f0e6da4aaa8ba30dd252191ccaf6e515f6f3a7eff1b5979237583da9b181523b"
+        "path": ".hbn/readbacks/0075-selagem-w-orq-4a.json",
+        "line_no": 36,
+        "line_text": "  \"created_at\": \"2026-06-21T01:30:00-03:00\",",
+        "line_sha256": "7cb9b328e37b01f870a99e27f7c3d355b6ee710692aab5a6586ea550f45fe201"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 16,
-        "line_text": "# Orchestrator-profile spec",
-        "line_sha256": "b7fef00a8afb90af8c9331fd1bf51d04f883bbf8e51b21b817d93931c15a7df3"
+        "line_no": 158,
+        "line_text": "presença da seção de cápsula no handoff → G-RLT regra 4; gatilho de fadiga",
+        "line_sha256": "9b84595561c615cadf2f3957a4f00c0dba111dc412f2e9d32ab0bc79e1d93600"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0074-w-orq-4a-readlist-rite.json"
+        "value": ".hbn/readbacks/0075-selagem-w-orq-4a.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "cross-audit do W-ORQ-4a (readback 0074)"
+        "value": "implementacao do W-ORQ-4b (orq_entrada_ref obrigatorio em todo ato de autoridade)"
       }
     ]
   }
