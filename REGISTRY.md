@@ -1393,3 +1393,17 @@ familias != OpenAI e hearback humano antes da selagem posterior.
 | 20260620-235500-grok-cross-w-lex-0072 | .hbn/results/20260620-235500-grok-cross-ia-w-lex-0072.md | result | frio | fronteira | — | 2026-06-20T23:55:00-03:00 |
 | 20260621-000000-opus-selagem-0073 | .hbn/messages/20260621-000000-opus-4-8-despacho-selagem-0073.md | despacho | frio | fronteira | — | 2026-06-21T00:00:00-03:00 |
 | 20260621-000002-codex-readback-selagem-0073 | .hbn/readbacks/0073-selagem-w-lex.json | readback | frio | fronteira | — | 2026-06-21T00:00:02-03:00 |
+
+## W-ORQ-4a / G-READLIST-RITE (2026-06-21) — read-list exige rito declarado — status: proposto, readback 0074
+
+G-READLIST-RITE bloqueia qualquer A/M em `core/read-list-canonica.txt` sem
+readback staged no mesmo diff declarando `read_list_rite` string nao-vazia e
+`human_status=confirmed`. O guard entra no runner nesta entrega, mas permanece
+PROPOSED_UNTIL_CROSS_AUDIT ate cross-audit >=2 familias != OpenAI e hearback
+humano antes de selagem posterior.
+
+| id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
+|---|---|---|---|---|---|---|
+| 20260621-003000-opus-despacho-w-orq-4a-readlist-rite | .hbn/messages/20260621-003000-opus-4-8-despacho-w-orq-4a-readlist-rite.md | despacho | frio | fronteira | — | 2026-06-21T00:30:00-03:00 |
+| 20260621-003001-codex-guard-readlist-rite | guards/assert-readlist-rite.sh | guard | frio | fronteira | — | 2026-06-21T00:30:01-03:00 |
+| 20260621-003002-codex-readback-w-orq-4a-readlist-rite | .hbn/readbacks/0074-w-orq-4a-readlist-rite.json | readback | frio | fronteira | — | 2026-06-21T00:30:02-03:00 |

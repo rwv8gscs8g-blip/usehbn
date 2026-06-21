@@ -128,6 +128,9 @@
 #   vigente com seals_proposal e >=2 familias distintas != OpenAI com
 #   APROVA SIM, bloqueando sem seals, 1 parecer, mesma familia, OpenAI e
 #   parecer sem APROVA. Total: 239.
+#   G-READLIST-RITE (readback 0074): +5 checks (2 pass, 3 block) para
+#   read-list A/M com rito declarado, sem readback, sem read_list_rite,
+#   human_status != confirmed e diff neutro sem read-list. Total: 244.
 # =============================================================================
 set -uo pipefail
 
@@ -2960,6 +2963,78 @@ rm -rf "$d"
 
 d="$(make_quorum_repo sem-aprova)"
 check "quorum: parecer sem APROVA_NNNN SIM → BLOCK" block "$(run_quorum "$d")"
+rm -rf "$d"
+
+# --- G-READLIST-RITE: read-list canonica exige rito declarado ----------------
+echo "== assert-readlist-rite (G-READLIST-RITE) =="
+run_readlist_rite_guard() { ( cd "$1" && bash "$GUARDS_DIR/assert-readlist-rite.sh" >/dev/null 2>&1 ); echo $?; }
+
+make_readlist_rite_repo() { # <good|sem-readback|sem-rite|human-pendente|neutro>
+    local variant="$1" d
+    d="$(mktemp -d)"
+    (
+        cd "$d"
+        git init -q
+        git config user.email "tests@hbn.local"
+        git config user.name "hbn-guard-tests"
+        mkdir -p .hbn/readbacks core docs
+        echo "." > .hbn/active-version
+        printf 'base .hbn/relay/STATE.md\n' > core/read-list-canonica.txt
+        git add .hbn/active-version core/read-list-canonica.txt
+        git commit -qm init
+        case "$variant" in
+            good)
+                printf 'base .hbn/relay/STATE.md\nnovo core/role-cards.md\n' > core/read-list-canonica.txt
+                cat > .hbn/readbacks/0100-rite.json <<'EOF'
+{"readback_id":"0100-rite","human_status":"confirmed","read_list_rite":"0100-rite"}
+EOF
+                git add core/read-list-canonica.txt .hbn/readbacks/0100-rite.json
+                ;;
+            sem-readback)
+                printf 'base .hbn/relay/STATE.md\nnovo core/role-cards.md\n' > core/read-list-canonica.txt
+                git add core/read-list-canonica.txt
+                ;;
+            sem-rite)
+                printf 'base .hbn/relay/STATE.md\nnovo core/role-cards.md\n' > core/read-list-canonica.txt
+                cat > .hbn/readbacks/0100-sem-rite.json <<'EOF'
+{"readback_id":"0100-sem-rite","human_status":"confirmed"}
+EOF
+                git add core/read-list-canonica.txt .hbn/readbacks/0100-sem-rite.json
+                ;;
+            human-pendente)
+                printf 'base .hbn/relay/STATE.md\nnovo core/role-cards.md\n' > core/read-list-canonica.txt
+                cat > .hbn/readbacks/0100-human-pendente.json <<'EOF'
+{"readback_id":"0100-human-pendente","human_status":"pending","read_list_rite":"0100-human-pendente"}
+EOF
+                git add core/read-list-canonica.txt .hbn/readbacks/0100-human-pendente.json
+                ;;
+            neutro)
+                printf 'outro arquivo\n' > docs/neutro.md
+                git add docs/neutro.md
+                ;;
+        esac
+    ) >/dev/null 2>&1
+    echo "$d"
+}
+
+d="$(make_readlist_rite_repo good)"
+check "readlist-rite: read-list A/M com rito confirmado passa" pass "$(run_readlist_rite_guard "$d")"
+rm -rf "$d"
+
+d="$(make_readlist_rite_repo sem-readback)"
+check "readlist-rite: read-list A/M sem readback staged → BLOCK" block "$(run_readlist_rite_guard "$d")"
+rm -rf "$d"
+
+d="$(make_readlist_rite_repo sem-rite)"
+check "readlist-rite: readback staged sem read_list_rite → BLOCK" block "$(run_readlist_rite_guard "$d")"
+rm -rf "$d"
+
+d="$(make_readlist_rite_repo human-pendente)"
+check "readlist-rite: read_list_rite com human_status != confirmed → BLOCK" block "$(run_readlist_rite_guard "$d")"
+rm -rf "$d"
+
+d="$(make_readlist_rite_repo neutro)"
+check "readlist-rite: diff neutro sem read-list passa" pass "$(run_readlist_rite_guard "$d")"
 rm -rf "$d"
 
 # --- Read-list viva (onda 0006 I-01 — F-08 dos cross-audits 0036/0037) -------

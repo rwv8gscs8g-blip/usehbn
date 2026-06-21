@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "selagem-w-lex-2026-06-21",
+  "execution_id": "w-orq-4a-readlist-rite-2026-06-21",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-21T00:00:00-03:00",
-  "manifest_sha256": "d0c26971e7cb999abe957815e7642814ee367c870d67a35b6118225fa74553c1",
+  "atestado_em": "2026-06-21T00:30:00-03:00",
+  "manifest_sha256": "5a69d306ebe9e112b78316e5ed77ef79bf334c330fa46903b9ac964221c32c8e",
   "challenge": {
-    "seed_sha256": "17543bf07db2c251c0770f59d9d2dcb806d5bfc6f75ad606b625a0fbad9e69d3",
+    "seed_sha256": "148281e9e99e42db142822d32e5501328932de4e98a09d556038b4e4eacf4efb",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 452,
-        "line_text": "distintas de OpenAI, grok/xAI `APROVA_0049: SIM` conf 93 e",
-        "line_sha256": "49f34c856a270ea74e8216c79c841caeb50c6fcc4f59ac37c426c3e1e7011cd2"
+        "line_no": 800,
+        "line_text": "Nota depósito S0: Gemini (Google) aprovou S0 com confiança 100/100; Cursor",
+        "line_sha256": "aff504e8a1c2c298dc42ef820629c37ffb19ccf17b74cb6ddc7fe7e0789f28e6"
       },
       {
-        "path": ".hbn/readbacks/0073-selagem-w-lex.json",
-        "line_no": 30,
-        "line_text": "    \"files_forbidden\": [\"main\",\"guards/**\",\"src/**\",\"core/**\",\"methodology/**\",\"schemas/**\",\"docs/brainstorm/**\",\".hbn/freeze/**\"]",
-        "line_sha256": "fa4f075b4405a043159631f825fe37ec349cd7e97beb56d4e003169b8a729be5"
+        "path": ".hbn/readbacks/0074-w-orq-4a-readlist-rite.json",
+        "line_no": 32,
+        "line_text": "    \"files_forbidden\": [\"main\", \"core/**\", \"methodology/**\", \"schemas/**\", \"src/**\", \"docs/brainstorm/**\", \".hbn/freeze/**\", \"guards/data/**\"]",
+        "line_sha256": "f0e6da4aaa8ba30dd252191ccaf6e515f6f3a7eff1b5979237583da9b181523b"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 171,
-        "line_text": "## §7 Lei da Submissao pelo Exemplo (W-LEX — vinculante; knowledge 0029)",
-        "line_sha256": "57c59e80f2e3b0617032234f48bfd8eab98a4dd2863eb21722b76e8fc60c0fa2"
+        "line_no": 16,
+        "line_text": "# Orchestrator-profile spec",
+        "line_sha256": "b7fef00a8afb90af8c9331fd1bf51d04f883bbf8e51b21b817d93931c15a7df3"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0073-selagem-w-lex.json"
+        "value": ".hbn/readbacks/0074-w-orq-4a-readlist-rite.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "implementacao do W-ORQ-4 (endurecer a meta-superficie do orquestrador)"
+        "value": "cross-audit do W-ORQ-4a (readback 0074)"
       }
     ]
   }

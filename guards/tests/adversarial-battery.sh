@@ -1389,6 +1389,48 @@ d="$(mk_quorum_repo_adv sem-aprova)"
 try_burla "B75 parecer sem APROVA_NNNN SIM" "G-QUORUM" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-quorum-selagem.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
+# B76-B78 — G-READLIST-RITE: qualquer A/M em core/read-list-canonica.txt
+# exige readback staged com read_list_rite string nao-vazia + human_status
+# confirmed no mesmo diff.
+mk_readlist_rite_repo_adv() {
+  local variant="$1" d
+  d="$(mk_repo)"
+  (
+    cd "$d"
+    mkdir -p core .hbn/readbacks
+    printf 'base .hbn/relay/STATE.md\n' > core/read-list-canonica.txt
+    git add .hbn/active-version core/read-list-canonica.txt
+    git commit -qm init
+    printf 'base .hbn/relay/STATE.md\nnovo core/role-cards.md\n' > core/read-list-canonica.txt
+    case "$variant" in
+      sem-readback)
+        git add core/read-list-canonica.txt
+        ;;
+      sem-rite)
+        printf '{"readback_id":"0100-sem-rite","human_status":"confirmed"}\n' > .hbn/readbacks/0100-sem-rite.json
+        git add core/read-list-canonica.txt .hbn/readbacks/0100-sem-rite.json
+        ;;
+      human-pendente)
+        printf '{"readback_id":"0100-human-pendente","human_status":"pending","read_list_rite":"0100-human-pendente"}\n' > .hbn/readbacks/0100-human-pendente.json
+        git add core/read-list-canonica.txt .hbn/readbacks/0100-human-pendente.json
+        ;;
+    esac
+  ) >/dev/null 2>&1
+  echo "$d"
+}
+
+d="$(mk_readlist_rite_repo_adv sem-readback)"
+try_burla "B76 read-list A/M sem readback staged" "G-READ" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-readlist-rite.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_readlist_rite_repo_adv sem-rite)"
+try_burla "B77 readback sem read_list_rite" "G-READ" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-readlist-rite.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_readlist_rite_repo_adv human-pendente)"
+try_burla "B78 human_status != confirmed" "G-READ" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-readlist-rite.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------
 echo ""
 printf '%-52s | %-8s | %s\n' "BURLA" "GUARD" "RESULTADO"
