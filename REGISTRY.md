@@ -1386,3 +1386,6 @@ familias != OpenAI e hearback humano antes da selagem posterior.
 | 20260620-223000-grok-cross-g-quorum-0070 | .hbn/results/20260620-223000-grok-cross-ia-g-quorum-0070.md | result | frio | fronteira | — | 2026-06-20T22:30:00-03:00 |
 | 20260620-224500-opus-selagem-0071 | .hbn/messages/20260620-224500-opus-4-8-despacho-selagem-0071.md | despacho | frio | fronteira | — | 2026-06-20T22:45:00-03:00 |
 | 20260620-224502-codex-readback-selagem-0071 | .hbn/readbacks/0071-selagem-g-quorum.json | readback | frio | fronteira | — | 2026-06-20T22:45:02-03:00 |
+| 20260620-231500-opus-knowledge-0029-w-lex | .hbn/knowledge/0029-lei-submissao-pelo-exemplo.md | knowledge | quente | fronteira | — | 2026-06-20T23:15:00-03:00 |
+| 20260620-231500-opus-despacho-w-lex | .hbn/messages/20260620-231500-opus-4-8-despacho-w-lex.md | despacho | frio | fronteira | — | 2026-06-20T23:15:00-03:00 |
+| 20260620-231502-codex-readback-w-lex | .hbn/readbacks/0072-w-lex.json | readback | frio | fronteira | — | 2026-06-20T23:15:02-03:00 |

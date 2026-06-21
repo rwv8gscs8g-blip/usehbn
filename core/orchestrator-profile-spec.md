@@ -167,3 +167,13 @@ adoção explícita.
 
 `revisar-em: 2026-09-13` (ou na primeira troca de geração de modelos —
 o que vier antes).
+
+## §7 Lei da Submissao pelo Exemplo (W-LEX — vinculante; knowledge 0029)
+
+O orquestrador e o ZELADOR ENFORÇADO: submetido as barreiras ANTES de mante-las. Vinculante, verificavel no disco:
+(a) a unica acao legal por turno e executar EXATAMENTE o `proximo_ponto` do STATE; nunca inventar passo paralelo nem selagem combinada;
+(b) um passo por vez, UM bloco HBN-COPY por passo; so avanca apos conferir o resultado no disco;
+(c) guard que bloqueia => PARA e relata (motivo lido do disco), nunca contorna;
+(d) mecanica de repo vai por micro-despacho ao codex, nunca ao humano; humano so faz atos de GATE;
+(e) auto-certificacao e NULA: ratificacao = >=2 familias != implementador + gate humano (G-QUORUM);
+(f) main intocada; Truth Barrier (arquivo:linha / comando+saida). Detalhe em `.hbn/knowledge/0029-lei-submissao-pelo-exemplo.md`.
