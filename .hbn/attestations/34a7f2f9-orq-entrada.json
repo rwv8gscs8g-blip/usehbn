@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "w-orq-4c-freeze-deref-2026-06-21",
+  "execution_id": "selagem-w-orq-4c-2026-06-21",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-21T03:30:00-03:00",
-  "manifest_sha256": "58a4cb7a44cad4e52e7c56f81f2f6170840ab6f87ce1e3af269628bcf86d8031",
+  "atestado_em": "2026-06-21T04:30:00-03:00",
+  "manifest_sha256": "19d87aa7473905dbd11458e0415995a4ace8f2d624ee4d5e0040a9e8be2f1a6b",
   "challenge": {
-    "seed_sha256": "35dbb662efadcaee328640dc1737d0484e6f1f502f27554e77ac8369b793f25a",
+    "seed_sha256": "2e7e3a9c793fa8ce2bb1672b22ae4ea126f78b2cd3aade2391f41c2836e8222c",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 540,
-        "line_text": "`4db692876381a0d7909985c8500d999f2e677b04`. Fora de escopo preservado:",
-        "line_sha256": "3d366d4eaf7c5b278638b1190d05f94cf19b8275d168c8258bab15385fb4e09d"
+        "line_no": 924,
+        "line_text": "orquestrador e dois docs de brainstorm como zona-livre versionada. O lixo-zero",
+        "line_sha256": "7a0ee35cdcabb8feb1672d9aea8bc6b1dfd2442ad4d06bead6b57a0e8617e66f"
       },
       {
-        "path": ".hbn/readbacks/0078-w-orq-4c-freeze-deref.json",
-        "line_no": 50,
-        "line_text": "  \"protocol_version\": \"0.3.0\"",
-        "line_sha256": "d675ae6a9801f92e863527b8271888fdde9f640499d17842ffe28ecefac103fe"
+        "path": ".hbn/readbacks/0079-selagem-w-orq-4c.json",
+        "line_no": 38,
+        "line_text": "}",
+        "line_sha256": "d10b36aa74a59bcf4a88185837f658afaf3646eff2bb16c3928d0e9335e945d2"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 43,
-        "line_text": "   não os esconde.",
-        "line_sha256": "b8f16330978a529afb69f492180001da8fd4fa2c6af1e7d1ee5d161a025bac93"
+        "line_no": 164,
+        "line_text": "adoção explícita.",
+        "line_sha256": "88a8842c1969e7fbea154f16dd8962cac9267679881d3632650895a9bc502387"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0078-w-orq-4c-freeze-deref.json"
+        "value": ".hbn/readbacks/0079-selagem-w-orq-4c.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "cross-audit do W-ORQ-4c (readback 0078)"
+        "value": "implementacao do W-ORQ-4d (integrar bateria adversarial ao CI)"
       }
     ]
   }

@@ -1440,3 +1440,7 @@ OpenAI e hearback humano.
 |---|---|---|---|---|---|---|
 | 20260621-033000-opus-despacho-w-orq-4c-freeze-deref | .hbn/messages/20260621-033000-opus-4-8-despacho-w-orq-4c-freeze-deref.md | despacho | frio | fronteira | — | 2026-06-21T03:30:00-03:00 |
 | 20260621-033002-codex-readback-w-orq-4c-freeze-deref | .hbn/readbacks/0078-w-orq-4c-freeze-deref.json | readback | frio | fronteira | — | 2026-06-21T03:30:02-03:00 |
+| 20260621-040000-antigravity-cross-w-orq-4c-0078 | .hbn/results/20260621-040000-antigravity-cross-ia-w-orq-4c-0078.md | result | frio | fronteira | — | 2026-06-21T04:00:00-03:00 |
+| 20260621-041000-grok-cross-w-orq-4c-0078 | .hbn/results/20260621-041000-grok-cross-ia-w-orq-4c-0078.md | result | frio | fronteira | — | 2026-06-21T04:10:00-03:00 |
+| 20260621-043000-opus-selagem-0079 | .hbn/messages/20260621-043000-opus-4-8-despacho-selagem-0079.md | despacho | frio | fronteira | — | 2026-06-21T04:30:00-03:00 |
+| 20260621-043002-codex-readback-selagem-0079 | .hbn/readbacks/0079-selagem-w-orq-4c.json | readback | frio | fronteira | — | 2026-06-21T04:30:02-03:00 |
