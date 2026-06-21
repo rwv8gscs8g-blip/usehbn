@@ -1462,6 +1462,33 @@ stage_orq_message_dispatch_adv "$d"
 try_burla "B80 messages tipo despacho ref divergente" "G-ORQREF" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-orq-entrada-ref.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
+# B81-B82 — G-FRZ W-ORQ-4c: freeze nao pode ignorar meta-superficie do
+# orquestrador no disco.
+d="$(mk_orq_entrada_repo_adv)"
+(
+  cd "$d"
+  cat > .hbn/readbacks/0081-freeze-pendente.json <<'EOF'
+{"readback_id":"0081-freeze-pendente","execution_id":"freeze-pendente-adv","track":"safe_track","human_status":"confirmed","status":"implemented_pending_cross_audit","activation_status":"PROPOSED_UNTIL_CROSS_AUDIT"}
+EOF
+  git add .hbn/readbacks/0081-freeze-pendente.json
+  git commit -qm freeze-pending-readback
+) >/dev/null 2>&1
+try_burla "B81 freeze com readback PROPOSED pendente" "G-FRZ" "$( ( cd "$d" && bash "$GUARDS_DIR/freeze-gate.sh" "$TESTS_DIR/fixtures/freeze/good-all-ok.json" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_orq_entrada_repo_adv)"
+python3 - "$d/.hbn/attestations/34a7f2f9-orq-entrada.json" <<'PY'
+import json, sys
+path = sys.argv[1]
+data = json.load(open(path, encoding="utf-8"))
+data["manifest_sha256"] = "0" * 64
+json.dump(data, open(path, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+open(path, "a", encoding="utf-8").write("\n")
+PY
+( cd "$d" && git add .hbn/attestations/34a7f2f9-orq-entrada.json ) >/dev/null 2>&1
+try_burla "B82 freeze com atestacao orq invalida" "G-FRZ" "$( ( cd "$d" && bash "$GUARDS_DIR/freeze-gate.sh" "$TESTS_DIR/fixtures/freeze/good-all-ok.json" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------
 echo ""
 printf '%-52s | %-8s | %s\n' "BURLA" "GUARD" "RESULTADO"

@@ -1428,3 +1428,15 @@ selagem, aguardando cross-audit != OpenAI e hearback humano.
 | 20260621-025500-grok-cross-w-orq-4b-0076 | .hbn/results/20260621-025500-grok-cross-ia-w-orq-4b-0076.md | result | frio | fronteira | — | 2026-06-21T02:55:00-03:00 |
 | 20260621-030000-opus-selagem-0077 | .hbn/messages/20260621-030000-opus-4-8-despacho-selagem-0077.md | despacho | frio | fronteira | — | 2026-06-21T03:00:00-03:00 |
 | 20260621-030002-codex-readback-selagem-0077 | .hbn/readbacks/0077-selagem-w-orq-4b.json | readback | frio | fronteira | — | 2026-06-21T03:00:02-03:00 |
+
+## W-ORQ-4c / G-FRZ meta-deref (2026-06-21) — freeze-gate dereferencia meta-superficie — status: proposto, readback 0078
+
+Freeze-gate passa a vetar congelamento se houver readback pendente de
+cross-audit/hearback ou se a atestacao de entrada do orquestrador nao estiver
+verde no disco. A entrega para antes de selagem, aguardando cross-audit !=
+OpenAI e hearback humano.
+
+| id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
+|---|---|---|---|---|---|---|
+| 20260621-033000-opus-despacho-w-orq-4c-freeze-deref | .hbn/messages/20260621-033000-opus-4-8-despacho-w-orq-4c-freeze-deref.md | despacho | frio | fronteira | — | 2026-06-21T03:30:00-03:00 |
+| 20260621-033002-codex-readback-w-orq-4c-freeze-deref | .hbn/readbacks/0078-w-orq-4c-freeze-deref.json | readback | frio | fronteira | — | 2026-06-21T03:30:02-03:00 |

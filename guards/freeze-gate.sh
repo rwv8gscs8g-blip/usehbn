@@ -32,6 +32,78 @@ fi
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 
 set +e
+python3 - "$REPO_ROOT" <<'PYEOF'
+import json
+import subprocess
+import sys
+
+repo_root = sys.argv[1]
+
+try:
+    raw = subprocess.check_output(
+        ["git", "-C", repo_root, "ls-files", "-z", "--", ".hbn/readbacks/*.json"],
+        stderr=subprocess.DEVNULL,
+    )
+except Exception as exc:
+    print(f"congelável: não — meta-deref-propostas falhou fechado: {exc}")
+    sys.exit(2)
+
+pendentes = []
+ilegiveis = []
+for path in [p for p in raw.decode("utf-8").split("\0") if p]:
+    try:
+        content = subprocess.check_output(
+            ["git", "-C", repo_root, "cat-file", "-p", f":{path}"],
+            stderr=subprocess.DEVNULL,
+        )
+        data = json.loads(content.decode("utf-8"))
+    except Exception as exc:
+        ilegiveis.append(f"{path} ({exc})")
+        continue
+    if not isinstance(data, dict):
+        ilegiveis.append(f"{path} (JSON não é objeto)")
+        continue
+
+    activation_status = data.get("activation_status")
+    status = data.get("status")
+    if activation_status == "PROPOSED_UNTIL_CROSS_AUDIT" or status == "implemented_pending_cross_audit":
+        pendentes.append(
+            f"{path} (activation_status={activation_status!r}, status={status!r})"
+        )
+
+if ilegiveis:
+    print("congelável: não — meta-deref-propostas encontrou readback tracked ilegível")
+    for item in ilegiveis:
+        print(f"  ✗ {item}")
+    sys.exit(1)
+
+if pendentes:
+    print("congelável: não — meta-deref-propostas: proposta(s) pendente(s) sem cross-audit/hearback")
+    for item in pendentes:
+        print(f"  ✗ {item}")
+    sys.exit(1)
+
+sys.exit(0)
+PYEOF
+RC_META_PROPOSTAS=$?
+set -e
+if [[ $RC_META_PROPOSTAS -ne 0 ]]; then
+    guard_fail "Gate de freeze: NÃO congelável (meta-deref-propostas)."
+    exit $RC_META_PROPOSTAS
+fi
+
+set +e
+ORQ_ENTRADA_OUTPUT="$(cd "$REPO_ROOT" && bash "${SCRIPT_DIR}/assert-orq-entrada.sh" 2>&1)"
+RC_ORQ_ENTRADA=$?
+set -e
+if [[ $RC_ORQ_ENTRADA -ne 0 ]]; then
+    printf '%s\n' "$ORQ_ENTRADA_OUTPUT"
+    echo "congelável: não — meta-deref-atestacao: atestação de entrada do orquestrador não dereferencia limpo"
+    guard_fail "Gate de freeze: NÃO congelável (meta-deref-atestacao; guards/assert-orq-entrada.sh rc=${RC_ORQ_ENTRADA})."
+    exit $RC_ORQ_ENTRADA
+fi
+
+set +e
 python3 - "$CHECKLIST" "$REPO_ROOT" <<'PYEOF'
 import json, os, re, sys
 

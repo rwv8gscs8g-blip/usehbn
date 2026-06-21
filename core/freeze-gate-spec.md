@@ -34,6 +34,13 @@ status = T1, 1 commit + linha de audit).
    hearback citado na justificativa (hearback verificável: arquivo existe,
    status confirmed — é o que `guards/freeze-gate.sh` dereferencia).
 5. Saída sempre lista as faltas — o gate é também o relatório do que resta.
+6. `meta-deref-propostas`: antes de aceitar o checklist, o gate varre os
+   readbacks tracked em `.hbn/readbacks/*.json` e veta o freeze se qualquer
+   readback ainda declarar `activation_status: PROPOSED_UNTIL_CROSS_AUDIT` ou
+   `status: implemented_pending_cross_audit`.
+7. `meta-deref-atestacao`: antes de aceitar o checklist, o gate roda
+   `bash guards/assert-orq-entrada.sh`; qualquer falha da atestação de entrada
+   do orquestrador é veto de freeze.
 
 ## §3 Critérios canônicos (perfil app de domínio — V206 é a instância)
 
@@ -49,6 +56,16 @@ status = T1, 1 commit + linha de audit).
 Projetos podem ADICIONAR critérios (ex.: `dual-run-corpus-verde` quando
 ADR-016 estiver em uso); remover ou desobrigar critério canônico exige
 hearback.
+
+### §3.1 Bloqueadores meta ativos
+
+Estes critérios não pertencem ao schema do checklist: são veto mecânico do
+`freeze-gate` contra a meta-superfície do orquestrador no disco.
+
+| id | fonte conferida | efeito |
+|---|---|---|
+| meta-deref-propostas | `.hbn/readbacks/*.json` tracked | qualquer proposta pendente bloqueia freeze |
+| meta-deref-atestacao | `guards/assert-orq-entrada.sh` | atestação de entrada não-verde bloqueia freeze |
 
 ## §4 Quem faz o quê
 

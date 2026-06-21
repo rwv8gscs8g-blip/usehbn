@@ -1,0 +1,51 @@
+{
+  "readback_id": "0078-w-orq-4c-freeze-deref",
+  "execution_id": "w-orq-4c-freeze-deref-2026-06-21",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "implemented_pending_cross_audit",
+  "activation_status": "PROPOSED_UNTIL_CROSS_AUDIT",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0078-w-orq-4c-freeze-deref.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260621-033000-opus-4-8-despacho-w-orq-4c-freeze-deref.md",
+  "understanding": "Endurecer guards/freeze-gate.sh para dereferenciar a meta-superficie do orquestrador no disco antes de declarar congelavel: vetar freeze se houver readback PROPOSED_UNTIL_CROSS_AUDIT pendente ou se assert-orq-entrada nao for verde. Atualizar core/freeze-gate-spec.md. Preservar comportamento existente (criterios, na+hearback, bloqueadores). Testes G-FRZ. Implementacao: regenerar atestacao same-fp, parar para cross-audit != OpenAI, NAO selar.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Despacho W-ORQ-4c de 2026-06-21T03:30:00-03:00 sob token_fp 34a7f2f9; endurecer freeze-gate+spec+testes+STATE+REGISTRY+atestacao dentro do files_allowed; parar para cross-audit != OpenAI.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      "guards/freeze-gate.sh",
+      "core/freeze-gate-spec.md",
+      "guards/tests/run-guard-tests.sh",
+      "guards/tests/adversarial-battery.sh",
+      ".hbn/messages/20260621-033000-opus-4-8-despacho-w-orq-4c-freeze-deref.md",
+      ".hbn/readbacks/0078-w-orq-4c-freeze-deref.json",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": [
+      "main",
+      "core/read-list-canonica.txt",
+      "core/orchestrator-profile-spec.md",
+      "methodology/**",
+      "schemas/**",
+      "src/**",
+      "docs/brainstorm/**",
+      ".hbn/freeze/**",
+      "guards/data/**",
+      "guards/hbn-guards-runner.sh"
+    ]
+  },
+  "stop_condition": "Entrega 0078 (W-ORQ-4c) em commit unico; parar para cross-audit != OpenAI. NAO selar. NAO iniciar 4d nem W-FREEZE.",
+  "HBN-Readback": "0078",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-21T03:30:00-03:00",
+  "protocol_version": "0.3.0"
+}

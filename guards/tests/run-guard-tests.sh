@@ -134,6 +134,8 @@
 #   W-ORQ-4b (readback 0076): +4 checks G-ORQ-REF para despachos em
 #   .hbn/messages/*.md com tipo: despacho (1 pass, 2 block) e mensagens
 #   nao-despacho neutras (1 pass). Total: 248.
+#   W-ORQ-4c (readback 0078): +2 checks G-FRZ para meta-deref-propostas
+#   e meta-deref-atestacao bloqueantes. Total: 250.
 # =============================================================================
 set -uo pipefail
 
@@ -185,18 +187,6 @@ check "fam: hearback_ref INEXISTENTE (bug F-03)"        block "$(run_fam "$FIX/a
 check "fam: hearback existe mas status=pendente"        block "$(run_fam "$FIX/atribuicoes/bad-hearback-pendente.json")"
 check "fam: hearback confirmado SEM a exceção"          block "$(run_fam "$FIX/atribuicoes/bad-hearback-sem-excecao.json")"
 check "fam: hearback confirmado COBRINDO a exceção"     pass  "$(run_fam "$FIX/atribuicoes/good-hearback-cobre.json")"
-
-# --- G-FRZ: freeze-gate ------------------------------------------------------
-echo "== freeze-gate (G-FRZ) =="
-run_frz() {
-    ( cd "$REPO_ROOT" && bash "$GUARDS_DIR/freeze-gate.sh" "$1" >/dev/null 2>&1 )
-    echo $?
-}
-check "frz: tudo ok com evidência"                      pass  "$(run_frz "$FIX/freeze/good-all-ok.json")"
-check "frz: na obrigatório COM hearback verificável"    pass  "$(run_frz "$FIX/freeze/good-na-com-hearback.json")"
-check "frz: na obrigatório SEM hearback (bug F-01)"     block "$(run_frz "$FIX/freeze/bad-na-sem-hearback.json")"
-check "frz: ok sem evidência (Truth Barrier)"           block "$(run_frz "$FIX/freeze/bad-ok-sem-evidencia.json")"
-check "frz: bloqueador aberto"                          block "$(run_frz "$FIX/freeze/bad-bloqueador.json")"
 
 # --- G-REG: assert-registry-line (repo git descartável por caso) -------------
 echo "== assert-registry-line (G-REG) =="
@@ -2253,7 +2243,6 @@ check "zona: readback ativo ilegivel → BLOCK" block "$(run_zona "$d")"
 rm -rf "$d"
 
 # --- G-ORQ-ENTRADA: atestacao de leitura do orquestrador --------------------
-echo "== assert-orq-entrada (G-ORQ-ENTRADA) =="
 run_orq_entrada() { ( cd "$1" && bash "$GUARDS_DIR/assert-orq-entrada.sh" >/dev/null 2>&1 ); echo $?; }
 
 write_valid_orq_attestation() {
@@ -2424,6 +2413,67 @@ EOF
     echo "$d"
 }
 
+# --- G-FRZ: freeze-gate ------------------------------------------------------
+echo "== freeze-gate (G-FRZ) =="
+make_frz_repo() { # [ok|pending-readback|bad-atestacao]
+    local variant="${1:-ok}" d
+    d="$(make_orq_entrada_repo)"
+    (
+        cd "$d"
+        mkdir -p guards/tests/fixtures/hearbacks
+        cat > guards/tests/fixtures/hearbacks/confirmado-com-excecao.json <<'EOF'
+{"hearback_id":"fixture-confirmado-com-excecao","path":"guards/tests/fixtures/hearbacks/confirmado-com-excecao.json","status":"confirmed","signed_by":"fixture-teste","signed_at":"2026-06-10T00:00:00-03:00","excecoes_cobertas":[{"tipo":"familia","entre":["alpha-1","alpha-2"]}],"notes":"FIXTURE de teste (ADR-020) — hearback confirmado que COBRE a exceção de família alpha-1×alpha-2. Não é decisão real."}
+EOF
+        git add guards/tests/fixtures/hearbacks/confirmado-com-excecao.json
+        git commit -qm frz-hearback
+
+        case "$variant" in
+            ok)
+                ;;
+            pending-readback)
+                cat > .hbn/readbacks/0099-freeze-pendente.json <<'EOF'
+{"readback_id":"0099-freeze-pendente","execution_id":"freeze-pendente-test","track":"safe_track","human_status":"confirmed","status":"implemented_pending_cross_audit","activation_status":"PROPOSED_UNTIL_CROSS_AUDIT"}
+EOF
+                git add .hbn/readbacks/0099-freeze-pendente.json
+                git commit -qm frz-pending-readback
+                ;;
+            bad-atestacao)
+                python3 - <<'PY'
+import json
+path = ".hbn/attestations/34a7f2f9-orq-entrada.json"
+data = json.load(open(path, encoding="utf-8"))
+data["manifest_sha256"] = "0" * 64
+json.dump(data, open(path, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+open(path, "a", encoding="utf-8").write("\n")
+PY
+                git add .hbn/attestations/34a7f2f9-orq-entrada.json
+                ;;
+            *)
+                echo "variant desconhecida: $variant" >&2
+                exit 2
+                ;;
+        esac
+    ) >/dev/null 2>&1
+    echo "$d"
+}
+
+run_frz() { # <checklist> [repo-variant]
+    local checklist="$1" variant="${2:-ok}" d rc
+    d="$(make_frz_repo "$variant")"
+    ( cd "$d" && bash "$GUARDS_DIR/freeze-gate.sh" "$checklist" >/dev/null 2>&1 )
+    rc=$?
+    rm -rf "$d"
+    echo "$rc"
+}
+check "frz: tudo ok com evidência + meta-deref verde"  pass  "$(run_frz "$FIX/freeze/good-all-ok.json")"
+check "frz: na obrigatório COM hearback verificável"    pass  "$(run_frz "$FIX/freeze/good-na-com-hearback.json")"
+check "frz: na obrigatório SEM hearback (bug F-01)"     block "$(run_frz "$FIX/freeze/bad-na-sem-hearback.json")"
+check "frz: ok sem evidência (Truth Barrier)"           block "$(run_frz "$FIX/freeze/bad-ok-sem-evidencia.json")"
+check "frz: bloqueador aberto"                          block "$(run_frz "$FIX/freeze/bad-bloqueador.json")"
+check "frz: readback PROPOSED_UNTIL_CROSS_AUDIT"        block "$(run_frz "$FIX/freeze/good-all-ok.json" pending-readback)"
+check "frz: atestação de entrada não-verde"             block "$(run_frz "$FIX/freeze/good-all-ok.json" bad-atestacao)"
+
+echo "== assert-orq-entrada (G-ORQ-ENTRADA) =="
 d="$(make_orq_entrada_repo)"
 check "orq-entrada: atestacao v2 valida sem gabarito.txt passa" pass "$(run_orq_entrada "$d")"
 rm -rf "$d"
