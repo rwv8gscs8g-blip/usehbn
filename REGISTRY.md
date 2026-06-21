@@ -1389,3 +1389,7 @@ familias != OpenAI e hearback humano antes da selagem posterior.
 | 20260620-231500-opus-knowledge-0029-w-lex | .hbn/knowledge/0029-lei-submissao-pelo-exemplo.md | knowledge | quente | fronteira | — | 2026-06-20T23:15:00-03:00 |
 | 20260620-231500-opus-despacho-w-lex | .hbn/messages/20260620-231500-opus-4-8-despacho-w-lex.md | despacho | frio | fronteira | — | 2026-06-20T23:15:00-03:00 |
 | 20260620-231502-codex-readback-w-lex | .hbn/readbacks/0072-w-lex.json | readback | frio | fronteira | — | 2026-06-20T23:15:02-03:00 |
+| 20260620-234500-antigravity-cross-w-lex-0072 | .hbn/results/20260620-234500-antigravity-cross-ia-w-lex-0072.md | result | frio | fronteira | — | 2026-06-20T23:45:00-03:00 |
+| 20260620-235500-grok-cross-w-lex-0072 | .hbn/results/20260620-235500-grok-cross-ia-w-lex-0072.md | result | frio | fronteira | — | 2026-06-20T23:55:00-03:00 |
+| 20260621-000000-opus-selagem-0073 | .hbn/messages/20260621-000000-opus-4-8-despacho-selagem-0073.md | despacho | frio | fronteira | — | 2026-06-21T00:00:00-03:00 |
+| 20260621-000002-codex-readback-selagem-0073 | .hbn/readbacks/0073-selagem-w-lex.json | readback | frio | fronteira | — | 2026-06-21T00:00:02-03:00 |

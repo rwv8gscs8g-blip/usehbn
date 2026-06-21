@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "w-lex-2026-06-20",
+  "execution_id": "selagem-w-lex-2026-06-21",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-20T23:15:00-03:00",
-  "manifest_sha256": "8923a15f86208d06f654882ce340ce079b0c50fe64149ece531a1ed761c16258",
+  "atestado_em": "2026-06-21T00:00:00-03:00",
+  "manifest_sha256": "d0c26971e7cb999abe957815e7642814ee367c870d67a35b6118225fa74553c1",
   "challenge": {
-    "seed_sha256": "210e86b634916f076f9072b4d99ccdef172e6ee1c7063dedacf857509b7913f9",
+    "seed_sha256": "17543bf07db2c251c0770f59d9d2dcb806d5bfc6f75ad606b625a0fbad9e69d3",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 289,
-        "line_text": "bloqueou B1-B47, incluindo B45-B47. Proxima acao: cross-audit >=2 familias",
-        "line_sha256": "6b95820b360eb10a88e6381deee86c31331d415d3ede13b8194f816d3e5b7d81"
+        "line_no": 452,
+        "line_text": "distintas de OpenAI, grok/xAI `APROVA_0049: SIM` conf 93 e",
+        "line_sha256": "49f34c856a270ea74e8216c79c841caeb50c6fcc4f59ac37c426c3e1e7011cd2"
       },
       {
-        "path": ".hbn/readbacks/0072-w-lex.json",
-        "line_no": 29,
-        "line_text": "      \".hbn/attestations/34a7f2f9-orq-entrada.json\"",
-        "line_sha256": "21095d0768cabf3e34fd4f8d3ac1563f24f157630a60fc6342752d4fbdd4db2a"
+        "path": ".hbn/readbacks/0073-selagem-w-lex.json",
+        "line_no": 30,
+        "line_text": "    \"files_forbidden\": [\"main\",\"guards/**\",\"src/**\",\"core/**\",\"methodology/**\",\"schemas/**\",\"docs/brainstorm/**\",\".hbn/freeze/**\"]",
+        "line_sha256": "fa4f075b4405a043159631f825fe37ec349cd7e97beb56d4e003169b8a729be5"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 149,
-        "line_text": "  informais do humano na sessão (ex.: \"ignora o lint por enquanto\") em",
-        "line_sha256": "f0c40eea817712818ba9f623446b2d4666855d668e0593cf93c96d741ed9fbec"
+        "line_no": 171,
+        "line_text": "## §7 Lei da Submissao pelo Exemplo (W-LEX — vinculante; knowledge 0029)",
+        "line_sha256": "57c59e80f2e3b0617032234f48bfd8eab98a4dd2863eb21722b76e8fc60c0fa2"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0072-w-lex.json"
+        "value": ".hbn/readbacks/0073-selagem-w-lex.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "cross-audit do W-LEX (readback 0072)"
+        "value": "implementacao do W-ORQ-4 (endurecer a meta-superficie do orquestrador)"
       }
     ]
   }
