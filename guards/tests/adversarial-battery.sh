@@ -991,6 +991,25 @@ EOF
   ) >/dev/null 2>&1
 }
 
+stage_orq_message_dispatch_adv() {
+  local d="$1"
+  (
+    cd "$d"
+    mkdir -p .hbn/messages
+    cat > .hbn/messages/20260621-020000-opus-4-8-despacho-w-orq-4b-orqref.md <<'EOF'
+---
+tipo: despacho
+path: .hbn/messages/20260621-020000-opus-4-8-despacho-w-orq-4b-orqref.md
+readback_alvo: 0056-g-orq-entrada
+token_fp: 34a7f2f9
+human_authorization: Mauricio
+---
+Despacho de autoridade em .hbn/messages.
+EOF
+    git add .hbn/messages/20260621-020000-opus-4-8-despacho-w-orq-4b-orqref.md
+  ) >/dev/null 2>&1
+}
+
 mk_orq_ref_base_adv() { # [ref]
   local ref="${1:-.hbn/attestations/34a7f2f9-orq-entrada.json}" d
   d="$(mk_orq_entrada_repo_adv)"
@@ -1429,6 +1448,18 @@ rm -rf "$d"
 
 d="$(mk_readlist_rite_repo_adv human-pendente)"
 try_burla "B78 human_status != confirmed" "G-READ" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-readlist-rite.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+# B79-B80 — G-ORQ-REF W-ORQ-4b: despachos de autoridade em .hbn/messages
+# com tipo: despacho tambem devem ser gateados por orq_entrada_ref.
+d="$(mk_orq_entrada_repo_adv)"
+stage_orq_message_dispatch_adv "$d"
+try_burla "B79 messages tipo despacho sem orq_entrada_ref" "G-ORQREF" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-orq-entrada-ref.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_orq_ref_base_adv ".hbn/attestations/deadbeef-orq-entrada.json")"
+stage_orq_message_dispatch_adv "$d"
+try_burla "B80 messages tipo despacho ref divergente" "G-ORQREF" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-orq-entrada-ref.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------

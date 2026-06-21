@@ -1411,3 +1411,16 @@ humano antes de selagem posterior.
 | 20260621-011000-grok-cross-w-orq-4a-0074 | .hbn/results/20260621-011000-grok-cross-ia-w-orq-4a-0074.md | result | frio | fronteira | — | 2026-06-21T01:10:00-03:00 |
 | 20260621-013000-opus-selagem-0075 | .hbn/messages/20260621-013000-opus-4-8-despacho-selagem-0075.md | despacho | frio | fronteira | — | 2026-06-21T01:30:00-03:00 |
 | 20260621-013002-codex-readback-selagem-0075 | .hbn/readbacks/0075-selagem-w-orq-4a.json | readback | frio | fronteira | — | 2026-06-21T01:30:02-03:00 |
+
+## W-ORQ-4b / G-ORQ-REF (2026-06-21) — gatear despachos .hbn/messages tipo despacho — status: proposto, readback 0076
+
+G-ORQ-REF passa a tratar `.hbn/messages/*.md` com `tipo: despacho` como ato
+de autoridade, exigindo o mesmo `readback_id/readback_alvo` e
+`orq_entrada_ref` vigente ja exigidos para `.hbn/dispatch/*.md`. Mensagens
+`handoff`, `prompt` e `entrada` permanecem neutras. A entrega para antes de
+selagem, aguardando cross-audit != OpenAI e hearback humano.
+
+| id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
+|---|---|---|---|---|---|---|
+| 20260621-020000-opus-despacho-w-orq-4b-orqref | .hbn/messages/20260621-020000-opus-4-8-despacho-w-orq-4b-orqref.md | despacho | frio | fronteira | — | 2026-06-21T02:00:00-03:00 |
+| 20260621-020002-codex-readback-w-orq-4b-orqref | .hbn/readbacks/0076-w-orq-4b-orqref.json | readback | frio | fronteira | — | 2026-06-21T02:00:02-03:00 |

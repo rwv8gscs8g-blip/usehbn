@@ -4,10 +4,11 @@
 # G-ORQ-REF: atos de autoridade do orquestrador devem apontar para a
 # atestacao de entrada vigente por orq_entrada_ref.
 #
-# Escopo do gate: despacho (.hbn/dispatch/*.md), selagem (readback com
-# authority_act=selagem, status selado/vigente ou nome contendo selagem) e
-# freeze (.hbn/freeze/*.json). Entregas de implementacao e pareceres nao sao
-# gateados por este guard.
+# Escopo do gate: despacho (.hbn/dispatch/*.md e .hbn/messages/*.md com
+# tipo=despacho no front matter YAML), selagem (readback com authority_act=
+# selagem, status selado/vigente ou nome contendo selagem) e freeze
+# (.hbn/freeze/*.json). Entregas de implementacao e pareceres nao sao gateados
+# por este guard.
 # =============================================================================
 set -euo pipefail
 
@@ -115,6 +116,35 @@ def state_value(state_text, key):
         return unquote(value)
     return ""
 
+def front_matter_value(ref, path, key, label):
+    try:
+        text = read_version_blob(ref, path)
+    except Exception as exc:
+        fail(f"{label}: {path}: mensagem ilegivel no indice/HEAD ({exc})")
+        return ""
+    lines = text.splitlines()
+    if not lines or lines[0].strip() != "---":
+        return ""
+    end = None
+    for idx in range(1, len(lines)):
+        if lines[idx].strip() == "---":
+            end = idx
+            break
+    if end is None:
+        fail(f"{label}: {path}: front matter YAML nao fechado")
+        return ""
+    pat = re.compile(rf"^\s*{re.escape(key)}\s*:")
+    for raw in lines[1:end]:
+        if pat.search(raw):
+            return unquote(raw.split(":", 1)[1])
+    return ""
+
+def is_message_dispatch(ref, path, label):
+    if not blob_exists(ref, path):
+        return False
+    tipo = front_matter_value(ref, path, "tipo", label).strip().lower()
+    return tipo == "despacho"
+
 def parse_name_status(text):
     entries = []
     for raw in text.splitlines():
@@ -218,6 +248,13 @@ def collect_authority(new_ref, changed_paths, label):
     authority_paths = []
     for path in sorted(set(p for p in changed_paths if p)):
         if re.match(r"^\.hbn/dispatch/.*\.md$", path):
+            authority_paths.append(path)
+            target = dispatch_readback_path(new_ref, path)
+            if target:
+                authority_targets.append(target)
+            continue
+
+        if re.match(r"^\.hbn/messages/.*\.md$", path) and is_message_dispatch(new_ref, path, label):
             authority_paths.append(path)
             target = dispatch_readback_path(new_ref, path)
             if target:

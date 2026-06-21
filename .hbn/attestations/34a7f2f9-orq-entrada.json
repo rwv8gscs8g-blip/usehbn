@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "selagem-w-orq-4a-2026-06-21",
+  "execution_id": "w-orq-4b-orqref-2026-06-21",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-21T01:30:00-03:00",
-  "manifest_sha256": "ebcc8e4d1a1ad7878af0dc974b2035b7ce7189e2818b1cf04fc3d717a688768a",
+  "atestado_em": "2026-06-21T02:00:00-03:00",
+  "manifest_sha256": "3d840a2d58f5b5ea007929feaad43ab1c3dd23e361f57f70db5b71f9d6317d7f",
   "challenge": {
-    "seed_sha256": "703ffa8f7425b949c717aaabdd7c21a4756a1319b06985af95af45a4cbdcac6f",
+    "seed_sha256": "23fd4319c124e32a2fa8c533bad3712f840ffdae427f6d170db11f3618d9ffe9",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 548,
-        "line_text": "pareceres em `.hbn/results/`, REGISTRY, STATE e handoff. Excecao G-EXC segue",
-        "line_sha256": "cc9ec94a39bee5c1b24d918a745a55773ecb1f02e0d9e87c28344806699c381b"
+        "line_no": 647,
+        "line_text": "Evidencia mecanica local: `.venv/bin/pytest -q` fechou `213 passed in 0.76s`;",
+        "line_sha256": "4ddcbb41adfc5e79f2011dbee02ca086762af6b22df1d24b85407deea7bca5de"
       },
       {
-        "path": ".hbn/readbacks/0075-selagem-w-orq-4a.json",
-        "line_no": 36,
-        "line_text": "  \"created_at\": \"2026-06-21T01:30:00-03:00\",",
-        "line_sha256": "7cb9b328e37b01f870a99e27f7c3d355b6ee710692aab5a6586ea550f45fe201"
+        "path": ".hbn/readbacks/0076-w-orq-4b-orqref.json",
+        "line_no": 32,
+        "line_text": "      \"main\",",
+        "line_sha256": "cde5fa7619b2937392f39c684b5ed31684832bd790c032000cdf34dda5d17340"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 158,
-        "line_text": "presença da seção de cápsula no handoff → G-RLT regra 4; gatilho de fadiga",
-        "line_sha256": "9b84595561c615cadf2f3957a4f00c0dba111dc412f2e9d32ab0bc79e1d93600"
+        "line_no": 109,
+        "line_text": "\t   Roteamento de referência (não fixo, sujeito a (a)/(b)):",
+        "line_sha256": "b5981b8e296c646e184d2a9664777b0b0853fc40aef2b7faf3f027aed33bcda8"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0075-selagem-w-orq-4a.json"
+        "value": ".hbn/readbacks/0076-w-orq-4b-orqref.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "implementacao do W-ORQ-4b (orq_entrada_ref obrigatorio em todo ato de autoridade)"
+        "value": "cross-audit do W-ORQ-4b (readback 0076)"
       }
     ]
   }

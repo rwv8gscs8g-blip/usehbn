@@ -131,6 +131,9 @@
 #   G-READLIST-RITE (readback 0074): +5 checks (2 pass, 3 block) para
 #   read-list A/M com rito declarado, sem readback, sem read_list_rite,
 #   human_status != confirmed e diff neutro sem read-list. Total: 244.
+#   W-ORQ-4b (readback 0076): +4 checks G-ORQ-REF para despachos em
+#   .hbn/messages/*.md com tipo: despacho (1 pass, 2 block) e mensagens
+#   nao-despacho neutras (1 pass). Total: 248.
 # =============================================================================
 set -uo pipefail
 
@@ -2528,6 +2531,43 @@ EOF
     ) >/dev/null 2>&1
 }
 
+stage_orq_message_dispatch() {
+    local d="$1"
+    (
+        cd "$d"
+        mkdir -p .hbn/messages
+        cat > .hbn/messages/20260621-020000-opus-4-8-despacho-w-orq-4b-orqref.md <<'EOF'
+---
+tipo: despacho
+path: .hbn/messages/20260621-020000-opus-4-8-despacho-w-orq-4b-orqref.md
+readback_alvo: 0056-g-orq-entrada
+token_fp: 34a7f2f9
+human_authorization: Mauricio
+---
+Executar despacho de autoridade em .hbn/messages.
+EOF
+        git add .hbn/messages/20260621-020000-opus-4-8-despacho-w-orq-4b-orqref.md
+    ) >/dev/null 2>&1
+}
+
+stage_orq_neutral_messages() {
+    local d="$1"
+    (
+        cd "$d"
+        mkdir -p .hbn/messages
+        for tipo in handoff prompt entrada; do
+            cat > ".hbn/messages/20260621-020000-codex-${tipo}-neutro.md" <<EOF
+---
+tipo: ${tipo}
+path: .hbn/messages/20260621-020000-codex-${tipo}-neutro.md
+---
+Mensagem ${tipo} sem orq_entrada_ref.
+EOF
+            git add ".hbn/messages/20260621-020000-codex-${tipo}-neutro.md"
+        done
+    ) >/dev/null 2>&1
+}
+
 make_orq_ref_base() { # [ref]
     local ref="${1:-.hbn/attestations/34a7f2f9-orq-entrada.json}" d
     d="$(make_orq_entrada_repo)"
@@ -2554,6 +2594,26 @@ rm -rf "$d"
 d="$(make_orq_ref_base ".hbn/attestations/deadbeef-orq-entrada.json")"
 stage_orq_dispatch "$d"
 check "orq-ref: fp trocado no ref → BLOCK" block "$(run_orq_ref "$d")"
+rm -rf "$d"
+
+d="$(make_orq_ref_base)"
+stage_orq_message_dispatch "$d"
+check "orq-ref: .hbn/messages despacho com ref valida passa" pass "$(run_orq_ref "$d")"
+rm -rf "$d"
+
+d="$(make_orq_entrada_repo)"
+stage_orq_message_dispatch "$d"
+check "orq-ref: .hbn/messages despacho sem ref → BLOCK" block "$(run_orq_ref "$d")"
+rm -rf "$d"
+
+d="$(make_orq_ref_base ".hbn/attestations/deadbeef-orq-entrada.json")"
+stage_orq_message_dispatch "$d"
+check "orq-ref: .hbn/messages despacho ref divergente → BLOCK" block "$(run_orq_ref "$d")"
+rm -rf "$d"
+
+d="$(make_orq_entrada_repo)"
+stage_orq_neutral_messages "$d"
+check "orq-ref: .hbn/messages handoff/prompt/entrada sem ref passa" pass "$(run_orq_ref "$d")"
 rm -rf "$d"
 
 d="$(make_orq_ref_base)"
