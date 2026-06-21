@@ -1444,3 +1444,17 @@ OpenAI e hearback humano.
 | 20260621-041000-grok-cross-w-orq-4c-0078 | .hbn/results/20260621-041000-grok-cross-ia-w-orq-4c-0078.md | result | frio | fronteira | — | 2026-06-21T04:10:00-03:00 |
 | 20260621-043000-opus-selagem-0079 | .hbn/messages/20260621-043000-opus-4-8-despacho-selagem-0079.md | despacho | frio | fronteira | — | 2026-06-21T04:30:00-03:00 |
 | 20260621-043002-codex-readback-selagem-0079 | .hbn/readbacks/0079-selagem-w-orq-4c.json | readback | frio | fronteira | — | 2026-06-21T04:30:02-03:00 |
+
+## W-ORQ-4d / G-CI-BATTERY (2026-06-21) — suite + bateria adversarial no CI — status: proposto, readback 0080
+
+O HBN Shield passa a rodar runner, suite anti-teatro e bateria adversarial no
+mesmo job/checkout. G-CI-BATTERY torna essa cobertura invariante: o workflow
+precisa manter as invocacoes de `run-guard-tests.sh` e
+`adversarial-battery.sh`. A entrega para antes de selagem, aguardando
+cross-audit != OpenAI e hearback humano.
+
+| id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
+|---|---|---|---|---|---|---|
+| 20260621-050000-opus-despacho-w-orq-4d-ci-battery | .hbn/messages/20260621-050000-opus-4-8-despacho-w-orq-4d-ci-battery.md | despacho | frio | fronteira | — | 2026-06-21T05:00:00-03:00 |
+| 20260621-050001-codex-guard-ci-battery | guards/assert-ci-battery.sh | guard | frio | fronteira | — | 2026-06-21T05:00:01-03:00 |
+| 20260621-050002-codex-readback-w-orq-4d-ci-battery | .hbn/readbacks/0080-w-orq-4d-ci-battery.json | readback | frio | fronteira | — | 2026-06-21T05:00:02-03:00 |

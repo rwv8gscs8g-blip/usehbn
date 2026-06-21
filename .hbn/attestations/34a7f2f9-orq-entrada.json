@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "selagem-w-orq-4c-2026-06-21",
+  "execution_id": "w-orq-4d-ci-battery-2026-06-21",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-21T04:30:00-03:00",
-  "manifest_sha256": "19d87aa7473905dbd11458e0415995a4ace8f2d624ee4d5e0040a9e8be2f1a6b",
+  "atestado_em": "2026-06-21T05:00:00-03:00",
+  "manifest_sha256": "58291459141c7ea37410c69018064fff4d776872782af708446cfc80cd6866fb",
   "challenge": {
-    "seed_sha256": "2e7e3a9c793fa8ce2bb1672b22ae4ea126f78b2cd3aade2391f41c2836e8222c",
+    "seed_sha256": "c7ddbe7e3df2ea74bb5151a3298e4a6ad9f8c9ba7310286a7ec1b3a81a29d37b",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 924,
-        "line_text": "orquestrador e dois docs de brainstorm como zona-livre versionada. O lixo-zero",
-        "line_sha256": "7a0ee35cdcabb8feb1672d9aea8bc6b1dfd2442ad4d06bead6b57a0e8617e66f"
+        "line_no": 530,
+        "line_text": "exuvia. Nota de bootstrap: `assert-parallel-id.sh` precisa ler `created_at`",
+        "line_sha256": "fce2f2b9bc88ab0f8ee6055dd251cb69995e3db15b1742715d0b74968462f554"
       },
       {
-        "path": ".hbn/readbacks/0079-selagem-w-orq-4c.json",
-        "line_no": 38,
-        "line_text": "}",
-        "line_sha256": "d10b36aa74a59bcf4a88185837f658afaf3646eff2bb16c3928d0e9335e945d2"
+        "path": ".hbn/readbacks/0080-w-orq-4d-ci-battery.json",
+        "line_no": 8,
+        "line_text": "  \"activation_status\": \"PROPOSED_UNTIL_CROSS_AUDIT\",",
+        "line_sha256": "e06484ef05d8b528a26d1c3f8f897d19d078b1ee13c01f8473794bc551d84415"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 164,
-        "line_text": "adoção explícita.",
-        "line_sha256": "88a8842c1969e7fbea154f16dd8962cac9267679881d3632650895a9bc502387"
+        "line_no": 93,
+        "line_text": "   fornecedor do perfil (ADR-018; ex.: Anthropic, OpenAI, Google), nunca linha",
+        "line_sha256": "604d196c72ccf88e7188bf97c3a63bf79333998aab991860c38220db08002d0a"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0079-selagem-w-orq-4c.json"
+        "value": ".hbn/readbacks/0080-w-orq-4d-ci-battery.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "implementacao do W-ORQ-4d (integrar bateria adversarial ao CI)"
+        "value": "cross-audit do W-ORQ-4d (readback 0080)"
       }
     ]
   }

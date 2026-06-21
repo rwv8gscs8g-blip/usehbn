@@ -107,6 +107,7 @@ GUARDS=(
     "assert-next-checkpoint.sh"
     "assert-knowledge-index.sh"
     "assert-frontdoor.sh"
+    "assert-ci-battery.sh"
     "assert-report-fresh.sh"
     "assert-no-stray-hbn.sh"
     "assert-role-family.sh"

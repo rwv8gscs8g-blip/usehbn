@@ -136,6 +136,9 @@
 #   nao-despacho neutras (1 pass). Total: 248.
 #   W-ORQ-4c (readback 0078): +2 checks G-FRZ para meta-deref-propostas
 #   e meta-deref-atestacao bloqueantes. Total: 250.
+#   W-ORQ-4d (readback 0080): +3 checks G-CI-BATTERY para workflow com
+#   suite+bateria no CI (pass) e remocoes de run-guard-tests/adversarial
+#   bloqueadas. Total: 253.
 # =============================================================================
 set -uo pipefail
 
@@ -3145,6 +3148,79 @@ rm -rf "$d"
 
 d="$(make_readlist_rite_repo neutro)"
 check "readlist-rite: diff neutro sem read-list passa" pass "$(run_readlist_rite_guard "$d")"
+rm -rf "$d"
+
+# --- G-CI-BATTERY: HBN Shield preserva suite + bateria -----------------------
+echo "== assert-ci-battery (G-CI-BATTERY) =="
+run_ci_battery_guard() { ( cd "$1" && bash "$GUARDS_DIR/assert-ci-battery.sh" >/dev/null 2>&1 ); echo $?; }
+
+make_ci_battery_repo() { # <good|sem-suite|sem-bateria>
+    local variant="$1" d
+    d="$(mktemp -d)"
+    (
+        cd "$d"
+        git init -q
+        git config user.email "tests@hbn.local"
+        git config user.name "hbn-guard-tests"
+        mkdir -p .hbn .github/workflows
+        echo "." > .hbn/active-version
+        case "$variant" in
+            good)
+                cat > .github/workflows/hbn-shield.yml <<'EOF'
+name: HBN Shield
+on: [pull_request]
+jobs:
+  guards:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash guards/hbn-guards-runner.sh
+      - run: bash guards/tests/run-guard-tests.sh
+      - run: bash guards/tests/adversarial-battery.sh
+EOF
+                ;;
+            sem-suite)
+                cat > .github/workflows/hbn-shield.yml <<'EOF'
+name: HBN Shield
+on: [pull_request]
+jobs:
+  guards:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash guards/hbn-guards-runner.sh
+      - run: bash guards/tests/adversarial-battery.sh
+EOF
+                ;;
+            sem-bateria)
+                cat > .github/workflows/hbn-shield.yml <<'EOF'
+name: HBN Shield
+on: [pull_request]
+jobs:
+  guards:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash guards/hbn-guards-runner.sh
+      - run: bash guards/tests/run-guard-tests.sh
+EOF
+                ;;
+        esac
+        git add .hbn/active-version .github/workflows/hbn-shield.yml
+    ) >/dev/null 2>&1
+    echo "$d"
+}
+
+d="$(make_ci_battery_repo good)"
+check "ci-battery: workflow com suite+bateria passa" pass "$(run_ci_battery_guard "$d")"
+rm -rf "$d"
+
+d="$(make_ci_battery_repo sem-suite)"
+check "ci-battery: workflow sem run-guard-tests.sh → BLOCK" block "$(run_ci_battery_guard "$d")"
+rm -rf "$d"
+
+d="$(make_ci_battery_repo sem-bateria)"
+check "ci-battery: workflow sem adversarial-battery.sh → BLOCK" block "$(run_ci_battery_guard "$d")"
 rm -rf "$d"
 
 # --- Read-list viva (onda 0006 I-01 — F-08 dos cross-audits 0036/0037) -------

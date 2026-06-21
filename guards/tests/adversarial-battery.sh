@@ -1489,6 +1489,55 @@ PY
 try_burla "B82 freeze com atestacao orq invalida" "G-FRZ" "$( ( cd "$d" && bash "$GUARDS_DIR/freeze-gate.sh" "$TESTS_DIR/fixtures/freeze/good-all-ok.json" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
+# B83-B84 — G-CI-BATTERY: o workflow do Shield nao pode perder a suite
+# de guards nem a bateria adversarial.
+mk_ci_battery_repo_adv() {
+  local variant="$1" d
+  d="$(mk_repo)"
+  (
+    cd "$d"
+    mkdir -p .github/workflows
+    case "$variant" in
+      sem-suite)
+        cat > .github/workflows/hbn-shield.yml <<'EOF'
+name: HBN Shield
+on: [pull_request]
+jobs:
+  guards:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash guards/hbn-guards-runner.sh
+      - run: bash guards/tests/adversarial-battery.sh
+EOF
+        ;;
+      sem-bateria)
+        cat > .github/workflows/hbn-shield.yml <<'EOF'
+name: HBN Shield
+on: [pull_request]
+jobs:
+  guards:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash guards/hbn-guards-runner.sh
+      - run: bash guards/tests/run-guard-tests.sh
+EOF
+        ;;
+    esac
+    git add .hbn/active-version .github/workflows/hbn-shield.yml
+  ) >/dev/null 2>&1
+  echo "$d"
+}
+
+d="$(mk_ci_battery_repo_adv sem-suite)"
+try_burla "B83 CI sem run-guard-tests.sh" "G-CI" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-ci-battery.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_ci_battery_repo_adv sem-bateria)"
+try_burla "B84 CI sem adversarial-battery.sh" "G-CI" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-ci-battery.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------
 echo ""
 printf '%-52s | %-8s | %s\n' "BURLA" "GUARD" "RESULTADO"
