@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "w-orq-4b-orqref-2026-06-21",
+  "execution_id": "selagem-w-orq-4b-2026-06-21",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-21T02:00:00-03:00",
-  "manifest_sha256": "3d840a2d58f5b5ea007929feaad43ab1c3dd23e361f57f70db5b71f9d6317d7f",
+  "atestado_em": "2026-06-21T03:00:00-03:00",
+  "manifest_sha256": "be3c9f1d015d30ea7494aa6fe8f1148ffd05efcca0a1f953640c2a6a83add899",
   "challenge": {
-    "seed_sha256": "23fd4319c124e32a2fa8c533bad3712f840ffdae427f6d170db11f3618d9ffe9",
+    "seed_sha256": "3eaae91a53681cb9765a0ca13263f4dd1fb4331675350ae01845218ad022650a",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 647,
-        "line_text": "Evidencia mecanica local: `.venv/bin/pytest -q` fechou `213 passed in 0.76s`;",
-        "line_sha256": "4ddcbb41adfc5e79f2011dbee02ca086762af6b22df1d24b85407deea7bca5de"
+        "line_no": 650,
+        "line_text": "`bash guards/tests/adversarial-battery.sh` fechou `BATERIA VERDE`; `main`",
+        "line_sha256": "fc62f1f6d16234b09ef9457ffebcd1a911af694c0b94ff9378d01d9a0179ddce"
       },
       {
-        "path": ".hbn/readbacks/0076-w-orq-4b-orqref.json",
-        "line_no": 32,
-        "line_text": "      \"main\",",
-        "line_sha256": "cde5fa7619b2937392f39c684b5ed31684832bd790c032000cdf34dda5d17340"
+        "path": ".hbn/readbacks/0077-selagem-w-orq-4b.json",
+        "line_no": 34,
+        "line_text": "  \"HBN-Human-Authorization\": \"Mauricio (Luis Mauricio Junqueira Zanin)\",",
+        "line_sha256": "e8bf678fc7490cb37d87b70b0184ecc8c92e149a36f7616d9112e1cf0798c44f"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 109,
-        "line_text": "\t   Roteamento de referência (não fixo, sujeito a (a)/(b)):",
-        "line_sha256": "b5981b8e296c646e184d2a9664777b0b0853fc40aef2b7faf3f027aed33bcda8"
+        "line_no": 118,
+        "line_text": "   qualquer papel: readback com scope-lock, linha de nascimento no REGISTRY no",
+        "line_sha256": "56f2dd655504cb5ec8a4d9fd96cc209b69aa4dafbe58591f137a83b537870fa4"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0076-w-orq-4b-orqref.json"
+        "value": ".hbn/readbacks/0077-selagem-w-orq-4b.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "cross-audit do W-ORQ-4b (readback 0076)"
+        "value": "implementacao do W-ORQ-4c (freeze sem dereferenciar)"
       }
     ]
   }

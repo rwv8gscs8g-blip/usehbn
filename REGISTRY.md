@@ -1424,3 +1424,7 @@ selagem, aguardando cross-audit != OpenAI e hearback humano.
 |---|---|---|---|---|---|---|
 | 20260621-020000-opus-despacho-w-orq-4b-orqref | .hbn/messages/20260621-020000-opus-4-8-despacho-w-orq-4b-orqref.md | despacho | frio | fronteira | — | 2026-06-21T02:00:00-03:00 |
 | 20260621-020002-codex-readback-w-orq-4b-orqref | .hbn/readbacks/0076-w-orq-4b-orqref.json | readback | frio | fronteira | — | 2026-06-21T02:00:02-03:00 |
+| 20260621-024500-antigravity-cross-w-orq-4b-0076 | .hbn/results/20260621-024500-antigravity-cross-ia-w-orq-4b-0076.md | result | frio | fronteira | — | 2026-06-21T02:45:00-03:00 |
+| 20260621-025500-grok-cross-w-orq-4b-0076 | .hbn/results/20260621-025500-grok-cross-ia-w-orq-4b-0076.md | result | frio | fronteira | — | 2026-06-21T02:55:00-03:00 |
+| 20260621-030000-opus-selagem-0077 | .hbn/messages/20260621-030000-opus-4-8-despacho-selagem-0077.md | despacho | frio | fronteira | — | 2026-06-21T03:00:00-03:00 |
+| 20260621-030002-codex-readback-selagem-0077 | .hbn/readbacks/0077-selagem-w-orq-4b.json | readback | frio | fronteira | — | 2026-06-21T03:00:02-03:00 |
