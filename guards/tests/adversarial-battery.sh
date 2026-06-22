@@ -1489,29 +1489,24 @@ PY
 try_burla "B82 freeze com atestacao orq invalida" "G-FRZ" "$( ( cd "$d" && bash "$GUARDS_DIR/freeze-gate.sh" "$TESTS_DIR/fixtures/freeze/good-all-ok.json" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
-# B83-B86 — G-CI-BATTERY: o workflow do Shield nao pode perder a suite
-# de guards, a bateria adversarial, nem fingir invocacao por comentario/echo.
+# B83-B87 — G-CI-BATTERY: o workflow do Shield deve chamar apenas o
+# entrypoint canonico por igualdade exata, e o entrypoint deve executar de
+# verdade runner, suite e bateria adversarial.
 mk_ci_battery_repo_adv() {
   local variant="$1" d
   d="$(mk_repo)"
   (
     cd "$d"
-    mkdir -p .github/workflows
+    mkdir -p .github/workflows guards/tests
+    cat > guards/ci-entry.sh <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+bash guards/hbn-guards-runner.sh
+bash guards/tests/run-guard-tests.sh
+bash guards/tests/adversarial-battery.sh
+EOF
     case "$variant" in
-      sem-suite)
-        cat > .github/workflows/hbn-shield.yml <<'EOF'
-name: HBN Shield
-on: [pull_request]
-jobs:
-  guards:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - run: bash guards/hbn-guards-runner.sh
-      - run: bash guards/tests/adversarial-battery.sh
-EOF
-        ;;
-      sem-bateria)
+      sem-entrypoint)
         cat > .github/workflows/hbn-shield.yml <<'EOF'
 name: HBN Shield
 on: [pull_request]
@@ -1522,23 +1517,10 @@ jobs:
       - uses: actions/checkout@v4
       - run: bash guards/hbn-guards-runner.sh
       - run: bash guards/tests/run-guard-tests.sh
-EOF
-        ;;
-      comentario-suite)
-        cat > .github/workflows/hbn-shield.yml <<'EOF'
-name: HBN Shield
-on: [pull_request]
-jobs:
-  guards:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - run: bash guards/hbn-guards-runner.sh
-      - run: echo "skip" # bash guards/tests/run-guard-tests.sh
       - run: bash guards/tests/adversarial-battery.sh
 EOF
         ;;
-      echo-bateria)
+      entry-sem-bateria)
         cat > .github/workflows/hbn-shield.yml <<'EOF'
 name: HBN Shield
 on: [pull_request]
@@ -1547,31 +1529,78 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: bash guards/hbn-guards-runner.sh
-      - run: bash guards/tests/run-guard-tests.sh
-      - run: echo "bash guards/tests/adversarial-battery.sh"
+      - run: bash guards/ci-entry.sh
+EOF
+        cat > guards/ci-entry.sh <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+bash guards/hbn-guards-runner.sh
+bash guards/tests/run-guard-tests.sh
+EOF
+        ;;
+      comentario-entrypoint)
+        cat > .github/workflows/hbn-shield.yml <<'EOF'
+name: HBN Shield
+on: [pull_request]
+jobs:
+  guards:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "skip" # bash guards/ci-entry.sh
+EOF
+        ;;
+      echo-entrypoint)
+        cat > .github/workflows/hbn-shield.yml <<'EOF'
+name: HBN Shield
+on: [pull_request]
+jobs:
+  guards:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "bash guards/ci-entry.sh"
+EOF
+        ;;
+      heredoc-entrypoint)
+        cat > .github/workflows/hbn-shield.yml <<'EOF'
+name: HBN Shield
+on: [pull_request]
+jobs:
+  guards:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          cat <<EOF2
+          bash guards/ci-entry.sh
+          EOF2
 EOF
         ;;
     esac
-    git add .hbn/active-version .github/workflows/hbn-shield.yml
+    git add .hbn/active-version .github/workflows/hbn-shield.yml guards/ci-entry.sh
   ) >/dev/null 2>&1
   echo "$d"
 }
 
-d="$(mk_ci_battery_repo_adv sem-suite)"
-try_burla "B83 CI sem run-guard-tests.sh" "G-CI" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-ci-battery.sh" >/dev/null 2>&1 ); echo $? )"
+d="$(mk_ci_battery_repo_adv sem-entrypoint)"
+try_burla "B83 CI sem step exato de ci-entry.sh" "G-CI" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-ci-battery.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
-d="$(mk_ci_battery_repo_adv sem-bateria)"
-try_burla "B84 CI sem adversarial-battery.sh" "G-CI" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-ci-battery.sh" >/dev/null 2>&1 ); echo $? )"
+d="$(mk_ci_battery_repo_adv entry-sem-bateria)"
+try_burla "B84 ci-entry.sh sem adversarial-battery.sh" "G-CI" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-ci-battery.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
-d="$(mk_ci_battery_repo_adv comentario-suite)"
-try_burla "B85 CI comentario inline run-guard-tests.sh" "G-CI" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-ci-battery.sh" >/dev/null 2>&1 ); echo $? )"
+d="$(mk_ci_battery_repo_adv comentario-entrypoint)"
+try_burla "B85 CI comentario inline ci-entry.sh" "G-CI" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-ci-battery.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
-d="$(mk_ci_battery_repo_adv echo-bateria)"
-try_burla "B86 CI echo adversarial-battery.sh" "G-CI" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-ci-battery.sh" >/dev/null 2>&1 ); echo $? )"
+d="$(mk_ci_battery_repo_adv echo-entrypoint)"
+try_burla "B86 CI echo ci-entry.sh" "G-CI" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-ci-battery.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_ci_battery_repo_adv heredoc-entrypoint)"
+try_burla "B87 CI heredoc-data ci-entry.sh" "G-CI" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-ci-battery.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------

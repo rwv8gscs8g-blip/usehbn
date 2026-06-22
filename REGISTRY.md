@@ -1471,3 +1471,17 @@ humano.
 |---|---|---|---|---|---|---|
 | 20260621-060000-opus-despacho-w-orq-4d-fix-ci-battery | .hbn/messages/20260621-060000-opus-4-8-despacho-w-orq-4d-fix-ci-battery.md | despacho | frio | fronteira | — | 2026-06-21T06:00:00-03:00 |
 | 20260621-060002-codex-readback-w-orq-4d-fix-ci-battery | .hbn/readbacks/0081-w-orq-4d-fix-ci-battery.json | readback | frio | fronteira | — | 2026-06-21T06:00:02-03:00 |
+
+## W-ORQ-4d-fix-2 / G-CI-BATTERY (2026-06-21) — entrypoint por igualdade exata — status: proposto, readback 0082
+
+O HBN Shield passa a chamar um unico entrypoint canonico por igualdade exata:
+`run: bash guards/ci-entry.sh`. G-CI-BATTERY verifica o workflow por igualdade
+exata e valida que o entrypoint executa de verdade runner, suite e bateria,
+ignorando corpos de heredoc e comentarios. A entrega para antes de selagem,
+aguardando re-cross-audit != OpenAI e hearback humano.
+
+| id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
+|---|---|---|---|---|---|---|
+| 20260621-070000-opus-despacho-w-orq-4d-fix2-ci-entry | .hbn/messages/20260621-070000-opus-4-8-despacho-w-orq-4d-fix2-ci-entry.md | despacho | frio | fronteira | — | 2026-06-21T07:00:00-03:00 |
+| 20260621-070001-codex-ci-entry | guards/ci-entry.sh | script | frio | fronteira | — | 2026-06-21T07:00:01-03:00 |
+| 20260621-070002-codex-readback-w-orq-4d-fix2-ci-entry | .hbn/readbacks/0082-w-orq-4d-fix2-ci-entry.json | readback | frio | fronteira | — | 2026-06-21T07:00:02-03:00 |

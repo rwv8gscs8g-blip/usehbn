@@ -1,8 +1,8 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente; R2 arvores selada e vigente; R3a G-TRAILERS selada e vigente; R3b G-DIVERSITY selada e vigente; hardening pre-freeze R3a+R3b concluido; Curadoria do Dossie de Pre-Transicao 0055 selada; G-ORQ-ENTRADA 0056 entregue; W-ORQ-2 0058 entregue; G-ORQ-ENTRADA v2 selado e vigente; W-ORQ-3 0061 entregue; W-ORQ-3b 0062 selado e vigente via 0063; G-COPY 0064 selado e vigente via 0065; G-NEXT 0066 selado e vigente via 0069; W-RET 0067 selado e vigente via 0068; G-QUORUM 0070 selado e vigente via 0071; W-LEX 0029 selado e vigente via 0073; W-ORQ-4a 0074 selado e vigente via 0075; W-ORQ-4b 0076 selado e vigente via 0077; W-ORQ-4c 0078 selado e vigente via 0079; W-ORQ-4d 0080 entregue/proposto; W-ORQ-4d-fix 0081 entregue/proposto)"
-onda_atual: "W-ORQ-4d-FIX PROPOSTO — readback 0081; G-CI-BATTERY endurecido contra bypass de comentario/echo, aguardando re-cross-audit + hearback"
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente; R2 arvores selada e vigente; R3a G-TRAILERS selada e vigente; R3b G-DIVERSITY selada e vigente; hardening pre-freeze R3a+R3b concluido; Curadoria do Dossie de Pre-Transicao 0055 selada; G-ORQ-ENTRADA 0056 entregue; W-ORQ-2 0058 entregue; G-ORQ-ENTRADA v2 selado e vigente; W-ORQ-3 0061 entregue; W-ORQ-3b 0062 selado e vigente via 0063; G-COPY 0064 selado e vigente via 0065; G-NEXT 0066 selado e vigente via 0069; W-RET 0067 selado e vigente via 0068; G-QUORUM 0070 selado e vigente via 0071; W-LEX 0029 selado e vigente via 0073; W-ORQ-4a 0074 selado e vigente via 0075; W-ORQ-4b 0076 selado e vigente via 0077; W-ORQ-4c 0078 selado e vigente via 0079; W-ORQ-4d 0080 entregue/proposto; W-ORQ-4d-fix 0081 entregue/proposto; W-ORQ-4d-fix-2 0082 entregue/proposto)"
+onda_atual: "W-ORQ-4d-FIX2 PROPOSTO — readback 0082; CI por entrypoint de igualdade exata (guards/ci-entry.sh) + G-CI-BATTERY redesenhado, aguardando re-cross-audit + hearback"
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
@@ -11,15 +11,18 @@ papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM; W3 ratificado por Grok, Antigravity 100 e Cursor 92 com APROVA_0036 SIM"
   gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou grande selagem 0035, hardening->deny->freeze, selagem W3, cartao de entrada e branch protection biometrica na main"
-proxima_acao: "cross-audit do W-ORQ-4d-fix (readback 0081)"
+proxima_acao: "cross-audit do W-ORQ-4d-fix-2 (readback 0082)"
 proximo_ponto:
-  passo: "cross-audit do W-ORQ-4d-fix (readback 0081)"
+  passo: "cross-audit do W-ORQ-4d-fix-2 (readback 0082)"
   ato: cross-audit
   destino: human
   gate: hearback_humano
-  bloco_ref: .hbn/messages/20260621-060000-opus-4-8-despacho-w-orq-4d-fix-ci-battery.md
+  bloco_ref: .hbn/messages/20260621-070000-opus-4-8-despacho-w-orq-4d-fix2-ci-entry.md
   status: pendente
 sinais_abertos:
+  - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0082 safe_track, implementador=codex, autorização humana Mauricio, orq_entrada_ref presente e trailers contiguos obrigatorios; W-ORQ-4d-fix-2 aguarda re-cross-audit != OpenAI + hearback humano antes de selagem."
+  - "🟢 W-ORQ-4d-FIX2 ENTREGUE/PROPOSTO — CI usa entrypoint canonico `bash guards/ci-entry.sh`; G-CI-BATTERY exige igualdade exata no workflow e invocacoes reais no entrypoint."
+  - "🟢 B85-B87 COBERTOS — run-guard-tests/adversarial-battery bloqueiam comentario, echo e heredoc-data que fingem invocar ci-entry.sh."
   - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0081 safe_track, implementador=codex, autorização humana Mauricio, orq_entrada_ref presente e trailers contiguos obrigatorios; W-ORQ-4d-fix aguarda re-cross-audit != OpenAI + hearback humano antes de selagem."
   - "🟢 W-ORQ-4d-FIX ENTREGUE/PROPOSTO — G-CI-BATTERY exige invocacao real `bash <script>` como comando de step run, apos remover comentario inline, bloqueando comentario e echo."
   - "🟢 B85-B86 COBERTOS — run-guard-tests/adversarial-battery bloqueiam comentario inline e echo que fingem invocar run-guard-tests.sh ou adversarial-battery.sh."
@@ -202,19 +205,19 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟢 branch protection no GitHub: ruleset Active na main (require PR, restrict deletions, block force pushes); passkey Touch ID no boundary."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0081-w-orq-4d-fix-ci-battery.json"
-handoff_mais_recente: ".hbn/messages/20260621-060000-opus-4-8-despacho-w-orq-4d-fix-ci-battery.md"
+readback_ativo: ".hbn/readbacks/0082-w-orq-4d-fix2-ci-entry.json"
+handoff_mais_recente: ".hbn/messages/20260621-070000-opus-4-8-despacho-w-orq-4d-fix2-ci-entry.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
 ciclo_ativo: "W-RET PROPOSTO — readback 0067; canal de retorno A+C entregue; parar para cross-audit != OpenAI e hearback antes de selar."
-ultima_atualizacao: "2026-06-21T06:00:00-03:00"
-atualizado_por: codex-w-orq-4d-fix-0081
+ultima_atualizacao: "2026-06-21T07:00:00-03:00"
+atualizado_por: codex-w-orq-4d-fix2-0082
 atribuicao:
   chapeu_atual: orquestrador
   implementador: codex
   auditores: [grok, antigravity]
   gravada_em: "2026-06-20T10:00:00-03:00"
-  hearback_ref: "Mauricio 2026-06-21T05:00:00-03:00: implementacao W-ORQ-4d autorizada sob token_fp 34a7f2f9; integrar bateria adversarial + suite ao CI, criar G-CI-BATTERY, atualizar testes/STATE/REGISTRY/readback, regenerar atestacao same-fp, escrever RETURN.json ao final, parar para cross-audit != OpenAI; nao selar, nao iniciar Despromocao-P6/W-FREEZE."
+  hearback_ref: "Mauricio 2026-06-21T07:00:00-03:00: implementacao W-ORQ-4d-fix-2 autorizada sob token_fp 34a7f2f9; redesenhar CI por entrypoint de igualdade exata, atualizar G-CI-BATTERY/testes/STATE/REGISTRY/readback, regenerar atestacao same-fp, escrever RETURN.json ao final, parar para re-cross-audit != OpenAI; nao selar, nao iniciar Despromocao-P6/W-FREEZE."
 ---
 
 Nota W-ORQ-4a / readback 0074: entregue em 2026-06-21T00:30:00-03:00.

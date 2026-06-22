@@ -141,6 +141,9 @@
 #   bloqueadas. Total: 253.
 #   W-ORQ-4d-fix (readback 0081): +2 checks G-CI-BATTERY bloqueando
 #   bypass por comentario inline e echo. Total: 255.
+#   W-ORQ-4d-fix-2 (readback 0082): redesenho para entrypoint canonico
+#   por igualdade exata; secao G-CI-BATTERY passa a 6 checks (1 pass,
+#   5 block), incluindo heredoc-data e ci-entry.sh fingido. Total: 256.
 # =============================================================================
 set -uo pipefail
 
@@ -3152,11 +3155,11 @@ d="$(make_readlist_rite_repo neutro)"
 check "readlist-rite: diff neutro sem read-list passa" pass "$(run_readlist_rite_guard "$d")"
 rm -rf "$d"
 
-# --- G-CI-BATTERY: HBN Shield preserva suite + bateria -----------------------
+# --- G-CI-BATTERY: HBN Shield preserva entrypoint exato ----------------------
 echo "== assert-ci-battery (G-CI-BATTERY) =="
 run_ci_battery_guard() { ( cd "$1" && bash "$GUARDS_DIR/assert-ci-battery.sh" >/dev/null 2>&1 ); echo $?; }
 
-make_ci_battery_repo() { # <good|sem-suite|sem-bateria|comentario-suite|echo-bateria>
+make_ci_battery_repo() { # <good|sem-entrypoint|echo-entrypoint|heredoc-entrypoint|entry-missing-battery|entry-fake-battery>
     local variant="$1" d
     d="$(mktemp -d)"
     (
@@ -3164,8 +3167,17 @@ make_ci_battery_repo() { # <good|sem-suite|sem-bateria|comentario-suite|echo-bat
         git init -q
         git config user.email "tests@hbn.local"
         git config user.name "hbn-guard-tests"
-        mkdir -p .hbn .github/workflows
+        mkdir -p .hbn .github/workflows guards/tests
         echo "." > .hbn/active-version
+
+        cat > guards/ci-entry.sh <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+bash guards/hbn-guards-runner.sh
+bash guards/tests/run-guard-tests.sh
+bash guards/tests/adversarial-battery.sh
+EOF
+
         case "$variant" in
             good)
                 cat > .github/workflows/hbn-shield.yml <<'EOF'
@@ -3176,25 +3188,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: bash guards/hbn-guards-runner.sh
-      - run: bash guards/tests/run-guard-tests.sh
-      - run: bash guards/tests/adversarial-battery.sh
+      - name: hbn-ci-entry
+        env:
+          HBN_DIFF_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: bash guards/ci-entry.sh
 EOF
                 ;;
-            sem-suite)
-                cat > .github/workflows/hbn-shield.yml <<'EOF'
-name: HBN Shield
-on: [pull_request]
-jobs:
-  guards:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - run: bash guards/hbn-guards-runner.sh
-      - run: bash guards/tests/adversarial-battery.sh
-EOF
-                ;;
-            sem-bateria)
+            sem-entrypoint)
                 cat > .github/workflows/hbn-shield.yml <<'EOF'
 name: HBN Shield
 on: [pull_request]
@@ -3205,23 +3205,10 @@ jobs:
       - uses: actions/checkout@v4
       - run: bash guards/hbn-guards-runner.sh
       - run: bash guards/tests/run-guard-tests.sh
-EOF
-                ;;
-            comentario-suite)
-                cat > .github/workflows/hbn-shield.yml <<'EOF'
-name: HBN Shield
-on: [pull_request]
-jobs:
-  guards:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - run: bash guards/hbn-guards-runner.sh
-      - run: echo "skip" # bash guards/tests/run-guard-tests.sh
       - run: bash guards/tests/adversarial-battery.sh
 EOF
                 ;;
-            echo-bateria)
+            echo-entrypoint)
                 cat > .github/workflows/hbn-shield.yml <<'EOF'
 name: HBN Shield
 on: [pull_request]
@@ -3230,35 +3217,92 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: bash guards/hbn-guards-runner.sh
-      - run: bash guards/tests/run-guard-tests.sh
-      - run: echo "bash guards/tests/adversarial-battery.sh"
+      - run: echo "bash guards/ci-entry.sh"
+EOF
+                ;;
+            heredoc-entrypoint)
+                cat > .github/workflows/hbn-shield.yml <<'EOF'
+name: HBN Shield
+on: [pull_request]
+jobs:
+  guards:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          cat <<EOF2
+          bash guards/ci-entry.sh
+          EOF2
+EOF
+                ;;
+            entry-missing-battery)
+                cat > .github/workflows/hbn-shield.yml <<'EOF'
+name: HBN Shield
+on: [pull_request]
+jobs:
+  guards:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash guards/ci-entry.sh
+EOF
+                cat > guards/ci-entry.sh <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+bash guards/hbn-guards-runner.sh
+bash guards/tests/run-guard-tests.sh
+EOF
+                ;;
+            entry-fake-battery)
+                cat > .github/workflows/hbn-shield.yml <<'EOF'
+name: HBN Shield
+on: [pull_request]
+jobs:
+  guards:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash guards/ci-entry.sh
+EOF
+                cat > guards/ci-entry.sh <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+bash guards/hbn-guards-runner.sh
+bash guards/tests/run-guard-tests.sh
+cat <<EOF2
+bash guards/tests/adversarial-battery.sh
+EOF2
+echo "bash guards/tests/adversarial-battery.sh"
 EOF
                 ;;
         esac
-        git add .hbn/active-version .github/workflows/hbn-shield.yml
+        git add .hbn/active-version .github/workflows/hbn-shield.yml guards/ci-entry.sh
     ) >/dev/null 2>&1
     echo "$d"
 }
 
 d="$(make_ci_battery_repo good)"
-check "ci-battery: workflow com suite+bateria passa" pass "$(run_ci_battery_guard "$d")"
+check "ci-battery: workflow com entrypoint exato passa" pass "$(run_ci_battery_guard "$d")"
 rm -rf "$d"
 
-d="$(make_ci_battery_repo sem-suite)"
-check "ci-battery: workflow sem run-guard-tests.sh → BLOCK" block "$(run_ci_battery_guard "$d")"
+d="$(make_ci_battery_repo sem-entrypoint)"
+check "ci-battery: workflow sem step exato de ci-entry.sh -> BLOCK" block "$(run_ci_battery_guard "$d")"
 rm -rf "$d"
 
-d="$(make_ci_battery_repo sem-bateria)"
-check "ci-battery: workflow sem adversarial-battery.sh → BLOCK" block "$(run_ci_battery_guard "$d")"
+d="$(make_ci_battery_repo echo-entrypoint)"
+check "ci-battery: workflow com echo de ci-entry.sh -> BLOCK" block "$(run_ci_battery_guard "$d")"
 rm -rf "$d"
 
-d="$(make_ci_battery_repo comentario-suite)"
-check "ci-battery: comentario inline com run-guard-tests.sh → BLOCK" block "$(run_ci_battery_guard "$d")"
+d="$(make_ci_battery_repo heredoc-entrypoint)"
+check "ci-battery: workflow com heredoc-data de ci-entry.sh -> BLOCK" block "$(run_ci_battery_guard "$d")"
 rm -rf "$d"
 
-d="$(make_ci_battery_repo echo-bateria)"
-check "ci-battery: echo de adversarial-battery.sh → BLOCK" block "$(run_ci_battery_guard "$d")"
+d="$(make_ci_battery_repo entry-missing-battery)"
+check "ci-battery: ci-entry.sh sem adversarial-battery.sh -> BLOCK" block "$(run_ci_battery_guard "$d")"
+rm -rf "$d"
+
+d="$(make_ci_battery_repo entry-fake-battery)"
+check "ci-battery: ci-entry.sh com invocacao fingida -> BLOCK" block "$(run_ci_battery_guard "$d")"
 rm -rf "$d"
 
 # --- Read-list viva (onda 0006 I-01 — F-08 dos cross-audits 0036/0037) -------

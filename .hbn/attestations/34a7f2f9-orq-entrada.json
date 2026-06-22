@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "w-orq-4d-fix-ci-battery-2026-06-21",
+  "execution_id": "w-orq-4d-fix2-ci-entry-2026-06-21",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-21T06:00:00-03:00",
-  "manifest_sha256": "69ccaef4b7a4ea965785a0b0e2d7018f3a57fdb5300645fae0a1fe42de9259e6",
+  "atestado_em": "2026-06-21T07:00:00-03:00",
+  "manifest_sha256": "0d83becafee660f6e0879964ed4224a5e5aa5be99d479d6330ad5e6bb34bc7d3",
   "challenge": {
-    "seed_sha256": "05ea41142f674e743bb0f8411f0afeb07f8ef706a681c249c5cbcbdeeb2ac299",
+    "seed_sha256": "7f2993191db30cebc2279cd5d504dbec0a00dff9e89f04eb220f5dc732e9bd7f",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 284,
-        "line_text": "compara com `.hbn/attestations/<fp>-orq-entrada.json` derivado do",
-        "line_sha256": "d77bd1752401507db5baa953c56f4a82531a0d8540e7a2de3b970bc57c2fa745"
+        "line_no": 704,
+        "line_text": "duplo APROVA_0041 nao-OpenAI: Grok/xAI registrou `APROVA_0041: SIM` com",
+        "line_sha256": "1edb3a6b4650310d6b4af49d4fb2986fe79fdeab5babc1c817d0de36ad77ee7f"
       },
       {
-        "path": ".hbn/readbacks/0081-w-orq-4d-fix-ci-battery.json",
-        "line_no": 44,
-        "line_text": "  \"stop_condition\": \"Entrega 0081 (W-ORQ-4d-fix) em commit unico; parar para re-cross-audit != OpenAI. NAO selar. NAO iniciar Despromocao-P6/W-FREEZE.\",",
-        "line_sha256": "6cb91e36156b8d163360c3a70461893f5a9e28d2499e4ccab2c3e2cf5289b21b"
+        "path": ".hbn/readbacks/0082-w-orq-4d-fix2-ci-entry.json",
+        "line_no": 9,
+        "line_text": "  \"hearback_status\": \"confirmed\",",
+        "line_sha256": "e93260a00e4834c7e3e2f84bb7f111122daac0d0a6ee1ccadc20ad0a08318671"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 61,
-        "line_text": "   interação com o humano, nunca um nível de \"esforço\" ou capacidade; afirmar",
-        "line_sha256": "fb2f3a3383a59d039ffe1b3a26c3f3a9f2fae4bece22162964ccde428e76c55b"
+        "line_no": 22,
+        "line_text": "ORDINÁRIO: janela cheia não é fadiga, é fim de turno. O contrato é ≤1",
+        "line_sha256": "0f6a6da9c8ee0c44f9ec1828e2bb6180c0b0cc2426809fe21e09c9b501f17ffc"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0081-w-orq-4d-fix-ci-battery.json"
+        "value": ".hbn/readbacks/0082-w-orq-4d-fix2-ci-entry.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "cross-audit do W-ORQ-4d-fix (readback 0081)"
+        "value": "cross-audit do W-ORQ-4d-fix-2 (readback 0082)"
       }
     ]
   }

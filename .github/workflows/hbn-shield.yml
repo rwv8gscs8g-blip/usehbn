@@ -23,14 +23,10 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: hbn-guards (modo CI — diff range, raiz canônica delegada ao local)
+      - name: hbn-ci-entry (modo CI — diff range, raiz canônica delegada ao local)
         env:
           HBN_DIFF_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
-        run: bash guards/hbn-guards-runner.sh
-      - name: hbn-guard-tests (suíte anti-teatro)
-        run: bash guards/tests/run-guard-tests.sh
-      - name: hbn-adversarial-battery
-        run: bash guards/tests/adversarial-battery.sh
+        run: bash guards/ci-entry.sh
 
   tests:
     name: pytest (implementação de referência)
