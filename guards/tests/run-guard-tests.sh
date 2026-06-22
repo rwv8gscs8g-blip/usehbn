@@ -139,6 +139,8 @@
 #   W-ORQ-4d (readback 0080): +3 checks G-CI-BATTERY para workflow com
 #   suite+bateria no CI (pass) e remocoes de run-guard-tests/adversarial
 #   bloqueadas. Total: 253.
+#   W-ORQ-4d-fix (readback 0081): +2 checks G-CI-BATTERY bloqueando
+#   bypass por comentario inline e echo. Total: 255.
 # =============================================================================
 set -uo pipefail
 
@@ -3154,7 +3156,7 @@ rm -rf "$d"
 echo "== assert-ci-battery (G-CI-BATTERY) =="
 run_ci_battery_guard() { ( cd "$1" && bash "$GUARDS_DIR/assert-ci-battery.sh" >/dev/null 2>&1 ); echo $?; }
 
-make_ci_battery_repo() { # <good|sem-suite|sem-bateria>
+make_ci_battery_repo() { # <good|sem-suite|sem-bateria|comentario-suite|echo-bateria>
     local variant="$1" d
     d="$(mktemp -d)"
     (
@@ -3205,6 +3207,34 @@ jobs:
       - run: bash guards/tests/run-guard-tests.sh
 EOF
                 ;;
+            comentario-suite)
+                cat > .github/workflows/hbn-shield.yml <<'EOF'
+name: HBN Shield
+on: [pull_request]
+jobs:
+  guards:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash guards/hbn-guards-runner.sh
+      - run: echo "skip" # bash guards/tests/run-guard-tests.sh
+      - run: bash guards/tests/adversarial-battery.sh
+EOF
+                ;;
+            echo-bateria)
+                cat > .github/workflows/hbn-shield.yml <<'EOF'
+name: HBN Shield
+on: [pull_request]
+jobs:
+  guards:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash guards/hbn-guards-runner.sh
+      - run: bash guards/tests/run-guard-tests.sh
+      - run: echo "bash guards/tests/adversarial-battery.sh"
+EOF
+                ;;
         esac
         git add .hbn/active-version .github/workflows/hbn-shield.yml
     ) >/dev/null 2>&1
@@ -3221,6 +3251,14 @@ rm -rf "$d"
 
 d="$(make_ci_battery_repo sem-bateria)"
 check "ci-battery: workflow sem adversarial-battery.sh → BLOCK" block "$(run_ci_battery_guard "$d")"
+rm -rf "$d"
+
+d="$(make_ci_battery_repo comentario-suite)"
+check "ci-battery: comentario inline com run-guard-tests.sh → BLOCK" block "$(run_ci_battery_guard "$d")"
+rm -rf "$d"
+
+d="$(make_ci_battery_repo echo-bateria)"
+check "ci-battery: echo de adversarial-battery.sh → BLOCK" block "$(run_ci_battery_guard "$d")"
 rm -rf "$d"
 
 # --- Read-list viva (onda 0006 I-01 — F-08 dos cross-audits 0036/0037) -------

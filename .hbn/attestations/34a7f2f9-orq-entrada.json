@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "w-orq-4d-ci-battery-2026-06-21",
+  "execution_id": "w-orq-4d-fix-ci-battery-2026-06-21",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-21T05:00:00-03:00",
-  "manifest_sha256": "58291459141c7ea37410c69018064fff4d776872782af708446cfc80cd6866fb",
+  "atestado_em": "2026-06-21T06:00:00-03:00",
+  "manifest_sha256": "69ccaef4b7a4ea965785a0b0e2d7018f3a57fdb5300645fae0a1fe42de9259e6",
   "challenge": {
-    "seed_sha256": "c7ddbe7e3df2ea74bb5151a3298e4a6ad9f8c9ba7310286a7ec1b3a81a29d37b",
+    "seed_sha256": "05ea41142f674e743bb0f8411f0afeb07f8ef706a681c249c5cbcbdeeb2ac299",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 530,
-        "line_text": "exuvia. Nota de bootstrap: `assert-parallel-id.sh` precisa ler `created_at`",
-        "line_sha256": "fce2f2b9bc88ab0f8ee6055dd251cb69995e3db15b1742715d0b74968462f554"
+        "line_no": 284,
+        "line_text": "compara com `.hbn/attestations/<fp>-orq-entrada.json` derivado do",
+        "line_sha256": "d77bd1752401507db5baa953c56f4a82531a0d8540e7a2de3b970bc57c2fa745"
       },
       {
-        "path": ".hbn/readbacks/0080-w-orq-4d-ci-battery.json",
-        "line_no": 8,
-        "line_text": "  \"activation_status\": \"PROPOSED_UNTIL_CROSS_AUDIT\",",
-        "line_sha256": "e06484ef05d8b528a26d1c3f8f897d19d078b1ee13c01f8473794bc551d84415"
+        "path": ".hbn/readbacks/0081-w-orq-4d-fix-ci-battery.json",
+        "line_no": 44,
+        "line_text": "  \"stop_condition\": \"Entrega 0081 (W-ORQ-4d-fix) em commit unico; parar para re-cross-audit != OpenAI. NAO selar. NAO iniciar Despromocao-P6/W-FREEZE.\",",
+        "line_sha256": "6cb91e36156b8d163360c3a70461893f5a9e28d2499e4ccab2c3e2cf5289b21b"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 93,
-        "line_text": "   fornecedor do perfil (ADR-018; ex.: Anthropic, OpenAI, Google), nunca linha",
-        "line_sha256": "604d196c72ccf88e7188bf97c3a63bf79333998aab991860c38220db08002d0a"
+        "line_no": 61,
+        "line_text": "   interação com o humano, nunca um nível de \"esforço\" ou capacidade; afirmar",
+        "line_sha256": "fb2f3a3383a59d039ffe1b3a26c3f3a9f2fae4bece22162964ccde428e76c55b"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0080-w-orq-4d-ci-battery.json"
+        "value": ".hbn/readbacks/0081-w-orq-4d-fix-ci-battery.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "cross-audit do W-ORQ-4d (readback 0080)"
+        "value": "cross-audit do W-ORQ-4d-fix (readback 0081)"
       }
     ]
   }

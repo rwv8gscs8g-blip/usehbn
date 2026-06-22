@@ -45,18 +45,75 @@ if [[ -z "$CONTENT" ]]; then
     exit 1
 fi
 
-ACTIVE_LINES="$(printf '%s\n' "$CONTENT" | sed '/^[[:space:]]*#/d')"
 FAIL=0
 
-if ! grep -Eq '(^|[^A-Za-z0-9_./-])bash[[:space:]]+guards/tests/run-guard-tests\.sh([^A-Za-z0-9_./-]|$)' <<< "$ACTIVE_LINES"; then
-    guard_fail "${WORKFLOW_PATH} nao invoca 'bash guards/tests/run-guard-tests.sh' no indice/HEAD."
-    FAIL=1
-fi
+workflow_has_real_invocation() {
+    local required_script="$1"
+    WORKFLOW_CONTENT="$CONTENT" python3 - "$required_script" <<'PY'
+import os
+import re
+import sys
 
-if ! grep -Eq '(^|[^A-Za-z0-9_./-])bash[[:space:]]+guards/tests/adversarial-battery\.sh([^A-Za-z0-9_./-]|$)' <<< "$ACTIVE_LINES"; then
-    guard_fail "${WORKFLOW_PATH} nao invoca 'bash guards/tests/adversarial-battery.sh' no indice/HEAD."
-    FAIL=1
-fi
+required = sys.argv[1]
+lines = os.environ.get("WORKFLOW_CONTENT", "").splitlines()
+
+def strip_comment(line):
+    if line.lstrip().startswith("#"):
+        return ""
+    return line.split(" #", 1)[0]
+
+cleaned = [strip_comment(line) for line in lines]
+run_re = re.compile(r"^(?P<indent>[ \t]*)-?[ \t]*run:[ \t]*(?P<cmd>.*)$")
+commands = []
+i = 0
+while i < len(cleaned):
+    line = cleaned[i]
+    match = run_re.match(line)
+    if not match:
+        i += 1
+        continue
+
+    cmd = match.group("cmd").strip()
+    if cmd.startswith("|") or cmd.startswith(">"):
+        base_indent = len(match.group("indent").replace("\t", "    "))
+        block = []
+        i += 1
+        while i < len(cleaned):
+            nxt = cleaned[i]
+            if nxt.strip() == "":
+                block.append("")
+                i += 1
+                continue
+            nxt_indent = len(nxt) - len(nxt.lstrip(" \t"))
+            if nxt_indent <= base_indent:
+                break
+            block.append(nxt.strip())
+            i += 1
+        commands.append("\n".join(block))
+        continue
+
+    commands.append(cmd)
+    i += 1
+
+pattern = re.compile(r"^bash\s+" + re.escape(required) + r"(\s|$)")
+for command in commands:
+    for segment in re.split(r"&&|\|\||[;|\n]", command):
+        if pattern.search(segment.strip()):
+            sys.exit(0)
+
+sys.exit(1)
+PY
+}
+
+for REQUIRED_SCRIPT in \
+    "guards/tests/run-guard-tests.sh" \
+    "guards/tests/adversarial-battery.sh"
+do
+    if ! workflow_has_real_invocation "$REQUIRED_SCRIPT"; then
+        guard_fail "${WORKFLOW_PATH} nao invoca 'bash ${REQUIRED_SCRIPT}' como comando real de step run no indice/HEAD."
+        FAIL=1
+    fi
+done
 
 if [[ "$FAIL" -ne 0 ]]; then
     exit 1

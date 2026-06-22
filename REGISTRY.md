@@ -1458,3 +1458,16 @@ cross-audit != OpenAI e hearback humano.
 | 20260621-050000-opus-despacho-w-orq-4d-ci-battery | .hbn/messages/20260621-050000-opus-4-8-despacho-w-orq-4d-ci-battery.md | despacho | frio | fronteira | — | 2026-06-21T05:00:00-03:00 |
 | 20260621-050001-codex-guard-ci-battery | guards/assert-ci-battery.sh | guard | frio | fronteira | — | 2026-06-21T05:00:01-03:00 |
 | 20260621-050002-codex-readback-w-orq-4d-ci-battery | .hbn/readbacks/0080-w-orq-4d-ci-battery.json | readback | frio | fronteira | — | 2026-06-21T05:00:02-03:00 |
+
+## W-ORQ-4d-fix / G-CI-BATTERY (2026-06-21) — invocacao real no workflow — status: proposto, readback 0081
+
+G-CI-BATTERY passa a exigir invocacao real de `bash guards/tests/run-guard-tests.sh`
+e `bash guards/tests/adversarial-battery.sh` como comando de step `run:`, apos
+remover comentario inline e sem aceitar `echo` do caminho como cobertura. A
+entrega para antes de selagem, aguardando re-cross-audit != OpenAI e hearback
+humano.
+
+| id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
+|---|---|---|---|---|---|---|
+| 20260621-060000-opus-despacho-w-orq-4d-fix-ci-battery | .hbn/messages/20260621-060000-opus-4-8-despacho-w-orq-4d-fix-ci-battery.md | despacho | frio | fronteira | — | 2026-06-21T06:00:00-03:00 |
+| 20260621-060002-codex-readback-w-orq-4d-fix-ci-battery | .hbn/readbacks/0081-w-orq-4d-fix-ci-battery.json | readback | frio | fronteira | — | 2026-06-21T06:00:02-03:00 |

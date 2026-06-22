@@ -1489,8 +1489,8 @@ PY
 try_burla "B82 freeze com atestacao orq invalida" "G-FRZ" "$( ( cd "$d" && bash "$GUARDS_DIR/freeze-gate.sh" "$TESTS_DIR/fixtures/freeze/good-all-ok.json" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
-# B83-B84 — G-CI-BATTERY: o workflow do Shield nao pode perder a suite
-# de guards nem a bateria adversarial.
+# B83-B86 — G-CI-BATTERY: o workflow do Shield nao pode perder a suite
+# de guards, a bateria adversarial, nem fingir invocacao por comentario/echo.
 mk_ci_battery_repo_adv() {
   local variant="$1" d
   d="$(mk_repo)"
@@ -1524,6 +1524,34 @@ jobs:
       - run: bash guards/tests/run-guard-tests.sh
 EOF
         ;;
+      comentario-suite)
+        cat > .github/workflows/hbn-shield.yml <<'EOF'
+name: HBN Shield
+on: [pull_request]
+jobs:
+  guards:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash guards/hbn-guards-runner.sh
+      - run: echo "skip" # bash guards/tests/run-guard-tests.sh
+      - run: bash guards/tests/adversarial-battery.sh
+EOF
+        ;;
+      echo-bateria)
+        cat > .github/workflows/hbn-shield.yml <<'EOF'
+name: HBN Shield
+on: [pull_request]
+jobs:
+  guards:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash guards/hbn-guards-runner.sh
+      - run: bash guards/tests/run-guard-tests.sh
+      - run: echo "bash guards/tests/adversarial-battery.sh"
+EOF
+        ;;
     esac
     git add .hbn/active-version .github/workflows/hbn-shield.yml
   ) >/dev/null 2>&1
@@ -1536,6 +1564,14 @@ rm -rf "$d"
 
 d="$(mk_ci_battery_repo_adv sem-bateria)"
 try_burla "B84 CI sem adversarial-battery.sh" "G-CI" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-ci-battery.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_ci_battery_repo_adv comentario-suite)"
+try_burla "B85 CI comentario inline run-guard-tests.sh" "G-CI" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-ci-battery.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_ci_battery_repo_adv echo-bateria)"
+try_burla "B86 CI echo adversarial-battery.sh" "G-CI" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-ci-battery.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------
