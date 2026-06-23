@@ -1501,3 +1501,7 @@ selagem, aguardando cross-audit != OpenAI e hearback humano.
 | 20260621-081000-grok-cross-fix-gexc-0083 | .hbn/results/20260621-081000-grok-cross-ia-fix-gexc-sigpipe-0083.md | result | frio | fronteira | — | 2026-06-21T08:10:00-03:00 |
 | 20260621-083000-opus-selagem-0084 | .hbn/messages/20260621-083000-opus-4-8-despacho-selagem-0084.md | despacho | frio | fronteira | — | 2026-06-21T08:30:00-03:00 |
 | 20260621-083002-codex-readback-selagem-0084 | .hbn/readbacks/0084-selagem-fix-gexc.json | readback | frio | fronteira | — | 2026-06-21T08:30:02-03:00 |
+| 20260621-090000-antigravity-cross-w-orq-4d-fix2-0082 | .hbn/results/20260621-090000-antigravity-cross-ia-w-orq-4d-fix2-0082.md | result | frio | fronteira | — | 2026-06-21T09:00:00-03:00 |
+| 20260621-091000-grok-cross-w-orq-4d-fix2-0082 | .hbn/results/20260621-091000-grok-cross-ia-w-orq-4d-fix2-0082.md | result | frio | fronteira | — | 2026-06-21T09:10:00-03:00 |
+| 20260621-093000-opus-selagem-0085 | .hbn/messages/20260621-093000-opus-4-8-despacho-selagem-0085.md | despacho | frio | fronteira | — | 2026-06-21T09:30:00-03:00 |
+| 20260621-093002-codex-readback-selagem-0085 | .hbn/readbacks/0085-selagem-w-orq-4d.json | readback | frio | fronteira | — | 2026-06-21T09:30:02-03:00 |

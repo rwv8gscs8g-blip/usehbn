@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "selagem-fix-gexc-2026-06-21",
+  "execution_id": "selagem-w-orq-4d-2026-06-21",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-21T08:30:00-03:00",
-  "manifest_sha256": "820042a3a40efab55242c9149b997565210958c6ae9c6331be170c95197ec9aa",
+  "atestado_em": "2026-06-21T09:30:00-03:00",
+  "manifest_sha256": "9d2148b94cf13e5071885c3a6fb725d146e9823030c0ca333a999b78fe67fe45",
   "challenge": {
-    "seed_sha256": "3595829e384d8d34a203338f2d38e725b2f53ba93407a598d311c596936bf543",
+    "seed_sha256": "5e51f29d1cc4c9f611e098e61d3b01d91b23bc094823e70537fec0f5515abc9b",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 849,
-        "line_text": "`adversarial-battery` bloqueou B1-B17; cross-audit independente aprovado em",
-        "line_sha256": "bbe3a4c6db6c0cc16373dd1c5366c4abb029f98e63bcc0d3d134d49a6f66ce91"
+        "line_no": 16,
+        "line_text": "  passo: \"implementacao da Despromocao-P6 (assert-arvore-label cobrir despromocao)\"",
+        "line_sha256": "c715f1a6ec03b2255c99cad0d76b6865d5c4f1ff7043b3cd944332f45bf73049"
       },
       {
-        "path": ".hbn/readbacks/0084-selagem-fix-gexc.json",
-        "line_no": 2,
-        "line_text": "  \"readback_id\": \"0084-selagem-fix-gexc\",",
-        "line_sha256": "a0a4b40ef671f8b93f260e8373c431d9fc71137f572918e28e443c2c90401e16"
+        "path": ".hbn/readbacks/0085-selagem-w-orq-4d.json",
+        "line_no": 31,
+        "line_text": "  },",
+        "line_sha256": "3288a136ca3e7c8564fedd3322a308b2d045f273db5055e2e2aea1f82d16218e"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 125,
-        "line_text": "   \"escrever\", foi \"escrever SEM rito\"; proibir toda escrita criava um buraco",
-        "line_sha256": "50a111d02e83cd3091a807086a420065095a644ae3d476eccad9164a2f8960eb"
+        "line_no": 92,
+        "line_text": "   orienta qual IA usar, por aptidão e perfil (ADR-015). \"Família\" =",
+        "line_sha256": "02bb13d610c5969da48d192044719106a29c82d9f26f3df90da03bc441a2a053"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0084-selagem-fix-gexc.json"
+        "value": ".hbn/readbacks/0085-selagem-w-orq-4d.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "cross-audit do W-ORQ-4d-fix-2 (readback 0082)"
+        "value": "implementacao da Despromocao-P6 (assert-arvore-label cobrir despromocao)"
       }
     ]
   }

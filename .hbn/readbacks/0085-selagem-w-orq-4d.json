@@ -1,0 +1,38 @@
+{
+  "readback_id": "0085-selagem-w-orq-4d",
+  "execution_id": "selagem-w-orq-4d-2026-06-21",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "vigente",
+  "seals_proposal": "0082",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0085-selagem-w-orq-4d.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260621-093000-opus-4-8-despacho-selagem-0085.md",
+  "understanding": "Selar W-ORQ-4d-fix-2 (readback 0082, redesenho CI por igualdade-exata) como vigente apos quorum != OpenAI (antigravity/Google + grok/xAI, ambos APROVA_0082: SIM) e hearback humano. Declara seals_proposal 0082 e trackea os 2 pareceres (G-QUORUM). Fecha o W-ORQ-4 (facetas 4a/4b/4c/4d). 0080/0081 superados por 0082. REGISTRY e atestacao same-fp regenerada com readback_ativo->0085. proxima_acao: Despromocao-P6. Ato de autoridade sob G-ORQ-REF (Exit A').",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Hearback humano confirmado para a selagem 0085 (W-ORQ-4d 0082) e tracking dos files_allowed no despacho de 2026-06-21T09:30:00-03:00.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0085-selagem-w-orq-4d.json",
+      ".hbn/messages/20260621-093000-opus-4-8-despacho-selagem-0085.md",
+      ".hbn/results/20260621-090000-antigravity-cross-ia-w-orq-4d-fix2-0082.md",
+      ".hbn/results/20260621-091000-grok-cross-ia-w-orq-4d-fix2-0082.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": ["main","guards/**","src/**","core/**","methodology/**","schemas/**","docs/brainstorm/**",".hbn/freeze/**"]
+  },
+  "stop_condition": "Selagem 0085 (W-ORQ-4d vigente) concluida; W-ORQ-4 completo. NAO iniciar Despromocao-P6/W-FREEZE neste commit.",
+  "HBN-Readback": "0085",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-21T09:30:00-03:00",
+  "protocol_version": "0.3.0"
+}
