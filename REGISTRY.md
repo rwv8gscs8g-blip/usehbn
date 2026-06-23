@@ -1497,3 +1497,7 @@ selagem, aguardando cross-audit != OpenAI e hearback humano.
 |---|---|---|---|---|---|---|
 | 20260621-073000-opus-despacho-fix-gexc-sigpipe | .hbn/messages/20260621-073000-opus-4-8-despacho-fix-gexc-sigpipe.md | despacho | frio | fronteira | — | 2026-06-21T07:30:00-03:00 |
 | 20260621-073002-codex-readback-fix-gexc-sigpipe | .hbn/readbacks/0083-fix-gexc-sigpipe.json | readback | frio | fronteira | — | 2026-06-21T07:30:02-03:00 |
+| 20260621-080000-antigravity-cross-fix-gexc-0083 | .hbn/results/20260621-080000-antigravity-cross-ia-fix-gexc-sigpipe-0083.md | result | frio | fronteira | — | 2026-06-21T08:00:00-03:00 |
+| 20260621-081000-grok-cross-fix-gexc-0083 | .hbn/results/20260621-081000-grok-cross-ia-fix-gexc-sigpipe-0083.md | result | frio | fronteira | — | 2026-06-21T08:10:00-03:00 |
+| 20260621-083000-opus-selagem-0084 | .hbn/messages/20260621-083000-opus-4-8-despacho-selagem-0084.md | despacho | frio | fronteira | — | 2026-06-21T08:30:00-03:00 |
+| 20260621-083002-codex-readback-selagem-0084 | .hbn/readbacks/0084-selagem-fix-gexc.json | readback | frio | fronteira | — | 2026-06-21T08:30:02-03:00 |
