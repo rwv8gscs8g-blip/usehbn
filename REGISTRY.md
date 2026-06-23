@@ -1485,3 +1485,15 @@ aguardando re-cross-audit != OpenAI e hearback humano.
 | 20260621-070000-opus-despacho-w-orq-4d-fix2-ci-entry | .hbn/messages/20260621-070000-opus-4-8-despacho-w-orq-4d-fix2-ci-entry.md | despacho | frio | fronteira | — | 2026-06-21T07:00:00-03:00 |
 | 20260621-070001-codex-ci-entry | guards/ci-entry.sh | script | frio | fronteira | — | 2026-06-21T07:00:01-03:00 |
 | 20260621-070002-codex-readback-w-orq-4d-fix2-ci-entry | .hbn/readbacks/0082-w-orq-4d-fix2-ci-entry.json | readback | frio | fronteira | — | 2026-06-21T07:00:02-03:00 |
+
+## FIX-GEXC / SIGPIPE grep -q (2026-06-21) — falso-negativo do sinal (d) — status: proposto, readback 0083
+
+G-EXC troca as checagens do sinal (d) que terminavam em `grep -q` por
+contagens que leem toda a entrada, preservando a semantica e eliminando o
+falso-negativo por SIGPIPE sob `set -o pipefail`. A entrega para antes de
+selagem, aguardando cross-audit != OpenAI e hearback humano.
+
+| id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
+|---|---|---|---|---|---|---|
+| 20260621-073000-opus-despacho-fix-gexc-sigpipe | .hbn/messages/20260621-073000-opus-4-8-despacho-fix-gexc-sigpipe.md | despacho | frio | fronteira | — | 2026-06-21T07:30:00-03:00 |
+| 20260621-073002-codex-readback-fix-gexc-sigpipe | .hbn/readbacks/0083-fix-gexc-sigpipe.json | readback | frio | fronteira | — | 2026-06-21T07:30:02-03:00 |

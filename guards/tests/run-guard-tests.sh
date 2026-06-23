@@ -144,6 +144,8 @@
 #   W-ORQ-4d-fix-2 (readback 0082): redesenho para entrypoint canonico
 #   por igualdade exata; secao G-CI-BATTERY passa a 6 checks (1 pass,
 #   5 block), incluindo heredoc-data e ci-entry.sh fingido. Total: 256.
+#   FIX G-EXC SIGPIPE (readback 0083): +1 check G-EXC com STATE grande
+#   provando que grep -q sob pipefail nao gera falso negativo. Total: 257.
 # =============================================================================
 set -uo pipefail
 
@@ -1536,6 +1538,20 @@ check "exc: msg sem HBN-Human-Authorization → BLOCK"           block "$(run_ex
 # modo commit-msg: mensagem com os 2 trailers → passa
 printf 'feat: x\n\nHBN-Readback: 0007\nHBN-Human-Authorization: ordem-tester\n' > "$d/msg-ok.txt"
 check "exc: msg com os 2 trailers → passa"                     pass  "$(run_exc "$d" "$d/msg-ok.txt")"
+rm -rf "$d"
+
+# REGRESSAO fix-gexc-sigpipe: STATE grande com sinal (d) presente deve passar.
+# Antes do fix, as pipelines com grep -q podiam fechar cedo e retornar 141 sob
+# pipefail, produzindo falso "Sinal (d) AUSENTE".
+SINAL_OK_GRANDE="$SINAL_OK"
+for i in $(seq 1 1800); do
+    SINAL_OK_GRANDE+=$'\n'"  - \"🔴 ruido vermelho padding-${i} para manter a entrada grande e exercitar pipefail apos o primeiro match do sinal d\""
+done
+d="$(make_exc_repo "mesmo-1" "mesmo-1" y "$SINAL_OK_GRANDE")"
+state_bytes="$(wc -c < "$d/.hbn/relay/STATE.md" | tr -d '[:space:]')"
+large_rc="$(run_exc "$d")"
+[[ "$state_bytes" -ge 80000 ]] || large_rc=1
+check "exc: STATE grande com sinal (d) presente -> passa" pass "$large_rc"
 rm -rf "$d"
 
 # REGRESSAO deadlock C-03c/G-EXC (corretor v3): no modo commit-msg o guard valida

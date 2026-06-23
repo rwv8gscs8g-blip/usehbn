@@ -123,11 +123,13 @@ if [[ "$AUTH_OK" != "ok" ]]; then
 fi
 
 # --- Sinal (d): 🔴 de exceção + PROPOSED_UNTIL_CROSS_AUDIT no STATE ----------
-if ! state_content | grep -E '^[[:space:]]*-' | grep '🔴' | grep -qiE 'exce'; then
+EXC_SIGNAL_COUNT="$(state_content | grep -E '^[[:space:]]*-' | grep '🔴' | grep -ciE 'exce' || true)"
+if [[ "${EXC_SIGNAL_COUNT:-0}" -eq 0 ]]; then
     guard_fail "Sinal (d) AUSENTE: STATE staged sem sinal 🔴 de EXCEÇÃO em sinais_abertos (F-01 — a exceção precisa estar visível a quem retoma)."
     FAIL=1
 fi
-if ! state_content | grep -q 'PROPOSED_UNTIL_CROSS_AUDIT'; then
+PROPOSED_SIGNAL_COUNT="$(state_content | grep -c 'PROPOSED_UNTIL_CROSS_AUDIT' || true)"
+if [[ "${PROPOSED_SIGNAL_COUNT:-0}" -eq 0 ]]; then
     guard_fail "Sinal (d) INCOMPLETO: STATE staged sem a marca PROPOSED_UNTIL_CROSS_AUDIT — adoção da exceção exige 2 pareceres de famílias ≠ implementador + hearback humano (0036 P7)."
     FAIL=1
 fi

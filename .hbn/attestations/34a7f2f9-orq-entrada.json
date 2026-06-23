@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "w-orq-4d-fix2-ci-entry-2026-06-21",
+  "execution_id": "fix-gexc-sigpipe-2026-06-21",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-21T07:00:00-03:00",
-  "manifest_sha256": "0d83becafee660f6e0879964ed4224a5e5aa5be99d479d6330ad5e6bb34bc7d3",
+  "atestado_em": "2026-06-21T07:30:00-03:00",
+  "manifest_sha256": "10aa929e5f91ed75d71ab71c78d8dcb572cdc942abfd45be1d86a5feceed6eb0",
   "challenge": {
-    "seed_sha256": "7f2993191db30cebc2279cd5d504dbec0a00dff9e89f04eb220f5dc732e9bd7f",
+    "seed_sha256": "fef32d1576c9d9d02e0f4cc544aad92e19137db4ebeebedf482efa2ccc2c5af0",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 704,
-        "line_text": "duplo APROVA_0041 nao-OpenAI: Grok/xAI registrou `APROVA_0041: SIM` com",
-        "line_sha256": "1edb3a6b4650310d6b4af49d4fb2986fe79fdeab5babc1c817d0de36ad77ee7f"
+        "line_no": 210,
+        "line_text": "handoff_mais_recente: \".hbn/messages/20260621-073000-opus-4-8-despacho-fix-gexc-sigpipe.md\"",
+        "line_sha256": "2bc0744656e41dc64cb8c1ca37462d9e69ccc0d029499967b0c9dac07da882dc"
       },
       {
-        "path": ".hbn/readbacks/0082-w-orq-4d-fix2-ci-entry.json",
-        "line_no": 9,
-        "line_text": "  \"hearback_status\": \"confirmed\",",
-        "line_sha256": "e93260a00e4834c7e3e2f84bb7f111122daac0d0a6ee1ccadc20ad0a08318671"
+        "path": ".hbn/readbacks/0083-fix-gexc-sigpipe.json",
+        "line_no": 32,
+        "line_text": "  \"stop_condition\": \"Entrega 0083 (fix-gexc-sigpipe) em commit unico; parar para cross-audit != OpenAI. NAO selar. Apos selagem do 0083, retomar o cross-audit do W-ORQ-4d-fix-2 (0082).\",",
+        "line_sha256": "9bcec48b8cb46d79f04f3fbac37f7567d9f5bf1a782fa116fb40c1b756078c92"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 22,
-        "line_text": "ORDINÁRIO: janela cheia não é fadiga, é fim de turno. O contrato é ≤1",
-        "line_sha256": "0f6a6da9c8ee0c44f9ec1828e2bb6180c0b0cc2426809fe21e09c9b501f17ffc"
+        "line_no": 135,
+        "line_text": "Janela nova com `chapeu_atual: conversacional-orquestrador` lê, nesta",
+        "line_sha256": "3a8cd63cf6d0eae3f651f7e080827c24a7b8915cbdb140d0c4f3ef14ecc0ea61"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0082-w-orq-4d-fix2-ci-entry.json"
+        "value": ".hbn/readbacks/0083-fix-gexc-sigpipe.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "cross-audit do W-ORQ-4d-fix-2 (readback 0082)"
+        "value": "cross-audit do fix-gexc-sigpipe (readback 0083)"
       }
     ]
   }
