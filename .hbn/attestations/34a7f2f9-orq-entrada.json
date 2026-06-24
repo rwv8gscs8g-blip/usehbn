@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "selagem-w-orq-4d-2026-06-21",
+  "execution_id": "despromocao-p6-2026-06-21",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-21T09:30:00-03:00",
-  "manifest_sha256": "9d2148b94cf13e5071885c3a6fb725d146e9823030c0ca333a999b78fe67fe45",
+  "atestado_em": "2026-06-21T10:00:00-03:00",
+  "manifest_sha256": "ec66af77fafcbdf29fac84a67ab0ec377f8106170b173b75c7c3414b90c46870",
   "challenge": {
-    "seed_sha256": "5e51f29d1cc4c9f611e098e61d3b01d91b23bc094823e70537fec0f5515abc9b",
+    "seed_sha256": "8c6c22d75136b965545dca6b1681d488ac2f8ddd72cd938652d03d5330cff284",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 16,
-        "line_text": "  passo: \"implementacao da Despromocao-P6 (assert-arvore-label cobrir despromocao)\"",
-        "line_sha256": "c715f1a6ec03b2255c99cad0d76b6865d5c4f1ff7043b3cd944332f45bf73049"
+        "line_no": 320,
+        "line_text": "mecanica: `bash guards/tests/run-guard-tests.sh` fechou",
+        "line_sha256": "4c8b16c71d569c84a58d3610aa9c0132ea1321a8e139c7282182866df6b6b78b"
       },
       {
-        "path": ".hbn/readbacks/0085-selagem-w-orq-4d.json",
-        "line_no": 31,
-        "line_text": "  },",
-        "line_sha256": "3288a136ca3e7c8564fedd3322a308b2d045f273db5055e2e2aea1f82d16218e"
+        "path": ".hbn/readbacks/0086-despromocao-p6.json",
+        "line_no": 12,
+        "line_text": "  \"orq_entrada_ref\": \".hbn/attestations/34a7f2f9-orq-entrada.json\",",
+        "line_sha256": "ee069c861b381bf9ce98f7e58bc0c74cebb4d974134eba1c4e056e73fa081e4f"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 92,
-        "line_text": "   orienta qual IA usar, por aptidão e perfil (ADR-015). \"Família\" =",
-        "line_sha256": "02bb13d610c5969da48d192044719106a29c82d9f26f3df90da03bc441a2a053"
+        "line_no": 118,
+        "line_text": "   qualquer papel: readback com scope-lock, linha de nascimento no REGISTRY no",
+        "line_sha256": "56f2dd655504cb5ec8a4d9fd96cc209b69aa4dafbe58591f137a83b537870fa4"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0085-selagem-w-orq-4d.json"
+        "value": ".hbn/readbacks/0086-despromocao-p6.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "implementacao da Despromocao-P6 (assert-arvore-label cobrir despromocao)"
+        "value": "cross-audit da Despromocao-P6 (readback 0086)"
       }
     ]
   }

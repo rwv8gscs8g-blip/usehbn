@@ -1505,3 +1505,16 @@ selagem, aguardando cross-audit != OpenAI e hearback humano.
 | 20260621-091000-grok-cross-w-orq-4d-fix2-0082 | .hbn/results/20260621-091000-grok-cross-ia-w-orq-4d-fix2-0082.md | result | frio | fronteira | — | 2026-06-21T09:10:00-03:00 |
 | 20260621-093000-opus-selagem-0085 | .hbn/messages/20260621-093000-opus-4-8-despacho-selagem-0085.md | despacho | frio | fronteira | — | 2026-06-21T09:30:00-03:00 |
 | 20260621-093002-codex-readback-selagem-0085 | .hbn/readbacks/0085-selagem-w-orq-4d.json | readback | frio | fronteira | — | 2026-06-21T09:30:02-03:00 |
+
+## Despromocao-P6 / G-ARVORE-LABEL (2026-06-21) — rebaixamento rastreavel — status: proposto, readback 0086
+
+G-ARVORE-LABEL passa a gatear despromocao de arvore no REGISTRY: se uma linha
+nova rebaixa a arvore anterior do mesmo path, ela precisa ser
+tipo=arvore-despromocao com readback versionado. Promocao e estavel=>quente
+permanecem preservados. A entrega para antes de selagem, aguardando
+cross-audit != OpenAI e hearback humano.
+
+| id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
+|---|---|---|---|---|---|---|
+| 20260621-100000-opus-despacho-despromocao-p6 | .hbn/messages/20260621-100000-opus-4-8-despacho-despromocao-p6.md | despacho | frio | fronteira | — | 2026-06-21T10:00:00-03:00 |
+| 20260621-100002-codex-readback-despromocao-p6 | .hbn/readbacks/0086-despromocao-p6.json | readback | frio | fronteira | — | 2026-06-21T10:00:02-03:00 |

@@ -146,6 +146,9 @@
 #   5 block), incluindo heredoc-data e ci-entry.sh fingido. Total: 256.
 #   FIX G-EXC SIGPIPE (readback 0083): +1 check G-EXC com STATE grande
 #   provando que grep -q sob pipefail nao gera falso negativo. Total: 257.
+#   Despromocao-P6 (readback 0086): +5 checks G-ARVORE-LABEL (2 pass,
+#   3 block) para promocao rastreavel e despromocao rastreavel, bloqueando
+#   rebaixamento sem evento e evento sem readback. Total: 262.
 # =============================================================================
 set -uo pipefail
 
@@ -840,6 +843,15 @@ run_arvore() {
     ( cd "$1" && bash "$GUARDS_DIR/assert-arvore-label.sh" >/dev/null 2>&1 )
     echo $?
 }
+seed_arvore_base() {
+    local d="$1" line="$2"
+    (
+        cd "$d"
+        printf '%s\n' "$line" >> REGISTRY.md
+        git add REGISTRY.md
+        git commit -qm "seed arvore"
+    ) >/dev/null 2>&1
+}
 
 d="$(make_arvore_repo)"
 (
@@ -875,6 +887,55 @@ d="$(make_arvore_repo)"
     git add REGISTRY.md
 ) >/dev/null 2>&1
 check "arvore: estavel nao-quente bloqueia" block "$(run_arvore "$d")"
+rm -rf "$d"
+
+d="$(make_arvore_repo)"
+(
+    cd "$d"
+    echo "| 20260101-05 | docs/promovida.md | arvore-promocao | quente | estavel | .hbn/readbacks/0001-selado.json | 2026-01-01T09:00:00-03:00 |" >> REGISTRY.md
+    git add REGISTRY.md
+) >/dev/null 2>&1
+check "arvore: promocao com readback passa" pass "$(run_arvore "$d")"
+rm -rf "$d"
+
+d="$(make_arvore_repo)"
+seed_arvore_base "$d" "| 20260101-06 | docs/rebaixada.md | arvore-promocao | quente | estavel | .hbn/readbacks/0001-selado.json | 2026-01-01T09:00:00-03:00 |"
+(
+    cd "$d"
+    echo "| 20260101-07 | docs/rebaixada.md | arvore-despromocao | frio | fronteira | .hbn/readbacks/0001-selado.json | 2026-01-01T10:00:00-03:00 |" >> REGISTRY.md
+    git add REGISTRY.md
+) >/dev/null 2>&1
+check "arvore: despromocao com readback passa" pass "$(run_arvore "$d")"
+rm -rf "$d"
+
+d="$(make_arvore_repo)"
+seed_arvore_base "$d" "| 20260101-08 | docs/rebaixa-comum.md | arvore-promocao | quente | estavel | .hbn/readbacks/0001-selado.json | 2026-01-01T09:00:00-03:00 |"
+(
+    cd "$d"
+    echo "| 20260101-09 | docs/rebaixa-comum.md | doc | frio | fronteira | — | 2026-01-01T10:00:00-03:00 |" >> REGISTRY.md
+    git add REGISTRY.md
+) >/dev/null 2>&1
+check "arvore: despromocao estavel->fronteira sem evento bloqueia" block "$(run_arvore "$d")"
+rm -rf "$d"
+
+d="$(make_arvore_repo)"
+seed_arvore_base "$d" "| 20260101-10 | docs/rebaixa-intermediaria.md | arvore-promocao | frio | intermediaria | .hbn/readbacks/0001-selado.json | 2026-01-01T09:00:00-03:00 |"
+(
+    cd "$d"
+    echo "| 20260101-11 | docs/rebaixa-intermediaria.md | doc | frio | fronteira | — | 2026-01-01T10:00:00-03:00 |" >> REGISTRY.md
+    git add REGISTRY.md
+) >/dev/null 2>&1
+check "arvore: despromocao intermediaria->fronteira sem evento bloqueia" block "$(run_arvore "$d")"
+rm -rf "$d"
+
+d="$(make_arvore_repo)"
+seed_arvore_base "$d" "| 20260101-12 | docs/rebaixa-sem-readback.md | arvore-promocao | quente | estavel | .hbn/readbacks/0001-selado.json | 2026-01-01T09:00:00-03:00 |"
+(
+    cd "$d"
+    echo "| 20260101-13 | docs/rebaixa-sem-readback.md | arvore-despromocao | frio | fronteira | — | 2026-01-01T10:00:00-03:00 |" >> REGISTRY.md
+    git add REGISTRY.md
+) >/dev/null 2>&1
+check "arvore: despromocao sem readback bloqueia" block "$(run_arvore "$d")"
 rm -rf "$d"
 
 # --- G-PTR: assert-pointer-honest (ADR-024 D3 / pointer-spec §3) --------------

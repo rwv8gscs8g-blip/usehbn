@@ -1603,6 +1603,44 @@ d="$(mk_ci_battery_repo_adv heredoc-entrypoint)"
 try_burla "B87 CI heredoc-data ci-entry.sh" "G-CI" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-ci-battery.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
+# B88-B90 — G-ARVORE-LABEL: despromocao precisa ser evento rastreavel.
+mk_arvore_despromocao_repo_adv() {
+  local base_arvore="$1" added_tipo="$2" added_arvore="$3" added_ref="$4" d
+  d="$(mk_repo)"
+  (
+    cd "$d"
+    mkdir -p .hbn/relay docs
+    cat > .hbn/relay/STATE.md <<'EOF'
+---
+proxima_acao: "testar despromocao adversarial"
+---
+EOF
+    cat > REGISTRY.md <<EOF
+| id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
+|---|---|---|---|---|---|---|
+| 20260101-01 | docs/b88-b90.md | arvore-promocao | quente | ${base_arvore} | .hbn/readbacks/0001-selado.json | 2026-01-01T09:00:00-03:00 |
+EOF
+    git add .hbn/active-version .hbn/relay/STATE.md REGISTRY.md
+    git commit -qm init
+    printf '| 20260101-02 | docs/b88-b90.md | %s | frio | %s | %s | 2026-01-01T10:00:00-03:00 |\n' \
+      "$added_tipo" "$added_arvore" "$added_ref" >> REGISTRY.md
+    git add REGISTRY.md
+  ) >/dev/null 2>&1
+  echo "$d"
+}
+
+d="$(mk_arvore_despromocao_repo_adv estavel doc fronteira "—")"
+try_burla "B88 despromocao estavel->fronteira sem evento" "G-ARVORE" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-arvore-label.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_arvore_despromocao_repo_adv intermediaria doc fronteira "—")"
+try_burla "B89 despromocao intermediaria->fronteira sem evento" "G-ARVORE" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-arvore-label.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_arvore_despromocao_repo_adv estavel arvore-despromocao fronteira "—")"
+try_burla "B90 despromocao sem readback versionado" "G-ARVORE" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-arvore-label.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------
 echo ""
 printf '%-52s | %-8s | %s\n' "BURLA" "GUARD" "RESULTADO"

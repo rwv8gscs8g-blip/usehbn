@@ -1,0 +1,39 @@
+{
+  "readback_id": "0086-despromocao-p6",
+  "execution_id": "despromocao-p6-2026-06-21",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "implemented_pending_cross_audit",
+  "activation_status": "PROPOSED_UNTIL_CROSS_AUDIT",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0086-despromocao-p6.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260621-100000-opus-4-8-despacho-despromocao-p6.md",
+  "understanding": "Estender G-ARVORE-LABEL (assert-arvore-label.sh) para gatear DESPROMOCAO: uma linha nova do REGISTRY cuja arvore seja menor que a arvore anterior do mesmo path (fronteira<intermediaria<estavel) exige tipo=arvore-despromocao + readback versionado; senao bloqueia. Preserva promocao e estavel=>quente. Forward-only, fail-closed. Testes (run-guard-tests + adversarial B88+). Implementacao: regenerar atestacao same-fp, parar para cross-audit != OpenAI, NAO selar.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Despacho Despromocao-P6 de 2026-06-21T10:00:00-03:00 sob token_fp 34a7f2f9; estender guard+testes+STATE+REGISTRY+atestacao dentro do files_allowed; parar para cross-audit != OpenAI.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      "guards/assert-arvore-label.sh",
+      "guards/tests/run-guard-tests.sh",
+      "guards/tests/adversarial-battery.sh",
+      ".hbn/messages/20260621-100000-opus-4-8-despacho-despromocao-p6.md",
+      ".hbn/readbacks/0086-despromocao-p6.json",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": ["main", "core/**", "methodology/**", "schemas/**", "src/**", "docs/brainstorm/**", ".hbn/freeze/**", "guards/data/**", "guards/hbn-guards-runner.sh"]
+  },
+  "stop_condition": "Entrega 0086 (Despromocao-P6) em commit unico; parar para cross-audit != OpenAI. NAO selar. NAO iniciar W-FREEZE.",
+  "HBN-Readback": "0086",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-21T10:00:00-03:00",
+  "protocol_version": "0.3.0"
+}

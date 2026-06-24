@@ -7,7 +7,9 @@
 #       intermediaria|estavel deve ser um evento rastreavel de promocao
 #       (tipo=arvore-promocao) que referencia readback versionado.
 #   (2) Nascer intermediaria|estavel sem evento de promocao BLOQUEIA.
-#   (3) Invariante estavel => temperatura=quente BLOQUEIA se violado.
+#   (3) Despromocao (rebaixamento fronteira<intermediaria<estavel) deve ser
+#       evento rastreavel tipo=arvore-despromocao + readback versionado.
+#   (4) Invariante estavel => temperatura=quente BLOQUEIA se violado.
 #
 # Fail-closed: se a versao ativa, REGISTRY ou STATE nao puderem ser lidos, o
 # guard bloqueia. Linhas legadas 5/6-col sem arvore sao ignoradas como historico.
@@ -40,8 +42,20 @@ blob_ref() {
     fi
 }
 
+base_blob_ref() {
+    if [[ -n "${HBN_DIFF_BASE:-}" ]]; then
+        echo "${HBN_DIFF_BASE}:$1"
+    else
+        echo "HEAD:$1"
+    fi
+}
+
 if ! git show "$(blob_ref "$REGISTRY_REPO_PATH")" >/dev/null 2>&1; then
     guard_fail "Nao foi possivel ler ${REGISTRY} no blob ativo ($(blob_ref "$REGISTRY_REPO_PATH"))."
+    exit 1
+fi
+if ! git show "$(base_blob_ref "$REGISTRY_REPO_PATH")" >/dev/null 2>&1; then
+    guard_fail "Nao foi possivel ler ${REGISTRY} no blob base ($(base_blob_ref "$REGISTRY_REPO_PATH"))."
     exit 1
 fi
 if ! git show "$(blob_ref "$STATE_REPO_PATH")" >/dev/null 2>&1; then
@@ -87,6 +101,33 @@ valid_arvore() {
     return 1
 }
 
+arvore_rank() {
+    case "$1" in
+        fronteira) echo 0 ;;
+        intermediaria) echo 1 ;;
+        estavel) echo 2 ;;
+        *) return 1 ;;
+    esac
+}
+
+previous_arvore_for_path() {
+    local wanted_path="$1" prior="" base_line cols base_path base_arvore
+    while IFS= read -r base_line; do
+        [[ -z "$base_line" ]] && continue
+        cols="$(registry_col_count "$base_line")"
+        if [[ "$cols" -lt 7 ]]; then
+            continue
+        fi
+        base_path="$(registry_col "$base_line" 2)"
+        [[ "$base_path" == "$wanted_path" ]] || continue
+        base_arvore="$(registry_col "$base_line" 5)"
+        if valid_arvore "$base_arvore"; then
+            prior="$base_arvore"
+        fi
+    done < <(git show "$(base_blob_ref "$REGISTRY_REPO_PATH")")
+    printf '%s\n' "$prior"
+}
+
 readback_ref_exists() {
     local line="$1" rb rb_repo
     if [[ "$line" =~ \.hbn/readbacks/[0-9][0-9][0-9][0-9]-[A-Za-z0-9._-]+\.json ]]; then
@@ -115,6 +156,7 @@ while IFS= read -r line; do
     tipo="$(registry_col "$line" 3)"
     temperatura="$(registry_col "$line" 4)"
     arvore="$(registry_col "$line" 5)"
+    arvore_anterior=""
 
     if ! valid_arvore "$arvore"; then
         guard_fail "Linha nova do ${REGISTRY} com arvore invalida '${arvore}' para '${path_col}' (valores validos: fronteira|intermediaria|estavel)."
@@ -125,6 +167,19 @@ while IFS= read -r line; do
     if [[ "$arvore" == "estavel" && "$temperatura" != "quente" ]]; then
         guard_fail "Linha nova do ${REGISTRY} viola invariante estavel=>quente: '${path_col}' tem temperatura='${temperatura}'."
         FAIL=1
+    fi
+
+    arvore_anterior="$(previous_arvore_for_path "$path_col")"
+    if [[ -n "$arvore_anterior" ]]; then
+        rank_novo="$(arvore_rank "$arvore")"
+        rank_anterior="$(arvore_rank "$arvore_anterior")"
+        if [[ "$rank_novo" -lt "$rank_anterior" ]]; then
+            if [[ "$tipo" != "arvore-despromocao" ]] || ! readback_ref_exists "$line"; then
+                guard_fail "despromocao de '${path_col}' de ${arvore_anterior} para ${arvore} sem evento tipo=arvore-despromocao + readback"
+                FAIL=1
+            fi
+            continue
+        fi
     fi
 
     if [[ "$arvore" == "intermediaria" || "$arvore" == "estavel" ]]; then
@@ -144,5 +199,5 @@ if [[ "$FAIL" -ne 0 ]]; then
     exit 1
 fi
 
-guard_ok "Rotulos de arvore no REGISTRY: promocao rastreavel quando exigida; estavel=>quente preservado."
+guard_ok "Rotulos de arvore no REGISTRY: promocao/despromocao rastreaveis quando exigidas; estavel=>quente preservado."
 exit 0
