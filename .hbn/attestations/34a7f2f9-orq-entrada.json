@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "fix-freeze-meta-deref-2026-06-21",
+  "execution_id": "selagem-fix-freeze-2026-06-21",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-21T11:30:00-03:00",
-  "manifest_sha256": "50a6c56ee1a7800bf614b58181c53792e4f9e9f4f207cf19183e0d87e52a2450",
+  "atestado_em": "2026-06-21T12:30:00-03:00",
+  "manifest_sha256": "ea6594fe3f5b457e7edbc029cf6d17013c88e90729176809a52acacbdcf9ef2d",
   "challenge": {
-    "seed_sha256": "a13cd5012a8cc942a794400e5c0afcb67041ba0951bf0726cca40f1470556c73",
+    "seed_sha256": "ab5515bfdf7d373727877eb0b76d5a43c6ebc4b7747f8ebe10894a014d022690",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 676,
-        "line_text": "`APROVA_0043: SIM` com confianca 100 e grok-build-0.1/xAI registrou",
-        "line_sha256": "70dfc2baf452ffd100085d3379c041ef3ff03de566ff6757c0f8d7e22bab8e0b"
+        "line_no": 168,
+        "line_text": "  - \"🟢 P-CAND-04 RATIFICADO E SELADO — Cursor registrou APROVA_0033: SIM; Grok registrou APROVA_0033: NAO, resolvido pelo W2 fail-closed de G-SCRATCH.\"",
+        "line_sha256": "781b86b15947744c2d2af8ae76fa25ed67f1d73541b8b93fb07390f4202f0339"
       },
       {
-        "path": ".hbn/readbacks/0088-fix-freeze-meta-deref.json",
-        "line_no": 41,
-        "line_text": "      \"guards/hbn-guards-runner.sh\"",
-        "line_sha256": "4e4994712e524fb04ef202da1b26cf03675a1f1d87903953c0075431a955f14f"
+        "path": ".hbn/readbacks/0089-selagem-fix-freeze.json",
+        "line_no": 5,
+        "line_text": "  \"implementador_id\": \"codex\",",
+        "line_sha256": "41545b843bee7030b5d2c2d4279ec4e419f4ba160ca328f98c052cea6c0a1fcd"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 79,
-        "line_text": "   dos guards e do disco (Truth Barrier). Didatismo (básico) encurta jargão,",
-        "line_sha256": "4bec1da70299db3daa5f03fed6b5139b6dae83a5ce62af886fe2dff425386f30"
+        "line_no": 80,
+        "line_text": "   jamais a verdade. Densidade (expert) encurta glosa, jamais o núcleo.",
+        "line_sha256": "c9c3461665fb8553f848a56f18c26e0cf1b5f2a7091c35754cf7c76f06d0edb5"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0088-fix-freeze-meta-deref.json"
+        "value": ".hbn/readbacks/0089-selagem-fix-freeze.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "cross-audit do fix-freeze-meta-deref (readback 0088)"
+        "value": "W-FREEZE (freeze-gate.sh exit 0 pelo humano; tag v1-estavel)"
       }
     ]
   }
