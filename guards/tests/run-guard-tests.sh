@@ -149,6 +149,8 @@
 #   Despromocao-P6 (readback 0086): +5 checks G-ARVORE-LABEL (2 pass,
 #   3 block) para promocao rastreavel e despromocao rastreavel, bloqueando
 #   rebaixamento sem evento e evento sem readback. Total: 262.
+#   FIX-FREEZE-METADEREF (readback 0088): +2 checks G-FRZ para propostas
+#   PROPOSED resolvidas por seals_proposal ou por ledger no STATE. Total: 264.
 # =============================================================================
 set -uo pipefail
 
@@ -2500,7 +2502,7 @@ EOF
 
 # --- G-FRZ: freeze-gate ------------------------------------------------------
 echo "== freeze-gate (G-FRZ) =="
-make_frz_repo() { # [ok|pending-readback|bad-atestacao]
+make_frz_repo() { # [ok|pending-readback|resolved-by-seal|resolved-by-state|bad-atestacao]
     local variant="${1:-ok}" d
     d="$(make_orq_entrada_repo)"
     (
@@ -2521,6 +2523,37 @@ EOF
 EOF
                 git add .hbn/readbacks/0099-freeze-pendente.json
                 git commit -qm frz-pending-readback
+                ;;
+            resolved-by-seal)
+                cat > .hbn/readbacks/0099-freeze-pendente.json <<'EOF'
+{"readback_id":"0099-freeze-pendente","execution_id":"freeze-pendente-test","track":"safe_track","human_status":"confirmed","status":"implemented_pending_cross_audit","activation_status":"PROPOSED_UNTIL_CROSS_AUDIT"}
+EOF
+                cat > .hbn/readbacks/0100-freeze-selagem.json <<'EOF'
+{"readback_id":"0100-freeze-selagem","execution_id":"freeze-selagem-test","track":"safe_track","human_status":"confirmed","status":"vigente","seals_proposal":"0099"}
+EOF
+                git add .hbn/readbacks/0099-freeze-pendente.json .hbn/readbacks/0100-freeze-selagem.json
+                git commit -qm frz-resolved-by-seal
+                ;;
+            resolved-by-state)
+                cat > .hbn/readbacks/0098-freeze-pendente.json <<'EOF'
+{"readback_id":"0098-freeze-pendente","execution_id":"freeze-pendente-state-test","track":"safe_track","human_status":"confirmed","status":"implemented_pending_cross_audit","activation_status":"PROPOSED_UNTIL_CROSS_AUDIT"}
+EOF
+                python3 - <<'PY'
+from pathlib import Path
+
+path = Path(".hbn/relay/STATE.md")
+text = path.read_text(encoding="utf-8")
+text = text.replace(
+    'papel_bastao: "orquestrador"\n',
+    'papel_bastao: "orquestrador"\nprotocolo: "fixture: 0098 selado e vigente via ledger"\n',
+    1,
+)
+path.write_text(text, encoding="utf-8")
+PY
+                git add .hbn/relay/STATE.md .hbn/readbacks/0098-freeze-pendente.json
+                write_valid_orq_attestation "$d"
+                git add .hbn/attestations/34a7f2f9-orq-entrada.json
+                git commit -qm frz-resolved-by-state
                 ;;
             bad-atestacao)
                 python3 - <<'PY'
@@ -2555,7 +2588,9 @@ check "frz: na obrigatório COM hearback verificável"    pass  "$(run_frz "$FIX
 check "frz: na obrigatório SEM hearback (bug F-01)"     block "$(run_frz "$FIX/freeze/bad-na-sem-hearback.json")"
 check "frz: ok sem evidência (Truth Barrier)"           block "$(run_frz "$FIX/freeze/bad-ok-sem-evidencia.json")"
 check "frz: bloqueador aberto"                          block "$(run_frz "$FIX/freeze/bad-bloqueador.json")"
-check "frz: readback PROPOSED_UNTIL_CROSS_AUDIT"        block "$(run_frz "$FIX/freeze/good-all-ok.json" pending-readback)"
+check "frz: proposta PROPOSED resolvida por seals_proposal" pass "$(run_frz "$FIX/freeze/good-all-ok.json" resolved-by-seal)"
+check "frz: proposta PROPOSED resolvida por STATE"       pass  "$(run_frz "$FIX/freeze/good-all-ok.json" resolved-by-state)"
+check "frz: proposta PROPOSED sem seal nem ledger"       block "$(run_frz "$FIX/freeze/good-all-ok.json" pending-readback)"
 check "frz: atestação de entrada não-verde"             block "$(run_frz "$FIX/freeze/good-all-ok.json" bad-atestacao)"
 
 echo "== assert-orq-entrada (G-ORQ-ENTRADA) =="

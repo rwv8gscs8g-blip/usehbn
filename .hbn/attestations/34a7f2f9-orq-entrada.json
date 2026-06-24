@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "selagem-despromocao-2026-06-21",
+  "execution_id": "fix-freeze-meta-deref-2026-06-21",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-21T11:00:00-03:00",
-  "manifest_sha256": "e9eb1b221c626d76556d82e40a256a1710e1b13277d24c0451335293d9911e62",
+  "atestado_em": "2026-06-21T11:30:00-03:00",
+  "manifest_sha256": "50a6c56ee1a7800bf614b58181c53792e4f9e9f4f207cf19183e0d87e52a2450",
   "challenge": {
-    "seed_sha256": "a6b6c74716923e4de1341b7f02377b90fac15b5e8cea9dc24e4f035f91e1a761",
+    "seed_sha256": "a13cd5012a8cc942a794400e5c0afcb67041ba0951bf0726cca40f1470556c73",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 627,
-        "line_text": "handoff. Excecao G-EXC segue proposta e visivel porque implementador=codex",
-        "line_sha256": "236b42709e4912a8d69dcd0137dfd34ae312d82b4e366e3052b3a8d1d8eae907"
+        "line_no": 676,
+        "line_text": "`APROVA_0043: SIM` com confianca 100 e grok-build-0.1/xAI registrou",
+        "line_sha256": "70dfc2baf452ffd100085d3379c041ef3ff03de566ff6757c0f8d7e22bab8e0b"
       },
       {
-        "path": ".hbn/readbacks/0087-selagem-despromocao.json",
-        "line_no": 12,
-        "line_text": "  \"orq_entrada_ref\": \".hbn/attestations/34a7f2f9-orq-entrada.json\",",
-        "line_sha256": "ee069c861b381bf9ce98f7e58bc0c74cebb4d974134eba1c4e056e73fa081e4f"
+        "path": ".hbn/readbacks/0088-fix-freeze-meta-deref.json",
+        "line_no": 41,
+        "line_text": "      \"guards/hbn-guards-runner.sh\"",
+        "line_sha256": "4e4994712e524fb04ef202da1b26cf03675a1f1d87903953c0075431a955f14f"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 2,
-        "line_text": "titulo: Orchestrator-profile spec — contrato reinicializável do papel conversacional-orquestrador",
-        "line_sha256": "2fd3e2fd8a5264e21a40c9c8cf1a1142b4ec448285517d9b684e7f7dfb13a703"
+        "line_no": 79,
+        "line_text": "   dos guards e do disco (Truth Barrier). Didatismo (básico) encurta jargão,",
+        "line_sha256": "4bec1da70299db3daa5f03fed6b5139b6dae83a5ce62af886fe2dff425386f30"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0087-selagem-despromocao.json"
+        "value": ".hbn/readbacks/0088-fix-freeze-meta-deref.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "W-FREEZE (freeze-gate.sh exit 0 pelo humano; tag v1-estavel)"
+        "value": "cross-audit do fix-freeze-meta-deref (readback 0088)"
       }
     ]
   }

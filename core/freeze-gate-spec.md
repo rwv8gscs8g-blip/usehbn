@@ -35,9 +35,14 @@ status = T1, 1 commit + linha de audit).
    status confirmed — é o que `guards/freeze-gate.sh` dereferencia).
 5. Saída sempre lista as faltas — o gate é também o relatório do que resta.
 6. `meta-deref-propostas`: antes de aceitar o checklist, o gate varre os
-   readbacks tracked em `.hbn/readbacks/*.json` e veta o freeze se qualquer
-   readback ainda declarar `activation_status: PROPOSED_UNTIL_CROSS_AUDIT` ou
-   `status: implemented_pending_cross_audit`.
+   readbacks tracked em `.hbn/readbacks/*.json` e veta o freeze se houver
+   proposta efetivamente pendente. Uma proposta `NNNN` ainda declarada
+   `activation_status: PROPOSED_UNTIL_CROSS_AUDIT` ou
+   `status: implemented_pending_cross_audit` é tratada como RESOLVIDA quando
+   existe readback `status: vigente` com `seals_proposal: "NNNN"`, ou quando o
+   ledger no STATE (`protocolo`/`sinais_abertos`) marca `NNNN` como
+   "selado e vigente", "selada e vigente" ou `SUPERAD*`. Só propostas não
+   resolvidas por esses marcadores bloqueiam.
 7. `meta-deref-atestacao`: antes de aceitar o checklist, o gate roda
    `bash guards/assert-orq-entrada.sh`; qualquer falha da atestação de entrada
    do orquestrador é veto de freeze.
@@ -64,7 +69,7 @@ Estes critérios não pertencem ao schema do checklist: são veto mecânico do
 
 | id | fonte conferida | efeito |
 |---|---|---|
-| meta-deref-propostas | `.hbn/readbacks/*.json` tracked | qualquer proposta pendente bloqueia freeze |
+| meta-deref-propostas | `.hbn/readbacks/*.json` tracked + ledger em `.hbn/relay/STATE.md` | qualquer proposta efetivamente pendente bloqueia freeze; proposta selada (`seals_proposal`) ou marcada como selada/superada no STATE é resolvida |
 | meta-deref-atestacao | `guards/assert-orq-entrada.sh` | atestação de entrada não-verde bloqueia freeze |
 
 ## §4 Quem faz o quê

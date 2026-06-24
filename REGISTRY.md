@@ -1522,3 +1522,16 @@ cross-audit != OpenAI e hearback humano.
 | 20260621-104000-grok-cross-despromocao-p6-0086 | .hbn/results/20260621-104000-grok-cross-ia-despromocao-p6-0086.md | result | frio | fronteira | — | 2026-06-21T10:40:00-03:00 |
 | 20260621-110000-opus-selagem-0087 | .hbn/messages/20260621-110000-opus-4-8-despacho-selagem-0087.md | despacho | frio | fronteira | — | 2026-06-21T11:00:00-03:00 |
 | 20260621-110002-codex-readback-selagem-0087 | .hbn/readbacks/0087-selagem-despromocao.json | readback | frio | fronteira | — | 2026-06-21T11:00:02-03:00 |
+
+## FIX-FREEZE-METADEREF / freeze-gate propostas resolvidas (2026-06-21) — status: proposto, readback 0088
+
+O `meta-deref-propostas` do freeze-gate passa a tratar propostas ja seladas
+ou superadas como resolvidas pelo ledger (`seals_proposal`,
+`protocolo`/`sinais_abertos`), mantendo veto apenas para propostas
+efetivamente pendentes. A entrega para antes de selagem, aguardando
+cross-audit != OpenAI e hearback humano.
+
+| id | artefato (path) | tipo | temperatura | arvore | superseded_by | created_at |
+|---|---|---|---|---|---|---|
+| 20260621-113000-opus-despacho-fix-freeze-meta-deref | .hbn/messages/20260621-113000-opus-4-8-despacho-fix-freeze-meta-deref.md | despacho | frio | fronteira | — | 2026-06-21T11:30:00-03:00 |
+| 20260621-113002-codex-readback-fix-freeze-meta-deref | .hbn/readbacks/0088-fix-freeze-meta-deref.json | readback | frio | fronteira | — | 2026-06-21T11:30:02-03:00 |

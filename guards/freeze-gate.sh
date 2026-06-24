@@ -34,41 +34,101 @@ REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 set +e
 python3 - "$REPO_ROOT" <<'PYEOF'
 import json
+import re
 import subprocess
 import sys
 
 repo_root = sys.argv[1]
 
-try:
-    raw = subprocess.check_output(
-        ["git", "-C", repo_root, "ls-files", "-z", "--", ".hbn/readbacks/*.json"],
+def git_bytes(*args):
+    return subprocess.check_output(
+        ["git", "-C", repo_root, *args],
         stderr=subprocess.DEVNULL,
     )
+
+def indexed_text(path):
+    return git_bytes("cat-file", "-p", f":{path}").decode("utf-8")
+
+try:
+    raw = git_bytes("ls-files", "-z", "--", ".hbn/readbacks/*.json")
+    state_text = indexed_text(".hbn/relay/STATE.md")
 except Exception as exc:
     print(f"congelável: não — meta-deref-propostas falhou fechado: {exc}")
     sys.exit(2)
 
-pendentes = []
 ilegiveis = []
+readbacks = []
 for path in [p for p in raw.decode("utf-8").split("\0") if p]:
     try:
-        content = subprocess.check_output(
-            ["git", "-C", repo_root, "cat-file", "-p", f":{path}"],
-            stderr=subprocess.DEVNULL,
-        )
-        data = json.loads(content.decode("utf-8"))
+        data = json.loads(indexed_text(path))
     except Exception as exc:
         ilegiveis.append(f"{path} ({exc})")
         continue
     if not isinstance(data, dict):
         ilegiveis.append(f"{path} (JSON não é objeto)")
         continue
+    readbacks.append((path, data))
 
+resolved_by_seal = {
+    str(data.get("seals_proposal"))
+    for _, data in readbacks
+    if data.get("status") == "vigente" and data.get("seals_proposal") is not None
+}
+
+state_fragments = []
+in_sinais = False
+for line in state_text.splitlines():
+    stripped = line.strip()
+    if re.match(r"^\s*protocolo\s*:", line):
+        value = line.split(":", 1)[1].strip()
+        if len(value) >= 2 and value[0] == value[-1] and value[0] in ("'", '"'):
+            value = value[1:-1]
+        state_fragments.extend(part.strip() for part in value.split("; ") if part.strip())
+    if re.match(r"^\s*sinais_abertos\s*:", line):
+        in_sinais = True
+        continue
+    if in_sinais:
+        if stripped and not line.startswith((" ", "\t")) and not stripped.startswith("-"):
+            in_sinais = False
+        elif re.match(r"^\s*-\s*", line):
+            value = re.sub(r"^\s*-\s*", "", stripped).strip()
+            if len(value) >= 2 and value[0] == value[-1] and value[0] in ("'", '"'):
+                value = value[1:-1]
+            state_fragments.append(value)
+
+def resolved_by_state(nnnn):
+    nnnn_re = re.compile(rf"(?<!\d){re.escape(nnnn)}(?!\d)")
+    for fragment in state_fragments:
+        lowered = fragment.casefold()
+        if "proposed_until_cross_audit" in lowered:
+            continue
+        if not nnnn_re.search(fragment):
+            continue
+        if (
+            "selado e vigente" in lowered
+            or "selada e vigente" in lowered
+            or "superad" in lowered
+        ):
+            return True
+    return False
+
+pendentes = []
+for path, data in readbacks:
     activation_status = data.get("activation_status")
     status = data.get("status")
     if activation_status == "PROPOSED_UNTIL_CROSS_AUDIT" or status == "implemented_pending_cross_audit":
+        readback_id = str(data.get("readback_id", ""))
+        match = re.match(r"^(\d{4})", readback_id)
+        if not match:
+            pendentes.append(
+                f"{path} (readback_id sem NNNN inicial; activation_status={activation_status!r}, status={status!r})"
+            )
+            continue
+        nnnn = match.group(1)
+        if nnnn in resolved_by_seal or resolved_by_state(nnnn):
+            continue
         pendentes.append(
-            f"{path} (activation_status={activation_status!r}, status={status!r})"
+            f"{path} (readback_id={readback_id!r}, activation_status={activation_status!r}, status={status!r})"
         )
 
 if ilegiveis:
