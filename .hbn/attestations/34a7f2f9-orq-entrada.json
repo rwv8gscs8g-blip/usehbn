@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "despromocao-p6-2026-06-21",
+  "execution_id": "selagem-despromocao-2026-06-21",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-21T10:00:00-03:00",
-  "manifest_sha256": "ec66af77fafcbdf29fac84a67ab0ec377f8106170b173b75c7c3414b90c46870",
+  "atestado_em": "2026-06-21T11:00:00-03:00",
+  "manifest_sha256": "e9eb1b221c626d76556d82e40a256a1710e1b13277d24c0451335293d9911e62",
   "challenge": {
-    "seed_sha256": "8c6c22d75136b965545dca6b1681d488ac2f8ddd72cd938652d03d5330cff284",
+    "seed_sha256": "a6b6c74716923e4de1341b7f02377b90fac15b5e8cea9dc24e4f035f91e1a761",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 320,
-        "line_text": "mecanica: `bash guards/tests/run-guard-tests.sh` fechou",
-        "line_sha256": "4c8b16c71d569c84a58d3610aa9c0132ea1321a8e139c7282182866df6b6b78b"
+        "line_no": 627,
+        "line_text": "handoff. Excecao G-EXC segue proposta e visivel porque implementador=codex",
+        "line_sha256": "236b42709e4912a8d69dcd0137dfd34ae312d82b4e366e3052b3a8d1d8eae907"
       },
       {
-        "path": ".hbn/readbacks/0086-despromocao-p6.json",
+        "path": ".hbn/readbacks/0087-selagem-despromocao.json",
         "line_no": 12,
         "line_text": "  \"orq_entrada_ref\": \".hbn/attestations/34a7f2f9-orq-entrada.json\",",
         "line_sha256": "ee069c861b381bf9ce98f7e58bc0c74cebb4d974134eba1c4e056e73fa081e4f"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 118,
-        "line_text": "   qualquer papel: readback com scope-lock, linha de nascimento no REGISTRY no",
-        "line_sha256": "56f2dd655504cb5ec8a4d9fd96cc209b69aa4dafbe58591f137a83b537870fa4"
+        "line_no": 2,
+        "line_text": "titulo: Orchestrator-profile spec — contrato reinicializável do papel conversacional-orquestrador",
+        "line_sha256": "2fd3e2fd8a5264e21a40c9c8cf1a1142b4ec448285517d9b684e7f7dfb13a703"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0086-despromocao-p6.json"
+        "value": ".hbn/readbacks/0087-selagem-despromocao.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "cross-audit da Despromocao-P6 (readback 0086)"
+        "value": "W-FREEZE (freeze-gate.sh exit 0 pelo humano; tag v1-estavel)"
       }
     ]
   }
