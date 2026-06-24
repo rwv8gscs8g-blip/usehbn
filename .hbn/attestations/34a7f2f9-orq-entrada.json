@@ -4,38 +4,38 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "selagem-fix-freeze-2026-06-21",
+  "execution_id": "track-roadmap-2026-06-24",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-21T12:30:00-03:00",
-  "manifest_sha256": "ea6594fe3f5b457e7edbc029cf6d17013c88e90729176809a52acacbdcf9ef2d",
+  "atestado_em": "2026-06-24T12:00:00-03:00",
+  "manifest_sha256": "fd630db4b56848f7b1f9c7d9c0e8190b2713aa33a1232e2e1a30821eb899cfe5",
   "challenge": {
-    "seed_sha256": "ab5515bfdf7d373727877eb0b76d5a43c6ebc4b7747f8ebe10894a014d022690",
+    "seed_sha256": "4aa6ee0cdd6266f102975d15dd110a0715c841dfe0dff3d6ce8a56e99e3ef17e",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 168,
-        "line_text": "  - \"🟢 P-CAND-04 RATIFICADO E SELADO — Cursor registrou APROVA_0033: SIM; Grok registrou APROVA_0033: NAO, resolvido pelo W2 fail-closed de G-SCRATCH.\"",
-        "line_sha256": "781b86b15947744c2d2af8ae76fa25ed67f1d73541b8b93fb07390f4202f0339"
+        "line_no": 736,
+        "line_text": "implementador=codex coincide com o agente do readback 0041 autorizado por",
+        "line_sha256": "86256380003a0030efd8755b49a8888dbcaf1588cc0b471fea6899de458be332"
       },
       {
-        "path": ".hbn/readbacks/0089-selagem-fix-freeze.json",
-        "line_no": 5,
-        "line_text": "  \"implementador_id\": \"codex\",",
-        "line_sha256": "41545b843bee7030b5d2c2d4279ec4e419f4ba160ca328f98c052cea6c0a1fcd"
+        "path": ".hbn/readbacks/0090-track-roadmap-5-passos.json",
+        "line_no": 36,
+        "line_text": "  \"created_at\": \"2026-06-24T12:00:00-03:00\",",
+        "line_sha256": "bf5a9f70fa80806b1803a24724c218fcbf316ae6981e7fffd573f6148f7e0edf"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 80,
-        "line_text": "   jamais a verdade. Densidade (expert) encurta glosa, jamais o núcleo.",
-        "line_sha256": "c9c3461665fb8553f848a56f18c26e0cf1b5f2a7091c35754cf7c76f06d0edb5"
+        "line_no": 47,
+        "line_text": "   bastão. Continuar degradado é violação de contrato, não dedicação.",
+        "line_sha256": "be993bf20d92033efb59ad49d1c56945c0aea1d8e9ba704c26588da7da7226da"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0089-selagem-fix-freeze.json"
+        "value": ".hbn/readbacks/0090-track-roadmap-5-passos.json"
       },
       {
         "path": ".hbn/relay/STATE.md",

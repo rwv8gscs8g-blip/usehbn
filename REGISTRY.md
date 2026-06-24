@@ -1539,3 +1539,6 @@ cross-audit != OpenAI e hearback humano.
 | 20260621-121000-grok-cross-fix-freeze-0088 | .hbn/results/20260621-121000-grok-cross-ia-fix-freeze-meta-deref-0088.md | result | frio | fronteira | — | 2026-06-21T12:10:00-03:00 |
 | 20260621-123000-opus-selagem-0089 | .hbn/messages/20260621-123000-opus-4-8-despacho-selagem-0089.md | despacho | frio | fronteira | — | 2026-06-21T12:30:00-03:00 |
 | 20260621-123002-codex-readback-selagem-0089 | .hbn/readbacks/0089-selagem-fix-freeze.json | readback | frio | fronteira | — | 2026-06-21T12:30:02-03:00 |
+| 20260621-133000-opus-roadmap-macro-5-passos | docs/brainstorm/rodada-2026-06-21/ROADMAP-macro-pos-blindagem-5-passos.md | roadmap-zona-livre; passo=macro-5-passos | frio | fronteira | — | 2026-06-21T13:30:00-03:00 |
+| 20260624-120000-opus-despacho-track-roadmap | .hbn/messages/20260624-120000-opus-4-8-despacho-track-roadmap.md | despacho | frio | fronteira | — | 2026-06-24T12:00:00-03:00 |
+| 20260624-120002-codex-readback-track-roadmap | .hbn/readbacks/0090-track-roadmap-5-passos.json | readback | frio | fronteira | — | 2026-06-24T12:00:02-03:00 |
