@@ -1545,3 +1545,5 @@ cross-audit != OpenAI e hearback humano.
 | 20260624-01-freeze-protocolo-v1-estavel | .hbn/freeze/20260624-01-freeze-protocolo-v1-estavel.json | freeze-checklist | frio | fronteira | — | 2026-06-24T14:00:00-03:00 |
 | 20260624-140000-opus-despacho-w-freeze-propose | .hbn/messages/20260624-140000-opus-4-8-despacho-w-freeze-propose.md | despacho | frio | fronteira | — | 2026-06-24T14:00:00-03:00 |
 | 20260624-140002-codex-readback-w-freeze-propose | .hbn/readbacks/0091-w-freeze-propose.json | readback | frio | fronteira | — | 2026-06-24T14:00:02-03:00 |
+| 20260625-090000-opus-despacho-w-freeze-fix-checklist | .hbn/messages/20260625-090000-opus-4-8-despacho-w-freeze-fix-checklist.md | despacho | frio | fronteira | — | 2026-06-25T09:00:00-03:00 |
+| 20260625-090002-codex-readback-w-freeze-fix-checklist | .hbn/readbacks/0092-w-freeze-fix-checklist.json | readback | frio | fronteira | — | 2026-06-25T09:00:02-03:00 |

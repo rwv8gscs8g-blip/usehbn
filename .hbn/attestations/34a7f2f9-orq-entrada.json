@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "w-freeze-propose-2026-06-24",
+  "execution_id": "w-freeze-fix-checklist-2026-06-25",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-24T14:00:00-03:00",
-  "manifest_sha256": "43961ef5e0ae0ad731af0fc185fd9d4745d42967c336ab898d80b94415c47528",
+  "atestado_em": "2026-06-25T09:00:00-03:00",
+  "manifest_sha256": "513869795b8a8b5931ff17b675664c87a70a8cfc76b527f7c0b844c762dd7b90",
   "challenge": {
-    "seed_sha256": "9281720f08405aac3211f5d3e9f5fcecdb6f1a6476794c27d94973831336bb61",
+    "seed_sha256": "a7f1d3c0c255ec6c338712f8ab4d76984bc1017cdcef4f2d21fdc0385eaee05e",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 279,
-        "line_text": "Nota selagem W-ORQ-3b / readback 0063: concluida em 2026-06-18T21:03:14-03:00.",
-        "line_sha256": "ce5183af312c2e7e50a48752ed5099fea4b8d95f67281667f9b01fa91848f62d"
+        "line_no": 591,
+        "line_text": "0026 foi depositada e indexada. Evidencia mecanica: `bash",
+        "line_sha256": "aff586d1f39a12af0fe30265162040d72c1847dda01bad736d091b5692a4a108"
       },
       {
-        "path": ".hbn/readbacks/0091-w-freeze-propose.json",
-        "line_no": 14,
-        "line_text": "  \"understanding\": \"Trackear o freeze-checklist do PROTOCOLO como proposta (readback 0091), sem rodar o freeze-gate nesta onda, sem criar tag e sem trackear hearback. O checklist fica versionado para cross-audit !=OpenAI; depois virao selagem 0092, hearback do freeze e gate humano (freeze-gate exit 0 + tag v1-estavel).\",",
-        "line_sha256": "81c396706a21a64fc5f282e4b73a44eb3520ac67a6869760f9b83ab3deb567fe"
+        "path": ".hbn/readbacks/0092-w-freeze-fix-checklist.json",
+        "line_no": 35,
+        "line_text": "  \"HBN-Token-FP\": \"34a7f2f9\",",
+        "line_sha256": "879d5cf9981131178e306e848c7bf3178fd953fbab98b5b54d513a5d1c32e653"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 96,
-        "line_text": "   (a) `fornecedor(implementador) ≠ fornecedor(orquestrador)` — exceção só por",
-        "line_sha256": "6624ed1c2b9858ca6c1eb6d47945f0d3704a6871ff74b83d14e5142843ef4d0c"
+        "line_no": 77,
+        "line_text": "   nenhum nível pode suprimir o que aconteceu, por quê, o trade-off e a",
+        "line_sha256": "2d3c29d4137a460edbfe755a9bf329f6667c1b26968913281c6f70b1e53fd4b2"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0091-w-freeze-propose.json"
+        "value": ".hbn/readbacks/0092-w-freeze-fix-checklist.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "W-FREEZE cross-audit do freeze-checklist (readback 0091); depois selagem, hearback e gate humano"
+        "value": "W-FREEZE re-cross-audit do freeze-checklist corrigido (readback 0092); depois selagem 0093, hearback e gate humano"
       }
     ]
   }

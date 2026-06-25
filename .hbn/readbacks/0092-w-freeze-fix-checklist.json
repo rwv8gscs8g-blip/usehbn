@@ -1,0 +1,38 @@
+{
+  "readback_id": "0092-w-freeze-fix-checklist",
+  "execution_id": "w-freeze-fix-checklist-2026-06-25",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "implemented_pending_cross_audit",
+  "activation_status": "PROPOSED_UNTIL_CROSS_AUDIT",
+  "supersedes": "0091-w-freeze-propose",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0092-w-freeze-fix-checklist.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260625-090000-opus-4-8-despacho-w-freeze-fix-checklist.md",
+  "understanding": "Corrigir o freeze-checklist do PROTOCOLO apos cross-audit 0091: suite-pytest-verde passa a ter prova conclusiva do Terminal do operador (213 passed), guard-tests-verde passa a citar HEAD 7164c0f com 264/0 confirmado, e 0091 fica superado por 0092. Pareceres da rodada 1 ficam untracked, pois 0091 nao teve quorum 2x SIM. Nao rodar freeze-gate, nao criar tag e nao trackear hearback nesta onda; parar para re-cross-audit !=OpenAI.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Despacho do orquestrador opus-4-8 de 2026-06-25T09:00:00-03:00 sob token_fp 34a7f2f9; objetivo autorizado: corrigir freeze-checklist e superar 0091 com 0092, sem trackear pareceres, sem gate, sem tag e sem hearback nesta onda.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/freeze/20260624-01-freeze-protocolo-v1-estavel.json",
+      ".hbn/messages/20260625-090000-opus-4-8-despacho-w-freeze-fix-checklist.md",
+      ".hbn/readbacks/0092-w-freeze-fix-checklist.json",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": ["main", ".hbn/hearbacks/**", "guards/**", "src/**", "core/**", "methodology/**", "schemas/**", "docs/brainstorm/**"]
+  },
+  "stop_condition": "Readback 0092 proposto e freeze-checklist corrigido. Pareceres 0091 permanecem untracked. Parar para re-cross-audit !=OpenAI; NAO rodar freeze-gate, NAO criar tag e NAO trackear hearback nesta onda.",
+  "HBN-Readback": "0092",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-25T09:00:02-03:00",
+  "protocol_version": "0.3.0"
+}
