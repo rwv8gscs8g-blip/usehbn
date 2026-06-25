@@ -1,0 +1,37 @@
+{
+  "readback_id": "0091-w-freeze-propose",
+  "execution_id": "w-freeze-propose-2026-06-24",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "implemented_pending_cross_audit",
+  "activation_status": "PROPOSED_UNTIL_CROSS_AUDIT",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0091-w-freeze-propose.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260624-140000-opus-4-8-despacho-w-freeze-propose.md",
+  "understanding": "Trackear o freeze-checklist do PROTOCOLO como proposta (readback 0091), sem rodar o freeze-gate nesta onda, sem criar tag e sem trackear hearback. O checklist fica versionado para cross-audit !=OpenAI; depois virao selagem 0092, hearback do freeze e gate humano (freeze-gate exit 0 + tag v1-estavel).",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Despacho do orquestrador opus-4-8 de 2026-06-24T14:00:00-03:00 sob token_fp 34a7f2f9; objetivo autorizado: trackear freeze-checklist do PROTOCOLO como PROPOSTA, pendente de cross-audit !=OpenAI, sem gate, sem tag e sem hearback nesta onda.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/freeze/20260624-01-freeze-protocolo-v1-estavel.json",
+      ".hbn/messages/20260624-140000-opus-4-8-despacho-w-freeze-propose.md",
+      ".hbn/readbacks/0091-w-freeze-propose.json",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": ["main", ".hbn/hearbacks/**", "guards/**", "src/**", "core/**", "methodology/**", "schemas/**", "docs/brainstorm/**"]
+  },
+  "stop_condition": "Readback 0091 proposto e freeze-checklist do PROTOCOLO trackeado. Parar para cross-audit !=OpenAI; NAO rodar freeze-gate, NAO criar tag e NAO trackear hearback nesta onda.",
+  "HBN-Readback": "0091",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-24T14:00:02-03:00",
+  "protocol_version": "0.3.0"
+}

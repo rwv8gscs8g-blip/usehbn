@@ -1542,3 +1542,6 @@ cross-audit != OpenAI e hearback humano.
 | 20260621-133000-opus-roadmap-macro-5-passos | docs/brainstorm/rodada-2026-06-21/ROADMAP-macro-pos-blindagem-5-passos.md | roadmap-zona-livre; passo=macro-5-passos | frio | fronteira | — | 2026-06-21T13:30:00-03:00 |
 | 20260624-120000-opus-despacho-track-roadmap | .hbn/messages/20260624-120000-opus-4-8-despacho-track-roadmap.md | despacho | frio | fronteira | — | 2026-06-24T12:00:00-03:00 |
 | 20260624-120002-codex-readback-track-roadmap | .hbn/readbacks/0090-track-roadmap-5-passos.json | readback | frio | fronteira | — | 2026-06-24T12:00:02-03:00 |
+| 20260624-01-freeze-protocolo-v1-estavel | .hbn/freeze/20260624-01-freeze-protocolo-v1-estavel.json | freeze-checklist | frio | fronteira | — | 2026-06-24T14:00:00-03:00 |
+| 20260624-140000-opus-despacho-w-freeze-propose | .hbn/messages/20260624-140000-opus-4-8-despacho-w-freeze-propose.md | despacho | frio | fronteira | — | 2026-06-24T14:00:00-03:00 |
+| 20260624-140002-codex-readback-w-freeze-propose | .hbn/readbacks/0091-w-freeze-propose.json | readback | frio | fronteira | — | 2026-06-24T14:00:02-03:00 |

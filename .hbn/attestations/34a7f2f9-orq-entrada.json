@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "track-roadmap-2026-06-24",
+  "execution_id": "w-freeze-propose-2026-06-24",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-24T12:00:00-03:00",
-  "manifest_sha256": "fd630db4b56848f7b1f9c7d9c0e8190b2713aa33a1232e2e1a30821eb899cfe5",
+  "atestado_em": "2026-06-24T14:00:00-03:00",
+  "manifest_sha256": "43961ef5e0ae0ad731af0fc185fd9d4745d42967c336ab898d80b94415c47528",
   "challenge": {
-    "seed_sha256": "4aa6ee0cdd6266f102975d15dd110a0715c841dfe0dff3d6ce8a56e99e3ef17e",
+    "seed_sha256": "9281720f08405aac3211f5d3e9f5fcecdb6f1a6476794c27d94973831336bb61",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 736,
-        "line_text": "implementador=codex coincide com o agente do readback 0041 autorizado por",
-        "line_sha256": "86256380003a0030efd8755b49a8888dbcaf1588cc0b471fea6899de458be332"
+        "line_no": 279,
+        "line_text": "Nota selagem W-ORQ-3b / readback 0063: concluida em 2026-06-18T21:03:14-03:00.",
+        "line_sha256": "ce5183af312c2e7e50a48752ed5099fea4b8d95f67281667f9b01fa91848f62d"
       },
       {
-        "path": ".hbn/readbacks/0090-track-roadmap-5-passos.json",
-        "line_no": 36,
-        "line_text": "  \"created_at\": \"2026-06-24T12:00:00-03:00\",",
-        "line_sha256": "bf5a9f70fa80806b1803a24724c218fcbf316ae6981e7fffd573f6148f7e0edf"
+        "path": ".hbn/readbacks/0091-w-freeze-propose.json",
+        "line_no": 14,
+        "line_text": "  \"understanding\": \"Trackear o freeze-checklist do PROTOCOLO como proposta (readback 0091), sem rodar o freeze-gate nesta onda, sem criar tag e sem trackear hearback. O checklist fica versionado para cross-audit !=OpenAI; depois virao selagem 0092, hearback do freeze e gate humano (freeze-gate exit 0 + tag v1-estavel).\",",
+        "line_sha256": "81c396706a21a64fc5f282e4b73a44eb3520ac67a6869760f9b83ab3deb567fe"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 47,
-        "line_text": "   bastão. Continuar degradado é violação de contrato, não dedicação.",
-        "line_sha256": "be993bf20d92033efb59ad49d1c56945c0aea1d8e9ba704c26588da7da7226da"
+        "line_no": 96,
+        "line_text": "   (a) `fornecedor(implementador) ≠ fornecedor(orquestrador)` — exceção só por",
+        "line_sha256": "6624ed1c2b9858ca6c1eb6d47945f0d3704a6871ff74b83d14e5142843ef4d0c"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0090-track-roadmap-5-passos.json"
+        "value": ".hbn/readbacks/0091-w-freeze-propose.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "W-FREEZE (freeze-gate.sh exit 0 pelo humano; tag v1-estavel)"
+        "value": "W-FREEZE cross-audit do freeze-checklist (readback 0091); depois selagem, hearback e gate humano"
       }
     ]
   }
