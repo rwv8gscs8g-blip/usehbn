@@ -1551,3 +1551,5 @@ cross-audit != OpenAI e hearback humano.
 | 20260625-103500-grok-cross-w-freeze-0092 | .hbn/results/20260625-103500-grok-cross-ia-w-freeze-0092.md | audit-result | frio | fronteira | — | 2026-06-25T10:35:00-03:00 |
 | 20260625-233000-opus-despacho-selagem-0093 | .hbn/messages/20260625-233000-opus-4-8-despacho-selagem-0093.md | despacho | frio | fronteira | — | 2026-06-25T23:30:00-03:00 |
 | 20260625-233002-codex-readback-selagem-0093 | .hbn/readbacks/0093-selagem-w-freeze-checklist.json | readback | frio | fronteira | — | 2026-06-25T23:30:02-03:00 |
+| 20260626-000000-opus-despacho-w-freeze-hearback-scope | .hbn/messages/20260626-000000-opus-4-8-despacho-w-freeze-hearback-scope.md | despacho | frio | fronteira | — | 2026-06-26T00:00:00-03:00 |
+| 20260626-000002-codex-readback-w-freeze-hearback-scope | .hbn/readbacks/0094-w-freeze-hearback-scope.json | readback | frio | fronteira | — | 2026-06-26T00:00:02-03:00 |

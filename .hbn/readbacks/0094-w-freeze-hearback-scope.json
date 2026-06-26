@@ -1,0 +1,36 @@
+{
+  "readback_id": "0094-w-freeze-hearback-scope",
+  "execution_id": "w-freeze-hearback-scope-2026-06-26",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "entregue",
+  "hearback_status": "pending",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0094-w-freeze-hearback-scope.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260626-000000-opus-4-8-despacho-w-freeze-hearback-scope.md",
+  "understanding": "Autorizar exclusivamente o escopo do proximo commit puro do hearback do freeze: .hbn/hearbacks/freeze-protocolo-v1-estavel.json. Esta entrega nao cria o hearback, nao roda freeze-gate, nao cria tag e nao inicia W-FREEZE operacional; apenas deixa o readback 0094 governando o ato humano de Mauricio.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Despacho do orquestrador opus-4-8 de 2026-06-26T00:00:00-03:00 sob token_fp 34a7f2f9; objetivo autorizado: autorizar o escopo do commit puro do hearback do freeze, sem criar hearback, sem rodar gate e sem criar tag nesta entrega.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/hearbacks/freeze-protocolo-v1-estavel.json",
+      ".hbn/messages/20260626-000000-opus-4-8-despacho-w-freeze-hearback-scope.md",
+      ".hbn/readbacks/0094-w-freeze-hearback-scope.json",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": ["main", "guards/**", "src/**", "core/**", "methodology/**", "schemas/**", "docs/brainstorm/**", ".hbn/freeze/**"]
+  },
+  "stop_condition": "Readback 0094 entregue: escopo autorizado para o commit puro humano do hearback do freeze. NAO criar hearback, NAO rodar freeze-gate, NAO criar tag nesta entrega.",
+  "HBN-Readback": "0094",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-26T00:00:02-03:00",
+  "protocol_version": "0.3.0"
+}
