@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "w-freeze-hearback-scope-2026-06-26",
+  "execution_id": "w-freeze-fechamento-2026-06-26",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-26T00:00:00-03:00",
-  "manifest_sha256": "58478c8d20bc7403eabdd202edd79ef109a59e30d5bf251ee8c6bf101429751d",
+  "atestado_em": "2026-06-26T01:00:00-03:00",
+  "manifest_sha256": "7faecd3f4fa14c208c4501649536b0ef224591b31470a3a9f168345fa9e07c0e",
   "challenge": {
-    "seed_sha256": "a0554ed0a037cbedbf2e867e9fd2806dd6d9964b23b1e707e80280d7ed64374e",
+    "seed_sha256": "9ee2b55afc2df33815aba1f13e1af4f1f59b415d519a9ea7a5fa0c0942fe44b8",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 289,
-        "line_text": "`.hbn/attestations/34a7f2f9-orq-entrada.json`, e a atestacao foi regenerada",
-        "line_sha256": "50fe014d84fe4aa7c0862335e9f66f2198164962f56a790a4ab46c46305ea924"
+        "line_no": 307,
+        "line_text": "guard: proxima acao e cross-audit >=2 familias != OpenAI com `APROVA_0061:",
+        "line_sha256": "314576ba6bf004bd90169ba3ad89f01e92695124f7c1001bf14e017118cb8020"
       },
       {
-        "path": ".hbn/readbacks/0094-w-freeze-hearback-scope.json",
-        "line_no": 27,
-        "line_text": "    ],",
-        "line_sha256": "ff8cb698396e13fea03e53ae5bdf57e750c987bb5eb678007a699e064cc1f856"
+        "path": ".hbn/readbacks/0095-w-freeze-fechamento.json",
+        "line_no": 33,
+        "line_text": "  \"created_at\": \"2026-06-26T01:00:02-03:00\",",
+        "line_sha256": "7d3e92bd5bccb8b70f763e6b904543895634b62cae13cea2257625c27f0cb1f7"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 130,
-        "line_text": "   a construir na onda S4; até lá, o rito vigente (G-REG/G-NUM/G-SCOPE + gate",
-        "line_sha256": "728a234f53c879ef389b46422596960706272f498b36d1348aa414434d2a4f62"
+        "line_no": 94,
+        "line_text": "   de modelo. Invariantes:",
+        "line_sha256": "56474a0689ebc9e63cb33bb923426753da4f290c661c577496515e15d54f0c5b"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0094-w-freeze-hearback-scope.json"
+        "value": ".hbn/readbacks/0095-w-freeze-fechamento.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "W-FREEZE hearback humano: Mauricio cria o hearback do freeze (commit puro sob readback 0094); depois freeze-gate.sh exit 0 + tag v1-estavel"
+        "value": "PASSO 2 do roadmap — ponte com o Programa de Credenciamento (definir o rito com Mauricio)"
       }
     ]
   }

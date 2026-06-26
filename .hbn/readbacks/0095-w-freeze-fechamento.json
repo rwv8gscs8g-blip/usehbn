@@ -1,0 +1,35 @@
+{
+  "readback_id": "0095-w-freeze-fechamento",
+  "execution_id": "w-freeze-fechamento-2026-06-26",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "entregue",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0095-w-freeze-fechamento.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260626-010000-opus-4-8-despacho-w-freeze-fechamento.md",
+  "understanding": "Registrar no STATE que o PROTOCOLO foi congelado em v1-estavel (passo 1 concluido), sem mexer em tag, freeze ou guards, e apontar proxima_acao para o PASSO 2 do roadmap: ponte com o Programa de Credenciamento.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Despacho do orquestrador opus-4-8 de 2026-06-26T01:00:00-03:00 sob token_fp 34a7f2f9; objetivo autorizado: registrar o fechamento do PASSO 1 em v1-estavel e abrir o PASSO 2, sem recriar tag nem tocar freeze/guards.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/messages/20260626-010000-opus-4-8-despacho-w-freeze-fechamento.md",
+      ".hbn/readbacks/0095-w-freeze-fechamento.json",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": ["main", "guards/**", "src/**", "core/**", "methodology/**", "schemas/**", "docs/brainstorm/**", ".hbn/freeze/**", ".git/refs/tags/**"]
+  },
+  "stop_condition": "Readback 0095 entregue: STATE registra PASSO 1 concluido no freeze v1-estavel e abre PASSO 2 do roadmap. NAO mexer em tag, freeze ou guards.",
+  "HBN-Readback": "0095",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-26T01:00:02-03:00",
+  "protocol_version": "0.3.0"
+}
