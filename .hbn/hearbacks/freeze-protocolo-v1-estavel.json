@@ -1,0 +1,9 @@
+{
+  "hearback_id": "freeze-protocolo-v1-estavel",
+  "path": ".hbn/hearbacks/freeze-protocolo-v1-estavel.json",
+  "readback_id": "0092-w-freeze-fix-checklist",
+  "status": "confirmed",
+  "signed_by": "mauricio-zanin",
+  "signed_at": "2026-06-26T00:30:00-03:00",
+  "notes": "Hearback do freeze do PROTOCOLO useHBN (v1-estavel). Autoriza, no perfil-protocolo, os criterios de dominio V206 como na: validacao-tela-a-tela, idempotencia-provada, pdfs-evidencia-rodizio, pareceres-fechados (0034/0035/0036) e g-hrb-chave-operador (sem chave nesta janela; G-HRB modo sem-chave). Esses pertencem ao freeze da V206 (passo 4), nao ao do PROTOCOLO. Os criterios do protocolo estao ok com evidencia; suite-pytest-verde ok com 213 passed (Terminal do operador). Confirmado por Mauricio."
+}
