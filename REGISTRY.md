@@ -1547,3 +1547,7 @@ cross-audit != OpenAI e hearback humano.
 | 20260624-140002-codex-readback-w-freeze-propose | .hbn/readbacks/0091-w-freeze-propose.json | readback | frio | fronteira | — | 2026-06-24T14:00:02-03:00 |
 | 20260625-090000-opus-despacho-w-freeze-fix-checklist | .hbn/messages/20260625-090000-opus-4-8-despacho-w-freeze-fix-checklist.md | despacho | frio | fronteira | — | 2026-06-25T09:00:00-03:00 |
 | 20260625-090002-codex-readback-w-freeze-fix-checklist | .hbn/readbacks/0092-w-freeze-fix-checklist.json | readback | frio | fronteira | — | 2026-06-25T09:00:02-03:00 |
+| 20260625-103000-antigravity-cross-w-freeze-0092 | .hbn/results/20260625-103000-antigravity-cross-ia-w-freeze-0092.md | audit-result | frio | fronteira | — | 2026-06-25T10:30:00-03:00 |
+| 20260625-103500-grok-cross-w-freeze-0092 | .hbn/results/20260625-103500-grok-cross-ia-w-freeze-0092.md | audit-result | frio | fronteira | — | 2026-06-25T10:35:00-03:00 |
+| 20260625-233000-opus-despacho-selagem-0093 | .hbn/messages/20260625-233000-opus-4-8-despacho-selagem-0093.md | despacho | frio | fronteira | — | 2026-06-25T23:30:00-03:00 |
+| 20260625-233002-codex-readback-selagem-0093 | .hbn/readbacks/0093-selagem-w-freeze-checklist.json | readback | frio | fronteira | — | 2026-06-25T23:30:02-03:00 |

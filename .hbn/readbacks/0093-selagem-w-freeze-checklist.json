@@ -1,0 +1,38 @@
+{
+  "readback_id": "0093-selagem-w-freeze-checklist",
+  "execution_id": "selagem-w-freeze-checklist-2026-06-25",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "vigente",
+  "seals_proposal": "0092",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0093-selagem-w-freeze-checklist.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260625-233000-opus-4-8-despacho-selagem-0093.md",
+  "understanding": "Selar o freeze-checklist do PROTOCOLO corrigido em 0092 como vigente apos quorum != OpenAI (antigravity/Google + grok/xAI, ambos APROVA_0092: SIM) e hearback Mauricio confirmado. Declara seals_proposal 0092 e trackea os 2 pareceres (G-QUORUM + G-DIVERSITY). Ato de autoridade sob G-ORQ-REF (Exit A'), com atestacao same-fp regenerada contra readback_ativo 0093. Nao rodar freeze-gate, nao criar tag e nao criar hearback neste commit; proximo ato e humano.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Hearback humano Mauricio confirmado para a selagem 0093 (freeze-checklist 0092) e tracking dos files_allowed no despacho de 2026-06-25T23:30:00-03:00.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0093-selagem-w-freeze-checklist.json",
+      ".hbn/messages/20260625-233000-opus-4-8-despacho-selagem-0093.md",
+      ".hbn/results/20260625-103000-antigravity-cross-ia-w-freeze-0092.md",
+      ".hbn/results/20260625-103500-grok-cross-ia-w-freeze-0092.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": ["main", ".hbn/hearbacks/**", "guards/**", "src/**", "core/**", "methodology/**", "schemas/**", "docs/brainstorm/**", ".hbn/freeze/**"]
+  },
+  "stop_condition": "Selagem 0093 concluida: freeze-checklist 0092 vigente e pronto para o gate humano. NAO rodar freeze-gate, NAO criar tag e NAO criar hearback neste commit.",
+  "HBN-Readback": "0093",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-25T23:30:02-03:00",
+  "protocol_version": "0.3.0"
+}

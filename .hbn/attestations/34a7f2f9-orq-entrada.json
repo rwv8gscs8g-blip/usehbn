@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "w-freeze-fix-checklist-2026-06-25",
+  "execution_id": "selagem-w-freeze-checklist-2026-06-25",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-25T09:00:00-03:00",
-  "manifest_sha256": "513869795b8a8b5931ff17b675664c87a70a8cfc76b527f7c0b844c762dd7b90",
+  "atestado_em": "2026-06-25T23:30:00-03:00",
+  "manifest_sha256": "b18b81ed9f487abc0a30daab88ed4b0c122face485b59d7e4556dadb0ebe755f",
   "challenge": {
-    "seed_sha256": "a7f1d3c0c255ec6c338712f8ab4d76984bc1017cdcef4f2d21fdc0385eaee05e",
+    "seed_sha256": "16ea6867073fa83b65103115dadf496fd13e1f279d2bef0ab922196878a0fb9b",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 591,
-        "line_text": "0026 foi depositada e indexada. Evidencia mecanica: `bash",
-        "line_sha256": "aff586d1f39a12af0fe30265162040d72c1847dda01bad736d091b5692a4a108"
+        "line_no": 710,
+        "line_text": "readback 0043 autorizado por Maurício. Proxima acao: criar a spec verbatim e",
+        "line_sha256": "79f0a7ea3b6295cabddde1a32932e142262c9aaccc400d9ab6ac4bd9bc5679b6"
       },
       {
-        "path": ".hbn/readbacks/0092-w-freeze-fix-checklist.json",
-        "line_no": 35,
-        "line_text": "  \"HBN-Token-FP\": \"34a7f2f9\",",
-        "line_sha256": "879d5cf9981131178e306e848c7bf3178fd953fbab98b5b54d513a5d1c32e653"
+        "path": ".hbn/readbacks/0093-selagem-w-freeze-checklist.json",
+        "line_no": 38,
+        "line_text": "}",
+        "line_sha256": "d10b36aa74a59bcf4a88185837f658afaf3646eff2bb16c3928d0e9335e945d2"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 77,
-        "line_text": "   nenhum nível pode suprimir o que aconteceu, por quê, o trade-off e a",
-        "line_sha256": "2d3c29d4137a460edbfe755a9bf329f6667c1b26968913281c6f70b1e53fd4b2"
+        "line_no": 146,
+        "line_text": "  ciclo (serial: `AAAAMMDD-NN-log-orquestrador-<slug>`; paralelo: regra",
+        "line_sha256": "9884bea2f23e4c41aa396615ba7357b6a5fb0ede41a43f8e546721a682f1c610"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0092-w-freeze-fix-checklist.json"
+        "value": ".hbn/readbacks/0093-selagem-w-freeze-checklist.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "W-FREEZE re-cross-audit do freeze-checklist corrigido (readback 0092); depois selagem 0093, hearback e gate humano"
+        "value": "W-FREEZE gate humano: criar hearback do freeze + freeze-gate.sh exit 0 + tag v1-estavel"
       }
     ]
   }
