@@ -1575,3 +1575,6 @@ cross-audit != OpenAI e hearback humano.
 | 20260626-200500-grok-cross-p2b-0100 | .hbn/results/20260626-200500-grok-cross-ia-p2b-0100.md | audit-result | frio | fronteira | — | 2026-06-26T20:05:00-03:00 |
 | 20260626-210000-opus-despacho-selagem-0101 | .hbn/messages/20260626-210000-opus-4-8-despacho-selagem-0101.md | despacho | frio | fronteira | — | 2026-06-26T21:00:00-03:00 |
 | 20260626-210002-codex-readback-selagem-0101 | .hbn/readbacks/0101-selagem-p2b.json | readback | frio | fronteira | — | 2026-06-26T21:00:02-03:00 |
+| 20260626-220000-opus-handoff-pos-p2b-install | .hbn/messages/20260626-220000-opus-4-8-handoff-orquestrador-pos-p2b-install.md | handoff | frio | fronteira | — | 2026-06-26T22:00:00-03:00 |
+| 20260627-023000-opus-despacho-onda-state-p2b-parte2 | .hbn/messages/20260627-023000-opus-4-8-despacho-onda-state-p2b-parte2.md | despacho | frio | fronteira | — | 2026-06-27T02:30:00-03:00 |
+| 20260627-023002-codex-readback-onda-state-p2b-parte2 | .hbn/readbacks/0102-onda-state-p2b-parte2.json | readback | frio | fronteira | — | 2026-06-27T02:30:02-03:00 |

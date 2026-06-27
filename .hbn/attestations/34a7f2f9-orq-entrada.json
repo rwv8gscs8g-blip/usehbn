@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "selagem-p2b-2026-06-26",
+  "execution_id": "onda-state-p2b-parte2-2026-06-27",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-26T21:00:00-03:00",
-  "manifest_sha256": "84dd56c01a9f8328323d71649fb0086e6b081f47563c3001dda93056b678830a",
+  "atestado_em": "2026-06-27T02:30:00-03:00",
+  "manifest_sha256": "c5ea8eaf3303e99496c281c1787c2cda2175b9f5c1a0e65b8f951583fb0d7a1f",
   "challenge": {
-    "seed_sha256": "ca066aec1dcf90827ca0d53df1bae77371b7dd7a210430a10acce1000a83d345",
+    "seed_sha256": "08ec55f1fc717f0cd6c2f578e2f53faa1c72f78120a7a3ddfe483adca08a8893",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 529,
-        "line_text": "Nota R2 arvores registry-centric / readback 0049: entregue operacionalmente em",
-        "line_sha256": "daf487820fe80b72c52a4a73f4d15328b50b90677d52cf40fbbbf6e61ad758f7"
+        "line_no": 743,
+        "line_text": "codigo pre-C2, que retornava apenas `activation`. Evidencia local:",
+        "line_sha256": "edc571b9b413760d7817b9d8f33cfd32e8b1856cda7edc5c4bfd583981bac604"
       },
       {
-        "path": ".hbn/readbacks/0101-selagem-p2b.json",
-        "line_no": 24,
-        "line_text": "      \".hbn/results/20260626-200000-antigravity-cross-ia-p2b-0100.md\",",
-        "line_sha256": "e5fa4f33d669ec2910cfe0e19df4d4df13381ac1010266b8d72a634b27a9fa17"
+        "path": ".hbn/readbacks/0102-onda-state-p2b-parte2.json",
+        "line_no": 5,
+        "line_text": "  \"implementador_id\": \"codex\",",
+        "line_sha256": "41545b843bee7030b5d2c2d4279ec4e419f4ba160ca328f98c052cea6c0a1fcd"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 73,
-        "line_text": "   - **expert** — par-a-par: máxima densidade e sinal, só o essencial da",
-        "line_sha256": "76823abde247a6c88f31f991025ccf38031c93f671bf57b8de8581ecbaf65894"
+        "line_no": 130,
+        "line_text": "   a construir na onda S4; até lá, o rito vigente (G-REG/G-NUM/G-SCOPE + gate",
+        "line_sha256": "728a234f53c879ef389b46422596960706272f498b36d1348aa414434d2a4f62"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0101-selagem-p2b.json"
+        "value": ".hbn/readbacks/0102-onda-state-p2b-parte2.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "PASSO 2 / P2-B parte 2 — Mauricio roda install-snapshot.sh --install --target ~/Projetos/Credenciamento (humano-gated, firewall 0022)"
+        "value": "PASSO 2 / commit da membrana no Credenciamento sob rito do projeto + firewall 0022 (git add scoped: .usehbn-snapshot/, scripts/hbn-snapshot/assert-snapshot-integrity.sh, .hbn/active-version); depois P2-C (runner project-mode + subset bloqueante)"
       }
     ]
   }
