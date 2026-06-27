@@ -1562,3 +1562,6 @@ cross-audit != OpenAI e hearback humano.
 | 20260626-140500-grok-cross-ponte-v2-0096 | .hbn/results/20260626-140500-grok-cross-ia-ponte-v2-0096.md | audit-result | frio | fronteira | — | 2026-06-26T14:05:00-03:00 |
 | 20260626-150000-opus-despacho-selagem-0097 | .hbn/messages/20260626-150000-opus-4-8-despacho-selagem-0097.md | despacho | frio | fronteira | — | 2026-06-26T15:00:00-03:00 |
 | 20260626-150002-codex-readback-selagem-0097 | .hbn/readbacks/0097-selagem-ponte-v2.json | readback | frio | fronteira | — | 2026-06-26T15:00:02-03:00 |
+| 20260626-160000-opus-install-snapshot-sh | scripts/hbn-snapshot/install-snapshot.sh | script | frio | fronteira | — | 2026-06-26T16:00:00-03:00 |
+| 20260626-160001-opus-despacho-p2a-dryrun | .hbn/messages/20260626-160000-opus-4-8-despacho-p2a-dryrun.md | despacho | frio | fronteira | — | 2026-06-26T16:00:01-03:00 |
+| 20260626-160002-codex-readback-p2a-dryrun | .hbn/readbacks/0098-p2a-install-snapshot-dryrun.json | readback | frio | fronteira | — | 2026-06-26T16:00:02-03:00 |

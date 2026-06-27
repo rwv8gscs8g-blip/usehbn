@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "selagem-ponte-v2-2026-06-26",
+  "execution_id": "p2a-install-snapshot-2026-06-26",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-26T15:00:00-03:00",
-  "manifest_sha256": "33bf8e94115df636a01360f336f1e535f5adee29b7116ea53216dcd6888877e0",
+  "atestado_em": "2026-06-26T16:00:00-03:00",
+  "manifest_sha256": "3cf2b88832a0bb99ce49e31612aa652da135ee33762dfc59beff52b38194d045",
   "challenge": {
-    "seed_sha256": "69f4db78a913577fbf255535cb8555e5ecae6296092bd420301566cf55966a9d",
+    "seed_sha256": "14b26b68bcc3c7364f16d94d01ec5f8dd28f364cf5612a77af6cec5786f01dbe",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 112,
-        "line_text": "  - \"🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0054 safe_track, implementador=codex, autorização humana Mauricio e trailers contiguos; selagem encerrada com duplo APROVA_0053 + hearback.\"",
-        "line_sha256": "e98febfd9fccf55889c4e0556e203024a2ae47eeee29f4033cb36320803c9b61"
+        "line_no": 422,
+        "line_text": "`guards/assert-auditor-id.sh`, `guards/assert-exception-traceable.sh` e",
+        "line_sha256": "1c366ceb60696533a8e268653596f2f952fa43f4916cbb3043b6bdb0d87ae3a5"
       },
       {
-        "path": ".hbn/readbacks/0097-selagem-ponte-v2.json",
-        "line_no": 9,
-        "line_text": "  \"hearback_status\": \"confirmed\",",
-        "line_sha256": "e93260a00e4834c7e3e2f84bb7f111122daac0d0a6ee1ccadc20ad0a08318671"
+        "path": ".hbn/readbacks/0098-p2a-install-snapshot-dryrun.json",
+        "line_no": 6,
+        "line_text": "  \"track\": \"safe_track\",",
+        "line_sha256": "d302cebd26e38f8a0f083be416a4a7418b0bbc604d6ebc38dc58592c5ef965de"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 174,
-        "line_text": "(a) a unica acao legal por turno e executar EXATAMENTE o `proximo_ponto` do STATE; nunca inventar passo paralelo nem selagem combinada;",
-        "line_sha256": "d4b95f4c039801322f7629bb1b5e265ff1c53a7853baa0502d4a2f8d7bce63b9"
+        "line_no": 43,
+        "line_text": "   não os esconde.",
+        "line_sha256": "b8f16330978a529afb69f492180001da8fd4fa2c6af1e7d1ee5d161a025bac93"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0097-selagem-ponte-v2.json"
+        "value": ".hbn/readbacks/0098-p2a-install-snapshot-dryrun.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "PASSO 2 / P2-A — dry-run do install-snapshot.sh (gera manifesto+sha, lista 137 arquivos, nao toca o projeto)"
+        "value": "P2-A cross-audit do install-snapshot.sh + dry-run (readback 0098); depois selagem 0099, depois P2-B"
       }
     ]
   }
