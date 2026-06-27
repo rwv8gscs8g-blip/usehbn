@@ -1555,3 +1555,6 @@ cross-audit != OpenAI e hearback humano.
 | 20260626-000002-codex-readback-w-freeze-hearback-scope | .hbn/readbacks/0094-w-freeze-hearback-scope.json | readback | frio | fronteira | — | 2026-06-26T00:00:02-03:00 |
 | 20260626-010000-opus-despacho-w-freeze-fechamento | .hbn/messages/20260626-010000-opus-4-8-despacho-w-freeze-fechamento.md | despacho | frio | fronteira | — | 2026-06-26T01:00:00-03:00 |
 | 20260626-010002-codex-readback-w-freeze-fechamento | .hbn/readbacks/0095-w-freeze-fechamento.json | readback | frio | fronteira | — | 2026-06-26T01:00:02-03:00 |
+| 20260626-120000-opus-ponte-v2-consolidada | .hbn/proposals/20260626-120000-opus-4-8-ponte-v2-consolidada.md | proposal | frio | fronteira | — | 2026-06-26T12:00:00-03:00 |
+| 20260626-130000-opus-despacho-track-ponte-v2 | .hbn/messages/20260626-130000-opus-4-8-despacho-track-ponte-v2.md | despacho | frio | fronteira | — | 2026-06-26T13:00:00-03:00 |
+| 20260626-130002-codex-readback-track-ponte-v2 | .hbn/readbacks/0096-track-ponte-v2.json | readback | frio | fronteira | — | 2026-06-26T13:00:02-03:00 |

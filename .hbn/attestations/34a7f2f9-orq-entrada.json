@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "w-freeze-fechamento-2026-06-26",
+  "execution_id": "track-ponte-v2-2026-06-26",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-26T01:00:00-03:00",
-  "manifest_sha256": "7faecd3f4fa14c208c4501649536b0ef224591b31470a3a9f168345fa9e07c0e",
+  "atestado_em": "2026-06-26T13:00:00-03:00",
+  "manifest_sha256": "23018c176e8ac9a4b44bb1d9feec3eaceb57a9c9433346b8e75868d425e13c11",
   "challenge": {
-    "seed_sha256": "9ee2b55afc2df33815aba1f13e1af4f1f59b415d519a9ea7a5fa0c0942fe44b8",
+    "seed_sha256": "7406e0873b75a1737ce960da00bb36ec7991d257ebcfc6f0680ffbfecd2f39cf",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 307,
-        "line_text": "guard: proxima acao e cross-audit >=2 familias != OpenAI com `APROVA_0061:",
-        "line_sha256": "314576ba6bf004bd90169ba3ad89f01e92695124f7c1001bf14e017118cb8020"
+        "line_no": 693,
+        "line_text": "pareceres tracked, C4 encerrar STATE/handoff e devolver o bastao ao",
+        "line_sha256": "796e16a5c17748e14c740d8b364e83910081b75f93bec86ee7f0a0a8fa0a4a1b"
       },
       {
-        "path": ".hbn/readbacks/0095-w-freeze-fechamento.json",
-        "line_no": 33,
-        "line_text": "  \"created_at\": \"2026-06-26T01:00:02-03:00\",",
-        "line_sha256": "7d3e92bd5bccb8b70f763e6b904543895634b62cae13cea2257625c27f0cb1f7"
+        "path": ".hbn/readbacks/0096-track-ponte-v2.json",
+        "line_no": 24,
+        "line_text": "      \".hbn/readbacks/0096-track-ponte-v2.json\",",
+        "line_sha256": "8319e0ff0842b3f774b0b94175775e9819a23daf007b7a2e68864d0eb9967011"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 94,
-        "line_text": "   de modelo. Invariantes:",
-        "line_sha256": "56474a0689ebc9e63cb33bb923426753da4f290c661c577496515e15d54f0c5b"
+        "line_no": 127,
+        "line_text": "   enfraquecia a provenance. Trazer o orquestrador PARA DENTRO dos guards, como",
+        "line_sha256": "3cbf0647943d9403e3d16d45511fd0ebfbeba020088d1c794e8bf827189d14cf"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0095-w-freeze-fechamento.json"
+        "value": ".hbn/readbacks/0096-track-ponte-v2.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "PASSO 2 do roadmap — ponte com o Programa de Credenciamento (definir o rito com Mauricio)"
+        "value": "PASSO 2 cross-audit de ratificacao da proposta-ponte v2 (readback 0096); depois selagem 0097, hearback e P2-A"
       }
     ]
   }

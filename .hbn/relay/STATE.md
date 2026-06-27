@@ -1,8 +1,8 @@
 ---
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente; R2 arvores selada e vigente; R3a G-TRAILERS selada e vigente; R3b G-DIVERSITY selada e vigente; hardening pre-freeze R3a+R3b concluido; Curadoria do Dossie de Pre-Transicao 0055 selada; G-ORQ-ENTRADA 0056 entregue; W-ORQ-2 0058 entregue; G-ORQ-ENTRADA v2 selado e vigente; W-ORQ-3 0061 entregue; W-ORQ-3b 0062 selado e vigente via 0063; G-COPY 0064 selado e vigente via 0065; G-NEXT 0066 selado e vigente via 0069; W-RET 0067 selado e vigente via 0068; G-QUORUM 0070 selado e vigente via 0071; W-LEX 0029 selado e vigente via 0073; W-ORQ-4a 0074 selado e vigente via 0075; W-ORQ-4b 0076 selado e vigente via 0077; W-ORQ-4c 0078 selado e vigente via 0079; W-ORQ-4d 0080 entregue/proposto; W-ORQ-4d-fix 0081 entregue/proposto; W-ORQ-4d-fix-2 0082 selado e vigente via 0085; W-ORQ-4 (4a/4b/4c/4d) completo; fix-gexc-sigpipe 0083 selado e vigente via 0084; Despromocao-P6 0086 selado e vigente via 0087; roadmap B pronto para W-FREEZE; fix-freeze-meta-deref 0088 selado e vigente via 0089; W-FREEZE liberado); ROADMAP-macro-pos-blindagem-5-passos rastreado (handoff pos-roadmap fica como contexto de entrada, nao rastreado nesta janela) (track 0090); STATE ancorado no ROADMAP-macro-pos-blindagem-5-passos (passo 1 = W-FREEZE); W-FREEZE propose: freeze-checklist do PROTOCOLO trackeado (readback 0091, pendente cross-audit !=OpenAI); W-FREEZE fix-checklist: 0091 superado por 0092 (suite-pytest-verde ok com prova do operador 213 passed; numeros 179/85 e pytest-2fail do grok refutados pelo Terminal do operador 264/0 e 213 passed); pendente re-cross-audit; W-FREEZE checklist 0092 selado e vigente via 0093 (duplo APROVA_0092 SIM: antigravity/Google + grok/xAI); pronto para o gate humano; W-FREEZE hearback-scope: readback 0094 autoriza o commit puro do hearback do freeze (proximo: ato humano de Mauricio); PASSO 1 CONCLUIDO — PROTOCOLO congelado em v1-estavel (tag a67e804; freeze-gate exit 0; hearback confirmado); abrindo passo 2 (ponte com Programa de Credenciamento)"
-onda_atual: "PASSO 1 (FREEZE DO PROTOCOLO) CONCLUIDO — tag v1-estavel em a67e804; freeze-gate congelavel:sim rodado pelo humano; main intocada 4db6928. Proximo: PASSO 2 do roadmap (ponte com o Programa de Credenciamento), rito a definir com Mauricio."
+protocolo: "HBN 0.3.0 (modelo versão=pasta; M-A scaffold inativo; B19/S2/faxina 0027/S3.1/S3.2/P-CAND-04/W2 selados; grande selagem 0035 concluida; W3 deny-zona-livre ratificado e selado; R1 runtime+honestidade entregue; R1-fix dedup estado entregue; R1+R1-fix selados; R1-fix-2 entregue; selagem R1-fix-2 concluida; Esteira de Pre-Transicao promovida para core; Esteira de Pre-Transicao selada e vigente; Curadoria P0 docs entregue; Curadoria P0 selada; G-AUDITOR-ID selado e vigente; R2 arvores selada e vigente; R3a G-TRAILERS selada e vigente; R3b G-DIVERSITY selada e vigente; hardening pre-freeze R3a+R3b concluido; Curadoria do Dossie de Pre-Transicao 0055 selada; G-ORQ-ENTRADA 0056 entregue; W-ORQ-2 0058 entregue; G-ORQ-ENTRADA v2 selado e vigente; W-ORQ-3 0061 entregue; W-ORQ-3b 0062 selado e vigente via 0063; G-COPY 0064 selado e vigente via 0065; G-NEXT 0066 selado e vigente via 0069; W-RET 0067 selado e vigente via 0068; G-QUORUM 0070 selado e vigente via 0071; W-LEX 0029 selado e vigente via 0073; W-ORQ-4a 0074 selado e vigente via 0075; W-ORQ-4b 0076 selado e vigente via 0077; W-ORQ-4c 0078 selado e vigente via 0079; W-ORQ-4d 0080 entregue/proposto; W-ORQ-4d-fix 0081 entregue/proposto; W-ORQ-4d-fix-2 0082 selado e vigente via 0085; W-ORQ-4 (4a/4b/4c/4d) completo; fix-gexc-sigpipe 0083 selado e vigente via 0084; Despromocao-P6 0086 selado e vigente via 0087; roadmap B pronto para W-FREEZE; fix-freeze-meta-deref 0088 selado e vigente via 0089; W-FREEZE liberado); ROADMAP-macro-pos-blindagem-5-passos rastreado (handoff pos-roadmap fica como contexto de entrada, nao rastreado nesta janela) (track 0090); STATE ancorado no ROADMAP-macro-pos-blindagem-5-passos (passo 1 = W-FREEZE); W-FREEZE propose: freeze-checklist do PROTOCOLO trackeado (readback 0091, pendente cross-audit !=OpenAI); W-FREEZE fix-checklist: 0091 superado por 0092 (suite-pytest-verde ok com prova do operador 213 passed; numeros 179/85 e pytest-2fail do grok refutados pelo Terminal do operador 264/0 e 213 passed); pendente re-cross-audit; W-FREEZE checklist 0092 selado e vigente via 0093 (duplo APROVA_0092 SIM: antigravity/Google + grok/xAI); pronto para o gate humano; W-FREEZE hearback-scope: readback 0094 autoriza o commit puro do hearback do freeze (proximo: ato humano de Mauricio); PASSO 1 CONCLUIDO — PROTOCOLO congelado em v1-estavel (tag a67e804; freeze-gate exit 0; hearback confirmado); abrindo passo 2 (ponte com Programa de Credenciamento); PASSO 2: proposta-ponte v2 trackeada (readback 0096, pendente ratificacao !=OpenAI)"
+onda_atual: "PASSO 2 — proposta-ponte v2 consolidada e trackeada (readback 0096); 3 consultas (antigravity+grok desenho, codex viabilidade IMPLEMENTAVEL-COM-AJUSTES). Pendente: cross-audit de ratificacao !=OpenAI + selagem 0097 + hearback; depois P2-A (dry-run do install-snapshot)."
 bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
 proprietario_bastao: claude-opus-4-8
 papel_bastao: "orquestrador"
@@ -11,16 +11,18 @@ papeis:
   arquiteto: "claude-opus-4-8 — orquestrador/desenho do mecanismo M-A; distinto do implementador codex"
   auditores_validadores: "gemini-3-5 + cursor + grok + antigravity — historico: S1/B17/B18/B19/S2/faxina/S3.1/S3.2 aprovados; P-CAND-04 ratificado por Cursor APROVA_0033 SIM e Grok NAO resolvido pelo W2; W2 ratificado por Grok+Antigravity APROVA_0034 SIM; W3 ratificado por Grok, Antigravity 100 e Cursor 92 com APROVA_0036 SIM"
   gate_humano: "Maurício — aprovou a reestruturação em 2026-06-15; autorizou S1/B17/B18/B19/S2/faxina/S3.1/S3.2/P-CAND-04/W2; em 2026-06-16 autorizou grande selagem 0035, hardening->deny->freeze, selagem W3, cartao de entrada e branch protection biometrica na main"
-proxima_acao: "PASSO 2 do roadmap — ponte com o Programa de Credenciamento (definir o rito com Mauricio)"
+proxima_acao: "PASSO 2 cross-audit de ratificacao da proposta-ponte v2 (readback 0096); depois selagem 0097, hearback e P2-A"
 roadmap_ativo: "docs/brainstorm/rodada-2026-06-21/ROADMAP-macro-pos-blindagem-5-passos.md"
 proximo_ponto:
-  passo: "PASSO 2 do roadmap — ponte com o Programa de Credenciamento (definir o rito e o criterio de pronto com Mauricio)"
-  ato: implementacao
+  passo: "cross-audit de ratificacao da proposta-ponte v2 (readback 0096) por >=2 familias !=OpenAI"
+  ato: cross-audit
   destino: human
   gate: hearback_humano
-  bloco_ref: .hbn/messages/20260626-010000-opus-4-8-despacho-w-freeze-fechamento.md
+  bloco_ref: .hbn/messages/20260626-130000-opus-4-8-despacho-track-ponte-v2.md
   status: pendente
 sinais_abertos:
+  - "🟡 PASSO 2 — PROPOSTA-PONTE v2 TRACKEADA — readback 0096; membrana duas-camadas (B-subset, git archive + manifesto, shims com active-version=., assert-snapshot-integrity local, router, tombstone humano-gated, canal feedback). D4 adiado p/ P3. Pendente cross-audit !=OpenAI + selagem 0097 + hearback; depois P2-A."
+  - "🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0096 safe_track, implementador=codex, autorização humana Mauricio, orq_entrada_ref e trailers contiguos; aguarda cross-audit !=OpenAI + hearback + selagem 0097."
   - "🟢 PASSO 1 CONCLUIDO — PROTOCOLO CONGELADO v1-estavel — tag anotada a67e804; freeze-gate exit 0 (congelavel: sim) rodado por Mauricio; checklist 0092 selado via 0093; hearback freeze-protocolo-v1-estavel.json confirmado; main intocada 4db6928. Auto-verificavel (checkout v1-estavel + freeze-gate)."
   - "🟡 PASSO 2 ABERTO — ponte com o Programa de Credenciamento: validar na pratica que o protocolo selado credencia/valida corretamente. Rito e criterio de pronto a definir com Mauricio (roadmap passo 2)."
   - "🟢 W-FREEZE CHECKLIST 0092 SELADO E VIGENTE — readback 0093; duplo APROVA_0092 SIM por antigravity/Google e grok/xAI (G-QUORUM + G-DIVERSITY); hearback Mauricio confirmado. grok reverteu o NAO apos a correcao do suite-pytest-verde."
@@ -218,12 +220,12 @@ sinais_abertos:
   - "🟡 F-02 (0035 UTC×REGISTRY) NÃO corrigido — formato da linha superseded_by segue decisão humana."
   - "🟢 branch protection no GitHub: ruleset Active na main (require PR, restrict deletions, block force pushes); passkey Touch ID no boundary."
   - "🟡 backlog preservado — bump 0.3.1, hearback 0002, inbox/credenciamento e versionamento de readbacks ficam para ondas futuras."
-readback_ativo: ".hbn/readbacks/0095-w-freeze-fechamento.json"
-handoff_mais_recente: ".hbn/messages/20260626-010000-opus-4-8-despacho-w-freeze-fechamento.md"
+readback_ativo: ".hbn/readbacks/0096-track-ponte-v2.json"
+handoff_mais_recente: ".hbn/messages/20260626-130000-opus-4-8-despacho-track-ponte-v2.md"
 ancora_rollback: "evidencia/reestruturacao-m-a-s0-tree-equivalent -> 5a0587d (tree 61fa290e; rollback da selagem ao replay limpo)"
 ancora_estavel: "9a9cb11 (release 0.3.0 — C1-C7 ratificados)"
 ciclo_ativo: "W-RET PROPOSTO — readback 0067; canal de retorno A+C entregue; parar para cross-audit != OpenAI e hearback antes de selar."
-ultima_atualizacao: "2026-06-26T01:00:00-03:00"
+ultima_atualizacao: "2026-06-26T13:00:00-03:00"
 atualizado_por: codex-despromocao-p6-0086
 atribuicao:
   chapeu_atual: orquestrador
