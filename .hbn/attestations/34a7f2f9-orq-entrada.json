@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "selagem-p2a-2026-06-26",
+  "execution_id": "p2b-install-mode-2026-06-26",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-26T18:00:00-03:00",
-  "manifest_sha256": "e54dd70898c19171ac1370506bedaaecb4b619bb0a897feb9a55cfeaee2e1578",
+  "atestado_em": "2026-06-26T19:00:00-03:00",
+  "manifest_sha256": "2ce0a61894ff8925b7c4fae76e67814876a04dedacad18fe53a660dcd4e77ed8",
   "challenge": {
-    "seed_sha256": "b64906581e46bdfd3f238ad378263311e389d9a5321a51e0688d111c8a4b0ba2",
+    "seed_sha256": "1bce6ae73d3ccda1f15e6ceb45a8c26f77d293c0fa3cf4b6cb85d34562216291",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 545,
-        "line_text": "arvores: coluna `arvore` no REGISTRY going-forward, spec curta",
-        "line_sha256": "69b30198125cd5595e3a6a67bb21c9a9f17dab1e13c5a1d50f57c8795bf73c1e"
+        "line_no": 584,
+        "line_text": "`guards/**`, `src/**`, `core/**`, `schemas/**`, `methodology/**` e",
+        "line_sha256": "b3b4a30b78d41c0b236d359991c8ebaf1756c386fd0824e0ca3ee40cec7f0fa5"
       },
       {
-        "path": ".hbn/readbacks/0099-selagem-p2a.json",
-        "line_no": 31,
-        "line_text": "  },",
-        "line_sha256": "3288a136ca3e7c8564fedd3322a308b2d045f273db5055e2e2aea1f82d16218e"
+        "path": ".hbn/readbacks/0100-p2b-install-mode.json",
+        "line_no": 15,
+        "line_text": "  \"authorization\": {",
+        "line_sha256": "80dbe1dbeaa906f4d5508eb2ded236c6a1b034990774e84f759e52079be0597e"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 56,
-        "line_text": "   quem aprende. Desce o P13 ao comportamento.",
-        "line_sha256": "23384027258dff04a6cfaf629a2f1e0348dfdc4998df79437a004bccabb575f0"
+        "line_no": 37,
+        "line_text": "4. **Humano no gate** — toda adoção por hearback commitado (ADR-023);",
+        "line_sha256": "02c739b60255b41e1b79e5c26f7e47e96aeec258660778d6a37d44769d6a1bf9"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0099-selagem-p2a.json"
+        "value": ".hbn/readbacks/0100-p2b-install-mode.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "PASSO 2 / P2-B — instalar a membrana no Credenciamento (install-snapshot.sh --install, humano-gated) sob hearback"
+        "value": "P2-B cross-audit do --install (readback 0100); depois selagem 0101; depois Mauricio roda --install no Credenciamento"
       }
     ]
   }
