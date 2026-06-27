@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "p2a-install-snapshot-2026-06-26",
+  "execution_id": "selagem-p2a-2026-06-26",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-26T16:00:00-03:00",
-  "manifest_sha256": "3cf2b88832a0bb99ce49e31612aa652da135ee33762dfc59beff52b38194d045",
+  "atestado_em": "2026-06-26T18:00:00-03:00",
+  "manifest_sha256": "e54dd70898c19171ac1370506bedaaecb4b619bb0a897feb9a55cfeaee2e1578",
   "challenge": {
-    "seed_sha256": "14b26b68bcc3c7364f16d94d01ec5f8dd28f364cf5612a77af6cec5786f01dbe",
+    "seed_sha256": "b64906581e46bdfd3f238ad378263311e389d9a5321a51e0688d111c8a4b0ba2",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 422,
-        "line_text": "`guards/assert-auditor-id.sh`, `guards/assert-exception-traceable.sh` e",
-        "line_sha256": "1c366ceb60696533a8e268653596f2f952fa43f4916cbb3043b6bdb0d87ae3a5"
+        "line_no": 545,
+        "line_text": "arvores: coluna `arvore` no REGISTRY going-forward, spec curta",
+        "line_sha256": "69b30198125cd5595e3a6a67bb21c9a9f17dab1e13c5a1d50f57c8795bf73c1e"
       },
       {
-        "path": ".hbn/readbacks/0098-p2a-install-snapshot-dryrun.json",
-        "line_no": 6,
-        "line_text": "  \"track\": \"safe_track\",",
-        "line_sha256": "d302cebd26e38f8a0f083be416a4a7418b0bbc604d6ebc38dc58592c5ef965de"
+        "path": ".hbn/readbacks/0099-selagem-p2a.json",
+        "line_no": 31,
+        "line_text": "  },",
+        "line_sha256": "3288a136ca3e7c8564fedd3322a308b2d045f273db5055e2e2aea1f82d16218e"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 43,
-        "line_text": "   não os esconde.",
-        "line_sha256": "b8f16330978a529afb69f492180001da8fd4fa2c6af1e7d1ee5d161a025bac93"
+        "line_no": 56,
+        "line_text": "   quem aprende. Desce o P13 ao comportamento.",
+        "line_sha256": "23384027258dff04a6cfaf629a2f1e0348dfdc4998df79437a004bccabb575f0"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0098-p2a-install-snapshot-dryrun.json"
+        "value": ".hbn/readbacks/0099-selagem-p2a.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "P2-A cross-audit do install-snapshot.sh + dry-run (readback 0098); depois selagem 0099, depois P2-B"
+        "value": "PASSO 2 / P2-B — instalar a membrana no Credenciamento (install-snapshot.sh --install, humano-gated) sob hearback"
       }
     ]
   }

@@ -1565,3 +1565,7 @@ cross-audit != OpenAI e hearback humano.
 | 20260626-160000-opus-install-snapshot-sh | scripts/hbn-snapshot/install-snapshot.sh | script | frio | fronteira | — | 2026-06-26T16:00:00-03:00 |
 | 20260626-160001-opus-despacho-p2a-dryrun | .hbn/messages/20260626-160000-opus-4-8-despacho-p2a-dryrun.md | despacho | frio | fronteira | — | 2026-06-26T16:00:01-03:00 |
 | 20260626-160002-codex-readback-p2a-dryrun | .hbn/readbacks/0098-p2a-install-snapshot-dryrun.json | readback | frio | fronteira | — | 2026-06-26T16:00:02-03:00 |
+| 20260626-170000-antigravity-cross-p2a-0098 | .hbn/results/20260626-170000-antigravity-cross-ia-p2a-0098.md | audit-result | frio | fronteira | — | 2026-06-26T17:00:00-03:00 |
+| 20260626-170500-grok-cross-p2a-0098 | .hbn/results/20260626-170500-grok-cross-ia-p2a-0098.md | audit-result | frio | fronteira | — | 2026-06-26T17:05:00-03:00 |
+| 20260626-180000-opus-despacho-selagem-0099 | .hbn/messages/20260626-180000-opus-4-8-despacho-selagem-0099.md | despacho | frio | fronteira | — | 2026-06-26T18:00:00-03:00 |
+| 20260626-180002-codex-readback-selagem-0099 | .hbn/readbacks/0099-selagem-p2a.json | readback | frio | fronteira | — | 2026-06-26T18:00:02-03:00 |
