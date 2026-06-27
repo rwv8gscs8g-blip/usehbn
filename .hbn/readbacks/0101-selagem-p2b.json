@@ -1,0 +1,38 @@
+{
+  "readback_id": "0101-selagem-p2b",
+  "execution_id": "selagem-p2b-2026-06-26",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "vigente",
+  "seals_proposal": "0100",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0101-selagem-p2b.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260626-210000-opus-4-8-despacho-selagem-0101.md",
+  "understanding": "Selar o P2-B (readback 0100: modo --install do install-snapshot.sh) como vigente apos duplo APROVA_0100 SIM (antigravity/Google + grok/xAI; install/integridade/idempotencia validados em target temp; nao toca o Credenciamento). Declara seals_proposal 0100 e trackeia os 2 pareceres (G-QUORUM + G-DIVERSITY, 2 familias !=OpenAI). Com 0100 selado, a ferramenta de instalacao da membrana esta ratificada. Proxima_acao: P2-B parte 2 — Mauricio roda install-snapshot.sh --install --target ~/Projetos/Credenciamento (humano-gated, firewall 0022), criando .usehbn-snapshot/ real + guard local + active-version. REGISTRY e atestacao same-fp regenerada com readback_ativo->0101. Ato de autoridade sob G-ORQ-REF (Exit A').",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Hearback humano confirmado para a selagem 0101 (P2-B 0100) e tracking dos 2 pareceres; duplo APROVA_0100 SIM no disco.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0101-selagem-p2b.json",
+      ".hbn/messages/20260626-210000-opus-4-8-despacho-selagem-0101.md",
+      ".hbn/results/20260626-200000-antigravity-cross-ia-p2b-0100.md",
+      ".hbn/results/20260626-200500-grok-cross-ia-p2b-0100.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": ["main","guards/**","src/**","core/**","methodology/**","schemas/**","docs/brainstorm/**",".hbn/freeze/**",".hbn/hearbacks/**",".hbn/operators/**",".hbn/proposals/**","scripts/**"]
+  },
+  "stop_condition": "Selagem 0101 (P2-B vigente) concluida. Proxima_acao e P2-B parte 2 (install humano no Credenciamento). NAO rodar --install neste commit.",
+  "HBN-Readback": "0101",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-26T21:00:00-03:00",
+  "protocol_version": "0.3.0"
+}

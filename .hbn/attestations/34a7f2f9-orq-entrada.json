@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "p2b-install-mode-2026-06-26",
+  "execution_id": "selagem-p2b-2026-06-26",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-26T19:00:00-03:00",
-  "manifest_sha256": "2ce0a61894ff8925b7c4fae76e67814876a04dedacad18fe53a660dcd4e77ed8",
+  "atestado_em": "2026-06-26T21:00:00-03:00",
+  "manifest_sha256": "84dd56c01a9f8328323d71649fb0086e6b081f47563c3001dda93056b678830a",
   "challenge": {
-    "seed_sha256": "1bce6ae73d3ccda1f15e6ceb45a8c26f77d293c0fa3cf4b6cb85d34562216291",
+    "seed_sha256": "ca066aec1dcf90827ca0d53df1bae77371b7dd7a210430a10acce1000a83d345",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 584,
-        "line_text": "`guards/**`, `src/**`, `core/**`, `schemas/**`, `methodology/**` e",
-        "line_sha256": "b3b4a30b78d41c0b236d359991c8ebaf1756c386fd0824e0ca3ee40cec7f0fa5"
+        "line_no": 529,
+        "line_text": "Nota R2 arvores registry-centric / readback 0049: entregue operacionalmente em",
+        "line_sha256": "daf487820fe80b72c52a4a73f4d15328b50b90677d52cf40fbbbf6e61ad758f7"
       },
       {
-        "path": ".hbn/readbacks/0100-p2b-install-mode.json",
-        "line_no": 15,
-        "line_text": "  \"authorization\": {",
-        "line_sha256": "80dbe1dbeaa906f4d5508eb2ded236c6a1b034990774e84f759e52079be0597e"
+        "path": ".hbn/readbacks/0101-selagem-p2b.json",
+        "line_no": 24,
+        "line_text": "      \".hbn/results/20260626-200000-antigravity-cross-ia-p2b-0100.md\",",
+        "line_sha256": "e5fa4f33d669ec2910cfe0e19df4d4df13381ac1010266b8d72a634b27a9fa17"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 37,
-        "line_text": "4. **Humano no gate** — toda adoção por hearback commitado (ADR-023);",
-        "line_sha256": "02c739b60255b41e1b79e5c26f7e47e96aeec258660778d6a37d44769d6a1bf9"
+        "line_no": 73,
+        "line_text": "   - **expert** — par-a-par: máxima densidade e sinal, só o essencial da",
+        "line_sha256": "76823abde247a6c88f31f991025ccf38031c93f671bf57b8de8581ecbaf65894"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0100-p2b-install-mode.json"
+        "value": ".hbn/readbacks/0101-selagem-p2b.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "P2-B cross-audit do --install (readback 0100); depois selagem 0101; depois Mauricio roda --install no Credenciamento"
+        "value": "PASSO 2 / P2-B parte 2 — Mauricio roda install-snapshot.sh --install --target ~/Projetos/Credenciamento (humano-gated, firewall 0022)"
       }
     ]
   }

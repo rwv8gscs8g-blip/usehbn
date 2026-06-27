@@ -1571,3 +1571,7 @@ cross-audit != OpenAI e hearback humano.
 | 20260626-180002-codex-readback-selagem-0099 | .hbn/readbacks/0099-selagem-p2a.json | readback | frio | fronteira | — | 2026-06-26T18:00:02-03:00 |
 | 20260626-190000-opus-despacho-p2b-install | .hbn/messages/20260626-190000-opus-4-8-despacho-p2b-install.md | despacho | frio | fronteira | — | 2026-06-26T19:00:00-03:00 |
 | 20260626-190002-codex-readback-p2b-install | .hbn/readbacks/0100-p2b-install-mode.json | readback | frio | fronteira | — | 2026-06-26T19:00:02-03:00 |
+| 20260626-200000-antigravity-cross-p2b-0100 | .hbn/results/20260626-200000-antigravity-cross-ia-p2b-0100.md | audit-result | frio | fronteira | — | 2026-06-26T20:00:00-03:00 |
+| 20260626-200500-grok-cross-p2b-0100 | .hbn/results/20260626-200500-grok-cross-ia-p2b-0100.md | audit-result | frio | fronteira | — | 2026-06-26T20:05:00-03:00 |
+| 20260626-210000-opus-despacho-selagem-0101 | .hbn/messages/20260626-210000-opus-4-8-despacho-selagem-0101.md | despacho | frio | fronteira | — | 2026-06-26T21:00:00-03:00 |
+| 20260626-210002-codex-readback-selagem-0101 | .hbn/readbacks/0101-selagem-p2b.json | readback | frio | fronteira | — | 2026-06-26T21:00:02-03:00 |
