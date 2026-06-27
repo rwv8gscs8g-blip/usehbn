@@ -1558,3 +1558,7 @@ cross-audit != OpenAI e hearback humano.
 | 20260626-120000-opus-ponte-v2-consolidada | .hbn/proposals/20260626-120000-opus-4-8-ponte-v2-consolidada.md | proposal | frio | fronteira | — | 2026-06-26T12:00:00-03:00 |
 | 20260626-130000-opus-despacho-track-ponte-v2 | .hbn/messages/20260626-130000-opus-4-8-despacho-track-ponte-v2.md | despacho | frio | fronteira | — | 2026-06-26T13:00:00-03:00 |
 | 20260626-130002-codex-readback-track-ponte-v2 | .hbn/readbacks/0096-track-ponte-v2.json | readback | frio | fronteira | — | 2026-06-26T13:00:02-03:00 |
+| 20260626-140000-antigravity-cross-ponte-v2-0096 | .hbn/results/20260626-140000-antigravity-cross-ia-ponte-v2-0096.md | audit-result | frio | fronteira | — | 2026-06-26T14:00:00-03:00 |
+| 20260626-140500-grok-cross-ponte-v2-0096 | .hbn/results/20260626-140500-grok-cross-ia-ponte-v2-0096.md | audit-result | frio | fronteira | — | 2026-06-26T14:05:00-03:00 |
+| 20260626-150000-opus-despacho-selagem-0097 | .hbn/messages/20260626-150000-opus-4-8-despacho-selagem-0097.md | despacho | frio | fronteira | — | 2026-06-26T15:00:00-03:00 |
+| 20260626-150002-codex-readback-selagem-0097 | .hbn/readbacks/0097-selagem-ponte-v2.json | readback | frio | fronteira | — | 2026-06-26T15:00:02-03:00 |

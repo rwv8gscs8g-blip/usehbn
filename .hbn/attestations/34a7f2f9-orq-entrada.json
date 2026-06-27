@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "track-ponte-v2-2026-06-26",
+  "execution_id": "selagem-ponte-v2-2026-06-26",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-26T13:00:00-03:00",
-  "manifest_sha256": "23018c176e8ac9a4b44bb1d9feec3eaceb57a9c9433346b8e75868d425e13c11",
+  "atestado_em": "2026-06-26T15:00:00-03:00",
+  "manifest_sha256": "33bf8e94115df636a01360f336f1e535f5adee29b7116ea53216dcd6888877e0",
   "challenge": {
-    "seed_sha256": "7406e0873b75a1737ce960da00bb36ec7991d257ebcfc6f0680ffbfecd2f39cf",
+    "seed_sha256": "69f4db78a913577fbf255535cb8555e5ecae6296092bd420301566cf55966a9d",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 693,
-        "line_text": "pareceres tracked, C4 encerrar STATE/handoff e devolver o bastao ao",
-        "line_sha256": "796e16a5c17748e14c740d8b364e83910081b75f93bec86ee7f0a0a8fa0a4a1b"
+        "line_no": 112,
+        "line_text": "  - \"🔴 G-EXC PROPOSED_UNTIL_CROSS_AUDIT VISIVEL — readback 0054 safe_track, implementador=codex, autorização humana Mauricio e trailers contiguos; selagem encerrada com duplo APROVA_0053 + hearback.\"",
+        "line_sha256": "e98febfd9fccf55889c4e0556e203024a2ae47eeee29f4033cb36320803c9b61"
       },
       {
-        "path": ".hbn/readbacks/0096-track-ponte-v2.json",
-        "line_no": 24,
-        "line_text": "      \".hbn/readbacks/0096-track-ponte-v2.json\",",
-        "line_sha256": "8319e0ff0842b3f774b0b94175775e9819a23daf007b7a2e68864d0eb9967011"
+        "path": ".hbn/readbacks/0097-selagem-ponte-v2.json",
+        "line_no": 9,
+        "line_text": "  \"hearback_status\": \"confirmed\",",
+        "line_sha256": "e93260a00e4834c7e3e2f84bb7f111122daac0d0a6ee1ccadc20ad0a08318671"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 127,
-        "line_text": "   enfraquecia a provenance. Trazer o orquestrador PARA DENTRO dos guards, como",
-        "line_sha256": "3cbf0647943d9403e3d16d45511fd0ebfbeba020088d1c794e8bf827189d14cf"
+        "line_no": 174,
+        "line_text": "(a) a unica acao legal por turno e executar EXATAMENTE o `proximo_ponto` do STATE; nunca inventar passo paralelo nem selagem combinada;",
+        "line_sha256": "d4b95f4c039801322f7629bb1b5e265ff1c53a7853baa0502d4a2f8d7bce63b9"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0096-track-ponte-v2.json"
+        "value": ".hbn/readbacks/0097-selagem-ponte-v2.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "PASSO 2 cross-audit de ratificacao da proposta-ponte v2 (readback 0096); depois selagem 0097, hearback e P2-A"
+        "value": "PASSO 2 / P2-A — dry-run do install-snapshot.sh (gera manifesto+sha, lista 137 arquivos, nao toca o projeto)"
       }
     ]
   }
