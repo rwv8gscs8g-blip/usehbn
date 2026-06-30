@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "onda-state-p2b-parte2-2026-06-27",
+  "execution_id": "onda-repoint-state-p2c-2026-06-30",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-27T02:30:00-03:00",
-  "manifest_sha256": "c5ea8eaf3303e99496c281c1787c2cda2175b9f5c1a0e65b8f951583fb0d7a1f",
+  "atestado_em": "2026-06-30T01:58:48-03:00",
+  "manifest_sha256": "5c1bbf7b5568fbbe15b460c5308e415b00dac010728c67966c5a2ab6865e0f9a",
   "challenge": {
-    "seed_sha256": "08ec55f1fc717f0cd6c2f578e2f53faa1c72f78120a7a3ddfe483adca08a8893",
+    "seed_sha256": "56739aac01e9e2154a731e680d35d21b495b62247052047dc128189a7c3ee671",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 743,
-        "line_text": "codigo pre-C2, que retornava apenas `activation`. Evidencia local:",
-        "line_sha256": "edc571b9b413760d7817b9d8f33cfd32e8b1856cda7edc5c4bfd583981bac604"
+        "line_no": 6,
+        "line_text": "bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf",
+        "line_sha256": "876d7a9548b8cd7ef310e63f6f6e341e860ad1516440a83bcd71f66c36566aa4"
       },
       {
-        "path": ".hbn/readbacks/0102-onda-state-p2b-parte2.json",
-        "line_no": 5,
-        "line_text": "  \"implementador_id\": \"codex\",",
-        "line_sha256": "41545b843bee7030b5d2c2d4279ec4e419f4ba160ca328f98c052cea6c0a1fcd"
+        "path": ".hbn/readbacks/0103-onda-repoint-state-p2c.json",
+        "line_no": 21,
+        "line_text": "      \".hbn/readbacks/0103-onda-repoint-state-p2c.json\",",
+        "line_sha256": "40677e89035da9e29ce6089d4bdfd56c5368bd1f03f2d23aee66d5ac835499af"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 130,
-        "line_text": "   a construir na onda S4; até lá, o rito vigente (G-REG/G-NUM/G-SCOPE + gate",
-        "line_sha256": "728a234f53c879ef389b46422596960706272f498b36d1348aa414434d2a4f62"
+        "line_no": 148,
+        "line_text": "- **Cápsula**: antes de todo bastão, o orquestrador destila as decisões",
+        "line_sha256": "0eed2a8d69e206b61e3d9efae0ace33c36ad791c46e0ba7cb7a1251cc6bfb6c2"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0102-onda-state-p2b-parte2.json"
+        "value": ".hbn/readbacks/0103-onda-repoint-state-p2c.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "PASSO 2 / commit da membrana no Credenciamento sob rito do projeto + firewall 0022 (git add scoped: .usehbn-snapshot/, scripts/hbn-snapshot/assert-snapshot-integrity.sh, .hbn/active-version); depois P2-C (runner project-mode + subset bloqueante)"
+        "value": "PASSO 2 / P2-C: runner project-mode no Credenciamento + subset bloqueante (shims chamando .usehbn-snapshot/guards/ apos assert-snapshot-integrity) + pre-higiene do INDEX da knowledge do projeto"
       }
     ]
   }
