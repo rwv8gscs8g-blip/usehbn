@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "onda-repoint-state-p2c-fechado-2026-06-30",
+  "execution_id": "onda-repoint-state-p2c2-fechado-2026-06-30",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-30T08:24:06-03:00",
-  "manifest_sha256": "ed8a90acf73b8e74fa12f1871602da6524a9959eccef6683f3e0f397ac374a8c",
+  "atestado_em": "2026-06-30T14:29:37-03:00",
+  "manifest_sha256": "e991943891fd21ae21997f080a195fc37e2580344f7b4fe7630fdbc93fd3fb52",
   "challenge": {
-    "seed_sha256": "dc87d2181954b65039037a959290ba367b7d7b00106b1e2836aee6a8a307a944",
+    "seed_sha256": "eec88fbfde4eb6c3a87f707fb0a6ca3ddadc8ce81ca596e659c34da21a098626",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 741,
-        "line_text": "conteudo deterministico quando necessario, preservando registros distintos de",
-        "line_sha256": "38aeaa503b4ab76e146cd4762a231564a339899c8abf45ca0a74e7281703bb16"
+        "line_no": 720,
+        "line_text": "cross-audit ≠-familia.",
+        "line_sha256": "8a4fba0c7f581dd4aad7edc80a4a5205bf7b8e516e31020d810212c2c7ef3bc8"
       },
       {
-        "path": ".hbn/readbacks/0104-onda-repoint-state-p2c-fechado.json",
-        "line_no": 23,
-        "line_text": "      \".hbn/relay/STATE.md\",",
-        "line_sha256": "441e8e8289750d92a65a446579fd5bc1dbbb2f6a42a4bd8bc720e6ebd403e970"
+        "path": ".hbn/readbacks/0105-onda-repoint-state-p2c2-fechado.json",
+        "line_no": 4,
+        "line_text": "  \"agent_id\": \"codex\",",
+        "line_sha256": "73617c408a0ee5c1cf412c90b15344b2bf8ecb291928a6e779495d9a9f39f989"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 54,
-        "line_text": "   (e, idealmente, toda IA operando no protocolo) apresenta a interface visual",
-        "line_sha256": "678e63032b7862b4064a8f26959e22d11c003babe4e285b588080caeafae7b97"
+        "line_no": 89,
+        "line_text": "   campo `MODO EDUCACIONAL` (linha: PAPEL · BASTÃO · CONTEXTO · MODO",
+        "line_sha256": "59b8bf66c7895d7c7387b69412f601af6db3057a8326cbce0e7fea70a3bcf979"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0104-onda-repoint-state-p2c-fechado.json"
+        "value": ".hbn/readbacks/0105-onda-repoint-state-p2c2-fechado.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "PASSO 2 / P2-C2: reconciliacao do INDEX da knowledge do projeto Credenciamento — assert-knowledge-index (genoma congelado) rejeita 20 entradas (7 ausentes: 0007,0008,0009,0013,0015,0016,0018; e 13 citadas so em markdown-link [x](x), que o regex (^|[ /|\\])base($|[ /|`]) nao aceita); reformatar as citacoes do lado-projeto para forma aceita pelo guard e entao promover assert-knowledge-index de warning para bloqueante. P2-D depois."
+        "value": "PASSO 2 / P2-D: router obrigatorio no topo do AGENTS.md do projeto + tombstone do espelho usehbn/ + untangle (migrar artefatos de dominio para o espaco do projeto) + limpeza controlada de refs ao espelho (humano-gated) + selagem do passo 2. Ver proposta-ponte v2 sec.6 e sec.9."
       }
     ]
   }
