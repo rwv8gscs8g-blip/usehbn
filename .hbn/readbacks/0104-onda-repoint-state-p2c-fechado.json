@@ -1,0 +1,35 @@
+{
+  "readback_id": "0104-onda-repoint-state-p2c-fechado",
+  "execution_id": "onda-repoint-state-p2c-fechado-2026-06-30",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "entregue",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0104-onda-repoint-state-p2c-fechado.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260630-140000-opus-4-8-despacho-onda-0104-repoint-p2c-fechado.md",
+  "understanding": "Onda de registro (NAO selagem): P2-C FECHADO no repo Credenciamento (commit b7b0baa; push para origin/codex/v12-0-0206-planejamento confirmado). O runner do projeto (scripts/hbn-guards/hbn-guards-runner.sh) foi reescrito para rodar assert-snapshot-integrity.sh e, em seguida, o subset bloqueante a partir de .usehbn-snapshot/guards/ (canonical-root, tmp-worktree, env-files, legacy-paths, scope-lock, hearback-integrity); assert-knowledge-index NAO entra ainda. Rito do projeto: readback de projeto 0180 safe_track (human_status confirmed), git add scoped (runner + readback), pre-commit FASE 1 verde rodando o NOVO runner (integridade 137 + 6 guards). Esta onda atualiza o STATE do PROTOCOLO: P2-C FECHADA; repoint proxima_acao -> P2-C2 (reconciliacao do INDEX da knowledge do projeto). Sem seals_proposal (P2-C nao e selagem de proposta). Atestacao same-fp regenerada com readback_ativo->0104. Ato de autoridade sob G-ORQ-REF (Exit A'). NAO toca o repo Credenciamento neste commit.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio executou no terminal o commit P2-C no Credenciamento (commit b7b0baa; push confirmado) e escolheu o rito governado (readback de projeto 0180 safe_track, human_status confirmed). Pre-commit FASE 1 verde com o novo runner. Orquestrador confirmou no disco: Credenciamento HEAD local==remoto==b7b0baa. Hearback humano confirmado para registrar o marco e repoint da proxima_acao para P2-C2.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0104-onda-repoint-state-p2c-fechado.json",
+      ".hbn/messages/20260630-140000-opus-4-8-despacho-onda-0104-repoint-p2c-fechado.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": ["main","guards/**","src/**","core/**","methodology/**","schemas/**","docs/brainstorm/**",".hbn/freeze/**",".hbn/hearbacks/**",".hbn/operators/**",".hbn/proposals/**","scripts/**",".hbn/results/**"]
+  },
+  "stop_condition": "STATE atualizado (P2-C FECHADA; proxima_acao -> P2-C2). NAO commitar nada no repo Credenciamento. Parar para o gate humano (hearback) antes do push.",
+  "HBN-Readback": "0104",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-30T14:00:00-03:00",
+  "protocol_version": "0.3.0"
+}

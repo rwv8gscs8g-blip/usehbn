@@ -4,43 +4,43 @@
   "proprietario_bastao": "claude-opus-4-8",
   "bastao_token_fp": "34a7f2f9",
   "algorithm": "orq-entrada.v2/extractive-lines",
-  "execution_id": "onda-repoint-state-p2c-2026-06-30",
+  "execution_id": "onda-repoint-state-p2c-fechado-2026-06-30",
   "read_list_ref": "core/read-list-canonica.txt",
   "atestado_por": "opus-4-8",
-  "atestado_em": "2026-06-30T01:58:48-03:00",
-  "manifest_sha256": "5c1bbf7b5568fbbe15b460c5308e415b00dac010728c67966c5a2ab6865e0f9a",
+  "atestado_em": "2026-06-30T08:24:06-03:00",
+  "manifest_sha256": "ed8a90acf73b8e74fa12f1871602da6524a9959eccef6683f3e0f397ac374a8c",
   "challenge": {
-    "seed_sha256": "56739aac01e9e2154a731e680d35d21b495b62247052047dc128189a7c3ee671",
+    "seed_sha256": "dc87d2181954b65039037a959290ba367b7d7b00106b1e2836aee6a8a307a944",
     "line_responses": [
       {
         "path": ".hbn/relay/STATE.md",
-        "line_no": 6,
-        "line_text": "bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf",
-        "line_sha256": "876d7a9548b8cd7ef310e63f6f6e341e860ad1516440a83bcd71f66c36566aa4"
+        "line_no": 741,
+        "line_text": "conteudo deterministico quando necessario, preservando registros distintos de",
+        "line_sha256": "38aeaa503b4ab76e146cd4762a231564a339899c8abf45ca0a74e7281703bb16"
       },
       {
-        "path": ".hbn/readbacks/0103-onda-repoint-state-p2c.json",
-        "line_no": 21,
-        "line_text": "      \".hbn/readbacks/0103-onda-repoint-state-p2c.json\",",
-        "line_sha256": "40677e89035da9e29ce6089d4bdfd56c5368bd1f03f2d23aee66d5ac835499af"
+        "path": ".hbn/readbacks/0104-onda-repoint-state-p2c-fechado.json",
+        "line_no": 23,
+        "line_text": "      \".hbn/relay/STATE.md\",",
+        "line_sha256": "441e8e8289750d92a65a446579fd5bc1dbbb2f6a42a4bd8bc720e6ebd403e970"
       },
       {
         "path": "core/orchestrator-profile-spec.md",
-        "line_no": 148,
-        "line_text": "- **Cápsula**: antes de todo bastão, o orquestrador destila as decisões",
-        "line_sha256": "0eed2a8d69e206b61e3d9efae0ace33c36ad791c46e0ba7cb7a1251cc6bfb6c2"
+        "line_no": 54,
+        "line_text": "   (e, idealmente, toda IA operando no protocolo) apresenta a interface visual",
+        "line_sha256": "678e63032b7862b4064a8f26959e22d11c003babe4e285b588080caeafae7b97"
       }
     ],
     "field_responses": [
       {
         "path": ".hbn/relay/STATE.md",
         "field": "readback_ativo",
-        "value": ".hbn/readbacks/0103-onda-repoint-state-p2c.json"
+        "value": ".hbn/readbacks/0104-onda-repoint-state-p2c-fechado.json"
       },
       {
         "path": ".hbn/relay/STATE.md",
         "field": "proxima_acao",
-        "value": "PASSO 2 / P2-C: runner project-mode no Credenciamento + subset bloqueante (shims chamando .usehbn-snapshot/guards/ apos assert-snapshot-integrity) + pre-higiene do INDEX da knowledge do projeto"
+        "value": "PASSO 2 / P2-C2: reconciliacao do INDEX da knowledge do projeto Credenciamento — assert-knowledge-index (genoma congelado) rejeita 20 entradas (7 ausentes: 0007,0008,0009,0013,0015,0016,0018; e 13 citadas so em markdown-link [x](x), que o regex (^|[ /|\\])base($|[ /|`]) nao aceita); reformatar as citacoes do lado-projeto para forma aceita pelo guard e entao promover assert-knowledge-index de warning para bloqueante. P2-D depois."
       }
     ]
   }

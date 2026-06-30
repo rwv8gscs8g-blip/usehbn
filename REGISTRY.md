@@ -1580,3 +1580,5 @@ cross-audit != OpenAI e hearback humano.
 | 20260627-023002-codex-readback-onda-state-p2b-parte2 | .hbn/readbacks/0102-onda-state-p2b-parte2.json | readback | frio | fronteira | — | 2026-06-27T02:30:02-03:00 |
 | 20260630-120000-opus-despacho-onda-repoint-state-p2c | .hbn/messages/20260630-120000-opus-4-8-despacho-onda-repoint-state-p2c.md | despacho | frio | fronteira | — | 2026-06-30T12:00:00-03:00 |
 | 20260630-120002-codex-readback-onda-repoint-state-p2c | .hbn/readbacks/0103-onda-repoint-state-p2c.json | readback | frio | fronteira | — | 2026-06-30T12:00:02-03:00 |
+| 20260630-140000-opus-despacho-onda-0104-repoint-p2c-fechado | .hbn/messages/20260630-140000-opus-4-8-despacho-onda-0104-repoint-p2c-fechado.md | despacho | frio | fronteira | — | 2026-06-30T14:00:00-03:00 |
+| 20260630-140002-codex-readback-onda-repoint-state-p2c-fechado | .hbn/readbacks/0104-onda-repoint-state-p2c-fechado.json | readback | frio | fronteira | — | 2026-06-30T14:00:02-03:00 |
