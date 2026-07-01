@@ -3100,6 +3100,203 @@ d="$(make_next_repo duplicado)"
 check "next: proximo_ponto duplicado → BLOCK" block "$(run_next "$d")"
 rm -rf "$d"
 
+# --- G-STATE-STRUCTURAL: mudanca estrutural em STATE exige quorum ------------------
+echo "== assert-state-structural (G-STATE-STRUCTURAL) =="
+run_structural() { ( cd "$1" && bash "$GUARDS_DIR/assert-state-structural.sh" >/dev/null 2>&1 ); echo $?; }
+
+make_state_structural_repo() { # <neutral|good|sem-readback|insufficient-quorum>
+    local variant="$1" d
+    d="$(mktemp -d)"
+    (
+        cd "$d"
+        git init -q
+        git config user.email "tests@hbn.local"
+        git config user.name "hbn-guard-tests"
+        mkdir -p .hbn/relay .hbn/readbacks .hbn/results guards/data
+        echo "." > .hbn/active-version
+
+        cat > guards/data/auditor-families.txt <<'EOF'
+codex OpenAI
+grok xAI
+antigravity Google
+gemini Google
+EOF
+
+        cat > .hbn/relay/STATE.md <<'EOF'
+---
+state_version: 1
+onda_atual: "Onda Inicial"
+bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
+proprietario_bastao: claude-opus-4-8
+papel_bastao: "orquestrador"
+proxima_acao: "acao_inicial"
+readback_ativo: ".hbn/readbacks/0100-inicial.json"
+proximo_ponto:
+  passo: "passo_inicial"
+  ato: implementacao
+  destino: human
+  gate: hearback_humano
+  bloco_ref: "nenhum"
+  status: pendente
+---
+EOF
+        git add .hbn/active-version guards/data/auditor-families.txt .hbn/relay/STATE.md
+        git commit -qm "initial commit"
+
+        case "$variant" in
+            neutral)
+                cat > .hbn/relay/STATE.md <<'EOF'
+---
+state_version: 2
+onda_atual: "Onda Inicial"
+bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
+proprietario_bastao: claude-opus-4-8
+papel_bastao: "orquestrador"
+proxima_acao: "acao_inicial"
+readback_ativo: ".hbn/readbacks/0100-inicial.json"
+proximo_ponto:
+  passo: "passo_inicial"
+  ato: implementacao
+  destino: human
+  gate: hearback_humano
+  bloco_ref: "nenhum"
+  status: pendente
+---
+EOF
+                git add .hbn/relay/STATE.md
+                ;;
+            good)
+                cat > .hbn/relay/STATE.md <<'EOF'
+---
+state_version: 1
+onda_atual: "Onda Inicial"
+bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
+proprietario_bastao: claude-opus-4-8
+papel_bastao: "orquestrador"
+proxima_acao: "nova_acao_p2c"
+readback_ativo: ".hbn/readbacks/0103-onda-repoint-state-p2c.json"
+proximo_ponto:
+  passo: "passo_inicial"
+  ato: implementacao
+  destino: human
+  gate: hearback_humano
+  bloco_ref: "nenhum"
+  status: pendente
+---
+EOF
+                cat > .hbn/readbacks/0103-onda-repoint-state-p2c.json <<'EOF'
+{
+  "readback_id": "0103-onda-repoint-state-p2c",
+  "implementador_id": "codex",
+  "status": "entregue"
+}
+EOF
+                cat > .hbn/results/20260630-193923-grok-cross-ia-0103.md <<'EOF'
+---
+autor: grok
+familia: xAI
+---
+SOU: grok · familia xAI · papel auditor
+APROVA_0103: SIM
+EOF
+
+                cat > .hbn/results/20260630-183809-antigravity-cross-ia-0103.md <<'EOF'
+---
+autor: antigravity
+familia: Google
+---
+SOU: antigravity · familia Google · papel auditor
+APROVA_0103: SIM
+EOF
+                git add .hbn/relay/STATE.md .hbn/readbacks/0103-onda-repoint-state-p2c.json .hbn/results/20260630-193923-grok-cross-ia-0103.md .hbn/results/20260630-183809-antigravity-cross-ia-0103.md
+                ;;
+            sem-readback)
+                cat > .hbn/relay/STATE.md <<'EOF'
+---
+state_version: 1
+onda_atual: "Onda Inicial"
+bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
+proprietario_bastao: claude-opus-4-8
+papel_bastao: "orquestrador"
+proxima_acao: "nova_acao_p2c"
+readback_ativo: ".hbn/readbacks/0103-onda-repoint-state-p2c.json"
+proximo_ponto:
+  passo: "passo_inicial"
+  ato: implementacao
+  destino: human
+  gate: hearback_humano
+  bloco_ref: "nenhum"
+  status: pendente
+---
+EOF
+                git add .hbn/relay/STATE.md
+                ;;
+            insufficient-quorum)
+                cat > .hbn/relay/STATE.md <<'EOF'
+---
+state_version: 1
+onda_atual: "Onda Inicial"
+bastao_token_sha256: 34a7f2f9882b7f4a8a5d54bfa40b957ae4369d8d3c4ba8bdbe52543b0d616daf
+proprietario_bastao: claude-opus-4-8
+papel_bastao: "orquestrador"
+proxima_acao: "nova_acao_p2c"
+readback_ativo: ".hbn/readbacks/0103-onda-repoint-state-p2c.json"
+proximo_ponto:
+  passo: "passo_inicial"
+  ato: implementacao
+  destino: human
+  gate: hearback_humano
+  bloco_ref: "nenhum"
+  status: pendente
+---
+EOF
+                cat > .hbn/readbacks/0103-onda-repoint-state-p2c.json <<'EOF'
+{
+  "readback_id": "0103-onda-repoint-state-p2c",
+  "implementador_id": "codex",
+  "status": "entregue"
+}
+EOF
+                cat > .hbn/results/20260630-183809-antigravity-cross-ia-0103.md <<'EOF'
+---
+autor: antigravity
+familia: Google
+---
+SOU: antigravity · familia Google · papel auditor
+APROVA_0103: SIM
+EOF
+
+                cat > .hbn/results/20260630-183810-gemini-cross-ia-0103.md <<'EOF'
+---
+autor: gemini
+familia: Google
+---
+SOU: gemini · familia Google · papel auditor
+APROVA_0103: SIM
+EOF
+                git add .hbn/relay/STATE.md .hbn/readbacks/0103-onda-repoint-state-p2c.json .hbn/results/20260630-183809-antigravity-cross-ia-0103.md .hbn/results/20260630-183810-gemini-cross-ia-0103.md
+                ;;
+        esac
+    ) >/dev/null 2>&1
+    echo "$d"
+}
+
+d="$(make_state_structural_repo neutral)"
+check "structural: neutral change to STATE passes" pass "$(run_structural "$d")"
+rm -rf "$d"
+
+d="$(make_state_structural_repo good)"
+check "structural: structural change to STATE with quorum passes" pass "$(run_structural "$d")"
+rm -rf "$d"
+
+d="$(make_state_structural_repo sem-readback)"
+check "structural: structural change to STATE without readback -> BLOCK" block "$(run_structural "$d")"
+rm -rf "$d"
+
+d="$(make_state_structural_repo insufficient-quorum)"
+check "structural: structural change to STATE with insufficient quorum (same family) -> BLOCK" block "$(run_structural "$d")"
+rm -rf "$d"
+
 # --- G-QUORUM: quorum canonico de selagem -----------------------------------
 echo "== assert-quorum-selagem (G-QUORUM) =="
 run_quorum() { ( cd "$1" && bash "$GUARDS_DIR/assert-quorum-selagem.sh" >/dev/null 2>&1 ); echo $?; }

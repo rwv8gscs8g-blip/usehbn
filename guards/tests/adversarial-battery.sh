@@ -1641,6 +1641,63 @@ d="$(mk_arvore_despromocao_repo_adv estavel arvore-despromocao fronteira "—")"
 try_burla "B90 despromocao sem readback versionado" "G-ARVORE" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-arvore-label.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
+# B91-B92 — G-STATE-STRUCTURAL: mudanca estrutural em STATE.md exige quorum.
+mk_state_structural_repo_adv() { # <sem-readback|insufficient-quorum>
+  local variant="$1" d
+  d="$(mk_repo)"
+  (
+    cd "$d"
+    mkdir -p .hbn/relay .hbn/readbacks .hbn/results guards/data
+    cat > guards/data/auditor-families.txt <<'EOF'
+codex OpenAI
+grok xAI
+antigravity Google
+EOF
+    cat > .hbn/relay/STATE.md <<'EOF'
+---
+proxima_acao: "acao_inicial"
+---
+EOF
+    git add .hbn/active-version guards/data/auditor-families.txt .hbn/relay/STATE.md
+    git commit -qm init
+
+    cat > .hbn/relay/STATE.md <<'EOF'
+---
+proxima_acao: "nova_acao"
+---
+EOF
+
+    if [[ "$variant" == "insufficient-quorum" ]]; then
+        cat > .hbn/readbacks/0103-onda-repoint-state-p2c.json <<'EOF'
+{
+  "readback_id": "0103-onda-repoint-state-p2c",
+  "implementador_id": "codex",
+  "status": "entregue"
+}
+EOF
+        cat > .hbn/results/20260630-193923-grok-cross-ia-0103.md <<'EOF'
+---
+autor: grok
+familia: xAI
+---
+SOU: grok · familia xAI · papel auditor
+APROVA_0103: SIM
+EOF
+        git add .hbn/readbacks/0103-onda-repoint-state-p2c.json .hbn/results/20260630-193923-grok-cross-ia-0103.md
+    fi
+    git add .hbn/relay/STATE.md
+  ) >/dev/null 2>&1
+  echo "$d"
+}
+
+d="$(mk_state_structural_repo_adv sem-readback)"
+try_burla "B91 repoint de STATE sem readback staged" "G-STATE" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-state-structural.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_state_structural_repo_adv insufficient-quorum)"
+try_burla "B92 repoint de STATE com insufficient-quorum" "G-STATE" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-state-structural.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------
 echo ""
 printf '%-52s | %-8s | %s\n' "BURLA" "GUARD" "RESULTADO"

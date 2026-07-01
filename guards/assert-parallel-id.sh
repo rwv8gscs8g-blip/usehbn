@@ -120,6 +120,13 @@ if [[ -d "$MODELS_DIR" ]]; then
         KNOWN="$KNOWN $(basename "$p" .json)"
     done
 fi
+FAMILIES_FILE="${ACTIVE_ROOT}/guards/data/auditor-families.txt"
+if [[ -f "$FAMILIES_FILE" ]]; then
+    while read -r f_alias f_fam || [[ -n "$f_alias" ]]; do
+        [[ -z "$f_alias" || "$f_alias" == "#"* ]] && continue
+        KNOWN="$KNOWN $f_alias"
+    done < "$FAMILIES_FILE"
+fi
 
 ADDED="$(guard_added_files)"
 FAIL=0

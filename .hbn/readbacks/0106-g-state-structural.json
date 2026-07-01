@@ -1,0 +1,43 @@
+{
+  "readback_id": "0106-g-state-structural",
+  "execution_id": "g-state-structural-0106",
+  "agent_id": "antigravity",
+  "implementador_id": "antigravity",
+  "track": "safe_track",
+  "status": "entregue",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0106-g-state-structural.json",
+  "understanding": "Implementa a feature G-STATE-STRUCTURAL para garantir que mudancas estruturais em STATE.md exijam quorum de auditoria cruzada previa.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio aprovou o rito de G-STATE no gate humano do manifesto 0112.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0106-g-state-structural.json",
+      "guards/assert-state-structural.sh",
+      "guards/hbn-guards-runner.sh",
+      "guards/tests/run-guard-tests.sh",
+      "guards/tests/adversarial-battery.sh"
+    ],
+    "files_forbidden": [
+      ".hbn/relay/STATE.md",
+      "docs/brainstorm/**",
+      ".hbn/logs/**",
+      ".hbn/state/**",
+      ".hbn/models/**",
+      "src/**",
+      "core/**",
+      "methodology/**",
+      "schemas/**",
+      "Credenciamento"
+    ]
+  },
+  "HBN-Readback": "0106",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-07-01T10:30:00-03:00",
+  "protocol_version": "0.3.0"
+}

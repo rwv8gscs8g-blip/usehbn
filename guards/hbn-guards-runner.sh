@@ -105,6 +105,7 @@ GUARDS=(
     "assert-pointer-honest.sh"
     "assert-copy-block.sh"
     "assert-next-checkpoint.sh"
+    "assert-state-structural.sh"
     "assert-knowledge-index.sh"
     "assert-frontdoor.sh"
     "assert-ci-battery.sh"

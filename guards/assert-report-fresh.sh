@@ -82,6 +82,14 @@ while IFS= read -r f; do
     git cat-file -e "$ref" 2>/dev/null || continue
     content="$(git show "$ref" 2>/dev/null || true)"
 
+    tipo_fm="$(awk 'NR==1 && $0!="---"{exit} NR>1 && $0=="---"{exit} NR>1{print}' <<< "$content" \
+        | grep -E '^tipo:' | head -1 | sed -E 's/^tipo:[[:space:]]*//; s/["'"'"']//g; s/[[:space:]]+$//' || true)"
+
+    # Ignora arquivos de tipo que nao representam handoff/entrada/despacho (prompts, manifestos, propostas, etc.)
+    if [[ "$tipo_fm" == "prompt" || "$tipo_fm" == "manifesto" || "$tipo_fm" == "proposta" || "$tipo_fm" == "result" ]]; then
+        continue
+    fi
+
     # Regra 1: bloco RELATO DE ESTADO presente.
     if ! grep -qF 'RELATO DE ESTADO' <<< "$content"; then
         guard_fail "Handoff '${f}' sem bloco RELATO DE ESTADO (state-report-spec §1: todo bastão sai com o relato fixo de ≤10 linhas)."

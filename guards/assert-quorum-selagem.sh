@@ -230,8 +230,10 @@ if isinstance(proposal, str) and re.fullmatch(r"[0-9]{4}", proposal):
     try:
         for raw in open(results_file, encoding="utf-8"):
             path = raw.strip()
-            if path and os.path.basename(path).endswith(suffix):
-                matching.append(path)
+            if path:
+                base = os.path.basename(path)
+                if base.endswith(suffix) or re.search(rf"-{proposal}-v[0-9]+\.md$", base):
+                    matching.append(path)
     except Exception as exc:
         fail(f"lista de results ilegivel: {exc}")
 

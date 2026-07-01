@@ -1584,3 +1584,16 @@ cross-audit != OpenAI e hearback humano.
 | 20260630-140002-codex-readback-onda-repoint-state-p2c-fechado | .hbn/readbacks/0104-onda-repoint-state-p2c-fechado.json | readback | frio | fronteira | — | 2026-06-30T14:00:02-03:00 |
 | 20260630-160000-opus-despacho-onda-0105-repoint-p2c2-fechado | .hbn/messages/20260630-160000-opus-4-8-despacho-onda-0105-repoint-p2c2-fechado.md | despacho | frio | fronteira | — | 2026-06-30T16:00:00-03:00 |
 | 20260630-160002-codex-readback-onda-repoint-state-p2c2-fechado | .hbn/readbacks/0105-onda-repoint-state-p2c2-fechado.json | readback | frio | fronteira | — | 2026-06-30T16:00:02-03:00 |
+| 20260630-203900-antigravity-assert-state-structural | guards/assert-state-structural.sh | guard | frio | fronteira | — | 2026-06-30T20:39:00-03:00 |
+| 20260630-220900-codex-knowledge-0030-prompt-chain | .hbn/knowledge/0030-chat-novo-prompts-sequenciais.md | knowledge | quente | fronteira | — | 2026-06-30T22:09:00-03:00 |
+| 20260630-220901-codex-knowledge-index-0030 | .hbn/knowledge/INDEX.md | knowledge-index | quente | fronteira | — | 2026-06-30T22:09:01-03:00 |
+| 20260630-223000-codex-knowledge-0031-chat-copy-atomico | .hbn/knowledge/0031-campo-unico-colavel-e-comandos-atomicos.md | knowledge | quente | fronteira | — | 2026-06-30T22:30:00-03:00 |
+| 20260630-223001-codex-knowledge-index-0031 | .hbn/knowledge/INDEX.md | knowledge-index | quente | fronteira | — | 2026-06-30T22:30:01-03:00 |
+| 20260630-223300-codex-prompt-cross-audit-g-state-structural-0106-grok-v2 | .hbn/messages/20260630-223300-codex-prompt-cross-audit-g-state-structural-0106-grok-v2.md | prompt | frio | fronteira | — | 2026-06-30T22:33:00-03:00 |
+| 20260630-223400-grok-cross-ia-g-state-structural-0106-v2 | .hbn/results/20260630-223400-grok-cross-ia-g-state-structural-0106-v2.md | audit-result | frio | fronteira | — | 2026-06-30T22:34:00-03:00 |
+| 20260701-083300-codex-prompt-cross-audit-g-state-structural-0106-claude-v2 | .hbn/messages/20260701-083300-codex-prompt-cross-audit-g-state-structural-0106-claude-v2.md | prompt | frio | fronteira | — | 2026-07-01T08:33:00-03:00 |
+| 20260701-083400-claude-cross-ia-g-state-structural-0106-v2 | .hbn/results/20260701-083400-claude-cross-ia-g-state-structural-0106-v2.md | audit-result | frio | fronteira | — | 2026-07-01T08:34:00-03:00 |
+| 20260701-091112-codex-manifesto-selagem-g-state-0112 | .hbn/messages/20260701-091112-codex-manifesto-selagem-g-state-0112.md | manifesto | frio | fronteira | — | 2026-07-01T09:11:12-03:00 |
+| 20260701-101750-antigravity-handoff-rito-gstate-0106-0113 | .hbn/messages/20260701-101750-antigravity-handoff-rito-gstate-0106-0113.md | handoff | frio | fronteira | — | 2026-07-01T10:17:50-03:00 |
+| 20260701-103000-antigravity-readback-g-state-structural-0106 | .hbn/readbacks/0106-g-state-structural.json | readback | frio | fronteira | — | 2026-07-01T10:30:00-03:00 |
+| 20260701-103002-antigravity-readback-selagem-g-state-0113 | .hbn/readbacks/0113-selagem-g-state.json | readback | frio | fronteira | — | 2026-07-01T10:30:02-03:00 |
