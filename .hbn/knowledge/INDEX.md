@@ -19,6 +19,7 @@ liste a entrada e o uso; nao replique o conteudo da knowledge.
 | `0029-lei-submissao-pelo-exemplo.md` | accepted | quente | Lei da Submissao pelo Exemplo: orquestrador obedece o proximo_ponto, um passo/bloco por vez, para em guard, mecanica ao codex, ratificacao >=2 familias != implementador + gate humano. |
 | `0030-chat-novo-prompts-sequenciais.md` | accepted | quente | Chat novo sem memoria exige prompt autocontido, sequencial, com preflight fail-closed e um bloco HBN-COPY por passo. |
 | `0031-campo-unico-colavel-e-comandos-atomicos.md` | accepted | quente | Prompt externo deve caber em campo unico colavel, sem cercas Markdown internas, e comandos devem ser atomicos. |
+| `0032-prompts-autocontidos-output-canonico.md` | accepted | quente | Prompt para IA externa deve ser autocontido, declarar saida canonica em disco e nao depender de contexto anterior. |
 | `distribution-model.md` | decisao atual | — | Distribuicao fase 2, bootstrap local e adapters de runtime. |
 | `relay-protocol.md` | decisao atual | — | Continuidade de bastao e uso dos arquivos de relay. |
 | `runtime-command-model.md` | decisao atual | — | `hbn` como CLI operacional primario e `usehbn` como compatibilidade. |

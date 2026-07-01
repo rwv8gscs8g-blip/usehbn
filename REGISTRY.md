@@ -1597,3 +1597,9 @@ cross-audit != OpenAI e hearback humano.
 | 20260701-101750-antigravity-handoff-rito-gstate-0106-0113 | .hbn/messages/20260701-101750-antigravity-handoff-rito-gstate-0106-0113.md | handoff | frio | fronteira | — | 2026-07-01T10:17:50-03:00 |
 | 20260701-103000-antigravity-readback-g-state-structural-0106 | .hbn/readbacks/0106-g-state-structural.json | readback | frio | fronteira | — | 2026-07-01T10:30:00-03:00 |
 | 20260701-103002-antigravity-readback-selagem-g-state-0113 | .hbn/readbacks/0113-selagem-g-state.json | readback | frio | fronteira | — | 2026-07-01T10:30:02-03:00 |
+| 20260701-171234-codex-readback-g-copy-autocontido-0115 | .hbn/readbacks/0115-g-copy-autocontido.json | readback | frio | fronteira | — | 2026-07-01T17:12:34-03:00 |
+| 20260701-171235-codex-guard-g-copy-autocontido | guards/assert-copy-block.sh | guard | quente | fronteira | — | 2026-07-01T17:12:35-03:00 |
+| 20260701-171236-codex-tests-g-copy-autocontido | guards/tests/run-guard-tests.sh | guard-test | quente | fronteira | — | 2026-07-01T17:12:36-03:00 |
+| 20260701-171237-codex-adversarial-g-copy-autocontido | guards/tests/adversarial-battery.sh | guard-test | quente | fronteira | — | 2026-07-01T17:12:37-03:00 |
+| 20260701-171238-codex-knowledge-0032-output-canonico | .hbn/knowledge/0032-prompts-autocontidos-output-canonico.md | knowledge | quente | fronteira | — | 2026-07-01T17:12:38-03:00 |
+| 20260701-171239-codex-knowledge-index-0032 | .hbn/knowledge/INDEX.md | knowledge-index | quente | fronteira | — | 2026-07-01T17:12:39-03:00 |

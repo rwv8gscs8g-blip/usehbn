@@ -1,0 +1,53 @@
+{
+  "readback_id": "0115-g-copy-autocontido",
+  "execution_id": "g-copy-autocontido-0115",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "entregue",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0115-g-copy-autocontido.json",
+  "understanding": "Endurecer G-COPY para bloquear prompts externos que nao sejam autocontidos para janela nova, nao declarem saida canonica ou dependam de contexto anterior.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Em 2026-07-01, apos P2-D3 no Credenciamento, Mauricio autorizou corrigir a orquestracao para estabilizar prompts de janela nova e avancar com seguranca.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0115-g-copy-autocontido.json",
+      "guards/assert-copy-block.sh",
+      "guards/tests/run-guard-tests.sh",
+      "guards/tests/adversarial-battery.sh",
+      ".hbn/knowledge/0032-prompts-autocontidos-output-canonico.md",
+      ".hbn/knowledge/INDEX.md",
+      "REGISTRY.md"
+    ],
+    "files_forbidden": [
+      ".hbn/relay/STATE.md",
+      ".hbn/logs/**",
+      ".hbn/state/**",
+      ".hbn/models/**",
+      "docs/brainstorm/**",
+      "src/**",
+      "core/**",
+      "methodology/**",
+      "schemas/**",
+      "Credenciamento"
+    ]
+  },
+  "validation_plan": {
+    "gates": [
+      "bash guards/hbn-guards-runner.sh",
+      "bash guards/tests/run-guard-tests.sh",
+      "bash guards/tests/adversarial-battery.sh",
+      ".venv/bin/pytest -q"
+    ]
+  },
+  "HBN-Readback": "0115",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-07-01T17:12:34-03:00",
+  "protocol_version": "0.3.0"
+}

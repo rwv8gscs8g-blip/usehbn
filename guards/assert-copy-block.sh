@@ -98,9 +98,9 @@ frontmatter_info() { # <file> -> "tipo<TAB>fm_end_line"; vazio se sem frontmatte
 }
 
 validate_copy_block() { # <path> <tmpfile> <fm_end_line>
-    local path="$1" file="$2" fm_end="$3"
+    local path="$1" file="$2" fm_end="$3" tipo="$4"
     local line line_no=0 begin_count=0 end_count=0 open=0 payload_nonempty=0
-    local fail=0 dest=""
+    local fail=0 dest="" payload_text=""
 
     while IFS= read -r line || [[ -n "$line" ]]; do
         line_no=$((line_no + 1))
@@ -138,6 +138,9 @@ validate_copy_block() { # <path> <tmpfile> <fm_end_line>
         if [[ "$open" -eq 1 && "$line" =~ [^[:space:]] ]]; then
             payload_nonempty=1
         fi
+        if [[ "$open" -eq 1 ]]; then
+            payload_text="${payload_text}"$'\n'"${line}"
+        fi
     done < "$file"
 
     if [[ "$begin_count" -ne 1 || "$end_count" -ne 1 ]]; then
@@ -150,6 +153,43 @@ validate_copy_block() { # <path> <tmpfile> <fm_end_line>
     fi
     if [[ "$payload_nonempty" -ne 1 ]]; then
         guard_fail "${path}: payload HBN-COPY vazio."
+        fail=1
+    fi
+    if [[ "$tipo" == "prompt" ]] && ! validate_prompt_payload "$path" "$payload_text"; then
+        fail=1
+    fi
+
+    [[ "$fail" -eq 0 ]]
+}
+
+validate_prompt_payload() { # <path> <payload_text>
+    local path="$1" payload="$2"
+    local fail=0 lower
+    lower="$(printf '%s' "$payload" | tr '[:upper:]' '[:lower:]')"
+
+    if ! printf '%s' "$lower" | grep -Eq 'chat[[:space:]_-]*novo'; then
+        guard_fail "${path}: prompt HBN-COPY deve declarar CHAT NOVO no payload colavel."
+        fail=1
+    fi
+    if ! printf '%s' "$lower" | grep -Eq 'sem[[:space:]_-]*mem[oó]ria'; then
+        guard_fail "${path}: prompt HBN-COPY deve declarar SEM MEMORIA no payload colavel."
+        fail=1
+    fi
+    if ! printf '%s' "$payload" | grep -Fq '/Users/macbookpro/Projetos/'; then
+        guard_fail "${path}: prompt HBN-COPY deve trazer path absoluto canonico sob /Users/macbookpro/Projetos/."
+        fail=1
+    fi
+    if ! printf '%s' "$lower" | grep -Eq 'destino do handoff|path canonico|resultado[_ ]esperado|salve em|arquivo de saida|output path'; then
+        guard_fail "${path}: prompt HBN-COPY deve declarar destino canonico de saida (handoff/path/resultado esperado)."
+        fail=1
+    fi
+
+    if printf '%s' "$lower" | grep -Eq 'continue a partir|prompt original|plano anterior|janela anterior|mensagem anterior|resposta anterior|a partir do seu plano|continue do'; then
+        guard_fail "${path}: prompt HBN-COPY depende de contexto anterior; prompts para chat novo devem ser autocontidos."
+        fail=1
+    fi
+    if printf '%s' "$lower" | grep -Fq 'implementation_plan.md'; then
+        guard_fail "${path}: prompt HBN-COPY cita implementation_plan.md; use path canonico em .hbn/messages/ ou docs/prompts/."
         fail=1
     fi
 
@@ -195,7 +235,7 @@ while IFS= read -r f; do
             ;;
     esac
 
-    if ! validate_copy_block "$f" "$tmp" "$fm_end"; then
+    if ! validate_copy_block "$f" "$tmp" "$fm_end" "$tipo"; then
         FAIL=1
     fi
     rm -f "$tmp"

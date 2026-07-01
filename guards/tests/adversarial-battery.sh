@@ -1698,6 +1698,43 @@ d="$(mk_state_structural_repo_adv insufficient-quorum)"
 try_burla "B92 repoint de STATE com insufficient-quorum" "G-STATE" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-state-structural.sh" >/dev/null 2>&1 ); echo $? )"
 rm -rf "$d"
 
+# B93-B96 — G-COPY: prompt para chat novo deve ser autocontido e canonico.
+d="$(mk_copy_repo_adv)"
+(
+  cd "$d"
+  write_copy_doc_adv "docs/prompts/20260101-020101-opus-prompt.md" "prompt" $'⟦HBN-COPY dest=codex⟧ BEGIN\nREPO:\n/Users/macbookpro/Projetos/usehbn\nDESTINO DO HANDOFF:\n/Users/macbookpro/Projetos/usehbn/.hbn/messages/out.md\nTAREFA:\nExecutar.\n⟦HBN-COPY END⟧'
+  git add -A
+) >/dev/null 2>&1
+try_burla "B93 prompt sem chat novo sem memoria" "G-COPY" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-copy-block.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_copy_repo_adv)"
+(
+  cd "$d"
+  write_copy_doc_adv "docs/prompts/20260101-020102-opus-prompt.md" "prompt" $'⟦HBN-COPY dest=codex⟧ BEGIN\nCHAT NOVO, SEM MEMORIA.\nREPO:\n/Users/macbookpro/Projetos/usehbn\nContinue a partir do prompt original e do plano anterior.\nDESTINO DO HANDOFF:\n/Users/macbookpro/Projetos/usehbn/.hbn/messages/out.md\n⟦HBN-COPY END⟧'
+  git add -A
+) >/dev/null 2>&1
+try_burla "B94 prompt depende de contexto anterior" "G-COPY" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-copy-block.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_copy_repo_adv)"
+(
+  cd "$d"
+  write_copy_doc_adv "docs/prompts/20260101-020103-opus-prompt.md" "prompt" $'⟦HBN-COPY dest=codex⟧ BEGIN\nCHAT NOVO, SEM MEMORIA.\nREPO:\n/Users/macbookpro/Projetos/usehbn\nTAREFA:\nExecutar sem declarar saida canonica.\n⟦HBN-COPY END⟧'
+  git add -A
+) >/dev/null 2>&1
+try_burla "B95 prompt sem destino canonico de saida" "G-COPY" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-copy-block.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
+d="$(mk_copy_repo_adv)"
+(
+  cd "$d"
+  write_copy_doc_adv "docs/prompts/20260101-020104-opus-prompt.md" "prompt" $'⟦HBN-COPY dest=codex⟧ BEGIN\nCHAT NOVO, SEM MEMORIA.\nREPO:\n/Users/macbookpro/Projetos/usehbn\nPATH CANONICO:\n/Users/macbookpro/Projetos/usehbn/implementation_plan.md\nSalve em implementation_plan.md.\n⟦HBN-COPY END⟧'
+  git add -A
+) >/dev/null 2>&1
+try_burla "B96 prompt com implementation_plan.md solto" "G-COPY" "$( ( cd "$d" && bash "$GUARDS_DIR/assert-copy-block.sh" >/dev/null 2>&1 ); echo $? )"
+rm -rf "$d"
+
 # --- Saída legível (ADR-022): BURLA × GUARD × RESULTADO ----------------------
 echo ""
 printf '%-52s | %-8s | %s\n' "BURLA" "GUARD" "RESULTADO"

@@ -121,6 +121,9 @@
 #   G-COPY (readback 0064): +10 checks (2 pass, 8 block) para bloco copiavel
 #   unico, destinos canonicos, payload nao-vazio, nao-colisao com G-PTR e
 #   skew staged/worktree. Total: 227.
+#   G-COPY prompt-autocontido (readback 0115): +4 checks (4 block) para
+#   chat novo sem memoria, destino canonico de saida, anti-contexto anterior
+#   e anti-implementation_plan.md solto. Total +4.
 #   G-NEXT (readback 0066): +6 checks (1 pass, 5 block) para proximo_ponto
 #   valido, ausencia do mapa, ato invalido, destino nao-canonico, bloco_ref
 #   inexistente e mapa duplicado. Total: 233.
@@ -1069,7 +1072,7 @@ write_copy_doc() { # <path> <tipo> <body>
 d="$(make_copy_repo)"
 (
     cd "$d"
-    write_copy_doc "docs/prompts/20260101-010101-opus-prompt.md" "prompt" $'⟦HBN-COPY dest=codex⟧ BEGIN\npayload\n⟦HBN-COPY END⟧'
+    write_copy_doc "docs/prompts/20260101-010101-opus-prompt.md" "prompt" $'⟦HBN-COPY dest=codex⟧ BEGIN\nCHAT NOVO, SEM MEMORIA.\nREPO:\n/Users/macbookpro/Projetos/usehbn\nDESTINO DO HANDOFF:\n/Users/macbookpro/Projetos/usehbn/.hbn/messages/20260101-010101-codex-handoff.md\nTAREFA:\nExecutar validacao escopada.\n⟦HBN-COPY END⟧'
     git add -A
 ) >/dev/null 2>&1
 check "copy: bloco unico bem-formado passa"                            pass  "$(run_copy "$d")"
@@ -1146,6 +1149,42 @@ d="$(make_copy_repo)"
     write_copy_doc ".hbn/messages/20260101-010101-opus-despacho.md" "despacho" $'⟦HBN-COPY dest=codex⟧ BEGIN\npayload so na working tree\n⟦HBN-COPY END⟧'
 ) >/dev/null 2>&1
 check "copy: bloco bom so na working tree nao salva staged ruim"       block "$(run_copy "$d")"
+rm -rf "$d"
+
+d="$(make_copy_repo)"
+(
+    cd "$d"
+    write_copy_doc "docs/prompts/20260101-020101-opus-prompt.md" "prompt" $'⟦HBN-COPY dest=codex⟧ BEGIN\nREPO:\n/Users/macbookpro/Projetos/usehbn\nDESTINO DO HANDOFF:\n/Users/macbookpro/Projetos/usehbn/.hbn/messages/out.md\nTAREFA:\nExecutar.\n⟦HBN-COPY END⟧'
+    git add -A
+) >/dev/null 2>&1
+check "copy: prompt sem CHAT NOVO/SEM MEMORIA bloqueia"                block "$(run_copy "$d")"
+rm -rf "$d"
+
+d="$(make_copy_repo)"
+(
+    cd "$d"
+    write_copy_doc "docs/prompts/20260101-020102-opus-prompt.md" "prompt" $'⟦HBN-COPY dest=codex⟧ BEGIN\nCHAT NOVO, SEM MEMORIA.\nREPO:\n/Users/macbookpro/Projetos/usehbn\nContinue a partir do prompt original e do plano anterior.\nDESTINO DO HANDOFF:\n/Users/macbookpro/Projetos/usehbn/.hbn/messages/out.md\n⟦HBN-COPY END⟧'
+    git add -A
+) >/dev/null 2>&1
+check "copy: prompt dependente de contexto anterior bloqueia"          block "$(run_copy "$d")"
+rm -rf "$d"
+
+d="$(make_copy_repo)"
+(
+    cd "$d"
+    write_copy_doc "docs/prompts/20260101-020103-opus-prompt.md" "prompt" $'⟦HBN-COPY dest=codex⟧ BEGIN\nCHAT NOVO, SEM MEMORIA.\nREPO:\n/Users/macbookpro/Projetos/usehbn\nTAREFA:\nExecutar sem declarar saida canonica.\n⟦HBN-COPY END⟧'
+    git add -A
+) >/dev/null 2>&1
+check "copy: prompt sem destino canonico de saida bloqueia"            block "$(run_copy "$d")"
+rm -rf "$d"
+
+d="$(make_copy_repo)"
+(
+    cd "$d"
+    write_copy_doc "docs/prompts/20260101-020104-opus-prompt.md" "prompt" $'⟦HBN-COPY dest=codex⟧ BEGIN\nCHAT NOVO, SEM MEMORIA.\nREPO:\n/Users/macbookpro/Projetos/usehbn\nPATH CANONICO:\n/Users/macbookpro/Projetos/usehbn/implementation_plan.md\nSalve em implementation_plan.md.\n⟦HBN-COPY END⟧'
+    git add -A
+) >/dev/null 2>&1
+check "copy: prompt com implementation_plan.md solto bloqueia"         block "$(run_copy "$d")"
 rm -rf "$d"
 
 # --- G-RLT: assert-report-fresh (ADR-024 D4+D6 / state-report-spec §4) --------
