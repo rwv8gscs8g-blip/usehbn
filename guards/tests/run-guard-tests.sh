@@ -156,6 +156,8 @@
 #   PROPOSED resolvidas por seals_proposal ou por ledger no STATE. Total: 264.
 #   NATA-0/R2: +2 checks G-FAM version-aware para hearback_ref relativo a
 #   active-version (bom dentro da versão; ruim só fora da versão). Total: 266.
+#   NATA-0c: +2 checks G-SLF para path: relativo à raiz versao_X_Y_Z e
+#   mentira que não bate nem no referencial v2 nem no caminho real. Total +2.
 # =============================================================================
 set -uo pipefail
 
@@ -427,6 +429,28 @@ rm -rf "$d"
 d="$(make_repo)"
 ( cd "$d" && printf -- '---\npath: docs/outro-lugar.md\n---\ncorpo\n' > methodology/adr/ADR-099-teste.md && git add -A ) >/dev/null 2>&1
 check "slf: path: declarado ≠ real (auto-localização mentirosa)" block "$(run_slf "$d")"
+rm -rf "$d"
+
+# caso-bom version-aware: arquivo sob versao_* declara path relativo à raiz da versão
+d="$(make_repo)"
+(
+    cd "$d"
+    mkdir -p versao_1_0_0/.hbn/knowledge
+    printf -- '---\npath: .hbn/knowledge/0009-versionado.md\n---\ncorpo\n' > versao_1_0_0/.hbn/knowledge/0009-versionado.md
+    git add -A
+) >/dev/null 2>&1
+check "slf: path relativo à raiz da versão" pass "$(run_slf "$d")"
+rm -rf "$d"
+
+# caso-ruim version-aware: path não bate nem com versao_*/... nem com o relativo v2
+d="$(make_repo)"
+(
+    cd "$d"
+    mkdir -p versao_1_0_0/.hbn/knowledge
+    printf -- '---\npath: docs/outro-lugar.md\n---\ncorpo\n' > versao_1_0_0/.hbn/knowledge/0009-versionado.md
+    git add -A
+) >/dev/null 2>&1
+check "slf: path versionado mentiroso nos dois referenciais" block "$(run_slf "$d")"
 rm -rf "$d"
 
 # caso-ruim: artefato governado novo SEM path: no front-matter

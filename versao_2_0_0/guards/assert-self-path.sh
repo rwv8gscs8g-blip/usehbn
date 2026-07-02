@@ -4,7 +4,8 @@
 # path: guards/assert-self-path.sh · id-global: 20260610-80
 # Guarda G-SLF: dá dente ao ADR-021 (documentos auto-localizáveis).
 #   (1) Recusa arquivo novo/renomeado que declara `path:` (front-matter .md ou
-#       chave top-level "path" em .json) DIFERENTE do caminho real no repo.
+#       chave top-level "path" em .json) DIFERENTE do caminho real no repo
+#       (ou, sob versao_X_Y_Z/, do caminho relativo à raiz dessa versão).
 #       Auto-localização mentirosa é pior que nenhuma: manda humano e IA, com
 #       confiança, ao lugar errado.
 #   (2) Recusa artefato GOVERNADO novo (subconjunto .md da tabela do ADR-011
@@ -58,6 +59,22 @@ blob_ref() {
     fi
 }
 
+version_root_relative_path() {
+    local p="$1"
+    if [[ "$p" =~ ^versao_[0-9]+_[0-9]+_[A-Za-z0-9]+/(.+)$ ]]; then
+        printf '%s\n' "${BASH_REMATCH[1]}"
+        return 0
+    fi
+    return 1
+}
+
+declared_path_matches_file() {
+    local declared="$1" active_path="$2" repo_path="$3" version_path
+    [[ "$declared" == "$active_path" || "$declared" == "$repo_path" ]] && return 0
+    version_path="$(version_root_relative_path "$repo_path" || true)"
+    [[ -n "$version_path" && "$declared" == "$version_path" ]]
+}
+
 # Extrai `path:` do PRIMEIRO bloco de front-matter YAML de um .md (stdin).
 fm_declared_path() {
     awk 'NR==1 && $0!="---"{exit} NR>1 && $0=="---"{exit} NR>1{print}' \
@@ -106,6 +123,7 @@ requires_path() {
 FAIL=0
 while IFS= read -r f; do
     [[ -z "$f" ]] && continue
+    repo_path="$(guard_version_repo_path "$f")"
     ref="$(blob_ref "$f")"
     git cat-file -e "$ref" 2>/dev/null || continue
     declared=""
@@ -114,8 +132,8 @@ while IFS= read -r f; do
         *.json) declared="$(git show "$ref" 2>/dev/null | json_declared_path)" ;;
         *) continue ;;
     esac
-    if [[ -n "$declared" && "$declared" != "$f" ]]; then
-        guard_fail "Auto-localização mentirosa: '${f}' declara path: '${declared}' ≠ caminho real (ADR-021 Decisão 2.1) — no conteúdo STAGED. Corrija o front-matter E re-stage (git add) — ou, se moveu o arquivo, atualize o path: no MESMO commit."
+    if [[ -n "$declared" ]] && ! declared_path_matches_file "$declared" "$f" "$repo_path"; then
+        guard_fail "Auto-localização mentirosa: '${repo_path}' declara path: '${declared}' incompatível com caminho real '${repo_path}' e referencial ativo '${f}' (ADR-021 Decisão 2.1) — no conteúdo STAGED. Corrija o front-matter E re-stage (git add) — ou, se moveu o arquivo, atualize o path: no MESMO commit."
         FAIL=1
     elif [[ -z "$declared" ]] && requires_path "$f"; then
         guard_fail "Artefato governado novo '${f}' sem campo path: declarado (ADR-021 Decisão 2.2: todo artefato governado nasce dizendo onde mora)."
