@@ -3693,11 +3693,40 @@ d="$(make_ci_battery_repo entry-fake-battery)"
 check "ci-battery: ci-entry.sh com invocacao fingida -> BLOCK" block "$(run_ci_battery_guard "$d")"
 rm -rf "$d"
 
-# --- Read-list viva (onda 0006 I-01 — F-08 dos cross-audits 0036/0037) -------
-# Todo path .hbn/ | core/ | guards/ | schemas/ CITADO em agents/role-templates.md
-# e nos 4 specs core do rito deve EXISTIR no disco. A "referência quebrada"
-# (knowledge 0019/0022 citadas sem existir) vira classe de erro permanente.
+# --- Read-list viva (version-aware / onda 0006 I-01 — F-08) ------------------
+# Todo path .hbn/ | core/ | guards/ | schemas/ CITADO nos alvos vivos da raiz
+# sob teste deve EXISTIR no disco. A "referência quebrada" vira classe de erro
+# permanente, inclusive no bootstrap v2 (BOOT.md + core/02-papeis.md).
 echo "== read-list viva (referência citada deve existir) =="
+readlist_targets() {
+    if [[ -f "$REPO_ROOT/BOOT.md" && -f "$REPO_ROOT/core/02-papeis.md" ]]; then
+        printf '%s\n' \
+            "$REPO_ROOT/BOOT.md" \
+            "$REPO_ROOT/core/02-papeis.md" \
+            "$REPO_ROOT/core/03-rito-da-onda.md" \
+            "$REPO_ROOT/core/04-artefatos.md" \
+            "$REPO_ROOT/core/05-guards.md" \
+            "$REPO_ROOT/core/read-list-canonica.txt"
+    else
+        printf '%s\n' \
+            "$REPO_ROOT/agents/role-templates.md" \
+            "$REPO_ROOT/core/start-rite-spec.md" \
+            "$REPO_ROOT/core/orchestrator-profile-spec.md" \
+            "$REPO_ROOT/core/pointer-spec.md" \
+            "$REPO_ROOT/core/state-report-spec.md"
+    fi
+}
+readlist_path_exists() { # <path>
+    local p="$1" base="${1%/}" parent
+    if [[ -e "$REPO_ROOT/$p" || -d "$REPO_ROOT/$base" ]] || compgen -G "$REPO_ROOT/${p}*" >/dev/null 2>&1; then
+        return 0
+    fi
+    if [[ "$p" == ".hbn/active-version" ]]; then
+        parent="$(cd "$REPO_ROOT/.." && pwd)"
+        [[ -f "$parent/.hbn/active-version" ]] && return 0
+    fi
+    return 1
+}
 readlist_scan() { # <arquivo...> ; rc=0 se todos os paths citados existem
     local missing=0 f p
     for f in "$@"; do
@@ -3706,7 +3735,7 @@ readlist_scan() { # <arquivo...> ; rc=0 se todos os paths citados existem
             [[ -z "$p" ]] && continue
             p="${p%.}"          # pontuação final de frase
             [[ "$p" == *NNNN* || "$p" == *AAAAMMDD* || "$p" == *\<* ]] && continue
-            if compgen -G "$REPO_ROOT/${p}*" >/dev/null; then continue; fi
+            if readlist_path_exists "$p"; then continue; fi
             echo "    referência quebrada: ${p} (citada em $(basename "$f"))"
             missing=1
         done < <(grep -ohE '(\.hbn/[A-Za-z0-9_./-]+|core/[A-Za-z0-9_./-]+|guards/[A-Za-z0-9_./-]+|schemas/[A-Za-z0-9_./-]+)' "$f" 2>/dev/null | sort -u)
@@ -3714,12 +3743,9 @@ readlist_scan() { # <arquivo...> ; rc=0 se todos os paths citados existem
     return $missing
 }
 run_readlist() { ( readlist_scan "$@" >/dev/null 2>&1 ); echo $?; }
-check "readlist: templates+4 specs core sem referência quebrada" pass "$(run_readlist \
-    "$REPO_ROOT/agents/role-templates.md" \
-    "$REPO_ROOT/core/start-rite-spec.md" \
-    "$REPO_ROOT/core/orchestrator-profile-spec.md" \
-    "$REPO_ROOT/core/pointer-spec.md" \
-    "$REPO_ROOT/core/state-report-spec.md")"
+readlist_target_files=()
+while IFS= read -r f; do readlist_target_files+=("$f"); done < <(readlist_targets)
+check "readlist: alvos version-aware sem referência quebrada" pass "$(run_readlist "${readlist_target_files[@]}")"
 # caso-ruim (ADR-020): citação de path inexistente DEVE reprovar
 r="$(mktemp -d)"
 printf 'leia .hbn/knowledge/9999-inexistente.md antes de tudo\n' > "$r/template-quebrado.md"

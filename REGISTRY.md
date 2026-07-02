@@ -1607,3 +1607,4 @@ cross-audit != OpenAI e hearback humano.
 | 20260701-210602-fable-5-despacho-nata-0 | versao_2_0_0/.hbn/messages/20260701-200700-fable-5-despacho-nata-0-role-family-active-root.md | despacho | quente | fronteira | — | 2026-07-01T21:06:02-03:00 |
 | 20260701-210603-fable-5-despacho-nata-0b | versao_2_0_0/.hbn/messages/20260701-200800-fable-5-despacho-nata-0b-harness-readlist-v2.md | despacho | quente | fronteira | — | 2026-07-01T21:06:03-03:00 |
 | 20260702-085300-codex-readback-nata-0-role-family-0116 | .hbn/readbacks/0116-nata-0-role-family-active-root.json | readback | frio | fronteira | — | 2026-07-02T08:53:00-03:00 |
+| 20260702-090416-codex-readback-nata-0b-harness-readlist-v2-0117 | .hbn/readbacks/0117-nata-0b-harness-readlist-v2.json | readback | frio | fronteira | — | 2026-07-02T09:04:16-03:00 |
