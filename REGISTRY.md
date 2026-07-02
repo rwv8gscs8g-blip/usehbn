@@ -1603,3 +1603,6 @@ cross-audit != OpenAI e hearback humano.
 | 20260701-171237-codex-adversarial-g-copy-autocontido | guards/tests/adversarial-battery.sh | guard-test | quente | fronteira | — | 2026-07-01T17:12:37-03:00 |
 | 20260701-171238-codex-knowledge-0032-output-canonico | .hbn/knowledge/0032-prompts-autocontidos-output-canonico.md | knowledge | quente | fronteira | — | 2026-07-01T17:12:38-03:00 |
 | 20260701-171239-codex-knowledge-index-0032 | .hbn/knowledge/INDEX.md | knowledge-index | quente | fronteira | — | 2026-07-01T17:12:39-03:00 |
+| 20260701-210601-fable-5-message-bootstrap-exuvia-v2 | versao_2_0_0/.hbn/messages/20260701-193000-fable-5-bootstrap-exuvia-versao-2-0-0.md | message | quente | fronteira | — | 2026-07-01T21:06:01-03:00 |
+| 20260701-210602-fable-5-despacho-nata-0 | versao_2_0_0/.hbn/messages/20260701-200700-fable-5-despacho-nata-0-role-family-active-root.md | despacho | quente | fronteira | — | 2026-07-01T21:06:02-03:00 |
+| 20260701-210603-fable-5-despacho-nata-0b | versao_2_0_0/.hbn/messages/20260701-200800-fable-5-despacho-nata-0b-harness-readlist-v2.md | despacho | quente | fronteira | — | 2026-07-01T21:06:03-03:00 |
