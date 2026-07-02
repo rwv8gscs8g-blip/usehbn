@@ -22,7 +22,8 @@
       "guards/tests/adversarial-battery.sh",
       ".hbn/knowledge/0032-prompts-autocontidos-output-canonico.md",
       ".hbn/knowledge/INDEX.md",
-      "REGISTRY.md"
+      "REGISTRY.md",
+      "versao_2_0_0/**"
     ],
     "files_forbidden": [
       ".hbn/relay/STATE.md",
@@ -49,5 +50,13 @@
   "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
   "HBN-Token-FP": "34a7f2f9",
   "created_at": "2026-07-01T17:12:34-03:00",
-  "protocol_version": "0.3.0"
+  "protocol_version": "0.3.0",
+  "scope_extension_exuvia_bootstrap": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Gate humano 2026-07-01: autorizacao do commit do bootstrap da exuvia versao_2_0_0. Referencias: relatorio de consolidacao 20260701-201000 (~/Projetos) secao 7; FITNESS-CHECKLIST secao C-XAUDIT rodada 3. Comando executado pelo proprio gate no terminal.",
+    "created_at": "2026-07-01T21:10:00-03:00",
+    "allowed_delta": [
+      "versao_2_0_0/**"
+    ]
+  }
 }
