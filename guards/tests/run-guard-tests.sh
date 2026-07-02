@@ -154,6 +154,8 @@
 #   rebaixamento sem evento e evento sem readback. Total: 262.
 #   FIX-FREEZE-METADEREF (readback 0088): +2 checks G-FRZ para propostas
 #   PROPOSED resolvidas por seals_proposal ou por ledger no STATE. Total: 264.
+#   NATA-0/R2: +2 checks G-FAM version-aware para hearback_ref relativo a
+#   active-version (bom dentro da versão; ruim só fora da versão). Total: 266.
 # =============================================================================
 set -uo pipefail
 
@@ -205,6 +207,44 @@ check "fam: hearback_ref INEXISTENTE (bug F-03)"        block "$(run_fam "$FIX/a
 check "fam: hearback existe mas status=pendente"        block "$(run_fam "$FIX/atribuicoes/bad-hearback-pendente.json")"
 check "fam: hearback confirmado SEM a exceção"          block "$(run_fam "$FIX/atribuicoes/bad-hearback-sem-excecao.json")"
 check "fam: hearback confirmado COBRINDO a exceção"     pass  "$(run_fam "$FIX/atribuicoes/good-hearback-cobre.json")"
+
+make_fam_version_repo() {
+    local d; d="$(mktemp -d)"
+    (
+        cd "$d"
+        git init -q
+        git config user.email "tests@hbn.local"
+        git config user.name "hbn-guard-tests"
+        mkdir -p .hbn versao_1_0_0/guards/tests/fixtures/hearbacks guards/tests/fixtures/hearbacks
+        echo "versao_1_0_0" > .hbn/active-version
+        git add -A
+        git commit -qm "init"
+    ) >/dev/null 2>&1
+    echo "$d"
+}
+run_fam_in_repo() { # <repo> <atribuicao>
+    ( cd "$1" && HBN_MODELS_DIR="$FIX/models" \
+        bash "$GUARDS_DIR/assert-role-family.sh" "$2" >/dev/null 2>&1 )
+    echo $?
+}
+d="$(make_fam_version_repo)"
+(
+    cd "$d"
+    cp "$FIX/hearbacks/active-root-confirmado.json" \
+        versao_1_0_0/guards/tests/fixtures/hearbacks/active-root-confirmado.json
+) >/dev/null 2>&1
+check "fam: hearback_ref relativo à versão ativa" pass \
+    "$(run_fam_in_repo "$d" "$FIX/atribuicoes/good-hearback-active-root.json")"
+rm -rf "$d"
+d="$(make_fam_version_repo)"
+(
+    cd "$d"
+    cp "$FIX/hearbacks/active-root-confirmado.json" \
+        guards/tests/fixtures/hearbacks/root-only-confirmado.json
+) >/dev/null 2>&1
+check "fam: hearback_ref só fora da versão ativa (R2)" block \
+    "$(run_fam_in_repo "$d" "$FIX/atribuicoes/bad-hearback-root-only.json")"
+rm -rf "$d"
 
 # --- G-REG: assert-registry-line (repo git descartável por caso) -------------
 echo "== assert-registry-line (G-REG) =="

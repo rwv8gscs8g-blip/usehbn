@@ -81,11 +81,20 @@ ACTIVE_ROOT="$(get_canonical_root 2>/dev/null || echo "$REPO_ROOT")"
 MODELS_DIR="${HBN_MODELS_DIR:-${ACTIVE_ROOT}/.hbn/models}"
 
 set +e
-python3 - "$ATRIB" "$MODELS_DIR" "$REPO_ROOT" <<'PYEOF'
+python3 - "$ATRIB" "$MODELS_DIR" "$REPO_ROOT" "$ACTIVE_ROOT" <<'PYEOF'
 import json, os, sys
 
-atrib_path, models_dir, repo_root = sys.argv[1], sys.argv[2], sys.argv[3]
+atrib_path, models_dir, repo_root, active_root = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
 a = json.load(open(atrib_path))
+
+repo_root_real = os.path.realpath(repo_root)
+active_root_real = os.path.realpath(active_root)
+
+def _inside(path, root):
+    try:
+        return os.path.commonpath([os.path.realpath(path), root]) == root
+    except ValueError:
+        return False
 
 def perfil(apelido):
     p = os.path.join(models_dir, f"{apelido}.json")
@@ -102,12 +111,17 @@ falhas, avisos = [], []
 hearback_ref = a.get("hearback_ref")
 hearback = None  # dict carregado SOMENTE se existe + legível + confirmed
 if hearback_ref:
-    hp = hearback_ref if os.path.isabs(hearback_ref) else os.path.join(repo_root, hearback_ref)
-    if not os.path.isfile(hp):
+    hp = hearback_ref if os.path.isabs(hearback_ref) else os.path.join(active_root, hearback_ref)
+    hp_real = os.path.realpath(hp)
+    if not _inside(hp_real, repo_root_real):
+        falhas.append(f"hearback_ref '{hearback_ref}' escapa do repo Git (ADR-020)")
+    elif not _inside(hp_real, active_root_real):
+        falhas.append(f"hearback_ref '{hearback_ref}' está fora da raiz da versão ativa (ADR-020)")
+    elif not os.path.isfile(hp_real):
         falhas.append(f"hearback_ref '{hearback_ref}' NÃO existe no disco (anti-teatro, ADR-020)")
     else:
         try:
-            h = json.load(open(hp))
+            h = json.load(open(hp_real))
         except Exception as e:
             falhas.append(f"hearback_ref '{hearback_ref}' ilegível como JSON: {e} (ADR-020)")
         else:

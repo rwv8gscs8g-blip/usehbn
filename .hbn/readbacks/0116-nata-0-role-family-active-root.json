@@ -1,0 +1,69 @@
+{
+  "readback_id": "0116-nata-0-role-family-active-root",
+  "execution_id": "nata-0-role-family-active-root-0116",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "entregue",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0116-nata-0-role-family-active-root.json",
+  "understanding": "Selar a metade raiz da onda nata-0/R2 de G-FAM: manter a implementacao version-aware ja espelhada no bootstrap da exuvia, validar paridade byte a byte entre guards raiz e versao_2_0_0/guards, executar a suite da raiz e a bateria adversarial, limpar apenas fixtures efemeras de teste e deixar somente o pacote autorizado em staging seletivo para commit humano.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "despacho 20260701-200700 + ordem do gate via orquestrador fable-5 em 2026-07-02"
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0116-nata-0-role-family-active-root.json",
+      "guards/assert-role-family.sh",
+      "guards/tests/run-guard-tests.sh",
+      "guards/tests/fixtures/atribuicoes/bad-hearback-root-only.json",
+      "guards/tests/fixtures/atribuicoes/good-hearback-active-root.json",
+      "guards/tests/fixtures/hearbacks/active-root-confirmado.json",
+      "REGISTRY.md"
+    ]
+  },
+  "invariants_preserved": [
+    "guards raiz e versao_2_0_0/guards permanecem identicos apos a selagem da metade raiz.",
+    "G-FAM continua fail-closed: hearback_ref absoluto ou relativo nao pode escapar do repo Git nem da raiz da versao ativa.",
+    "O staging e seletivo: somente o readback 0116, dois arquivos de guards e tres fixtures da nata-0 entram no index.",
+    "Sem commit, sem --no-verify e sem git add -A; o commit permanece ato do operador humano."
+  ],
+  "action_plan": [
+    "Confirmar o despacho nata-0 em disco e conferir os arquivos alterados no working tree.",
+    "Criar o readback 0116 com escopo, autorizacao, invariantes e plano conforme schema/readback.schema.json.",
+    "Executar diff -rq guards versao_2_0_0/guards e exigir saida vazia.",
+    "Executar bash guards/tests/run-guard-tests.sh e confirmar os checks nata-0 bons/ruins sem falha nova fora do read-list conhecido.",
+    "Executar bash guards/tests/adversarial-battery.sh e confirmar resultado verde.",
+    "Remover somente diretorios efemeros untracked dos padroes cr-* e adv-cr* sob guards/tests/.",
+    "Fazer git add seletivo dos cinco arquivos de guards/fixtures e git add -f do readback, entao parar apos git diff --cached --stat."
+  ],
+  "out_of_scope": [
+    "Commit da selagem.",
+    "Alteracao de versao_2_0_0 nesta onda.",
+    "Correcoes da falha conhecida do bloco read-list, reservadas para nata-0b.",
+    "Staging de quaisquer arquivos fora de scope.files_allowed."
+  ],
+  "residual_risks": [
+    "A falha conhecida do bloco read-list permanece ate a nata-0b e nao deve ser confundida com regressao da nata-0.",
+    "O working tree contem muitos untracked historicos fora do escopo; eles permanecem ignorados nesta selagem."
+  ],
+  "classification_basis": {
+    "has_guardian_warnings": true,
+    "has_risks": true,
+    "has_constraints": true
+  },
+  "validation_plan": {
+    "gates": [
+      "diff -rq guards versao_2_0_0/guards",
+      "bash guards/tests/run-guard-tests.sh",
+      "bash guards/tests/adversarial-battery.sh",
+      "git diff --cached --stat"
+    ]
+  },
+  "HBN-Readback": "0116",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "created_at": "2026-07-02T08:42:30-03:00",
+  "protocol_version": "0.3.0"
+}
