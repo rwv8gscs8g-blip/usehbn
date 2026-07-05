@@ -1,7 +1,7 @@
 ---
 titulo: "FITNESS-CHECKLIST — gate de ativação da versao_2_0_0 (8 critérios, comandos objetivos)"
-status: proposto
-temperatura: quente
+status: congelado
+temperatura: glacier
 path: versao_2_0_0/FITNESS-CHECKLIST.md
 created_at: "2026-07-01T19:54:00-03:00"
 autor: fable-5

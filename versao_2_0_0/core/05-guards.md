@@ -1,7 +1,7 @@
 ---
 titulo: "05 — Guards e enforcement: runner, tiers, CI, testes"
-status: proposto
-temperatura: quente
+status: congelado
+temperatura: glacier
 path: versao_2_0_0/core/05-guards.md
 created_at: "2026-07-01T19:40:00-03:00"
 autor: fable-5

@@ -1,0 +1,63 @@
+{
+  "readback_id": "0036-deny-zona-livre",
+  "execution_id": "deny-zona-livre-2026-06-16",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0036-deny-zona-livre.json",
+  "understanding": "W3: deny-by-default da zona livre. Criar guard bloqueante G-ZONA-LIVRE que recusa qualquer path staged sob docs/brainstorm/** a menos que o readback ativo declare curadoria humana explicita (zona_livre_curada: true + zona_livre_nota nao-vazio). Enforca a knowledge 0024 por construcao, fechando a brecha que causou o incidente PF-ARVORES/cfe9c33. Combinado com a branch protection biometrica recem-armada, o gate fica real (estrutural local + boundary no origin). Cobrir com teste positivo/negativo e burla B33. Sem tocar core/outros guards.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio em 2026-06-16: sequencia hardening->deny->freeze; apos selar P-CAND-04+W2 e armar branch protection, implementar o deny-by-default da zona livre.",
+    "created_at": "2026-06-16T21:30:00-03:00",
+    "note": "Autorizacao humana para safe_track de W3. Nao autoriza tocar main, merge, --no-verify, git add ., core, outros guards, habilitar D-ORQ-WRITE."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0036-deny-zona-livre.json",
+      "guards/assert-zona-livre.sh",
+      "guards/hbn-guards-runner.sh",
+      "guards/README.md",
+      "guards/tests/run-guard-tests.sh",
+      "guards/tests/adversarial-battery.sh",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/messages/20260616-HHMMSS-codex-handoff-w3-deny-zona-livre.md"
+    ],
+    "files_forbidden": ["main","src/**","core/**","schemas/**","guards/assert-scope-lock.sh"]
+  },
+  "action_plan": [
+    "C1: abrir readback 0036.",
+    "C2: criar guard G-ZONA-LIVRE e inserir no runner.",
+    "C3: cobrir com teste positivo/negativo e burla B33.",
+    "C4: atualizar STATE e handoff."
+  ],
+  "invariants_to_preserve": [
+    "Nao tocar main, core, scope-lock, outros guards.",
+    "Guard com teste +/- e burla; sem regressao.",
+    "Nao usar git add .; somente paths exatos.",
+    "Handoff dentro do files_allowed.",
+    "Antes de cada commit: runner verde com o indice.",
+    "Trailers CONTIGUOS: HBN-Readback: 0036, HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin), HBN-Token-FP: 34a7f2f9."
+  ],
+  "out_of_scope": [
+    "arvores registry-centric e freeze (ondas seguintes).",
+    "scope_extension assinado (futuro).",
+    "Habilitar D-ORQ-WRITE."
+  ],
+  "read_evidence": [
+    ".hbn/knowledge/0024-orquestrador-nao-sela-zona-livre-sem-aprovacao.md (regra a enforcar)",
+    ".hbn/results/20260616-154200-cursor-cross-ia-proposta-arvores-mvp.md (G-ZONA-LIVRE sugerido)",
+    "guards/assert-scope-lock.sh (estilo fail-closed e leitura de readback ativo)"
+  ],
+  "mechanical_evidence": [
+    "pwd -> /Users/macbookpro/Projetos/usehbn",
+    "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04",
+    "readback ativo atual = 0035"
+  ],
+  "created_at": "2026-06-16T21:30:00-03:00",
+  "protocol_version": "0.3.0"
+}

@@ -1,7 +1,7 @@
 ---
 titulo: "MANIFESTO-MIGRACAO — destino de cada elemento do v0.3.x (critério C-TRACE)"
-status: proposto
-temperatura: quente
+status: congelado
+temperatura: glacier
 path: versao_2_0_0/MANIFESTO-MIGRACAO.md
 created_at: "2026-07-01T19:52:00-03:00"
 autor: fable-5

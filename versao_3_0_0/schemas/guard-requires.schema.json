@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "HBN Guard Requires Block",
+  "type": "object",
+  "required": ["requires"],
+  "additionalProperties": false,
+  "properties": {
+    "requires": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["files", "dirs", "state_fields", "guards", "env"],
+      "properties": {
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "install"],
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "install": {
+                "type": "string",
+                "enum": ["skeleton", "copy", "refuse"]
+              },
+              "source": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": { "install": { "const": "skeleton" } }
+                },
+                "then": {
+                  "required": ["source"]
+                }
+              },
+              {
+                "if": {
+                  "properties": { "install": { "const": "copy" } }
+                },
+                "then": {
+                  "required": ["source"]
+                }
+              }
+            ]
+          }
+        },
+        "dirs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "install"],
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "install": {
+                "type": "string",
+                "enum": ["skeleton", "copy", "refuse"]
+              },
+              "source": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "state_fields": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "guards": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^(assert|forbid)-[a-z0-9-]+$|^freeze-gate$|^validate-dispatch$"
+          },
+          "uniqueItems": true
+        },
+        "env": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z_][A-Z0-9_]*$"
+          },
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}

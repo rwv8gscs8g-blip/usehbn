@@ -1,7 +1,7 @@
 ---
 titulo: "04 — Artefatos: nomes, front-matter, REGISTRY, temperatura, árvores"
-status: proposto
-temperatura: quente
+status: congelado
+temperatura: glacier
 path: versao_2_0_0/core/04-artefatos.md
 created_at: "2026-07-01T19:38:00-03:00"
 autor: fable-5

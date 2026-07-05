@@ -1,8 +1,8 @@
 ---
 titulo: "role-cards — porta da frente mecânica (ponteiro fino; contrato do G-FRONTDOOR)"
 tipo: spec
-status: proposto
-temperatura: quente
+status: congelado
+temperatura: glacier
 path: versao_2_0_0/core/role-cards.md
 created_at: "2026-07-01T20:06:00-03:00"
 autor: fable-5

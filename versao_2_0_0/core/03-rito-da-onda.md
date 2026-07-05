@@ -1,7 +1,7 @@
 ---
 titulo: "03 — Rito da onda: despacho, readback, evidência, quórum, selagem, hearback"
-status: proposto
-temperatura: quente
+status: congelado
+temperatura: glacier
 path: versao_2_0_0/core/03-rito-da-onda.md
 created_at: "2026-07-01T19:36:00-03:00"
 autor: fable-5

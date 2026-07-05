@@ -1,7 +1,7 @@
 ---
 titulo: "06 — Freeze, Fitness Gate e exúvia (evolução por muda)"
-status: proposto
-temperatura: quente
+status: congelado
+temperatura: glacier
 path: versao_2_0_0/core/06-freeze-fitness-exuvia.md
 created_at: "2026-07-01T19:42:00-03:00"
 autor: fable-5

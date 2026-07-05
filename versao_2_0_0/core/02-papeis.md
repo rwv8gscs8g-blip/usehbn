@@ -1,7 +1,7 @@
 ---
 titulo: "02 — Papéis, famílias, bastão e matriz de escrita"
-status: proposto
-temperatura: quente
+status: congelado
+temperatura: glacier
 path: versao_2_0_0/core/02-papeis.md
 created_at: "2026-07-01T19:34:00-03:00"
 autor: fable-5

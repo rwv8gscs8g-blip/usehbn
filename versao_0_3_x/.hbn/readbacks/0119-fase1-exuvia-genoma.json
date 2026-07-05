@@ -1,0 +1,108 @@
+{
+  "readback_id": "0119-fase1-exuvia-genoma",
+  "execution_id": "fase1-exuvia-genoma-20260704",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "entregue",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0119-fase1-exuvia-genoma.json",
+  "understanding": "Implementar no genoma usehbn a Fase 1 do mapa definitivo selado pelo hearback 20260703-193223: fixes de genese, requires/MANIFEST, fixture/instalador, matriz total de perfil e teste integrado permanente. O trabalho para antes de commit/tag/push para auditoria cruzada de duas familias != OpenAI.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "/Users/macbookpro/Projetos/Credenciamento/.hbn/hearbacks/20260703-193223-mauricio-hearback-mapa-definitivo.json status=confirmed; sela /Users/macbookpro/Projetos/Credenciamento/orquestracao/20260703-170223-fable-5-mapa-definitivo-exuvia-consolidacao-final.md; autoriza Fase 1 no genoma usehbn",
+    "decreto": "/Users/macbookpro/Projetos/Credenciamento/orquestracao/20260703-000500-GATE-DECRETO-REVOGACAO-PERMISSOES-ORQUESTRADORES-LEITURA-OBRIGATORIA.md"
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0119-fase1-exuvia-genoma.json",
+      ".hbn/results/20260704-*-codex-erp-fase1-exuvia-genoma.json",
+      ".hbn/relay/RETURN.json",
+      "REGISTRY.md",
+      "core/role-cards.md",
+      "core/state-report-spec.md",
+      "schemas/model-profile.schema.json",
+      "schemas/guard-requires.schema.json",
+      "schemas/state.schema.json",
+      "guards/*.sh",
+      "guards/MANIFEST.yaml",
+      "guards/lib/common.sh",
+      "guards/data/auditor-families.txt",
+      "guards/fixtures/**",
+      "guards/tests/**",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json",
+      "scripts/hbn-install-guard"
+    ],
+    "files_forbidden": [
+      ".usehbn-snapshot/**",
+      "/Users/macbookpro/Projetos/Credenciamento/**",
+      "main",
+      "src/**",
+      "docs/**",
+      "methodology/**",
+      "versao_2_0_0/**",
+      ".hbn/hearbacks/**",
+      ".hbn/messages/**"
+    ]
+  },
+  "scope_extension": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Comando do operador em 2026-07-04 determinou conserto estrutural do bloqueio G-ORQ-ENTRADA sem bypass; guard descobriu dependencia D1: atestacao same-fp stale precisa ser regenerada contra o indice atual para o bastao vigente de orquestrador.",
+    "created_at": "2026-07-04T20:32:08-03:00",
+    "allowed_delta": [
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "justification": "Dependencia estrutural descoberta por guard (D1); alteracao necessaria para provar leitura do orquestrador sem enfraquecer G-ORQ-ENTRADA."
+  },
+  "invariants_preserved": [
+    "Nenhum guard ganha bypass, exclusao, permissao silenciosa ou skip de violacao.",
+    "Falha instrutiva continua exit 1 quando estrutura obrigatoria esta ausente.",
+    "Genesis-aware valida 100% das linhas do REGISTRY novo; nao afrouxa arvore.",
+    "Dependencias de guard passam a ser declaradas e instalaveis por requires, sem conteudo semantico inventado.",
+    "Commit, tag e push ficam fora desta entrega."
+  ],
+  "action_plan": [
+    "Corrigir assert-arvore-label para modo genese e cobrir com golden tests.",
+    "Centralizar parser YAML de atribuicao e aplicalo a G-NUM, G-FAM e G-EXC; exigir model profiles minimos por schema.",
+    "Mover pre-flight de validate-dispatch para depois do early-exit sem dispatch staged.",
+    "Declarar dependencias instalaveis via requires em todos os guards e gerar/validar MANIFEST.",
+    "Adicionar fixture byte-a-byte do REGISTRY skeleton e instalador hbn-install-guard.",
+    "Adicionar assert-profile-authorized com matriz total.",
+    "Transformar o experimento de genese em teste permanente e rodar testes positivos e negativos individuais."
+  ],
+  "out_of_scope": [
+    "Editar o repo Credenciamento ou qualquer .usehbn-snapshot do Credenciamento.",
+    "Propagar snapshot para consumidor.",
+    "Commit, tag, push ou selagem.",
+    "Religar guard no consumidor sem dependencia instalada.",
+    "Refatoracao ampla fora de guards/schemas/core/fixture/instalador/testes da Fase 1."
+  ],
+  "residual_risks": [
+    "O working tree contem muitos untracked historicos fora desta onda; eles nao serao alterados nem revertidos.",
+    "A bateria completa do runner pode gravar incidentes; a autoconferencia desta fase usara guards e testes individuais, conforme o mandato.",
+    "A quantidade de guards com requires aumenta o volume de diff e exige auditoria linha a linha contra o mapa."
+  ],
+  "classification_basis": {
+    "has_guardian_warnings": true,
+    "has_risks": true,
+    "has_constraints": true
+  },
+  "validation_plan": {
+    "positive": [
+      "bash guards/tests/run-guard-tests.sh com os novos casos focados.",
+      "guards individuais em repositorios temporarios para genese, parser, manifest, instalador e matriz total."
+    ],
+    "negative": [
+      "REGISTRY de genese com arvore invalida deve falhar.",
+      "STATE com atribuicao YAML em bloco malformada deve falhar instrutivamente.",
+      "dispatch ausente nao exige schema; dispatch staged sem schema falha.",
+      "MANIFEST divergente deve falhar.",
+      "guard fisico fora da matriz do perfil deve falhar."
+    ]
+  },
+  "HBN-Readback": "0119",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "created_at": "2026-07-04T15:50:56-03:00",
+  "protocol_version": "0.3.0"
+}

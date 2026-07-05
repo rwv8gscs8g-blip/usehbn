@@ -1,0 +1,72 @@
+{
+  "readback_id": "0001-consolidacao-c1-c7",
+  "execution_id": "consolidacao-lotes-c1-c7-2026-06-10",
+  "agent_id": "codex",
+  "track": "safe_track",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "understanding": "Ratificar o conjunto PROPOSED das correntes C1-C7 (hearback de Mauricio dado no chat em 2026-06-10, registrado em .hbn/hearbacks/0001-consolidacao-c1-c7.json): flips de status e temperatura, bump 0.3.1, CHANGELOG. Nenhum conteudo novo e criado; nada de dominio e tocado.",
+  "invariants_preserved": [
+    "firewall 0022 intacto (nenhum workflow/codigo de dominio)",
+    "T3 imutavel (ADR-014 Decisao 3)",
+    "nunca renomear nem deletar historia (ADR-011)",
+    "REGISTRY append-only (flip = linha nova, nunca edicao de linha antiga)",
+    "CLI Python permanece referencia, nao integrado (decisao Q3)",
+    "rampa classe A permanece DRY-RUN ate hearback pos-semana (ADR-013/Q2)",
+    "perfis de modelo mantem handoff_threshold 0.5 (relaxamento exige novo hearback)"
+  ],
+  "action_plan": [
+    "1. Front-matter status PROPOSED->ACCEPTED nos ADRs: 008-v2, 010, 011, 012, 013, 014, 015 (+ hearback-status: confirmado 2026-06-10)",
+    "2. Front-matter status proposed->accepted nos specs/artefatos dos lotes: core/relay-spec.md, core/cadence-d.md, agents/role-templates.md, agents/architect-autonomous.md, inbox/README.md, guards/README.md, REGISTRY.md (cabecalho), .hbn/knowledge/0001,0002,0003, .hbn/models/*.json (campo status)",
+    "3. REGISTRY: appendar linhas de mudanca de temperatura — PROMPT_C1/C2/C3/C6C7 -> frio (ciclos encerrados); nota de legado PROMPT_ARQUITETO v1.6 -> ultrapassado (superseded_by agents/architect-autonomous.md 20260610-16)",
+    "4. Bump de versao 0.3.1 conforme reports/20260610-15-proposal-bump-versao-canonico.md (pyproject.toml, setup.cfg, src/usehbn/__init__.py)",
+    "5. CHANGELOG: mover bullets 'proposed' C1-C7 para secao '## v0.3.1 — 2026-06-10' marcada 'adotado (hearback Mauricio 2026-06-10)'",
+    "6. Commits com trailer 'HBN-Readback: .hbn/readbacks/0001-consolidacao-c1-c7.json' (dogfood ADR-014 T2)",
+    "7. Verificacao final: bash guards/hbn-guards-runner.sh + pytest + grep 'status: PROPOSED' nos adotados deve retornar vazio"
+  ],
+  "out_of_scope": [
+    "qualquer codigo de dominio (VBA) ou repositorio do Credenciamento",
+    "integracao do CLI ao rito (Q3)",
+    "relaxar handoff_threshold de qualquer perfil",
+    "promover rampa classe A de dry-run para execucao real",
+    "renomear ou deletar qualquer arquivo historico"
+  ],
+  "residual_risks": [
+    "flip em massa pode esquecer um front-matter (mitigacao: passo 7, grep final)",
+    "scope-lock agora ATIVO: commit fora de scope.files_allowed sera recusado pelo guard (comportamento desejado)"
+  ],
+  "classification_basis": {
+    "has_guardian_warnings": false,
+    "has_risks": true,
+    "has_constraints": true
+  },
+  "scope": {
+    "files_allowed": [
+      "methodology/adr/**",
+      "core/**",
+      "agents/**",
+      "schemas/**",
+      "guards/README.md",
+      ".hbn/**",
+      "inbox/**",
+      "REGISTRY.md",
+      "CHANGELOG.md",
+      "pyproject.toml",
+      "setup.cfg",
+      "setup.py",
+      "src/usehbn/__init__.py",
+      "tests/test_adr_010_present.py",
+      "tests/test_version_constants.py",
+      "20260610-*-prompt-*.md",
+      "docs/**"
+    ],
+    "files_forbidden": [
+      "*.vba",
+      "*.bas",
+      "*.cls",
+      ".github/workflows/**"
+    ]
+  },
+  "created_at": "2026-06-10T04:16:39-03:00",
+  "protocol_version": "0.3.0 -> 0.3.1 (proposta 20260610-15)"
+}

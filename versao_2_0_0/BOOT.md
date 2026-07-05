@@ -1,7 +1,7 @@
 ---
 titulo: "BOOT — porta de entrada única do useHBN v2 (exoesqueleto pós-exúvia)"
-status: proposto (desafiante — ativação vedada até Fitness Gate + quórum + hearback humano)
-temperatura: quente
+status: congelado
+temperatura: glacier
 path: versao_2_0_0/BOOT.md
 created_at: "2026-07-01T19:30:00-03:00"
 autor: fable-5

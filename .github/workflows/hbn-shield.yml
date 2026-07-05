@@ -1,7 +1,8 @@
 # =============================================================================
-# HBN Shield — o portão verde do protocolo canônico
-# status: proposed (C3 2026-06-10, aguardando hearback — lote C3)
-# Gate: guards de governança + pytest da implementação de referência.
+# HBN Shield — o portão verde do protocolo canônico (v3, terceira exúvia)
+# SHIM DE ROTEAMENTO: a raiz é vazia por desenho; este workflow lê
+# .hbn/active-version e executa a bateria da VERSÃO QUENTE ATIVA.
+# A definição canônica vive em <ativa>/.github/workflows/hbn-shield.yml.
 # Verde = pode mergear; vermelho = nada entra no canônico.
 # =============================================================================
 name: HBN Shield
@@ -17,29 +18,34 @@ permissions:
 
 jobs:
   guards:
-    name: Guards de governança
+    name: Guards de governança (versão quente ativa)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: hbn-ci-entry (modo CI — diff range, raiz canônica delegada ao local)
+      - name: hbn-ci-entry (roteado pela versão quente — modo CI, diff range)
         env:
           HBN_DIFF_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
-        run: bash guards/ci-entry.sh
+        run: |
+          set -euo pipefail
+          ACTIVE="$(grep -v '^[[:space:]]*#' .hbn/active-version | grep -v '^[[:space:]]*$' | head -1 | xargs)"
+          if [ "$ACTIVE" = "." ]; then ENTRY="guards/ci-entry.sh"; else ENTRY="${ACTIVE}/guards/ci-entry.sh"; fi
+          echo "versão quente ativa: ${ACTIVE} -> ${ENTRY}"
+          test -f "$ENTRY" || { echo "::error::runner de CI ausente na versão ativa: ${ENTRY}"; exit 1; }
+          bash "$ENTRY"
 
-  tests:
-    name: pytest (implementação de referência)
+  suite:
+    name: Suíte de testes dos guards (versão quente ativa)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
-      - name: Instalar referência + pytest
+          fetch-depth: 0
+      - name: run-guard-tests (hermética, repos descartáveis)
         run: |
-          python -m pip install --upgrade pip
-          pip install pytest
-          pip install -e . || true
-      - name: Rodar testes
-        run: python -m pytest tests -q
+          set -euo pipefail
+          ACTIVE="$(grep -v '^[[:space:]]*#' .hbn/active-version | grep -v '^[[:space:]]*$' | head -1 | xargs)"
+          if [ "$ACTIVE" = "." ]; then SUITE="guards/tests/run-guard-tests.sh"; else SUITE="${ACTIVE}/guards/tests/run-guard-tests.sh"; fi
+          test -f "$SUITE" || { echo "::error::suíte ausente na versão ativa: ${SUITE}"; exit 1; }
+          bash "$SUITE"

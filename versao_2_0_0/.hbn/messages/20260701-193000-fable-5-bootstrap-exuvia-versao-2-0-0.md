@@ -1,8 +1,8 @@
 ---
 titulo: "Certidão de nascimento — bootstrap da versao_2_0_0 (1ª exúvia)"
 tipo: message
-status: proposto
-temperatura: quente
+status: congelado
+temperatura: glacier
 path: versao_2_0_0/.hbn/messages/20260701-193000-fable-5-bootstrap-exuvia-versao-2-0-0.md
 created_at: "2026-07-01T19:30:00-03:00"
 autor: fable-5

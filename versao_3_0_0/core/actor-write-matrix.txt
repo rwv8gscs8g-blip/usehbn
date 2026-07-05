@@ -1,0 +1,10 @@
+# actor-write-matrix — papel -> paths com escrita permitida (glob)
+# Formato: <papel>|<glob>[,<glob>...]
+# Enforcement: G-ACTOR-WRITE-MATRIX (onda 1 do desafiante). Editar esta matriz
+# no mesmo commit de um artefato que ela autoriza e PROIBIDO (anti-auto-emenda).
+orquestrador|.hbn/messages/**,.hbn/relay/STATE.md
+implementador|<scope.files_allowed do readback ativo>
+auditor|.hbn/results/**
+arquiteto|.hbn/messages/**,docs/**
+codex-mecanico|<nenhum sem comando explicito do orquestrador>
+humano|** (via hearback/Terminal)

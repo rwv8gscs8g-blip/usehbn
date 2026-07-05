@@ -1,0 +1,255 @@
+#!/usr/bin/env bash
+# Instalador minimo de dependencias declaradas por requires de guards.
+set -euo pipefail
+export LC_ALL=C
+
+# Raiz da VERSAO (terceira exuvia): fixtures e guards moram ao lado deste
+# script, nao na raiz do git (que e vazia por desenho no genoma v3).
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+TARGET=""
+GUARD=""
+MODE=""
+REQ_PATH=""
+SOURCE=""
+SOURCE_ROOT="$ROOT"
+
+usage() {
+  cat >&2 <<'EOF'
+uso:
+  scripts/hbn-install-guard --target <repo> --guard <guard>
+  scripts/hbn-install-guard --target <repo> --path <path> --install skeleton|copy|refuse [--source <path>]
+
+O instalador nunca inventa conteudo semantico:
+  skeleton: copia fixture conhecida ou cria .hbn/models/<agente>.json minimo a partir do STATE + mapa.
+  copy: copia byte-a-byte de --source-root/--source para --target/path.
+  refuse: recusa com mensagem instrutiva.
+EOF
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --target) TARGET="$2"; shift ;;
+    --guard) GUARD="$2"; shift ;;
+    --path) REQ_PATH="$2"; shift ;;
+    --install) MODE="$2"; shift ;;
+    --source) SOURCE="$2"; shift ;;
+    --source-root) SOURCE_ROOT="$2"; shift ;;
+    -h|--help) usage; exit 0 ;;
+    *) echo "arg desconhecido: $1" >&2; usage; exit 2 ;;
+  esac
+  shift
+done
+
+[[ -n "$TARGET" ]] || { echo "ERRO: --target obrigatorio" >&2; usage; exit 2; }
+TARGET_ROOT="$(git -C "$TARGET" rev-parse --show-toplevel 2>/dev/null || true)"
+[[ -n "$TARGET_ROOT" ]] || { echo "ERRO: target nao e repo git: $TARGET" >&2; exit 2; }
+
+safe_rel() {
+  local p="$1"
+  case "$p" in
+    ""|/*|*..*|*//*|*\\*|*" "*|*"	"*) return 1 ;;
+  esac
+  return 0
+}
+
+copy_file() {
+  local path="$1" source="$2" src dst
+  safe_rel "$path" || { echo "REFUSE: path inseguro: $path" >&2; return 1; }
+  safe_rel "$source" || { echo "REFUSE: source inseguro: $source" >&2; return 1; }
+  src="${SOURCE_ROOT%/}/$source"
+  dst="${TARGET_ROOT%/}/$path"
+  [[ -f "$src" ]] || { echo "REFUSE: source ausente para copy: $src" >&2; return 1; }
+  mkdir -p "$(dirname "$dst")"
+  cp "$src" "$dst"
+  echo "COPY: $path <= $source"
+}
+
+skeleton_registry() {
+  copy_file "$1" "guards/fixtures/registry-skeleton.md"
+}
+
+state_agents() {
+  local state="$TARGET_ROOT/.hbn/relay/STATE.md"
+  [[ -f "$state" ]] || { echo "REFUSE: STATE ausente; nao sei quais agentes modelar: $state" >&2; return 1; }
+  python3 - "$state" <<'PY'
+import re, sys
+text = open(sys.argv[1], encoding="utf-8").read().splitlines()
+aliases = []
+inside = False
+for raw in text:
+    if re.match(r"^atribuicao:\s*$", raw):
+        inside = True
+        continue
+    if inside and raw and not raw[0].isspace():
+        inside = False
+    if not inside:
+        continue
+    stripped = raw.strip()
+    m = re.match(r"^(orquestrador|implementador):\s*['\"]?([a-z0-9][a-z0-9._-]*)['\"]?\s*$", stripped)
+    if m:
+        aliases.append(m.group(2))
+        continue
+    m = re.match(r"^(auditores|escrita_paralela):\s*\[(.*)\]\s*$", stripped)
+    if m:
+        for item in m.group(2).split(","):
+            item = item.strip().strip("'\"")
+            if item:
+                aliases.append(item)
+        continue
+    m = re.match(r"^-\s*['\"]?([a-z0-9][a-z0-9._-]*)['\"]?\s*$", stripped)
+    if m:
+        aliases.append(m.group(1))
+for alias in sorted(set(aliases)):
+    print(alias)
+PY
+}
+
+family_for() {
+  local alias="$1" map="$TARGET_ROOT/guards/data/auditor-families.txt"
+  [[ -f "$map" ]] || map="$SOURCE_ROOT/guards/data/auditor-families.txt"
+  [[ -f "$map" ]] || return 1
+  awk -v a="$alias" '$1==a {print $2; found=1} END{exit(found?0:1)}' "$map"
+}
+
+skeleton_models_dir() {
+  local dir="$1" dst alias family lc_family
+  safe_rel "$dir" || { echo "REFUSE: path inseguro: $dir" >&2; return 1; }
+  mkdir -p "$TARGET_ROOT/$dir"
+  local agents
+  agents="$(state_agents)" || return 1
+  [[ -n "$agents" ]] || { echo "REFUSE: atribuicao do STATE sem agentes; nao crio perfil sem alvo" >&2; return 1; }
+  while IFS= read -r alias; do
+    [[ -z "$alias" ]] && continue
+    family="$(family_for "$alias" || true)"
+    [[ -n "$family" ]] || { echo "REFUSE: familia desconhecida para agente '$alias' em guards/data/auditor-families.txt" >&2; return 1; }
+    lc_family="$(printf '%s' "$family" | tr '[:upper:]' '[:lower:]')"
+    dst="$TARGET_ROOT/$dir/$alias.json"
+    if [[ -e "$dst" ]]; then
+      echo "KEEP: $dir/$alias.json ja existe"
+      continue
+    fi
+    cat > "$dst" <<EOF
+{"apelido":"$alias","familia":"$lc_family","fornecedor":"$lc_family"}
+EOF
+    echo "SKELETON: $dir/$alias.json"
+  done <<< "$agents"
+}
+
+install_one() {
+  local path="$1" install="$2" source="${3:-}"
+  case "$install" in
+    copy)
+      [[ -n "$source" ]] || { echo "REFUSE: copy exige source para $path" >&2; return 1; }
+      copy_file "$path" "$source"
+      ;;
+    skeleton)
+      if [[ "$path" == "REGISTRY.md" ]]; then
+        skeleton_registry "$path"
+      elif [[ "$path" == ".hbn/models" || "$path" == ".hbn/models/" ]]; then
+        skeleton_models_dir ".hbn/models"
+      elif [[ -n "$source" ]]; then
+        copy_file "$path" "$source"
+      else
+        echo "REFUSE: skeleton sem fixture conhecida para $path" >&2
+        return 1
+      fi
+      ;;
+    refuse)
+      echo "REFUSE: $path requer acao humana/consumidor; nada foi instalado automaticamente" >&2
+      return 1
+      ;;
+    *)
+      echo "REFUSE: install invalido para $path: $install" >&2
+      return 2
+      ;;
+  esac
+}
+
+if [[ -n "$REQ_PATH" || -n "$MODE" ]]; then
+  [[ -n "$REQ_PATH" && -n "$MODE" ]] || { echo "ERRO: --path e --install devem vir juntos" >&2; exit 2; }
+  install_one "$REQ_PATH" "$MODE" "$SOURCE"
+  exit $?
+fi
+
+[[ -n "$GUARD" ]] || { echo "ERRO: informe --guard ou --path/--install" >&2; usage; exit 2; }
+
+python3 - "$ROOT/guards/MANIFEST.yaml" "$GUARD" > "${TMPDIR:-/tmp}/hbn-install-guard.$$" <<'PY'
+import re
+import sys
+
+manifest_path, want = sys.argv[1:3]
+lines = open(manifest_path, encoding="utf-8").read().splitlines()
+current = None
+in_requires = False
+group = None
+item = None
+rows = []
+
+def value(line):
+    return line.split(":", 1)[1].strip().strip('"').strip("'")
+
+def flush():
+    global item
+    if current == want and item:
+        rows.append((
+            item.get("path", ""),
+            item.get("install", ""),
+            item.get("source", ""),
+        ))
+    item = None
+
+for raw in lines:
+    if raw.startswith("  - guard: "):
+        flush()
+        current = raw.split(":", 1)[1].strip()
+        in_requires = False
+        group = None
+        continue
+    if current != want:
+        continue
+    if raw.strip() == "requires:":
+        in_requires = True
+        continue
+    if not in_requires:
+        continue
+    if raw.startswith("      files:"):
+        flush()
+        group = "files"
+        continue
+    if raw.startswith("      dirs:"):
+        flush()
+        group = "dirs"
+        continue
+    if raw.startswith("      ") and re.match(r"      (state_fields|guards|env):", raw):
+        flush()
+        group = None
+        continue
+    if group in {"files", "dirs"} and raw.startswith("        - path: "):
+        flush()
+        item = {"path": raw.split(":", 1)[1].strip().strip('"').strip("'")}
+        continue
+    if item is not None and raw.startswith("          install: "):
+        item["install"] = value(raw)
+        continue
+    if item is not None and raw.startswith("          source: "):
+        item["source"] = value(raw)
+        continue
+flush()
+
+if current is None or not rows:
+    raise SystemExit(f"guard sem dependencias instalaveis no MANIFEST ou inexistente: {want}")
+for path, install, source in rows:
+    print(f"{path}\t{install}\t{source}")
+PY
+rc=$?
+if [[ "$rc" -ne 0 ]]; then
+  rm -f "${TMPDIR:-/tmp}/hbn-install-guard.$$"
+  exit "$rc"
+fi
+while IFS=$'\t' read -r path install source; do
+  [[ -z "$path" ]] && continue
+  install_one "$path" "$install" "$source"
+done < "${TMPDIR:-/tmp}/hbn-install-guard.$$"
+rm -f "${TMPDIR:-/tmp}/hbn-install-guard.$$"
+exit 0

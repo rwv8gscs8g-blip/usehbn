@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "hooks": {
+    "preToolUse": [
+      {
+        "command": ".cursor/hooks/hbn-boot-lock.sh",
+        "matcher": "Write|StrReplace|EditNotebook|Delete",
+        "failClosed": true,
+        "timeout": 15
+      }
+    ]
+  }
+}

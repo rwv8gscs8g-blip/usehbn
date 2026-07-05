@@ -1,7 +1,7 @@
 ---
 titulo: REGISTRY — livro-razão de artefatos do useHBN v2
-status: proposto
-temperatura: quente
+status: congelado
+temperatura: glacier
 data-abertura: 2026-07-01
 autoria: fable-5 (implementador da exúvia, gate humano de Maurício)
 regras: append-only; uma linha por evento (nascimento ou mudança de temperatura); nunca rename, nunca delete
@@ -45,3 +45,12 @@ imutável; não migra — ver MANIFESTO-MIGRACAO.md).
 | 20260701-21 | core/role-cards.md | spec | fable-5 | quente | |
 | 20260701-22 | .hbn/messages/20260701-200700-fable-5-despacho-nata-0-role-family-active-root.md | message | fable-5 | quente | |
 | 20260701-23 | .hbn/messages/20260701-200800-fable-5-despacho-nata-0b-harness-readlist-v2.md | message | fable-5 | quente | |
+
+## Glaciação (terceira exúvia — 2026-07-05)
+
+> Evento de encerramento: a primeira exúvia (v2.0.0) NUNCA foi ativada
+> (relatório crítico 20260705-001142) e foi congelada pela terceira exúvia
+> (`status: congelado`, `temperatura: glaciar`). A especificação consolidada
+> daqui foi IMPORTADA para `versao_3_0_0/`. Livro-razão ENCERRADO.
+
+| 20260705-g1 | versao_2_0_0/ | versao-inteira | fable-5 | glaciar | versao_3_0_0/ |

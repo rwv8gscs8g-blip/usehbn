@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>useHBN — Painel de Proteção do Operador</title>
+<style>
+  :root{
+    --bg:#0d1117; --card:#161b22; --line:#30363d; --txt:#e6edf3; --mut:#8b949e;
+    --green:#3fb950; --red:#f85149; --yellow:#d29922; --blue:#58a6ff; --purple:#bc8cff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.55 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;padding:28px}
+  .wrap{max-width:1060px;margin:0 auto}
+  h1{font-size:24px;margin:0 0 4px}
+  h2{font-size:17px;margin:32px 0 12px;border-bottom:1px solid var(--line);padding-bottom:8px}
+  a{color:var(--blue)}
+  .sub{color:var(--mut);font-size:13px;margin-bottom:8px}
+  .banner{background:linear-gradient(90deg,#13261a,#161b22);border:1px solid var(--green);border-radius:10px;padding:16px 18px;display:flex;align-items:center;gap:14px}
+  .banner .big{font-size:30px}
+  .banner b{color:var(--green)}
+  .warn{background:#2a1d05;border:1px solid var(--yellow);border-radius:10px;padding:13px 16px;margin-top:12px;font-size:14px}
+  .warn b{color:var(--yellow)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:10px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:12px 14px}
+  .card.ok{border-left:3px solid var(--green)}
+  .g{font-weight:600}
+  .g .tag{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--blue);margin-left:6px}
+  .card p{margin:6px 0 0;color:var(--mut);font-size:13px}
+  .ev{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--green);border-radius:8px;padding:11px 14px;margin-bottom:8px}
+  .ev b{color:var(--green)}
+  .sig{display:flex;gap:10px;padding:9px 12px;border:1px solid var(--line);border-radius:8px;margin-bottom:7px;background:var(--card)}
+  .dot{font-size:16px;line-height:1.4}
+  .sig small{color:var(--mut)}
+  .map{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:10px}
+  .mbox{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:12px 14px}
+  .mbox h3{margin:0 0 6px;font-size:14px}
+  .mbox.fam-p{border-left:3px solid var(--purple)}
+  .mbox.fam-g{border-left:3px solid var(--green)}
+  .mbox.fam-w{border-left:3px solid var(--blue)}
+  .mbox ul{margin:6px 0 0;padding-left:18px;color:var(--mut);font-size:12.5px}
+  .mbox li{margin:3px 0}
+  .mbox code{font-size:11.5px}
+  .road{counter-reset:r;padding-left:0;list-style:none;margin:0}
+  .road li{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:11px 14px 11px 44px;margin-bottom:8px;position:relative}
+  .road li::before{counter-increment:r;content:counter(r);position:absolute;left:12px;top:11px;width:22px;height:22px;border-radius:50%;background:var(--blue);color:#06121f;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center}
+  .road b{color:var(--txt)}
+  .road small{color:var(--mut)}
+  .note{background:#1b1505;border:1px solid var(--yellow);border-radius:9px;padding:14px 16px;color:#f0e3c0;font-size:13.5px}
+  .note b{color:var(--yellow)}
+  .slogan{margin-top:26px;text-align:center;font-size:15px;color:var(--txt);background:linear-gradient(90deg,#161b22,#13261a,#161b22);border:1px solid var(--green);border-radius:10px;padding:16px 18px}
+  .slogan b{color:var(--green)}
+  .foot{color:var(--mut);font-size:12px;margin-top:18px;border-top:1px solid var(--line);padding-top:12px}
+  code{font-family:ui-monospace,Menlo,monospace;background:#1f2630;padding:1px 5px;border-radius:4px;font-size:12.5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>useHBN — Painel de Proteção do Operador</h1>
+  <div class="sub">Snapshot gerado pelo orquestrador · repositório <code>usehbn</code> · HEAD <code>1e81f6c</code> · 2026-06-13 (–03:00) · <a href="https://github.com/rwv8gscs8g-blip/usehbn" target="_blank">usehbn-help ↗ (GitHub)</a></div>
+
+  <div class="banner">
+    <span class="big">🛡️</span>
+    <div>O protocolo está <b>ATIVO</b>. <b>14 guards</b> no runner + o guard de bastão (G-TOK) inspecionam <b>todo commit</b> antes de ele existir. Suíte de testes: <b>125/125 verde</b>. Bateria adversarial: <b>14/14 burlas bloqueadas</b>.<br>
+    <span style="color:var(--mut);font-size:13px">Nenhuma IA escreve na história sem passar por este muro. Quando uma tenta fazer o que não deveria, o commit é recusado — e você vê o porquê.</span></div>
+  </div>
+
+  <div class="warn">
+    ⚠️ <b>Os guards são reais, mas não substituem você.</b> Eles impedem o errado; <b>quem aprova o certo é o humano</b> (P5 — Humano no controle por padrão). Sempre revise o que vai ser commitado <b>antes</b> de rodar a cerimônia no Terminal. A validação humana é a última e mais importante trava.
+  </div>
+
+  <h2>O muro de guards — o que cada um impede</h2>
+  <div class="sub">Cada guard (“g-lock”) é uma trava automática. Se a condição falhar, o commit é BLOQUEADO antes de entrar no repositório.</div>
+  <div class="grid">
+    <div class="card ok"><div class="g">Raiz canônica<span class="tag">canonical-root</span></div><p>Garante que o trabalho está no repositório certo, não numa cópia perdida.</p></div>
+    <div class="card ok"><div class="g">Sem worktree volátil<span class="tag">forbid-tmp-worktree</span></div><p>Impede trabalho em pastas que somem (ex.: /tmp).</p></div>
+    <div class="card ok"><div class="g">Sem segredos<span class="tag">forbid-env-files</span></div><p>Bloqueia commit de arquivos sensíveis / credenciais.</p></div>
+    <div class="card ok"><div class="g">Sem caminhos legados<span class="tag">forbid-legacy-paths</span></div><p>Recusa caminhos proibidos ou descontinuados.</p></div>
+    <div class="card ok"><div class="g">Trava de escopo<span class="tag">G-SCO</span></div><p>A IA só toca nos arquivos que o readback declarou. Nada fora do combinado.</p></div>
+    <div class="card ok"><div class="g">Auto-localização<span class="tag">G-SLF</span></div><p>Todo artefato declara onde mora — e mora lá. Sem documento mentindo sobre o próprio lugar.</p></div>
+    <div class="card ok"><div class="g">Linha no livro-razão<span class="tag">G-REG</span></div><p>Todo artefato numerado entra no REGISTRY. Nada órfão ou escondido.</p></div>
+    <div class="card ok"><div class="g">Identidade do autor<span class="tag">G-PAR</span></div><p>Nome de artefato segue o padrão com agente reconhecido. Sem identidade forjada.</p></div>
+    <div class="card ok"><div class="g">Ponteiro honesto<span class="tag">pointer-honest</span></div><p>Todo link aponta para algo que existe. Sem referência fantasma.</p></div>
+    <div class="card ok"><div class="g">Relato fresco<span class="tag">G-RLT</span></div><p>O relato de estado bate com o STATE real do disco. Sem relatar de memória.</p></div>
+    <div class="card ok"><div class="g">Sem .hbn perdido<span class="tag">no-stray-hbn</span></div><p>Nenhum diretório de protocolo solto fora de um repositório.</p></div>
+    <div class="card ok"><div class="g">Famílias separadas<span class="tag">G-FAM</span></div><p>O implementador não pode ser da mesma família dos auditores. Sem auto-aprovação.</p></div>
+    <div class="card ok"><div class="g">Hearback íntegro<span class="tag">G-HRB</span></div><p>Autorizações são commits puros e auditáveis, separados da obra.</p></div>
+    <div class="card ok"><div class="g">Exceção rastreável<span class="tag">G-EXC</span></div><p>Se desenhista = implementador (auto-negócio), exige rastro + 2 pareceres externos.</p></div>
+    <div class="card ok"><div class="g">Posse do bastão<span class="tag">G-TOK</span></div><p>Só quem tem o token secreto local pode commitar. Sem janela aleatória escrevendo.</p></div>
+  </div>
+
+  <h2>Provas de que está funcionando</h2>
+  <div class="sub">Eventos reais recentes em que o protocolo recusou ou conteve uma ação.</div>
+  <div class="ev"><b>🛡️ Bloqueio (onda 0008):</b> a IA nomeou um artefato como <code>fable5</code> (identidade não reconhecida). O <b>G-PAR</b> recusou o commit — só <code>fable-5</code>, token real do universo de modelos, passa.</div>
+  <div class="ev"><b>🛡️ Separação confirmada (onda 0008):</b> o <b>G-EXC</b> verificou que o implementador (<code>fable-5</code>) ≠ desenhista (<code>opus</code>). Sem auto-negócio — a exceção F-01 não se repetiu.</div>
+  <div class="ev"><b>🛡️ Posse exigida (onda 0007):</b> o <b>G-TOK</b> só liberou o commit após comprovar a posse do bastão (token local). Uma janela sem o bastão não commita.</div>
+  <div class="ev"><b>🛡️ Recuo honesto (onda 0007 v1):</b> ao descobrir 3 conflitos de guard, a IA <b>parou e relatou</b> em vez de driblar as travas. O protocolo a fez recuar.</div>
+  <div class="ev"><b>🛡️ Bateria adversarial:</b> <b>14/14</b> tentativas de burla foram bloqueadas no teste automatizado.</div>
+
+  <h2>Mapa da árvore — onde as coisas moram e para que servem</h2>
+  <div class="sub">Três famílias de “regras” convivem no protocolo. Saber distingui-las ajuda a defendê-lo.</div>
+  <div class="map">
+    <div class="mbox fam-p"><h3>🟣 Princípios P1–P13 <span style="color:var(--mut);font-weight:400;font-size:12px">(a constituição)</span></h3>
+      <p style="margin:0;color:var(--mut);font-size:12.5px">Regras imutáveis, de peso igual. Mudam raramente e nunca por uma IA sozinha. <code>methodology/PRINCIPIOS-CONSTITUCIONAIS.md</code></p>
+      <ul><li>P1 Preservar antes de transformar · P2 Documentar antes de executar · P3 Testar antes de refatorar</li><li>P4 Explicar antes de automatizar · <b>P5 Humano no controle por padrão</b></li><li>P6 Reversível · P7 Identidade preservada · P8 Protocolo &gt; ferramenta</li><li>P9 Princípios &gt; frameworks · P10 Segurança &gt; velocidade</li><li>P11 Minimalismo de Cadeia · P12 Substrato Sólido · P13 AI-Language-Abstraction</li></ul></div>
+    <div class="mbox fam-g"><h3>🟢 Guards / “g-locks” <span style="color:var(--mut);font-weight:400;font-size:12px">(o enforcement)</span></h3>
+      <p style="margin:0;color:var(--mut);font-size:12.5px">Travas automáticas que rodam a cada commit. São o “como” os princípios viram realidade — o muro acima. <code>guards/assert-*.sh</code>, <code>forbid-*.sh</code></p>
+      <ul><li>14 no runner (G-SCO, G-REG, G-PAR, G-RLT, G-FAM, G-HRB, G-EXC…) + G-TOK no commit-msg.</li><li>Suíte de testes e bateria adversarial em <code>guards/tests/</code>.</li></ul></div>
+    <div class="mbox fam-w"><h3>🔵 Glasswing G1–G8 <span style="color:var(--mut);font-weight:400;font-size:12px">(segurança preventiva)</span></h3>
+      <p style="margin:0;color:var(--mut);font-size:12.5px">Camada por “vetores” de ataque, focada em engano/burla. Complementa os guards. <code>docs/INTEGRATION-GLASSWING.md</code></p>
+      <ul><li>G5: bloqueia afirmações sem evidência (“100% seguro”).</li><li>G6: proíbe código de produto no chat — só entrega por arquivo.</li><li>G1–G4/G7–G8: macros, validação de config, fórmulas privilegiadas, log append-only…</li></ul></div>
+  </div>
+  <div class="map" style="margin-top:10px">
+    <div class="mbox"><h3>📁 Diretórios principais</h3>
+      <ul><li><code>methodology/</code> — constituição + ADRs (decisões numeradas) + primers.</li><li><code>core/</code> — specs operacionais (relay, readback, state-report, orchestrator-profile, roles): o “regimento interno”.</li><li><code>guards/</code> — os g-locks + testes + bateria adversarial.</li><li><code>src/</code> — runtime Python: o futuro CLI <code>hbn</code>.</li><li><code>docs/ · tests/ · examples/ · schemas/ · site/ · local-ai/</code> — doc, testes, exemplos, esquemas, site, scripts locais.</li></ul></div>
+    <div class="mbox"><h3>🧠 <code>.hbn/</code> — o sistema nervoso em operação</h3>
+      <ul><li><code>relay/STATE.md</code> — o estado atual (fonte da verdade).</li><li><code>readbacks/</code> — autorizações de cada onda (o que pode ser tocado).</li><li><code>hearbacks/</code> — adoções formais assinadas (humano no gate).</li><li><code>messages/</code> — handoffs entre janelas/IAs · <code>results/</code> — pareceres das auditorias.</li><li><code>proposals/</code> — desenhos propostos · <code>knowledge/</code> — lições destiladas · <code>models/</code> — perfis das IAs.</li><li><code>REGISTRY.md</code> (raiz) — o livro-razão de todos os artefatos.</li></ul></div>
+  </div>
+
+  <h2>Próximas ondas (previsão)</h2>
+  <div class="sub">Sequência planejada para estabilizar esta rodada do useHBN antes de voltar à validação do Credenciamento (v206). Uma onda por vez.</div>
+  <ol class="road">
+    <li><b>Fechar a doutrina (0008).</b> <small>Proposta escrita → cross-audit Codex+Gemini → emenda na spec do orquestrador + hearback.</small></li>
+    <li><b>Fase-2: fechar a F-01.</b> <small>Onda de desenho de guard para destravar handoff arquival (G-RLT), hearback numerado (G-REG×G-HRB) e a baixa formal da exceção F-01.</small></li>
+    <li><b>Sinais &amp; painel.</b> <small>Atualizar sinais desatualizados do STATE; versionar este painel como artefato do protocolo; padronizar a MESMA interface gráfica + lógica de confirmação para todo processo na pasta useHBN.</small></li>
+    <li><b>Panic button.</b> <small>Comando que põe todas as IAs em modo “caça à burla”: guards + Glasswing + auditoria cruzada apontados ao mesmo alvo — detectar tentativa mascarada de enganar ou contornar o protocolo.</small></li>
+    <li><b>Atualização do GitHub.</b> <small>Publicar <code>origin/main</code> (hoje 78+ commits à frente, nunca houve push) com documentação clara do protocolo — antes de retomar o Credenciamento.</small></li>
+    <li><b>Rumo ao CLI.</b> <small>Hoje o protocolo opera por cerimônia de Terminal + guards, <b>sem CLI próprio</b>. A trajetória é implementar <code>hbn doctor --health</code> (ADR-007) e consolidar o <code>hbn</code> como interface, alimentando este painel ao vivo.</small></li>
+  </ol>
+
+  <div class="note">
+    <b>Esclarecimento honesto (o que isto é e o que ainda não é).</b><br>
+    • Este painel é um <b>snapshot</b> gerado pelo orquestrador a partir do estado real do repo — <b>não</b> é monitor ao vivo. Não há conector de repositório que o atualize sozinho; o orquestrador o regenera quando você pedir.<br>
+    • Nesta primeira etapa o protocolo <b>não é um CLI</b>: ele vive nos guards (hooks de git) + cerimônia de Terminal + auditoria cruzada. O <code>hbn doctor --health</code> do ADR-007 ainda não foi implementado; este painel é a ponte manual até lá.<br>
+    • Os sinais vêm do STATE; um deles (suíte “123”) está <b>desatualizado no STATE</b> e será corrigido numa próxima onda — o número real verde é 125.
+  </div>
+
+  <div class="slogan">
+    <b>useHBN</b> — metodologia aberta que evolui <b>em looping</b>: protocolos e atenção ativa para manter o <b>humano sempre no controle</b>.<br>
+    <span style="color:var(--mut);font-size:13px">Documentação e protocolo: <a href="https://github.com/rwv8gscs8g-blip/usehbn" target="_blank">github.com/rwv8gscs8g-blip/usehbn</a> · usehbn-help</span>
+  </div>
+
+  <div class="foot">
+    Indicadores fundamentados em ADR-006 (sinais ao operador) e ADR-007 (métricas de saúde). Gerado pelo papel conversacional-orquestrador como camada de abstração para o humano (doutrina, cláusula 7). Os guards impedem o errado; <b>a validação humana aprova o certo</b>.
+  </div>
+
+</div>
+</body>
+</html>

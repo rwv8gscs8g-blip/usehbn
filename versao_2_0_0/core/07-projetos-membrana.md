@@ -1,7 +1,7 @@
 ---
 titulo: "07 — Projetos e membrana: como o protocolo governa software real"
-status: proposto
-temperatura: quente
+status: congelado
+temperatura: glacier
 path: versao_2_0_0/core/07-projetos-membrana.md
 created_at: "2026-07-01T19:44:00-03:00"
 autor: fable-5

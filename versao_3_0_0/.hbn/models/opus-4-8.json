@@ -1,0 +1,23 @@
+{
+  "profile_version": 1,
+  "model_id": "claude-opus-4-8",
+  "apelido": "opus-4-8",
+  "fornecedor": "Anthropic",
+  "context_window_tokens": null,
+  "handoff_threshold": 0.5,
+  "hearback_ref": null,
+  "papeis_aptos": ["auditor-cruzado", "auditor-arquiteto"],
+  "modos": [],
+  "verificado": {
+    "papeis_aptos": "STATE 0177 do Credenciamento (proprietario_bastao=claude-opus-4-8, papel=auditor-arquiteto; auditor cruzado na proposal 0034); braço Opus aprovou a espinha C1→C4 (2026-06-10)"
+  },
+  "nao_verificado": [
+    "context_window_tokens",
+    "modos disponíveis",
+    "aptidão como implementador (nunca exercida sob este protocolo)"
+  ],
+  "observacoes": "Enquanto context_window_tokens for null, vale o default doutrinário (0.5 da janela percebida + gatilhos secundários da 0017). Preencher a janela exige evidência citável (doc oficial ou env de sessão), não memória de modelo.",
+  "ultima_revisao": "2026-06-10",
+  "status": "accepted",
+  "temperatura": "quente"
+}

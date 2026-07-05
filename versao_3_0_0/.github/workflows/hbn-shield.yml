@@ -1,0 +1,46 @@
+# =============================================================================
+# HBN Shield — o portão verde do protocolo canônico (v3, terceira exúvia)
+# DEFINIÇÃO CANÔNICA VERSIONADA: este arquivo vive dentro da versão quente
+# (versao_3_0_0/) e é o contrato que o G-CI-BATTERY audita por igualdade
+# exata ('bash guards/ci-entry.sh'). A cópia em .github/workflows/ na raiz
+# é um shim de roteamento dinâmico que lê .hbn/active-version e delega
+# para o ci-entry.sh da versão ativa — mesmo efeito, raiz vazia por desenho.
+# Verde = pode mergear; vermelho = nada entra no canônico.
+# =============================================================================
+name: HBN Shield
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: versao_3_0_0
+
+jobs:
+  guards:
+    name: Guards de governança (versao_3_0_0)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: hbn-ci-entry (modo CI, diff range)
+        env:
+          HBN_DIFF_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: bash guards/ci-entry.sh
+
+  suite:
+    name: Suíte de testes dos guards (versao_3_0_0)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: run-guard-tests (hermética, repos descartáveis)
+        run: bash guards/tests/run-guard-tests.sh

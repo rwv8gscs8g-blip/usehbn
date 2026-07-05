@@ -1,0 +1,71 @@
+{
+  "execution": {
+    "id": "exec-20260617T033735Z-39c3867e",
+    "engine": "minimal_execution_engine_v0",
+    "started_at": "2026-06-17T03:37:35.461466+00:00",
+    "log_path": "/Users/macbookpro/Projetos/usehbn/.hbn/logs/exec-20260617T033735Z-39c3867e.json",
+    "state_path": "/Users/macbookpro/Projetos/usehbn/.hbn/state/hbn-state.json"
+  },
+  "input": "foobar",
+  "parsed_intent": null,
+  "validation_results": {
+    "status": "idle",
+    "checks": [
+      {
+        "name": "activation",
+        "status": "inactive",
+        "message": "No HBN trigger detected in the input sentence."
+      }
+    ],
+    "warnings": []
+  },
+  "output": {
+    "project": "HBN \u2014 Human Brain Net",
+    "protocol_version": "0.3.0",
+    "input": "foobar",
+    "hbn_activated": false,
+    "stage": "idle",
+    "activation": {
+      "hbn_activated": false,
+      "signal": "usehbn",
+      "matched_text": null,
+      "normalized_trigger": null,
+      "stage": "idle",
+      "span": null,
+      "trigger_origin": null
+    },
+    "intent": null,
+    "truth_barrier": {
+      "status": "idle",
+      "warnings": []
+    },
+    "guardian": {
+      "status": "idle",
+      "warnings": [],
+      "log_path": null
+    },
+    "contribution_consent_protocol": {
+      "status": "not_available",
+      "question": "Do you want to contribute to the advancement of the language?",
+      "processing_mode": "local_only_no_background_processing"
+    },
+    "validation": {
+      "status": "idle",
+      "checks": [
+        {
+          "name": "activation",
+          "status": "inactive",
+          "message": "No HBN trigger detected in the input sentence."
+        }
+      ],
+      "warnings": []
+    },
+    "execution": {
+      "id": "exec-20260617T033735Z-39c3867e",
+      "engine": "minimal_execution_engine_v0",
+      "started_at": "2026-06-17T03:37:35.461466+00:00",
+      "log_path": "/Users/macbookpro/Projetos/usehbn/.hbn/logs/exec-20260617T033735Z-39c3867e.json",
+      "state_path": "/Users/macbookpro/Projetos/usehbn/.hbn/state/hbn-state.json"
+    }
+  }
+}

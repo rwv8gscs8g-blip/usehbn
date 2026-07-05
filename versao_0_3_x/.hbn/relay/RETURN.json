@@ -1,0 +1,21 @@
+{
+  "de": "codex",
+  "para": "orquestrador",
+  "ts": "2026-07-04T16:11:18-03:00",
+  "ref_despacho": "/Users/macbookpro/Projetos/Credenciamento/.hbn/hearbacks/20260703-193223-mauricio-hearback-mapa-definitivo.json",
+  "status": "ok",
+  "sha": null,
+  "files": [
+    ".hbn/readbacks/0119-fase1-exuvia-genoma.json",
+    ".hbn/results/20260704-161118-codex-erp-fase1-exuvia-genoma.json",
+    ".hbn/relay/RETURN.json",
+    "REGISTRY.md",
+    "core/role-cards.md",
+    "core/state-report-spec.md",
+    "guards/",
+    "schemas/",
+    "scripts/hbn-install-guard"
+  ],
+  "blockers": [],
+  "resumo": "Fase 1 implementada no genoma e parada antes de commit/tag/push. Validacoes: run-guard-tests 292/0, adversarial-battery verde, pytest 213 passed, git diff --check limpo."
+}

@@ -1,0 +1,263 @@
+{
+  "executions": [
+    {
+      "execution_id": "exec-20260401T073323Z-28e52dde",
+      "started_at": "2026-04-01T07:33:23.069072+00:00",
+      "input": "use hbn analyze this system",
+      "hbn_activated": true,
+      "stage": "intent_capture",
+      "validation_status": "clear",
+      "log_path": "/Users/macbookpro/Projetos/usehbn/logs/exec-20260401T073323Z-28e52dde.json"
+    },
+    {
+      "execution_id": "exec-20260401T091644Z-28555777",
+      "started_at": "2026-04-01T09:16:44.348740+00:00",
+      "input": "use hbn Leia o c\u00f3digo completo deste reposit\u00f3rio /Users/macbookpro/Projetos/usehbn e fa\u00e7a uma an\u00e1lise cr\u00edtica profunda do HBN como tecnologia de ado\u00e7\u00e3o em massa nos pr\u00f3ximos 10 anos. Avalie bugs, lacunas, riscos reais, fragilidades do \u00faltimo ciclo do tradutor universal, conectores, contratos de privacidade, bridge generation e fluxo de aprova\u00e7\u00e3o. Diferencie claramente o que j\u00e1 existe do que ainda \u00e9 hip\u00f3tese. Destaque onde a promessa do HBN ainda est\u00e1 maior que a execu\u00e7\u00e3o atual. Proponha melhorias objetivas de estabiliza\u00e7\u00e3o, simplifica\u00e7\u00e3o, seguran\u00e7a, onboarding e ado\u00e7\u00e3o planet\u00e1ria. Estruture a resposta em findings por severidade, avalia\u00e7\u00e3o do \u00faltimo ciclo, proposta objetiva e roadmap imediato, pr\u00f3ximo ciclo, 12 meses e 10 anos.",
+      "hbn_activated": true,
+      "stage": "intent_capture",
+      "validation_status": "clear",
+      "log_path": "/Users/macbookpro/Projetos/usehbn/logs/exec-20260401T091644Z-28555777.json"
+    },
+    {
+      "execution_id": "exec-20260617T033735Z-39c3867e",
+      "started_at": "2026-06-17T03:37:35.461466+00:00",
+      "input": "foobar",
+      "hbn_activated": false,
+      "stage": "idle",
+      "validation_status": "idle",
+      "log_path": "/Users/macbookpro/Projetos/usehbn/.hbn/logs/exec-20260617T033735Z-39c3867e.json"
+    },
+    {
+      "execution_id": "exec-20260617T085922Z-264ae838",
+      "started_at": "2026-06-17T08:59:22.607477+00:00",
+      "input": "not-a-command",
+      "hbn_activated": false,
+      "stage": "idle",
+      "validation_status": "idle",
+      "log_path": "/Users/macbookpro/Projetos/usehbn/.hbn/logs/exec-20260617T085922Z-264ae838.json"
+    },
+    {
+      "execution_id": "exec-20260617T090001Z-d7649d40",
+      "started_at": "2026-06-17T09:00:01.648743+00:00",
+      "input": "unknown-subcmd",
+      "hbn_activated": false,
+      "stage": "idle",
+      "validation_status": "idle",
+      "log_path": "/Users/macbookpro/Projetos/usehbn/.hbn/logs/exec-20260617T090001Z-d7649d40.json"
+    },
+    {
+      "execution_id": "exec-20260617T101456Z-4dd4ecb3",
+      "started_at": "2026-06-17T10:14:56.988438+00:00",
+      "input": "unknowncmd",
+      "hbn_activated": false,
+      "stage": "idle",
+      "validation_status": "idle",
+      "log_path": "/Users/macbookpro/Projetos/usehbn/.hbn/logs/exec-20260617T101456Z-4dd4ecb3.json"
+    },
+    {
+      "execution_id": "exec-20260617T110155Z-d8553981",
+      "started_at": "2026-06-17T11:01:55.243909+00:00",
+      "input": "hello world",
+      "hbn_activated": false,
+      "stage": "idle",
+      "validation_status": "idle",
+      "log_path": "/sessions/peaceful-stoic-galileo/mnt/Projetos/usehbn/.hbn/logs/exec-20260617T110155Z-d8553981.json"
+    }
+  ],
+  "decisions": [
+    {
+      "execution_id": "exec-20260401T073323Z-28e52dde",
+      "category": "activation",
+      "decision": "activated",
+      "stage": "intent_capture"
+    },
+    {
+      "execution_id": "exec-20260401T091644Z-28555777",
+      "category": "activation",
+      "decision": "activated",
+      "stage": "intent_capture"
+    },
+    {
+      "execution_id": "exec-20260617T033735Z-39c3867e",
+      "category": "activation",
+      "decision": "ignored",
+      "stage": "idle",
+      "reason": "No HBN trigger token detected; pipeline remained idle."
+    },
+    {
+      "execution_id": "exec-20260617T085922Z-264ae838",
+      "category": "activation",
+      "decision": "ignored",
+      "stage": "idle",
+      "reason": "No HBN trigger token detected; pipeline remained idle."
+    },
+    {
+      "execution_id": "exec-20260617T090001Z-d7649d40",
+      "category": "activation",
+      "decision": "ignored",
+      "stage": "idle",
+      "reason": "No HBN trigger token detected; pipeline remained idle."
+    },
+    {
+      "execution_id": "exec-20260617T101456Z-4dd4ecb3",
+      "category": "activation",
+      "decision": "ignored",
+      "stage": "idle",
+      "reason": "No HBN trigger token detected; pipeline remained idle."
+    },
+    {
+      "execution_id": "exec-20260617T110155Z-d8553981",
+      "category": "activation",
+      "decision": "ignored",
+      "stage": "idle",
+      "reason": "No HBN trigger token detected; pipeline remained idle."
+    },
+    {
+      "execution_id": "exec-20260617T110155Z-d8553981",
+      "category": "validation",
+      "decision": "idle",
+      "truth_barrier_status": "idle",
+      "guardian_status": "idle",
+      "reason": "Activation was not triggered; no validation performed."
+    },
+    {
+      "execution_id": "exec-20260617T110155Z-d8553981",
+      "category": "consent",
+      "decision": "not_available",
+      "reason": "Trigger not active; consent question not offered."
+    }
+  ],
+  "context_history": [
+    {
+      "execution_id": "exec-20260401T073323Z-28e52dde",
+      "started_at": "2026-04-01T07:33:23.069072+00:00",
+      "input": "use hbn analyze this system",
+      "objective": "analyze this system",
+      "constraints": [],
+      "risks": []
+    },
+    {
+      "execution_id": "exec-20260401T091644Z-28555777",
+      "started_at": "2026-04-01T09:16:44.348740+00:00",
+      "input": "use hbn Leia o c\u00f3digo completo deste reposit\u00f3rio /Users/macbookpro/Projetos/usehbn e fa\u00e7a uma an\u00e1lise cr\u00edtica profunda do HBN como tecnologia de ado\u00e7\u00e3o em massa nos pr\u00f3ximos 10 anos. Avalie bugs, lacunas, riscos reais, fragilidades do \u00faltimo ciclo do tradutor universal, conectores, contratos de privacidade, bridge generation e fluxo de aprova\u00e7\u00e3o. Diferencie claramente o que j\u00e1 existe do que ainda \u00e9 hip\u00f3tese. Destaque onde a promessa do HBN ainda est\u00e1 maior que a execu\u00e7\u00e3o atual. Proponha melhorias objetivas de estabiliza\u00e7\u00e3o, simplifica\u00e7\u00e3o, seguran\u00e7a, onboarding e ado\u00e7\u00e3o planet\u00e1ria. Estruture a resposta em findings por severidade, avalia\u00e7\u00e3o do \u00faltimo ciclo, proposta objetiva e roadmap imediato, pr\u00f3ximo ciclo, 12 meses e 10 anos.",
+      "objective": "Leia o c\u00f3digo completo deste reposit\u00f3rio /Users/macbookpro/Projetos/usehbn e fa\u00e7a uma an\u00e1lise cr\u00edtica profunda do HBN como tecnologia de ado\u00e7\u00e3o em massa nos pr\u00f3ximos 10 anos. Avalie bugs, lacunas, riscos reais, fragilidades do \u00faltimo ciclo do tradutor universal, conectores, contratos de privacidade, bridge generation e fluxo de aprova\u00e7\u00e3o. Diferencie claramente o que j\u00e1 existe do que ainda \u00e9 hip\u00f3tese. Destaque onde a promessa do HBN ainda est\u00e1 maior que a execu\u00e7\u00e3o atual. Proponha melhorias objetivas de estabiliza\u00e7\u00e3o, simplifica\u00e7\u00e3o, seguran\u00e7a, onboarding e ado\u00e7\u00e3o planet\u00e1ria. Estruture a resposta em findings por severidade, avalia\u00e7\u00e3o do \u00faltimo ciclo, proposta objetiva e roadmap imediato, pr\u00f3ximo ciclo, 12 meses e 10 anos.",
+      "constraints": [],
+      "risks": []
+    },
+    {
+      "execution_id": "exec-20260617T033735Z-39c3867e",
+      "started_at": "2026-06-17T03:37:35.461466+00:00",
+      "input": "foobar",
+      "objective": null,
+      "constraints": [],
+      "risks": []
+    },
+    {
+      "execution_id": "exec-20260617T085922Z-264ae838",
+      "started_at": "2026-06-17T08:59:22.607477+00:00",
+      "input": "not-a-command",
+      "objective": null,
+      "constraints": [],
+      "risks": []
+    },
+    {
+      "execution_id": "exec-20260617T090001Z-d7649d40",
+      "started_at": "2026-06-17T09:00:01.648743+00:00",
+      "input": "unknown-subcmd",
+      "objective": null,
+      "constraints": [],
+      "risks": []
+    },
+    {
+      "execution_id": "exec-20260617T101456Z-4dd4ecb3",
+      "started_at": "2026-06-17T10:14:56.988438+00:00",
+      "input": "unknowncmd",
+      "objective": null,
+      "constraints": [],
+      "risks": []
+    },
+    {
+      "execution_id": "exec-20260617T110155Z-d8553981",
+      "started_at": "2026-06-17T11:01:55.243909+00:00",
+      "input": "hello world",
+      "objective": null,
+      "constraints": [],
+      "risks": []
+    }
+  ],
+  "results": [
+    {
+      "traceability": {
+        "execution_id": "exec-20260429T064721Z-onda1",
+        "agent_id": "codex"
+      },
+      "hbn_outcome": "executed",
+      "human_decision": {
+        "status": "not_reviewed"
+      },
+      "intent_risk_profile": {
+        "deception": false,
+        "improbable": false,
+        "random": false,
+        "herd_behavior": false,
+        "financial_survival_risk": false,
+        "abandonment_or_resource_loss_risk": false,
+        "curiosity_driven": false,
+        "agi_resource_shift": false,
+        "ethical_break": false
+      },
+      "action_taken": "Onda 1 honestidade narrativa: 6 docs alinhados a MATURITY-MATRIX",
+      "created_at": "2026-04-29T06:47:27Z",
+      "evidence": [
+        {
+          "type": "doctrine",
+          "reference": "docs/MATURITY-MATRIX.md"
+        },
+        {
+          "type": "doctrine",
+          "reference": "docs/PHAGOCYTOSIS.md"
+        },
+        {
+          "type": "audit",
+          "reference": "HBN-ARCHITECTURAL-REVIEW-2026-04.md"
+        }
+      ],
+      "readback_id": "readback-exec-20260429T064721Z-onda1"
+    },
+    {
+      "traceability": {
+        "execution_id": "exec-20260429T075001Z-onda2-schema",
+        "agent_id": "codex"
+      },
+      "hbn_outcome": "executed",
+      "human_decision": {
+        "status": "not_reviewed"
+      },
+      "intent_risk_profile": {
+        "deception": false,
+        "improbable": false,
+        "random": false,
+        "herd_behavior": false,
+        "financial_survival_risk": false,
+        "abandonment_or_resource_loss_risk": false,
+        "curiosity_driven": false,
+        "agi_resource_shift": false,
+        "ethical_break": false
+      },
+      "action_taken": "Nova Onda 2: Schema Versioning \u2014 protocol_version opcional em readback e result schemas",
+      "created_at": "2026-04-29T07:50:05Z",
+      "evidence": [
+        {
+          "type": "plan",
+          "reference": "docs/WAVE-PLAN-V0.3.0.md"
+        },
+        {
+          "type": "decision",
+          "reference": "Q3"
+        }
+      ],
+      "readback_id": "readback-exec-20260429T075001Z-onda2-schema",
+      "protocol_version": "0.3.0"
+    }
+  ]
+}

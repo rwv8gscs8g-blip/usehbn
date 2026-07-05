@@ -1,7 +1,7 @@
 ---
 titulo: "TRANSICAO — o único documento de passagem do v0.3.x para o v2 (decisão travada 2026-06-15 §4.2)"
-status: proposto
-temperatura: quente
+status: congelado
+temperatura: glacier
 path: versao_2_0_0/TRANSICAO.md
 created_at: "2026-07-01T19:50:00-03:00"
 autor: fable-5

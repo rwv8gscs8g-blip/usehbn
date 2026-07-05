@@ -27,6 +27,8 @@ sinais_abertos:
   - "🟡 ONDAS NATAS DO DESAFIANTE (ordem fixa, pós-ativação): 1) G-ACTOR-WRITE-MATRIX; 2) G-ORQ-NO-DELETE; 3) rehash read-list-canonica; 4) tiers do runner (15 no pre-commit, tudo no CI). Ver core/05-guards.md."
   - "🟡 RECONCILIAR NO INCUMBENTE — árvore suja classes A–E (manifesto de faxina) segue no plano do documento-mestre fable-5; a exúvia NÃO substitui a faxina."
   - "🟢 HERDADO SEM ALTERAÇÃO — guards (30+3), suíte, bateria adversarial, schemas, knowledge 0001–0032, fitness-criteria, freeze-gate-spec, dual-run-spec, rollback script (ver MANIFESTO-MIGRACAO.md)."
+status: congelado
+temperatura: glacier
 ---
 
 # STATE — useHBN v2 (desafiante)

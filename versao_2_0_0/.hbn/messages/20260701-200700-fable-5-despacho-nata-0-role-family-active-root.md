@@ -1,8 +1,8 @@
 ---
 titulo: "Despacho nata-0 — dereferência version-aware do hearback_ref (G-FAM)"
 tipo: despacho
-status: proposto
-temperatura: quente
+status: congelado
+temperatura: glacier
 path: versao_2_0_0/.hbn/messages/20260701-200700-fable-5-despacho-nata-0-role-family-active-root.md
 created_at: "2026-07-01T20:07:00-03:00"
 autor: fable-5

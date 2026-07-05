@@ -1,0 +1,103 @@
+{
+  "execution": {
+    "id": "exec-20260401T091644Z-28555777",
+    "engine": "minimal_execution_engine_v0",
+    "started_at": "2026-04-01T09:16:44.348740+00:00",
+    "log_path": "/Users/macbookpro/Projetos/usehbn/logs/exec-20260401T091644Z-28555777.json",
+    "state_path": "/Users/macbookpro/Projetos/usehbn/state/hbn-state.json"
+  },
+  "input": "use hbn Leia o c\u00f3digo completo deste reposit\u00f3rio /Users/macbookpro/Projetos/usehbn e fa\u00e7a uma an\u00e1lise cr\u00edtica profunda do HBN como tecnologia de ado\u00e7\u00e3o em massa nos pr\u00f3ximos 10 anos. Avalie bugs, lacunas, riscos reais, fragilidades do \u00faltimo ciclo do tradutor universal, conectores, contratos de privacidade, bridge generation e fluxo de aprova\u00e7\u00e3o. Diferencie claramente o que j\u00e1 existe do que ainda \u00e9 hip\u00f3tese. Destaque onde a promessa do HBN ainda est\u00e1 maior que a execu\u00e7\u00e3o atual. Proponha melhorias objetivas de estabiliza\u00e7\u00e3o, simplifica\u00e7\u00e3o, seguran\u00e7a, onboarding e ado\u00e7\u00e3o planet\u00e1ria. Estruture a resposta em findings por severidade, avalia\u00e7\u00e3o do \u00faltimo ciclo, proposta objetiva e roadmap imediato, pr\u00f3ximo ciclo, 12 meses e 10 anos.",
+  "parsed_intent": {
+    "objective": "Leia o c\u00f3digo completo deste reposit\u00f3rio /Users/macbookpro/Projetos/usehbn e fa\u00e7a uma an\u00e1lise cr\u00edtica profunda do HBN como tecnologia de ado\u00e7\u00e3o em massa nos pr\u00f3ximos 10 anos. Avalie bugs, lacunas, riscos reais, fragilidades do \u00faltimo ciclo do tradutor universal, conectores, contratos de privacidade, bridge generation e fluxo de aprova\u00e7\u00e3o. Diferencie claramente o que j\u00e1 existe do que ainda \u00e9 hip\u00f3tese. Destaque onde a promessa do HBN ainda est\u00e1 maior que a execu\u00e7\u00e3o atual. Proponha melhorias objetivas de estabiliza\u00e7\u00e3o, simplifica\u00e7\u00e3o, seguran\u00e7a, onboarding e ado\u00e7\u00e3o planet\u00e1ria. Estruture a resposta em findings por severidade, avalia\u00e7\u00e3o do \u00faltimo ciclo, proposta objetiva e roadmap imediato, pr\u00f3ximo ciclo, 12 meses e 10 anos.",
+    "constraints": [],
+    "risks": [],
+    "validation_requirements": []
+  },
+  "validation_results": {
+    "status": "clear",
+    "checks": [
+      {
+        "name": "activation",
+        "status": "passed",
+        "message": "HBN trigger detected and execution pipeline activated."
+      },
+      {
+        "name": "truth_barrier",
+        "status": "clear",
+        "message": "Truth barrier applied to the structured request."
+      },
+      {
+        "name": "guardian",
+        "status": "clear",
+        "message": "Guardian review applied to the structured request."
+      }
+    ],
+    "warnings": []
+  },
+  "output": {
+    "project": "HBN \u2014 Human Brain Net",
+    "protocol_version": "0.2.0",
+    "input": "use hbn Leia o c\u00f3digo completo deste reposit\u00f3rio /Users/macbookpro/Projetos/usehbn e fa\u00e7a uma an\u00e1lise cr\u00edtica profunda do HBN como tecnologia de ado\u00e7\u00e3o em massa nos pr\u00f3ximos 10 anos. Avalie bugs, lacunas, riscos reais, fragilidades do \u00faltimo ciclo do tradutor universal, conectores, contratos de privacidade, bridge generation e fluxo de aprova\u00e7\u00e3o. Diferencie claramente o que j\u00e1 existe do que ainda \u00e9 hip\u00f3tese. Destaque onde a promessa do HBN ainda est\u00e1 maior que a execu\u00e7\u00e3o atual. Proponha melhorias objetivas de estabiliza\u00e7\u00e3o, simplifica\u00e7\u00e3o, seguran\u00e7a, onboarding e ado\u00e7\u00e3o planet\u00e1ria. Estruture a resposta em findings por severidade, avalia\u00e7\u00e3o do \u00faltimo ciclo, proposta objetiva e roadmap imediato, pr\u00f3ximo ciclo, 12 meses e 10 anos.",
+    "hbn_activated": true,
+    "stage": "intent_capture",
+    "activation": {
+      "hbn_activated": true,
+      "signal": "usehbn",
+      "matched_text": "use hbn",
+      "normalized_trigger": "usehbn",
+      "stage": "intent_capture",
+      "span": [
+        0,
+        7
+      ]
+    },
+    "intent": {
+      "objective": "Leia o c\u00f3digo completo deste reposit\u00f3rio /Users/macbookpro/Projetos/usehbn e fa\u00e7a uma an\u00e1lise cr\u00edtica profunda do HBN como tecnologia de ado\u00e7\u00e3o em massa nos pr\u00f3ximos 10 anos. Avalie bugs, lacunas, riscos reais, fragilidades do \u00faltimo ciclo do tradutor universal, conectores, contratos de privacidade, bridge generation e fluxo de aprova\u00e7\u00e3o. Diferencie claramente o que j\u00e1 existe do que ainda \u00e9 hip\u00f3tese. Destaque onde a promessa do HBN ainda est\u00e1 maior que a execu\u00e7\u00e3o atual. Proponha melhorias objetivas de estabiliza\u00e7\u00e3o, simplifica\u00e7\u00e3o, seguran\u00e7a, onboarding e ado\u00e7\u00e3o planet\u00e1ria. Estruture a resposta em findings por severidade, avalia\u00e7\u00e3o do \u00faltimo ciclo, proposta objetiva e roadmap imediato, pr\u00f3ximo ciclo, 12 meses e 10 anos.",
+      "constraints": [],
+      "risks": [],
+      "validation_requirements": []
+    },
+    "truth_barrier": {
+      "status": "clear",
+      "warnings": []
+    },
+    "guardian": {
+      "status": "clear",
+      "warnings": [],
+      "log_path": ""
+    },
+    "contribution_consent_protocol": {
+      "status": "available",
+      "question": "Do you want to contribute to the advancement of the language?",
+      "processing_mode": "local_only_no_background_processing"
+    },
+    "validation": {
+      "status": "clear",
+      "checks": [
+        {
+          "name": "activation",
+          "status": "passed",
+          "message": "HBN trigger detected and execution pipeline activated."
+        },
+        {
+          "name": "truth_barrier",
+          "status": "clear",
+          "message": "Truth barrier applied to the structured request."
+        },
+        {
+          "name": "guardian",
+          "status": "clear",
+          "message": "Guardian review applied to the structured request."
+        }
+      ],
+      "warnings": []
+    },
+    "execution": {
+      "id": "exec-20260401T091644Z-28555777",
+      "engine": "minimal_execution_engine_v0",
+      "started_at": "2026-04-01T09:16:44.348740+00:00",
+      "log_path": "/Users/macbookpro/Projetos/usehbn/logs/exec-20260401T091644Z-28555777.json",
+      "state_path": "/Users/macbookpro/Projetos/usehbn/state/hbn-state.json"
+    }
+  }
+}

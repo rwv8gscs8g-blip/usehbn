@@ -1,8 +1,8 @@
 ---
 titulo: "Despacho nata-0b — bloco read-list do harness version-aware (sob rito, pós-incidente)"
 tipo: despacho
-status: proposto
-temperatura: quente
+status: congelado
+temperatura: glacier
 path: versao_2_0_0/.hbn/messages/20260701-200800-fable-5-despacho-nata-0b-harness-readlist-v2.md
 created_at: "2026-07-01T20:08:00-03:00"
 autor: fable-5
