@@ -1,17 +1,25 @@
 ---
-titulo: "Critérios objetivos de exúvia — o que sobrevive ao molt"
-tipo: spec-core
+titulo: Critérios objetivos de exúvia — o que sobrevive ao molt
+tipo: spec
 status: accepted
 temperatura: quente
-path: versao_3_0_0/core/exuvia-fitness-criteria.md
+path: core/exuvia-fitness-criteria.md
+created_at: "2026-07-05T02:30:00-03:00"
+autor: fable-5
+familia: Anthropic
+natureza: migrado
+migrado_de: v0.3.x
+id_original: 20260616-011004-codex-exuvia-fitness-criteria
+created_at_original: "2026-06-16T01:10:04-03:00"
+autor_original: claude-opus-4-8 (orquestrador)
+transcrito_em: "2026-07-05T02:30:00-03:00"
+transcrito_por: fable-5
+validacao_ref: 0003-proveniencia-livro-razao
 id-global: 20260616-011004-codex-exuvia-fitness-criteria
-autor: claude-opus-4-8 (orquestrador)
 promovido_de: .hbn/messages/20260616-011004-opus-4-8-criterios-exuvia.md
 promovido_por: codex
 readback: 0027-faxina-pendencias
-created_at: "2026-06-16T01:10:04-03:00"
 ---
-
 # Critérios objetivos de exúvia
 
 ## Para humanos — a ideia em linguagem simples

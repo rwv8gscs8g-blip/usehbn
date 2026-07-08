@@ -1,24 +1,31 @@
 ---
 titulo: "05 — Guards e enforcement: runner, tiers, CI, testes"
+tipo: spec
 status: ativo
 temperatura: quente
-path: versao_3_0_0/core/05-guards.md
-created_at: "2026-07-01T19:40:00-03:00"
+path: core/05-guards.md
+created_at: "2026-07-05T02:30:00-03:00"
 autor: fable-5
 familia: Anthropic
+natureza: migrado
+migrado_de: versao_2_0_0
+id_original: core/05-guards.md
+created_at_original: "2026-07-01T19:40:00-03:00"
+autor_original: fable-5
+transcrito_em: "2026-07-05T02:30:00-03:00"
+transcrito_por: fable-5
+validacao_ref: 0003-proveniencia-livro-razao
 ---
-
 # 05 — Guards e enforcement
 
 ## Decisão de migração (importante para auditores)
 
-Os guards do v0.3.x foram **vendorizados SEM alteração de lógica** para
-`versao_2_0_0/guards/` (shell selado por quórum não se reescreve em
-intervenção unilateral). O runner roda o conjunto completo herdado (30 ativos
-+ 3 condicionais), com resolução de raiz version-aware já preparada pela onda
-M-A (`guards/lib/common.sh::get_canonical_root()` lê `.hbn/active-version`).
-Suíte (`guards/tests/run-guard-tests.sh`) e bateria adversarial
-(`guards/tests/adversarial-battery.sh`) acompanham, também sem alteração.
+A lógica de guards herdada foi transcrita para `guards/` desta versão sem
+reescrita unilateral de shell selado por quórum. O runner roda o conjunto
+completo vigente desta exúvia, com resolução de raiz version-aware já preparada
+pela onda M-A (`guards/lib/common.sh::get_canonical_root()` lê
+`.hbn/active-version`). Suíte (`guards/tests/run-guard-tests.sh`) e bateria
+adversarial (`guards/tests/adversarial-battery.sh`) acompanham.
 
 ## Chokepoints
 
@@ -38,7 +45,9 @@ G-EXC (exceção sem 4 sinais) · G-TRAILERS.
 Escrita/escopo: G-CAN (raiz) · G-SCOPE (files_allowed + anti-auto-emenda) ·
 G-STR/scratch-* (órfãos e área temporária) · G-ZONA-LIVRE.
 Artefatos: G-REG (linha de nascimento) · G-NUM (nome/carimbo) · G-SLF (path) ·
-G-PTR (ponteiro existe) · G-ARVORE-LABEL · G-KNOWLEDGE-INDEX · G-COPY
+G-PTR (ponteiro existe) · G-PROV (proveniência de documento) ·
+G-SELF-CONTAINED (sem fonte vigente externa) · G-ARVORE-LABEL ·
+G-KNOWLEDGE-INDEX · G-COPY
 (HBN-COPY autocontido).
 Estado/rito: G-STATE (STATE estrutural sem quórum) · G-NEXT (proximo_ponto
 único) · G-RLT (relato de estado) · G-READLIST-RITE · G-ORQ-ENTRADA(-REF) ·

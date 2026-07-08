@@ -88,6 +88,14 @@ if [[ ! -f "${SCRIPT_DIR}/assert-only-hot-version-writable.sh" ]]; then
     guard_fail "assert-only-hot-version-writable.sh AUSENTE em ${SCRIPT_DIR} — desarme do G-HOT-WRITE detectado. Commit abortado (fail-closed)."
     exit 1
 fi
+if [[ ! -f "${SCRIPT_DIR}/assert-doc-provenance.sh" ]]; then
+    guard_fail "assert-doc-provenance.sh AUSENTE em ${SCRIPT_DIR} — desarme do G-PROV detectado. Commit abortado (fail-closed)."
+    exit 1
+fi
+if [[ ! -f "${SCRIPT_DIR}/assert-version-self-contained.sh" ]]; then
+    guard_fail "assert-version-self-contained.sh AUSENTE em ${SCRIPT_DIR} — desarme do G-SELF-CONTAINED detectado. Commit abortado (fail-closed)."
+    exit 1
+fi
 
 GUARDS=(
     "assert-only-hot-version-writable.sh"
@@ -101,6 +109,8 @@ GUARDS=(
     "assert-scratch-symlink.sh"
     "assert-scratch-ignore.sh"
     "assert-scope-lock.sh"
+    "assert-doc-provenance.sh"
+    "assert-version-self-contained.sh"
     "assert-zona-livre.sh"
     "assert-readlist-rite.sh"
     "assert-orq-entrada.sh"

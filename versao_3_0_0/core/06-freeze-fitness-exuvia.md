@@ -1,13 +1,21 @@
 ---
 titulo: "06 — Freeze, Fitness Gate e exúvia (evolução por muda)"
+tipo: spec
 status: ativo
 temperatura: quente
-path: versao_3_0_0/core/06-freeze-fitness-exuvia.md
-created_at: "2026-07-01T19:42:00-03:00"
+path: core/06-freeze-fitness-exuvia.md
+created_at: "2026-07-05T02:30:00-03:00"
 autor: fable-5
 familia: Anthropic
+natureza: migrado
+migrado_de: versao_2_0_0
+id_original: core/06-freeze-fitness-exuvia.md
+created_at_original: "2026-07-01T19:42:00-03:00"
+autor_original: fable-5
+transcrito_em: "2026-07-05T02:30:00-03:00"
+transcrito_por: fable-5
+validacao_ref: 0003-proveniencia-livro-razao
 ---
-
 # 06 — Freeze, fitness e exúvia
 
 Consolida: hbn-exuvia-scaffold (mecânica M-A), esteira-pre-transicao e a
@@ -21,7 +29,10 @@ Decisão travada (hearback 2026-06-15 §4.1). `usehbn/versao_X_Y_Z/` carrega
 BOOT, core, guards, .hbn, REGISTRY — tudo. A IA lê SÓ a versão ativa
 (`.hbn/active-version` na raiz do repo; fail-closed em ponteiro ausente,
 duplicado, inseguro ou com conflito de merge). O exoesqueleto anterior nunca é
-apagado: vira história (git + REGISTRY antigo).
+apagado: vira história (git + REGISTRY antigo). A partir da onda 0003, essa
+autossuficiência é guardada por G-SELF-CONTAINED: documento governado não pode
+citar fonte externa como regra vigente; conteúdo normativo herdado deve estar
+transcrito na própria versão.
 
 ## Ciclo de muda (exúvia)
 

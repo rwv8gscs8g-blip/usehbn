@@ -1,13 +1,21 @@
 ---
-titulo: "operators — registro opt-in de chaves públicas de operadores humanos"
+titulo: operators — registro opt-in de chaves públicas de operadores humanos
+tipo: dado
 status: ativo
 temperatura: quente
-path: versao_3_0_0/.hbn/operators/README.md
+path: .hbn/operators/README.md
 created_at: "2026-07-05T02:30:00-03:00"
 autor: fable-5
 familia: Anthropic
+natureza: migrado
+migrado_de: v0.3.x
+id_original: .hbn/operators/README.md
+created_at_original: "2026-07-05T02:30:00-03:00"
+autor_original: fable-5
+transcrito_em: "2026-07-05T02:30:00-03:00"
+transcrito_por: fable-5
+validacao_ref: 0003-proveniencia-livro-razao
 ---
-
 # .hbn/operators/
 
 Registro **opt-in** de chaves públicas SSH dos operadores humanos, usado pelo

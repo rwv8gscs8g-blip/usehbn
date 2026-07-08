@@ -10,7 +10,7 @@
 #
 # Uso:
 #   bash scripts/hbn-upgrade-snapshot.sh --target /caminho/do/consumidor \
-#        [--ref HEAD] [--surface "core guards schemas"] [--dry-run]
+#        [--ref HEAD] [--surface "core guards schemas MANIFESTO-MIGRACAO.md"] [--dry-run]
 #
 # Regras:
 #   - source_version = valor de .hbn/active-version no REF (fail-closed se ".").
@@ -58,7 +58,7 @@ ACTIVE="$(git -C "$PROTO" show "${COMMIT}:.hbn/active-version" 2>/dev/null \
 [[ "$ACTIVE" != "." ]] || die "active-version='.' no commit ${COMMIT:0:7} — genoma sem versao quente numerada; a membrana v3 exige source_version explicita"
 [[ "$ACTIVE" =~ ^versao_[0-9]+_[0-9]+_[A-Za-z0-9]+$ ]] || die "active-version invalida: ${ACTIVE}"
 
-SURFACE="${SURFACE:-core guards schemas}"
+SURFACE="${SURFACE:-core guards schemas MANIFESTO-MIGRACAO.md}"
 log "genoma=${PROTO} commit=${COMMIT:0:7} hot=${ACTIVE} surface='${SURFACE}' target=${TGT_TOP}"
 
 sha256() {

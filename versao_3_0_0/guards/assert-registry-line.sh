@@ -198,7 +198,7 @@ done <<< "$ADDED"
 
 # --- Regra 2: órfão na raiz — doc/prompt novo na raiz sem id AAAAMMDD-NN ----
 # Nomes estáveis permitidos na raiz (endereços, não eventos — ADR-011 Decisão 2):
-ROOT_ALLOWLIST="README.md CHANGELOG.md REGISTRY.md AGENTS.md CLAUDE.md CONTRIBUTING.md GOVERNANCE.md MAINTAINERS.md SECURITY.md SUPPORT.md CODE_OF_CONDUCT.md LICENSE ROADMAP.md BOOT.md TRANSICAO.md"
+ROOT_ALLOWLIST="README.md CHANGELOG.md REGISTRY.md AGENTS.md CLAUDE.md CONTRIBUTING.md GOVERNANCE.md MAINTAINERS.md SECURITY.md SUPPORT.md CODE_OF_CONDUCT.md LICENSE ROADMAP.md BOOT.md TRANSICAO.md MANIFESTO-MIGRACAO.md"
 
 while IFS= read -r f; do
     [[ -z "$f" ]] && continue

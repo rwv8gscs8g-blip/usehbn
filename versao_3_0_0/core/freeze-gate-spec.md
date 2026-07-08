@@ -1,16 +1,28 @@
 ---
 titulo: Freeze-gate spec — checklist executável de congelamento de versão
-diataxis: reference
+tipo: spec
 status: accepted
 temperatura: quente
+path: core/freeze-gate-spec.md
+created_at: "2026-07-05T02:30:00-03:00"
+autor: fable-5
+familia: Anthropic
+natureza: migrado
+migrado_de: v0.3.x
+id_original: 20260610-41
+created_at_original: 2026-06-10T00:00:00-03:00
+autor_original: "claude-fable-5 (arquiteto useHBN, corrente D)"
+transcrito_em: "2026-07-05T02:30:00-03:00"
+transcrito_por: fable-5
+validacao_ref: 0003-proveniencia-livro-razao
+diataxis: reference
 id-global: 20260610-41
 versao: 0.1.0
 data: 2026-06-10
-autoria: claude-fable-5 (arquiteto useHBN, corrente D)
+autoria: "claude-fable-5 (arquiteto useHBN, corrente D)"
 hearback-status: confirmado por Maurício (ajuste §2.2 adotado no readback 0003; ADR-017 segue pendente no lote D)
-relacionado: [ADR-017, schemas/freeze-checklist.schema.json, guards/freeze-gate.sh, ADR-016 (dual-run pode ser critério), core/cadence-d.md (BLOQUEADOR = veto)]
+relacionado: "[ADR-017, schemas/freeze-checklist.schema.json, guards/freeze-gate.sh, ADR-016 (dual-run pode ser critério), core/cadence-d.md (BLOQUEADOR = veto)]"
 ---
-
 # Freeze-gate spec
 
 ## §1 O contrato

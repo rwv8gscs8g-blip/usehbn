@@ -1,15 +1,16 @@
 ---
-titulo: "BOOT — porta de entrada única do useHBN v3 (terceira exúvia)"
+titulo: BOOT — porta de entrada única do useHBN v3 (terceira exúvia)
+tipo: boot
 status: ativo
 temperatura: quente
-path: versao_3_0_0/BOOT.md
-created_at: "2026-07-05T01:30:00-03:00"
+path: BOOT.md
+created_at: "2026-07-05T02:30:00-03:00"
 autor: fable-5
 familia: Anthropic
-papel: implementador-da-exuvia (despacho da terceira exúvia sob Decreto, gate humano de Maurício)
-nota-vigencia: "Este BOOT entra em vigor no commit atômico da exúvia (flip de .hbn/active-version para versao_3_0_0), executado SOMENTE pelo operador humano com hearback confirmado e auditoria cruzada. Antes desse commit, nada aqui tem efeito (Decreto Art. 4)."
+natureza: nativo
+papel: "implementador-da-exuvia (despacho da terceira exúvia sob Decreto, gate humano de Maurício)"
+nota-vigencia: "\"Este BOOT entra em vigor no commit atômico da exúvia (flip de .hbn/active-version para versao_3_0_0), executado SOMENTE pelo operador humano com hearback confirmado e auditoria cruzada. Antes desse commit, nada aqui tem efeito (Decreto Art. 4).\""
 ---
-
 # BOOT — useHBN v3
 
 > **Este arquivo é a ÚNICA leitura obrigatória de entrada.** Tudo o mais é
@@ -35,7 +36,12 @@ nota-vigencia: "Este BOOT entra em vigor no commit atômico da exúvia (flip de 
    no próprio cabeçalho (exceções únicas: a allowlist de raiz do G-HOT-WRITE —
    `.gitignore`, `.hbn/relay/STATE.md`, `.hbn/hearbacks/**`). Caminho fora =
    a execução do comando é abortada ANTES de atingir o disco. Ferramentas que
-   não permitem essa validação não podem ser usadas para escrita.
+   não permitem essa validação não podem ser usadas para escrita. Shims de
+   raiz (`README.md`, `AGENTS.md`, o ponteiro `active-version` e o
+   `canonical-root` da raiz, `.github/workflows/**`, `.cursor/**`) mudam SÓ
+   em exúvia autorizada ou em commit do operador com autorização
+   `hot-write-root-shim` (G-HOT-WRITE regra 4b); regressão do ponteiro para
+   `.` é bloqueada sem exceção (regra 4c).
 4. **Se este BOOT não é o da versão ativa, PARE** e leia
    `<active-version>/BOOT.md`. Citar versão congelada (glacier) como regra
    vigente é violação.

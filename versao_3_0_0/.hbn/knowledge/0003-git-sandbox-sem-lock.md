@@ -1,22 +1,34 @@
 ---
-knowledge: 0003
 titulo: IA em sandbox consulta git do canônico SEM tomar lock (GIT_OPTIONAL_LOCKS=0)
+tipo: knowledge
 status: accepted
 temperatura: quente
+path: .hbn/knowledge/0003-git-sandbox-sem-lock.md
+created_at: "2026-07-05T02:30:00-03:00"
+autor: fable-5
+familia: Anthropic
+natureza: migrado
+migrado_de: v0.3.x
+id_original: 20260610-28
+created_at_original: 2026-06-10T00:00:00-03:00
+autor_original: "claude-fable-5 (arquiteto useHBN, corrente C6/C7)"
+transcrito_em: "2026-07-05T02:30:00-03:00"
+transcrito_por: fable-5
+validacao_ref: 0003-proveniencia-livro-razao
+knowledge: 0003
 data: 2026-06-10
 id-global: 20260610-28
-autoria: claude-fable-5 (arquiteto useHBN, corrente C6/C7)
+autoria: "claude-fable-5 (arquiteto useHBN, corrente C6/C7)"
 tier: T2 (knowledge — readback+hearback; lote C6/C7)
 evidencia: |
+|
   Incidente 2026-06-10 ~06:56: `git status` rodado pela IA no sandbox criou
   `.git/index.lock` no repo do operador e NÃO conseguiu removê-lo ("unable to
   unlink: Operation not permitted"). O lock órfão (0 bytes) bloqueou o commit
   do checkpoint C6/C7 no Terminal do operador ("fatal: Unable to create
   index.lock: File exists") até remoção manual (`rm -f .git/index.lock`,
   resolvido no commit 8eb51de).
-path: .hbn/knowledge/0003-git-sandbox-sem-lock.md
 ---
-
 # Knowledge 0003 — git em sandbox: só leitura, sem lock
 
 **Regra**: IA operando em sandbox montado sobre o repo do operador prefixa

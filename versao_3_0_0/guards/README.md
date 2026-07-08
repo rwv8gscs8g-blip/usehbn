@@ -1,13 +1,25 @@
 ---
 titulo: Guards canônicos do protocolo — conjunto executável de governança
+tipo: dado
 status: accepted
 temperatura: quente
+path: guards/README.md
+created_at: "2026-07-05T02:30:00-03:00"
+autor: fable-5
+familia: Anthropic
+natureza: migrado
+migrado_de: v0.3.x
+id_original: guards/README.md
+created_at_original: 2026-06-10T00:00:00-03:00
+autor_original: "claude-fable-5 (arquiteto useHBN, corrente C3)"
+transcrito_em: "2026-07-05T02:30:00-03:00"
+transcrito_por: fable-5
+validacao_ref: 0003-proveniencia-livro-razao
 data: 2026-06-10
-autoria: claude-fable-5 (arquiteto useHBN, corrente C3)
-origem: promovido de Credenciamento/scripts/hbn-guards/ (doutrina viva, batida em campo nos incidentes de 2026-05-02 e 2026-05-24)
+autoria: "claude-fable-5 (arquiteto useHBN, corrente C3)"
+origem: "promovido de Credenciamento/scripts/hbn-guards/ (doutrina viva, batida em campo nos incidentes de 2026-05-02 e 2026-05-24)"
 hearback-status: confirmado 2026-06-10 (readback 0001 / hearback 0001)
 ---
-
 # guards/ — o conjunto canônico
 
 Promoção 1:1 dos guards maduros do Credenciamento, com TRÊS diffs e só três:
@@ -50,7 +62,8 @@ normal e precisa estar declarado em `scope.files_allowed`.
 Symlinks sao proibidos em qualquer path governado avaliado pelo
 `assert-scope-lock`: toda entrada staged com modo git `120000` e bloqueada antes
 do scope normal ou da dispensa de meta-path, seja em `.hbn/**`, `guards/`,
-`core/`, `src/`, `methodology/`, `REGISTRY.md` ou afins. A mesma regra e
+`core/`, `src/`, caminhos historicamente cobertos como `methodology/`,
+`REGISTRY.md` ou afins. A mesma regra e
 aplicada em CI contra a arvore `HEAD`. Hardlink e tratado pelo Git como arquivo
 regular (`100644`), sem semantica de link no objeto versionado, e fica fora do
 escopo desta regra.
@@ -124,6 +137,38 @@ arquivo estiver ausente ou ilegivel no indice/HEAD, se passar de 140 linhas ou
 linha de read-list sem marcador valido seguido de espaco, ou se um path
 concreto citado na read-list nao existir no indice/HEAD. A working tree solta
 nao conta: o blob validado e o que entra no commit local, ou `HEAD` em CI.
+
+## Proveniência de documentos
+
+`assert-doc-provenance` (G-PROV) valida todos os documentos governados no índice
+da versão ativa, não apenas o diff. Markdown governado precisa de front-matter
+com `titulo`, `tipo`, `status`, `temperatura`, `path`, `created_at`, `autor`,
+`familia` e `natureza`. JSON de rito usa os mesmos campos no top-level. Se
+`natureza=migrado`, o bloco completo de proveniência (`migrado_de`,
+`id_original`, `created_at_original`, `autor_original`, `transcrito_em`,
+`transcrito_por`, `validacao_ref`) é obrigatório e `transcrito_em` deve ser
+igual a `created_at`.
+
+O guard é estrutural: não honra `HBN_GUARDS_BYPASS` nem `GLASSWING_BYPASS`.
+Exceções são explícitas e registradas em `MANIFESTO-MIGRACAO.md`: schemas JSON,
+fixtures de teste, fixtures de instalação, perfis `.hbn/models/*.json`,
+manifestos técnicos gerados, licença e formatos linha-a-linha como
+`.hbn/stray-allowlist`.
+
+## Autocontenção da versão vigente
+
+`assert-version-self-contained` (G-SELF-CONTAINED) valida documentos governados
+da versão ativa e bloqueia referência fora da versão vigente quando ela não está
+rotulada como histórica, consulta, origem, proveniência, exemplo negativo ou
+proibição. O guard é estrutural: não honra `HBN_GUARDS_BYPASS` nem
+`GLASSWING_BYPASS`.
+
+O guard impede dependência normativa do exoesqueleto: `../`, `versao_0_3_x`,
+`versao_2_0_0`, árvores pré-exúvia e caminhos históricos como `methodology/`
+não podem ser fonte vigente. Conteúdo canônico usado como regra deve ser
+transcrito para a versão ativa; glacier fica somente como prova histórica. A
+suíte cobre quatro casos: referência interna passa, `../` como vigente bloqueia,
+glacier como vigente bloqueia e glacier rotulado histórico passa.
 
 ## Exceção rastreável
 

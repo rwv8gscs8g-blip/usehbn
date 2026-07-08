@@ -160,6 +160,16 @@
 #   mentira que não bate nem no referencial v2 nem no caminho real. Total +2.
 #   Fase 1 profile context-aware: +2 checks G-PROFILE distinguindo genoma
 #   sem perfil (no-op) de consumidor .usehbn-snapshot/ sem perfil (block).
+#   Readback 0002 (fechamento pos-auditoria v3): +3 checks readlist-tracked
+#   (citacao untracked-only reprova — bloqueador T1 da exuvia atomica),
+#   +3 checks G-HOT-WRITE regra 4b (root-shim: block sem autorizacao, pass
+#   com autorizacao cobrindo path exato, block path nao coberto) e +2 checks
+#   regra 4c (regressao do ponteiro para '.' bloqueia, mesmo com hearback).
+#   Total: 374 + 8 = 382.
+#   Readback 0003 (G-PROV): +3 checks (1 pass, 2 block) para documento
+#   conforme, documento sem front-matter e migrado sem bloco de proveniencia.
+#   T-AUTO 0003 (G-SELF-CONTAINED): +4 checks (2 pass, 2 block) para
+#   ref interna, ref ../, glacier vigente e glacier historico. Total: 389.
 # =============================================================================
 set -uo pipefail
 
@@ -490,6 +500,183 @@ d="$(make_repo)"
     printf -- '---\npath: docs/outro-lugar.md\n---\ncorpo\n' > methodology/adr/ADR-099-teste.md
 ) >/dev/null 2>&1
 check "slf: staged correto, working tree mente (espelho E-FECH-01)" pass "$(run_slf "$d")"
+rm -rf "$d"
+
+# --- G-PROV: assert-doc-provenance (onda 0003) -------------------------------
+echo "== assert-doc-provenance (G-PROV) =="
+make_prov_repo() {
+    local d; d="$(mktemp -d)"
+    (
+        cd "$d"
+        git init -q
+        git config user.email "tests@hbn.local"
+        git config user.name "hbn-guard-tests"
+        mkdir -p .hbn docs
+        echo "." > .hbn/active-version
+        git add .hbn/active-version
+        git commit -qm "init"
+    ) >/dev/null 2>&1
+    echo "$d"
+}
+run_prov() {
+    ( cd "$1" && bash "$GUARDS_DIR/assert-doc-provenance.sh" >/dev/null 2>&1 )
+    echo $?
+}
+
+d="$(make_prov_repo)"
+(
+    cd "$d"
+    cat > docs/conforme.md <<'EOF'
+---
+titulo: Documento conforme
+tipo: spec
+status: ativo
+temperatura: quente
+path: docs/conforme.md
+created_at: "2026-07-05T02:30:00-03:00"
+autor: codex
+familia: OpenAI
+natureza: nativo
+---
+# Documento conforme
+EOF
+    git add docs/conforme.md
+) >/dev/null 2>&1
+check "prov: documento nativo conforme passa" pass "$(run_prov "$d")"
+rm -rf "$d"
+
+d="$(make_prov_repo)"
+(
+    cd "$d"
+    printf '# Sem frontmatter\n' > docs/sem-frontmatter.md
+    git add docs/sem-frontmatter.md
+) >/dev/null 2>&1
+check "prov: documento sem front-matter bloqueia" block "$(run_prov "$d")"
+rm -rf "$d"
+
+d="$(make_prov_repo)"
+(
+    cd "$d"
+    cat > docs/migrado-incompleto.md <<'EOF'
+---
+titulo: Migrado incompleto
+tipo: spec
+status: ativo
+temperatura: quente
+path: docs/migrado-incompleto.md
+created_at: "2026-07-05T02:30:00-03:00"
+autor: fable-5
+familia: Anthropic
+natureza: migrado
+---
+# Migrado incompleto
+EOF
+    git add docs/migrado-incompleto.md
+) >/dev/null 2>&1
+check "prov: migrado sem bloco de proveniencia bloqueia" block "$(run_prov "$d")"
+rm -rf "$d"
+
+# --- G-SELF-CONTAINED: versao vigente autossuficiente ------------------------
+echo "== assert-version-self-contained (G-SELF-CONTAINED) =="
+run_self_contained() {
+    ( cd "$1" && bash "$GUARDS_DIR/assert-version-self-contained.sh" >/dev/null 2>&1 )
+    echo $?
+}
+
+d="$(make_prov_repo)"
+(
+    cd "$d"
+    cat > docs/ref-interna.md <<'EOF'
+---
+titulo: Ref interna
+tipo: spec
+status: ativo
+temperatura: quente
+path: docs/ref-interna.md
+created_at: "2026-07-06T00:39:30-03:00"
+autor: codex
+familia: OpenAI
+natureza: nativo
+---
+# Ref interna
+
+A regra vigente esta em `docs/ref-interna.md` e em `core/04-artefatos.md`.
+EOF
+    git add docs/ref-interna.md
+) >/dev/null 2>&1
+check "self: referencia interna passa" pass "$(run_self_contained "$d")"
+rm -rf "$d"
+
+d="$(make_prov_repo)"
+(
+    cd "$d"
+    cat > docs/ref-externa.md <<'EOF'
+---
+titulo: Ref externa
+tipo: spec
+status: ativo
+temperatura: quente
+path: docs/ref-externa.md
+created_at: "2026-07-06T00:39:30-03:00"
+autor: codex
+familia: OpenAI
+natureza: nativo
+---
+# Ref externa
+
+A regra vigente esta em `../methodology/PRINCIPIOS-CONSTITUCIONAIS.md`.
+EOF
+    git add docs/ref-externa.md
+) >/dev/null 2>&1
+check "self: referencia ../ como vigente bloqueia" block "$(run_self_contained "$d")"
+rm -rf "$d"
+
+d="$(make_prov_repo)"
+(
+    cd "$d"
+    cat > docs/glacier-vigente.md <<'EOF'
+---
+titulo: Glacier vigente
+tipo: spec
+status: ativo
+temperatura: quente
+path: docs/glacier-vigente.md
+created_at: "2026-07-06T00:39:30-03:00"
+autor: codex
+familia: OpenAI
+natureza: nativo
+---
+# Glacier vigente
+
+A fonte normativa vigente esta em `versao_2_0_0/core/01-principios.md`.
+EOF
+    git add docs/glacier-vigente.md
+) >/dev/null 2>&1
+check "self: glacier como vigente bloqueia" block "$(run_self_contained "$d")"
+rm -rf "$d"
+
+d="$(make_prov_repo)"
+(
+    cd "$d"
+    cat > docs/glacier-historico.md <<'EOF'
+---
+titulo: Glacier historico
+tipo: spec
+status: ativo
+temperatura: quente
+path: docs/glacier-historico.md
+created_at: "2026-07-06T00:39:30-03:00"
+autor: codex
+familia: OpenAI
+natureza: nativo
+---
+# Glacier historico
+
+`versao_2_0_0/core/01-principios.md` e consulta historica do glacier; a regra vigente esta nesta versao.
+EOF
+    git add docs/glacier-historico.md
+) >/dev/null 2>&1
+check "self: glacier rotulado historico passa" pass "$(run_self_contained "$d")"
 rm -rf "$d"
 
 # --- G-AUDITOR-ID: auto-ID canonico do auditor ------------------------------
@@ -4246,9 +4433,23 @@ check "anti-desarme active-version != .: marcador renomeado -> BLOCK" block \
 rm -rf "$d"
 
 make_integrated_genesis_repo() {
-    local d; d="$(mktemp -d /Users/macbookpro/Projetos/hbn-genesis-test.XXXXXX)"
+    # Portabilidade (readback 0002): o caminho do operador estava HARDCODED
+    # (/Users/macbookpro/Projetos/...) — quebrava a suite em qualquer outro
+    # ambiente. A fixture NAO pode ir para tmp (G-CR bloqueia worktree em
+    # area temporaria — e a genese integrada roda o proprio G-CR), entao vai
+    # para o pai do repo canonico por default. Esse pai e gravavel no sandbox
+    # gerenciado e equivale ao ~/Projetos original sem acoplar a suite ao
+    # username de um operador especifico.
+    local parent d
+    parent="${HBN_GENESIS_TMP_PARENT:-$(cd "$REPO_ROOT/.." && pwd)}"
+    d="$(mktemp -d "${parent%/}/hbn-genesis-test.XXXXXX")" || { echo ""; return 1; }
     (
-        cd "$d"
+        # FAIL-CLOSED (readback 0002, incidente da sessao 2026-07-05): com
+        # mktemp falho, `cd ""` e NO-OP em bash e este bloco inteiro —
+        # incluindo `echo . > .hbn/active-version` e `git add -A` — executava
+        # DENTRO DO REPO ENVOLVENTE (regressao de ponteiro + staging sujo no
+        # repo real). Nunca mais: cd falhou => aborta a subshell.
+        cd "${d:?fixture-genesis-sem-dir}" || exit 1
         git init -q
         git config user.email "tests@hbn.local"
         git config user.name "hbn-guard-tests"
@@ -4355,6 +4556,10 @@ readlist_targets() {
 }
 readlist_path_exists() { # <path>
     local p="$1" base="${1%/}" parent
+    # Canal de hearback (BOOT §0.3) e VAZIO por desenho entre hearbacks:
+    # G-HRB proibe commit misto e ate um .gitkeep contaria como mistura.
+    # A existencia do diretorio nao e exigivel no disco de um clone.
+    [[ "$base" == ".hbn/hearbacks" ]] && return 0
     if [[ -e "$REPO_ROOT/$p" || -d "$REPO_ROOT/$base" ]] || compgen -G "$REPO_ROOT/${p}*" >/dev/null 2>&1; then
         return 0
     fi
@@ -4388,6 +4593,60 @@ r="$(mktemp -d)"
 printf 'leia .hbn/knowledge/9999-inexistente.md antes de tudo\n' > "$r/template-quebrado.md"
 check "readlist: referência quebrada é detectada (F-08)"        block "$(run_readlist "$r/template-quebrado.md")"
 rm -rf "$r"
+
+# --- Read-list TRACKED (readback 0002 T1 — bloqueador da exúvia atômica) -----
+# O sandbox da exúvia nasce de um CLONE (só estado commitado/staged). Um path
+# citado que existe apenas UNTRACKED na working tree (ex.: .hbn/messages/ no
+# HEAD a2eb6f2) deixa a suíte VERMELHA dentro do sandbox de forma silenciosa.
+# Este check torna a classe de erro ruidosa no chokepoint: toda citação dos
+# alvos vivos deve resolver no conjunto TRACKED (índice/HEAD via git ls-files),
+# não apenas no disco.
+echo "== read-list tracked (citação deve existir no índice/HEAD, não só no disco) =="
+readlist_tracked_path_ok() { # <gittop> <prefix> <cited-path>
+    local top="$1" pre="$2" p="$3" full
+    p="${p%.}"
+    # Canal de hearback: vazio por desenho (G-HRB — nem .gitkeep pode).
+    [[ "${p%/}" == ".hbn/hearbacks" ]] && return 0
+    full="${pre:+$pre/}${p}"
+    if [[ "$p" == ".hbn/active-version" ]]; then
+        [[ -n "$(git -C "$top" ls-files --cached -- ".hbn/active-version" 2>/dev/null | head -1)" ]] && return 0
+    fi
+    [[ -n "$(git -C "$top" ls-files --cached -- "$full" "${full%/}/" 2>/dev/null | head -1)" ]] && return 0
+    [[ -n "$(git -C "$top" ls-files --cached -- "${full%/}*" 2>/dev/null | head -1)" ]] && return 0
+    return 1
+}
+readlist_tracked_scan() { # <version-root> <arquivo...>
+    local vroot="$1"; shift
+    local top pre missing=0 f p
+    top="$(git -C "$vroot" rev-parse --show-toplevel 2>/dev/null)" || return 1
+    if [[ "$(cd "$vroot" && pwd)" == "$top" ]]; then pre=""; else pre="${vroot#"$top"/}"; pre="${pre%/}"; fi
+    for f in "$@"; do
+        [[ -f "$f" ]] || { echo "    arquivo da read-list ausente: $f"; missing=1; continue; }
+        while IFS= read -r p; do
+            [[ -z "$p" ]] && continue
+            p="${p%.}"
+            [[ "$p" == *NNNN* || "$p" == *AAAAMMDD* || "$p" == *\<* ]] && continue
+            if readlist_tracked_path_ok "$top" "$pre" "$p"; then continue; fi
+            echo "    citação NÃO-TRACKED (sumiria no clone da exúvia): ${p} (em $(basename "$f"))"
+            missing=1
+        done < <(grep -ohE '(\.hbn/[A-Za-z0-9_./-]+|core/[A-Za-z0-9_./-]+|guards/[A-Za-z0-9_./-]+|schemas/[A-Za-z0-9_./-]+)' "$f" 2>/dev/null | sort -u)
+    done
+    return $missing
+}
+run_readlist_tracked() { local v="$1"; shift; ( readlist_tracked_scan "$v" "$@" >/dev/null 2>&1 ); echo $?; }
+# fixture caso-bom: citação tracked passa
+r="$(mktemp -d)"
+( cd "$r" && git init -q && git config user.email t@t && git config user.name t \
+    && mkdir -p .hbn && printf 'ok\n' > .hbn/foo.md && printf 'leia .hbn/foo.md\n' > alvo.md \
+    && git add -A && git commit -qm base ) >/dev/null 2>&1
+check "readlist-tracked: citação tracked no índice/HEAD passa" pass "$(run_readlist_tracked "$r" "$r/alvo.md")"
+# fixture caso-ruim: arquivo existe no DISCO mas untracked -> DEVE reprovar
+( cd "$r" && printf 'leia .hbn/untracked.md\n' > alvo.md && printf 'x\n' > .hbn/untracked.md \
+    && git add alvo.md && git commit -qm alvo ) >/dev/null 2>&1
+check "readlist-tracked: citação untracked-only reprova (classe T1/0002)" block "$(run_readlist_tracked "$r" "$r/alvo.md")"
+rm -rf "$r"
+# repo real: os alvos vivos da versão quente não podem citar path untracked
+check "readlist-tracked: alvos da versão quente totalmente tracked" pass "$(run_readlist_tracked "$REPO_ROOT" "${readlist_target_files[@]}")"
 
 # --- G-HOT-WRITE: assert-only-hot-version-writable (terceira exuvia) ---------
 # TAREFA 4: a versao quente e a UNICA superficie de escrita. Casos: escrita na
@@ -4496,6 +4755,70 @@ rm -rf "$d"
 d="$(make_hotwrite_repo)"
 ( cd "$d" && git mv legado.md renomeado.md ) >/dev/null 2>&1
 check "hot-write: rename raiz->raiz em modo normal BLOQUEIA" block "$(run_hotwrite "$d")"
+rm -rf "$d"
+
+# Regra 4b (readback 0002 T3): shims de raiz imutaveis em dev normal, salvo
+# autorizacao hot-write-root-shim cobrindo o path exato.
+stage_root_shim_auth() { # <repo> <paths-json-array>  — STATE staged + readback confirmed
+    (
+        cd "$1"
+        cat > versao_3_0_0/.hbn/relay/STATE.md <<'EOF'
+---
+tipo: state
+versao: versao_3_0_0
+transicao: hot-write-root-shim
+hearback_ref: .hbn/readbacks/0101-root-shim.json
+---
+# STATE
+EOF
+        printf '{"human_status":"confirmed","excecoes_cobertas":[{"tipo":"hot-write-root-shim","paths":%s}]}\n' "$2" \
+            > versao_3_0_0/.hbn/readbacks/0101-root-shim.json
+        git add versao_3_0_0/.hbn/relay/STATE.md versao_3_0_0/.hbn/readbacks/0101-root-shim.json
+    ) >/dev/null 2>&1
+}
+
+d="$(make_hotwrite_repo)"
+( cd "$d" && printf '# shim\n' > AGENTS.md && git add AGENTS.md ) >/dev/null 2>&1
+check "hot-write: shim de raiz (AGENTS.md) em modo normal SEM autorizacao BLOQUEIA (4b)" block "$(run_hotwrite "$d")"
+rm -rf "$d"
+
+d="$(make_hotwrite_repo)"
+stage_root_shim_auth "$d" '["AGENTS.md"]'
+( cd "$d" && printf '# shim\n' > AGENTS.md && git add AGENTS.md ) >/dev/null 2>&1
+check "hot-write: shim de raiz COM hot-write-root-shim confirmed cobrindo o path passa (4b)" pass "$(run_hotwrite "$d")"
+rm -rf "$d"
+
+d="$(make_hotwrite_repo)"
+stage_root_shim_auth "$d" '["AGENTS.md"]'
+( cd "$d" && printf '# shim\n' > AGENTS.md && printf '# outro\n' > README.md && git add AGENTS.md README.md ) >/dev/null 2>&1
+check "hot-write: shim NAO coberto pela autorizacao (README.md) BLOQUEIA (4b)" block "$(run_hotwrite "$d")"
+rm -rf "$d"
+
+# Regra 4c (readback 0002 T6 / parecer grok furo 5): regressao do ponteiro
+# versao_X_Y_Z -> "." e bloqueada SEM excecao, mesmo com autorizacao staged.
+d="$(make_hotwrite_repo)"
+( cd "$d" && printf '.\n' > .hbn/active-version && git add .hbn/active-version ) >/dev/null 2>&1
+check "hot-write: regressao do ponteiro para '.' BLOQUEIA (4c)" block "$(run_hotwrite "$d")"
+rm -rf "$d"
+
+d="$(make_hotwrite_repo)"
+(
+    cd "$d"
+    cat > versao_3_0_0/.hbn/relay/STATE.md <<'EOF'
+---
+tipo: state
+versao: versao_3_0_0
+transicao: hot-write-exuvia
+hearback_ref: .hbn/readbacks/0102-regressao.json
+---
+# STATE
+EOF
+    printf '{"human_status":"confirmed","excecoes_cobertas":[{"tipo":"hot-write-exuvia","from":"versao_3_0_0","to":"."}]}\n' \
+        > versao_3_0_0/.hbn/readbacks/0102-regressao.json
+    printf '.\n' > .hbn/active-version
+    git add -A
+) >/dev/null 2>&1
+check "hot-write: regressao para '.' mesmo com hearback confirmed BLOQUEIA (4c sem excecao)" block "$(run_hotwrite "$d")"
 rm -rf "$d"
 
 # --- G-NO-PENDING-EXUVIA: assert-no-pending-exuvia (terceira exuvia) ----------

@@ -1,3 +1,21 @@
+---
+titulo: HBN Knowledge Base
+tipo: knowledge-index
+status: accepted
+temperatura: quente
+path: .hbn/knowledge/INDEX.md
+created_at: "2026-07-05T02:30:00-03:00"
+autor: fable-5
+familia: Anthropic
+natureza: migrado
+migrado_de: v0.3.x
+id_original: .hbn/knowledge/INDEX.md
+created_at_original: "2026-07-05T02:30:00-03:00"
+autor_original: fable-5
+transcrito_em: "2026-07-05T02:30:00-03:00"
+transcrito_por: fable-5
+validacao_ref: 0003-proveniencia-livro-razao
+---
 # HBN Knowledge Base
 
 Indice vivo das licoes reutilizaveis entre IAs. Este arquivo e ponteiro:
@@ -20,6 +38,8 @@ liste a entrada e o uso; nao replique o conteudo da knowledge.
 | `0030-chat-novo-prompts-sequenciais.md` | accepted | quente | Chat novo sem memoria exige prompt autocontido, sequencial, com preflight fail-closed e um bloco HBN-COPY por passo. |
 | `0031-campo-unico-colavel-e-comandos-atomicos.md` | accepted | quente | Prompt externo deve caber em campo unico colavel, sem cercas Markdown internas, e comandos devem ser atomicos. |
 | `0032-prompts-autocontidos-output-canonico.md` | accepted | quente | Prompt para IA externa deve ser autocontido, declarar saida canonica em disco e nao depender de contexto anterior. |
+| `0033-exuvia-sandbox-exige-head-completo.md` | accepted | quente | Sandbox de exuvia nasce do HEAD: citacao untracked-only e bomba silenciosa; validar contra o conjunto TRACKED (readlist-tracked) e nunca engolir log de suite. |
+| `0034-proposta-revogacao-bypass-guards-nao-estruturais.md` | proposto | quente | PROPOSTA (aguarda gate): revogar HBN_GUARDS_BYPASS nos guards nao estruturais; rota unica de excecao = G-EXC. |
 | `distribution-model.md` | decisao atual | — | Distribuicao fase 2, bootstrap local e adapters de runtime. |
 | `relay-protocol.md` | decisao atual | — | Continuidade de bastao e uso dos arquivos de relay. |
 | `runtime-command-model.md` | decisao atual | — | `hbn` como CLI operacional primario e `usehbn` como compatibilidade. |

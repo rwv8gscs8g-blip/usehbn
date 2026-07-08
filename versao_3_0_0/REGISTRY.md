@@ -1,15 +1,16 @@
 ---
 titulo: REGISTRY — livro-razão de artefatos do useHBN v3.0.0
+tipo: registry
 status: ativo
 temperatura: quente
-path: versao_3_0_0/REGISTRY.md
+path: REGISTRY.md
 created_at: "2026-07-05T02:30:00-03:00"
 autor: fable-5
 familia: Anthropic
-regras: append-only; uma linha por evento (nascimento ou mudança de temperatura/árvore); nunca rename, nunca delete
+natureza: nativo
+regras: "append-only; uma linha por evento (nascimento ou mudança de temperatura/árvore); nunca rename, nunca delete"
 evidencia: core/04-artefatos.md §REGISTRY
 ---
-
 # REGISTRY do useHBN v3.0.0
 
 Livro-razão append-only desta versão. Formato da linha (7 colunas, G-REG):
@@ -181,3 +182,113 @@ e `../versao_2_0_0/REGISTRY.md` (história imutável, glacier).
 | 20260705-156 | .cursor/hooks/hbn-boot-lock.sh | boot-lock | quente | fronteira |  | 2026-07-05T02:30:00-03:00 |
 | 20260705-157 | .hbn/results/20260705-140000-grok-cross-ia-0001.md | result-cross-ia | quente | fronteira |  | 2026-07-05T14:00:00-03:00 |
 | 20260705-158 | .hbn/results/20260705-141500-antigravity-cross-ia-0001.md | result-cross-ia | quente | fronteira |  | 2026-07-05T14:15:00-03:00 |
+| 20260705-159 | .hbn/archive/PLACEHOLDER-20260705-140000-grok-cross-ia-0001.md | result-placeholder | frio | fronteira |  | 2026-07-05T20:24:51-03:00 |
+| 20260705-160 | .hbn/archive/PLACEHOLDER-20260705-141500-antigravity-cross-ia-0001.md | result-placeholder | frio | fronteira |  | 2026-07-05T20:24:51-03:00 |
+| 20260705-161 | .hbn/readbacks/0002-fechamento-pos-auditoria-v3.json | readback | quente | fronteira |  | 2026-07-05T20:24:51-03:00 |
+| 20260705-162 | .hbn/messages/20260705-202451-fable-5-handoff-opus-credenciamento-v206.md | handoff | quente | fronteira |  | 2026-07-05T20:24:51-03:00 |
+| 20260705-163 | .hbn/knowledge/0033-exuvia-sandbox-exige-head-completo.md | knowledge | quente | fronteira |  | 2026-07-05T20:24:51-03:00 |
+| 20260705-164 | .hbn/knowledge/0034-proposta-revogacao-bypass-guards-nao-estruturais.md | knowledge | quente | fronteira |  | 2026-07-05T20:24:51-03:00 |
+| 20260705-165 | .hbn/stray-allowlist | dado | quente | fronteira |  | 2026-07-05T20:24:51-03:00 |
+| 20260705-166 | .hbn/results/20260705-222303-antigravity-cross-ia-0002.md | result-cross-ia | quente | fronteira |  | 2026-07-05T22:23:03-03:00 |
+| 20260706-167 | .hbn/results/20260705-223100-grok-cross-ia-0002.md | result-cross-ia | quente | fronteira |  | 2026-07-05T22:31:00-03:00 |
+
+| 20260706-168 | .hbn/archive/PLACEHOLDER-20260705-140000-grok-cross-ia-0001.md | result-placeholder | frio | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-169 | .hbn/archive/PLACEHOLDER-20260705-141500-antigravity-cross-ia-0001.md | result-placeholder | frio | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-170 | .hbn/knowledge/0001-comandos-atomicos-copiaveis.md | knowledge | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-171 | .hbn/knowledge/0002-entrega-operacional-minimalista.md | knowledge | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-172 | .hbn/knowledge/0003-git-sandbox-sem-lock.md | knowledge | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-173 | .hbn/knowledge/0019-severidades-veto.md | knowledge | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-174 | .hbn/knowledge/0022-firewall-workflow-fast-track.md | knowledge | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-175 | .hbn/knowledge/0023-area-temporaria-e-fixtures-efemeras.md | knowledge | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-176 | .hbn/knowledge/0024-orquestrador-nao-sela-zona-livre-sem-aprovacao.md | knowledge | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-177 | .hbn/knowledge/0025-auditor-read-only-sem-no-verify.md | knowledge | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-178 | .hbn/knowledge/0026-auto-id-auditor-gate-enforcado.md | knowledge | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-179 | .hbn/knowledge/0027-trailers-contiguos-independente-de-excecao.md | knowledge | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-180 | .hbn/knowledge/0028-diversidade-familia-enforced-selagem.md | knowledge | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-181 | .hbn/knowledge/0029-lei-submissao-pelo-exemplo.md | knowledge | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-182 | .hbn/knowledge/0030-chat-novo-prompts-sequenciais.md | knowledge | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-183 | .hbn/knowledge/0031-campo-unico-colavel-e-comandos-atomicos.md | knowledge | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-184 | .hbn/knowledge/0032-prompts-autocontidos-output-canonico.md | knowledge | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-185 | .hbn/knowledge/0033-exuvia-sandbox-exige-head-completo.md | knowledge | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-186 | .hbn/knowledge/0034-proposta-revogacao-bypass-guards-nao-estruturais.md | knowledge | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-187 | .hbn/knowledge/INDEX.md | knowledge-index | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-188 | .hbn/knowledge/distribution-model.md | knowledge | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-189 | .hbn/knowledge/relay-protocol.md | knowledge | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-190 | .hbn/knowledge/runtime-command-model.md | knowledge | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-191 | .hbn/messages/20260705-185849-grok-superprompt-fable5-fechamento-v3-handoff-opus.md | despacho | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-192 | .hbn/messages/20260705-202451-fable-5-handoff-opus-credenciamento-v206.md | handoff | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-193 | .hbn/messages/20260705-225339-claude-opus-4-8-dispatch-reauditoria-delta-0002.md | despacho | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-194 | .hbn/messages/20260706-000432-claude-opus-4-8-dispatch-onda-0003-proveniencia-livro-razao.md | despacho | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-195 | .hbn/operators/README.md | dado | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-196 | .hbn/readbacks/0001-terceira-exuvia-genese.json | readback | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-197 | .hbn/readbacks/0002-fechamento-pos-auditoria-v3.json | readback | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-198 | .hbn/readbacks/0003-proveniencia-livro-razao.json | readback | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-199 | .hbn/relay/STATE.md | estado | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-200 | .hbn/results/20260705-174859-grok-cross-ia-0001.md | result-cross-ia | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-201 | .hbn/results/20260705-183900-antigravity-cross-ia-0001.md | result-cross-ia | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-202 | .hbn/results/20260705-222303-antigravity-cross-ia-0002.md | result-cross-ia | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-203 | .hbn/results/20260705-223100-grok-cross-ia-0002.md | result-cross-ia | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-204 | .hbn/stray-allowlist | dado | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-205 | BOOT.md | boot | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-206 | MANIFESTO-MIGRACAO.md | manifesto | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-207 | REGISTRY.md | registry | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-208 | ROADMAP.md | spec | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-209 | TRANSICAO.md | spec | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-210 | core/01-principios.md | spec | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-211 | core/02-papeis.md | spec | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-212 | core/03-rito-da-onda.md | spec | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-213 | core/04-artefatos.md | spec | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-214 | core/05-guards.md | spec | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-215 | core/06-freeze-fitness-exuvia.md | spec | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-216 | core/07-projetos-membrana.md | spec | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-217 | core/08-evolucao.md | spec | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-218 | core/actor-write-matrix.txt | spec | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-219 | core/dual-run-spec.md | spec | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-220 | core/exuvia-fitness-criteria.md | spec | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-221 | core/freeze-gate-spec.md | spec | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-222 | core/read-list-canonica.txt | spec | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-223 | core/role-cards.md | spec | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-224 | guards/MANIFEST.yaml | dado | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-225 | guards/README.md | dado | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-226 | guards/assert-doc-provenance.sh | guard | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-227 | guards/assert-only-hot-version-writable.sh | guard | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-228 | guards/assert-registry-line.sh | guard | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-229 | guards/hbn-guards-runner.sh | guard | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-230 | guards/tests/run-guard-tests.sh | teste | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-231 | scripts/hbn-exuvia-atomic.sh | script | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-232 | scripts/hbn-upgrade-snapshot.sh | script | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-233 | .hbn/messages/20260706-003930-claude-opus-4-8-adendo-onda-0003-autocontencao.md | despacho | quente | fronteira |  | 2026-07-06T00:39:30-03:00 |
+| 20260706-234 | guards/assert-version-self-contained.sh | guard | quente | fronteira |  | 2026-07-06T00:39:30-03:00 |
+| 20260706-235 | .hbn/messages/20260706-001951-codex-handoff-onda-0003.md | handoff | quente | fronteira |  | 2026-07-06T00:19:51-03:00 |
+| 20260706-236 | .hbn/results/20260706-061000-grok-cross-ia-0003.md | result-cross-ia | quente | fronteira |  | 2026-07-06T06:10:00-03:00 |
+| 20260706-237 | .hbn/results/20260706-055401-antigravity-cross-ia-0003.md | result-cross-ia | quente | fronteira |  | 2026-07-06T06:54:01-03:00 |
+| 20260706-238 | .hbn/models/antigravity.json | model-profile | quente | fronteira |  | 2026-07-06T07:17:44-03:00 |
+| 20260706-239 | .hbn/results/20260706-224124-antigravity-cross-ia-0003-v2.md | result-cross-ia | quente | fronteira |  | 2026-07-06T22:41:24-03:00 |
+| 20260706-240 | .hbn/results/20260706-214310-grok-cross-ia-0002-v2.md | result-cross-ia | quente | fronteira |  | 2026-07-06T21:43:10-03:00 |
+| 20260706-241 | .hbn/results/20260706-214310-grok-cross-ia-0003-v2.md | result-cross-ia | quente | fronteira |  | 2026-07-06T21:43:10-03:00 |
+| 20260706-242 | .hbn/archive/SUPERSEDED-20260706-061000-grok-cross-ia-0003.md | result-cross-ia-superseded | frio | fronteira | .hbn/results/20260706-214310-grok-cross-ia-0002-v2.md + .hbn/results/20260706-214310-grok-cross-ia-0003-v2.md | 2026-07-06T22:56:50-03:00 |
+| 20260706-243 | .hbn/archive/SUPERSEDED-20260706-055401-antigravity-cross-ia-0003.md | result-cross-ia-superseded | frio | fronteira | .hbn/results/20260705-222303-antigravity-cross-ia-0002.md + .hbn/results/20260706-224124-antigravity-cross-ia-0003-v2.md | 2026-07-06T22:56:50-03:00 |
+| 20260706-244 | .hbn/messages/20260706-225650-codex-handoff-selagem-limpa-0002-0003.md | handoff | quente | fronteira |  | 2026-07-06T22:56:50-03:00 |
+| 20260707-245 | .hbn/archive/SUPERSEDED-20260705-174859-grok-cross-ia-0001.md | result-cross-ia-superseded | frio | fronteira | .hbn/results/20260707-171004-grok-cross-ia-0001-v2.md | 2026-07-07T17:20:18-03:00 |
+| 20260707-246 | .hbn/archive/SUPERSEDED-20260705-183900-antigravity-cross-ia-0001.md | result-cross-ia-superseded | frio | fronteira | .hbn/results/20260707-171621-antigravity-cross-ia-0001-v2.md | 2026-07-07T17:20:18-03:00 |
+| 20260707-247 | .hbn/results/20260707-171004-grok-cross-ia-0001-v2.md | result-cross-ia | quente | fronteira | re-ratifica .hbn/results/20260705-174859-grok-cross-ia-0001.md | 2026-07-07T17:20:18-03:00 |
+| 20260707-248 | .hbn/results/20260707-171621-antigravity-cross-ia-0001-v2.md | result-cross-ia | quente | fronteira | re-ratifica .hbn/results/20260705-183900-antigravity-cross-ia-0001.md | 2026-07-07T17:20:18-03:00 |
+
+Nota T4 (readback 0002): as linhas 157/158 registram os placeholders procedimentais
+criados ANTES da auditoria independente. Os arquivos foram movidos no disco para
+`.hbn/archive/PLACEHOLDER-*` (linhas 159/160, temperatura frio — `.hbn/results/`
+fica só com pareceres reais de nome canônico, G-AUDITOR-ID) e marcados como
+NÃO-PARECER; não contam para quórum. Os pareceres REAIS do readback 0001
+(grok 174859, APROVA_0001: NAO; antigravity 183900, APROVA_0001: SIM)
+permanecem no disco em `.hbn/results/` porém UNTRACKED até a selagem: o
+G-DIVERSITY só admite commit de results cross-ia quando o readback auditado
+tem ≥2 famílias distintas ≠ implementador com APROVA SIM — o quórum 0001
+ainda não tem. Eles entram no livro-razão na onda de selagem. Append-only:
+nenhuma linha foi removida.
+
+Nota selagem final 0001/0002/0003: os pareceres reais antigos do readback 0001
+(`20260705-174859` e `20260705-183900`) foram preservados em archive como
+`SUPERSEDED-*` e nao contam como parecer vigente. O quorum vigente do readback
+0001 passa a ser composto pelas re-ratificacoes `20260707-171004` (xAI) e
+`20260707-171621` (Google), ambas com `APROVA_0001: SIM`. Append-only: nenhuma
+linha anterior foi removida.

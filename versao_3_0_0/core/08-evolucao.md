@@ -1,22 +1,30 @@
 ---
 titulo: "08 — Evolução e automelhoria: knowledge, workflows dinâmicos, loops, skills"
+tipo: spec
 status: ativo
 temperatura: quente
-path: versao_3_0_0/core/08-evolucao.md
-created_at: "2026-07-01T19:46:00-03:00"
+path: core/08-evolucao.md
+created_at: "2026-07-05T02:30:00-03:00"
 autor: fable-5
 familia: Anthropic
+natureza: migrado
+migrado_de: versao_2_0_0
+id_original: core/08-evolucao.md
+created_at_original: "2026-07-01T19:46:00-03:00"
+autor_original: fable-5
+transcrito_em: "2026-07-05T02:30:00-03:00"
+transcrito_por: fable-5
+validacao_ref: 0003-proveniencia-livro-razao
 ---
-
 # 08 — Evolução e automelhoria
 
 ## Knowledge (lições operacionais)
 
-Lição de execução vira entrada numerada em `.hbn/knowledge/` (herdadas as
-0001–0032 do v0.3.x, vigentes). Uma lição por evento, com INDEX consistente
-(G-KNOWLEDGE-INDEX). Knowledge é **recomendação forte**, não doutrina: se uma
-lição precisa ser vinculante, vira guard + teste (R2) — nunca leitura
-obrigatória nova.
+Lição de execução vira entrada numerada em `.hbn/knowledge/` (0001–0032
+transcritas e vigentes nesta exúvia). Uma lição por evento, com INDEX
+consistente (G-KNOWLEDGE-INDEX). Knowledge é **recomendação forte**, não
+doutrina: se uma lição precisa ser vinculante, vira guard + teste (R2) —
+nunca leitura obrigatória nova.
 
 ## Workflows dinâmicos e loops (automelhoria com orçamento)
 

@@ -18,9 +18,13 @@
 4. **Escrita**: só sob a pasta da versão quente. Qualquer gravação fora dela
    é interceptada ANTES do disco (hook `.cursor/hooks/hbn-boot-lock.sh`) e
    bloqueada no commit (guard G-HOT-WRITE, primeiro do pre-commit, sem
-   bypass). Allowlist mínima de raiz: `.gitignore`, `.hbn/active-version`,
-   `.hbn/canonical-root`, `.hbn/relay/STATE.md`, `.hbn/hearbacks/**`,
-   `README.md`, `AGENTS.md`.
+   bypass). Allowlist mínima de raiz (idêntica nas 3 camadas — este arquivo,
+   o hook e o guard): `.gitignore`, `.hbn/relay/STATE.md`,
+   `.hbn/hearbacks/**`. Os **shims de raiz** (`README.md`, `AGENTS.md`,
+   `.hbn/active-version`, `.hbn/canonical-root`, `.github/workflows/**`,
+   `.cursor/**`) são IMUTÁVEIS em dev normal: mudam só em exúvia autorizada
+   ou em commit do operador com autorização `hot-write-root-shim` (STATE +
+   readback/hearback confirmado cobrindo o path exato — G-HOT-WRITE regra 4b).
 5. **Versões congeladas** (`versao_0_3_x/`, `versao_2_0_0/` e futuras
    glaciers): leitura histórica permitida; citá-las como regra vigente ou
    escrever nelas é violação.
@@ -35,5 +39,6 @@
 | `.git/hooks/{pre-commit,commit-msg}` | Shims que executam o runner da versão quente |
 | `.github/workflows/` | CI que roteia para a versão quente |
 | `.cursor/hooks/` | BOOT-LOCK client-side (interceptação de escrita) |
+| `.claude/settings.local.json` | Config local do Claude Code (por desenvolvedor; untracked e ignorada em `.gitignore`; concede leitura e NEGA escrita no consumidor Credenciamento) |
 
 Se algo além disso aparecer na raiz, é lixo ou violação — reporte.

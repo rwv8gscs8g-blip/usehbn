@@ -98,6 +98,17 @@ guards:
       state_fields: [bastao_token_sha256, readback_ativo]
       guards: [validate-dispatch]
       env: []
+  - guard: assert-doc-provenance
+    path: guards/assert-doc-provenance.sh
+    requires:
+      files:
+        - path: MANIFESTO-MIGRACAO.md
+          install: copy
+          source: MANIFESTO-MIGRACAO.md
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
   - guard: assert-exception-traceable
     path: guards/assert-exception-traceable.sh
     requires:
@@ -164,10 +175,30 @@ guards:
       state_fields: [proximo_ponto]
       guards: []
       env: []
+  - guard: assert-no-pending-exuvia
+    path: guards/assert-no-pending-exuvia.sh
+    requires:
+      files:
+        - path: .hbn/active-version
+          install: refuse
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
   - guard: assert-no-stray-hbn
     path: guards/assert-no-stray-hbn.sh
     requires:
       files: []
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-only-hot-version-writable
+    path: guards/assert-only-hot-version-writable.sh
+    requires:
+      files:
+        - path: .hbn/active-version
+          install: refuse
       dirs: []
       state_fields: []
       guards: []
@@ -335,6 +366,14 @@ guards:
       env: []
   - guard: assert-trailers-contiguous
     path: guards/assert-trailers-contiguous.sh
+    requires:
+      files: []
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-version-self-contained
+    path: guards/assert-version-self-contained.sh
     requires:
       files: []
       dirs: []

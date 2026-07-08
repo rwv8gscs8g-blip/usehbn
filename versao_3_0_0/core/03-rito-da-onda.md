@@ -1,13 +1,21 @@
 ---
 titulo: "03 — Rito da onda: despacho, readback, evidência, quórum, selagem, hearback"
+tipo: spec
 status: ativo
 temperatura: quente
-path: versao_3_0_0/core/03-rito-da-onda.md
-created_at: "2026-07-01T19:36:00-03:00"
+path: core/03-rito-da-onda.md
+created_at: "2026-07-05T02:30:00-03:00"
 autor: fable-5
 familia: Anthropic
+natureza: migrado
+migrado_de: versao_2_0_0
+id_original: core/03-rito-da-onda.md
+created_at_original: "2026-07-01T19:36:00-03:00"
+autor_original: fable-5
+transcrito_em: "2026-07-05T02:30:00-03:00"
+transcrito_por: fable-5
+validacao_ref: 0003-proveniencia-livro-razao
 ---
-
 # 03 — Rito da onda
 
 Consolida: relay-spec, readback-spec, dispatch-spec, cadence-d, start-rite,

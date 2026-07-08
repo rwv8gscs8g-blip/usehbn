@@ -1,16 +1,28 @@
 ---
 titulo: Dual-run spec — caracterização de legado e gate de substituição
-diataxis: reference
+tipo: spec
 status: proposed
 temperatura: quente
+path: core/dual-run-spec.md
+created_at: "2026-07-05T02:30:00-03:00"
+autor: fable-5
+familia: Anthropic
+natureza: migrado
+migrado_de: v0.3.x
+id_original: 20260610-38
+created_at_original: 2026-06-10T00:00:00-03:00
+autor_original: "claude-fable-5 (arquiteto useHBN, corrente D)"
+transcrito_em: "2026-07-05T02:30:00-03:00"
+transcrito_por: fable-5
+validacao_ref: 0003-proveniencia-livro-razao
+diataxis: reference
 id-global: 20260610-38
 versao: 0.1.0
 data: 2026-06-10
-autoria: claude-fable-5 (arquiteto useHBN, corrente D)
+autoria: "claude-fable-5 (arquiteto useHBN, corrente D)"
 hearback-status: pendente (lote corrente D)
-relacionado: [ADR-016, schemas/dual-run-result.schema.json]
+relacionado: "[ADR-016, schemas/dual-run-result.schema.json]"
 ---
-
 # Dual-run spec — o comportamento atual vira gabarito
 
 ## §1 Vocabulário

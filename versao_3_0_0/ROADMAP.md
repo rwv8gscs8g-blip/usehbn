@@ -1,14 +1,15 @@
 ---
-titulo: "ROADMAP v3.0.0 — roteiro de retomada da operação para o próximo orquestrador"
+titulo: ROADMAP v3.0.0 — roteiro de retomada da operação para o próximo orquestrador
+tipo: spec
 status: ativo
 temperatura: quente
-path: versao_3_0_0/ROADMAP.md
+path: ROADMAP.md
 created_at: "2026-07-05T02:30:00-03:00"
 autor: fable-5
 familia: Anthropic
-alvo: "Claude Opus (próximo orquestrador), sob Decreto 20260703-000500 — perfil relator não-decisório; todo ato depende de dispatch-artefato + hearback humano"
+natureza: nativo
+alvo: "\"Claude Opus (próximo orquestrador), sob Decreto 20260703-000500 — perfil relator não-decisório; todo ato depende de dispatch-artefato + hearback humano\""
 ---
-
 # ROADMAP v3.0.0 — retomada da operação
 
 > Para o próximo orquestrador (Claude Opus): execute as fases NA ORDEM, uma
@@ -52,8 +53,8 @@ alvo: "Claude Opus (próximo orquestrador), sob Decreto 20260703-000500 — perf
 1. Criar o canal oficial de retroalimentação (3 níveis):
    - **L1** problema local → knowledge local do projeto;
    - **L2** melhoria de protocolo → sobe ao genoma via `inbox/`
-     (agora `versao_0_3_x/inbox/`; criar `versao_3_0_0/inbox/` na primeira
-     onda de desenvolvimento normal, com guard de triagem);
+     (o antigo `versao_0_3_x/inbox/` é histórico; criar `inbox/` dentro desta
+     versão na primeira onda de desenvolvimento normal, com guard de triagem);
    - **L3** correção dupla → registrada nos dois lados, com referência
      cruzada.
 2. Resolver os incidentes abertos da sessão anterior (`110632`, `110633` e

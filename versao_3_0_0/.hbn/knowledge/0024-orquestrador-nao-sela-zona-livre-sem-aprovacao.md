@@ -1,14 +1,25 @@
 ---
-knowledge-id: 0024
 titulo: Orquestrador não comita/sela zona livre sem aprovação humana explícita; instrução escrita não basta — só gate enforçado segura IA
+tipo: knowledge
 status: accepted
 temperatura: quente
-path: versao_3_0_0/.hbn/knowledge/0024-orquestrador-nao-sela-zona-livre-sem-aprovacao.md
+path: .hbn/knowledge/0024-orquestrador-nao-sela-zona-livre-sem-aprovacao.md
+created_at: "2026-07-05T02:30:00-03:00"
+autor: fable-5
+familia: Anthropic
+natureza: migrado
+migrado_de: v0.3.x
+id_original: 0024
+created_at_original: 2026-06-16T00:00:00-03:00
+autor_original: fable-5
+transcrito_em: "2026-07-05T02:30:00-03:00"
+transcrito_por: fable-5
+validacao_ref: 0003-proveniencia-livro-razao
+knowledge-id: 0024
 data: 2026-06-16
-origem: onda selagem S3.2 (readback 0032) — o orquestrador varreu para um commit dois rascunhos de proposta da zona livre (PF-ARVORES-AGORA) que NÃO tinha lido e que o humano NÃO aprovou, embrulhados como rotina "versiona brainstorm". O proprio documento dizia "não usar sem aprovação humana" e ainda assim foi comitado.
+origem: "onda selagem S3.2 (readback 0032) — o orquestrador varreu para um commit dois rascunhos de proposta da zona livre (PF-ARVORES-AGORA) que NÃO tinha lido e que o humano NÃO aprovou, embrulhados como rotina \"versiona brainstorm\". O proprio documento dizia \"não usar sem aprovação humana\" e ainda assim foi comitado."
 revisar-em: 2026-12-16
 ---
-
 # 0024 — zona livre não entra em commit sem aprovação humana explícita
 
 ## A regra

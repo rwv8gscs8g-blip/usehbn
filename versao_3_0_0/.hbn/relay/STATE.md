@@ -1,68 +1,78 @@
 ---
+titulo: "STATE — useHBN v3.0.0 (onda 0003, proveniência + autocontenção)"
+tipo: estado
+status: ativo
+temperatura: quente
+path: .hbn/relay/STATE.md
+created_at: "2026-07-06T00:19:51-03:00"
+autor: codex
+familia: OpenAI
+natureza: nativo
 state_version: 1
 projeto: usehbn (canônico)
-protocolo: "useHBN v3.0.0 — terceira exúvia (G-HOT-WRITE + exúvia atômica + membrana com contrato explícito + BOOT-LOCK)"
-onda_atual: "GÊNESE v3.0.0 — terceira exúvia preparada por fable-5 sob despacho do antigravity (Decreto 20260703-000500). Working tree completa; commit pendente do operador humano."
-transicao: hot-write-exuvia
-hearback_ref: .hbn/readbacks/0001-terceira-exuvia-genese.json
-readback_ativo: ".hbn/readbacks/0001-terceira-exuvia-genese.json"
-handoff_mais_recente: nenhum
+protocolo: "useHBN v3.0.0 — terceira exúvia ATIVADA (commit a2eb6f2) + onda 0003 em working tree"
+onda_atual: "ONDA 0003 (codex/OpenAI): padrão universal de proveniência do livro-razão, MANIFESTO-MIGRACAO, transcrição de documentos migrados, T-AUTO/autocontenção, G-PROV e G-SELF-CONTAINED estruturais. Readback 0003 pendente; nada commitado."
+transicao: "proveniencia-livro-razao + hot-write-guard-change + hot-write-root-shim"
+hearback_ref: .hbn/readbacks/0002-fechamento-pos-auditoria-v3.json
+readback_ativo: ".hbn/readbacks/0003-proveniencia-livro-razao.json"
+handoff_mais_recente: ".hbn/messages/20260706-001951-codex-handoff-onda-0003.md"
 bastao_token_sha256:
 proprietario_bastao: nenhum
 papel_bastao: nenhum
 modo_educacional: "intermediário"
 papeis:
-  arquiteto: "pendente — designado pelo próximo orquestrador (Claude Opus) na fase de ativação (ROADMAP.md §1)"
-  implementador_da_exuvia: "fable-5 (Anthropic) — gênese v3.0.0, sem bastão herdado"
-  auditores_validadores: "pendente — auditoria cruzada da terceira exúvia por 2 famílias independentes (Gemini e Grok) antes do flip"
-  gate_humano: "Maurício — único autorizado a confirmar o readback 0001 e executar o commit atômico da exúvia"
-proxima_acao: 'ATIVAÇÃO DA TERCEIRA EXÚVIA (ROADMAP.md §1): (1) auditoria cruzada por Gemini e Grok com APROVA em .hbn/results/; (2) Maurício confirma o readback 0001 (human_status: confirmed); (3) UM commit atômico com todo o staging (glacier + v3 + flip do ponteiro). Nada além disso até o flip.'
+  orquestrador_seguinte: "claude-opus-4-8 (Anthropic) — orquestrador contido após commit/handoff, sem poder de selagem"
+  implementador: "codex (OpenAI) — readback 0003, escopo fechado"
+  auditores_validadores: "re-auditoria do delta combinado 0002+0003 por Grok/xAI + Antigravity/Google, famílias != OpenAI"
+  gate_humano: "Maurício — confirma readbacks/hearbacks e executa commit; nenhuma IA commita"
+proxima_acao: "Re-auditoria do delta combinado 0002+0003 por Grok e Antigravity; depois hearback humano dos readbacks 0002 e 0003; só então commit do operador com runner verde."
 roadmap_ativo: "ROADMAP.md"
 proximo_ponto:
-  passo: 'Ativação do v3.0.0 — auditoria cruzada (Gemini + Grok) + confirmação humana do readback 0001 + commit atômico único da exúvia'
+  passo: "Re-auditoria 0003 + hearback humano dos readbacks 0002/0003"
   ato: hearback
   destino: human
   gate: hearback_humano
-  bloco_ref: .hbn/readbacks/0001-terceira-exuvia-genese.json
+  bloco_ref: .hbn/readbacks/0003-proveniencia-livro-razao.json
   status: pendente
 sinais_abertos:
-  - "🔴 EXCEÇÃO F-01 EM CURSO (PROPOSED_UNTIL_CROSS_AUDIT) — implementador da exúvia (fable-5) é o mesmo agente do readback 0001: gênese sem bastão herdado, autorizada pelo super-prompt do antigravity sob Decreto 20260703-000500. Adoção exige 2 pareceres APROVA_0001: SIM de famílias ≠ Anthropic/OpenAI em .hbn/results/ + confirmação humana do readback (human_status: confirmed) antes do commit atômico."
-  - "🟡 EXÚVIA EM PREPARAÇÃO — versao_3_0_0 completa na working tree (Cold Core consolidado de versao_2_0_0 + guards estruturais da raiz); versao_0_3_x e versao_2_0_0 congeladas (glacier); raiz esvaziada com shims mínimos. NADA COMMITADO."
-  - "🟡 AUDITORIA PENDENTE — 2 famílias independentes (Gemini, Grok) devem depositar APROVA em .hbn/results/ antes do gate humano (ROADMAP §1)."
-  - "🟡 INCIDENTES ABERTOS — 110632/110633 + irmãos da sessão anterior ficam para o saneamento do legado (ROADMAP §3); nada foi apagado."
-ultima_atualizacao: "2026-07-05T02:30:00-03:00"
-atualizado_por: fable-5
+  - "🔴 EXCEÇÃO F-01 (auto-direção): implementador == autor do readback ativo 0003 (codex). PROPOSED_UNTIL_CROSS_AUDIT — adoção exige 2 pareceres de famílias != OpenAI + hearback humano; re-auditado por grok/xAI e antigravity/Google."
+  - "🔴 READBACK 0003 PENDENTE — safe_track; gate Maurício precisa confirmar antes de commit."
+  - "🔴 READBACK 0002 PENDENTE — delta anterior continua na working tree e deve ser re-auditado junto."
+  - "🔴 QUÓRUM 0001 SEM CONSENSO — grok 174859 (APROVA_0001: NAO) × antigravity 183900 (APROVA_0001: SIM); v3 não está selada."
+  - "🟡 G-PROV NOVO — estrutural, sem bypass; exige re-auditoria por famílias != OpenAI."
+  - "🟡 G-SELF-CONTAINED NOVO — estrutural, sem bypass; rejeita fonte vigente externa em documento governado."
+  - "🟡 MEMBRANA — snapshot padrão agora inclui MANIFESTO-MIGRACAO.md e guards/ para propagar G-PROV + G-SELF-CONTAINED."
+ultima_atualizacao: "2026-07-06T00:19:51-03:00"
+atualizado_por: codex
 atribuicao:
-  chapeu_atual: implementador-da-exuvia
-  implementador: fable-5
+  chapeu_atual: implementador
+  implementador: codex
   auditores:
-    - gemini-3-5
     - grok
+    - antigravity
 ---
 
-# STATE — useHBN v3.0.0 (gênese da terceira exúvia)
+# STATE — useHBN v3.0.0 (onda 0003)
 
-## Resumo executivo (≤ 30 linhas)
+## Resumo executivo
 
-1. **O que é este estado**: gênese da `versao_3_0_0`, preparada por fable-5
-   em uma única passada limpa no disco, sob o super-prompt do antigravity
-   aprovado pelo gate (Decreto 20260703-000500 vigente).
-2. **Por quê**: o relatório crítico 20260705-001142 (Claude Opus) provou que
-   a `versao_2_0_0` nunca foi ativada e que semanas de trabalho correram na
-   versão errada (raiz). Pareceres antigravity (20260705-002500) e grok
-   (20260705-014500) confirmaram e endureceram o desenho.
-3. **O que mudou**: G-HOT-WRITE (escrita só na versão quente, sem bypass),
-   G-NO-PENDING-EXUVIA (nunca mais um `proposto` pendurado), exúvia atômica
-   (`scripts/hbn-exuvia-atomic.sh`), membrana com contrato explícito
-   (`membrane/` + `scripts/hbn-upgrade-snapshot.sh`) e BOOT-LOCK (BOOT.md §0).
-4. **Readback ativo**: `.hbn/readbacks/0001-terceira-exuvia-genese.json`
-   (human_status: pendente — o gate confirma para autorizar o flip).
-5. **Próxima ação (ÚNICA)**: ver `proxima_acao` acima. Depois do flip, o
-   próximo orquestrador (Claude Opus) segue `ROADMAP.md` passo a passo.
+1. A terceira exúvia está ativa em `a2eb6f2`, mas ainda não está selada:
+   auditoria 0001 ficou sem consenso.
+2. A working tree contém o delta 0002 não commitado e a onda 0003 construída
+   por cima dele.
+3. Esta onda 0003 adiciona o padrão universal de proveniência do livro-razão,
+   transcreve documentos migrados, cria `MANIFESTO-MIGRACAO.md`, incorpora
+   T-AUTO/autocontenção e ativa os guards estruturais
+   `assert-doc-provenance.sh` e `assert-version-self-contained.sh` no runner.
+4. Próxima ação única: re-auditar o delta combinado 0002+0003 por famílias
+   distintas de OpenAI, colher hearback humano dos readbacks 0002/0003 e só
+   então o operador executa commit com runner verde.
 
 ## Ponteiros
 
-- Roteiro de retomada: `ROADMAP.md`
-- Justificativa da exúvia: `TRANSICAO.md`
-- Porta de entrada: `BOOT.md` (com BOOT-LOCK §0)
-- Livro-razão: `REGISTRY.md`
+- Readback ativo da onda: `.hbn/readbacks/0003-proveniencia-livro-razao.json`
+- Handoff da onda: `.hbn/messages/20260706-001951-codex-handoff-onda-0003.md`
+- Regra canônica estendida: `core/04-artefatos.md`
+- Manifesto de migração: `MANIFESTO-MIGRACAO.md`
+- Guards novos: `guards/assert-doc-provenance.sh` e
+  `guards/assert-version-self-contained.sh`

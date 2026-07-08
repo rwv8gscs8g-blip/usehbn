@@ -76,7 +76,12 @@ HEAD_SHA="$(git rev-parse --short HEAD)"
 log "repo=${REPO} HEAD=${HEAD_SHA} ativa=${OLD_REL} nova=${NEW_REL} modo=${MODE}"
 
 # --- Sandbox: monta o NOVO estado num clone descartavel e valida ---------------
-SANDBOX="$(mktemp -d "${TMPDIR:-/tmp}/hbn-exuvia-${NEW_REL}.XXXXXX")"
+# Sandbox FORA de areas temporarias (readback 0002): o G-CR bloqueia worktree
+# em paths */tmp/* — e a suite roda o proprio G-CR dentro do sandbox. Por
+# default usa o pai do repo canonico, que e gravavel no sandbox gerenciado e
+# fica fora de /tmp; HBN_EXUVIA_SANDBOX_PARENT permite override pelo operador.
+SANDBOX_PARENT="${HBN_EXUVIA_SANDBOX_PARENT:-$(cd "$REPO/.." && pwd)}"
+SANDBOX="$(mktemp -d "${SANDBOX_PARENT%/}/hbn-exuvia-${NEW_REL}.XXXXXX")"
 cleanup_sandbox() { rm -rf "$SANDBOX" 2>/dev/null || true; }
 trap cleanup_sandbox EXIT INT TERM
 
@@ -136,8 +141,16 @@ PY
     log()  { echo "[hbn-exuvia-atomic/sandbox] $*" >&2; }
     log "rodando suite de testes da nova versao..."
     if [[ -f "$NEW_REL/guards/tests/run-guard-tests.sh" ]]; then
-        bash "$NEW_REL/guards/tests/run-guard-tests.sh" >/dev/null 2>&1 \
-            || { echo "SUITE-VERMELHA" >&2; exit 1; }
+        # Diagnosticabilidade (readback 0002 T1): suite vermelha NUNCA e muda.
+        # A saida completa vai para log persistente fora da sandbox e os
+        # checks reprovados sao impressos no stderr do rito.
+        SUITE_LOG="${TMPDIR:-/tmp}/hbn-exuvia-suite-${NEW_REL}-ultimo.log"
+        if ! bash "$NEW_REL/guards/tests/run-guard-tests.sh" > "$SUITE_LOG" 2>&1; then
+            echo "SUITE-VERMELHA — checks reprovados no sandbox:" >&2
+            grep -E '✗' "$SUITE_LOG" | sed 's/^/    /' >&2 || true
+            echo "  log completo preservado em: ${SUITE_LOG}" >&2
+            exit 1
+        fi
     else
         echo "sem suite em $NEW_REL/guards/tests — exuvia sem prova nao passa." >&2
         exit 1

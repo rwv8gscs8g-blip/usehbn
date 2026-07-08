@@ -1,14 +1,25 @@
 ---
-knowledge-id: 0029
 titulo: Lei da Submissao pelo Exemplo — o orquestrador obedece o proximo_ponto e cumpre as barreiras pelo exemplo
+tipo: knowledge
 status: accepted
 temperatura: quente
-path: versao_3_0_0/.hbn/knowledge/0029-lei-submissao-pelo-exemplo.md
+path: .hbn/knowledge/0029-lei-submissao-pelo-exemplo.md
+created_at: "2026-07-05T02:30:00-03:00"
+autor: fable-5
+familia: Anthropic
+natureza: migrado
+migrado_de: v0.3.x
+id_original: 0029
+created_at_original: 2026-06-20T00:00:00-03:00
+autor_original: fable-5
+transcrito_em: "2026-07-05T02:30:00-03:00"
+transcrito_por: fable-5
+validacao_ref: 0003-proveniencia-livro-razao
+knowledge-id: 0029
 data: 2026-06-20
-origem: handoff Fase C (.hbn/messages/20260620-180000-opus-4-8-handoff-orquestrador-faseC.md) — o orquestrador cessante furou a disciplina (inventou passo paralelo e selagem combinada que o disco nunca declarou); os guards seguraram (main intacta), mas a Lei precisa ser doutrina enforçavel, nao prosa de cartao.
+origem: "handoff Fase C (.hbn/messages/20260620-180000-opus-4-8-handoff-orquestrador-faseC.md) — o orquestrador cessante furou a disciplina (inventou passo paralelo e selagem combinada que o disco nunca declarou); os guards seguraram (main intacta), mas a Lei precisa ser doutrina enforçavel, nao prosa de cartao."
 revisar-em: 2026-12-20
 ---
-
 # 0029 — Lei da Submissao pelo Exemplo (W-LEX)
 
 O orquestrador e o ZELADOR ENFORÇADO: submetido as barreiras PRIMEIRO, mantenedor delas DEPOIS. Ele cumpre a disciplina pelo EXEMPLO; nada do que ele exige dos outros papeis vale menos para ele.

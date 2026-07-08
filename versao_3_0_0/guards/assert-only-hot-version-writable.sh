@@ -25,6 +25,15 @@
 #          shims de raiz que nascem/mudam SO na transicao: README.md,
 #          AGENTS.md (BOOT-LOCK), .hbn/canonical-root, .github/workflows/**
 #          (roteamento de CI) e .cursor/** (interceptacao de escrita).
+#   4b. SHIMS DE RAIZ EM MODO NORMAL (readback 0002 T3, Opcao A endurecida):
+#      README.md, AGENTS.md, .hbn/canonical-root, .github/workflows/** e
+#      .cursor/** sao IMUTAVEIS em dev normal, SALVO autorizacao humana
+#      explicita {tipo: hot-write-root-shim, paths: [<path exato>]} no JSON
+#      referenciado pelo STATE (mesmo rito da regra 4). Default = BLOCK.
+#   4c. ANTI-REGRESSAO DE PONTEIRO (readback 0002 T6 / parecer grok furo 5):
+#      no genoma, trocar .hbn/active-version de versao_X_Y_Z para "." e
+#      BLOQUEADO sem excecao — a delegacao project-mode vale apenas para
+#      consumidores que JA nascem com ponteiro ".".
 #   5. AUTO-PROTECAO: se o proprio script deste guard (na versao ativa) esta
 #      staged para modificacao/exclusao sem a mesma autorizacao de transicao
 #      (tipo: hot-write-guard-change cobrindo o path exato), BLOCK.
@@ -33,7 +42,7 @@
 #
 # Caso especial honesto: active-version == "." (consumidores em project-mode)
 # nao tem pasta quente separada — o guard registra OK e delega ao perfil do
-# consumidor. No genoma pos-exuvia o ponteiro nunca volta a ".".
+# consumidor. No genoma pos-exuvia o ponteiro nunca volta a "." (regra 4c).
 #
 # Posicao no runner: PRIMEIRO guard do pre-commit (antes de qualquer outro).
 # Teste negativo: guards/tests/run-guard-tests.sh (secao G-HOT-WRITE).
@@ -150,6 +159,13 @@ if [[ -n "$OLD_REL" && "$OLD_REL" != "$NEW_REL" ]]; then
 fi
 
 if [[ "$NEW_REL" == "." ]]; then
+    # Regra 4c (readback 0002): regressao versao_X_Y_Z -> "." e BLOQUEADA.
+    # A delegacao project-mode so vale quando o baseline JA era "." (ou nao
+    # existe baseline — genese de consumidor).
+    if [[ -n "$OLD_REL" && "$OLD_REL" != "." ]]; then
+        guard_fail "REGRESSAO DE PONTEIRO PROIBIDA: .hbn/active-version nao pode voltar de '${OLD_REL}' para '.'. No genoma pos-exuvia a versao quente e sempre versao_X_Y_Z; regressao para a raiz reabriria a classe de erro C2/L3 (relatorio 20260705-001142). Sem excecao."
+        exit 1
+    fi
     guard_ok "active-version='.' (project-mode/incumbente): sem pasta quente separada, G-HOT-WRITE delega ao perfil. No genoma pos-exuvia o ponteiro deve apontar para versao_X_Y_Z."
     exit 0
 fi
@@ -233,7 +249,7 @@ transition_authorized() { # <tipo> [path-extra]
     # shellcheck disable=SC2064
     trap "rm -f '$state_tmp' '$auth_tmp'" RETURN
     git show "$(current_blob_ref "$state_repo")" > "$state_tmp" 2>/dev/null || return 1
-    auth_ref="$(state_authorization_ref "$state_tmp" 'hot[-_]write[-_](exuvia|guard[-_]change)')" || return 1
+    auth_ref="$(state_authorization_ref "$state_tmp" 'hot[-_]write[-_](exuvia|guard[-_]change|root[-_]shim)')" || return 1
     case "$auth_ref" in
         /*|*..*|*\\*|"") return 1 ;;
     esac
@@ -337,6 +353,22 @@ while IFS=$'\t' read -r st f extra; do
             esac
         fi
 
+        # Regra 4b (readback 0002): shim de raiz em MODO NORMAL so muda com
+        # autorizacao humana explicita hot-write-root-shim cobrindo o path
+        # exato. Default fail-closed (mesmo comportamento anterior: BLOCK).
+        if [[ "$EXUVIA_MODE" -ne 1 ]]; then
+            case "$p" in
+                README.md|AGENTS.md|.hbn/canonical-root|.github/workflows/*|.cursor/*)
+                    if transition_authorized "hot-write-root-shim" "$p"; then
+                        continue
+                    fi
+                    VIOLATIONS+=("[$st] $p  (shim de raiz imutavel em dev normal — regra 4b: exige hot-write-root-shim no STATE + JSON confirmed cobrindo o path exato)")
+                    FAIL=1
+                    continue
+                    ;;
+            esac
+        fi
+
         VIOLATIONS+=("[$st] $p")
         FAIL=1
     done
@@ -359,6 +391,7 @@ if [[ "$FAIL" -ne 0 ]]; then
     done
     echo "" >&2
     echo "  Allowlist de raiz: .gitignore | .hbn/relay/STATE.md | .hbn/hearbacks/** | .hbn/active-version (so exuvia autorizada)" >&2
+    echo "  Shims de raiz (README.md, AGENTS.md, .hbn/canonical-root, .github/workflows/**, .cursor/**): so em exuvia autorizada OU com hot-write-root-shim confirmado (regra 4b)" >&2
     echo "  Como corrigir: git restore --staged <path> e reescreva o artefato sob ${HOT_PREFIX}" >&2
     exit 1
 fi

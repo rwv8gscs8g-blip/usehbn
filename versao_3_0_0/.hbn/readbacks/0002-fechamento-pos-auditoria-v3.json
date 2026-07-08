@@ -1,0 +1,71 @@
+{
+  "titulo": "Fechamento pós-auditoria v3.0.0: corrigir bloqueadores Grok + membrana + exúvia atômica + handoff Opus",
+  "tipo": "readback",
+  "status": "confirmed",
+  "temperatura": "quente",
+  "path": ".hbn/readbacks/0002-fechamento-pos-auditoria-v3.json",
+  "created_at": "2026-07-05T20:24:51-03:00",
+  "autor": "fable-5",
+  "familia": "Anthropic",
+  "natureza": "nativo",
+  "readback_id": "0002-fechamento-pos-auditoria-v3",
+  "execution_id": "fechamento-pos-auditoria-v3-0-0",
+  "agent_id": "fable-5",
+  "papel": "implementador",
+  "track": "safe_track",
+  "human_status": "confirmed",
+  "read_list_rite": "Despacho 20260705-185849 (grok) + GATE-DECRETO 20260703-000500 + relatório crítico 20260705-001142 + BOOT.md §0 + TRANSICAO.md + ROADMAP.md + readback 0001 + pareceres 20260705-174859 (grok, NAO) e 20260705-183900 (antigravity, SIM) + guards/assert-only-hot-version-writable.sh + scripts/hbn-exuvia-atomic.sh + scripts/hbn-upgrade-snapshot.sh — lidos do disco",
+  "authorization": {
+    "human": "Maurício",
+    "evidence": "PENDENTE — o gate confirma este readback (human_status: confirmed) antes de qualquer commit. Nenhuma IA commita.",
+    "rito": "confirmação deste arquivo pelo gate + commit único executado pelo operador humano com runner verde"
+  },
+  "excecoes_cobertas": [
+    {
+      "tipo": "hot-write-guard-change",
+      "paths": [
+        "guards/assert-only-hot-version-writable.sh"
+      ],
+      "justificativa": "T3 (parecer Grok furo 3/5): alinhar allowlist única (Opção A endurecida — raiz mínima em dev normal; shims de raiz só sob autorização hot-write-root-shim rastreável) e fechar o escape de regressão do ponteiro para '.' no genoma (furo 5). Sem enfraquecer o default fail-closed."
+    },
+    {
+      "tipo": "hot-write-root-shim",
+      "paths": [
+        "AGENTS.md",
+        ".cursor/hooks/hbn-boot-lock.sh"
+      ],
+      "justificativa": "T3: alinhar as camadas client-side (hook Cursor) e doutrinária (AGENTS.md) à allowlist estrita do G-HOT-WRITE. Estes dois arquivos de raiz mudam SÓ nesta transição autorizada."
+    }
+  ],
+  "scope": {
+    "_nota": "Lista fechada, no referencial da versao ativa (G-SCO avalia paths sem o prefixo versao_3_0_0/; shims de raiz ficam no referencial da raiz). Escrita confinada a versao_3_0_0/ exceto os dois shims de raiz cobertos pela excecao hot-write-root-shim acima. Glacier (versao_0_3_x/, versao_2_0_0/) intocado. .hbn/active-version intocado (commit em modo normal).",
+    "files_allowed": [
+      ".hbn/readbacks/0002-fechamento-pos-auditoria-v3.json",
+      ".hbn/messages/20260705-202451-fable-5-handoff-opus-credenciamento-v206.md",
+      "scripts/hbn-exuvia-atomic.sh",
+      "guards/tests/run-guard-tests.sh",
+      "guards/assert-only-hot-version-writable.sh",
+      "BOOT.md",
+      "AGENTS.md",
+      ".cursor/hooks/hbn-boot-lock.sh",
+      "REGISTRY.md",
+      ".hbn/relay/STATE.md",
+      ".hbn/results/20260705-140000-grok-cross-ia-0001.md",
+      ".hbn/results/20260705-141500-antigravity-cross-ia-0001.md",
+      ".hbn/archive/PLACEHOLDER-20260705-140000-grok-cross-ia-0001.md",
+      ".hbn/archive/PLACEHOLDER-20260705-141500-antigravity-cross-ia-0001.md",
+      ".hbn/knowledge/0033-exuvia-sandbox-exige-head-completo.md",
+      ".hbn/knowledge/0034-proposta-revogacao-bypass-guards-nao-estruturais.md",
+      ".hbn/knowledge/INDEX.md",
+      ".hbn/stray-allowlist",
+      ".hbn/results/*-cross-ia-0002.md"
+    ],
+    "files_forbidden": []
+  },
+  "evidencias": {
+    "preflight": "pwd=/Users/macbookpro/Projetos/usehbn; HEAD=a2eb6f2; active-version=versao_3_0_0; untracked: 2 pareceres reais + .hbn/messages/",
+    "diagnostico_t1": "Suíte reproduzida em sandbox de exúvia (clone HEAD + cp v3→v4 + flip + freeze + git add -A): falha determinística = check 'readlist: alvos version-aware sem referência quebrada' porque .hbn/messages/ é citada no BOOT/core mas não existe no HEAD (só untracked na working tree). Clone de exúvia nasce sem a pasta → SUITE-VERMELHA.",
+    "suite_de_testes": "versao_3_0_0/guards/tests/run-guard-tests.sh — seções novas desta onda: G-READLIST-TRACKED (citação deve existir no índice/HEAD, não só no disco) e G-HOT-WRITE root-shim + anti-regressão de ponteiro para '.'"
+  },
+  "implementador_id": "fable-5"
+}

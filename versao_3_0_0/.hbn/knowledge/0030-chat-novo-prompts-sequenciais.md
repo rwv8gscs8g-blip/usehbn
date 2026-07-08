@@ -1,14 +1,25 @@
 ---
-knowledge-id: 0030
-titulo: Chat novo sem memoria exige prompt autocontido, sequencial e com preflight fail-closed
+titulo: "Chat novo sem memoria exige prompt autocontido, sequencial e com preflight fail-closed"
+tipo: knowledge
 status: accepted
 temperatura: quente
-path: versao_3_0_0/.hbn/knowledge/0030-chat-novo-prompts-sequenciais.md
+path: .hbn/knowledge/0030-chat-novo-prompts-sequenciais.md
+created_at: "2026-07-05T02:30:00-03:00"
+autor: fable-5
+familia: Anthropic
+natureza: migrado
+migrado_de: v0.3.x
+id_original: 0030
+created_at_original: 2026-06-30T00:00:00-03:00
+autor_original: fable-5
+transcrito_em: "2026-07-05T02:30:00-03:00"
+transcrito_por: fable-5
+validacao_ref: 0003-proveniencia-livro-razao
+knowledge-id: 0030
 data: 2026-06-30
 origem: onda 0107-KNOW-PROMPT-CHAIN — o orquestrador entregou prompts de implementacao e auditoria em lote; auditores em chat novo auditaram o disco antes de existir implementacao e reprovaram corretamente.
 revisar-em: 2026-12-30
 ---
-
 # 0030 — prompts externos sao sequenciais, autocontidos e fail-closed
 
 ## A regra

@@ -70,13 +70,14 @@ if active == ".":
 ALLOW_PREFIXES = (
     active + "/",
 )
+# Allowlist ESTRITA, espelho exato do G-HOT-WRITE em modo normal (readback
+# 0002 T3, Opcao A): shims de raiz (README.md, AGENTS.md, .hbn/canonical-root,
+# .hbn/active-version, .github/workflows/**, .cursor/**) NAO sao escreviveis
+# por agente em dev normal — mudam so em exuvia autorizada ou em commit com
+# autorizacao hot-write-root-shim, executado pelo operador humano.
 ALLOW_EXACT = {
     ".gitignore",
-    ".hbn/active-version",
-    ".hbn/canonical-root",
     ".hbn/relay/STATE.md",
-    "README.md",
-    "AGENTS.md",
 }
 ALLOW_DIR_PREFIXES = (
     ".hbn/hearbacks/",
@@ -107,8 +108,10 @@ if violations:
         "agent_message": (
             f"BOOT-LOCK (BOOT.md §0): a versao quente ativa e '{active}'. "
             f"Escreva o artefato sob '{active}/' (paths negados: {listed}). "
-            "Allowlist de raiz: .gitignore, .hbn/active-version, .hbn/canonical-root, "
-            ".hbn/relay/STATE.md, .hbn/hearbacks/**, README.md, AGENTS.md."
+            "Allowlist de raiz: .gitignore, .hbn/relay/STATE.md, .hbn/hearbacks/**. "
+            "Shims de raiz (README.md, AGENTS.md, .hbn/active-version, .hbn/canonical-root, "
+            ".github/workflows/**, .cursor/**) so mudam em exuvia autorizada ou commit "
+            "hot-write-root-shim do operador humano."
         ),
     }))
     sys.exit(0)

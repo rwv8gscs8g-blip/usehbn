@@ -5,3 +5,7 @@
 # hardcoded de `backups` no find, que os auditores apontaram como vetor
 # de ocultação (0036 P4 / 0037 P4); agora é explícita e auditável.
 */backups/*
+# Glacier da terceira exúvia (readback 0002, hearback do gate): fixtures de
+# auditoria CONGELADAS do v0.3.x carregam .hbn de teste sem .git ao lado.
+# Glacier é read-only (G-HOT-WRITE); não é escrita solta operacional.
+*/versao_0_3_x/.tmp-audit/*

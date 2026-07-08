@@ -1,13 +1,14 @@
 ---
-titulo: "TRANSICAO — por que a terceira exúvia (v3.0.0) existe"
+titulo: TRANSICAO — por que a terceira exúvia (v3.0.0) existe
+tipo: spec
 status: ativo
 temperatura: quente
-path: versao_3_0_0/TRANSICAO.md
+path: TRANSICAO.md
 created_at: "2026-07-05T02:30:00-03:00"
 autor: fable-5
 familia: Anthropic
+natureza: nativo
 ---
-
 # TRANSICAO — a terceira exúvia
 
 ## O fato
@@ -45,7 +46,7 @@ Prova documental (leitura obrigatória, fora do genoma):
 
 ## O que foi preservado
 
-- `versao_0_3_x/` — todo o exoesqueleto v0.3.x da raiz (Honest Foundation),
+- `versao_0_3_x/` — histórico: todo o exoesqueleto v0.3.x da raiz (Honest Foundation),
   movido inteiro, congelado (`status: congelado`, `temperatura: glacier`).
   Inclui os artefatos de sessão não-commitados (`.hbn/` operacional), para
   auditoria — nada foi apagado.

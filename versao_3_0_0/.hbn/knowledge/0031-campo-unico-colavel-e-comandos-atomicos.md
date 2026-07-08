@@ -1,14 +1,25 @@
 ---
-knowledge-id: 0031
 titulo: Campo unico colavel e comandos atomicos para prompts externos
+tipo: knowledge
 status: accepted
 temperatura: quente
-path: versao_3_0_0/.hbn/knowledge/0031-campo-unico-colavel-e-comandos-atomicos.md
+path: .hbn/knowledge/0031-campo-unico-colavel-e-comandos-atomicos.md
+created_at: "2026-07-05T02:30:00-03:00"
+autor: fable-5
+familia: Anthropic
+natureza: migrado
+migrado_de: v0.3.x
+id_original: 0031
+created_at_original: 2026-06-30T00:00:00-03:00
+autor_original: fable-5
+transcrito_em: "2026-07-05T02:30:00-03:00"
+transcrito_por: fable-5
+validacao_ref: 0003-proveniencia-livro-razao
+knowledge-id: 0031
 data: 2026-06-30
-origem: onda 0109-correcao-prompt-g-state - prompt externo com cercas de codigo internas foi colado incompleto no Grok, tornando o resultado nao confiavel para quorum.
+origem: "onda 0109-correcao-prompt-g-state - prompt externo com cercas de codigo internas foi colado incompleto no Grok, tornando o resultado nao confiavel para quorum."
 revisar-em: 2026-12-30
 ---
-
 # 0031 - campo unico colavel e comandos atomicos
 
 ## Regra

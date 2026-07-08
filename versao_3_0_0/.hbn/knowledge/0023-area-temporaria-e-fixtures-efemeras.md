@@ -1,14 +1,25 @@
 ---
-knowledge-id: 0023
 titulo: Fixtures efêmeras fora de paths governados; área temporária segura
+tipo: knowledge
 status: accepted
 temperatura: quente
-path: versao_3_0_0/.hbn/knowledge/0023-area-temporaria-e-fixtures-efemeras.md
+path: .hbn/knowledge/0023-area-temporaria-e-fixtures-efemeras.md
+created_at: "2026-07-05T02:30:00-03:00"
+autor: fable-5
+familia: Anthropic
+natureza: migrado
+migrado_de: v0.3.x
+id_original: 0023
+created_at_original: 2026-06-16T00:00:00-03:00
+autor_original: fable-5
+transcrito_em: "2026-07-05T02:30:00-03:00"
+transcrito_por: fable-5
+validacao_ref: 0003-proveniencia-livro-razao
+knowledge-id: 0023
 data: 2026-06-16
 origem: onda S3.1 (readback 0029) — o orquestrador criou uma knowledge-fantasma para provar o G-KNOW-INDEX e não conseguiu apagá-la (sandbox não faz unlink no mount)
 revisar-em: 2026-12-16
 ---
-
 # 0023 — não crie descartável em path governado
 
 Toda IA que precise de arquivo **efêmero** (fixture de teste, prova de

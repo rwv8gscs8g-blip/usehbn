@@ -1,13 +1,21 @@
 ---
 titulo: "07 — Projetos e membrana: como o protocolo governa software real"
+tipo: spec
 status: ativo
 temperatura: quente
-path: versao_3_0_0/core/07-projetos-membrana.md
-created_at: "2026-07-01T19:44:00-03:00"
+path: core/07-projetos-membrana.md
+created_at: "2026-07-05T02:30:00-03:00"
 autor: fable-5
 familia: Anthropic
+natureza: migrado
+migrado_de: versao_2_0_0
+id_original: core/07-projetos-membrana.md
+created_at_original: "2026-07-01T19:44:00-03:00"
+autor_original: fable-5
+transcrito_em: "2026-07-05T02:30:00-03:00"
+transcrito_por: fable-5
+validacao_ref: 0003-proveniencia-livro-razao
 ---
-
 # 07 — Projetos e membrana
 
 Consolida a proposta-ponte v2 (selada via 0097 no v0.3.x) e o aprendizado do
