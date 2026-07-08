@@ -1,0 +1,65 @@
+{
+  "type": "cross-ia-audit",
+  "status": "final",
+  "path": ".hbn/results/0033-cross-ia-antigravity-fix-orquestracao-start.json",
+  "markdown_path": ".hbn/results/0033-cross-ia-antigravity-fix-orquestracao-start.md",
+  "auditor": {
+    "agent": "antigravity-gemini",
+    "family": "Google",
+    "role": "auditor_cruzado"
+  },
+  "scope": {
+    "adr": "methodology/adr/ADR-024-orquestracao-start.md",
+    "specs": [
+      "core/start-rite-spec.md",
+      "core/pointer-spec.md",
+      "core/state-report-spec.md",
+      "core/orchestrator-profile-spec.md"
+    ],
+    "guards": [
+      "guards/assert-start-cast.sh",
+      "guards/assert-parallel-id.sh",
+      "guards/assert-pointer-honest.sh",
+      "guards/assert-report-fresh.sh"
+    ],
+    "tests": "guards/tests/run-guard-tests.sh"
+  },
+  "preflight": {
+    "cwd": "/Users/macbookpro/Projetos/usehbn",
+    "git_status_short": "",
+    "head": "603805e checkpoint(protocol): ADR-024 fix 3 FORTE (G-NUM token exato, G-RLT heading capsula, start rito≠CLI) + marginais — suite 63 — proposed, fora do runner"
+  },
+  "test_execution": {
+    "canonical_repo_mutated": false,
+    "tmp_clone": "/Users/macbookpro/Projetos/usehbn/tmp_sandbox",
+    "command": "bash guards/tests/run-guard-tests.sh",
+    "exit_code": 0,
+    "summary": "63 passaram, 0 falharam"
+  },
+  "verdict": {
+    "veto_adocao": false,
+    "summary": "Todos os 3 findings FORTE anteriores foram plenamente corrigidos. A suite oficial de 63/63 testes passa e a adocao e recomendada.",
+    "counts": {
+      "bloqueador": 0,
+      "forte": 0,
+      "marginal": 0,
+      "total": 0
+    }
+  },
+  "findings": [],
+  "positive_checks": [
+    "G-NUM isola tokens de agentes por igualdade exata e impede bypass por prefixo (alpha-1 vs alpha).",
+    "G-NUM valida a correspondencia de datas YYYYMMDD para IDs seriais (AAAAMMDD-NN) contra o created_at do REGISTRY.",
+    "G-RLT exige a correspondencia exata da secao ## Decisoes informais (capsula) e possui parser de chapeu robusto.",
+    "G-PTR ignora ponteiros HBN em code fences markdown, evitando falsos positivos.",
+    "ADR-024 e start-rite-spec explicitam a CLI como rito declarativo, sanando desalinhamentos."
+  ],
+  "anti_bias": {
+    "B1": "Artefatos e guardas examinados diretamente.",
+    "B2": "Suite executada e comprovada em 63/63 checks verdes.",
+    "B3": "Cenarios adversos simulados de forma independente em sandbox interna.",
+    "B4": "Ausencia de findings separada da analise de riscos antropologicos.",
+    "B5": "Parecer emitido de forma autonoma sem leitura do parecer do outro auditor (Codex) desta rodada.",
+    "B6": "Veto removido apos confirmacao mecanica e analitica da resolucao dos gaps."
+  }
+}

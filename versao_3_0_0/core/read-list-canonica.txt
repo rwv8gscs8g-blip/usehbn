@@ -1,0 +1,36 @@
+# ---HBN-FRONT-MATTER-BEGIN---
+# titulo: G-ORQ-ENTRADA — read-list canonica para bastao de orquestrador
+# tipo: spec
+# status: ativo
+# temperatura: quente
+# path: core/read-list-canonica.txt
+# created_at: 2026-07-05T02:30:00-03:00
+# autor: fable-5
+# familia: Anthropic
+# natureza: migrado
+# migrado_de: versao_2_0_0
+# id_original: core/read-list-canonica.txt
+# created_at_original: 2026-07-05T02:30:00-03:00
+# autor_original: fable-5
+# transcrito_em: 2026-07-05T02:30:00-03:00
+# transcrito_por: fable-5
+# validacao_ref: 0003-proveniencia-livro-razao
+# ---HBN-FRONT-MATTER-END---
+# G-ORQ-ENTRADA — read-list canonica para bastao de orquestrador (useHBN v2).
+# Formato:
+#   <blob_hash_sha1> <path>
+#   DYNAMIC <campo_do_STATE>
+# ATENCAO (bootstrap): os hashes abaixo estao como PENDENTE_REHASH e DEVEM ser
+# regenerados (git hash-object <path>) na onda nata 3 do desafiante, ANTES do
+# primeiro bastao de orquestrador nesta versao. G-READLIST-RITE exige readback
+# staged com read_list_rite ao alterar este arquivo.
+
+PENDENTE_REHASH BOOT.md
+PENDENTE_REHASH .hbn/relay/STATE.md
+DYNAMIC handoff_mais_recente
+DYNAMIC readback_ativo
+PENDENTE_REHASH core/02-papeis.md
+PENDENTE_REHASH core/03-rito-da-onda.md
+PENDENTE_REHASH .hbn/knowledge/0001-comandos-atomicos-copiaveis.md
+PENDENTE_REHASH .hbn/knowledge/0024-orquestrador-nao-sela-zona-livre-sem-aprovacao.md
+PENDENTE_REHASH .hbn/knowledge/0025-auditor-read-only-sem-no-verify.md

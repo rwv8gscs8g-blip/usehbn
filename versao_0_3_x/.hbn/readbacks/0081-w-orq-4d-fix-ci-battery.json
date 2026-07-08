@@ -1,0 +1,50 @@
+{
+  "readback_id": "0081-w-orq-4d-fix-ci-battery",
+  "execution_id": "w-orq-4d-fix-ci-battery-2026-06-21",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "implemented_pending_cross_audit",
+  "activation_status": "PROPOSED_UNTIL_CROSS_AUDIT",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0081-w-orq-4d-fix-ci-battery.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260621-060000-opus-4-8-despacho-w-orq-4d-fix-ci-battery.md",
+  "understanding": "Corrigir G-CI-BATTERY (guards/assert-ci-battery.sh) apos reprovacao do cross-audit (antigravity APROVA_0080: NAO): substituir grep de substring por verificacao de INVOCACAO REAL (bash <script> como comando de passo run, apos remover comentario inline e excluindo echo/aspas). Adicionar adversarial B85 (bypass comentario) e B86 (bypass echo), ambos BLOQUEIAM. Implementacao: regenerar atestacao same-fp, parar para re-cross-audit != OpenAI, NAO selar.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Despacho W-ORQ-4d-fix de 2026-06-21T06:00:00-03:00 sob token_fp 34a7f2f9, motivado pela reprovacao em .hbn/results/20260621-053000-antigravity-cross-ia-w-orq-4d-0080.md; parar para re-cross-audit != OpenAI.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      "guards/assert-ci-battery.sh",
+      "guards/tests/run-guard-tests.sh",
+      "guards/tests/adversarial-battery.sh",
+      ".hbn/messages/20260621-060000-opus-4-8-despacho-w-orq-4d-fix-ci-battery.md",
+      ".hbn/readbacks/0081-w-orq-4d-fix-ci-battery.json",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": [
+      "main",
+      "core/**",
+      "methodology/**",
+      "schemas/**",
+      "src/**",
+      "docs/brainstorm/**",
+      ".hbn/freeze/**",
+      "guards/data/**",
+      "guards/hbn-guards-runner.sh",
+      ".github/workflows/**"
+    ]
+  },
+  "stop_condition": "Entrega 0081 (W-ORQ-4d-fix) em commit unico; parar para re-cross-audit != OpenAI. NAO selar. NAO iniciar Despromocao-P6/W-FREEZE.",
+  "HBN-Readback": "0081",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-21T06:00:00-03:00",
+  "protocol_version": "0.3.0"
+}

@@ -1,0 +1,52 @@
+---
+titulo: HBN Knowledge Base
+tipo: knowledge-index
+status: accepted
+temperatura: quente
+path: .hbn/knowledge/INDEX.md
+created_at: "2026-07-05T02:30:00-03:00"
+autor: fable-5
+familia: Anthropic
+natureza: migrado
+migrado_de: v0.3.x
+id_original: .hbn/knowledge/INDEX.md
+created_at_original: "2026-07-05T02:30:00-03:00"
+autor_original: fable-5
+transcrito_em: "2026-07-05T02:30:00-03:00"
+transcrito_por: fable-5
+validacao_ref: 0003-proveniencia-livro-razao
+---
+# HBN Knowledge Base
+
+Indice vivo das licoes reutilizaveis entre IAs. Este arquivo e ponteiro:
+liste a entrada e o uso; nao replique o conteudo da knowledge.
+
+| Entrada | Status | Temperatura | Uso |
+|---|---|---|---|
+| `0001-comandos-atomicos-copiaveis.md` | accepted | quente | Comandos ao humano em blocos atomicos, copiaveis e sem comentarios inline. |
+| `0002-entrega-operacional-minimalista.md` | accepted | quente | Entrega ao operador com comando unico, expectativa e fallback. |
+| `0003-git-sandbox-sem-lock.md` | accepted | quente | Leitura git em sandbox sem criar `index.lock` no repo canonico. |
+| `0019-severidades-veto.md` | accepted | quente | Severidades de auditoria, veto por BLOQUEADOR e checklist anti-vies. |
+| `0022-firewall-workflow-fast-track.md` | accepted | quente | Firewall de escrita: workflows fast_track e dominio safe_track humano-aplicado. |
+| `0023-area-temporaria-e-fixtures-efemeras.md` | accepted | quente | Fixtures efemeras fora de paths governados; usar tmp da sessao ou area temporaria oficial protegida. |
+| `0024-orquestrador-nao-sela-zona-livre-sem-aprovacao.md` | accepted | quente | Zona livre nao entra em commit/selagem sem aprovacao humana explicita por arquivo. |
+| `0025-auditor-read-only-sem-no-verify.md` | accepted | quente | Auditor cruzado fica read-only; commit de fixture com --no-verify so em branch descartavel e limpa. |
+| `0026-auto-id-auditor-gate-enforcado.md` | accepted | quente | Auto-ID e familia do auditor viram gate enforcado antes de contar parecer na diversidade. |
+| `0027-trailers-contiguos-independente-de-excecao.md` | accepted | quente | G-TRAILERS exige os 3 trailers HBN contiguos em todo commit governado, independente de implementador no STATE. |
+| `0028-diversidade-familia-enforced-selagem.md` | accepted | quente | G-DIVERSITY exige >=2 familias distintas != implementador com APROVA SIM na selagem. |
+| `0029-lei-submissao-pelo-exemplo.md` | accepted | quente | Lei da Submissao pelo Exemplo: orquestrador obedece o proximo_ponto, um passo/bloco por vez, para em guard, mecanica ao codex, ratificacao >=2 familias != implementador + gate humano. |
+| `0030-chat-novo-prompts-sequenciais.md` | accepted | quente | Chat novo sem memoria exige prompt autocontido, sequencial, com preflight fail-closed e um bloco HBN-COPY por passo. |
+| `0031-campo-unico-colavel-e-comandos-atomicos.md` | accepted | quente | Prompt externo deve caber em campo unico colavel, sem cercas Markdown internas, e comandos devem ser atomicos. |
+| `0032-prompts-autocontidos-output-canonico.md` | accepted | quente | Prompt para IA externa deve ser autocontido, declarar saida canonica em disco e nao depender de contexto anterior. |
+| `0033-exuvia-sandbox-exige-head-completo.md` | accepted | quente | Sandbox de exuvia nasce do HEAD: citacao untracked-only e bomba silenciosa; validar contra o conjunto TRACKED (readlist-tracked) e nunca engolir log de suite. |
+| `0034-proposta-revogacao-bypass-guards-nao-estruturais.md` | proposto | quente | PROPOSTA (aguarda gate): revogar HBN_GUARDS_BYPASS nos guards nao estruturais; rota unica de excecao = G-EXC. |
+| `distribution-model.md` | decisao atual | — | Distribuicao fase 2, bootstrap local e adapters de runtime. |
+| `relay-protocol.md` | decisao atual | — | Continuidade de bastao e uso dos arquivos de relay. |
+| `runtime-command-model.md` | decisao atual | — | `hbn` como CLI operacional primario e `usehbn` como compatibilidade. |
+
+## Convencoes
+
+- Nomeie arquivos numerados como `0001-assunto.md`, `0002-assunto.md` e assim por diante.
+- Registre apenas descobertas reutilizaveis entre IAs.
+- Nao use a knowledge base para historico operacional de curto prazo.
+- Toda entrada `.hbn/knowledge/*.md`, exceto este `INDEX.md`, deve aparecer citada aqui.

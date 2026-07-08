@@ -1,0 +1,87 @@
+{
+  "readback_id": "0013-s0-rollback-perfis-index",
+  "execution_id": "S0-rollback-perfis-index-2026-06-14",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "completed",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0013-s0-rollback-perfis-index.json",
+  "understanding": "Executar a onda S0 como correcoes aditivas/corretivas sobre o scaffold inativo M-A: corrigir o bug D3 do rollback sem mudar guard logic, criar perfis grok e cursor, reconciliar INDEX com STATE atual, remover fixtures untracked e registrar handoff/result/STATE. Nao tocar main, core, src, examples, inbox, site nem guards.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio aprovou esta onda S0 em 2026-06-14: 'vamos rodar o S0 sozinho'; aprovou criar perfis Grok e Cursor como familia nova de validacao.",
+    "note": "Autorizacao humana para safe_track S0; nao autoriza S1/scope-lock, mudancas em guards ou merge em main."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0013-s0-rollback-perfis-index.json",
+      ".hbn/messages/20260614-222107-codex-handoff-s0.md",
+      ".hbn/results/20260614-222107-codex-s0-rollback-perfis-index.md",
+      ".hbn/relay/STATE.md",
+      ".hbn/relay/INDEX.md",
+      "REGISTRY.md",
+      "scripts/hbn-exuvia-rollback.sh",
+      "scripts/tests/**",
+      ".hbn/models/grok.json",
+      ".hbn/models/cursor.json"
+    ],
+    "files_forbidden": [
+      "src/**",
+      "examples/**",
+      "inbox/**",
+      "site/**",
+      "core/**",
+      "guards/assert-*.sh",
+      "guards/hbn-guards-runner.sh",
+      "guards/lib/**",
+      ".hbn/hearbacks/**"
+    ]
+  },
+  "invariants_to_preserve": [
+    "Nao alterar logica de guard nesta onda; endurecimento de scope-lock fica para S1.",
+    "Nao commitar em main; trabalhar somente no branch proposta/M-A-scaffold-inativo.",
+    "Nao usar --no-verify, bypass-hbn-guards ou auto-emenda de readback para ampliar escopo.",
+    "Nao inventar historico no INDEX; reconciliar com o STATE lido do disco.",
+    "Cross-audit posterior deve excluir familia OpenAI."
+  ],
+  "read_evidence": [
+    ".hbn/relay/STATE.md:5-14",
+    ".hbn/readbacks/0012-M-A-scaffold-inativo.json:17-27",
+    "scripts/hbn-exuvia-rollback.sh:67-81",
+    "scripts/hbn-exuvia-rollback.sh:114-127",
+    "schemas/model-profile.schema.json:18-46",
+    ".hbn/models/gemini-3-5.json:1-22",
+    ".hbn/relay/INDEX.md:3-12",
+    "guards/assert-registry-line.sh:85-135",
+    "guards/assert-parallel-id.sh:125-159",
+    "guards/assert-scope-lock.sh:35-47",
+    "REGISTRY.md:421-445"
+  ],
+  "evidence": {
+    "guard_tests": {
+      "command": "bash guards/tests/run-guard-tests.sh",
+      "exit_code": 0,
+      "output": "== resumo: 132 passaram, 0 falharam ==\nSUÍTE VERDE — todos os casos-ruins BLOQUEADOS, todos os casos-bons passam."
+    },
+    "adversarial_battery": {
+      "command": "bash guards/tests/adversarial-battery.sh",
+      "exit_code": 0,
+      "output": "B1-B15: todas as burlas documentadas BLOQUEADA ✓\nBATERIA VERDE — toda burla documentada foi BLOQUEADA pelo guard correspondente."
+    },
+    "guard_runner": {
+      "command": "bash guards/hbn-guards-runner.sh",
+      "exit_code": 0,
+      "output": "[hbn-guards] Todos os guards passaram."
+    },
+    "rollback_test": {
+      "command": "bash scripts/tests/test-hbn-exuvia-rollback.sh",
+      "exit_code": 0,
+      "output": "PASS: rollback --apply reconcilia STATE usando active-version do TARGET; --dry-run nao altera o worktree"
+    }
+  },
+  "completed_at": "2026-06-14T22:21:07-03:00",
+  "created_at": "2026-06-14T22:21:07-03:00",
+  "protocol_version": "0.3.0"
+}

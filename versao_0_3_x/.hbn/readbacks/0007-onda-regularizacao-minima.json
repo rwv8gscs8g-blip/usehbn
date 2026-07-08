@@ -1,0 +1,70 @@
+{
+  "readback_id": "0007-onda-regularizacao-minima",
+  "execution_id": "onda-regularizacao-minima-2026-06-13",
+  "agent_id": "claude-fable-5-orquestrador-0007",
+  "track": "safe_track",
+  "status": "in_execution",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0007-onda-regularizacao-minima.json",
+  "understanding": "Regularizacao MINIMA (Path A) pos-adocao da onda 0006 (main em 75d2e9d). Escopo FECHADO: (1) commitar este readback 0007 com linha REGISTRY; (2) commitar os 6 pareceres de cross-audit/re-auditoria que ja existem untracked em .hbn/results/, cada um com sua linha REGISTRY; (3) UM handoff fresco da onda + (4) corrigir o STATE STALE no MESMO commit (par G-RLT) sem baixar a excecao F-01. O desenhista desta onda e o ORQUESTRADOR (agent_id != STATE.implementador 'claude-fable-5'), logo o G-EXC nem dispara; ainda assim mantemos o 🔴 F-01 + PROPOSED_UNTIL_CROSS_AUDIT no STATE por garantia. Os deadlocks B1 (G-RLT x handoffs historicos), B2 (G-REG x G-HRB x hearback numerado) e B3 (G-EXC x baixa da F-01) ficam ADIADOS para uma fase-2 que sera PLANEJADA — nenhuma solucao de guard e improvisada aqui.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Decisao do gate humano em 2026-06-13 (chat de orquestracao): Path A — regularizacao minima agora, com B1/B2/B3 explicitamente adiados para uma fase-2 planejada. A v1 do despacho (carimbo 112502) parou sem commit ao descobrir os 3 deadlocks reais entre o que pedia e os guards instalados pela propria onda 0006; o orquestrador confirmou os deadlocks no disco e Mauricio escolheu o Path A.",
+    "note": "Esta onda NAO e exceção F-01: desenho (orquestrador) != implementacao (claude-fable-5). A nota e mantida para rastreabilidade; o gate de adoção da F-01 da onda 0006 esta SATISFEITO no disco (2 pareceres de familias != Anthropic sem VETO de adoção + cerimônia humana), mas o registro FORMAL (baixa do sinal + hearback ADR-023) fica para a fase-2 por causa de G-EXC/G-HRB/G-REG."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0007-onda-regularizacao-minima.json",
+      "REGISTRY.md",
+      ".hbn/relay/STATE.md",
+      ".hbn/results/20260611-170633-codex-cross-ia-onda-0006.md",
+      ".hbn/results/20260611-172049-gemini-3-5-cross-ia-onda-0006.md",
+      ".hbn/results/20260612-121318-codex-cross-ia-reaudit-onda-0006-v2.md",
+      ".hbn/results/20260612-121713-gemini-3-5-cross-ia-reaudit-onda-0006-v2.md",
+      ".hbn/results/20260613-105957-codex-reaudit-onda-0006-v3.md",
+      ".hbn/results/20260613-111317-gemini-3-5-reaudit-onda-0006-v3.md",
+      ".hbn/messages/20260613-125502-fable-5-handoff-onda-regularizacao-minima.md"
+    ],
+    "files_forbidden": [
+      "src/**",
+      "examples/**",
+      "inbox/**",
+      "site/**",
+      "local-ai/**",
+      "guards/**",
+      ".hbn/hearbacks/**"
+    ]
+  },
+  "invariants_preserved": [
+    "Firewall 0022: nenhuma escrita de dominio/VBA/produto/examples/inbox; esta onda toca apenas REGISTRY, STATE, este readback, 6 pareceres ja existentes e UM handoff.",
+    "NAO tocar guards/: a regularizacao e minima e nao redesenha enforcement (Path A).",
+    "NAO baixar/remover o sinal 🔴 F-01 nem a marca PROPOSED_UNTIL_CROSS_AUDIT (B3/G-EXC adiado).",
+    "NAO commitar os 2 handoffs historicos untracked (122102, 112502) — B1/G-RLT adiado.",
+    "NAO criar hearback numerado — B2/G-REG x G-HRB adiado.",
+    "bastao_token_sha256 e atribuicao.implementador do STATE permanecem intocados (G-TOK e a logica de diferenca do G-EXC dependem deles)."
+  ],
+  "action_plan": [
+    "C1: readback 0007 + 6 pareceres em .hbn/results/ + 7 linhas REGISTRY (6 pareceres + este readback) — registro arquival imutavel.",
+    "C2: handoff fresco + STATE corrigido (par G-RLT atomico) + 1 linha REGISTRY do handoff (exigida pelo G-REG messages-case, assert-registry-line.sh:91).",
+    "Suite guards/tests/run-guard-tests.sh verde antes de entregar a cerimônia.",
+    "Cerimônia de Terminal entregue a Mauricio (Bash 3.2/macOS): git add por path + 2 commits com trailer HBN-Token-FP: 34a7f2f9. O commit e ato do operador no Terminal canonico — o sandbox NAO commita (mount nega unlink, lock preso)."
+  ],
+  "out_of_scope": [
+    "Fase-2 PLANEJADA: B1 (handoff arquival para os 2 historicos sem quebrar G-RLT), B2 (hearback numerado conciliando G-REG x G-HRB), B3 (baixa formal da F-01 -> ADOTADA-NAO-PRECEDENTE + hearback ADR-023).",
+    "Qualquer alteracao em guards/, src/, VBA, examples, inbox, site, local-ai.",
+    "Ponte usehbn<->Credenciamento (segue VETADA por 0034/0035)."
+  ],
+  "residual_risks": [
+    "O commit e no Terminal do operador; o sandbox Cowork nao pode commitar (git lock preso por negacao de unlink no mount). A cerimônia entregue lista paths explicitos — NUNCA 'git add .' (pegaria os handoffs historicos -> B1).",
+    "REGISTRY.md aparece em C1 e C2 (append-only, linhas distintas em cada commit); rollback de C2 nao perde o deposito arquival de C1.",
+    "ultima_atualizacao do STATE e do handoff sao identicas por construcao (par G-RLT); o carimbo reflete o desenho da onda no Terminal, nao o instante exato do commit."
+  ],
+  "classification_basis": {
+    "has_guardian_warnings": false,
+    "has_risks": true,
+    "has_constraints": true
+  },
+  "created_at": "2026-06-13T12:55:02-03:00",
+  "protocol_version": "0.3.0"
+}

@@ -1,0 +1,57 @@
+{
+  "readback_id": "0042-selagem-r1-fix2",
+  "execution_id": "selagem-r1-fix2-2026-06-17",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0042-selagem-r1-fix2.json",
+  "understanding": "Selar R1-fix-2 (readback 0041), ratificado por 2 auditores de familia distinta de OpenAI (grok/xAI APROVA_0041 SIM; antigravity/Google APROVA_0041 SIM), ambos com prova engine-real ANTES/DEPOIS. Tornar tracked os 2 pareceres com linha no REGISTRY e atualizar STATE/handoff. Sem tocar main, src, guards, core, schemas, brainstorm. O dossie de pre-transicao (docs/brainstorm/rodada-2026-06-17/) fica untracked para curadoria humana.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio em 2026-06-17: hearback aprovando a selagem de R1-fix-2 apos duplo APROVA_0041 (grok/xAI + antigravity/Google).",
+    "created_at": "2026-06-17T10:00:00-03:00",
+    "note": "Autorizacao humana para safe_track de selagem. Nao autoriza tocar main, merge, --no-verify, git add ., guards, core, schemas, src, brainstorm."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0042-selagem-r1-fix2.json",
+      ".hbn/results/20260617-085700-antigravity-cross-ia-r1-fix2.md",
+      ".hbn/results/20260617-091000-grok-build-0.1-cross-ia-r1-fix2.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/messages/20260617-HHMMSS-codex-handoff-selagem-r1-fix2.md"
+    ],
+    "files_forbidden": ["main","guards/**","core/**","schemas/**","src/**","docs/brainstorm/**"]
+  },
+  "action_plan": [
+    "C1: abrir readback 0042 + STATE(impl=codex, 🔴).",
+    "C2: selar 2 pareceres + REGISTRY.",
+    "C3: STATE + handoff."
+  ],
+  "invariants_to_preserve": [
+    "Nao tocar main, src, guards, core, schemas, brainstorm.",
+    "Nao usar git add .; somente paths exatos.",
+    "implementador=codex e 🔴 G-EXC PROPOSED no STATE desde C1; trailers CONTIGUOS.",
+    "Antes de cada commit: runner verde; adversarial B1-B33 sem regressao.",
+    "Trailers: HBN-Readback: 0042, HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin), HBN-Token-FP: 34a7f2f9."
+  ],
+  "out_of_scope": [
+    "Promocao da Esteira de Pre-Transicao (onda propria).",
+    "Curadoria do dossie de pre-transicao (zona livre).",
+    "arvores/R2; freeze; habilitar D-ORQ-WRITE."
+  ],
+  "read_evidence": [
+    ".hbn/results/20260617-091000-grok-build-0.1-cross-ia-r1-fix2.md (APROVA_0041 SIM, conf 95)",
+    ".hbn/results/20260617-085700-antigravity-cross-ia-r1-fix2.md (APROVA_0041 SIM, conf 100)"
+  ],
+  "mechanical_evidence": [
+    "git rev-parse HEAD -> dc8d552 (tip R1-fix-2)",
+    "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04",
+    "pytest -> 213 passed (reconfirmado por grok e antigravity com dados engine-reais)"
+  ],
+  "created_at": "2026-06-17T10:00:00-03:00",
+  "protocol_version": "0.3.0"
+}

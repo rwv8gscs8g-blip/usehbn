@@ -1,0 +1,69 @@
+{
+  "readback_id": "0117-nata-0b-harness-readlist-v2",
+  "execution_id": "nata-0b-harness-readlist-v2-0117",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "entregue",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0117-nata-0b-harness-readlist-v2.json",
+  "understanding": "Implementar a onda nata-0b tornando version-aware apenas o bloco Read-list viva do harness: detectar layout v2 por BOOT.md + core/02-papeis.md, usar os alvos canonicos v2 nesse caso, preservar os alvos incumbentes na raiz antiga, aceitar .hbn/active-version quando o ponteiro vive no repo pai durante o bootstrap, manter F-08 como BLOCK, espelhar byte a byte as duas copias do script e parar com staging seletivo para commit humano.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "despacho 20260701-200800 + ordem do gate via orquestrador fable-5 em 2026-07-02"
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0117-nata-0b-harness-readlist-v2.json",
+      "guards/tests/run-guard-tests.sh",
+      "versao_2_0_0/guards/tests/run-guard-tests.sh",
+      "REGISTRY.md"
+    ]
+  },
+  "invariants_preserved": [
+    "As duas copias do harness permanecem identicas byte a byte.",
+    "O bloco read-list continua fail-closed para referencias quebradas; o caso F-08 permanece negativo e bloqueante.",
+    "O layout incumbente mantem os alvos antigos inalterados; o layout v2 usa BOOT.md, core/02-papeis.md, core/03-rito-da-onda.md, core/04-artefatos.md, core/05-guards.md e core/read-list-canonica.txt.",
+    "O skip de .hbn/active-version e restrito ao caso em que o ponteiro existe no repo pai.",
+    "Sem commit, sem --no-verify e sem git add -A; o commit permanece ato do operador humano."
+  ],
+  "action_plan": [
+    "Confirmar o despacho nata-0b em disco e usar o patch de incidente apenas como referencia de conteudo.",
+    "Editar somente o bloco Read-list viva em ambas as copias do harness.",
+    "Validar sintaxe e paridade das duas copias.",
+    "Executar a suite da raiz e a suite de versao_2_0_0, confirmando F-08 como BLOCK nos dois contextos.",
+    "Executar a bateria adversarial nos dois contextos.",
+    "Apender o nascimento do readback 0117 ao REGISTRY.md, limpar apenas efemeros permitidos, fazer staging seletivo e parar."
+  ],
+  "out_of_scope": [
+    "Commit da selagem.",
+    "Alteracoes fora do bloco Read-list viva.",
+    "Aplicacao cega do patch de incidente.",
+    "Staging de qualquer arquivo fora de scope.files_allowed."
+  ],
+  "residual_risks": [
+    "O working tree contem muitos untracked historicos fora do escopo; eles permanecem ignorados nesta onda.",
+    "As validacoes dependem dos guards atuais e da bateria adversarial existente no repositorio."
+  ],
+  "classification_basis": {
+    "has_guardian_warnings": true,
+    "has_risks": true,
+    "has_constraints": true
+  },
+  "validation_plan": {
+    "gates": [
+      "diff -rq guards versao_2_0_0/guards",
+      "cd raiz && bash guards/tests/run-guard-tests.sh -> 274 passaram, 0 falharam",
+      "cd versao_2_0_0 && bash guards/tests/run-guard-tests.sh -> 274 passaram, 0 falharam",
+      "F-08 nos dois contextos -> readlist: referencia quebrada e detectada (F-08) (esperado: block)",
+      "cd raiz && bash guards/tests/adversarial-battery.sh -> BATERIA VERDE",
+      "cd versao_2_0_0 && bash guards/tests/adversarial-battery.sh -> BATERIA VERDE",
+      "git diff --cached --stat"
+    ]
+  },
+  "HBN-Readback": "0117",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "created_at": "2026-07-02T09:04:16-03:00",
+  "protocol_version": "0.3.0"
+}

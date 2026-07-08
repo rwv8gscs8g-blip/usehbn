@@ -1,0 +1,34 @@
+{
+  "readback": "0001",
+  "titulo": "Bootstrap da versao_2_0_0 — 1a exuvia do useHBN",
+  "created_at": "2026-07-01T19:30:00-03:00",
+  "autor": "fable-5",
+  "familia": "Anthropic",
+  "papel": "implementador-da-exuvia",
+  "scope": {
+    "files_allowed": [
+      "versao_2_0_0/**"
+    ],
+    "files_forbidden": [
+      "core/**", "guards/**", "src/**", ".hbn/**", "REGISTRY.md", "STATE.md",
+      "qualquer path fora de versao_2_0_0/ (incumbente intocado)"
+    ]
+  },
+  "understanding": "Construir o exoesqueleto desafiante completo dentro de versao_2_0_0/ conforme o modelo versao=pasta (decisao travada 2026-06-15 §4.1) e o plano ratificado (documento fable-5 20260701-183000, emendado pelo gate humano para intervencao direta): normativa consolidada nova (BOOT+8 specs, orcamento R1), maquinaria herdada sem alteracao (guards/suites/schemas/knowledge), docs de transicao/migracao/fitness, estado proprio. Versao INATIVA ate Fitness Gate.",
+  "read_evidence": [
+    ".hbn/relay/STATE.md do incumbente (estado P2/saneamento) - lido 2026-07-01",
+    "core/hbn-exuvia-scaffold.md:1-93 (mecanica active-version, hooks, rollback)",
+    "guards/hbn-guards-runner.sh:84-120 (array de guards ativos)",
+    "core/exuvia-fitness-criteria.md (8 criterios)",
+    ".hbn/messages/20260701-090000-codex-prompt-handoff-novo-orquestrador-saneamento.md (pausa e invariantes)"
+  ],
+  "excecao_declarada": {
+    "classe": "desenho+implementacao pela mesma familia/agente (analogo F-01)",
+    "autorizacao": "gate humano explicito de Mauricio em 2026-07-01 (chat Cowork): 'corte critico por incapacidade operacional das IAs lerem o contexto'",
+    "compensacao": "quorum ampliado: cross-audit por 4 familias (OpenAI, Google, xAI, Cursor) antes de qualquer selagem; consolidacao por chat arquiteto separado; ativacao vedada ate Fitness Gate",
+    "human_status_desta_excecao": "confirmed_por_chat_pendente_assinatura"
+  },
+  "human_status": "pending",
+  "human": "Mauricio",
+  "proximo": "cross-audit 4 familias -> consolidacao arquiteto -> Fitness Gate -> hearback -> flip do ponteiro"
+}

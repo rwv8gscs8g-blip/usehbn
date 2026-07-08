@@ -1,0 +1,67 @@
+{
+  "readback_id": "0008-doutrina-orquestrador",
+  "execution_id": "onda-0008-doutrina-orquestrador-2026-06-13",
+  "agent_id": "claude-opus-4-8-orquestrador-0008",
+  "track": "safe_track",
+  "status": "in_execution",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0008-doutrina-orquestrador.json",
+  "understanding": "Onda 0008, tempo 1 de uma mudanca de DOUTRINA aprovada pelo gate humano em 2026-06-13 ('Doutrina do orquestrador'). Esta onda ESCREVE uma PROPOSTA (artefato de design) que descreve QUATRO ajustes ao contrato do papel conversacional-orquestrador (core/orchestrator-profile-spec.md, §2 hoje com 6 clausulas): clausula 7 (camada de abstracao para o humano, descendo o P13 da ADR-009 ao comportamento), clausula 8 (modo educativo / construcao de competencia, com tres niveis Basico/Intermediario/Avancado e regras de modo), clausula 9 (roteamento de modelo, a IA certa para a tarefa, base ADR-015) e um refino da clausula 4 (minimalismo de PASSOS, nao de ENTENDIMENTO). NAO se edita a spec nesta onda — a emenda real so vem no tempo 3, depois do cross-audit; adotar a propria proposta sem auditoria externa violaria a clausula 2 do proprio papel (auditoria cruzada, nunca auto-auditoria). O DESENHISTA desta onda e o ORQUESTRADOR (Opus 4.8): agent_id = claude-opus-4-8-orquestrador-0008, distinto DE FATO do STATE.implementador (claude-fable-5); o IMPLEMENTADOR e da familia Fable (token fable-5), familia != orquestrador para manter a separacao desenho/implementacao honesta (anti-F-01, ADR-018) — nao um rotulo para driblar G-EXC. Como agent_id != STATE.implementador, o G-EXC nem dispara; ainda assim mantemos o 🔴 F-01 + PROPOSED_UNTIL_CROSS_AUDIT no STATE (fora do escopo desta onda).",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Decisao do gate humano em 2026-06-13 (chat de orquestracao): aprovada a abertura da mudanca de doutrina do orquestrador ('Doutrina do orquestrador'), tempo 1 = escrever a PROPOSTA com os quatro ajustes; emenda real da spec adiada para o tempo 3 apos cross-audit Codex+Gemini.",
+    "note": "Esta onda NAO e exceção F-01: desenho (orquestrador Opus 4.8) != implementacao (Fable, token fable-5). A separacao de familia e parte da disciplina anti-groupthink (ADR-018), nao um expediente para driblar o G-EXC. A clausula 2 do proprio papel proibe auto-auditoria: por isso a proposta apenas DESCREVE os ajustes e aguarda cross-audit externo antes de qualquer emenda."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0008-doutrina-orquestrador.json",
+      ".hbn/proposals/20260613-212813-fable-5-orquestrador-doutrina-abstracao-educativa-roteamento.md",
+      ".hbn/messages/20260613-212913-fable-5-handoff-onda-0008-doutrina.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md"
+    ],
+    "files_forbidden": [
+      "core/orchestrator-profile-spec.md",
+      "guards/**",
+      "src/**",
+      "examples/**",
+      "inbox/**",
+      "site/**",
+      "local-ai/**",
+      ".hbn/hearbacks/**"
+    ]
+  },
+  "invariants_preserved": [
+    "NAO editar core/orchestrator-profile-spec.md — a emenda real e o tempo 3 (apos cross-audit); incluida em files_forbidden para reforco mecanico (G-SCO).",
+    "Firewall 0022: nenhuma escrita de dominio/VBA/produto/examples/inbox; esta onda toca apenas readback 0008, a proposta, UM handoff, o STATE e o REGISTRY.",
+    "NAO tocar guards/ — doutrina-sem-enforcement (ADR-024 D2); nenhum guard novo nasce desta proposta.",
+    "NAO baixar/remover o sinal 🔴 F-01 nem a marca PROPOSED_UNTIL_CROSS_AUDIT (fora do escopo desta onda — segue a nota da onda 0007).",
+    "NAO commitar os 2 handoffs historicos untracked (20260612-122102, 20260613-112502) — fora do escopo; a cerimonia usa paths explicitos, nunca git add .",
+    "bastao_token_sha256 e atribuicao.implementador do STATE permanecem intocados (G-TOK e a logica de diferenca do G-EXC dependem deles)."
+  ],
+  "action_plan": [
+    "C1: readback 0008 (este) + proposta de doutrina + 2 linhas REGISTRY (readback + proposta).",
+    "C2: handoff fresco + STATE corrigido (par G-RLT atomico) + 1 linha REGISTRY do handoff (messages-case, assert-registry-line.sh:91/:106).",
+    "Suite guards/tests/run-guard-tests.sh verde antes de entregar a cerimonia; re-simulacao manual de G-PAR/G-REG/G-SLF/G-RLT/G-SCO contra os nomes novos.",
+    "Cerimonia de Terminal entregue a Mauricio (zsh-safe): git reset -> git add -f por path explicito -> UM git commit com trailers HBN-Readback: 0008 e HBN-Token-FP: 34a7f2f9. O commit e ato do operador no Terminal canonico — o sandbox NAO commita (mount nega unlink, lock preso)."
+  ],
+  "out_of_scope": [
+    "Tempo 3 (onda futura): emenda real de core/orchestrator-profile-spec.md (clausulas 7/8/9 + refino 4) + hearback, SO apos cross-audit Codex+Gemini limpo.",
+    "Baixa formal da F-01 e demais deadlocks da fase-2 herdada da onda 0007 (B1/B2/B3) — seguem adiados.",
+    "Qualquer alteracao em guards/, src/, VBA, examples, inbox, site, local-ai e na propria spec do orquestrador.",
+    "Ponte usehbn<->Credenciamento (segue VETADA por 0034/0035)."
+  ],
+  "residual_risks": [
+    "O commit e no Terminal do operador; o sandbox Cowork nao pode commitar (git lock preso por negacao de unlink no mount). A cerimonia entregue lista paths explicitos — NUNCA 'git add .' (pegaria os 2 handoffs historicos untracked).",
+    "REGISTRY.md recebe 3 linhas novas (readback, proposta, handoff) em UM unico commit; cada linha com created_at coerente ao HHMMSS do seu id (G-NUM regra 2).",
+    "ultima_atualizacao do STATE e a citada no RELATO do handoff sao identicas por construcao (par G-RLT); o carimbo reflete o desenho da onda, nao o instante exato do commit no Terminal."
+  ],
+  "classification_basis": {
+    "has_guardian_warnings": false,
+    "has_risks": true,
+    "has_constraints": true
+  },
+  "created_at": "2026-06-13T21:27:23-03:00",
+  "protocol_version": "0.3.0"
+}

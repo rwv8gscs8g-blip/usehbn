@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "adr_id": "ADR-004",
+  "auditor": "codex-cli",
+  "session_role": "cross-ia-review-usehbn",
+  "reviewed_at": "2026-05-10T02:45:07Z",
+  "veredito_tecnico": "REPROVADO",
+  "ressalvas_bloqueantes": [
+    {
+      "tema": "Versao de pacote/CLI e versao de protocolo divergem hoje",
+      "evidencia": "src/usehbn/__init__.py:11 define PROTOCOL_VERSION = 0.3.0; src/usehbn/__init__.py:29 define __version__ = 0.2.0; setup.cfg:3 define version = 0.2.0; src/usehbn/cli.py:1079-1084 publica protocol_version usando __version__",
+      "remediacao_proposta": "Antes de ACCEPTED, ADR deve distinguir package_version de protocol_version e decidir qual campo cada comando publica. Em seguida, alinhar cli/runtime/docs ou declarar explicitamente a divergencia como transitoria."
+    },
+    {
+      "tema": "Caminho para protocol_version required nao especifica migracao tecnica suficiente",
+      "evidencia": "schemas/readback.schema.json:5-16 e schemas/result.schema.json:5-12 deixam protocol_version fora de required; src/usehbn/protocol/readback.py:83 e result.py:91 escrevem 0.3.0; tests/test_result_protocol.py:54-68 preserva legado sem protocol_version",
+      "remediacao_proposta": "Definir migrador/loader de records legados e testes de leitura antes de tornar o campo required em v1.0.0."
+    },
+    {
+      "tema": "pyproject.toml nao carrega metadados de versao/licenca",
+      "evidencia": "pyproject.toml:1-3 contem apenas build-system; setup.cfg:1-9 contem metadados reais",
+      "remediacao_proposta": "Corrigir o ADR para citar setup.cfg como fonte atual de packaging, ou migrar metadados para pyproject.toml em MD separado."
+    }
+  ],
+  "ressalvas_nao_bloqueantes": [
+    "A politica de bump por tipo de mudanca e adequada em tese, mas precisa de checklist de release para evitar decisoes ad hoc na Quarta.",
+    "O operador SemVer caret em AGENTS.md precisa de especificacao simples para consumidores que nao usam tooling npm/semver.",
+    "Sinais de mudanca de dependencia dependem de ADR-006 e de canal de entrega ainda inexistente."
+  ],
+  "factibilidade_tecnica": {
+    "implementavel_em_v0_3_0": false,
+    "dependencias_externas_necessarias": [],
+    "blast_radius_estimado": {
+      "arquivos_afetados": 10,
+      "testes_a_atualizar": 4,
+      "cli_surface_impactada": true
+    }
+  },
+  "conflitos_com_codigo_existente": [
+    {
+      "arquivo": "src/usehbn/__init__.py:11",
+      "natureza": "schema divergente",
+      "severidade": "P0"
+    },
+    {
+      "arquivo": "src/usehbn/__init__.py:29",
+      "natureza": "contrato divergente",
+      "severidade": "P0"
+    },
+    {
+      "arquivo": "setup.cfg:3",
+      "natureza": "contrato divergente",
+      "severidade": "P0"
+    },
+    {
+      "arquivo": "src/usehbn/cli.py:1079",
+      "natureza": "contrato divergente",
+      "severidade": "P0"
+    }
+  ],
+  "riscos_nao_declarados_no_adr": [
+    {
+      "descricao": "Consumidor pode ler hbn version e receber 0.2.0 enquanto records novos declaram protocol_version 0.3.0.",
+      "evidencia": "src/usehbn/cli.py:1079-1084 usa __version__; src/usehbn/protocol/result.py:91 usa PROTOCOL_VERSION."
+    },
+    {
+      "descricao": "Promover protocol_version a required pode invalidar arquivos append-only historicos sem ferramenta de migracao.",
+      "evidencia": "tests/test_result_protocol.py:54-68 cobre explicitamente record legado sem protocol_version."
+    }
+  ],
+  "alinhamento_com_p1_p13": {
+    "principios_apoiados": ["P2", "P4", "P6", "P8"],
+    "principios_em_tensao": ["P10"],
+    "comentario": "SemVer apoia rastreabilidade, mas a divergencia de versoes atuais enfraquece o gate de nao-regressao."
+  },
+  "recomendacao_para_humano": "NAO_RATIFICAR_AGORA",
+  "comentario_livre": "Este ADR precisa de uma rodada tecnica antes de ratificacao. A direcao SemVer e correta, mas o repo hoje tem tres superficies de versao em conflito: PROTOCOL_VERSION 0.3.0, __version__ 0.2.0 e setup.cfg 0.2.0. Como a CLI chama __version__ de protocol_version, apps consumidoras poderiam receber o valor errado. Isso deve ser resolvido antes de congelar o contrato."
+}

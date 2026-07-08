@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0",
+  "adr_id": "ADR-006",
+  "auditor": "codex-cli",
+  "session_role": "cross-ia-review-usehbn",
+  "reviewed_at": "2026-05-10T02:45:07Z",
+  "veredito_tecnico": "APROVADO_COM_RESSALVA",
+  "ressalvas_bloqueantes": [
+    {
+      "tema": "Runtime adapters e contratos atuais so conhecem 3 marcadores, nao os 15 sinais",
+      "evidencia": "src/usehbn/runtime.py:54-58 define HBN_STATUS_MARKERS com 3 itens; runtime.py:186-190 injeta apenas esses 3; core/command-spec.md:96-100 tambem lista apenas 3",
+      "remediacao_proposta": "Antes de ACCEPTED operacional, decidir se os 5 novos sinais entram em runtime.py, agents/wave-protocol.md e core/protocol.md no mesmo MD ou se ficam apenas documentais ate v0.4."
+    },
+    {
+      "tema": "Persistencia signals-log.jsonl depende de .hbn/meta/ inexistente no init",
+      "evidencia": "ADR-006:66-70 exige .hbn/meta/signals-log.jsonl; src/usehbn/cli.py:999-1077 cria .hbn/readbacks, results, relay, relay-archive, knowledge, reports e connectors, mas nao .hbn/meta",
+      "remediacao_proposta": "Adicionar .hbn/meta ao hbn init/inspect ou rebaixar persistencia para convencao futura."
+    }
+  ],
+  "ressalvas_nao_bloqueantes": [
+    "Onde emitir 🌐 CROSS-REPO LOCK: antes de fetch/sync de .usehbn-snapshot ou qualquer MD tocando arquivos refletidos entre repos.",
+    "Onde emitir ⛓️ PROTOCOL DEP CHANGE: no fluxo de release/tag quando bump MAJOR ou MINOR for fechado.",
+    "Onde emitir 🧊 APP FROZEN: no relay/AGENTS da app consumidora ao abrir janela de release.",
+    "Onde emitir 🪞 MIRROR DRIFT: em hbn doctor --target <app> apos verificar VERSION + PROTOCOL_SHA256.txt.",
+    "Onde emitir 🟠 BILLING WINDOW DRIFT: no ritual Quarta/manual quando os parametros da janela nao conferirem."
+  ],
+  "factibilidade_tecnica": {
+    "implementavel_em_v0_3_0": true,
+    "dependencias_externas_necessarias": [],
+    "blast_radius_estimado": {
+      "arquivos_afetados": 7,
+      "testes_a_atualizar": 3,
+      "cli_surface_impactada": true
+    }
+  },
+  "conflitos_com_codigo_existente": [
+    {
+      "arquivo": "src/usehbn/runtime.py:54",
+      "natureza": "contrato divergente",
+      "severidade": "P1"
+    },
+    {
+      "arquivo": "agents/wave-protocol.md:96",
+      "natureza": "contrato divergente",
+      "severidade": "P1"
+    },
+    {
+      "arquivo": "core/protocol.md:17",
+      "natureza": "contrato divergente",
+      "severidade": "P1"
+    },
+    {
+      "arquivo": "src/usehbn/cli.py:999",
+      "natureza": "schema divergente",
+      "severidade": "P2"
+    }
+  ],
+  "riscos_nao_declarados_no_adr": [
+    {
+      "descricao": "A reutilizacao da cor laranja para SOURCE DRIFT e BILLING WINDOW DRIFT pode causar colisao visual se a IA resumir apenas emoji.",
+      "evidencia": "ADR-006:33 lista 🟠 SOURCE DRIFT; ADR-006:50 propõe 🟠 BILLING WINDOW DRIFT."
+    },
+    {
+      "descricao": "Sem schema do signals-log, cada IA pode gravar contextos incompatíveis.",
+      "evidencia": "ADR-006:66-70 mostra JSONL inline, mas schemas/ nao tem signal schema."
+    }
+  ],
+  "alinhamento_com_p1_p13": {
+    "principios_apoiados": ["P2", "P4", "P5", "P8", "P10"],
+    "principios_em_tensao": ["P11"],
+    "comentario": "Os sinais melhoram coordenacao, mas aumentam catalogo e precisam de ponto unico de registro para nao virar ruido."
+  },
+  "recomendacao_para_humano": "RATIFICAR_APOS_RESSALVAS",
+  "comentario_livre": "Os cinco sinais sao operacionalmente uteis, mas hoje nao existem nos tres pontos que importam: adapter body, wave-protocol e core/protocol. A implementacao minima e pequena: atualizar catalogo de sinais, criar .hbn/meta no init, e fazer hbn doctor reconhecer mirror drift. Sem isso, os sinais dependem de memoria humana."
+}

@@ -1,0 +1,199 @@
+{
+  "esteira": "cross-audit-arq-codex",
+  "questoes": {
+    "Q1_mono_vs_poly": {
+      "recomendacao": "hibrido",
+      "racional_tecnico": "Recomendacao: mono-repo canonico em /Users/macbookpro/Projetos/usehbn para protocolo, docs canonicos, crates Rust, POCs Python e modulos; poly-repos apenas como espelhos ou repos de release quando um modulo tiver ciclo, mantenedores e versao independentes. Tecnicamente, o mono-repo entrega melhor contexto operacional para IAs, Cargo workspace, CODEOWNERS por path, pre-commit granular e CI por paths. O argumento de permissao por pastas se sustenta parcialmente: GitHub CODEOWNERS e branch protection exigem revisao por path, mas nao concedem write permission nativo por subpasta dentro de um unico repo. Permissao forte continua sendo por repo, por branch/ruleset ou por processo. Submodules preservam historia independente, mas aumentam atrito de clone, pull, grep, CI e contexto para IAs.",
+      "tooling_implicacoes": [
+        "Rust: usar Cargo workspace com crates em crates/* ou modules/*/rust; o workspace compartilha Cargo.lock, target e metadados, e permite cargo check --workspace ou -p por crate.",
+        "Python: usar pyproject.toml PEP 621 por pacote/POC; como uv foi arquivado por decisao P11/P12, evitar depender de uv workspace no curto prazo. Se a decisao for reaberta no futuro, uv workspace e tecnicamente adequado, mas hoje conflita com decisao fechada.",
+        "Pre-commit: manter configuracao unica no root e filtrar hooks por files/exclude. Ex.: hooks Rust em ^crates/ ou ^modules/.*/rust/; hooks Python em ^modules/.*/poc/.",
+        "GitHub CODEOWNERS: mapear /modules/fagocitose/, /modules/consent-capsules/, /radar/, /methodology/ para owners; combinar com branch protection/rulesets exigindo code-owner review.",
+        "CI/CD: usar on.push.paths/on.pull_request.paths e/ou dorny/paths-filter para jobs por modulo; cuidado com checks skipped que ficam pending se forem required checks mal configurados.",
+        "Contexto IA: mono-repo melhora busca local, relacao entre docs e codigo, e reduz perda de contexto; poly-repo exige checkout multiplo, sincronizacao de SHAs e convencao externa.",
+        "Submodules: adequados para dependencia externa versionada; ruins como divisao artificial de repo ativo porque exigem recurse-submodules e o superproject fixa gitlinks.",
+        "Git subtree: melhor que submodule para incorporar usehbn-phago mantendo arquivos no mono-repo; preserva ou squash history conforme escolha."
+      ],
+      "padroes_open_source_referencia": [
+        "Rust Cargo Book: workspaces agrupam pacotes geridos juntos, compartilham Cargo.lock e target, e suportam members/default-members/workspace.dependencies.",
+        "Tokio: ecossistema Rust com crates relacionados; workspace e crates separados sao usados conforme ciclo de maturidade. Referencia util para nao forcar tudo em um pacote unico.",
+        "Bevy: motor Rust modular em mono-repo/workspace; usa modularidade por crates e features, com warning publico sobre mudancas frequentes enquanto o projeto amadurece.",
+        "Apache Airflow 3.2.0: repo grande Python com core, task SDK e providers; usa pyproject/constraints e separa distribuicoes sem necessariamente separar todo desenvolvimento em repos independentes.",
+        "Babel 7.28.5: monorepo explicitamente composto por muitos pacotes npm; exemplo consolidado de suite modular com publicacao multi-package.",
+        "GitHub CODEOWNERS: ownership e review por path, mas usuarios/teams precisam write access no repo; nao e ACL de escrita por subpasta.",
+        "Git submodules: Git define submodule como repo embutido com historia propria e gitlink fixado; bom para dependencia externa, custoso para codigo coevolutivo."
+      ],
+      "custo_de_migracao_relativo": "medio",
+      "riscos_residuais": [
+        "Mono-repo pode virar mono-pile se modules/, methodology/, audits/ e examples/ nao tiverem fronteiras e owners claros.",
+        "CODEOWNERS nao impede push direto de quem tem permissao; precisa branch protection/rulesets e revisao obrigatoria.",
+        "CI por paths pode deixar required checks pending se filtros forem desenhados sem jobs agregadores.",
+        "Python workspaces sem uv nao tem padrao nativo equivalente a Cargo; usar venv+pip e path installs simples ate haver necessidade real.",
+        "Migrar Credenciamento/usehbn para usehbn exige decidir preservacao de historico: cp simples e barato, git subtree/filter-repo preserva historia mas custa mais."
+      ]
+    },
+    "Q2_tipologia": {
+      "hipotese_recomendada": "hibrido",
+      "racional_tecnico": "Recomendacao: Credenciamento deve ser tratado como caso fundador e aplicacao consumidora, nao como modulo formal do protocolo. A hipotese C e a melhor tipologia; operacionalmente ela se comporta como A apos a migracao. B deve ser evitada porque modulo do useHBN deve ser uma capacidade generica e reutilizavel (Fagocitose, Consent Capsules, Coordenacao, Seguranca, Marcadores, Auditoria Cruzada, Radar), enquanto Credenciamento e um sistema de dominio especifico em VBA. O fato de Credenciamento conter hoje usehbn/methodology e knowledge canonico e contingencia historica de nascimento, nao prova que o aplicativo seja modulo.",
+      "padroes_open_source_referencia": [
+        "HTTP RFC 9110 separa protocolo, papeis de participante e implementacoes; nginx ou curl implementam/usam HTTP, Wikipedia e aplicacao sobre HTTP.",
+        "LSP 3.17 separa especificacao, clientes/editors e language servers; rust-analyzer e servidor/implementacao, VS Code e host/client, projetos usuarios nao viram parte do protocolo.",
+        "MCP 2025-11-25 separa specification, SDKs, development tools e reference server implementations; hosts, clients e servers tem papeis formais.",
+        "W3C specs distinguem recomendacao ativa, superseded, obsolete e rescinded; historico fica preservado sem continuar sendo recomendacao para nova implementacao."
+      ],
+      "implicacoes_de_layout": [
+        "No mono-repo usehbn: colocar protocolo e modulos em /methodology, /modules, /crates, /pocs ou /examples conforme Diataxis e maturidade.",
+        "Credenciamento deve manter codigo VBA, auditorias operacionais e dados do sistema no repo Credenciamento.",
+        "Extrair Credenciamento/usehbn/* para usehbn como fonte canonica; deixar no Credenciamento apenas links, snapshots ou subpasta de vendor/reference se necessario.",
+        "Criar em usehbn um caso fundador explicito, por exemplo /case-studies/credenciamento/ ou /docs/case-studies/credenciamento.md, com hashes/links para evidencias no repo Credenciamento.",
+        "Nao criar modulo /modules/credenciamento; se existir conteudo derivado, ele pertence a /examples ou /case-studies."
+      ],
+      "tratamento_credenciamento_recomendado": "Classificar como caso fundador + aplicacao consumidora. Na documentacao publica: 'Credenciamento V12.0.0203 e o caso fundador onde praticas do useHBN foram descobertas e validadas; nao e modulo do protocolo'. Migrar a fonte canonica do protocolo para usehbn e manter Credenciamento como evidencia operacional, com links para docs canonicos e snapshots quando necessario."
+    },
+    "Q3_simplificacao": {
+      "padrao_consolidacao_recomendado": "Usar matriz Diataxis + ADR. modules/*.md devem ser referencia curta e normativa de cada modulo. methodology/*.md deve conter apenas principios, arquitetura transversal e explicacoes que nao duplicam modulo. Decisoes arquiteturais devem virar ADRs numerados por escopo. auditoria/00_status deve ser tracking historico particionado por frente, nao fonte canonica de spec. Documentos antigos nao devem ser reescritos; devem receber status superseded/deprecated e link para a fonte atual.",
+      "lista_de_acoes_concretas": [
+        {
+          "path": "usehbn/methodology/PRINCIPIOS-CONSTITUCIONAIS.md",
+          "acao": "manter",
+          "justificativa": "Fonte canonica dos 13 principios; referencia transversal."
+        },
+        {
+          "path": "usehbn/methodology/THREE-TREES-ARCHITECTURE.md",
+          "acao": "manter",
+          "justificativa": "Arquitetura transversal; ajustar apenas para explicitar aplicacao por modulo."
+        },
+        {
+          "path": "usehbn/methodology/USEHBN-MODULES-ARCHITECTURE.md",
+          "acao": "renomear",
+          "justificativa": "Manter como explicacao arquitetural, mas atualizar a secao poly-repo para mono-repo canonico se Mauricio confirmar; registrar decisao em ADR."
+        },
+        {
+          "path": "usehbn/methodology/MINIMALISM-PRINCIPLE.md",
+          "acao": "manter",
+          "justificativa": "Principio operacional P11; nao duplica modulo."
+        },
+        {
+          "path": "usehbn/methodology/SUBSTRATO-SOLIDO-PRINCIPLE.md",
+          "acao": "manter",
+          "justificativa": "Principio operacional P12; base para Rust/substrato."
+        },
+        {
+          "path": "usehbn/methodology/AI-LANGUAGE-ABSTRACTION-PRINCIPLE.md",
+          "acao": "manter",
+          "justificativa": "Principio operacional P13; transversal."
+        },
+        {
+          "path": "usehbn/methodology/LANGUAGE-PLATFORM-COMPARISON.md",
+          "acao": "arquivar",
+          "justificativa": "Decisao Rust ja fechada; manter como insumo historico/superseded, nao spec ativa."
+        },
+        {
+          "path": "usehbn/methodology/RADAR-PHAGOCYTOSIS-PIPELINE.md",
+          "acao": "fundir",
+          "justificativa": "Conteudo operacional pertence a modules/RADAR.md e modules/FAGOCITOSE.md; manter como insumo historico se houver contexto nao migrado."
+        },
+        {
+          "path": "usehbn/methodology/INCORPORATION-PROGRESSIVE-PLAN.md",
+          "acao": "fundir",
+          "justificativa": "F0-F5 ja pertencem ao modulo Fagocitose; evitar segunda fonte de fases."
+        },
+        {
+          "path": "usehbn/methodology/INTER-CHAT-COORDINATION.md",
+          "acao": "fundir",
+          "justificativa": "Conteudo deve residir em modules/COORDENACAO-INTER-IA.md; antigo vira superseded."
+        },
+        {
+          "path": "usehbn/methodology/CROSS-IA-AUDIT-PROTOCOL.md",
+          "acao": "fundir",
+          "justificativa": "Conteudo deve residir em modules/AUDITORIA-CRUZADA.md; antigo vira superseded."
+        },
+        {
+          "path": "usehbn/methodology/RADAR-WEEKLY-REVIEW-PROTOCOL.md",
+          "acao": "fundir",
+          "justificativa": "Subcomponente do Radar; manter no modulo RADAR ou ADR de processo."
+        },
+        {
+          "path": "usehbn/modules/INDEX.md",
+          "acao": "manter",
+          "justificativa": "Indice canonico de modulos; deve apontar para specs curtas."
+        },
+        {
+          "path": "usehbn/modules/*.md",
+          "acao": "manter",
+          "justificativa": "Specs referencia dos modulos; devem ser fonte unica por modulo."
+        },
+        {
+          "path": "auditoria/00_status/38_USEHBN_TESE_FAGOCITOSE_INTEGRADA.md",
+          "acao": "arquivar",
+          "justificativa": "V1 historica fagocitose-centrica; preservar com status superseded e link para V2 multi-braco."
+        },
+        {
+          "path": "auditoria/00_status/43_PLANO_DOCUMENTACAO_V2_USEHBN.md",
+          "acao": "manter",
+          "justificativa": "Plano de migracao V2; apos execucao deve virar ADR/roadmap ou ser marcado concluded."
+        },
+        {
+          "path": "auditoria/00_status/44_CORRECAO_USEHBN_E_CONSOLIDACAO.md",
+          "acao": "fundir",
+          "justificativa": "Correcoes consolidadas devem entrar nas fontes canonicas; arquivo permanece como trilha historica."
+        },
+        {
+          "path": "HBN-ARCHITECTURAL-REVIEW-2026-04.md",
+          "acao": "arquivar",
+          "justificativa": "Revisao historica pre multi-braco; nao deve ser lida como arquitetura atual."
+        },
+        {
+          "path": "ROADMAP.md",
+          "acao": "renomear",
+          "justificativa": "Precisa refresh pos multi-braco ou marcacao de obsolescencia parcial."
+        },
+        {
+          "path": "GOVERNANCE.md",
+          "acao": "manter",
+          "justificativa": "Documento open-source operacional; atualizar apenas se contradisser mono-repo/modulos."
+        },
+        {
+          "path": "MAINTAINERS.md",
+          "acao": "manter",
+          "justificativa": "Documento operacional de mantenedores; complementar com CODEOWNERS quando houver times/paths."
+        },
+        {
+          "path": "CONTRIBUTING.md",
+          "acao": "manter",
+          "justificativa": "Canal publico de contribuicao; precisa linkar docs canonicos e layout novo."
+        },
+        {
+          "path": "SECURITY.md",
+          "acao": "manter",
+          "justificativa": "Documento publico necessario; conectar ao modulo Seguranca sem duplicar a spec."
+        }
+      ],
+      "tratamento_conflito_numeracao": "Nao renumerar arquivos historicos. Criar particao por escopo a partir de agora: auditoria/00_status/F1-credenciamento/ e auditoria/00_status/F2-usehbn/ ou prefixos F1_ e F2_ se mover arquivos for sensivel. Melhor padrao: docs/adr/usehbn/ADR-0001-*.md para decisoes de arquitetura e auditoria/status/<frente>/YYYY-MM-DD-*.md para tracking operacional. Manter indice que mapeia numeros antigos conflitantes.",
+      "tratamento_v1_tese_38": "deprecar_formalmente"
+    }
+  },
+  "cross_referencias_uteis": [
+    "Cargo workspaces: https://doc.rust-lang.org/cargo/reference/workspaces.html",
+    "GitHub CODEOWNERS: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners",
+    "GitHub Actions path filters: https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/trigger-a-workflow",
+    "PEP 621: https://peps.python.org/pep-0621/",
+    "uv workspaces: https://docs.astral.sh/uv/concepts/projects/workspaces/",
+    "Git submodules: https://git-scm.com/docs/gitsubmodules.html",
+    "HTTP Semantics RFC 9110: https://www.ietf.org/rfc/rfc9110.html",
+    "Language Server Protocol 3.17: https://microsoft.github.io/language-server-protocol/",
+    "MCP Architecture 2025-11-25: https://modelcontextprotocol.io/specification/2025-11-25/architecture",
+    "Diataxis: https://diataxis.fr/",
+    "W3C superseded/obsolete/rescinded specs: https://www.w3.org/guide/process/obsolete-rescinded-supserseded.html",
+    "Babel monorepo: https://github.com/babel/babel",
+    "Bevy repository: https://github.com/bevyengine/bevy",
+    "Apache Airflow repository: https://github.com/apache/airflow"
+  ],
+  "questoes_que_codex_nao_respondeu": [
+    "A decisao final de identidade publica entre nomes usehbn-phago, usehbn-capsules e mono-repo unico depende de Maurício e da sintese Opus.",
+    "A robustez conceitual de longo prazo da tipologia 'caso fundador' tem angulo melhor respondido por Antigravity.",
+    "A lista definitiva de docs canonicos em ~/Projetos/usehbn depende de uma auditoria linha-a-linha posterior; aqui foi feita classificacao tecnica por papel e evidencias disponiveis."
+  ],
+  "marker_atual": "🔍 HBN CROSS-AUDIT IN PROGRESS",
+  "marker_proposto_pos_aprovacao": "🤝 HBN CROSS-AUDIT APPROVED"
+}

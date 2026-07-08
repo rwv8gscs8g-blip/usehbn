@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "updated_at": "2026-04-01T09:13:29Z",
+  "records": [
+    {
+      "timestamp": "2026-04-01T09:13:29Z",
+      "event": "connector_assumed_existing",
+      "connector_id": "hbn.connector.runtime.copilot",
+      "marker_path": "/Users/macbookpro/Projetos/usehbn/.hbn/connectors/hbn.connector.runtime.copilot.json"
+    }
+  ]
+}

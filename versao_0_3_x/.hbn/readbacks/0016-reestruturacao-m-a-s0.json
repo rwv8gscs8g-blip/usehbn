@@ -1,0 +1,102 @@
+{
+  "readback_id": "0016-reestruturacao-m-a-s0",
+  "execution_id": "selagem-reestruturacao-m-a-s0-2026-06-15",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "completed",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0016-reestruturacao-m-a-s0.json",
+  "understanding": "Selar o Modelo B da reestruturacao M-A+S0 por cima do tip limpo 5a0587d. O replay limpo ja foi executado na branch proposta/reestruturacao-m-a-s0; a tree-equivalencia fica preservada pela tag ancora evidencia/reestruturacao-m-a-s0-tree-equivalent, e esta selagem adiciona apenas governanca nova para liberar a proxima onda S1.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio aprovou a reestruturacao em 2026-06-15 apos cross-audit Gemini+Cursor com APROVA_REESTRUTURACAO: SIM.",
+    "note": "Autorizacao humana para safe_track de selagem de governanca. Nao autoriza merge em main, --no-verify, git add ., bypass de guards, habilitacao de D-ORQ-WRITE como escrita operacional ou tocar artefatos fora do escopo."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/results/20260615-095029-cursor-cross-ia-reestruturacao-m-a-s0.md",
+      ".hbn/results/20260615-095229-gemini-3-5-cross-ia-reestruturacao-m-a-s0.md",
+      ".hbn/readbacks/0016-reestruturacao-m-a-s0.json",
+      ".hbn/messages/20260615-100217-codex-handoff-selagem-reestruturacao-m-a-s0.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md"
+    ],
+    "files_forbidden": [
+      ".hbn/messages/20260612-122102-fable5-handoff-orquestracao-pos-onda-0006.md",
+      ".hbn/messages/20260613-112502-fable5-handoff-orquestracao-pos-adocao-onda-0006.md",
+      ".hbn/results/20260614-032800-gemini-3-5-cross-ia-onda-0011-plano-v2.md",
+      ".hbn/results/20260614-043647-antigravity-cross-ia-exuvia-impl.md",
+      ".hbn/results/20260614-043826-codex-cross-ia-exuvia-impl.md",
+      ".hbn/results/20260614-044555-opus-4-8-consolidacao-cross-audit-exuvia-impl.md",
+      "main",
+      "src/**",
+      "guards/**",
+      "core/**",
+      "examples/**",
+      "inbox/**",
+      "site/**",
+      ".hbn/models/**",
+      ".hbn/hearbacks/**"
+    ]
+  },
+  "operation": {
+    "model": "Modelo B",
+    "clean_line": "proposta/reestruturacao-m-a-s0",
+    "clean_tip": "5a0587d44358c087507b6a7e545ecc67886da378",
+    "main_tip": "4db692876381a0d7909985c8500d999f2e677b04",
+    "tree_hash": "61fa290e83b075983b9c6961a06c6e229cad1fd4",
+    "anchor_tag": "evidencia/reestruturacao-m-a-s0-tree-equivalent",
+    "anchor_tag_commit": "5a0587d44358c087507b6a7e545ecc67886da378"
+  },
+  "invariants_to_preserve": [
+    "Commit de selagem unico por cima de 5a0587d; commit final e ato do operador.",
+    "Nao tocar main, nao fazer merge e nao usar --no-verify.",
+    "Nao usar git add .; adicionar somente os paths listados em scope.files_allowed.",
+    "Nao tocar nos seis untracked antigos fora do escopo.",
+    "D-ORQ-WRITE nao fica habilitada como escrita operacional nesta selagem.",
+    "Trailers obrigatorios no commit do operador: HBN-Readback: 0016 e HBN-Token-FP: 34a7f2f9."
+  ],
+  "read_evidence": [
+    ".hbn/results/20260615-095029-cursor-cross-ia-reestruturacao-m-a-s0.md:25",
+    ".hbn/results/20260615-095029-cursor-cross-ia-reestruturacao-m-a-s0.md:50-68",
+    ".hbn/results/20260615-095029-cursor-cross-ia-reestruturacao-m-a-s0.md:146-171",
+    ".hbn/results/20260615-095029-cursor-cross-ia-reestruturacao-m-a-s0.md:182-188",
+    ".hbn/results/20260615-095229-gemini-3-5-cross-ia-reestruturacao-m-a-s0.md:23-30",
+    ".hbn/results/20260615-095229-gemini-3-5-cross-ia-reestruturacao-m-a-s0.md:49-52",
+    ".hbn/results/20260615-095229-gemini-3-5-cross-ia-reestruturacao-m-a-s0.md:94-98",
+    ".hbn/results/20260615-095229-gemini-3-5-cross-ia-reestruturacao-m-a-s0.md:118-125",
+    "REGISTRY.md:495-503",
+    "REGISTRY.md:507-511"
+  ],
+  "mechanical_evidence": [
+    "git rev-parse HEAD -> 5a0587d44358c087507b6a7e545ecc67886da378",
+    "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04",
+    "git rev-parse HEAD^{tree} -> 61fa290e83b075983b9c6961a06c6e229cad1fd4",
+    "git rev-parse 3b03a32^{tree} -> 61fa290e83b075983b9c6961a06c6e229cad1fd4",
+    "git rev-parse evidencia/orquestrador-bug-2026-06-14^{tree} -> 61fa290e83b075983b9c6961a06c6e229cad1fd4",
+    "git rev-parse evidencia/reestruturacao-m-a-s0-tree-equivalent^{commit} -> 5a0587d44358c087507b6a7e545ecc67886da378",
+    "git rev-parse evidencia/reestruturacao-m-a-s0-tree-equivalent^{tree} -> 61fa290e83b075983b9c6961a06c6e229cad1fd4"
+  ],
+  "evidence": {
+    "guard_tests": {
+      "command": "bash guards/tests/run-guard-tests.sh",
+      "status": "passed",
+      "summary": "== resumo: 132 passaram, 0 falharam == SUITE VERDE"
+    },
+    "adversarial_battery": {
+      "command": "bash guards/tests/adversarial-battery.sh",
+      "status": "passed",
+      "summary": "B1-B15 BLOQUEADAS; BATERIA VERDE"
+    },
+    "guard_runner": {
+      "command": "bash guards/hbn-guards-runner.sh",
+      "status": "passed",
+      "summary": "[hbn-guards] Todos os guards passaram."
+    }
+  },
+  "created_at": "2026-06-15T10:02:17-03:00",
+  "completed_at": "2026-06-15T10:02:17-03:00",
+  "protocol_version": "0.3.0"
+}

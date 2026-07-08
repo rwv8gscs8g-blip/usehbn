@@ -1,0 +1,433 @@
+guards:
+  - guard: assert-active-version-integrity
+    path: guards/assert-active-version-integrity.sh
+    requires:
+      files:
+        - path: .hbn/active-version
+          install: refuse
+        - path: .hbn/relay/STATE.md
+          install: refuse
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-arvore-label
+    path: guards/assert-arvore-label.sh
+    requires:
+      files:
+        - path: REGISTRY.md
+          install: skeleton
+          source: guards/fixtures/registry-skeleton.md
+        - path: .hbn/relay/STATE.md
+          install: refuse
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-audit-diversity
+    path: guards/assert-audit-diversity.sh
+    requires:
+      files:
+        - path: guards/data/auditor-families.txt
+          install: copy
+          source: guards/data/auditor-families.txt
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-auditor-id
+    path: guards/assert-auditor-id.sh
+    requires:
+      files:
+        - path: guards/data/auditor-families.txt
+          install: copy
+          source: guards/data/auditor-families.txt
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-baton-token
+    path: guards/assert-baton-token.sh
+    requires:
+      files:
+        - path: .hbn/relay/STATE.md
+          install: refuse
+      dirs: []
+      state_fields: [bastao_token_sha256]
+      guards: []
+      env: [HBN_REQUIRE_BATON_TOKEN]
+  - guard: assert-canonical-root
+    path: guards/assert-canonical-root.sh
+    requires:
+      files: []
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-ci-battery
+    path: guards/assert-ci-battery.sh
+    requires:
+      files:
+        - path: .github/workflows/hbn-shield.yml
+          install: refuse
+        - path: guards/ci-entry.sh
+          install: copy
+          source: guards/ci-entry.sh
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-copy-block
+    path: guards/assert-copy-block.sh
+    requires:
+      files:
+        - path: guards/data/auditor-families.txt
+          install: copy
+          source: guards/data/auditor-families.txt
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-dispatch-integrity
+    path: guards/assert-dispatch-integrity.sh
+    requires:
+      files:
+        - path: .hbn/relay/STATE.md
+          install: refuse
+      dirs: []
+      state_fields: [bastao_token_sha256, readback_ativo]
+      guards: [validate-dispatch]
+      env: []
+  - guard: assert-doc-provenance
+    path: guards/assert-doc-provenance.sh
+    requires:
+      files:
+        - path: MANIFESTO-MIGRACAO.md
+          install: copy
+          source: MANIFESTO-MIGRACAO.md
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-exception-traceable
+    path: guards/assert-exception-traceable.sh
+    requires:
+      files:
+        - path: .hbn/relay/STATE.md
+          install: refuse
+      dirs: []
+      state_fields: [atribuicao, sinais_abertos]
+      guards: [assert-role-family]
+      env: []
+  - guard: assert-frontdoor
+    path: guards/assert-frontdoor.sh
+    requires:
+      files:
+        - path: core/role-cards.md
+          install: copy
+          source: guards/fixtures/role-cards-consumer.md
+        - path: core/read-list-canonica.txt
+          install: copy
+          source: core/read-list-canonica.txt
+        - path: .hbn/knowledge/INDEX.md
+          install: refuse
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-hearback-integrity
+    path: guards/assert-hearback-integrity.sh
+    requires:
+      files: []
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-knowledge-index
+    path: guards/assert-knowledge-index.sh
+    requires:
+      files: []
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-manifest-current
+    path: guards/assert-manifest-current.sh
+    requires:
+      files:
+        - path: guards/MANIFEST.yaml
+          install: copy
+          source: guards/MANIFEST.yaml
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-next-checkpoint
+    path: guards/assert-next-checkpoint.sh
+    requires:
+      files:
+        - path: guards/data/auditor-families.txt
+          install: copy
+          source: guards/data/auditor-families.txt
+        - path: .hbn/relay/STATE.md
+          install: refuse
+      dirs: []
+      state_fields: [proximo_ponto]
+      guards: []
+      env: []
+  - guard: assert-no-pending-exuvia
+    path: guards/assert-no-pending-exuvia.sh
+    requires:
+      files:
+        - path: .hbn/active-version
+          install: refuse
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-no-stray-hbn
+    path: guards/assert-no-stray-hbn.sh
+    requires:
+      files: []
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-only-hot-version-writable
+    path: guards/assert-only-hot-version-writable.sh
+    requires:
+      files:
+        - path: .hbn/active-version
+          install: refuse
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-orq-entrada-ref
+    path: guards/assert-orq-entrada-ref.sh
+    requires:
+      files: []
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-orq-entrada
+    path: guards/assert-orq-entrada.sh
+    requires:
+      files: []
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-parallel-id
+    path: guards/assert-parallel-id.sh
+    requires:
+      files:
+        - path: REGISTRY.md
+          install: skeleton
+          source: guards/fixtures/registry-skeleton.md
+        - path: .hbn/relay/STATE.md
+          install: refuse
+      dirs:
+        - path: .hbn/models
+          install: skeleton
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-pointer-honest
+    path: guards/assert-pointer-honest.sh
+    requires:
+      files: []
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-profile-authorized
+    path: guards/assert-profile-authorized.sh
+    requires:
+      files:
+        - path: CONSUMER-PROFILE.md
+          install: refuse
+      dirs: []
+      state_fields: []
+      guards: []
+      env: [HBN_CONSUMER_PROFILE, HBN_PROFILE_SNAPSHOT_GUARDS_DIR]
+  - guard: assert-quorum-selagem
+    path: guards/assert-quorum-selagem.sh
+    requires:
+      files:
+        - path: guards/data/auditor-families.txt
+          install: copy
+          source: guards/data/auditor-families.txt
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-readlist-rite
+    path: guards/assert-readlist-rite.sh
+    requires:
+      files: []
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-registry-line
+    path: guards/assert-registry-line.sh
+    requires:
+      files: []
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-report-fresh
+    path: guards/assert-report-fresh.sh
+    requires:
+      files: []
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-role-family
+    path: guards/assert-role-family.sh
+    requires:
+      files:
+        - path: .hbn/relay/STATE.md
+          install: refuse
+      dirs:
+        - path: .hbn/models
+          install: skeleton
+      state_fields: [atribuicao]
+      guards: []
+      env: [HBN_MODELS_DIR]
+  - guard: assert-scope-lock
+    path: guards/assert-scope-lock.sh
+    requires:
+      files: []
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-scratch-ignore
+    path: guards/assert-scratch-ignore.sh
+    requires:
+      files: []
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-scratch-lock
+    path: guards/assert-scratch-lock.sh
+    requires:
+      files: []
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-scratch-symlink
+    path: guards/assert-scratch-symlink.sh
+    requires:
+      files: []
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-self-path
+    path: guards/assert-self-path.sh
+    requires:
+      files: []
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-start-cast
+    path: guards/assert-start-cast.sh
+    requires:
+      files:
+        - path: .hbn/relay/STATE.md
+          install: refuse
+      dirs:
+        - path: .hbn/models
+          install: skeleton
+      state_fields: [atribuicao]
+      guards: [assert-role-family]
+      env: [HBN_MODELS_DIR]
+  - guard: assert-state-structural
+    path: guards/assert-state-structural.sh
+    requires:
+      files:
+        - path: guards/data/auditor-families.txt
+          install: copy
+          source: guards/data/auditor-families.txt
+        - path: .hbn/relay/STATE.md
+          install: refuse
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-trailers-contiguous
+    path: guards/assert-trailers-contiguous.sh
+    requires:
+      files: []
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-version-self-contained
+    path: guards/assert-version-self-contained.sh
+    requires:
+      files: []
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: assert-zona-livre
+    path: guards/assert-zona-livre.sh
+    requires:
+      files: []
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: forbid-env-files
+    path: guards/forbid-env-files.sh
+    requires:
+      files: []
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: forbid-legacy-paths
+    path: guards/forbid-legacy-paths.sh
+    requires:
+      files: []
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: forbid-tmp-worktree
+    path: guards/forbid-tmp-worktree.sh
+    requires:
+      files: []
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: freeze-gate
+    path: guards/freeze-gate.sh
+    requires:
+      files: []
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
+  - guard: validate-dispatch
+    path: guards/validate-dispatch.sh
+    requires:
+      files:
+        - path: schemas/dispatch.schema.json
+          install: copy
+          source: schemas/dispatch.schema.json
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []

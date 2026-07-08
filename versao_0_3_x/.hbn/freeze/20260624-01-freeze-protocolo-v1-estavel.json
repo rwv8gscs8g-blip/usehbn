@@ -1,0 +1,28 @@
+{
+  "checklist_id": "20260624-01-freeze-protocolo-v1-estavel",
+  "projeto": "usehbn (protocolo HBN 0.3.x)",
+  "versao_alvo": "useHBN PROTOCOLO v1-estavel",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "bloqueadores_abertos": 0,
+  "criterios": [
+    {"id":"runner-verde","descricao":"hbn-guards-runner.sh exit 0 (todos os guards do protocolo)","obrigatorio":true,"status":"ok","evidencia":"bash guards/hbn-guards-runner.sh => exit 0, 0 falhas (HEAD 63cf35a)"},
+    {"id":"guard-tests-verde","descricao":"run-guard-tests verde na contagem real","obrigatorio":true,"status":"ok","evidencia":"bash guards/tests/run-guard-tests.sh => 264 passaram, 0 falharam (HEAD 7164c0f; confirmado no Terminal do operador Mauricio 2026-06-25 e pelo orquestrador)"},
+    {"id":"adversarial-verde","descricao":"bateria adversarial B1-B90 bloqueada","obrigatorio":true,"status":"ok","evidencia":"bash guards/tests/adversarial-battery.sh => BATERIA VERDE, B1-B90 bloqueadas (HEAD 63cf35a)"},
+    {"id":"suite-pytest-verde","descricao":"pytest verde na contagem real (conclusivo no Terminal do operador — knowledge 0021)","obrigatorio":true,"status":"ok","evidencia":".venv/bin/pytest -q => 213 passed in 0.74s (Terminal do operador Mauricio, 2026-06-25); run-guard-tests 264/0 verde confirmado no mesmo Terminal"},
+    {"id":"correcoes-com-teste-verde","descricao":"cada fix da blindagem coberto por teste que passa","obrigatorio":true,"status":"ok","evidencia":"fixes gexc-sigpipe (0083) e freeze-meta-deref (0088) cobertos por run-guard-tests/adversarial; 264/264 + B1-B90 verdes"},
+    {"id":"cross-audit-diversidade","descricao":"toda onda selada ratificada por >=2 familias !=OpenAI (G-DIVERSITY/G-QUORUM)","obrigatorio":true,"status":"ok","evidencia":"selagens 0053-0089 com duplo APROVA antigravity/Google + grok/xAI; REGISTRY + .hbn/results/ tracked"},
+    {"id":"fail-closed-guards","descricao":"guards falham fechado (STATE/readback/atestacao ausente/ilegivel bloqueiam)","obrigatorio":true,"status":"ok","evidencia":"run-guard-tests inclui casos fail-closed verdes; 264/264"},
+    {"id":"sem-regressao-main","descricao":"main intocada; branch revisada pelo operador","obrigatorio":true,"status":"ok","evidencia":"git rev-parse main == 4db692876381a0d7909985c8500d999f2e677b04 (intocada); revisao da branch pelo operador no gate (§3.3)"},
+    {"id":"rastreabilidade","descricao":"toda onda tem readback+token+REGISTRY (e hearback onde aplicavel)","obrigatorio":true,"status":"ok","evidencia":"ondas 0026-0090 com readback + token_fp 34a7f2f9 + REGISTRY 7-col; hearbacks 0001/0003"},
+    {"id":"dividas-registradas","descricao":"C-DEBT listadas, nao escondidas","obrigatorio":true,"status":"ok","evidencia":"STATE sinais: R3c G-REG-M geral (C-DEBT), zona_livre_curada, backlog 0.3.1 — todas visiveis"},
+    {"id":"dossie-pre-transicao","descricao":"dossie de pre-transicao completo e curado","obrigatorio":true,"status":"ok","evidencia":"docs/brainstorm/rodada-2026-06-17/analise-pre-transicao/00-INDICE.md tracked; dossie 00-06 + SINTESE (readback 0055)"},
+    {"id":"zero-bloqueador","descricao":"nenhum finding BLOQUEADOR aberto (espelha bloqueadores_abertos)","obrigatorio":true,"status":"ok","evidencia":"bloqueadores_abertos: 0; sinais 🔴 sao G-EXC de excecoes JA seladas (visibilidade), nao findings abertos"},
+    {"id":"g-hrb-chave-operador","descricao":"chave do operador registrada (assinatura do hearback)","obrigatorio":true,"status":"na","justificativa":"Chave de operador nao gerada nesta janela; G-HRB segue em modo sem-chave (aviso, ADR-023 D2). Decisao humana registrada no hearback verificavel .hbn/hearbacks/freeze-protocolo-v1-estavel.json (status confirmed)."},
+    {"id":"validacao-tela-a-tela","descricao":"[V206/dominio] toda tela/fluxo validada visualmente","obrigatorio":true,"status":"na","justificativa":"Criterio do app de dominio V206 (passo 4 do roadmap), nao se aplica ao freeze do PROTOCOLO. Hearback verificavel: .hbn/hearbacks/freeze-protocolo-v1-estavel.json (status confirmed)."},
+    {"id":"idempotencia-provada","descricao":"[V206/dominio] re-execucao do pipeline sem efeito novo","obrigatorio":true,"status":"na","justificativa":"Idempotencia do pipeline de dominio (rodizio V206), nao do protocolo. Hearback verificavel: .hbn/hearbacks/freeze-protocolo-v1-estavel.json (status confirmed)."},
+    {"id":"pdfs-evidencia-rodizio","descricao":"[V206/dominio] PDFs de evidencia do rodizio arquivados","obrigatorio":true,"status":"na","justificativa":"Evidencia do app de dominio V206, nao do protocolo. Hearback verificavel: .hbn/hearbacks/freeze-protocolo-v1-estavel.json (status confirmed)."},
+    {"id":"pareceres-fechados","descricao":"[V206/dominio] pareceres 0034/0035/0036 fechados","obrigatorio":true,"status":"na","justificativa":"Pareceres V206 do app de dominio; o protocolo usa quorum proprio G-QUORUM (>=2 familias !=OpenAI). Hearback verificavel: .hbn/hearbacks/freeze-protocolo-v1-estavel.json (status confirmed)."}
+  ],
+  "atualizado_por": "opus-4-8 (orquestrador · Anthropic) — correcao pos cross-audit 0091",
+  "atualizado_em": "2026-06-25T09:00:00-03:00"
+}

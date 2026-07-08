@@ -1,0 +1,229 @@
+{
+  "readback_id": "0004-adocao-orquestracao-start",
+  "execution_id": "adocao-orquestracao-start-adr-024-4-specs-4-guards-suite-63-2026-06-10",
+  "agent_id": "codex",
+  "track": "safe_track",
+  "status": "proposed",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0004-adocao-orquestracao-start.json",
+  "understanding": "Adotar exatamente a orquestracao-start validada apos o fix dos 3 FORTE: ADR-024, 4 specs core, 4 guards e a suite 63. A adocao so pode ocorrer depois de hearback humano confirmed neste readback. O Passo 1 cria este readback proposed e para; o Passo 2 faz os flips, REGISTRY, evidencias 0030/0031/0032/0033, verificacoes e commit atomico com trailer HBN-Readback.",
+  "preflight": {
+    "pwd": "/Users/macbookpro/Projetos/usehbn",
+    "head": "603805e checkpoint(protocol): ADR-024 fix 3 FORTE (G-NUM token exato, G-RLT heading capsula, start rito\u2260CLI) + marginais \u2014 suite 63 \u2014 proposed, fora do runner",
+    "git_status_short_observed": [
+      "?? .hbn/results/0032-cross-ia-codex-fix-orquestracao-start.json",
+      "?? .hbn/results/0032-cross-ia-codex-fix-orquestracao-start.md",
+      "?? .hbn/results/0033-cross-ia-antigravity-fix-orquestracao-start.json",
+      "?? .hbn/results/0033-cross-ia-antigravity-fix-orquestracao-start.md"
+    ],
+    "notes": [
+      "0032/0033 estavam untracked no pre-flight e foram declarados pelo humano como evidencias obrigatorias da adocao.",
+      ".hbn/readbacks/ esta em .gitignore; este readback deve ser versionado com git add -f no Passo 2, como nos precedentes 0002/0003."
+    ]
+  },
+  "evidence_read": [
+    {
+      "path": ".hbn/results/0030-cross-ia-codex-orquestracao-start.md",
+      "machine_path": ".hbn/results/0030-cross-ia-codex-orquestracao-start.json",
+      "verdict": "VETO_ADOCAO: SIM",
+      "counts": {
+        "bloqueador": 0,
+        "forte": 2,
+        "marginal": 2,
+        "total": 4
+      },
+      "notes": "Vetou por G-NUM aceitar ambiguidade prefixo-agente x slug e G-RLT aceitar substring solta de capsula; marginais: contagem de negativos e D6 log frio sem linha explicita."
+    },
+    {
+      "path": ".hbn/results/0031-cross-ia-antigravity-orquestracao-start.md",
+      "machine_path": null,
+      "verdict": "VETO_ADOCAO: SIM",
+      "counts": {
+        "forte": 2,
+        "marginal": 4
+      },
+      "notes": "Vetou por G-NUM prefixo e desalinhamento start como CLI; tambem apontou data serial, G-PTR code-fence, parser G-RLT e D6 log frio."
+    },
+    {
+      "path": ".hbn/results/0032-cross-ia-codex-fix-orquestracao-start.md",
+      "machine_path": ".hbn/results/0032-cross-ia-codex-fix-orquestracao-start.json",
+      "verdict": "VETO_ADOCAO: NAO",
+      "counts": {
+        "bloqueador": 0,
+        "forte": 0,
+        "marginal": 0,
+        "total": 0
+      },
+      "notes": "Reauditou o fix: G-NUM token exato e data serial, G-RLT heading exato e parser, G-PTR code-fence, D1 start rito declarativo e D6 log frio no mapa. Suite 63/63 e adversariais 6/6."
+    },
+    {
+      "path": ".hbn/results/0033-cross-ia-antigravity-fix-orquestracao-start.md",
+      "machine_path": ".hbn/results/0033-cross-ia-antigravity-fix-orquestracao-start.json",
+      "verdict": "VETO_ADOCAO: NAO",
+      "counts": {
+        "bloqueador": 0,
+        "forte": 0,
+        "marginal": 0,
+        "total": 0
+      },
+      "notes": "Aprovou o fix dos 3 FORTE: tokens exatos no G-NUM, data serial, capsula por heading exato, start declarativo e suite 63/63."
+    }
+  ],
+  "invariants_preserved": [
+    "Adocao e status flip, nao expansao de escopo: somente ADR-024, 4 specs core, 4 guards, suite 63, REGISTRY, STATE e evidencias/readback associados.",
+    "Os 4 guards G-STR/G-NUM/G-PTR/G-RLT permanecem FORA de guards/hbn-guards-runner.sh.",
+    "Ativacao de guards e onda futura propria; pre-condicao explicita: testes negativos dos 5 guards legados antes de qualquer inclusao no runner.",
+    "D2 contrato do orquestrador continua doutrina-sem-enforcement, backlog.",
+    "D6 conteudo da capsula e D6 log frio/read-list continuam doutrina-sem-enforcement, backlog; a presenca do heading da capsula e a face checavel via G-RLT.",
+    "Nenhum dominio, projeto consumidor, app, inbox de produto, workflow, src/, tests/ de produto, modules/, examples/, auditoria/ ou radar/ e tocado.",
+    "Nao implementar nem declarar subcomando CLI start; ADR-024 e start-rite-spec adotam start como rito textual declarativo.",
+    "REGISTRY permanece append-only: novas linhas de adocao/evidencia/readback, sem reescrever historia.",
+    "Readback/human gate: Codex nao transforma pending em confirmed sem ato humano explicito."
+  ],
+  "action_plan": [
+    "1. PARAR apos este arquivo ate hearback humano: Mauricio confirma este readback, editando status/hearback_status/human_status para confirmed ou emitindo ato equivalente inequivoco.",
+    "2. Apos confirmed, flipar ADR-024 de PROPOSED para ACCEPTED e hearback-status para confirmed.",
+    "3. Apos confirmed, flipar as 4 specs core de status: proposed para accepted e hearback-status para confirmed.",
+    "4. Apos confirmed, flipar os 4 guards de status: proposed para accepted, preservando comentarios de FORA do runner.",
+    "5. Apos confirmed, adotar a secao ADR-024 da suite guards/tests/run-guard-tests.sh como suite 63 accepted, preservando a contagem honesta 63 total / ADR-024 30 checks / 20 negativos de bloqueio.",
+    "6. Apos confirmed, appendar REGISTRY.md com linhas para este readback, evidencias 0030/0031/0032/0033 e mudanca de estado dos artefatos adotados.",
+    "7. Apos confirmed, atualizar .hbn/relay/STATE.md apenas para refletir orquestracao-start adotada, suite 63, 0032/0033 sem veto, guards fora do runner e bastao devolvido a claude-fable-5.",
+    "8. Apos confirmed, incluir no commit as evidencias 0030/0031/0032/0033, incluindo 0032/0033 hoje untracked.",
+    "9. Verificar: bash guards/tests/run-guard-tests.sh termina 63/63; guards novos seguem fora do runner; grep de status proposed nos adotados retorna 0.",
+    "10. Criar commit atomico: release(protocol): adopt orquestracao-start (ADR-024 + 4 specs + 4 guards + suite 63), com trailer HBN-Readback: .hbn/readbacks/0004-adocao-orquestracao-start.json.",
+    "11. Ao terminar, devolver o bastao a claude-fable-5."
+  ],
+  "out_of_scope": [
+    "Executar o Passo 2 antes de hearback confirmed.",
+    "Ativar G-STR/G-NUM/G-PTR/G-RLT em guards/hbn-guards-runner.sh.",
+    "Implementar usehbn start em src/usehbn/cli.py ou alterar comportamento de CLI.",
+    "Corrigir riscos residuais nao-veto, como helper de testes negativos por rc != 0, fora de uma onda propria.",
+    "Alterar outros ADRs, correntes D/Seguranca+Onboarding, inboxes de apps, repos consumidores, workflows, codigo de produto ou exemplos.",
+    "Transformar D2/D6 em enforcement mecanico nesta adocao.",
+    "Renomear artefatos historicos ou editar linhas antigas do REGISTRY.",
+    "Criar dominios, projetos ou claims publicos novos."
+  ],
+  "adoption_scope": {
+    "allowed_status_flip": [
+      "methodology/adr/ADR-024-orquestracao-start.md",
+      "core/start-rite-spec.md",
+      "core/pointer-spec.md",
+      "core/state-report-spec.md",
+      "core/orchestrator-profile-spec.md",
+      "guards/assert-start-cast.sh",
+      "guards/assert-parallel-id.sh",
+      "guards/assert-pointer-honest.sh",
+      "guards/assert-report-fresh.sh",
+      "guards/tests/run-guard-tests.sh",
+      "REGISTRY.md",
+      ".hbn/relay/STATE.md"
+    ],
+    "evidence_to_include": [
+      ".hbn/results/0030-cross-ia-codex-orquestracao-start.md",
+      ".hbn/results/0030-cross-ia-codex-orquestracao-start.json",
+      ".hbn/results/0031-cross-ia-antigravity-orquestracao-start.md",
+      ".hbn/results/0032-cross-ia-codex-fix-orquestracao-start.md",
+      ".hbn/results/0032-cross-ia-codex-fix-orquestracao-start.json",
+      ".hbn/results/0033-cross-ia-antigravity-fix-orquestracao-start.md",
+      ".hbn/results/0033-cross-ia-antigravity-fix-orquestracao-start.json"
+    ],
+    "files_allowed_after_confirmation": [
+      ".hbn/readbacks/0004-adocao-orquestracao-start.json",
+      ".hbn/results/0030-cross-ia-codex-orquestracao-start.md",
+      ".hbn/results/0030-cross-ia-codex-orquestracao-start.json",
+      ".hbn/results/0031-cross-ia-antigravity-orquestracao-start.md",
+      ".hbn/results/0032-cross-ia-codex-fix-orquestracao-start.md",
+      ".hbn/results/0032-cross-ia-codex-fix-orquestracao-start.json",
+      ".hbn/results/0033-cross-ia-antigravity-fix-orquestracao-start.md",
+      ".hbn/results/0033-cross-ia-antigravity-fix-orquestracao-start.json",
+      "methodology/adr/ADR-024-orquestracao-start.md",
+      "core/start-rite-spec.md",
+      "core/pointer-spec.md",
+      "core/state-report-spec.md",
+      "core/orchestrator-profile-spec.md",
+      "guards/assert-start-cast.sh",
+      "guards/assert-parallel-id.sh",
+      "guards/assert-pointer-honest.sh",
+      "guards/assert-report-fresh.sh",
+      "guards/tests/run-guard-tests.sh",
+      "REGISTRY.md",
+      ".hbn/relay/STATE.md"
+    ],
+    "files_forbidden": [
+      "guards/hbn-guards-runner.sh",
+      "src/**",
+      "tests/**",
+      ".github/workflows/**",
+      "modules/**",
+      "examples/**",
+      "inbox/**",
+      "auditoria/**",
+      "radar/**",
+      "docs/**",
+      "methodology/adr/INDEX.md"
+    ],
+    "adopted_semantics": [
+      "ADR-024: orquestracao-start consolidada como rito declarativo, ponteiro HBN, relato de estado, numeracao paralela e captura de tacit drift.",
+      "Start-rite spec: usehbn start e nome de rito textual, nao subcomando CLI; G-STR e G-NUM ficam especificados e implementados, fora do runner.",
+      "Pointer spec: Ponteiro HBN de 1 linha gerado do disco; G-PTR valida path staged e ignora code fences.",
+      "State-report spec: relato fixo <=10 linhas, proxima_acao/ultima_atualizacao contra STATE staged e capsula por heading exato.",
+      "Orchestrator-profile spec: papel conversacional-orquestrador reinicializavel por leitura, com contrato curto e doutrina-sem-enforcement.",
+      "Suite 63: 63 checks totais verdes; secao ADR-024 com 30 checks, 20 negativos de bloqueio e contagem honesta.",
+      "Nenhum guard novo entra no runner nesta adocao."
+    ]
+  },
+  "authorization": {
+    "cross_ia": [
+      {
+        "path": ".hbn/results/0030-cross-ia-codex-orquestracao-start.md",
+        "verdict": "VETO_ADOCAO: SIM",
+        "role": "veto historico pre-fix"
+      },
+      {
+        "path": ".hbn/results/0031-cross-ia-antigravity-orquestracao-start.md",
+        "verdict": "VETO_ADOCAO: SIM",
+        "role": "veto historico pre-fix"
+      },
+      {
+        "path": ".hbn/results/0032-cross-ia-codex-fix-orquestracao-start.md",
+        "verdict": "VETO_ADOCAO: NAO; 0 findings",
+        "role": "re-auditoria do fix"
+      },
+      {
+        "path": ".hbn/results/0033-cross-ia-antigravity-fix-orquestracao-start.md",
+        "verdict": "VETO_ADOCAO: NAO; 0 findings",
+        "role": "re-auditoria do fix"
+      }
+    ],
+    "human_hearback_required": true,
+    "human_hearback_status": "confirmed",
+    "human_hearback_rule": "Somente Mauricio pode confirmar este readback. Codex deve parar no Passo 1 ate confirmacao humana explicita."
+  },
+  "verification_plan": [
+    "bash guards/tests/run-guard-tests.sh deve terminar com '== resumo: 63 passaram, 0 falharam =='.",
+    "rg -n \"assert-start-cast|assert-parallel-id|assert-pointer-honest|assert-report-fresh\" guards/hbn-guards-runner.sh deve retornar 0 matches ou confirmar ausencia dos 4 guards novos no runner.",
+    "rg -n \"status: proposed|status: PROPOSED\" methodology/adr/ADR-024-orquestracao-start.md core/start-rite-spec.md core/pointer-spec.md core/state-report-spec.md core/orchestrator-profile-spec.md guards/assert-start-cast.sh guards/assert-parallel-id.sh guards/assert-pointer-honest.sh guards/assert-report-fresh.sh guards/tests/run-guard-tests.sh deve retornar 0 para os adotados apos o flip.",
+    "git diff --cached --name-only apos staging deve conter apenas arquivos permitidos em files_allowed_after_confirmation.",
+    "git log --oneline -1 apos commit deve mostrar a mensagem atomica solicitada; git show -s --format=%B HEAD deve conter HBN-Readback: .hbn/readbacks/0004-adocao-orquestracao-start.json."
+  ],
+  "residual_risks": [
+    "0030/0031 permanecem como historico de veto pre-fix; a adocao depende da cadeia 0030/0031 -> fix -> 0032/0033, nao de apagar o veto.",
+    "0032/0033 estavam untracked no inicio deste ciclo; devem entrar no commit de adocao para nao virarem referencia fantasma.",
+    "A suite ainda usa rc != 0 para alguns casos block; 0032/0033 trataram isso como risco residual nao-veto pela existencia de casos pass e probes adversariais com motivo esperado.",
+    "A linha D6 log frio/read-list segue doutrina-sem-enforcement; isso e invariante desta adocao, nao pendencia a resolver agora.",
+    ".hbn/readbacks/ e gitignored; o Passo 2 precisa versionar este arquivo explicitamente."
+  ],
+  "classification_basis": {
+    "has_guardian_warnings": false,
+    "has_risks": true,
+    "has_constraints": true
+  },
+  "created_at": "2026-06-10T21:57:57-03:00",
+  "protocol_version": "0.3.0",
+  "commit": {
+    "message": "release(protocol): adopt orquestracao-start (ADR-024 + 4 specs + 4 guards + suite 63)",
+    "trailer": "HBN-Readback: .hbn/readbacks/0004-adocao-orquestracao-start.json"
+  },
+  "handoff_after_completion": "claude-fable-5"
+}

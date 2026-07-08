@@ -1,0 +1,38 @@
+{
+  "readback_id": "0073-selagem-w-lex",
+  "execution_id": "selagem-w-lex-2026-06-21",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "vigente",
+  "seals_proposal": "0072",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0073-selagem-w-lex.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260621-000000-opus-4-8-despacho-selagem-0073.md",
+  "understanding": "Selar W-LEX (readback 0072) como vigente apos quorum != OpenAI (antigravity/Google + grok/xAI, ambos APROVA_0072: SIM) e hearback humano. Declara seals_proposal 0072 e trackea os 2 pareceres (G-QUORUM). Marcar W-LEX SELADO E VIGENTE, A1-A4 completos, REGISTRY e regenerar atestacao same-fp com readback_ativo->0073. Ato de autoridade sob G-ORQ-REF (Exit A').",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Hearback humano confirmado para a selagem 0073 (W-LEX 0072) e tracking dos files_allowed no despacho de 2026-06-21T00:00:00-03:00.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0073-selagem-w-lex.json",
+      ".hbn/messages/20260621-000000-opus-4-8-despacho-selagem-0073.md",
+      ".hbn/results/20260620-234500-antigravity-cross-ia-w-lex-0072.md",
+      ".hbn/results/20260620-235500-grok-cross-ia-w-lex-0072.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": ["main","guards/**","src/**","core/**","methodology/**","schemas/**","docs/brainstorm/**",".hbn/freeze/**"]
+  },
+  "stop_condition": "Selagem 0073 (W-LEX vigente) concluida; A1-A4 completos. NAO iniciar W-ORQ-4/W-FREEZE neste commit.",
+  "HBN-Readback": "0073",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-21T00:00:00-03:00",
+  "protocol_version": "0.3.0"
+}

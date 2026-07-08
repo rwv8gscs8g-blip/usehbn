@@ -1,0 +1,8 @@
+{
+  "hearback_id": "0001-consolidacao-c1-c7",
+  "readback_id": "0001-consolidacao-c1-c7",
+  "status": "confirmed",
+  "signed_by": "mauricio-zanin",
+  "signed_at": "2026-06-10T04:16:39-03:00",
+  "notes": "Hearback dado por Mauricio no chat (Cowork/Fable, 2026-06-10): 'hearback nos 5 lotes aprovados. pode seguir'. Aprova os lotes C1 (relay spec v2 + schemas), C2 (ADR-011/012/008v2 + inbox), C3 (guards + CI + bump 0.3.1), C4 (ADR-013 + decomposicao do arquiteto + ADR-010->ACCEPTED) e C6/C7 (ADR-014 tiers + ADR-015 perfis + inbox 0017-parametrica). Condicoes preservadas: rampa classe A segue em dry-run por 1 semana; perfis nao relaxam threshold sem novo hearback; proposta ao Credenciamento permanece proposta (adocao e onda do projeto)."
+}

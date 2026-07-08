@@ -1,0 +1,72 @@
+{
+  "readback_id": "0009-emenda-doutrina-orquestrador",
+  "execution_id": "onda-0009-emenda-doutrina-orquestrador-2026-06-13",
+  "agent_id": "claude-opus-4-8-orquestrador-0009",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_execution",
+  "hearback_status": "formal_adiado_fase_2",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0009-emenda-doutrina-orquestrador.json",
+  "understanding": "Onda 0009 aplica, no tempo 3, a emenda humana-confirmada da doutrina do orquestrador em core/orchestrator-profile-spec.md. A spec passa de 0.1.0 para 0.2.0, recebe as clausulas 7 (camada de abstracao para o humano), 8 (MODO EDUCACIONAL em 5 niveis), 9 (roteamento de modelo com familia=fornecedor e exclusao dinamica do fornecedor implementador nos auditores) e o refino da clausula 4. A redacao incorpora as prescricoes dos pareceres Codex e Gemini da onda 0008: corrigir a ambiguidade de familia, manter MODO fora do G-RLT nesta adocao, blindar Truth Barrier contra opacidade didatica, distinguir warm boot de reboot e evitar roteamento fixo que deixe Codex auditar Codex.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Gate humano confirmou a aplicacao da emenda da spec nesta onda 0009 apos cross-audit Codex+Gemini da proposta da onda 0008.",
+    "note": "Nao criar hearback numerado nesta onda: o deadlock B2 (G-REG x G-HRB) segue aberto. A adocao desta emenda se da por cerimonia humano-aplicada + auditoria Gemini; o hearback ADR-023 formal entra na fase-2."
+  },
+  "scope": {
+    "files_allowed": [
+      "core/orchestrator-profile-spec.md",
+      ".hbn/results/20260613-221518-codex-cross-ia-onda-0008-doutrina.md",
+      ".hbn/results/20260613-221433-gemini-3-5-cross-ia-onda-0008-doutrina.md",
+      ".hbn/readbacks/0009-emenda-doutrina-orquestrador.json",
+      ".hbn/messages/20260613-225152-codex-handoff-onda-0009-emenda-doutrina.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md"
+    ],
+    "files_forbidden": [
+      "guards/**",
+      "src/**",
+      "examples/**",
+      "inbox/**",
+      "local-ai/**",
+      "site/**",
+      "**/*.bas",
+      "**/*.frm",
+      "**/*.cls",
+      ".hbn/hearbacks/**"
+    ]
+  },
+  "invariants_preserved": [
+    "Firewall 0022: nenhuma escrita em guards/src/VBA/examples/inbox/dominio.",
+    "Nao baixar o sinal F-01: permanece vermelho e PROPOSED ate a fase-2.",
+    "Nao criar hearback numerado nesta onda por causa do deadlock B2 G-REG x G-HRB.",
+    "Nao commitar os 2 handoffs historicos; a cerimonia usa git add -f com paths explicitos.",
+    "Os 2 pareceres da onda 0008 entram como record frio de adocao, com linhas REGISTRY.",
+    "MODO EDUCACIONAL permanece doutrina-sem-enforcement; fora do G-RLT nesta adocao."
+  ],
+  "action_plan": [
+    "C1: emendar core/orchestrator-profile-spec.md com clausulas 7/8/9, refino 4, versao 0.2.0 e revisar-em 2026-09-13.",
+    "C2: registrar os dois pareceres de cross-audit da onda 0008 no REGISTRY.",
+    "C3: criar este readback, criar handoff novo, atualizar STATE e REGISTRY.",
+    "C4: rodar bash guards/tests/run-guard-tests.sh | tail -2 e re-simular G-SCO/G-REG/G-PAR/G-SLF/G-RLT contra os nomes novos.",
+    "C5: entregar a cerimonia zsh-safe para o operador; nao executar git add/commit no sandbox."
+  ],
+  "out_of_scope": [
+    "Baixa formal da F-01.",
+    "Fase-2 B1/B2/B3 e sinais/painel.",
+    "Hearback ADR-023 numerado.",
+    "Qualquer mudanca em guards, codigo de produto, dominio, VBA, examples ou inbox."
+  ],
+  "residual_risks": [
+    "A auditoria da emenda por Gemini ainda precisa acontecer antes do hearback formal da fase-2.",
+    "A cerimonia de commit e ato do operador no Terminal canonico, com paths explicitos e trailers HBN-Readback: 0009 e HBN-Token-FP: 34a7f2f9."
+  ],
+  "classification_basis": {
+    "has_guardian_warnings": false,
+    "has_risks": true,
+    "has_constraints": true
+  },
+  "created_at": "2026-06-13T22:51:52-03:00",
+  "protocol_version": "0.3.0"
+}

@@ -1,0 +1,11 @@
+{
+  "hearback_id": "20260704-194343-mauricio-hearback-fase1-selagem-genoma",
+  "status": "confirmed",
+  "confirmed_by": "Mauricio",
+  "confirmed_at": "2026-07-04T19:43:43-03:00",
+  "escriba": "claude-opus-4-8 (transcricao por ordem do gate; conteudo normativo do humano)",
+  "sela": "readback 0119-fase1-exuvia-genoma + os 9 itens da Fase 1 do mapa definitivo (orquestracao/20260703-170223-fable-5-mapa-definitivo-exuvia-consolidacao-final.md)",
+  "auditoria": "2 familias != OpenAI, ambas APROVA_FASE1 SIM, sem bloqueador: .hbn/results/20260704-193500-cross-ia-antigravity-fase1-genoma.md e .hbn/results/20260704-193900-cross-ia-grok-fase1-genoma.md",
+  "autoriza": "commit da onda Fase 1 no genoma usehbn (operador, assinado, com guards/hbn-guards-runner.sh verde) e a Fase 2 (propagacao do snapshot ao Credenciamento)",
+  "nota_fase3": "documentar o fluxo install -> stage linhas genese -> commit com hearback (recomendacao MARGINAL do grok, parecer fase1)"
+}

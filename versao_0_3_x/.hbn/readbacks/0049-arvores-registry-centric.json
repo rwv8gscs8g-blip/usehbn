@@ -1,0 +1,70 @@
+{
+  "readback_id": "0049-arvores-registry-centric",
+  "execution_id": "arvores-registry-centric-2026-06-17",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0049-arvores-registry-centric.json",
+  "understanding": "Implementar o mecanismo de arvores registry-centric: coluna arvore no REGISTRY going-forward (7 colunas), spec curta core/arvores-spec.md (REGISTRY=fonte unica; promocao=evento append-only reusando 8 criterios de exuvia; invariante estavel=>quente), G-REG exigindo arvore em artefato novo com matcher/created_at column-aware, assert-parallel-id.sh com created_at column-aware (aditamento de escopo aprovado pelo orquestrador apos codex detectar conflito G-NUM), e novo G-ARVORE-LABEL anti-mislabel, com testes e burla B38. NAO selar os 4 batch1-fronteira (faltam SOU canonico). NAO estender G-REG para M geral. Se outro guard quebrar por parse posicional do REGISTRY, parar e relatar. Sem tocar src, methodology, schemas, outras specs de core.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio em 2026-06-17: 'quero exaurir o R2 (arvores) com urgencia' + aprovacao do aditamento de escopo (+assert-parallel-id.sh) apos o codex detectar o conflito G-NUM.",
+    "created_at": "2026-06-17T14:30:00-03:00",
+    "note": "Autorizacao humana para safe_track. Nao autoriza tocar main, merge, --no-verify, git add ., src, methodology, schemas, outras specs de core, brainstorm, habilitar D-ORQ-WRITE."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0049-arvores-registry-centric.json",
+      "core/arvores-spec.md",
+      "REGISTRY.md",
+      "guards/assert-registry-line.sh",
+      "guards/assert-parallel-id.sh",
+      "guards/assert-arvore-label.sh",
+      "guards/hbn-guards-runner.sh",
+      "guards/tests/run-guard-tests.sh",
+      "guards/tests/adversarial-battery.sh",
+      ".hbn/relay/STATE.md",
+      ".hbn/messages/20260617-HHMMSS-codex-handoff-arvores.md"
+    ],
+    "files_forbidden": ["main","src/**","methodology/**","schemas/**","docs/brainstorm/**"]
+  },
+  "action_plan": [
+    "C1: abre readback 0049 + STATE(impl=codex, 🔴).",
+    "C2: core/arvores-spec.md.",
+    "C3: header 7-col + G-REG (arvore + column-aware) + assert-parallel-id.sh (created_at column-aware).",
+    "C4: G-ARVORE-LABEL + runner.",
+    "C5: testes + burla B38.",
+    "C6: STATE + handoff."
+  ],
+  "invariants_to_preserve": [
+    "Nao tocar main, src, methodology, schemas, outras specs de core, brainstorm.",
+    "Promocao = evento append-only; nunca editar em-lugar a linha original.",
+    "Nao selar os 4 batch1-fronteira; nao estender G-REG para M geral.",
+    "created_at e matcher de path column-aware (6-col legado E 7-col novo) em assert-registry-line.sh e assert-parallel-id.sh; se outro guard quebrar, PARAR e relatar (sem auto-emenda, sem enfraquecer).",
+    "Nao usar git add .; somente paths exatos.",
+    "implementador=codex e 🔴 G-EXC PROPOSED no STATE desde C1; trailers CONTIGUOS.",
+    "Antes de cada commit: runner + run-guard-tests + adversarial verdes; pytest 213.",
+    "Trailers: HBN-Readback: 0049, HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin), HBN-Token-FP: 34a7f2f9."
+  ],
+  "out_of_scope": [
+    "Selagem dos 4 batch1-fronteira (curadoria propria).",
+    "Extensao geral do G-REG para M (R3).",
+    "Camada 2 do G-AUDITOR-ID; exuvia; freeze."
+  ],
+  "read_evidence": [
+    "docs/brainstorm/rodada-2026-06-17/R2-arvores-design-e-despacho.md (design fechado)",
+    ".hbn/messages/20260616-180000-opus-4-8-proposta-arvores-leve-e-fechamento-mvp.md (ADENDO: registry-centric)",
+    "core/exuvia-fitness-criteria.md (8 criterios para o gate de promocao)",
+    "codex 2026-06-17: G-NUM (assert-parallel-id.sh) le created_at por posicao -> conflito com 7-col"
+  ],
+  "mechanical_evidence": [
+    "git rev-parse HEAD -> e2fab42 (tip selagem g-auditor-id)",
+    "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04",
+    "REGISTRY header going-forward atual = 5-6 colunas (sem arvore); core/arvores-spec.md inexistente"
+  ],
+  "created_at": "2026-06-17T14:30:00-03:00",
+  "protocol_version": "0.3.0"
+}

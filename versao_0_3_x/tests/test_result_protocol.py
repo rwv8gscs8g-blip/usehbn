@@ -1,0 +1,213 @@
+import json
+import sys
+from pathlib import Path
+
+import pytest
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+
+from usehbn.cli import _parse_evidence
+from usehbn.protocol.result import create_result_record
+from usehbn.state.store import append_result_state, load_state_document
+
+
+def test_valid_erp_creation(tmp_path):
+    record = create_result_record(
+        execution_id="exec-123",
+        agent_id="agent-codex",
+        hbn_outcome="executed",
+        human_status="approved",
+        action_taken="Created ERP ledger entry.",
+        risk_flags={"deception": True, "ethical_break": True},
+        review_notes="Approved after inspection.",
+        evidence=[{"type": "log", "reference": "logs/exec-123.json"}],
+        storage_dir=tmp_path,
+    )
+
+    assert record["traceability"]["execution_id"] == "exec-123"
+    assert record["hbn_outcome"] == "executed"
+    assert record["human_decision"]["status"] == "approved"
+    assert record["intent_risk_profile"]["deception"] is True
+    assert record["intent_risk_profile"]["ethical_break"] is True
+    assert "other_emergent_risk" not in record["intent_risk_profile"]
+    assert record["created_at"].endswith("Z")
+    assert "+00:00" not in record["created_at"]
+
+    persisted = json.loads(
+        (tmp_path / ".hbn" / "results" / "exec-123.json").read_text(encoding="utf-8")
+    )
+    assert persisted["action_taken"] == "Created ERP ledger entry."
+
+
+def test_erp_reads_legacy_usehbn_readback_and_writes_canonical_result(tmp_path):
+    legacy_readbacks = tmp_path / ".usehbn" / "readbacks"
+    legacy_readbacks.mkdir(parents=True, exist_ok=True)
+    legacy_readback = {
+        "readback_id": "readback-exec-legacy-rb",
+        "execution_id": "exec-legacy-rb",
+        "agent_id": "agent-codex",
+        "track": "safe_track",
+        "hearback_status": "confirmed",
+        "understanding": "Legacy readback stays readable.",
+        "invariants_preserved": ["Public API unchanged"],
+        "action_plan": ["Create ERP"],
+        "classification_basis": {
+            "has_guardian_warnings": False,
+            "has_risks": True,
+            "has_constraints": False,
+        },
+        "created_at": "2026-06-16T00:00:00Z",
+    }
+    (legacy_readbacks / "exec-legacy-rb.json").write_text(
+        json.dumps(legacy_readback),
+        encoding="utf-8",
+    )
+
+    record = create_result_record(
+        execution_id="exec-legacy-rb",
+        agent_id="agent-codex",
+        hbn_outcome="executed",
+        human_status="approved",
+        action_taken="Created ERP from legacy readback.",
+        readback_id="readback-exec-legacy-rb",
+        storage_dir=tmp_path,
+    )
+
+    assert record["readback_id"] == "readback-exec-legacy-rb"
+    assert (tmp_path / ".hbn" / "results" / "exec-legacy-rb.json").exists()
+    assert not (tmp_path / ".usehbn" / "results" / "exec-legacy-rb.json").exists()
+
+
+def test_result_record_includes_protocol_version(tmp_path):
+    record = create_result_record(
+        execution_id="exec-pv-001",
+        agent_id="agent-codex",
+        hbn_outcome="executed",
+        human_status="approved",
+        action_taken="Protocol version field present.",
+        storage_dir=tmp_path,
+    )
+    assert record["protocol_version"] == "0.3.0"
+
+
+def test_protocol_version_optional_in_schema(tmp_path):
+    # Records carregados sem protocol_version (legados) devem permanecer validos.
+    from usehbn.utils.validators import assert_valid_payload
+    legacy_record = {
+        "traceability": {"execution_id": "exec-legacy", "agent_id": "legacy"},
+        "hbn_outcome": "executed",
+        "human_decision": {"status": "approved"},
+        "intent_risk_profile": {
+            "deception": False, "improbable": False, "random": False,
+            "herd_behavior": False, "financial_survival_risk": False,
+            "abandonment_or_resource_loss_risk": False,
+            "curiosity_driven": False, "agi_resource_shift": False,
+            "ethical_break": False,
+        },
+        "action_taken": "Legacy record without protocol_version.",
+        "created_at": "2026-01-01T00:00:00Z",
+    }
+    assert_valid_payload(legacy_record, "result.schema.json")  # nao deve levantar
+
+
+def test_outcome_enum_rejection(tmp_path):
+    with pytest.raises(ValueError):
+        create_result_record(
+            execution_id="exec-124",
+            agent_id="agent-codex",
+            hbn_outcome="success",
+            human_status="approved",
+            action_taken="Invalid outcome should fail validation.",
+            storage_dir=tmp_path,
+        )
+
+
+def test_state_append(tmp_path):
+    record = create_result_record(
+        execution_id="exec-125",
+        agent_id="agent-codex",
+        hbn_outcome="failed",
+        human_status="conditional",
+        action_taken="Recorded ERP failure.",
+        storage_dir=tmp_path,
+    )
+
+    append_result_state(record, base_dir=tmp_path)
+    state = load_state_document(tmp_path)
+
+    assert "results" in state
+    assert len(state["results"]) == 1
+
+
+def test_result_overwrite_rejected(tmp_path):
+    create_result_record(
+        execution_id="exec-126",
+        agent_id="agent-codex",
+        hbn_outcome="executed",
+        human_status="approved",
+        action_taken="First result write.",
+        storage_dir=tmp_path,
+    )
+
+    with pytest.raises(ValueError):
+        create_result_record(
+            execution_id="exec-126",
+            agent_id="agent-codex",
+            hbn_outcome="executed",
+            human_status="approved",
+            action_taken="Second result write should fail.",
+            storage_dir=tmp_path,
+        )
+
+
+def test_duplicate_state_append_rejected(tmp_path):
+    record = create_result_record(
+        execution_id="exec-127",
+        agent_id="agent-codex",
+        hbn_outcome="executed_with_risk",
+        human_status="conditional",
+        action_taken="Append once only.",
+        storage_dir=tmp_path,
+    )
+
+    append_result_state(record, base_dir=tmp_path)
+    with pytest.raises(ValueError):
+        append_result_state(record, base_dir=tmp_path)
+
+
+def test_optional_other_emergent_risk_may_be_omitted(tmp_path):
+    record = create_result_record(
+        execution_id="exec-128",
+        agent_id="agent-codex",
+        hbn_outcome="executed",
+        human_status="approved",
+        action_taken="Optional field omitted.",
+        storage_dir=tmp_path,
+    )
+
+    assert "other_emergent_risk" not in record["intent_risk_profile"]
+
+
+def test_action_taken_max_length_enforced(tmp_path):
+    with pytest.raises(ValueError):
+        create_result_record(
+            execution_id="exec-129",
+            agent_id="agent-codex",
+            hbn_outcome="executed",
+            human_status="approved",
+            action_taken="x" * 501,
+            storage_dir=tmp_path,
+        )
+
+
+def test_evidence_parsing_strips_whitespace():
+    evidence = _parse_evidence([" log : logs/exec-123.json "])
+    assert evidence == [{"type": "log", "reference": "logs/exec-123.json"}]
+
+
+def test_evidence_parsing_rejects_empty_fields():
+    with pytest.raises(ValueError):
+        _parse_evidence([" :logs/exec-123.json"])
+
+    with pytest.raises(ValueError):
+        _parse_evidence(["log: "])

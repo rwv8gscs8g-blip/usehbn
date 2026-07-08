@@ -1,0 +1,50 @@
+{
+  "readback_id": "0088-fix-freeze-meta-deref",
+  "execution_id": "fix-freeze-meta-deref-2026-06-21",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "implemented_pending_cross_audit",
+  "activation_status": "PROPOSED_UNTIL_CROSS_AUDIT",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0088-fix-freeze-meta-deref.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260621-113000-opus-4-8-despacho-fix-freeze-meta-deref.md",
+  "understanding": "Corrigir o meta-deref-propostas do freeze-gate (4c): so vetar proposta PROPOSED se NAO resolvida. RESOLVIDA = readback vigente com seals_proposal==NNNN OU linha do STATE (protocolo/sinais) marcando 'NNNN selado e vigente' / 'NNNN ... SUPERAD'. Preserva meta-deref-atestacao e criterios. Atualizar spec. Sanity contra o repo real (as 13 propostas resolvidas). Testes G-FRZ. Implementacao: regenerar atestacao same-fp, parar para cross-audit != OpenAI, NAO selar.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Bug detectado pelo orquestrador no disco (freeze-gate vetaria W-FREEZE por 13 propostas ja seladas mas com status PROPOSED). Gate Mauricio escolheu resolver pelo ledger (protocolo + seals_proposal). Despacho de 2026-06-21T11:30:00-03:00 sob token_fp 34a7f2f9; parar para cross-audit != OpenAI.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      "guards/freeze-gate.sh",
+      "core/freeze-gate-spec.md",
+      "guards/tests/run-guard-tests.sh",
+      ".hbn/messages/20260621-113000-opus-4-8-despacho-fix-freeze-meta-deref.md",
+      ".hbn/readbacks/0088-fix-freeze-meta-deref.json",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": [
+      "main",
+      "core/read-list-canonica.txt",
+      "core/orchestrator-profile-spec.md",
+      "methodology/**",
+      "schemas/**",
+      "src/**",
+      "docs/brainstorm/**",
+      ".hbn/freeze/**",
+      "guards/data/**",
+      "guards/hbn-guards-runner.sh"
+    ]
+  },
+  "stop_condition": "Entrega 0088 (fix-freeze-meta-deref) em commit unico; parar para cross-audit != OpenAI. NAO selar. Apos selagem do 0088, retomar o W-FREEZE.",
+  "HBN-Readback": "0088",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-21T11:30:00-03:00",
+  "protocol_version": "0.3.0"
+}

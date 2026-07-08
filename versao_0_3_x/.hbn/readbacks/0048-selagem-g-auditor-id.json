@@ -1,0 +1,56 @@
+{
+  "readback_id": "0048-selagem-g-auditor-id",
+  "execution_id": "selagem-g-auditor-id-2026-06-17",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0048-selagem-g-auditor-id.json",
+  "understanding": "Selar a onda G-AUDITOR-ID (readback 0047), ratificada por 2 auditores de familia distinta de OpenAI verificados no disco com SOU canonico (antigravity/Google APROVA_0047 SIM conf 100; grok/xAI APROVA_0047 SIM conf 95). Tornar tracked os 2 pareceres com linha no REGISTRY; o proprio G-AUDITOR-ID os valida na adicao (primeiro dogfood real). Atualizar STATE/handoff. Sem tocar main, guards, src, core, schemas, methodology, brainstorm.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio em 2026-06-17: hearback aprovando a selagem do G-AUDITOR-ID apos 2 pareceres ≠-OpenAI verificados no disco com SOU canonico.",
+    "created_at": "2026-06-17T14:00:00-03:00",
+    "note": "Autorizacao humana para safe_track de selagem. Nao autoriza tocar main, merge, --no-verify, git add ., guards, src, core, schemas, methodology, brainstorm."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0048-selagem-g-auditor-id.json",
+      ".hbn/results/20260617-160500-antigravity-cross-ia-g-auditor-id-0047.md",
+      ".hbn/results/20260617-160546-grok-cross-ia-g-auditor-id-0047.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/messages/20260617-HHMMSS-codex-handoff-selagem-g-auditor-id.md"
+    ],
+    "files_forbidden": ["main","guards/**","src/**","core/**","schemas/**","methodology/**","docs/brainstorm/**"]
+  },
+  "action_plan": [
+    "C1: abrir readback 0048 + STATE(impl=codex, 🔴).",
+    "C2: selar 2 pareceres (validados pelo G-AUDITOR-ID) + REGISTRY.",
+    "C3: STATE + handoff."
+  ],
+  "invariants_to_preserve": [
+    "Nao tocar main, guards, src, core, schemas, methodology, brainstorm.",
+    "Os 2 pareceres devem PASSAR no G-AUDITOR-ID (SOU canonico, apelido e familia coerentes); se bloquear, parar e relatar.",
+    "Nao usar git add .; somente paths exatos.",
+    "implementador=codex e 🔴 G-EXC PROPOSED no STATE desde C1; trailers CONTIGUOS.",
+    "Antes de cada commit: runner verde; run-guard-tests + adversarial sem regressao.",
+    "Trailers: HBN-Readback: 0048, HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin), HBN-Token-FP: 34a7f2f9."
+  ],
+  "out_of_scope": [
+    "Camada 2 (diversidade); arvores/R2; freeze; habilitar D-ORQ-WRITE."
+  ],
+  "read_evidence": [
+    ".hbn/results/20260617-160500-antigravity-cross-ia-g-auditor-id-0047.md (APROVA_0047 SIM, SOU antigravity/Google)",
+    ".hbn/results/20260617-160546-grok-cross-ia-g-auditor-id-0047.md (APROVA_0047 SIM, SOU grok/xAI)"
+  ],
+  "mechanical_evidence": [
+    "ls .hbn/results/*g-auditor-id-0047*.md -> 2 arquivos, SOU canonico na linha 1, apelido do nome == apelido do SOU",
+    "git rev-parse HEAD -> c0ddc41 (tip g-auditor-id)",
+    "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04"
+  ],
+  "created_at": "2026-06-17T14:00:00-03:00",
+  "protocol_version": "0.3.0"
+}

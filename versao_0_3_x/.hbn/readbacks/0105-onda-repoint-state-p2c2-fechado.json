@@ -1,0 +1,35 @@
+{
+  "readback_id": "0105-onda-repoint-state-p2c2-fechado",
+  "execution_id": "onda-repoint-state-p2c2-fechado-2026-06-30",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "entregue",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0105-onda-repoint-state-p2c2-fechado.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260630-160000-opus-4-8-despacho-onda-0105-repoint-p2c2-fechado.md",
+  "understanding": "Onda de registro (NAO selagem): P2-C2 FECHADO no repo Credenciamento (commit 23efaac; push confirmado). O INDEX da knowledge foi reconciliado com um bloco canonico de 24 tokens em backtick (entre marcadores HBN-KNOWLEDGE-TOKENS), forma aceita pelo regex do assert-knowledge-index do genoma congelado; e o assert-knowledge-index foi promovido a guard bloqueante no runner project-mode (subset 6->7). Rito do projeto: readback de projeto 0181 safe_track confirmed, git add scoped (INDEX + runner + readback), pre-commit FASE 1 verde com os 7 guards. Esta onda atualiza o STATE do PROTOCOLO: P2-C2 FECHADA; repoint proxima_acao -> P2-D. Sem seals_proposal. Atestacao same-fp regenerada com readback_ativo->0105. Ato de autoridade sob G-ORQ-REF (Exit A'). NAO toca o repo Credenciamento.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio executou o commit P2-C2 no Credenciamento (commit 23efaac; push confirmado) e escolheu o rito governado (readback de projeto 0181 safe_track confirmed). Pre-commit FASE 1 verde com os 7 guards. Orquestrador confirmou no disco: Credenciamento HEAD local==remoto==23efaac. Hearback humano (pronto) confirmado para registrar o marco e repoint para P2-D.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0105-onda-repoint-state-p2c2-fechado.json",
+      ".hbn/messages/20260630-160000-opus-4-8-despacho-onda-0105-repoint-p2c2-fechado.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": ["main","guards/**","src/**","core/**","methodology/**","schemas/**","docs/brainstorm/**",".hbn/freeze/**",".hbn/hearbacks/**",".hbn/operators/**",".hbn/proposals/**","scripts/**",".hbn/results/**"]
+  },
+  "stop_condition": "STATE atualizado (P2-C2 FECHADA; proxima_acao -> P2-D). NAO commitar nada no repo Credenciamento. Parar para o gate humano antes do push.",
+  "HBN-Readback": "0105",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-30T16:00:00-03:00",
+  "protocol_version": "0.3.0"
+}

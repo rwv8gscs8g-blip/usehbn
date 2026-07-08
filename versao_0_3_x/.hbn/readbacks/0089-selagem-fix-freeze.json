@@ -1,0 +1,38 @@
+{
+  "readback_id": "0089-selagem-fix-freeze",
+  "execution_id": "selagem-fix-freeze-2026-06-21",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "vigente",
+  "seals_proposal": "0088",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0089-selagem-fix-freeze.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260621-123000-opus-4-8-despacho-selagem-0089.md",
+  "understanding": "Selar fix-freeze-meta-deref (readback 0088) como vigente apos quorum != OpenAI (antigravity/Google + grok/xAI, ambos APROVA_0088: SIM) e hearback humano. Declara seals_proposal 0088 e trackea os 2 pareceres (G-QUORUM). Com 0088 selado, todas as propostas estao resolvidas e o W-FREEZE fica liberado. REGISTRY e atestacao same-fp regenerada com readback_ativo->0089. proxima_acao: W-FREEZE (gate humano). Ato de autoridade sob G-ORQ-REF (Exit A').",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Hearback humano confirmado para a selagem 0089 (fix-freeze 0088) e tracking dos files_allowed no despacho de 2026-06-21T12:30:00-03:00.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0089-selagem-fix-freeze.json",
+      ".hbn/messages/20260621-123000-opus-4-8-despacho-selagem-0089.md",
+      ".hbn/results/20260621-120000-antigravity-cross-ia-fix-freeze-meta-deref-0088.md",
+      ".hbn/results/20260621-121000-grok-cross-ia-fix-freeze-meta-deref-0088.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": ["main","guards/**","src/**","core/**","methodology/**","schemas/**","docs/brainstorm/**",".hbn/freeze/**"]
+  },
+  "stop_condition": "Selagem 0089 (fix-freeze vigente) concluida; W-FREEZE liberado. NAO iniciar W-FREEZE (gate humano) neste commit.",
+  "HBN-Readback": "0089",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-21T12:30:00-03:00",
+  "protocol_version": "0.3.0"
+}

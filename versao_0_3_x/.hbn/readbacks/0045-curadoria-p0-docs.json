@@ -1,0 +1,64 @@
+{
+  "readback_id": "0045-curadoria-p0-docs",
+  "execution_id": "curadoria-p0-docs-2026-06-17",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0045-curadoria-p0-docs.json",
+  "understanding": "Curadoria P0 de honestidade de documentacao (1a curadoria do dossie de pre-transicao): corrigir AGENTS.md (remove ponteiros mortos modules/ e radar/; declara core/ como casa das specs vivas, nao legado; aponta maturidade para methodology/, adiciona cartao de entrada, esteira, glossario, REGISTRY), criar docs/GLOSSARY.md canonico, e reduzir docs/MATURITY-MATRIX.md (superseded) a stub de redirect. Conteudo aplicado VERBATIM das 3 propostas em docs/brainstorm/rodada-2026-06-17/curadoria-p0/. Todos os 30 paths citados no AGENTS corrigido foram verificados existentes no disco pelo orquestrador. Sem tocar main, guards, schemas, src, core, methodology, outros docs.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio em 2026-06-17: escolheu Curadoria P0 (docs) primeiro e aprovou aplicar AGENTS.md corrigido + glossario + dedup da matriz.",
+    "created_at": "2026-06-17T11:30:00-03:00",
+    "note": "Autorizacao humana para safe_track. Nao autoriza tocar main, merge, --no-verify, git add ., guards, schemas, src, core, methodology, outros docs, brainstorm."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0045-curadoria-p0-docs.json",
+      "AGENTS.md",
+      "docs/GLOSSARY.md",
+      "docs/MATURITY-MATRIX.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/messages/20260617-HHMMSS-codex-handoff-curadoria-p0.md"
+    ],
+    "files_forbidden": ["main","guards/**","schemas/**","src/**","core/**","methodology/**","docs/brainstorm/**"]
+  },
+  "action_plan": [
+    "C1: abrir readback 0045 + STATE(impl=codex, 🔴).",
+    "C2: corrigir AGENTS.md (verbatim da proposta).",
+    "C3: criar docs/GLOSSARY.md + REGISTRY.",
+    "C4: stub de redirect em docs/MATURITY-MATRIX.md.",
+    "C5: STATE + handoff."
+  ],
+  "invariants_to_preserve": [
+    "Nao tocar main, guards, schemas, src, core, methodology, outros docs, brainstorm.",
+    "Conteudo VERBATIM das 3 propostas; sem inventar texto novo.",
+    "Nenhum ponteiro morto novo no AGENTS.md (todos os paths existem).",
+    "Nao usar git add .; somente paths exatos.",
+    "implementador=codex e 🔴 G-EXC PROPOSED no STATE desde C1; trailers CONTIGUOS.",
+    "Antes de cada commit: runner verde; adversarial B1-B33 sem regressao.",
+    "Trailers: HBN-Readback: 0045, HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin), HBN-Token-FP: 34a7f2f9."
+  ],
+  "out_of_scope": [
+    "Re-apontar ponteiros vivos para docs/MATURITY-MATRIX.md (cleanup futuro).",
+    "arvores/R2; freeze; habilitar D-ORQ-WRITE."
+  ],
+  "read_evidence": [
+    "docs/brainstorm/rodada-2026-06-17/curadoria-p0/AGENTS-corrigido-proposto.md (texto corrigido + correcoes vs disco)",
+    "docs/brainstorm/rodada-2026-06-17/curadoria-p0/GLOSSARY-proposto.md",
+    "docs/brainstorm/rodada-2026-06-17/curadoria-p0/matriz-dedup-acao.md",
+    "AGENTS.md:26,64,67,69,70 (afirmacoes falsas: modules/ e radar/ inexistentes; core/docs como legado)"
+  ],
+  "mechanical_evidence": [
+    "ls -d modules radar -> No such file or directory (ambos)",
+    "30/30 paths citados no AGENTS corrigido existem (verificado pelo orquestrador)",
+    "git rev-parse HEAD -> c13d64a (tip selagem esteira)",
+    "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04"
+  ],
+  "created_at": "2026-06-17T11:30:00-03:00",
+  "protocol_version": "0.3.0"
+}

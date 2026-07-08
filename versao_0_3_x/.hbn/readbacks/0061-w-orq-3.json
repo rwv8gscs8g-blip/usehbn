@@ -1,0 +1,82 @@
+{
+  "readback_id": "0061-w-orq-3",
+  "execution_id": "w-orq-3-2026-06-18",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0061-w-orq-3.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "understanding": "Implementar W-ORQ-3: gatear somente atos de autoridade do orquestrador (despacho, selagem, freeze) para exigir orq_entrada_ref no readback/freeze-json em curso, dereferenciar o FP do bastao no STATE, reusar assert-orq-entrada.sh para validar a atestacao e bloquear ausencia, dangling, fp divergente, atestacao invalida e auto-repin no mesmo commit de ato de autoridade.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "DESPACHO useHBN — W-ORQ-3 (orq_entrada_ref em atos de autoridade). Bastao token_fp 34a7f2f9; orquestrador Anthropic != implementador OpenAI; readback 0061 safe_track; orq_entrada_ref=.hbn/attestations/34a7f2f9-orq-entrada.json; gate humano antes da selagem.",
+    "created_at": "2026-06-18T12:18:42-03:00",
+    "note": "A entrega implementa o guard; selagem fica para readback proprio 0062+ apos cross-audit >=2 familias != OpenAI e hearback humano."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0061-w-orq-3.json",
+      "guards/assert-orq-entrada-ref.sh",
+      "guards/hbn-guards-runner.sh",
+      "guards/tests/run-guard-tests.sh",
+      "guards/tests/adversarial-battery.sh",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/messages/20260618-121842-codex-handoff-w-orq-3.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": [
+      "main",
+      "src/**",
+      "methodology/**",
+      "docs/brainstorm/**",
+      ".hbn/freeze/**",
+      "core/**",
+      "schemas/**"
+    ]
+  },
+  "action_plan": [
+    "C1: criar guard assert-orq-entrada-ref.sh com deteccao restrita a despacho, selagem e freeze.",
+    "C2: registrar o guard no runner apos assert-dispatch-integrity.",
+    "C3: adicionar casos bons e fail-closed na suite normal, incluindo nao-autoridade isenta.",
+    "C4: adicionar B48-B51 na bateria adversarial: ref omitido, dangling, fp trocado e auto-repin.",
+    "C5: atualizar STATE, REGISTRY, handoff e regenerar a atestacao v2 contra o readback ativo 0061."
+  ],
+  "done": [
+    "guards/assert-orq-entrada-ref.sh criado e executavel.",
+    "guards/hbn-guards-runner.sh chama G-ORQ-REF.",
+    "guards/tests/run-guard-tests.sh cobre 208 casos, incluindo G-ORQ-REF.",
+    "guards/tests/adversarial-battery.sh cobre B48-B51."
+  ],
+  "invariants_to_preserve": [
+    "Atos nao-autoridade, como entrega de implementacao e parecer de auditor, nao sao bloqueados por G-ORQ-REF.",
+    "A validacao da atestacao e delegada a guards/assert-orq-entrada.sh, sem reimplementar a prova extrativa.",
+    "Re-pin de .hbn/attestations/<fp>-orq-entrada.json no mesmo commit de despacho, selagem ou freeze bloqueia.",
+    "main permanece em 4db692876381a0d7909985c8500d999f2e677b04."
+  ],
+  "criteria": {
+    "runner": "bash guards/hbn-guards-runner.sh -> Todos os guards passaram",
+    "suite": "bash guards/tests/run-guard-tests.sh -> 208 passaram, 0 falharam",
+    "adversarial": "bash guards/tests/adversarial-battery.sh -> BATERIA VERDE",
+    "main": "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04",
+    "trailers_required": {
+      "HBN-Readback": "0061",
+      "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+      "HBN-Token-FP": "34a7f2f9"
+    }
+  },
+  "out_of_scope": [
+    "main",
+    "src/**",
+    "methodology/**",
+    "docs/brainstorm/**",
+    ".hbn/freeze/**",
+    "core/**",
+    "schemas/**"
+  ],
+  "created_at": "2026-06-18T12:18:42-03:00",
+  "protocol_version": "0.3.0"
+}

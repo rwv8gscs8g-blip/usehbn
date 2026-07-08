@@ -1,0 +1,61 @@
+{
+  "readback_id": "0050-selagem-arvores",
+  "execution_id": "selagem-arvores-2026-06-17",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0050-selagem-arvores.json",
+  "understanding": "Selar a R2 arvores registry-centric (readback 0049), ratificada por 2 auditores de familia distinta de OpenAI verificados no disco com SOU canonico (grok/xAI APROVA_0049 SIM conf 93; antigravity/Google APROVA_0049 SIM conf 100). Virar core/arvores-spec.md status proposed->accepted (sem mexer no campo arvore: promocao para intermediaria fica para onda propria). Tornar tracked os 2 pareceres com linha 7-col (arvore=fronteira) no REGISTRY; o G-AUDITOR-ID valida o SOU dos 2 e o G-REG exige a coluna arvore (dogfood duplo). Sem tocar main, guards, src, methodology, schemas, outras specs de core, brainstorm.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio em 2026-06-17: hearback aprovando a selagem da R2 apos 2 pareceres ≠-OpenAI verificados no disco com SOU canonico.",
+    "created_at": "2026-06-17T15:00:00-03:00",
+    "note": "Autorizacao humana para safe_track de selagem. Nao autoriza tocar main, merge, --no-verify, git add ., guards, src, methodology, schemas, outras specs de core, brainstorm."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0050-selagem-arvores.json",
+      "core/arvores-spec.md",
+      ".hbn/results/20260617-192141-grok-cross-ia-arvores-0049.md",
+      ".hbn/results/20260617-192729-antigravity-cross-ia-arvores-0049.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/messages/20260617-HHMMSS-codex-handoff-selagem-arvores.md"
+    ],
+    "files_forbidden": ["main","guards/**","src/**","methodology/**","schemas/**","docs/brainstorm/**"]
+  },
+  "action_plan": [
+    "C1: abrir readback 0050 + STATE(impl=codex, 🔴) + REGISTRY 7-col.",
+    "C2: status accepted na spec.",
+    "C3: selar 2 pareceres + 2 linhas 7-col no REGISTRY.",
+    "C4: STATE + handoff."
+  ],
+  "invariants_to_preserve": [
+    "Nao tocar main, guards, src, methodology, schemas, outras specs de core, brainstorm.",
+    "Em core/arvores-spec.md, SO status proposed->accepted; nao mexer no campo arvore/corpo.",
+    "As 2 linhas novas de REGISTRY = 7-col com arvore=fronteira.",
+    "Os 2 pareceres devem PASSAR no G-AUDITOR-ID (SOU canonico nas 12 primeiras linhas); se bloquear, parar e relatar.",
+    "Nao usar git add .; somente paths exatos.",
+    "implementador=codex e 🔴 G-EXC PROPOSED no STATE desde C1; trailers CONTIGUOS.",
+    "Antes de cada commit: runner + run-guard-tests + adversarial verdes; pytest 213.",
+    "Trailers: HBN-Readback: 0050, HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin), HBN-Token-FP: 34a7f2f9."
+  ],
+  "out_of_scope": [
+    "Promocao demonstrativa dos artefatos R2 para intermediaria (onda propria).",
+    "Curadoria dos 4 batch1-fronteira; R3; freeze; habilitar D-ORQ-WRITE."
+  ],
+  "read_evidence": [
+    ".hbn/results/20260617-192141-grok-cross-ia-arvores-0049.md (APROVA_0049 SIM, SOU grok/xAI linha 12)",
+    ".hbn/results/20260617-192729-antigravity-cross-ia-arvores-0049.md (APROVA_0049 SIM, SOU antigravity/Google linha 1)"
+  ],
+  "mechanical_evidence": [
+    "git rev-parse HEAD -> 9f35486 (tip R2)",
+    "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04",
+    "run-guard-tests 187; adversarial B1-B38; pytest 213 (reconfirmado pelo orquestrador)"
+  ],
+  "created_at": "2026-06-17T15:00:00-03:00",
+  "protocol_version": "0.3.0"
+}

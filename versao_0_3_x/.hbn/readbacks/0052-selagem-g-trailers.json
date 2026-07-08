@@ -1,0 +1,57 @@
+{
+  "readback_id": "0052-selagem-g-trailers",
+  "execution_id": "selagem-g-trailers-2026-06-17",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0052-selagem-g-trailers.json",
+  "understanding": "Selar a R3a G-TRAILERS (readback 0051), ratificada por 2 auditores de familia distinta de OpenAI verificados no disco com SOU canonico (grok/xAI APROVA_0051 SIM; antigravity/Google APROVA_0051 SIM). Tornar tracked os 2 pareceres com linha 7-col (arvore=fronteira) no REGISTRY; o G-AUDITOR-ID valida o SOU dos 2 e o G-REG exige a coluna arvore. Se o front-matter de um parecer empurrar o SOU alem da linha 12, normalizar so o minimo para manter o SOU em 12 linhas. Sem tocar main, guards, src, core, methodology, schemas, brainstorm.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio em 2026-06-17: hearback aprovando a selagem da R3a apos 2 pareceres ≠-OpenAI verificados no disco com SOU canonico.",
+    "created_at": "2026-06-17T16:00:00-03:00",
+    "note": "Autorizacao humana para safe_track de selagem. Nao autoriza tocar main, merge, --no-verify, git add ., guards, src, core, methodology, schemas, brainstorm."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0052-selagem-g-trailers.json",
+      ".hbn/results/20260617-212200-grok-cross-ia-g-trailers-0051.md",
+      ".hbn/results/20260617-212500-antigravity-cross-ia-g-trailers-0051.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/messages/20260617-HHMMSS-codex-handoff-selagem-g-trailers.md"
+    ],
+    "files_forbidden": ["main","guards/**","src/**","core/**","methodology/**","schemas/**","docs/brainstorm/**"]
+  },
+  "action_plan": [
+    "C1: abrir readback 0052 + STATE(impl=codex, 🔴) + REGISTRY 7-col.",
+    "C2: selar 2 pareceres + 2 linhas 7-col.",
+    "C3: STATE + handoff."
+  ],
+  "invariants_to_preserve": [
+    "Nao tocar main, guards, src, core, methodology, schemas, brainstorm.",
+    "As 2 linhas novas de REGISTRY = 7-col arvore=fronteira.",
+    "Os 2 pareceres devem PASSAR no G-AUDITOR-ID (SOU canonico nas 12 primeiras linhas); normalizar so front-matter minimo se preciso; se bloquear, parar e relatar.",
+    "Nao usar git add .; somente paths exatos.",
+    "implementador=codex e 🔴 G-EXC PROPOSED no STATE desde C1; trailers CONTIGUOS (G-TRAILERS ativo).",
+    "Antes de cada commit: runner + run-guard-tests + adversarial verdes; pytest 213.",
+    "Trailers: HBN-Readback: 0052, HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin), HBN-Token-FP: 34a7f2f9."
+  ],
+  "out_of_scope": [
+    "R3b (Camada 2 G-AUDITOR-ID); R3c (G-REG-M geral); freeze; habilitar D-ORQ-WRITE."
+  ],
+  "read_evidence": [
+    ".hbn/results/20260617-212200-grok-cross-ia-g-trailers-0051.md (APROVA_0051 SIM, SOU grok/xAI)",
+    ".hbn/results/20260617-212500-antigravity-cross-ia-g-trailers-0051.md (APROVA_0051 SIM, SOU antigravity/Google)"
+  ],
+  "mechanical_evidence": [
+    "git rev-parse HEAD -> f7ee1da (tip R3a)",
+    "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04",
+    "run-guard-tests 191; adversarial B1-B39; pytest 213 (reconfirmado pelo orquestrador)"
+  ],
+  "created_at": "2026-06-17T16:00:00-03:00",
+  "protocol_version": "0.3.0"
+}

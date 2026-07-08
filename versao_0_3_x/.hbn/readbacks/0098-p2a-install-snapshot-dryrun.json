@@ -1,0 +1,37 @@
+{
+  "readback_id": "0098-p2a-install-snapshot-dryrun",
+  "execution_id": "p2a-install-snapshot-2026-06-26",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "implemented_pending_cross_audit",
+  "activation_status": "PROPOSED_UNTIL_CROSS_AUDIT",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0098-p2a-install-snapshot-dryrun.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260626-160000-opus-4-8-despacho-p2a-dryrun.md",
+  "understanding": "P2-A da ponte: implementar scripts/hbn-snapshot/install-snapshot.sh (ferramenta de distribuicao do protocolo) e rodar --dry-run. O dry-run gera o manifesto determinístico (mode sha256(LF-normalizado) path, ordenado por path em LC_ALL=C) sobre a superficie core+methodology+schemas+guards do tag v1-estavel, reproduzindo o PoC da auditoria executiva: 137 arquivos, protocol_sha256 8796b672819c0dd0df6fc9c7b0c24288b987ad0e9adfa3b3fd115dd12b5cb7f1. --verify-only implementado; --install/--upgrade fail-closed (P2-B+ sob hearback). NAO toca o Credenciamento, NAO cria .usehbn-snapshot/. Entrega como PROPOSTA: o script e codigo executavel novo e vai a cross-audit !=OpenAI + selagem 0099 antes de ser usado para instalar (P2-B). Ato de autoridade sob G-ORQ-REF (Exit A').",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Proposta-ponte v2 ratificada e selada (0096 via 0097); Mauricio aprovou a sequencia P2-A..D. P2-A (dry-run) nao toca o projeto.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      "scripts/hbn-snapshot/install-snapshot.sh",
+      ".hbn/messages/20260626-160000-opus-4-8-despacho-p2a-dryrun.md",
+      ".hbn/readbacks/0098-p2a-install-snapshot-dryrun.json",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": ["main","guards/**","src/**","core/**","methodology/**","schemas/**","docs/brainstorm/**",".hbn/freeze/**",".hbn/hearbacks/**",".hbn/operators/**",".hbn/proposals/**"]
+  },
+  "stop_condition": "install-snapshot.sh entregue + dry-run executado (137 arquivos, protocol_sha256 8796b672…). Parar para cross-audit !=OpenAI + hearback + selagem 0099. NAO rodar --install; NAO tocar o Credenciamento.",
+  "HBN-Readback": "0098",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-26T16:00:00-03:00",
+  "protocol_version": "0.3.0"
+}

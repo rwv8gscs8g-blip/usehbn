@@ -1,0 +1,103 @@
+{
+  "execution": {
+    "id": "exec-20260401T073323Z-28e52dde",
+    "engine": "minimal_execution_engine_v0",
+    "started_at": "2026-04-01T07:33:23.069072+00:00",
+    "log_path": "/Users/macbookpro/Projetos/usehbn/logs/exec-20260401T073323Z-28e52dde.json",
+    "state_path": "/Users/macbookpro/Projetos/usehbn/state/hbn-state.json"
+  },
+  "input": "use hbn analyze this system",
+  "parsed_intent": {
+    "objective": "analyze this system",
+    "constraints": [],
+    "risks": [],
+    "validation_requirements": []
+  },
+  "validation_results": {
+    "status": "clear",
+    "checks": [
+      {
+        "name": "activation",
+        "status": "passed",
+        "message": "HBN trigger detected and execution pipeline activated."
+      },
+      {
+        "name": "truth_barrier",
+        "status": "clear",
+        "message": "Truth barrier applied to the structured request."
+      },
+      {
+        "name": "guardian",
+        "status": "clear",
+        "message": "Guardian review applied to the structured request."
+      }
+    ],
+    "warnings": []
+  },
+  "output": {
+    "project": "HBN \u2014 Human Brain Net",
+    "protocol_version": "0.2.0",
+    "input": "use hbn analyze this system",
+    "hbn_activated": true,
+    "stage": "intent_capture",
+    "activation": {
+      "hbn_activated": true,
+      "signal": "usehbn",
+      "matched_text": "use hbn",
+      "normalized_trigger": "usehbn",
+      "stage": "intent_capture",
+      "span": [
+        0,
+        7
+      ]
+    },
+    "intent": {
+      "objective": "analyze this system",
+      "constraints": [],
+      "risks": [],
+      "validation_requirements": []
+    },
+    "truth_barrier": {
+      "status": "clear",
+      "warnings": []
+    },
+    "guardian": {
+      "status": "clear",
+      "warnings": [],
+      "log_path": ""
+    },
+    "contribution_consent_protocol": {
+      "status": "available",
+      "question": "Do you want to contribute to the advancement of the language?",
+      "processing_mode": "local_only_no_background_processing"
+    },
+    "validation": {
+      "status": "clear",
+      "checks": [
+        {
+          "name": "activation",
+          "status": "passed",
+          "message": "HBN trigger detected and execution pipeline activated."
+        },
+        {
+          "name": "truth_barrier",
+          "status": "clear",
+          "message": "Truth barrier applied to the structured request."
+        },
+        {
+          "name": "guardian",
+          "status": "clear",
+          "message": "Guardian review applied to the structured request."
+        }
+      ],
+      "warnings": []
+    },
+    "execution": {
+      "id": "exec-20260401T073323Z-28e52dde",
+      "engine": "minimal_execution_engine_v0",
+      "started_at": "2026-04-01T07:33:23.069072+00:00",
+      "log_path": "/Users/macbookpro/Projetos/usehbn/logs/exec-20260401T073323Z-28e52dde.json",
+      "state_path": "/Users/macbookpro/Projetos/usehbn/state/hbn-state.json"
+    }
+  }
+}

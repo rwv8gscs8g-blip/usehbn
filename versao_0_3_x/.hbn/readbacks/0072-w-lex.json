@@ -1,0 +1,39 @@
+{
+  "readback_id": "0072-w-lex",
+  "execution_id": "w-lex-2026-06-20",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "implemented_pending_cross_audit",
+  "activation_status": "PROPOSED_UNTIL_CROSS_AUDIT",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0072-w-lex.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260620-231500-opus-4-8-despacho-w-lex.md",
+  "understanding": "Gravar a Lei da Submissao pelo Exemplo: knowledge .hbn/knowledge/0029-lei-submissao-pelo-exemplo.md citada no INDEX.md + clausula vinculante §7 em core/orchestrator-profile-spec.md (item da read-list; muda o hash, NAO a contagem 13). NAO tocar core/read-list-canonica.txt nem adicionar 0029 a read-list. Implementacao: regenerar atestacao same-fp, parar para cross-audit != OpenAI, NAO selar.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Despacho W-LEX de 2026-06-20T23:15:00-03:00 sob token_fp 34a7f2f9; implementar knowledge+INDEX+clausula+STATE+REGISTRY+atestacao dentro do files_allowed; parar para cross-audit != OpenAI.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/knowledge/0029-lei-submissao-pelo-exemplo.md",
+      ".hbn/knowledge/INDEX.md",
+      "core/orchestrator-profile-spec.md",
+      ".hbn/relay/STATE.md",
+      ".hbn/messages/20260620-231500-opus-4-8-despacho-w-lex.md",
+      ".hbn/readbacks/0072-w-lex.json",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": ["main","guards/**","src/**","methodology/**","schemas/**","docs/brainstorm/**",".hbn/freeze/**","core/read-list-canonica.txt"]
+  },
+  "stop_condition": "Entrega 0072 (W-LEX) em commit unico; parar para cross-audit != OpenAI. NAO selar. NAO iniciar W-ORQ-4/W-FREEZE.",
+  "HBN-Readback": "0072",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-20T23:15:00-03:00",
+  "protocol_version": "0.3.0"
+}

@@ -1,0 +1,47 @@
+{
+  "papel": "orquestrador",
+  "identidade": "opus-4-8",
+  "proprietario_bastao": "claude-opus-4-8",
+  "bastao_token_fp": "34a7f2f9",
+  "algorithm": "orq-entrada.v2/extractive-lines",
+  "execution_id": "onda-repoint-state-p2c2-fechado-2026-06-30",
+  "read_list_ref": "core/read-list-canonica.txt",
+  "atestado_por": "opus-4-8",
+  "atestado_em": "2026-07-04T20:33:20-03:00",
+  "manifest_sha256": "a855b36ea0bf10501abb03de52bbec5ee90f99c99f410ab94f21a21e4032921b",
+  "challenge": {
+    "seed_sha256": "d806bee335fa41bdf6b7ba57899c13bb3a7918b267f46880d1698962dae0482a",
+    "line_responses": [
+      {
+        "path": ".hbn/relay/STATE.md",
+        "line_no": 374,
+        "line_text": "W-FREEZE. Escopo restrito aos paths exatos do readback 0055; `docs/brainstorm/**`",
+        "line_sha256": "bba050bd7437e087fd165ee9ac096f8ef826419095f977507fed555bcf9cdcbf"
+      },
+      {
+        "path": ".hbn/readbacks/0105-onda-repoint-state-p2c2-fechado.json",
+        "line_no": 15,
+        "line_text": "    \"human\": \"Mauricio (Luis Mauricio Junqueira Zanin)\",",
+        "line_sha256": "234673a4e08caaeaa926f8aaa2bfc1c1ce6e60927fd64041cae80d539bcd87c0"
+      },
+      {
+        "path": "core/orchestrator-profile-spec.md",
+        "line_no": 41,
+        "line_text": "5. **Nunca empilhar proposed** — antes de abrir frente nova, fechar ou",
+        "line_sha256": "132d4e852b15431a860fcc58c0a8d553c85a047377dbf457d106b4546e8c17aa"
+      }
+    ],
+    "field_responses": [
+      {
+        "path": ".hbn/relay/STATE.md",
+        "field": "readback_ativo",
+        "value": ".hbn/readbacks/0105-onda-repoint-state-p2c2-fechado.json"
+      },
+      {
+        "path": ".hbn/relay/STATE.md",
+        "field": "proxima_acao",
+        "value": "PASSO 2 / P2-D: router obrigatorio no topo do AGENTS.md do projeto + tombstone do espelho usehbn/ + untangle (migrar artefatos de dominio para o espaco do projeto) + limpeza controlada de refs ao espelho (humano-gated) + selagem do passo 2. Ver proposta-ponte v2 sec.6 e sec.9."
+      }
+    ]
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "readback_id": "0087-selagem-despromocao",
+  "execution_id": "selagem-despromocao-2026-06-21",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "vigente",
+  "seals_proposal": "0086",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0087-selagem-despromocao.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260621-110000-opus-4-8-despacho-selagem-0087.md",
+  "understanding": "Selar Despromocao-P6 (readback 0086) como vigente apos quorum != OpenAI (antigravity/Google + grok/xAI, ambos APROVA_0086: SIM) e hearback humano. Declara seals_proposal 0086 e trackea os 2 pareceres (G-QUORUM). Marca G-ARVORE-LABEL cobrindo promocao E despromocao; conclui o roadmap B (W-ORQ-4 + Despromocao-P6). REGISTRY e atestacao same-fp regenerada com readback_ativo->0087. proxima_acao: W-FREEZE (gate humano). Ato de autoridade sob G-ORQ-REF (Exit A').",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Hearback humano confirmado para a selagem 0087 (Despromocao-P6 0086) e tracking dos files_allowed no despacho de 2026-06-21T11:00:00-03:00.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0087-selagem-despromocao.json",
+      ".hbn/messages/20260621-110000-opus-4-8-despacho-selagem-0087.md",
+      ".hbn/results/20260621-103000-antigravity-cross-ia-despromocao-p6-0086.md",
+      ".hbn/results/20260621-104000-grok-cross-ia-despromocao-p6-0086.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": ["main","guards/**","src/**","core/**","methodology/**","schemas/**","docs/brainstorm/**",".hbn/freeze/**"]
+  },
+  "stop_condition": "Selagem 0087 (Despromocao-P6 vigente) concluida; roadmap B pronto para W-FREEZE. NAO iniciar W-FREEZE (gate humano) neste commit.",
+  "HBN-Readback": "0087",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-21T11:00:00-03:00",
+  "protocol_version": "0.3.0"
+}

@@ -1,0 +1,74 @@
+{
+  "readback_id": "0029-knowledge-index-vivo",
+  "execution_id": "knowledge-index-vivo-2026-06-16",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0029-knowledge-index-vivo.json",
+  "understanding": "S3.1: tornar a base de licoes encontravel e exigivel. Reescrever .hbn/knowledge/INDEX.md para listar todas as 8 entradas atuais (hoje lista so 3) e criar o guard bloqueante G-KNOW-INDEX que falha se qualquer .hbn/knowledge/*.md (exceto INDEX) nao estiver citado no INDEX. Cobrir com teste positivo/negativo e burla B24. Porta da frente parte 1: lixo de conhecimento (INDEX mentindo por omissao) deixa de existir e nao volta. Sem tocar core nem outros guards.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio em 2026-06-16: seguir com S3 incremental; o INDEX estagnado entra no pacote S3; precisamos de processos que facam as licoes grudarem sem virar monolito.",
+    "created_at": "2026-06-16T03:40:00-03:00",
+    "note": "Autorizacao humana para safe_track de S3.1. Nao autoriza tocar main, merge, --no-verify, git add ., core, outros guards, habilitar D-ORQ-WRITE."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0029-knowledge-index-vivo.json",
+      ".hbn/knowledge/INDEX.md",
+      "guards/assert-knowledge-index.sh",
+      "guards/hbn-guards-runner.sh",
+      "guards/README.md",
+      "guards/tests/run-guard-tests.sh",
+      "guards/tests/adversarial-battery.sh",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/messages/20260616-HHMMSS-codex-handoff-s3-1.md"
+    ],
+    "files_forbidden": [
+      "main",
+      "src/**",
+      "schemas/**",
+      "core/**",
+      "guards/assert-scope-lock.sh",
+      "guards/assert-exception-traceable.sh",
+      "guards/validate-dispatch.sh",
+      "guards/assert-dispatch-integrity.sh"
+    ]
+  },
+  "action_plan": [
+    "C1: abrir readback 0029 e registrar nascimento.",
+    "C2: reescrever INDEX listando as 8 entradas.",
+    "C3: criar guard G-KNOW-INDEX e inserir no runner.",
+    "C4: cobrir com teste positivo/negativo e burla B24.",
+    "C5: atualizar STATE, criar handoff e registrar."
+  ],
+  "invariants_to_preserve": [
+    "Nao tocar main, nao merge, nao --no-verify.",
+    "Nao tocar core nem outros guards.",
+    "Nao usar git add .; somente paths exatos.",
+    "Handoff da onda dentro do files_allowed.",
+    "Antes de cada commit: runner verde com o indice.",
+    "Trailers CONTIGUOS: HBN-Readback: 0029, HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin), HBN-Token-FP: 34a7f2f9."
+  ],
+  "out_of_scope": [
+    "Cartoes de papel e read-list minima (S3.2).",
+    "Hardening prosa-trailer do G-EXC (S3.3).",
+    "Promover principios candidatos a core (S3.4)."
+  ],
+  "read_evidence": [
+    ".hbn/knowledge/INDEX.md (hoje lista so 3 de 8 entradas)",
+    ".hbn/knowledge/0001-comandos-atomicos-copiaveis.md (licao operacional accepted, nao indexada)",
+    ".hbn/knowledge/0002-entrega-operacional-minimalista.md (idem)"
+  ],
+  "mechanical_evidence": [
+    "pwd -> /Users/macbookpro/Projetos/usehbn",
+    "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04",
+    "readback ativo atual = 0028"
+  ],
+  "created_at": "2026-06-16T03:40:00-03:00",
+  "protocol_version": "0.3.0"
+}

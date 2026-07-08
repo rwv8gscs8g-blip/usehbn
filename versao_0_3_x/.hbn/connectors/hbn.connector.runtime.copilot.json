@@ -1,0 +1,28 @@
+{
+  "connector_id": "hbn.connector.runtime.copilot",
+  "status": "assumed_existing",
+  "updated_at": "2026-04-01T09:13:29Z",
+  "delivery_strategy": {
+    "translator_impl_language": "python",
+    "delivery_languages": [
+      "markdown"
+    ],
+    "selected_delivery_language": "markdown",
+    "coupling_modes": [
+      "runtime_adapter"
+    ],
+    "selected_coupling_mode": "runtime_adapter",
+    "installation_mode": "adapter",
+    "can_embed_in_target": false,
+    "delivery_target": "runtime_surface",
+    "requires_host_installation": true,
+    "avoid_installation_when_possible": false,
+    "prefer_embedded_delivery": false,
+    "rationale": [
+      "Managed runtimes typically support local tooling and bootstrap wrappers safely.",
+      "Selected delivery language: markdown.",
+      "Selected coupling mode: runtime_adapter."
+    ]
+  },
+  "artifact": {}
+}

@@ -1,0 +1,194 @@
+{
+  "readback_id": "0003-adocao-corrente-e-fechamento",
+  "execution_id": "adocao-corrente-e-fechamento-blocos-3-6-fix-staged-skew-2026-06-10",
+  "agent_id": "codex",
+  "track": "safe_track",
+  "status": "accepted",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "understanding": "Adotar exatamente o fechamento validado da Corrente E Blocos 3-6, incluindo o fix staged-skew E-FECH-01/02, sem ampliar escopo: ADR-021, ADR-022, ADR-023, G-SLF, G-HRB, G-REG endurecido, suite 33, templates atualizados e freeze-gate-spec. Este readback e a pausa formal; nenhum flip, REGISTRY ou commit deve acontecer antes de Mauricio editar este arquivo para confirmed.",
+  "preflight": {
+    "pwd": "/Users/macbookpro/Projetos/usehbn",
+    "head": "5f0aea3 checkpoint(protocol): fix staged-skew G-SLF/G-REG (E-FECH-01/02 \u2014 guards leem o blob staged) \u2014 status: proposed",
+    "git_status_short_observed": [
+      "?? .hbn/proposals/",
+      "?? .hbn/results/0029-cross-ia-codex-fix-staged-skew.json",
+      "?? .hbn/results/0029-cross-ia-codex-fix-staged-skew.md"
+    ],
+    "notes": [
+      ".hbn/proposals/ ja estava untracked no pre-flight e fica fora desta adocao.",
+      ".hbn/readbacks/ e gitignored, mas o precedente 0002 foi versionado; este readback 0003 tambem deve ser versionado com git add -f apos hearback confirmed."
+    ]
+  },
+  "invariants_preserved": [
+    "Guards adotados continuam FORA de guards/hbn-guards-runner.sh; ativacao e onda futura propria.",
+    "Pre-condicao da onda futura de ativacao: testes negativos dos 5 guards legados do runner antes de qualquer inclusao de guards novos/endurecidos.",
+    ".hbn/hearbacks/0002-excecao-fable-opus.json permanece pendente; Codex nao confirma, nao assina e nao modifica este hearback.",
+    "opus-4-8 permanece fora do campo mecanico atribuicao.auditores enquanto o hearback 0002 nao estiver confirmed por ato humano.",
+    "Nenhum dominio, produto, repo consumidor, inbox de app, workflow, src/, tests/ de produto, modules/ ou examples/ e tocado.",
+    "Criterio mesmo autor em G-HRB permanece AVISO, nao bloqueio, conforme ADR-023 Decisao 2/3; assinatura GPG/SSH fica no backlog.",
+    "REGISTRY permanece append-only: linhas novas de adocao/readback/evidencia, sem reescrever linhas historicas.",
+    "Templates sao adotados quanto aos campos id-global/path/temperatura; os placeholders pedagogicos status: PROPOSED permanecem placeholders, nao status deste artefato.",
+    "0002 de adocao 50% permanece fechado; este 0003 cobre somente o fechamento Blocos 3-6 + fix staged-skew."
+  ],
+  "action_plan": [
+    "1. PARAR ate hearback humano: Mauricio edita este readback para hearback_status/human_status confirmed, ou cria ato equivalente explicitamente confirmado.",
+    "2. Apos confirmed, flipar status PROPOSED->ACCEPTED e hearback-status nos ADRs 021/022/023.",
+    "3. Apos confirmed, promover os marcadores de status do fechamento nos artefatos adotados: G-SLF, G-HRB, secao proposed da suite 33 e core/freeze-gate-spec.md, sem promover ADR-016/017/018/019 nem outros itens da Corrente D.",
+    "4. Apos confirmed, manter G-REG como accepted e adotar explicitamente o hardening staged-skew/AR/orfaos via REGISTRY/STATE/INDEX quando houver nota de fechamento ainda proposed.",
+    "5. Apos confirmed, atualizar methodology/adr/INDEX.md somente nas linhas ADR-021/022/023 para ACCEPTED e cross-IA concluido por 0027/0028/0029 + hearback 0003.",
+    "6. Apos confirmed, appendar REGISTRY.md com linhas da adocao/readback/evidencia necessarias, incluindo este readback 0003 e a evidencia 0029 se for versionada no commit.",
+    "7. Apos confirmed, atualizar .hbn/relay/STATE.md apenas para refletir fechamento E adotado, suite 33, guards fora do runner, 0002 pendente e bastao devolvido a claude-fable-5.",
+    "8. Apos confirmed, incluir .hbn/results/0029-cross-ia-codex-fix-staged-skew.{md,json} no commit atomico como evidencia do veto removido no fix staged-skew.",
+    "9. Rodar verificacoes: suite verde 33/33; guards fora do runner; grep de status proposed nos artefatos adotados retorna 0, excluindo placeholders de template e correntes D/Seguranca ainda pendentes.",
+    "10. Criar um commit atomico com a mensagem solicitada e trailer HBN-Readback: .hbn/readbacks/0003-adocao-corrente-e-fechamento.json."
+  ],
+  "out_of_scope": [
+    "Executar o Passo 2 antes do hearback confirmed.",
+    "Tocar ou confirmar .hbn/hearbacks/0002-excecao-fable-opus.json.",
+    "Ativar qualquer guard em guards/hbn-guards-runner.sh.",
+    "Corrigir ou versionar .hbn/proposals/ neste lote.",
+    "Adotar itens H1-H6 da Corrente D ou a Corrente Seguranca+Onboarding.",
+    "Alterar workflows, codigo de dominio, apps consumidoras, src/, tests/ de produto, modules/ ou examples/.",
+    "Mudar a regra de autor do G-HRB de aviso para bloqueio sem uma onda propria de identidade separada/assinatura criptografica.",
+    "Resolver backlog de .hbn/readbacks/ gitignore, colisao readback 0002 x hearback 0002, ou assinatura GPG/SSH."
+  ],
+  "authorization": {
+    "cross_ia": [
+      {
+        "path": ".hbn/results/0027-cross-ia-codex-corrente-e-fechamento.md",
+        "verdict": "VETO_ADOCAO: SIM no fechamento pre-fix",
+        "notes": "Identificou E-FECH-01/02 staged-skew em G-SLF/G-REG e E-FECH-03 sobre mesmo autor. O fix 0029 remove E-FECH-01/02; E-FECH-03 permanece aviso por decisao honesta do ADR-023."
+      },
+      {
+        "path": ".hbn/results/0028-cross-ia-antigravity-corrente-e-fechamento.md",
+        "verdict": "VETO_ADOCAO: nao",
+        "notes": "Aprovou o fechamento Blocos 3-6 com alertas marginais; recomendou aprovar EF1-EF4."
+      },
+      {
+        "path": ".hbn/results/0029-cross-ia-codex-fix-staged-skew.md",
+        "verdict": "VETO_ADOCAO: NAO no escopo estrito do fix staged-skew",
+        "notes": "Confirmou suite 33/33 e casos adversariais: G-SLF/G-REG leem staged local e HEAD em CI, sem falso verde novo no fix."
+      }
+    ],
+    "human_hearback_required": true,
+    "human_hearback_status": "confirmed",
+    "human_hearback_rule": "Somente Mauricio pode transformar este readback em confirmed; Codex deve parar ate la."
+  },
+  "adoption_scope": {
+    "allowed_status_flip": [
+      "methodology/adr/ADR-021-documentos-auto-localizaveis.md",
+      "methodology/adr/ADR-022-saida-de-auditoria-legivel.md",
+      "methodology/adr/ADR-023-integridade-de-hearback.md",
+      "guards/assert-self-path.sh",
+      "guards/assert-hearback-integrity.sh",
+      "guards/tests/run-guard-tests.sh",
+      "core/freeze-gate-spec.md",
+      "methodology/adr/INDEX.md",
+      "REGISTRY.md",
+      ".hbn/relay/STATE.md"
+    ],
+    "adopted_semantics": [
+      "ADR-021: documentos governados novos declaram path real; G-SLF bloqueia path mentiroso e artefato governado mudo, validando blob staged localmente e HEAD em CI.",
+      "ADR-022: auditoria/resultado entrega markdown legivel como veredito humano; JSON e anexo de maquina.",
+      "ADR-023: hearback valido e commit puro anterior a mudanca; G-HRB bloqueia mesmo commit, commit impuro e hearback nao commitado; mesmo autor fica aviso em shell compartilhado.",
+      "G-REG endurecido: diff-filter AR, linha exata no REGISTRY staged, cobertura de models/workflows, orfaos em docs/methodology e caso de guard aninhado provado pela suite.",
+      "Suite 33: 33/33 verde, incluindo quatro casos de skew index x working tree que provam leitura do staged/HEAD.",
+      "Templates: ADR/MD pedem id-global, path e temperatura.",
+      "freeze-gate-spec: regra de obrigatorio=true/status=na exige hearback verificavel, sem terceira via.",
+      "Nenhum guard entra no runner neste lote."
+    ],
+    "files_allowed_after_confirmation": [
+      ".hbn/readbacks/0003-adocao-corrente-e-fechamento.json",
+      ".hbn/results/0029-cross-ia-codex-fix-staged-skew.md",
+      ".hbn/results/0029-cross-ia-codex-fix-staged-skew.json",
+      "methodology/adr/ADR-021-documentos-auto-localizaveis.md",
+      "methodology/adr/ADR-022-saida-de-auditoria-legivel.md",
+      "methodology/adr/ADR-023-integridade-de-hearback.md",
+      "methodology/adr/INDEX.md",
+      "guards/assert-self-path.sh",
+      "guards/assert-hearback-integrity.sh",
+      "guards/assert-registry-line.sh",
+      "guards/tests/run-guard-tests.sh",
+      "methodology/templates/ADR-TEMPLATE.md",
+      "methodology/templates/MD-TEMPLATE.md",
+      "core/freeze-gate-spec.md",
+      "REGISTRY.md",
+      ".hbn/relay/STATE.md"
+    ],
+    "files_forbidden": [
+      ".hbn/hearbacks/0002-excecao-fable-opus.json",
+      "guards/hbn-guards-runner.sh",
+      ".hbn/proposals/**",
+      ".github/workflows/**",
+      "src/**",
+      "tests/**",
+      "modules/**",
+      "examples/**",
+      "inbox/**",
+      "auditoria/**",
+      "radar/**"
+    ]
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0003-adocao-corrente-e-fechamento.json",
+      ".hbn/results/0029-cross-ia-codex-fix-staged-skew.md",
+      ".hbn/results/0029-cross-ia-codex-fix-staged-skew.json",
+      "methodology/adr/ADR-021-documentos-auto-localizaveis.md",
+      "methodology/adr/ADR-022-saida-de-auditoria-legivel.md",
+      "methodology/adr/ADR-023-integridade-de-hearback.md",
+      "methodology/adr/INDEX.md",
+      "guards/assert-self-path.sh",
+      "guards/assert-hearback-integrity.sh",
+      "guards/assert-registry-line.sh",
+      "guards/tests/run-guard-tests.sh",
+      "methodology/templates/ADR-TEMPLATE.md",
+      "methodology/templates/MD-TEMPLATE.md",
+      "core/freeze-gate-spec.md",
+      "REGISTRY.md",
+      ".hbn/relay/STATE.md"
+    ],
+    "files_forbidden": [
+      ".hbn/hearbacks/0002-excecao-fable-opus.json",
+      "guards/hbn-guards-runner.sh",
+      ".hbn/proposals/**",
+      ".github/workflows/**",
+      "src/**",
+      "tests/**",
+      "modules/**",
+      "examples/**",
+      "inbox/**",
+      "auditoria/**",
+      "radar/**"
+    ]
+  },
+  "verification_plan": [
+    "bash guards/tests/run-guard-tests.sh deve terminar com 33 passaram, 0 falharam.",
+    "rg -n \"assert-self-path|assert-hearback-integrity|assert-registry-line|assert-role-family|freeze-gate\" guards/hbn-guards-runner.sh deve confirmar ausencia dos guards novos/endurecidos no runner.",
+    "rg -n \"status: proposed|status: PROPOSED\" nos artefatos adotados deve retornar 0 para status reais de fechamento; excluir placeholders de methodology/templates/* e propostas ainda pendentes de Corrente D/Seguranca.",
+    "rg -n \"\\\"status\\\": \\\"pendente\\\"\" .hbn/hearbacks/0002-excecao-fable-opus.json confirma que 0002 segue pendente.",
+    "rg -n \"auditores: \\[codex, gemini-3-5\\]|opus-4-8\" .hbn/relay/STATE.md confirma opus fora do campo mecanico e apenas em prosa.",
+    "git diff --cached --name-only apos staging deve conter apenas arquivos permitidos por files_allowed_after_confirmation.",
+    "git log --oneline -1 apos commit deve mostrar a mensagem atomica solicitada e trailer HBN-Readback."
+  ],
+  "residual_risks": [
+    "0027 contem veto pre-fix; a adocao depende da leitura encadeada 0027 -> fix -> 0029, nao de apagar o historico do veto.",
+    "core/freeze-gate-spec.md pertence a Corrente D, ainda pendente em bloco maior; este readback limita a adocao ao ajuste E-RE-02 explicitamente incluido pelo humano, sem adotar ADR-017 nem H1-H6.",
+    "Templates contem strings instrucionais PROPOSED por desenho; troca-las para ACCEPTED quebraria o template de novos ADRs.",
+    "G-HRB continua parcial em shell de identidade git unica; a barreira final segue sendo revisao humana do diff de .hbn/hearbacks/.",
+    ".hbn/readbacks/ e ignorado; o commit de adocao precisa usar git add -f para versionar este readback como no precedente 0002."
+  ],
+  "classification_basis": {
+    "has_guardian_warnings": false,
+    "has_risks": true,
+    "has_constraints": true
+  },
+  "created_at": "2026-06-10T19:33:55-03:00",
+  "protocol_version": "0.3.0",
+  "commit": {
+    "message": "release(protocol): adopt corrente E fechamento (ADR-021/022/023 + G-SLF/G-HRB/G-REG + suite 33)",
+    "trailer": "HBN-Readback: .hbn/readbacks/0003-adocao-corrente-e-fechamento.json"
+  },
+  "handoff_after_completion": "claude-fable-5"
+}

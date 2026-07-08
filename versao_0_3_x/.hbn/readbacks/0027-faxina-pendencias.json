@@ -1,0 +1,81 @@
+{
+"readback_id": "0027-faxina-pendencias",
+"execution_id": "faxina-pendencias-2026-06-16",
+"agent_id": "codex",
+"implementador_id": "codex",
+"track": "safe_track",
+"status": "in_progress",
+"hearback_status": "confirmed",
+"human_status": "confirmed",
+"path": ".hbn/readbacks/0027-faxina-pendencias.json",
+"understanding": "Faxina pos-S2: (1) corrigir a divida H corrigindo guards/assert-exception-traceable.sh para ler o texto bruto do commit ('%B') tambem no ramo CI, igualando parsing local e CI e eliminando o falso-positivo com trailers nao-contiguos; cobrir com teste positivo/negativo e burla B23. (2) Selar os seis untracked antigos como registro historico. (3) Adicionar .gitignore para os scratch das suites. (4) Promover os criterios de exuvia a core/exuvia-fitness-criteria.md e selar a triagem. Sem tocar outros guards nem habilitar D-ORQ-WRITE.",
+"authorization": {
+"human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+"evidence": "Mauricio autorizou em 2026-06-16: apos selar S2, fazer a faxina das pendencias do passado; corrigir o guard dos trailers (fix robusto); selar os seis untracked antigos no historico; sequencia 0026 selagem depois 0027 faxina.",
+"created_at": "2026-06-16T01:10:04-03:00",
+"note": "Autorizacao humana para safe_track de faxina. Nao autoriza tocar main, merge, --no-verify, git add ., outros guards, habilitar D-ORQ-WRITE ou os endurecimentos EXTRA do Cursor (que vao para S3)."
+},
+"scope": {
+"files_allowed": [
+".hbn/readbacks/0027-faxina-pendencias.json",
+"guards/assert-exception-traceable.sh",
+"guards/README.md",
+"guards/tests/run-guard-tests.sh",
+"guards/tests/adversarial-battery.sh",
+".gitignore",
+"core/exuvia-fitness-criteria.md",
+".hbn/messages/20260616-005144-opus-4-8-triagem-pendencias.md",
+".hbn/messages/20260616-011004-opus-4-8-criterios-exuvia.md",
+".hbn/messages/20260612-122102-fable5-handoff-orquestracao-pos-onda-0006.md",
+".hbn/messages/20260613-112502-fable5-handoff-orquestracao-pos-adocao-onda-0006.md",
+".hbn/results/20260614-032800-gemini-3-5-cross-ia-onda-0011-plano-v2.md",
+".hbn/results/20260614-043647-antigravity-cross-ia-exuvia-impl.md",
+".hbn/results/20260614-043826-codex-cross-ia-exuvia-impl.md",
+".hbn/results/20260614-044555-opus-4-8-consolidacao-cross-audit-exuvia-impl.md",
+".hbn/relay/STATE.md",
+"REGISTRY.md"
+],
+"files_forbidden": [
+"main",
+"src/",
+"schemas/",
+"guards/assert-scope-lock.sh",
+"guards/validate-dispatch.sh",
+"guards/assert-dispatch-integrity.sh",
+"guards/hbn-guards-runner.sh"
+]
+},
+"action_plan": [
+"C1: abrir readback 0027 e registrar nascimento.",
+"C2: corrigir parsing de trailers em CI no assert-exception-traceable.",
+"C3: cobrir com teste positivo/negativo e burla B23.",
+"C4: gitignore dos scratch de teste.",
+"C5: selar os seis untracked antigos.",
+"C6: promover criterios de exuvia ao core e selar triagem.",
+"C7: atualizar STATE e handoff."
+],
+"invariants_to_preserve": [
+"Nao tocar main, nao merge, nao --no-verify.",
+"Nao tocar outros guards alem de assert-exception-traceable.sh.",
+"Nao usar git add .; somente paths exatos.",
+"Antes de cada commit: runner verde com o indice.",
+"Trailers CONTIGUOS: HBN-Readback: 0027, HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin), HBN-Token-FP: 34a7f2f9."
+],
+"out_of_scope": [
+"Endurecimentos EXTRA-1/EXTRA-2 do Cursor (vao para S3).",
+"Habilitar D-ORQ-WRITE / G-ACTOR-WRITE-MATRIX.",
+"Reescrever historico de commits anteriores (a dvida H e tratada no guard, nao por rebase)."
+],
+"read_evidence": [
+"guards/assert-exception-traceable.sh:148-156 (ramo CI com %(trailers))",
+".hbn/results/20260616-010326-gemini-3-5-cross-ia-s2-dispatch.md (origem do ponto H)",
+".hbn/messages/20260616-011004-opus-4-8-criterios-exuvia.md (fonte da spec a promover)"
+],
+"mechanical_evidence": [
+"pwd -> /Users/macbookpro/Projetos/usehbn",
+"git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04",
+"pre-condicao: readback ativo = 0026 selado"
+],
+"created_at": "2026-06-16T01:10:04-03:00",
+"protocol_version": "0.3.0"
+}

@@ -1,0 +1,205 @@
+{
+  "schema_version": "1.0",
+  "auditor": "codex-openai",
+  "session_role": "cross-ia-re-audit-corrente-e-anti-teatro",
+  "reviewed_at": "2026-06-10T00:00:00-03:00",
+  "parecer_independente": true,
+  "parecer_outro_auditor_lido": false,
+  "preflight": {
+    "pwd": "/Users/macbookpro/Projetos/usehbn",
+    "git_status_short": "clean",
+    "head": "1a3a2c4 checkpoint(protocol): corrente E 50% (anti-teatro ADR-020 + 3 guards endurecidos + testes negativos + F-04 excecao fable-opus) — status: proposed, nao adotado",
+    "nnnn_escolhido": "0025",
+    "observacao_numeracao": "0023/0024 tratados como reservados conforme prompt humano; 0025 usado para esta auditoria."
+  },
+  "read_list": [
+    "methodology/adr/ADR-020-anti-validacao-de-teatro.md",
+    "guards/assert-role-family.sh",
+    "guards/assert-registry-line.sh",
+    "guards/freeze-gate.sh",
+    "guards/tests/run-guard-tests.sh",
+    "guards/tests/fixtures/",
+    ".hbn/hearbacks/0002-excecao-fable-opus.json",
+    ".hbn/relay/STATE.md",
+    ".hbn/results/0021-cross-ia-codex-corrente-d.json",
+    "core/cadence-d.md",
+    "core/dual-run-spec.md"
+  ],
+  "execucoes_tmp": {
+    "clone": "/tmp/usehbn-codex-e-audit.UBTTk0/repo",
+    "suite": {
+      "command": "bash guards/tests/run-guard-tests.sh",
+      "exit_code": 0,
+      "resultado": "15 passaram, 0 falharam"
+    },
+    "bypasses_manuais": [
+      {
+        "caso": "role-family fable-5 x opus-4-8 com hearback_ref inexistente",
+        "esperado": "block",
+        "exit_code": 1,
+        "resultado": "OK"
+      },
+      {
+        "caso": "role-family fable-5 x opus-4-8 com hearback 0002 pendente",
+        "esperado": "block",
+        "exit_code": 1,
+        "resultado": "OK"
+      },
+      {
+        "caso": "role-family fable-5 x opus-4-8 com hearback temporario confirmed e excecao exata",
+        "esperado": "pass",
+        "exit_code": 0,
+        "resultado": "OK"
+      },
+      {
+        "caso": "registry substring ADR-01 contra ADR-011-exemplo",
+        "esperado": "block",
+        "exit_code": 1,
+        "resultado": "OK"
+      },
+      {
+        "caso": "registry core/*.md novo sem REGISTRY",
+        "esperado": "block",
+        "exit_code": 1,
+        "resultado": "OK"
+      },
+      {
+        "caso": "registry .hbn/models/*.json novo sem REGISTRY",
+        "esperado": "block",
+        "exit_code": 1,
+        "resultado": "OK"
+      },
+      {
+        "caso": "registry .github/workflows/* novo sem REGISTRY",
+        "esperado": "block",
+        "exit_code": 1,
+        "resultado": "OK"
+      },
+      {
+        "caso": "registry docs/prompts/*.md orfao",
+        "esperado": "block",
+        "exit_code": 1,
+        "resultado": "OK"
+      },
+      {
+        "caso": "freeze obrigatorio=na com hearback confirmed verificavel",
+        "esperado": "pass",
+        "exit_code": 0,
+        "resultado": "OK"
+      },
+      {
+        "caso": "freeze obrigatorio=na sem hearback",
+        "esperado": "block",
+        "exit_code": 1,
+        "resultado": "OK"
+      },
+      {
+        "caso": "freeze obrigatorio=na com hearback pendente",
+        "esperado": "block",
+        "exit_code": 1,
+        "resultado": "OK"
+      }
+    ]
+  },
+  "escopo": {
+    "1_tres_bugs_corrigidos": {
+      "veredito": "APROVAR_COM_RESSALVA_FORTE_DE_TESTE",
+      "evidencias": [
+        "G-FAM dereferencia hearback_ref e exige status=confirmed: guards/assert-role-family.sh:57-73.",
+        "G-FAM exige excecao estruturada exata para familia/papel: guards/assert-role-family.sh:75-86 e bloqueia mesma familia sem cobertura: guards/assert-role-family.sh:111-116.",
+        "G-REG usa casamento exato de coluna no REGISTRY: guards/assert-registry-line.sh:84-90.",
+        "G-REG cobre core/*.md, .hbn/models/*.json e .github/workflows/*: guards/assert-registry-line.sh:72-75.",
+        "G-REG bloqueia orfao em docs/prompts/: guards/assert-registry-line.sh:113-117.",
+        "G-FRZ aceita obrigatorio=na apenas com hearback verificavel: guards/freeze-gate.sh:57-69 e guards/freeze-gate.sh:76-88."
+      ],
+      "comentario": "Os bypasses historicos foram reexecutados em /tmp e bloquearam; o caso positivo com hearback confirmed e excecao exata passou."
+    },
+    "2_suite_negativa": {
+      "veredito": "REAL_MAS_INCOMPLETA",
+      "evidencias": [
+        "A funcao check falha se esperado=block retorna rc=0: guards/tests/run-guard-tests.sh:23-32.",
+        "G-FAM tem negativos para groupthink, inexistente, pendente e sem excecao: guards/tests/run-guard-tests.sh:42-47.",
+        "G-FRZ tem negativos para na sem hearback, ok sem evidencia e bloqueador aberto: guards/tests/run-guard-tests.sh:55-59.",
+        "G-REG tem negativos para substring, core/*.md e docs/prompts/: guards/tests/run-guard-tests.sh:87-103."
+      ],
+      "comentario": "Nao encontrei teste que sempre passa: os negativos verificam rc != 0. Porem a suite nao fixa .hbn/models/*.json nem .github/workflows/*, apesar de esses subcasos fazerem parte da remediacao."
+    },
+    "3_adr_020": {
+      "veredito": "SOLIDO_COM_LIMITES_NORMATIVOS",
+      "evidencias": [
+        "Truth Barrier para guards e dereferencia de artefatos: methodology/adr/ADR-020-anti-validacao-de-teatro.md:36-50.",
+        "Nenhum guard entra no runner sem teste negativo verde: methodology/adr/ADR-020-anti-validacao-de-teatro.md:52-61.",
+        "Aplicacao imediata aos 3 bugs: methodology/adr/ADR-020-anti-validacao-de-teatro.md:63-73.",
+        "Os guards novos ainda nao estao no runner: guards/hbn-guards-runner.sh:22-28."
+      ],
+      "comentario": "Suficiente como contrato proposed para esta remediacao. A aplicacao futura da regra de runner ainda depende de revisao/hearback, nao de enforcement mecanico proprio."
+    },
+    "4_f04_state_hearback": {
+      "veredito": "CORRIGIDO_NO_CAMPO_MECANICO_HEARBACK_AINDA_PENDENTE",
+      "evidencias": [
+        "Opus saiu de atribuicao.auditores, que agora contem codex e gemini-3-5: .hbn/relay/STATE.md:28-33.",
+        "Opus permanece apenas em prosa como validador fixo ate confirmacao: .hbn/relay/STATE.md:8-16.",
+        "Hearback 0002 declara a excecao fable-5 x opus-4-8: .hbn/hearbacks/0002-excecao-fable-opus.json:8-14.",
+        "Hearback 0002 ainda tem status pendente, nao confirmed: .hbn/hearbacks/0002-excecao-fable-opus.json:5-7.",
+        "STATE explicita que 0002 pendente nao cobre a excecao ainda: .hbn/relay/STATE.md:41-45."
+      ],
+      "comentario": "Nao ha fantasma confirmado: o arquivo existe e cerca a excecao, mas corretamente nao vale enquanto pendente."
+    },
+    "5_novo_teatro_regressao_inconsistencia": {
+      "veredito": "SEM_BLOQUEADOR_COM_1_FORTE_E_1_MARGINAL",
+      "evidencias": [
+        "Suite incompleta para dois subcasos prometidos por G-REG: guards/assert-registry-line.sh:72-75 contra guards/tests/run-guard-tests.sh:93-103.",
+        "Freeze spec ainda tem redacao ambigua entre status ok obrigatorio e na com hearback: core/freeze-gate-spec.md:28-31; ADR-020 esclarece a regra nova: methodology/adr/ADR-020-anti-validacao-de-teatro.md:71-73."
+      ],
+      "comentario": "Nao encontrei regressao funcional nos tres bugs. Os problemas remanescentes sao cobertura de teste e alinhamento textual."
+    }
+  },
+  "findings": [
+    {
+      "id": "E-RE-01",
+      "severidade": "FORTE",
+      "titulo": "Suite G-REG nao fixa dois subcasos prometidos pela remediacao",
+      "evidencia": "A remediacao inclui .hbn/models/*.json e .github/workflows/* em guards/assert-registry-line.sh:72-75, mas a suite negativa cobre apenas substring, core/*.md e docs/prompts/ em guards/tests/run-guard-tests.sh:87-103.",
+      "impacto": "Uma regressao futura que remova modelos ou workflows do escopo poderia manter a suite verde.",
+      "recomendacao": "Adicionar negativos explicitos para .hbn/models/*.json e .github/workflows/* antes de ativar G-REG no runner."
+    },
+    {
+      "id": "E-RE-02",
+      "severidade": "MARGINAL",
+      "titulo": "Freeze spec preserva frase ambigua sobre obrigatorio=na",
+      "evidencia": "core/freeze-gate-spec.md:28 diz que criterio obrigatorio precisa status ok, enquanto core/freeze-gate-spec.md:30-31 permite na com hearback; ADR-020 fixa a interpretacao operacional em methodology/adr/ADR-020-anti-validacao-de-teatro.md:71-73 e o guard implementa em guards/freeze-gate.sh:76-88.",
+      "impacto": "Leitor futuro pode reabrir a divergencia guard x spec ja corrigida operacionalmente.",
+      "recomendacao": "Ajustar a linha 28 da spec para explicitar a excecao na+hearback confirmada."
+    }
+  ],
+  "checklist_anti_vies": {
+    "B1": "Li a read-list diretamente, incluindo 0021 como parecer anterior Codex, e nao li o parecer do outro auditor.",
+    "B2": "Reexecutei a suite e os bypasses em clone /tmp; a primeira rodada manual foi descartada por erro de harness e a segunda, com quoting corrigido, foi a considerada.",
+    "B3": "Procurei falso verde de suite, falso negativo dos guards, falso positivo do freeze e drift codigo x spec x ADR.",
+    "B4": "Nao converti ressalvas de cobertura em bloqueador porque os bypasses manuais e a suite existente demonstram remediacao real.",
+    "B5": "Risco de auto-preservacao mitigado: nao recomendo bastao para Codex; a proxima acao continua hearback humano.",
+    "B6": "Confirmo que auditoria nao herda bastao, nao implementei guard, nao ativei runner e nao movi artefato canonico fora destes dois resultados."
+  },
+  "recomendacao_por_hearback": {
+    "ADR_020": "Pode ser aprovado como contrato anti-teatro proposed, com ajuste posterior de enforcement se o humano quiser mecanizar a regra de runner.",
+    "G_FAM": "Pode ser aceito; nao ativar excecao fable x opus ate hearback 0002 mudar para status=confirmed.",
+    "G_REG": "Aceitar a correcao funcional, mas completar negativos para .hbn/models/*.json e .github/workflows/* antes de ativar no runner.",
+    "G_FRZ": "Aceitar a correcao funcional; ajustar texto do freeze spec para remover ambiguidade.",
+    "F_04": "Manter opus fora de atribuicao.auditores ate confirmacao humana do hearback 0002."
+  },
+  "veto_adocao": "nao",
+  "contagem_findings": {
+    "BLOQUEADOR": 0,
+    "FORTE": 1,
+    "MARGINAL": 1
+  },
+  "resumo_para_humano": [
+    "Remediacao dos 3 bugs e real: os bypasses historicos bloquearam em /tmp.",
+    "Suite negativa e real: seus checks falham quando block retorna rc=0.",
+    "Nao achei teste falso verde nos casos existentes.",
+    "Forte: faltam negativos G-REG para .hbn/models/*.json e .github/workflows/*.",
+    "Marginal: freeze spec ainda tem frase ambigua, embora ADR-020 e guard estejam alinhados.",
+    "F-04 corrigido mecanicamente: opus saiu de auditores; 0002 ainda e pendente.",
+    "VETO_ADOCAO: nao; recomendacao e aprovar com ajustes antes de ativar G-REG no runner."
+  ]
+}

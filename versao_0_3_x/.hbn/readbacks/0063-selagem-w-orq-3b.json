@@ -1,0 +1,61 @@
+{
+  "readback_id": "0063-selagem-w-orq-3b",
+  "execution_id": "selagem-w-orq-3b-2026-06-18",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "vigente",
+  "authority_act": "selagem",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0063-selagem-w-orq-3b.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260618-210314-opus-4-8-despacho-selagem-0063.md",
+  "understanding": "Selar W-ORQ-3b (readback 0062, commit 426fdd7) como vigente apos quorum G-DIVERSITY (antigravity/Google + grok/xAI canonico via re-prompt, ambos APROVA_0062: SIM) e hearback humano. Tirar do stage os pareceres grok nao-canonicos (grok-xai/grok-build-0.1 -> zona-livre), trackear antigravity + o parecer grok canonico 184500, repontar STATE.handoff_mais_recente, marcar W-ORQ-3b SELADO E VIGENTE, registrar no REGISTRY e regenerar a atestacao same-fp com readback_ativo->0063. Selagem e ato de autoridade: deve passar sob G-ORQ-REF (Exit A') e sob o runner inteiro incluindo G-AUDITOR-ID.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Hearback confirmado por Mauricio para o readback 0063-selagem-w-orq-3b. Autorizada a selagem de W-ORQ-3b como vigente, o tracking do parecer grok canonico 184500 via re-prompt e o tracking exato dos files_allowed do despacho 20260618-210314.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0063-selagem-w-orq-3b.json",
+      ".hbn/messages/20260618-210314-opus-4-8-despacho-selagem-0063.md",
+      ".hbn/messages/20260618-171615-opus-4-8-handoff-orquestrador-faseb.md",
+      ".hbn/results/20260618-151334-antigravity-cross-ia-w-orq-3b-0062.md",
+      ".hbn/results/20260618-184500-grok-cross-ia-w-orq-3b-0062.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": [
+      "main",
+      "guards/**",
+      "src/**",
+      "core/**",
+      "methodology/**",
+      "schemas/**",
+      "docs/brainstorm/**",
+      ".hbn/freeze/**",
+      ".hbn/results/20260618-182500-grok-build-0.1-cross-ia-w-orq-3b-0062.md",
+      ".hbn/results/20260618-183600-grok-xai-cross-ia-w-orq-3b-0062.md"
+    ]
+  },
+  "invariants_to_verify": [
+    "git rev-parse main == 4db692876381a0d7909985c8500d999f2e677b04",
+    "git ls-files .hbn/readbacks | sort | tail -1 == .hbn/readbacks/0063-selagem-w-orq-3b.json apos commit",
+    "parecer xAI trackado tem apelido grok no nome/SOU/autor, familia xAI, path real e uma linha APROVA_0062: SIM",
+    "183600-grok-xai e 182500-grok-build-0.1 permanecem untracked",
+    "atestacao 34a7f2f9: bastao_token_fp inalterado, proprietario_bastao=claude-opus-4-8, manifest_sha256 != ec8625c2..., assert-orq-entrada.sh verde",
+    "G-ORQ-REF passa na selagem (Exit A'); B48-B54 fail-closed",
+    "bash guards/hbn-guards-runner.sh -> Todos os guards passaram",
+    "bash guards/tests/run-guard-tests.sh -> 0 falharam",
+    "bash guards/tests/adversarial-battery.sh -> BATERIA VERDE"
+  ],
+  "stop_condition": "Selagem 0063 concluida e vigente. NAO iniciar W-ORQ-4 nem W-FREEZE neste commit; aguardar novo despacho do orquestrador.",
+  "HBN-Readback": "0063",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-18T21:03:14-03:00",
+  "protocol_version": "0.3.0"
+}

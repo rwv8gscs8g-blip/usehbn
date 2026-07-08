@@ -1,0 +1,67 @@
+{
+  "readback_id": "0040-selagem-r1",
+  "execution_id": "selagem-r1-2026-06-17",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0040-selagem-r1.json",
+  "understanding": "Selar R1 (readback 0038) + R1-fix (readback 0039), ratificados por 3 familias (Antigravity/Google SIM, Grok/xAI SIM, Cursor/OpenAI SIM; 2 de familia distinta do implementador). Tornar tracked os 5 pareceres de cross-audit em .hbn/results/ com linha no REGISTRY, e sincronizar a contagem real da suite (212) em AGENTS.md, README.md e methodology/MATURITY-MATRIX.md (fecha a deriva H2 de honestidade). Sem tocar main, guards, core, schemas, src, brainstorm.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio em 2026-06-17: hearback aprovando a selagem de R1+R1-fix apos triplo APROVA_R1 (Antigravity, Grok, Cursor), com sincronizacao da contagem 211->212.",
+    "created_at": "2026-06-17T08:00:00-03:00",
+    "note": "Autorizacao humana para safe_track de selagem. Nao autoriza tocar main, merge, --no-verify, git add ., guards, core, schemas, src, brainstorm."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0040-selagem-r1.json",
+      ".hbn/results/20260617-003532-antigravity-cross-ia-r1-runtime.md",
+      ".hbn/results/20260617-033849-cursor-composer-cross-ia-r1-runtime.md",
+      ".hbn/results/20260617-060212-cursor-cross-ia-r1-mais-fix.md",
+      ".hbn/results/20260617-072143-antigravity-cross-ia-r1-mais-fix.md",
+      ".hbn/results/20260617-072901-grok-cross-ia-r1-mais-fix.md",
+      "AGENTS.md",
+      "README.md",
+      "methodology/MATURITY-MATRIX.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/messages/20260617-HHMMSS-codex-handoff-selagem-r1.md"
+    ],
+    "files_forbidden": ["main","guards/**","core/**","schemas/**","src/**","docs/brainstorm/**"]
+  },
+  "action_plan": [
+    "C1: abrir readback 0040.",
+    "C2: selar 5 pareceres R1 + REGISTRY.",
+    "C3: sincronizar 211->212 nos 3 docs.",
+    "C4: STATE + handoff."
+  ],
+  "invariants_to_preserve": [
+    "Nao tocar main, guards, core, schemas, src, constituicao, brainstorm.",
+    "Nao usar git add .; somente paths exatos.",
+    "implementador=codex no STATE; trailers CONTIGUOS (G-EXC ativo).",
+    "Contagem nos 3 docs == saida real do pytest (212).",
+    "Antes de cada commit: runner verde; adversarial B1-B33 sem regressao.",
+    "Trailers: HBN-Readback: 0040, HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin), HBN-Token-FP: 34a7f2f9."
+  ],
+  "out_of_scope": [
+    "Os 4 results batch1-fronteira (ficam para R2).",
+    "arvores/R2, freeze, R3.",
+    "Habilitar D-ORQ-WRITE."
+  ],
+  "read_evidence": [
+    ".hbn/results/20260617-072143-antigravity-cross-ia-r1-mais-fix.md (APROVA_R1 SIM)",
+    ".hbn/results/20260617-072901-grok-cross-ia-r1-mais-fix.md (APROVA_R1 SIM)",
+    ".hbn/results/20260617-060212-cursor-cross-ia-r1-mais-fix.md (APROVA_R1 SIM)",
+    "AGENTS.md:57; README.md:5; methodology/MATURITY-MATRIX.md:79 (dizem 211; suite=212)"
+  ],
+  "mechanical_evidence": [
+    "git rev-parse HEAD -> 16eabd9 (tip R1-fix)",
+    "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04",
+    "pytest -> 212 passed (reconfirmado por antigravity, grok, cursor)"
+  ],
+  "created_at": "2026-06-17T08:00:00-03:00",
+  "protocol_version": "0.3.0"
+}

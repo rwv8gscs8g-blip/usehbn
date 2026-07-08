@@ -1,0 +1,89 @@
+{
+  "readback_id": "0118-nata-0c-gslf-version-aware",
+  "execution_id": "nata-0c-gslf-version-aware-0118",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "entregue",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0118-nata-0c-gslf-version-aware.json",
+  "understanding": "Quitar a dívida nata-0c tornando o G-SLF version-aware de modo estrito: para arquivo sob versao_X_Y_Z/, aceitar path: relativo à raiz da versão ou caminho real completo; fora de raiz de versão, manter o comportamento anterior. Espelhar byte a byte o guard e o harness em versao_2_0_0, adicionar os 17 vendorizados que estavam untracked, marcar a dívida como quitada no manifesto, registrar o readback e parar em staging seletivo sem commit.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "MANIFESTO §PENDENTE 0c + ordem do gate via orquestrador fable-5 em 2026-07-02, pós-quórum rodada 4"
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0118-nata-0c-gslf-version-aware.json",
+      "guards/assert-self-path.sh",
+      "versao_2_0_0/guards/assert-self-path.sh",
+      "guards/tests/run-guard-tests.sh",
+      "versao_2_0_0/guards/tests/run-guard-tests.sh",
+      "versao_2_0_0/.hbn/knowledge/0019-severidades-veto.md",
+      "versao_2_0_0/.hbn/knowledge/0022-firewall-workflow-fast-track.md",
+      "versao_2_0_0/.hbn/knowledge/0023-area-temporaria-e-fixtures-efemeras.md",
+      "versao_2_0_0/.hbn/knowledge/0024-orquestrador-nao-sela-zona-livre-sem-aprovacao.md",
+      "versao_2_0_0/.hbn/knowledge/0025-auditor-read-only-sem-no-verify.md",
+      "versao_2_0_0/.hbn/knowledge/0026-auto-id-auditor-gate-enforcado.md",
+      "versao_2_0_0/.hbn/knowledge/0027-trailers-contiguos-independente-de-excecao.md",
+      "versao_2_0_0/.hbn/knowledge/0028-diversidade-familia-enforced-selagem.md",
+      "versao_2_0_0/.hbn/knowledge/0029-lei-submissao-pelo-exemplo.md",
+      "versao_2_0_0/.hbn/knowledge/0030-chat-novo-prompts-sequenciais.md",
+      "versao_2_0_0/.hbn/knowledge/0031-campo-unico-colavel-e-comandos-atomicos.md",
+      "versao_2_0_0/.hbn/knowledge/0032-prompts-autocontidos-output-canonico.md",
+      "versao_2_0_0/core/exuvia-fitness-criteria.md",
+      "versao_2_0_0/guards/tests/fixtures/hearbacks/active-root-confirmado.json",
+      "versao_2_0_0/guards/tests/fixtures/hearbacks/confirmado-com-excecao.json",
+      "versao_2_0_0/guards/tests/fixtures/hearbacks/confirmado-sem-excecao.json",
+      "versao_2_0_0/guards/tests/fixtures/hearbacks/pendente.json",
+      "versao_2_0_0/MANIFESTO-MIGRACAO.md",
+      "REGISTRY.md"
+    ]
+  },
+  "invariants_preserved": [
+    "Fora de versao_X_Y_Z/, G-SLF continua aceitando apenas path: igual ao caminho real avaliado.",
+    "Sob versao_X_Y_Z/, G-SLF aceita somente dois referenciais: caminho real completo ou caminho relativo à raiz da versão.",
+    "As copias de guards/assert-self-path.sh e guards/tests/run-guard-tests.sh permanecem identicas byte a byte entre incumbente e versao_2_0_0.",
+    "Os 17 vendorizados entram sem alterar seu conteudo, preservando C-NOREG e o claim verbatim.",
+    "Sem commit, sem --no-verify e sem git add -A; o commit permanece ato do operador humano."
+  ],
+  "action_plan": [
+    "Editar G-SLF para comparar o path declarado contra o caminho ativo, o caminho real do repo e, apenas sob versao_X_Y_Z/, o caminho relativo à raiz da versão.",
+    "Adicionar ao harness um caso bom v2 relativo à raiz da versão e um caso ruim com path mentiroso nos dois referenciais.",
+    "Espelhar as duas copias em versao_2_0_0 e validar paridade com diff -rq.",
+    "Stagear seletivamente os 17 vendorizados antes bloqueados pelo G-SLF.",
+    "Executar suites e baterias adversariais nos dois contextos.",
+    "Apender o nascimento do readback 0118 ao REGISTRY.md e parar com git diff --cached --stat."
+  ],
+  "out_of_scope": [
+    "Commit da selagem.",
+    "Alterar front-matter dos vendorizados v2.",
+    "Flexibilizar path: fora de versao_X_Y_Z/.",
+    "Staging de qualquer arquivo fora de scope.files_allowed."
+  ],
+  "residual_risks": [
+    "O working tree contem muitos untracked historicos fora do escopo; eles permanecem ignorados nesta onda.",
+    "Se o G-REG staged exigir linhas adicionais para vendorizados v2, elas devem ser adicionadas explicitamente e reportadas antes da entrega."
+  ],
+  "classification_basis": {
+    "has_guardian_warnings": true,
+    "has_risks": true,
+    "has_constraints": true
+  },
+  "validation_plan": {
+    "gates": [
+      "diff -rq guards versao_2_0_0/guards -> vazio",
+      "bash guards/tests/run-guard-tests.sh na raiz -> verde com os checks novos",
+      "cd versao_2_0_0 && bash guards/tests/run-guard-tests.sh -> verde com os checks novos",
+      "bash guards/tests/adversarial-battery.sh na raiz -> BATERIA VERDE",
+      "cd versao_2_0_0 && bash guards/tests/adversarial-battery.sh -> BATERIA VERDE",
+      "git status --short -> os 17 vendorizados aparecem staged como A",
+      "git diff --cached --stat"
+    ]
+  },
+  "HBN-Readback": "0118",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "created_at": "2026-07-02T09:38:45-03:00",
+  "protocol_version": "0.3.0"
+}

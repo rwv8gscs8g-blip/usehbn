@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "adr_id": "ADR-001",
+  "auditor": "codex-cli",
+  "session_role": "cross-ia-review-usehbn",
+  "reviewed_at": "2026-05-10T02:45:07Z",
+  "veredito_tecnico": "APROVADO_COM_RESSALVA",
+  "ressalvas_bloqueantes": [],
+  "ressalvas_nao_bloqueantes": [
+    "O subcomando hbn quarta --manual nao existe em src/usehbn/cli.py; o ADR corretamente joga implementacao para pos-v0.3.0, mas nao deve ser tratado como capacidade atual.",
+    "A dependencia listada em Status cita 002/003/004/009, enquanto Quarta 0 em ADR-001:152-154 tambem exige 005 e 008 ACCEPTED; alinhar dependencias.",
+    "A acao 'todo MERGE traz rollback ADR' pode inflar ADRs se aplicada literalmente a mudancas pequenas; melhor exigir rollback section no ADR/MD, nao necessariamente novo ADR.",
+    "Analise cultural/ritual fica deferida a Antigravity."
+  ],
+  "factibilidade_tecnica": {
+    "implementavel_em_v0_3_0": false,
+    "dependencias_externas_necessarias": ["scheduler/manual runbook ou subcomando hbn quarta", "armazenamento de metricas .hbn/meta/health.json"],
+    "blast_radius_estimado": {
+      "arquivos_afetados": 9,
+      "testes_a_atualizar": 3,
+      "cli_surface_impactada": true
+    }
+  },
+  "conflitos_com_codigo_existente": [
+    {
+      "arquivo": "src/usehbn/cli.py:1620",
+      "natureza": "contrato divergente",
+      "severidade": "P2"
+    },
+    {
+      "arquivo": "methodology/adr/ADR-001-quarta-de-sanitizacao.md:152",
+      "natureza": "contrato divergente",
+      "severidade": "P2"
+    }
+  ],
+  "riscos_nao_declarados_no_adr": [
+    {
+      "descricao": "Ritual depende de disponibilidade simultanea de IAs e humano, mas nao define fallback de storage quando uma IA so puder operar fora do repo.",
+      "evidencia": "ADR-001:47-53 define agenda; src/usehbn/cli.py nao possui comando quarta ou registro proprio."
+    },
+    {
+      "descricao": "Commit humano na quinta pode dissociar o draft produzido por IA do commit efetivo se nao houver hash/manifest de drafts.",
+      "evidencia": "ADR-001:50-53 separa COMMIT-DRAFT de HUMAN-PROPAGATE."
+    }
+  ],
+  "alinhamento_com_p1_p13": {
+    "principios_apoiados": ["P2", "P5", "P6", "P10", "P11"],
+    "principios_em_tensao": ["P9"],
+    "comentario": "O ritual apoia governanca e reversibilidade, mas pode criar processo pesado se nao houver limite operacional."
+  },
+  "recomendacao_para_humano": "RATIFICAR_APOS_RESSALVAS",
+  "comentario_livre": "A proposta e aceitavel como governanca operacional, nao como feature de v0.3.0. A ressalva tecnica e alinhar dependencias e evitar inflacao documental: rollback precisa ser obrigatorio, mas nem sempre como ADR novo. O comando hbn quarta deve permanecer explicitamente futuro ate existir CLI, testes e persistencia."
+}

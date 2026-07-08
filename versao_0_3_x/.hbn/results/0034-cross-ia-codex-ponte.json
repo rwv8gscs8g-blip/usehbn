@@ -1,0 +1,160 @@
+{
+  "schema_version": "1.0",
+  "tipo": "cross_ia_audit",
+  "auditor": "codex-openai",
+  "alvo": "usehbn/.hbn/proposals/20260610-233218-fable5-ponte-consolidada.md",
+  "veredito": "VETO_ADOCAO",
+  "veto_adocao": true,
+  "summary": [
+    "Diff 5-estados reexecutado e numeros brutos confirmados.",
+    "Aritmetica de migracao nao fecha: 102 artefatos/destinos esperados, nao 107.",
+    "SO-COPIA=0 pos-R8 pode mascarar perda porque a copia e removida.",
+    "Split do firewall 0022 nao tem corpo exato auditavel.",
+    "T3 e ambiguo/fraco contra teatro por conflito com knowledge 0019.",
+    "Guard de snapshot le staged blob, mas so prova consistencia interna.",
+    "Runbook nao toca dominio/VBA/workbook, mas requer manifest/rollback mais preciso."
+  ],
+  "diff_5_estados": {
+    "total_copia": 110,
+    "igual": 0,
+    "diverge": 1,
+    "so_copia_mecanico": 109,
+    "fora_da_matriz": 3,
+    "so_copia_util": 106,
+    "so_canonico_methodology": 30,
+    "diverge_paths": [
+      "methodology/PRINCIPIOS-CONSTITUCIONAIS.md"
+    ],
+    "fora_da_matriz_paths": [
+      ".DS_Store",
+      "radar/_per-technology/.gitkeep",
+      "study-plans/.DS_Store"
+    ],
+    "distribuicao_so_copia_mecanico": {
+      ".DS_Store": 1,
+      "audits": 9,
+      "docs": 2,
+      "methodology": 11,
+      "modules": 8,
+      "radar": 61,
+      "site": 1,
+      "study-plans": 16
+    }
+  },
+  "contagem_corrigida": {
+    "so_copia_util": 106,
+    "prompts_descartados_e3": 5,
+    "firewall_novo": 1,
+    "total_que_entra_calculado": 102,
+    "total_que_entra_declarado_no_alvo": 107,
+    "status": "mismatch"
+  },
+  "veredito_por_secao": {
+    "0": "OK",
+    "1": "BLOQUEADOR",
+    "2": "BLOQUEADOR",
+    "3": "FORTE",
+    "4": "OK",
+    "5": "FORTE",
+    "6": "FORTE",
+    "7": "FORTE",
+    "8": "OK",
+    "9": "FORTE",
+    "10": "MARGINAL"
+  },
+  "findings": [
+    {
+      "id": "B-01",
+      "severity": "BLOQUEADOR",
+      "title": "Conta 107 nao fecha e SO-COPIA=0 pos-R8 mascara perda",
+      "evidence": [
+        "usehbn/.hbn/proposals/20260610-233218-fable5-ponte-consolidada.md:179",
+        "usehbn/.hbn/proposals/20260610-233218-fable5-ponte-consolidada.md:186",
+        "usehbn/.hbn/proposals/20260610-233218-fable5-ponte-consolidada.md:197",
+        "usehbn/.hbn/proposals/20260610-233218-fable5-ponte-consolidada.md:543",
+        "usehbn/.hbn/proposals/20260610-233218-fable5-ponte-consolidada.md:561",
+        "usehbn/auditoria/00_status/08_MD_K_MATRIZ_ORIGEM_DESTINO.md:152"
+      ],
+      "recommendation": "Corrigir a conta, produzir manifesto origem-destino-acao-hash antes do R8 e validar contra a lista pre-R8."
+    },
+    {
+      "id": "B-02",
+      "severity": "BLOQUEADOR",
+      "title": "Split do firewall 0022 nao e auditavel como verbatim",
+      "evidence": [
+        "usehbn/.hbn/proposals/20260610-233218-fable5-ponte-consolidada.md:122",
+        "usehbn/.hbn/proposals/20260610-233218-fable5-ponte-consolidada.md:152",
+        "usehbn/.hbn/proposals/20260610-233218-fable5-ponte-consolidada.md:182",
+        "usehbn/.hbn/proposals/20260610-233218-fable5-ponte-consolidada.md:549",
+        "Credenciamento/.hbn/knowledge/0022-firewall-workflow-fast-track.md:15",
+        "Credenciamento/.hbn/knowledge/0022-firewall-workflow-fast-track.md:22",
+        "Credenciamento/.hbn/knowledge/0022-firewall-workflow-fast-track.md:42"
+      ],
+      "recommendation": "Adicionar o corpo integral de FIREWALL-ORQUESTRACAO.md e o patch integral do 0022 local antes do hearback."
+    },
+    {
+      "id": "F-01",
+      "severity": "FORTE",
+      "title": "T3 ambiguo e fraco contra teatro",
+      "evidence": [
+        "usehbn/.hbn/proposals/20260610-233218-fable5-ponte-consolidada.md:488",
+        "usehbn/.hbn/proposals/20260610-233218-fable5-ponte-consolidada.md:132",
+        "Credenciamento/.hbn/knowledge/0019-cadencia-d-estendida-passagem-bastao.md:60"
+      ],
+      "recommendation": "Separar P7 constitucional de severidade P7 do 0019 e exigir respostas com path, modo e acao permitida."
+    },
+    {
+      "id": "F-02",
+      "severity": "FORTE",
+      "title": "Guard staged correto, mas claim so-via-fetch nao comprovado",
+      "evidence": [
+        "usehbn/.hbn/proposals/20260610-233218-fable5-ponte-consolidada.md:313",
+        "usehbn/.hbn/proposals/20260610-233218-fable5-ponte-consolidada.md:316",
+        "usehbn/.hbn/proposals/20260610-233218-fable5-ponte-consolidada.md:327",
+        "usehbn/.hbn/proposals/20260610-233218-fable5-ponte-consolidada.md:487"
+      ],
+      "recommendation": "Adicionar prova contra manifest/tag do canonico ou reduzir a alegacao para consistencia interna."
+    },
+    {
+      "id": "F-03",
+      "severity": "FORTE",
+      "title": "R8 nao cria README do tombstone e rollback esta subespecificado",
+      "evidence": [
+        "usehbn/.hbn/proposals/20260610-233218-fable5-ponte-consolidada.md:401",
+        "usehbn/.hbn/proposals/20260610-233218-fable5-ponte-consolidada.md:524",
+        "usehbn/.hbn/proposals/20260610-233218-fable5-ponte-consolidada.md:549",
+        "usehbn/.hbn/proposals/20260610-233218-fable5-ponte-consolidada.md:561",
+        "usehbn/.hbn/proposals/20260610-233218-fable5-ponte-consolidada.md:570"
+      ],
+      "recommendation": "Criar README explicitamente no R8 e detalhar rollback/stop points por repo e etapa."
+    },
+    {
+      "id": "M-01",
+      "severity": "MARGINAL",
+      "title": "Caminhos indicados para 0019 e MD-K nao batem com o disco",
+      "evidence": [
+        "Credenciamento/.hbn/knowledge/0019-cadencia-d-estendida-passagem-bastao.md:54",
+        "usehbn/auditoria/00_status/08_MD_K_MATRIZ_ORIGEM_DESTINO.md:1"
+      ],
+      "recommendation": "Corrigir paths em handoff/STATE para a proxima auditoria."
+    },
+    {
+      "id": "M-02",
+      "severity": "MARGINAL",
+      "title": "Globs congelam README do tombstone; aceitavel se README existir antes",
+      "evidence": [
+        "usehbn/.hbn/proposals/20260610-233218-fable5-ponte-consolidada.md:407",
+        "usehbn/.hbn/proposals/20260610-233218-fable5-ponte-consolidada.md:614"
+      ],
+      "recommendation": "Ordenar R8 para criar e stagear README antes de ativar os globs."
+    }
+  ],
+  "anti_bias": {
+    "B1_janela_nova": "cumprido",
+    "B2_independencia": "cumprido; parecer Antigravity nao lido",
+    "B3_busca_reprovacao": "cumprido",
+    "B4_evidencia_objetiva": "cumprido",
+    "B5_vies_auditor": "risco reconhecido; mitigado por evidencias arquivo-linha e OKs parciais",
+    "B6_limites": "0019 canonico e MD-K no caminho Credenciamento ausentes; homonimos efetivos lidos e anomalia registrada"
+  }
+}

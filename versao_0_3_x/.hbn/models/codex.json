@@ -1,0 +1,24 @@
+{
+  "profile_version": 1,
+  "model_id": "codex",
+  "apelido": "codex",
+  "fornecedor": "OpenAI",
+  "context_window_tokens": null,
+  "handoff_threshold": 0.5,
+  "hearback_ref": null,
+  "papeis_aptos": ["implementador", "consolidador", "auditor-cruzado"],
+  "modos": ["cli"],
+  "verificado": {
+    "papeis_aptos": "STATE 0177 do Credenciamento (implementador da onda 38.2.44; consolidador previsto na proposal 0036); handoff 20260610-0110 gerado por codex; 'auditor-cruzado' exercido de fato na auditoria da corrente D (.hbn/results/0021-cross-ia-codex-corrente-d.json) — adição PROPOSED pela corrente E (o G-FAM endurecido expôs o perfil desatualizado)",
+    "modos": "opera via CLI no Terminal do operador (prática das ondas do Credenciamento)"
+  },
+  "nao_verificado": [
+    "context_window_tokens",
+    "versão exata do modelo subjacente",
+    "modos além de cli"
+  ],
+  "observacoes": "Ratificador previsto da consolidação C1→C7. Janela desconhecida ⇒ default conservador integral (0.5 + gatilhos secundários da 0017).",
+  "ultima_revisao": "2026-06-10",
+  "status": "accepted",
+  "temperatura": "quente"
+}

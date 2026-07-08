@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "auditor": "antigravity-gemini",
+  "session_role": "cross-ia-audit-ponte",
+  "reviewed_at": "2026-06-11T02:59:00Z",
+  "preflight": {
+    "pwd_ok": true,
+    "git_status_divergencias": []
+  },
+  "escopo": {
+    "0_diff_5_estados": { "veredito": "OK", "comentario": "Números reproduzidos e confirmados com sucesso de forma independente." },
+    "1_decisao_propriedade": { "veredito": "FORTE", "comentario": "O split do 0022 carece de especificação textual explícita no plano, criando risco de deriva semântica." },
+    "2_completar_canonico": { "veredito": "MARGINAL", "comentario": "Inconsistências matemáticas na contagem de arquivos de §2, embora o runbook esteja operacionalmente correto." },
+    "3_scripts_mdi": { "veredito": "BLOQUEADOR", "comentario": "O guard assert-snapshot-integrity.sh usa caminho absoluto de desenvolvimento local (~/Projetos/usehbn), quebrando o CI em ambientes de integração." },
+    "4_snapshot_consumo": { "veredito": "OK", "comentario": "Definição de caminhos e escopo correta." },
+    "5_tombstone": { "veredito": "OK", "comentario": "Tombstone e forbidden-paths configurados corretamente." },
+    "6_router": { "veredito": "OK", "comentario": "Router adicionado no topo de AGENTS.md orienta corretamente as IAs." },
+    "7_validacao": { "veredito": "OK", "comentario": "Critérios de aceite abrangentes, especialmente o teste cognitivo T3." },
+    "8_gatilho_sequencia": { "veredito": "OK", "comentario": "Dono e gatilho temporal configurados corretamente." },
+    "9_apply_runbook": { "veredito": "FORTE", "comentario": "O passo R8 tenta adicionar arquivos a caminhos que ele mesmo acabou de bloquear, quebrando o pre-commit local." },
+    "10_state_proposto": { "veredito": "OK", "comentario": "Atualização proposta para o STATE.md está correta." }
+  },
+  "findings": [
+    {
+      "id": "F-01",
+      "severidade": "BLOQUEADOR",
+      "artefato": "usehbn/.hbn/proposals/20260610-233218-fable5-ponte-consolidada.md",
+      "evidencia": "linha 342: if ! bash ~/Projetos/usehbn/bin/usehbn-verify.sh --target \"$TMP\"; then",
+      "descricao": "O guard de integridade do snapshot tenta ler a biblioteca de verificação no caminho absoluto ~/Projetos/usehbn, o que falhará em qualquer ambiente de CI onde o repositório usehbn não esteja clonado nesse local exato, quebrando a esteira de integração do Credenciamento.",
+      "recomendacao": "Fornecer uma biblioteca local de verificação no repositório Credenciamento (por exemplo, copiar usehbn-verify.sh como scripts/lib/usehbn-verify-lib.sh) e usá-la no guard."
+    },
+    {
+      "id": "F-02",
+      "severidade": "FORTE",
+      "artefato": "usehbn/.hbn/proposals/20260610-233218-fable5-ponte-consolidada.md",
+      "evidencia": "linhas 182: corpo = 0022 atual... genéricas; e 549-551 (R3)",
+      "descricao": "O split do arquivo de firewall 0022 não teve seu texto canônico genérico proposto explicitamente no corpo do plano único. Sem esse rascunho textual no plano, o implementador humano é forçado a reescrever ou editar o arquivo de segurança sem auditoria prévia, arriscando deriva semântica.",
+      "recomendacao": "Incluir no corpo do parecer de auditoria ou no plano os textos exatos propostos para methodology/FIREWALL-ORQUESTRACAO.md e o novo 0022 local."
+    },
+    {
+      "id": "F-03",
+      "severidade": "FORTE",
+      "artefato": "usehbn/.hbn/proposals/20260610-233218-fable5-ponte-consolidada.md",
+      "evidencia": "linhas 559-563 (passo R8)",
+      "descricao": "O passo R8 comita no mesmo passo a remoção de usehbn/, a criação do README tombstone e a adição da trava usehbn/* ao forbidden-paths.txt. O pre-commit forbid-legacy-paths.sh rejeitará a adição do README.md por conflitar com a trava do forbidden-paths.txt no mesmo commit.",
+      "recomendacao": "Dividir o passo R8 em dois commits: R8.a para remover a pasta usehbn/ e adicionar o README.md tombstone, e R8.b para adicionar a trava usehbn/* ao forbidden-paths.txt."
+    },
+    {
+      "id": "F-04",
+      "severidade": "MARGINAL",
+      "artefato": "usehbn/.hbn/proposals/20260610-233218-fable5-ponte-consolidada.md",
+      "evidencia": "linhas 186-188: Total que ENTRA no canônico: 107 arquivos...",
+      "descricao": "A contagem de 107 arquivos em §2 é matematicamente inconsistente devido a redundância de subtração das 3 pastas lixo (já excluídas do total de 106 SÓ-CÓPIA). O total correto de cópias úteis é 101, que com 1 arquivo novo e 1 template resulta em 103 arquivos adicionados.",
+      "recomendacao": "Corrigir a nota matemática do plano de 107 para 103 arquivos finais."
+    },
+    {
+      "id": "F-05",
+      "severidade": "MARGINAL",
+      "artefato": "usehbn/.hbn/proposals/20260610-233218-fable5-ponte-consolidada.md",
+      "evidencia": "linha 282: m = json.load(open(os.path.join(snap, 'PROTOCOL_MANIFEST.json')))",
+      "descricao": "Caso PROTOCOL_MANIFEST.json seja corrompido ou deletado por engano, usehbn-verify.sh quebra com FileNotFoundError brutas do python em vez de imprimir mensagem limpa e retornar exit 2.",
+      "recomendacao": "Tratar explicitamente a ausência do arquivo manifest com try-except ou os.path.exists no script python."
+    },
+    {
+      "id": "F-06",
+      "severidade": "MARGINAL",
+      "artefato": "usehbn/.hbn/proposals/20260610-233218-fable5-ponte-consolidada.md",
+      "evidencia": "linha 339: if [ ! -d \"$TMP/$PREFIX\" ]; then exit 0; fi",
+      "descricao": "Se a pasta do snapshot for deletada por completo no index, o guard assert-snapshot-integrity.sh passará com sucesso sem reportar erro, pois a pasta temporária não conterá o prefixo.",
+      "recomendacao": "Apenas notar esse comportamento como uma limitação de segurança assumível."
+    }
+  ],
+  "checklist_anti_vies": {
+    "B1": "Sim, li integralmente usehbn/.hbn/relay/STATE.md, a proposta consolidada, as ADRs listadas, as knowledge de firewall e a matriz MD-K.",
+    "B2": "Sim, executei de forma independente a re-checagem dos deltas e rerodei o script de diff de 5 estados para confirmar que os números batem.",
+    "B3": "Sim, busquei e encontrei motivos técnicos reais (como o travamento de CI e a falha de pre-commit no passo R8) para aplicar o VETO.",
+    "B4": "Sim, encontrei contradições claras e falhas operacionais que impedem a adoção sem correção prévia.",
+    "B5": "Nenhuma das minhas recomendações expande meu próprio escopo de atuação ou preserva minha relevância artificialmente. Focam apenas na estabilidade da esteira de CI e na execução sem erros do runbook.",
+    "B6": "Confirmado, auditar não me dá o bastão. A próxima ação indicada é o hearback de Maurício e a correção do plano consolidado."
+  },
+  "recomendacao_por_hearback": {
+    "H1": "Veto de adoção provisório (VETO_ADOCAO: SIM) até a remediação dos findings F-01, F-02 e F-03.",
+    "H2": "Correção de F-01: Ajustar assert-snapshot-integrity.sh para usar biblioteca de verificação local (verify vendorizado).",
+    "H3": "Correção de F-02: Adotar formalmente os textos divididos do 0022 propostos no parecer.",
+    "H4": "Correção de F-03: Desmembrar o passo R8 do runbook em dois commits separados (R8.a e R8.b) para evitar falha do pre-commit.",
+    "H5": "Maurício deve assinar o hearback confirmando as correções recomendadas e suspendendo o veto após a aplicação dos ajustes."
+  },
+  "veto_adocao": "sim",
+  "resumo_para_humano": "A ponte consolidada foi auditada e recebeu VETO temporário (VETO_ADOCAO: SIM). Embora a topologia esteja correta e os deltas tenham sido validados, foram encontrados 3 problemas críticos: (1) O guard de integridade do snapshot quebra o CI por usar paths locais absolutos; (2) O texto do split do firewall 0022 não está explícito no plano; (3) O passo R8 do runbook falha no pre-commit local ao tentar comitar o README do tombstone junto com a nova regra de forbidden-paths. A correção exige a divisão de R8, a especificação dos textos e a vendorização do verify."
+}

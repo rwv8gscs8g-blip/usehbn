@@ -1,0 +1,40 @@
+{
+  "readback_id": "0074-w-orq-4a-readlist-rite",
+  "execution_id": "w-orq-4a-readlist-rite-2026-06-21",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "implemented_pending_cross_audit",
+  "activation_status": "PROPOSED_UNTIL_CROSS_AUDIT",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0074-w-orq-4a-readlist-rite.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260621-003000-opus-4-8-despacho-w-orq-4a-readlist-rite.md",
+  "understanding": "Criar G-READLIST-RITE: todo commit que adiciona/modifica core/read-list-canonica.txt exige um readback staged com read_list_rite (nao-vazio) + human_status confirmed; senao bloqueia (fail-closed, forward-only, blob staged). Adicionar ao runner + testes (run-guard-tests + adversarial B76+). Implementacao: regenerar atestacao same-fp, parar para cross-audit != OpenAI, NAO selar; este commit NAO toca a read-list.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Despacho W-ORQ-4a de 2026-06-21T00:30:00-03:00 sob token_fp 34a7f2f9; implementar guard+runner+testes+STATE+REGISTRY+atestacao dentro do files_allowed; parar para cross-audit != OpenAI.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      "guards/assert-readlist-rite.sh",
+      "guards/hbn-guards-runner.sh",
+      "guards/tests/run-guard-tests.sh",
+      "guards/tests/adversarial-battery.sh",
+      ".hbn/messages/20260621-003000-opus-4-8-despacho-w-orq-4a-readlist-rite.md",
+      ".hbn/readbacks/0074-w-orq-4a-readlist-rite.json",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": ["main", "core/**", "methodology/**", "schemas/**", "src/**", "docs/brainstorm/**", ".hbn/freeze/**", "guards/data/**"]
+  },
+  "stop_condition": "Entrega 0074 (G-READLIST-RITE) em commit unico; parar para cross-audit != OpenAI. NAO selar. NAO iniciar as outras facetas de W-ORQ-4 nem W-FREEZE.",
+  "HBN-Readback": "0074",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-21T00:30:00-03:00",
+  "protocol_version": "0.3.0"
+}

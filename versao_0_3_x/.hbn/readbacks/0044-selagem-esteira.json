@@ -1,0 +1,59 @@
+{
+  "readback_id": "0044-selagem-esteira",
+  "execution_id": "selagem-esteira-2026-06-17",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0044-selagem-esteira.json",
+  "understanding": "Selar a promocao da Esteira de Pre-Transicao (readback 0043), ratificada por 2 auditores de familia distinta de OpenAI (antigravity/Google APROVA_0043 SIM conf 100; grok/xAI APROVA_0043 SIM conf 88). Resolver a marginal do cross-audit removendo a linha de front-matter 'arvore: intermediaria' (modelo registry-centric da R2; o rotulo sera atribuido no REGISTRY) e virando status proposed->accepted. Tornar tracked os 2 pareceres com linha no REGISTRY. Atualizar STATE/handoff. Sem tocar main, guards, schemas, src, outras specs de core, brainstorm.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio em 2026-06-17: hearback aprovando a selagem da Esteira apos duplo APROVA_0043, com o ajuste da marginal (remover rotulo arvore premature, status accepted).",
+    "created_at": "2026-06-17T11:00:00-03:00",
+    "note": "Autorizacao humana para safe_track de selagem. Nao autoriza tocar main, merge, --no-verify, git add ., guards, schemas, src, outras specs de core, brainstorm."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0044-selagem-esteira.json",
+      "core/esteira-pre-transicao.md",
+      ".hbn/results/20260617-102800-antigravity-cross-ia-esteira-0043.md",
+      ".hbn/results/20260617-104500-grok-build-0.1-cross-ia-esteira-0043.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/messages/20260617-HHMMSS-codex-handoff-selagem-esteira.md"
+    ],
+    "files_forbidden": ["main","guards/**","schemas/**","src/**","docs/brainstorm/**"]
+  },
+  "action_plan": [
+    "C1: abrir readback 0044 + STATE(impl=codex, 🔴).",
+    "C2: ratificar spec (status accepted) + remover rotulo arvore.",
+    "C3: selar 2 pareceres + REGISTRY.",
+    "C4: STATE + handoff."
+  ],
+  "invariants_to_preserve": [
+    "Nao tocar main, guards, schemas, src, outras specs de core, brainstorm.",
+    "Em core/esteira-pre-transicao.md, SO os 2 ajustes da SECAO 3.",
+    "Nao usar git add .; somente paths exatos.",
+    "implementador=codex e 🔴 G-EXC PROPOSED no STATE desde C1; trailers CONTIGUOS.",
+    "Antes de cada commit: runner verde; adversarial B1-B33 sem regressao.",
+    "Trailers: HBN-Readback: 0044, HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin), HBN-Token-FP: 34a7f2f9."
+  ],
+  "out_of_scope": [
+    "freeze-gate/schema; arvores/R2; curadoria do dossie; freeze.",
+    "Habilitar D-ORQ-WRITE."
+  ],
+  "read_evidence": [
+    ".hbn/results/20260617-102800-antigravity-cross-ia-esteira-0043.md (APROVA_0043 SIM, conf 100)",
+    ".hbn/results/20260617-104500-grok-build-0.1-cross-ia-esteira-0043.md (APROVA_0043 SIM, conf 88; marginal arvore)"
+  ],
+  "mechanical_evidence": [
+    "git rev-parse HEAD -> 3cdcb80 (tip promocao esteira)",
+    "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04",
+    "pytest -> 213 passed"
+  ],
+  "created_at": "2026-06-17T11:00:00-03:00",
+  "protocol_version": "0.3.0"
+}

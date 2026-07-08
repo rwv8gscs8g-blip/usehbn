@@ -1,0 +1,38 @@
+{
+  "readback_id": "0077-selagem-w-orq-4b",
+  "execution_id": "selagem-w-orq-4b-2026-06-21",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "vigente",
+  "seals_proposal": "0076",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0077-selagem-w-orq-4b.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260621-030000-opus-4-8-despacho-selagem-0077.md",
+  "understanding": "Selar W-ORQ-4b / G-ORQ-REF endurecido (readback 0076) como vigente apos quorum != OpenAI (antigravity/Google + grok/xAI, ambos APROVA_0076: SIM) e hearback humano. Declara seals_proposal 0076 e trackea os 2 pareceres (G-QUORUM). Marcar W-ORQ-4b SELADO E VIGENTE, REGISTRY e regenerar atestacao same-fp com readback_ativo->0077. Ato de autoridade sob G-ORQ-REF (Exit A').",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Hearback humano confirmado para a selagem 0077 (W-ORQ-4b 0076) e tracking dos files_allowed no despacho de 2026-06-21T03:00:00-03:00.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0077-selagem-w-orq-4b.json",
+      ".hbn/messages/20260621-030000-opus-4-8-despacho-selagem-0077.md",
+      ".hbn/results/20260621-024500-antigravity-cross-ia-w-orq-4b-0076.md",
+      ".hbn/results/20260621-025500-grok-cross-ia-w-orq-4b-0076.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": ["main","guards/**","src/**","core/**","methodology/**","schemas/**","docs/brainstorm/**",".hbn/freeze/**"]
+  },
+  "stop_condition": "Selagem 0077 (W-ORQ-4b vigente) concluida. NAO iniciar W-ORQ-4c/W-FREEZE neste commit.",
+  "HBN-Readback": "0077",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-21T03:00:00-03:00",
+  "protocol_version": "0.3.0"
+}

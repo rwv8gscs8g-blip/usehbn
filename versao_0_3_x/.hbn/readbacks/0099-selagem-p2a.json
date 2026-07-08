@@ -1,0 +1,38 @@
+{
+  "readback_id": "0099-selagem-p2a",
+  "execution_id": "selagem-p2a-2026-06-26",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "vigente",
+  "seals_proposal": "0098",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0099-selagem-p2a.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260626-180000-opus-4-8-despacho-selagem-0099.md",
+  "understanding": "Selar o P2-A (readback 0098: install-snapshot.sh + dry-run) como vigente apos duplo APROVA_0098 SIM (antigravity/Google + grok/xAI, vereditos em linha limpa; determinismo 137 arquivos / protocol_sha256 8796b672… reconfirmado pelos auditores). Declara seals_proposal 0098 e trackeia os 2 pareceres (G-QUORUM + G-DIVERSITY, 2 familias !=OpenAI). Com 0098 selado, a ferramenta de distribuicao do snapshot esta ratificada. NAO instala a membrana. Proxima_acao: P2-B (install-snapshot.sh --install no Credenciamento, humano-gated; firewall 0022). REGISTRY e atestacao same-fp regenerada com readback_ativo->0099. Ato de autoridade sob G-ORQ-REF (Exit A').",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Hearback humano confirmado para a selagem 0099 (P2-A 0098) e tracking dos 2 pareceres; duplo APROVA_0098 SIM no disco.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0099-selagem-p2a.json",
+      ".hbn/messages/20260626-180000-opus-4-8-despacho-selagem-0099.md",
+      ".hbn/results/20260626-170000-antigravity-cross-ia-p2a-0098.md",
+      ".hbn/results/20260626-170500-grok-cross-ia-p2a-0098.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": ["main","guards/**","src/**","core/**","methodology/**","schemas/**","docs/brainstorm/**",".hbn/freeze/**",".hbn/hearbacks/**",".hbn/operators/**",".hbn/proposals/**","scripts/**"]
+  },
+  "stop_condition": "Selagem 0099 (P2-A vigente) concluida. Proxima_acao e P2-B (instalar a membrana, humano-gated). NAO instalar neste commit.",
+  "HBN-Readback": "0099",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-26T18:00:00-03:00",
+  "protocol_version": "0.3.0"
+}

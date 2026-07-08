@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "adr_id": "ADR-003",
+  "auditor": "codex-cli",
+  "session_role": "cross-ia-review-usehbn",
+  "reviewed_at": "2026-05-10T02:45:07Z",
+  "veredito_tecnico": "APROVADO_COM_RESSALVA",
+  "ressalvas_bloqueantes": [
+    {
+      "tema": "Renomeacao core/ -> modules/ precisa plano de compatibilidade para links publicos e docs",
+      "evidencia": "README.md:406 e README.md:421 referenciam core/; site/index.html:40 aponta para core/protocol.md; agents/wave-protocol.md:155 inclui core/ no grep de termos doutrinarios",
+      "remediacao_proposta": "Antes de ACCEPTED, registrar no ADR que core/ fica como legado com redirects/banners por pelo menos uma release, ou listar os arquivos que devem ser atualizados no MD de migracao."
+    }
+  ],
+  "ressalvas_nao_bloqueantes": [
+    "Nao encontrei imports Python para core/ em src/usehbn; a quebra e documental/publica, nao de runtime.",
+    "A criacao de modules/ vazio e barata, mas popular modules/ por fusao documental tem risco de perda informacional e deve ser onda dedicada.",
+    ".hbn/meta/ e citado como fase 1, mas hbn init ainda nao cria esse diretorio."
+  ],
+  "factibilidade_tecnica": {
+    "implementavel_em_v0_3_0": true,
+    "dependencias_externas_necessarias": [],
+    "blast_radius_estimado": {
+      "arquivos_afetados": 12,
+      "testes_a_atualizar": 2,
+      "cli_surface_impactada": false
+    }
+  },
+  "conflitos_com_codigo_existente": [
+    {
+      "arquivo": "README.md:406",
+      "natureza": "contrato divergente",
+      "severidade": "P1"
+    },
+    {
+      "arquivo": "site/index.html:40",
+      "natureza": "contrato divergente",
+      "severidade": "P1"
+    },
+    {
+      "arquivo": "src/usehbn/cli.py:1013",
+      "natureza": "schema divergente",
+      "severidade": "P2"
+    }
+  ],
+  "riscos_nao_declarados_no_adr": [
+    {
+      "descricao": "Links externos e docs de instalacao podem quebrar se core/ for movido sem periodo de transicao.",
+      "evidencia": "site/index.html:40 referencia URL GitHub para core/protocol.md."
+    },
+    {
+      "descricao": "O contrato de onda ainda instrui auditorias a grep em core/; apos migracao, a lista de paths de auditoria pode ficar incompleta.",
+      "evidencia": "agents/wave-protocol.md:155."
+    }
+  ],
+  "alinhamento_com_p1_p13": {
+    "principios_apoiados": ["P1", "P2", "P6", "P7", "P8"],
+    "principios_em_tensao": ["P3"],
+    "comentario": "A topologia preserva fonte de verdade, desde que a migracao seja reversivel e coberta por testes/links."
+  },
+  "recomendacao_para_humano": "RATIFICAR_APOS_RESSALVAS",
+  "comentario_livre": "A migracao core->modules nao quebra imports em src/usehbn no estado atual; o runtime nao importa arquivos markdown de core. O risco real e de superficie publica: README, site e wave-protocol ainda apontam para core/. A recomendacao e aceitar a direcao, mas exigir plano de compatibilidade antes de mover ou apagar core/."
+}

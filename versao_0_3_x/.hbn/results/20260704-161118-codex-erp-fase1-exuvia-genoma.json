@@ -1,0 +1,53 @@
+{
+  "traceability": {
+    "execution_id": "fase1-exuvia-genoma-20260704",
+    "agent_id": "codex"
+  },
+  "hbn_outcome": "executed",
+  "human_decision": {
+    "status": "not_reviewed",
+    "review_notes": "Implementacao parada antes de commit/tag/push para auditoria cruzada de duas familias != OpenAI e selagem do gate."
+  },
+  "intent_risk_profile": {
+    "deception": false,
+    "improbable": false,
+    "random": false,
+    "herd_behavior": false,
+    "financial_survival_risk": false,
+    "abandonment_or_resource_loss_risk": false,
+    "curiosity_driven": false,
+    "agi_resource_shift": false,
+    "ethical_break": false,
+    "other_emergent_risk": "Diff amplo em guards exige auditoria linha a linha contra o mapa definitivo antes de commit."
+  },
+  "action_taken": "Fase 1 do mapa definitivo implementada no genoma: fixes de genese, parser de atribuicao, validate-dispatch, requires/MANIFEST, fixtures, instalador, matriz total, teste integrado permanente e REGISTRY dos novos artefatos da onda.",
+  "readback_id": "0119-fase1-exuvia-genoma",
+  "evidence": [
+    {
+      "type": "readback",
+      "reference": ".hbn/readbacks/0119-fase1-exuvia-genoma.json"
+    },
+    {
+      "type": "test",
+      "reference": "bash guards/tests/run-guard-tests.sh -> 292 passaram, 0 falharam"
+    },
+    {
+      "type": "test",
+      "reference": "bash guards/tests/adversarial-battery.sh -> BATERIA VERDE"
+    },
+    {
+      "type": "test",
+      "reference": ".venv/bin/pytest -q -> 213 passed"
+    },
+    {
+      "type": "diff",
+      "reference": "git diff --check -> exit 0"
+    },
+    {
+      "type": "diff",
+      "reference": "git diff --cached --stat -> vazio; nenhum commit/tag/push executado"
+    }
+  ],
+  "created_at": "2026-07-04T16:11:18-03:00",
+  "protocol_version": "0.3.0"
+}

@@ -1,0 +1,920 @@
+# HBN v0.3.0 — Plano de Ondas (Honest Foundation)
+
+> Plano canonico de execucao do ciclo v0.3.0. Cada onda e uma transacao
+> protocolada em `agents/wave-protocol.md`. Nenhuma onda comeca sem Hearback
+> humano explicito. Nenhuma onda termina sem ERP gravado e Readback arquivado.
+
+## Revisao 2026-04-29 — Ondas 2-4 ja implementadas
+
+Auditoria pre-execucao do architect (claude-opus-4.7) descobriu que TODAS as
+6 correcoes do `reports/HBN-ERP-HARDENING-AUDIT.md` ja estao aplicadas no
+codigo atual, provavelmente no commit `b2b5f09 feat: harden HBN runtime and
+governance flow`. Em consequencia:
+
+- **Onda 2 original** (ERP Hardening Batch 1) -> JA IMPLEMENTADA. PULAR.
+- **Onda 3 original** (ERP Hardening Batch 2) -> JA IMPLEMENTADA. PULAR.
+- **Onda 4 original** (ERP Hardening Batch 3) -> JA IMPLEMENTADA. PULAR.
+- Ondas restantes renumeradas: nova Onda 2 = Schema Versioning;
+  nova Onda 3 = Relay Invariants; nova Onda 4 = Connector Lifecycle Registry;
+  nova Onda 5 = Cleanup + state/ Migration; nova Onda 6 = Vitrine + Release.
+
+Detalhes da auditoria preservados em
+`.hbn/relay-archive/20260429T072700Z-0005-onda-2-cancelada-redundante.md` e
+`.hbn/relay-archive/<TIMESTAMP>-0006-onda-bastao-claude-revisao-plano-v0.3.0.md`
+(quando arquivado).
+
+### Lico aprendida (architect)
+
+Architect deve verificar estado atual do codigo antes de planejar ondas
+baseadas em relatorios de auditoria. Relatorio de auditoria descreve estado
+em data X; codigo pode ter sido remediado depois sem que o relatorio fosse
+atualizado. Em ondas futuras, architect deve incluir um passo "verificacao
+de estado pre-deposit" antes de assinar o plano. Esta lico sera incorporada
+em `agents/wave-protocol.md` em onda futura dedicada (provavelmente nova
+Onda 5 ou nova onda especifica de protocolo).
+
+### Revisao 2026-04-29 (segunda correcao) — escopo da Onda 3
+
+Auditoria pre-bastao da Nova Onda 3 (architect, iteracao 0008) detectou
+duas divergencias entre plano e codigo:
+
+1. Plano listava `src/usehbn/relay/*.py` como arquivo permitido. Esse
+   modulo nao existe; toda a logica de relay vive em `src/usehbn/cli.py`
+   (funcoes `_load_relay_state`, `_save_relay_state`,
+   `_find_pending_readbacks`, `run_relay_status`, `run_handoff`).
+2. Invariante (a) ("handoff falha com Readback pending") esta MAIS
+   quebrada do que o plano original sugeria: `_find_pending_readbacks`
+   le apenas `.hbn/readbacks/`, mas `create_readback_record` escreve em
+   `.usehbn/readbacks/` por padrao. O proprio teste integrado
+   (`test_two_agent_handoff_cycle`) precisa copiar manualmente o
+   readback entre dirs para o handoff falhar.
+
+A secao "Onda 3 (NOVA)" foi reescrita para refletir esses fatos, com
+escopo cirurgico em `cli.py` e teste explicito do path mismatch como
+prioridade. Detalhes preservados em
+`.hbn/relay-archive/<TIMESTAMP>-0008-architect-correcao-onda3.md` quando
+arquivado.
+
+## Objetivo do Ciclo
+
+Transformar o HBN de scaffold honesto em **fundacao publicavel honesta**:
+codigo robusto onde a doutrina ja foi alinhada, sem inflar superficie nem
+prometer capacidade que ainda nao existe. Ao final do ciclo: site mais
+expressivo em `usehbn.org`, README mais legivel para humanos, e tag `v0.3.0`
+publicada via TestPyPI primeiro (decisao Q13).
+
+## Versao alvo
+
+`v0.3.0 — Honest Foundation`. SemVer minor bump. Sem mudanca de termos
+doutrinarios. Compatibilidade dual com `state/` legado mantida (decisao Q2).
+
+## Documentos Normativos Vinculantes
+
+- `agents/wave-protocol.md` — contrato operacional de toda onda.
+- `docs/MATURITY-MATRIX.md` — estado canonico por componente.
+- `docs/PHAGOCYTOSIS.md` — doutrina do Universal Translator.
+- `docs/PUBLISHING-DECISION.md` — TestPyPI primeiro, gate G6.
+- `docs/rfc/RFC-0001-enforce-mode.md` — RFC aberta, NAO autoriza implementacao em v0.3.0.
+- `reports/HBN-ERP-HARDENING-AUDIT.md` — base auditada das Ondas 2, 3, 4.
+- `.hbn/relay-archive/20260429T0530-0002-onda-bastao-claude-v0.3.0-foundation.md` — decisoes humanas vinculantes (20 perguntas).
+
+## Lista Doutrinaria Imutavel (lembrete)
+
+`Readback`, `Hearback`, `Guardian`, `Truth Barrier`, `ERP`, `Relay`, `Baton`,
+`Consent`, `Handoff`, `Track` (`fast_track`/`safe_track`),
+`Universal Translator`, `Phagocytosis`, `usehbn`, `hbn`, `use hbn`. NAO
+renomear, NAO traduzir, NAO substituir em codigo, schemas ou docs sem RFC +
+bump major.
+
+## Ordem das Ondas (revisao 2026-04-29)
+
+```
+Onda 1 — Honestidade Narrativa            [CONCLUIDA — commit 43c4c5d]
+Onda 2 — Schema Versioning (protocol_version opcional)        [antiga 5]
+Onda 3 — Relay Invariants em Runtime                          [antiga 6]
+Onda 4 — Connector Lifecycle Registry (sem enforcement)       [antiga 7]
+Onda 5 — Cleanup + state/ Legacy Migration Path               [antiga 8]
+Onda 6 — Vitrine + Release v0.3.0                             [antiga 9]
+```
+
+Ondas antigas 2, 3 e 4 (ERP Hardening) foram marcadas como JA IMPLEMENTADA
+e suas secoes preservadas abaixo apenas para auditoria historica.
+
+A ordem revisada foi escolhida por:
+
+1. **Capacidade incremental delimitada primeiro** (nova Onda 2 = Schema
+   Versioning entrega versionamento futuro com risco quase zero).
+2. **Hardening de coordenacao em runtime** (nova Onda 3 = Relay Invariants
+   promove `Relay` de Parcial para Implementado).
+3. **Doutrina futura ja registrada sem enforcement** (nova Onda 4 = Connector
+   Lifecycle Registry preserva caminho de evolucao para v0.4.0).
+4. **Higiene + migracao + protocolo aprendido** (nova Onda 5 = Cleanup +
+   `state/` Legacy + atualizacao do `wave-protocol.md` com lico aprendida).
+5. **Vitrine apenas no final** (nova Onda 6), conforme decisao humana de
+   2026-04-29.
+
+---
+
+## Onda 1 — Honestidade Narrativa  *(CONCLUIDA)*
+
+- **Estado:** arquivada em `.hbn/relay-archive/20260429T065632Z-0003-onda-1-honestidade-narrativa.md`.
+- **Commit:** `43c4c5d feat(docs): onda 1 — honestidade narrativa (alinhamento com MATURITY-MATRIX)`.
+- **Resultado:** 6 docs alinhados a MATURITY-MATRIX; `pytest -q` 88/88 verde.
+
+---
+
+## Onda 2 (NOVA) — Schema Versioning (protocol_version opcional)
+
+### Objetivo
+
+Implementar decisao Q3 do diagnostico arquitetural: adicionar campo
+`protocol_version` opcional em `readback.schema.json` e `result.schema.json`.
+Setar default `"0.3.0"` em codigo. Preparar caminho para v1.0.0 onde o
+campo passara a `required` (decisao Q4 — bump major quando virar required).
+
+### Justificativa
+
+Sem `protocol_version` em records, evolucao do schema futuramente quebra
+records historicos sem caminho de migracao. Adicionar agora como opcional
+e barato e preserva audit trail. E a primeira onda de codigo do ciclo
+v0.3.0 (apos a redescoberta de que ERP Hardening ja estava feito).
+
+### Arquivos permitidos
+
+- `schemas/readback.schema.json`
+- `schemas/result.schema.json`
+- `src/usehbn/protocol/readback.py`
+- `src/usehbn/protocol/result.py`
+- `src/usehbn/__init__.py` (apenas para constante `PROTOCOL_VERSION`; NAO bumpar `__version__` ainda)
+- `tests/test_result_protocol.py`
+- `tests/test_readback.py` (apenas se ja existir; senao NAO criar — manter testes em test_result_protocol.py)
+
+### Arquivos proibidos
+
+- `src/usehbn/execution/engine.py` (congelado em v0.3.0).
+- Outros schemas (`consent.schema.json`, `intent.schema.json`, `guardian.schema.json`, `connector-*.schema.json`).
+- `pyproject.toml`, `setup.cfg`, `get-hbn`, `core/`, `docs/`, `agents/`, `.github/`.
+- Outros arquivos `.py` em `src/usehbn/`.
+
+### Diff planejado (snippets exatos)
+
+#### `src/usehbn/__init__.py`
+
+Adicionar constante `PROTOCOL_VERSION` apos a docstring e antes dos imports:
+
+```python
+PROTOCOL_VERSION = "0.3.0"
+```
+
+E exportar em `__all__`. NAO bumpar `__version__` (ainda 0.2.0; sera bumpado para `0.3.0` na Onda 6 / Vitrine).
+
+#### `schemas/readback.schema.json`
+
+Adicionar `protocol_version` em `properties` (NAO em `required`):
+
+```json
+"protocol_version": {
+  "type": "string",
+  "minLength": 1
+}
+```
+
+#### `schemas/result.schema.json`
+
+Adicionar identico em `properties` (NAO em `required`).
+
+#### `src/usehbn/protocol/readback.py`
+
+Em `create_readback_record()`, apos a construcao do dicionario `record` e antes de `assert_valid_payload`, inserir:
+
+```python
+from usehbn import PROTOCOL_VERSION
+record["protocol_version"] = PROTOCOL_VERSION
+```
+
+(Import pode ser movido para o topo do arquivo se preferivel; Codex decide com base em pep8.)
+
+#### `src/usehbn/protocol/result.py`
+
+Identico: em `create_result_record()`, apos a construcao do `record` e antes de `assert_valid_payload`:
+
+```python
+record["protocol_version"] = PROTOCOL_VERSION
+```
+
+(Adicionar `from usehbn import PROTOCOL_VERSION` no topo.)
+
+#### `tests/test_result_protocol.py`
+
+Adicionar 2 testes:
+
+```python
+def test_result_record_includes_protocol_version(tmp_path):
+    record = create_result_record(
+        execution_id="exec-pv-001",
+        agent_id="agent-codex",
+        hbn_outcome="executed",
+        human_status="approved",
+        action_taken="Protocol version field present.",
+        storage_dir=tmp_path,
+    )
+    assert record["protocol_version"] == "0.3.0"
+
+
+def test_protocol_version_optional_in_schema(tmp_path):
+    # Records carregados sem protocol_version (legados) devem permanecer validos.
+    from usehbn.utils.validators import assert_valid_payload
+    legacy_record = {
+        "traceability": {"execution_id": "exec-legacy", "agent_id": "legacy"},
+        "hbn_outcome": "executed",
+        "human_decision": {"status": "approved"},
+        "intent_risk_profile": {
+            "deception": False, "improbable": False, "random": False,
+            "herd_behavior": False, "financial_survival_risk": False,
+            "abandonment_or_resource_loss_risk": False,
+            "curiosity_driven": False, "agi_resource_shift": False,
+            "ethical_break": False,
+        },
+        "action_taken": "Legacy record without protocol_version.",
+        "created_at": "2026-01-01T00:00:00Z",
+    }
+    assert_valid_payload(legacy_record, "result.schema.json")  # nao deve levantar
+```
+
+### Tests
+
+- `pytest -q` baseline antes da onda: 88 verdes.
+- Apos a onda: minimo 90 verdes (88 + 2 novos).
+- Re-validar `test_valid_erp_creation` e `test_state_append` continuam verdes.
+
+### Gates obrigatorios
+
+- G1 (Hearback humano antes de tocar codigo).
+- **G3 (mudanca de schema)**: justificativa documentada (decisao Q3 ja
+  aprovada em `.hbn/relay-archive/20260429T0530-0002-onda-bastao-claude-v0.3.0-foundation.md`).
+  Impacto retroativo zero porque campo e opcional.
+- G7 nao se aplica (nenhum termo doutrinario tocado).
+
+### Riscos e mitigacao
+
+- **R1**: tooling externo que valide records em modo "exact match" pode
+  quebrar com campo novo. **Mitigacao**: documentar em `CHANGELOG.md` na
+  Onda 6 (Vitrine).
+- **R2**: import circular `usehbn.__init__` -> `usehbn.protocol.result` ->
+  `usehbn.__init__`. **Mitigacao**: importar `PROTOCOL_VERSION` localmente
+  dentro da funcao se import topo causar circular. Codex valida em pytest.
+- **R3**: records antigos sem `protocol_version` continuam validos? Sim,
+  campo e opcional. Test `test_protocol_version_optional_in_schema` confirma.
+
+### Rollback
+
+- `git revert` do commit unico da onda restaura comportamento anterior.
+
+### Superprompt para Codex (Onda 2 nova) — incluido na mensagem de Hearback ao Codex pelo humano.
+
+---
+
+## Onda 2 (ANTIGA) — ERP Hardening Batch 1 (P0 Data Integrity) — JA IMPLEMENTADA
+
+> Esta secao e preservada apenas para auditoria historica.
+> A Onda nao sera executada.
+
+### Objetivo
+
+Bloquear sobrescrita silenciosa de records ERP por `execution_id` duplicado.
+Defeito P0 auditado em `reports/HBN-ERP-HARDENING-AUDIT.md` (correcoes 2 e 3).
+
+### Estado descoberto em 2026-04-29
+
+JA IMPLEMENTADA no codigo atual. Vide
+`.hbn/relay-archive/20260429T072700Z-0005-onda-2-cancelada-redundante.md`
+para evidencia detalhada. Esta secao e preservada apenas como historico.
+
+### Justificativa
+
+Em sistema de rastreabilidade, sobrescrever um record sem aviso destroi
+audit history. O contrato 1 `execution_id` -> 1 `result` precisa ser
+imposto em duas camadas: arquivo (file system) e estado agregado (state
+store).
+
+### Arquivos permitidos
+
+- `src/usehbn/protocol/result.py`
+- `src/usehbn/state/store.py`
+- `tests/test_result_protocol.py`
+
+### Arquivos proibidos
+
+- `src/usehbn/execution/engine.py` (congelado em v0.3.0)
+- `schemas/*.json` (sem mudanca nesta onda)
+- `core/`, `agents/`, `docs/`, `.github/`
+- `reports/HBN-ERP-HARDENING-AUDIT.md` (fonte auditada, nao reescrever)
+- Qualquer outro `*.py` fora dos 2 alvos
+
+### Tests
+
+- `tests/test_result_protocol.py::test_state_append`: corrigir para
+  esperar `ValueError` no segundo append.
+- Adicionar `test_overwrite_blocked`: verificar que segunda chamada
+  com mesmo `execution_id` levanta `ValueError`.
+- `pytest -q` deve permanecer verde (88 + ajuste de 1 + 1 novo = 88+).
+
+### Gates obrigatorios
+
+- G1 (Hearback humano antes de tocar codigo).
+- G2 (mudanca toca state store): plano de migracao + rollback documentados
+  no Readback. Como o defeito atual e sobrescrita silenciosa, "rollback" =
+  reverter a duas mudancas isoladas via `git revert`.
+- G7 nao se aplica (nenhum termo doutrinario tocado).
+
+### Riscos e mitigacao
+
+- **R1**: bloqueio quebrar uso atual em fluxos legitimos onde `execution_id`
+  e reutilizado por engano. **Mitigacao**: mensagem de erro deve indicar
+  "use unique execution_id or delete the existing record explicitly".
+- **R2**: testes legados que dependiam de duplicidade silenciosa. **Mitigacao**:
+  o teste existente `test_state_append` ja foi identificado como dependente
+  do bug; sera corrigido na propria onda.
+- **R3**: state store em prod com duplicidade pre-existente. **Mitigacao**:
+  enforcement so afeta novos appends; estado historico permanece.
+
+### Rollback
+
+- Unico commit local. `git revert` reverte os 3 arquivos atomicamente.
+
+### Superprompt para Codex (Onda 2)
+
+```
+CODEX TASK: HBN v0.3.0 — Onda 2 (ERP Hardening Batch 1)
+
+LEITURA OBRIGATORIA antes de qualquer alteracao:
+- agents/wave-protocol.md (contrato de execucao em ondas)
+- docs/MATURITY-MATRIX.md
+- docs/WAVE-PLAN-V0.3.0.md (este plano, secao Onda 2)
+- reports/HBN-ERP-HARDENING-AUDIT.md (Correcoes 2 e 3)
+- .hbn/relay/INDEX.md (estado atual do relay)
+
+REGRAS CRITICAS:
+1. PARAR apos criar o Readback inicial. Nao prosseguir sem Hearback humano explicito.
+2. Nao tocar engine.py (congelado em v0.3.0).
+3. Nao tocar schemas/ nesta onda.
+4. Nao adicionar dependencia.
+5. Nao renomear funcoes, classes, ou termos doutrinarios.
+6. Nao executar git push, git pr, ou qualquer release.
+7. Apos execucao: gravar ERP, atualizar relay, devolver bastao para humano.
+
+ESCOPO ALVO (e SO esses 3 arquivos):
+- src/usehbn/protocol/result.py
+- src/usehbn/state/store.py
+- tests/test_result_protocol.py
+
+PASSO 1 — Criar Readback inicial em
+.hbn/relay/0005-onda-2-erp-hardening-batch-1.md, declarando:
+- diff planejado por arquivo (com snippets exatos das linhas a inserir);
+- arquivos proibidos;
+- testes que serao adicionados/ajustados;
+- riscos R1/R2/R3 com mitigacao;
+- proximo passo: PARAR e aguardar Hearback humano.
+
+PASSO 2 — Apos Hearback humano explicito:
+
+A. Em src/usehbn/protocol/result.py, dentro de create_result_record(),
+ANTES de write_json(), inserir checagem de existencia:
+  output_path = _results_dir(storage_dir) / f"{execution_id}.json"
+  if output_path.exists():
+      raise ValueError(
+          f"Result record already exists for execution_id: "
+          f"{execution_id}. Cannot overwrite."
+      )
+  write_json(output_path, record)
+
+B. Em src/usehbn/state/store.py, dentro de append_result_state(),
+ANTES do append:
+  existing_ids = [
+      r.get("traceability", {}).get("execution_id")
+      for r in document.get("results", [])
+  ]
+  exec_id = result_record.get("traceability", {}).get("execution_id")
+  if exec_id in existing_ids:
+      raise ValueError(
+          f"Result for execution_id {exec_id} already in state."
+      )
+
+C. Em tests/test_result_protocol.py:
+  - Corrigir test_state_append: append duplicado deve levantar ValueError.
+  - Adicionar test_overwrite_blocked: segunda chamada de
+    create_result_record com mesmo execution_id deve levantar ValueError
+    com "already exists" na mensagem.
+
+PASSO 3 — Verificacoes:
+- pytest -q (deve passar; espera 89+ tests verdes).
+- git diff --stat (apenas 3 arquivos alvo modificados).
+- grep doutrinario (nenhum termo da lista imutavel renomeado).
+
+PASSO 4 — Gravar ERP:
+hbn result exec-<onda2-id> --agent-id codex \
+  --action "Onda 2: ERP hardening batch 1 (overwrite + state dedup guards)" \
+  --outcome executed --human-status not_reviewed \
+  --readback-id readback-exec-<onda2-id> \
+  --evidence "audit:reports/HBN-ERP-HARDENING-AUDIT.md" \
+  --evidence "plan:docs/WAVE-PLAN-V0.3.0.md"
+
+PASSO 5 — Atualizar .hbn/relay/INDEX.md:
+- Bastao volta para humano.
+- Iteracao 0005 marcada como "resolvido-aguardando-hearback-final".
+- Readback permanece em .hbn/relay/ ate Hearback final.
+
+PASSO 6 — Reportar resultado ao humano. Aguardar Hearback final antes
+de qualquer arquivamento ou commit.
+```
+
+---
+
+## Onda 3 (ANTIGA) — ERP Hardening Batch 2 (P1 Input Quality) — JA IMPLEMENTADA
+
+> Esta secao e preservada apenas para auditoria historica.
+> A Onda nao sera executada. Estado: JA IMPLEMENTADA conforme auditoria
+> 2026-04-29 (`utils/time.py` existe, `consent.py` e `result.py` ja usam,
+> CLI ja valida evidence parsing).
+
+### Objetivo (historico)
+
+Validar parsing de evidence no CLI e padronizar geracao de timestamp UTC
+ISO-8601 com sufixo `Z` em todos modulos do protocolo.
+
+### Justificativa
+
+Correcoes 6 e 1 do `reports/HBN-ERP-HARDENING-AUDIT.md`. Resolvem dois
+problemas: (a) erros de evidence so apareciam em validacao de schema deep
+no pipeline; (b) `consent.py` usa `utcnow()` (deprecated em Py3.12) e
+`result.py` usa `datetime.now(timezone.utc)` com `+00:00` — duas estrategias
+diferentes em um protocolo que afirma rastreabilidade.
+
+### Arquivos permitidos
+
+- `src/usehbn/cli.py` (apenas funcao `_parse_evidence`)
+- `src/usehbn/utils/time.py` (NOVO arquivo, ~10 linhas)
+- `src/usehbn/protocol/result.py` (apenas substituir geracao de timestamp)
+- `src/usehbn/protocol/consent.py` (apenas substituir geracao de timestamp)
+- `tests/test_result_protocol.py`
+
+### Arquivos proibidos
+
+- Qualquer outro arquivo em `src/`, `schemas/`, `docs/`, `core/`.
+
+### Tests
+
+- `test_evidence_empty_type_rejected`: `_parse_evidence([":ref"])` deve
+  levantar ValueError.
+- `test_evidence_empty_reference_rejected`: `_parse_evidence(["log:"])` idem.
+- `test_timestamp_format`: `utc_now_iso()` deve terminar em `Z` e nao
+  conter `+00:00`.
+
+### Gates obrigatorios
+
+- G1 (Hearback humano).
+- G8 nao se aplica (sem nova dependencia; `datetime` e stdlib).
+
+### Riscos e mitigacao
+
+- **R1**: substituicao de timestamp pode mudar formatacao em records
+  historicos? **Nao**: so afeta records criados apos a onda. Records
+  antigos nao sao tocados.
+- **R2**: removar `from datetime import` em consent.py pode quebrar
+  outro uso. **Mitigacao**: Codex deve verificar todos usos de `datetime`
+  no arquivo antes de remover import.
+
+### Rollback
+
+- `git revert` do commit unico.
+
+### Superprompt para Codex (Onda 3)
+
+> [Estrutura identica a Onda 2: leitura obrigatoria, regras criticas,
+> escopo alvo, Readback inicial, parar para Hearback, depois aplicar as
+> 4 mudancas: novo `utils/time.py`; substituir timestamp em `result.py`;
+> substituir timestamp em `consent.py`; reescrever `_parse_evidence` em
+> `cli.py`. Adicionar 3 testes. Gravar ERP. Devolver bastao.]
+
+---
+
+## Onda 4 (ANTIGA) — ERP Hardening Batch 3 (P2 Schema Honesty) — JA IMPLEMENTADA
+
+> Esta secao e preservada apenas para auditoria historica.
+> A Onda nao sera executada. Estado: JA IMPLEMENTADA conforme auditoria
+> 2026-04-29 (`other_emergent_risk` ja opcional, `action_taken` ja tem
+> `maxLength: 500` enforcado por `validators.py:63-64`).
+
+### Objetivo (historico)
+
+Tornar o schema honesto: `other_emergent_risk` deve ser opcional;
+`action_taken` deve ter `maxLength` enforced. Inclui adicionar suporte a
+`maxLength` no validador customizado.
+
+### Justificativa
+
+Correcoes 4 e 5 do `reports/HBN-ERP-HARDENING-AUDIT.md`. Schema declara
+constraint que validador nao verifica = "false guarantee". Schema declara
+campo como required mas sistema autopreenche com `""` = falsa exigencia.
+
+### Arquivos permitidos
+
+- `schemas/result.schema.json`
+- `src/usehbn/protocol/result.py`
+- `src/usehbn/utils/validators.py`
+- `tests/test_result_protocol.py`
+
+### Arquivos proibidos
+
+- Outros schemas. Outros protocolos. Engine.
+
+### Tests
+
+- `test_other_emergent_risk_optional`: record sem `other_emergent_risk`
+  nao deve conter o campo.
+- `test_action_taken_too_long`: `action_taken` com 501 chars deve
+  levantar ValueError.
+- `test_maxlength_validator`: validar string excedendo `maxLength`
+  retorna lista de erros nao vazia.
+
+### Gates obrigatorios
+
+- G1 (Hearback humano).
+- **G3 (mudanca de schema)**: RFC nao e necessaria pois e correcao
+  bem auditada (correcoes 4 e 5 ja validadas em
+  `reports/HBN-ERP-HARDENING-AUDIT.md`). Mas a mudanca de schema deve ser
+  declarada explicitamente no Readback com analise de impacto retroativo:
+  - `other_emergent_risk` opcional: records antigos com campo presente
+    continuam validos.
+  - `action_taken` com `maxLength: 500`: records antigos com `action_taken`
+    longer que 500 falhariam revalidacao. Mitigacao: garantir que
+    nenhum record historico atinge 500+ chars (verificar em
+    `.usehbn/results/`); se atingir, aumentar limite.
+
+### Riscos e mitigacao
+
+- **R1**: records historicos invalidados pelo `maxLength`. **Mitigacao**:
+  Codex deve checar `.usehbn/results/` no inicio da onda e reportar maior
+  comprimento de `action_taken` no Readback. Se >= 500, ajustar limite.
+- **R2**: validador adicional pode quebrar outros campos com `maxLength`
+  pre-existente. **Mitigacao**: e onda aditiva; se ja havia `maxLength` em
+  outros schemas, comportamento muda. Listar no Readback.
+
+### Rollback
+
+- `git revert`.
+
+---
+
+## Onda 5 (ANTIGA) — Schema Versioning — RENUMERADA PARA NOVA ONDA 2
+
+> Esta secao foi promovida para nova Onda 2 (vide acima) na revisao
+> 2026-04-29.
+
+---
+
+## Onda 3 (NOVA) — Relay Invariants em Runtime  *(antiga Onda 6)*
+
+> **Revisao 2026-04-29 (architect):** descricao original assumia
+> `src/usehbn/relay/*.py` como modulo separado; auditoria confirmou que
+> toda a logica de relay vive em `src/usehbn/cli.py`. Auditoria tambem
+> confirmou um bug real e silencioso: `_find_pending_readbacks` le apenas
+> de `.hbn/readbacks/`, mas `create_readback_record` escreve em
+> `.usehbn/readbacks/` por padrao. O proprio `tests/test_relay.py:374-379`
+> documenta o sintoma copiando manualmente o readback entre os dois
+> diretorios. Em uso real, o handoff NAO bloqueia readbacks pendentes
+> do `usehbn`. Esta correcao de plano alinha o escopo da Onda 3 ao codigo
+> real e prioriza a invariante quebrada.
+
+### Objetivo
+
+Promover Relay/Baton de Parcial para "Implementado parcial honesto",
+endurecendo tres invariantes em runtime:
+
+- **(a) Path mismatch fix**: `_find_pending_readbacks` deve detectar
+  readbacks pendentes em **ambos** `.hbn/readbacks/` e `.usehbn/readbacks/`
+  (ou na `default_state_dir()` apropriada), com dedup por
+  `execution_id`. Sem isso, a invariante "handoff falha com readback
+  pendente" nao se sustenta na pratica.
+- **(b) Audit trail das transicoes**: campo `audit_trail` (lista) em
+  `.hbn/relay/state.json` mantendo as ultimas 10 transicoes
+  (`{from, to, at, summary}`). Compatibilidade backward: se `audit_trail`
+  nao existe, leitura aceita ausencia e cria lista vazia no proximo
+  write.
+- **(c) Baton staleness check (advisory, default off)**: campo opcional
+  `baton_staleness_seconds` em `state.json`. Se setado, `run_relay_status`
+  inclui `baton_stale: true|false` no retorno. **NAO bloqueia handoff**
+  e **NAO emite warning estridente** — apenas reporta. Default ausente
+  preserva comportamento atual.
+
+### Justificativa
+
+`MATURITY-MATRIX.md` marca Relay como `Parcial` e Baton como `Parcial`
+("sem timeout, sem audit trail completo"; "convencoes nao validadas em
+runtime"). Sem (a), a invariante chave do protocolo (Readback pendente
+bloqueia bastao) e ficcao em uso real. (b) e (c) sao reportes mensuraveis
+sem enforcement, alinhados a doutrina "honest foundation": ver antes de
+bloquear.
+
+### Arquivos permitidos
+
+- `src/usehbn/cli.py` — **apenas as funcoes**:
+  `_load_relay_state`, `_save_relay_state`, `_find_pending_readbacks`,
+  `run_relay_status`, `run_handoff`. Nada fora desse perimetro.
+- `tests/test_relay.py` — adicionar testes; pode ajustar
+  `test_two_agent_handoff_cycle` para nao depender mais do hack de
+  copia manual entre `.usehbn/readbacks/` e `.hbn/readbacks/`.
+
+### Arquivos proibidos
+
+- `src/usehbn/protocol/*` (Readback continua escrevendo em `default_state_dir()`).
+- `src/usehbn/engine/*`. `schemas/` (relay state nao tem schema externo
+  em v0.3.0; gate G3 nao se aplica).
+- Novos subcomandos CLI (sem nova superficie publica nesta onda).
+- Criacao de novos modulos. **PROIBIDO criar `src/usehbn/relay/`**;
+  extracao do codigo do `cli.py` e trabalho de v0.4.0 (refator
+  god-object), nao desta onda.
+
+### Tests obrigatorios
+
+Nesta ordem:
+
+1. `test_handoff_blocks_on_pending_usehbn_readback`: criar readback
+   `pending` em `.usehbn/readbacks/` (via `create_readback_record` ou
+   escrita direta), tentar `run_handoff` -> deve retornar `error`
+   contendo `"pending readbacks"`.
+2. `test_find_pending_readbacks_dedups_when_present_in_both_dirs`:
+   mesmo `execution_id` em `.hbn/readbacks/` e `.usehbn/readbacks/`
+   -> retorno deve listar uma unica vez.
+3. `test_handoff_audit_trail_preserves_last_ten`: 12 handoffs sequenciais
+   -> `state.json["audit_trail"]` deve ter exatamente 10 entradas, com
+   a mais antiga descartada e a mais recente ao final.
+4. `test_handoff_audit_trail_backward_compatible`: criar `state.json`
+   sem `audit_trail`, executar handoff -> nao deve falhar; `audit_trail`
+   deve aparecer com 1 entrada apos o write.
+5. `test_relay_status_baton_stale_flag_when_configured`: setar
+   `baton_staleness_seconds=0` (sempre stale), checar
+   `run_relay_status` -> retorno inclui `baton_stale: true`.
+6. `test_relay_status_no_baton_stale_field_by_default`: sem
+   `baton_staleness_seconds` -> retorno NAO contem chave `baton_stale`
+   (manter superficie minima quando nao configurada).
+7. **Atualizar (nao remover)** `test_two_agent_handoff_cycle`: o hack
+   `shutil.copy2` entre `.usehbn/readbacks/` e `.hbn/readbacks/` (linhas
+   ~374-379 hoje) deixa de ser necessario. Substituir por comentario
+   explicando o fix ou remover o copy. Comportamento esperado: o teste
+   continua passando.
+
+### Gates obrigatorios
+
+- **G1 (escopo)**: Hearback humano explicito sobre esta correcao de plano.
+- **G2 (codigo)**: pre-deposit check obriga Codex a confirmar via grep
+  que `audit_trail`, `baton_staleness_seconds`, `baton_stale` nao
+  existem hoje em `src/usehbn/cli.py` antes de comecar (licao aprendida
+  da Onda 2 nova).
+- **G3 (schemas)**: nao se aplica (sem schema externo de relay state em
+  v0.3.0). Codex deve registrar isso explicitamente no Readback.
+- **G4 (CLI publica)**: contrato dos subcomandos `relay status` e
+  `handoff` permanece igual; apenas o conteudo do JSON retornado pode
+  ganhar campos opcionais novos (`audit_trail`, `baton_stale`). Sem
+  remover ou renomear campos existentes.
+- **G5 (doutrina)**: termos imutaveis intactos.
+
+### Riscos e mitigacao
+
+- **R1**: dual-read pode introduzir duplicidade real se mesmo readback
+  existe em ambos os dirs. **Mitigacao**: dedup por `execution_id`
+  preferindo a entrada `pending`; teste 2 cobre.
+- **R2**: leitura tolerante de `audit_trail` ausente pode mascarar
+  state.json corrompido. **Mitigacao**: distinguir "campo ausente"
+  (compativel) de "tipo invalido" (raise). Codex documenta a
+  distincao no Readback.
+- **R3**: mudanca em `_find_pending_readbacks` pode mudar
+  comportamento do `test_two_agent_handoff_cycle` ja existente.
+  **Mitigacao**: teste 7 ajusta explicitamente; se Codex detectar
+  outras quebras de teste, PARAR e pedir Hearback.
+- **R4**: extensao de `state.json` impacta runtimes externos que
+  consomem o JSON. **Mitigacao**: campos novos sao adicionados, nunca
+  removidos; chave `baton_stale` so aparece quando `baton_staleness_seconds`
+  esta configurado.
+
+### Rollback
+
+- `git revert` da onda. `state.json` com `audit_trail` continua valido
+  para versoes pre-Onda 3 porque a leitura ja seria tolerante a campos
+  desconhecidos via `json.loads`.
+
+---
+
+## Onda 4 (NOVA) — Connector Lifecycle Registry (sem enforcement)  *(antiga Onda 7)*
+
+### Objetivo
+
+Registrar estados `detected/resolved/installed/verified/active/revoked`
+em `.hbn/connectors/registry.json` como campo `lifecycle_state`. Sem FSM,
+sem transicao automatica, sem enforcement. Apenas registro honesto.
+
+### Justificativa
+
+Maturity matrix marca lifecycle como `Visao em v0.3.0`. Esta onda nao
+muda esse estado — apenas adiciona estrutura para que v0.4.0 possa
+implementar FSM real.
+
+### Arquivos permitidos
+
+- `src/usehbn/connectors/storage.py`
+- `schemas/connector-contract.schema.json` (apenas se necessario)
+- `tests/test_connectors.py`
+
+### Riscos e mitigacao
+
+- **R1**: registry.json existente pode ja ter records sem
+  `lifecycle_state`. **Mitigacao**: leitura tolerante a ausencia
+  (default = `"detected"`); migracao implicita ao primeiro write.
+
+---
+
+## Onda 5 (NOVA) — Cleanup + state/ Legacy Migration Path  *(antiga Onda 8)*
+
+### Objetivo
+
+Tres limpezas: (a) fundir headers duplicados `## Unreleased` no
+`CHANGELOG.md` (observacao da auditoria pos-Onda 1); (b) atualizar
+`README.md` secao "Current Status" removendo referencias residuais ao
+track `0.2.x`; (c) implementar dual-read em `state/` legado (decisao Q1+Q2):
+ler de `.usehbn/` e `state/` se existir, mas escrever apenas em `.usehbn/`.
+
+### Arquivos permitidos
+
+- `CHANGELOG.md`
+- `README.md`
+- `src/usehbn/state/store.py` (apenas dual-read)
+- `tests/test_state_dual_read.py` (NOVO arquivo)
+
+### Riscos e mitigacao
+
+- **R1**: dual-read pode causar duplicidade se mesmo record existe em
+  `state/` e `.usehbn/`. **Mitigacao**: dedup por `execution_id`,
+  preferindo `.usehbn/`.
+
+---
+
+## Onda 6 (NOVA) — Vitrine + Release v0.3.0  *(antiga Onda 9)*
+
+### Objetivo
+
+Onda de fechamento do ciclo. Tres frentes:
+
+1. **Vitrine GitHub Pages (`site/`)**: refresh visual do `usehbn.org`
+   refletindo v0.3.0 honestamente — Maturity Matrix visual, secao
+   Phagocytosis, "Honest Foundation" tagline, paleta atual mantida,
+   melhor metadata Open Graph para compartilhamento social.
+
+2. **Vitrine README**: reorganizar topo do `README.md` para primeira
+   impressao de adocao — quick-start em 3 comandos, badges (Python
+   version, License AGPLv3, Status: alpha), secao "Why HBN" mais
+   convidativa para humanos sem perder honestidade.
+
+3. **Release**: tag local `v0.3.0`, smoke test em 3 OS (mac/linux/win),
+   publicacao em **TestPyPI primeiro** conforme `docs/PUBLISHING-DECISION.md`,
+   push para `main` no GitHub. PyPI estavel apenas em onda subsequente
+   apos validacao humana.
+
+### Arquivos permitidos
+
+- `site/index.html`
+- `site/styles.css`
+- `site/` (assets novos como og-image.png, se decidido)
+- `README.md` (reorganizacao do topo + badges)
+- `CHANGELOG.md` (entrada `v0.3.0`)
+- `pyproject.toml` (apenas bump de versao)
+- `src/usehbn/__init__.py` (apenas bump de versao)
+
+### Arquivos proibidos
+
+- `core/`, `agents/`, `docs/MATURITY-MATRIX.md`, `docs/PHAGOCYTOSIS.md`,
+  `docs/PUBLISHING-DECISION.md`, `docs/rfc/`, `schemas/`, `src/usehbn/`
+  exceto `__init__.py`.
+
+### Tests
+
+- `pytest -q` deve passar em mac, linux, e windows (smoke test manual ou
+  via CI minimo).
+- Validar `hbn version` retorna `0.3.0`.
+- Validar instalacao via TestPyPI:
+  `pip install --index-url https://test.pypi.org/simple/ usehbn==0.3.0`
+  em sandbox limpo.
+
+### Gates obrigatorios
+
+- G1 (Hearback humano para escopo + para conteudo da vitrine).
+- **G6 (release publica)**: smoke test 3 OS + CHANGELOG fechado +
+  Hearback explicito sobre conteudo do site e README. Sem G6, sem push.
+- G8 nao deveria aplicar (sem nova dependencia esperada).
+
+### Riscos e mitigacao
+
+- **R1**: vitrine pode introduzir afirmacao supra-matriz. **Mitigacao**:
+  Claude (architect) audita o conteudo do site e README antes de release;
+  conformidade explicita com `docs/MATURITY-MATRIX.md` e obrigatoria.
+- **R2**: TestPyPI publish falhar por nome reservado ou versao colidir.
+  **Mitigacao**: Codex deve verificar disponibilidade do nome `usehbn` em
+  TestPyPI antes da publish; se tomado, pausar e pedir Hearback humano
+  sobre estrategia de naming.
+- **R3**: GitHub push pode acidentalmente expor secrets. **Mitigacao**:
+  Codex deve rodar `git diff --stat` final + `grep` por padroes de secret
+  antes de push; humano confirma resultado.
+- **R4**: usehbn.org pode quebrar visualmente em browsers antigos.
+  **Mitigacao**: testar em Chrome, Firefox, Safari atuais; sem suporte
+  obrigatorio a IE/legacy.
+
+### Rollback
+
+- Tag `v0.3.0`: `git tag -d v0.3.0 && git push --delete origin v0.3.0`.
+- TestPyPI: nao remover release; publicar `0.3.1` como fix se necessario.
+- Site: `git revert` do commit do site.
+
+### Conteudo proposto da vitrine (para Hearback humano)
+
+**Hero refresh:**
+- Tagline: "An open protocol for safe, structured, and evolvable AI-assisted software engineering."
+- Subtagline: "v0.3.0 — Honest Foundation. Built by humans, for humanity."
+- CTA primario: "Start in 60 seconds" (link para README quickstart).
+- CTA secundario: "Read the protocol" (link para `docs/PRINCIPLES.md`).
+
+**Secao "Maturity Matrix" (nova):**
+- 3 colunas visuais: "What Works Today" / "What Is Partial" / "What Is Vision".
+- Cada coluna lista os componentes da matriz. Cores: verde / amarelo /
+  azul. Honestidade explicita.
+
+**Secao "Phagocytosis" (nova):**
+- Diagrama horizontal: Routed -> Studied -> Digested -> Mastered -> Contributed.
+- Texto curto: "Como o HBN aprende novas tecnologias progressivamente."
+
+**Rodape:**
+- AGPLv3 + governance + contribution path.
+- Link para CONTRIBUTING.md, GOVERNANCE.md, SECURITY.md.
+
+**Meta:**
+- `og:title`, `og:description`, `og:image` para preview rico em
+  redes sociais.
+- `twitter:card` summary_large_image.
+
+**README refresh (topo):**
+```markdown
+# HBN — Human Brain Net
+
+> An open protocol for safe, structured, and evolvable AI-assisted software engineering.
+> v0.3.0 — Honest Foundation.
+
+[badges: License AGPLv3, Python 3.9+, Tests passing, Status alpha]
+
+## Quickstart in 60 seconds
+
+```bash
+git clone https://github.com/<org>/usehbn
+cd usehbn
+./get-hbn
+hbn run "use hbn analyze this system"
+```
+
+[continua com as secoes existentes]
+```
+
+### Superprompt para Codex (Onda 6 nova)
+
+> [Estrutura identica as anteriores. Crucial: Codex deve PARAR antes
+> de cada gate (G1, G6) e aguardar Hearback. Codex nao executa
+> `git push` nem publish em TestPyPI sem Hearback explicito sobre
+> o conteudo finalizado.]
+
+### Criterio de aceite final do ciclo v0.3.0
+
+- Todas as 9 ondas com Readback arquivado em `.hbn/relay-archive/`.
+- Todos ERPs gravados.
+- `pytest -q` verde em mac+linux+win (smoke test).
+- Tag `v0.3.0` no GitHub.
+- Release em TestPyPI verificavel.
+- Site em `usehbn.org` refletindo v0.3.0.
+- README coerente com `docs/MATURITY-MATRIX.md`.
+- Hearback humano final autorizando o release.
+
+---
+
+## Pos-v0.3.0 (fora do ciclo, fora do plano)
+
+Sera planejado em iteracao futura:
+
+- v0.3.1: PyPI estavel apos validacao humana de TestPyPI (decisao Q13).
+- v0.4.0: implementacao de RFC-0001 (`--enforce` opt-in); FSM real do
+  connector lifecycle; remocao de `state/` legado.
+- v0.5.0+: Phagocytosis avancado, Universal Translator estagio Studied,
+  case studies adicionais alem de Credenciamento.
+
+## Auditoria entre ondas
+
+Apos cada onda, antes da proxima comecar, humano pode invocar:
+
+> "Claude, auditar Onda <n> contra `agents/wave-protocol.md` e
+> `docs/WAVE-PLAN-V0.3.0.md`."
+
+A auditoria retorna: pass | warn | fail; recomendacao explicita.

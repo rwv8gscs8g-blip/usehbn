@@ -1,0 +1,13 @@
+{
+  "queue_id": "019",
+  "tema": "G3 EW-4 audit-request.schema.json + guard L45",
+  "origem": "PROMPT_ARQUITETO v1.6 §4 (decomposicao ADR-013/C4 2026-06-10)",
+  "projeto_alvo": "credenciamento",
+  "classe": "B",
+  "status": "pending",
+  "bloqueado_por": [
+    "018"
+  ],
+  "bloqueio_externo": null,
+  "entrega": "proposta canonica + mensagem; adocao e onda do projeto com hearback (Q1)"
+}

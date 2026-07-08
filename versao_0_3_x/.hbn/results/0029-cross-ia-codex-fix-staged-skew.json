@@ -1,0 +1,162 @@
+{
+  "schema": "usehbn.audit-result.v1",
+  "path": ".hbn/results/0029-cross-ia-codex-fix-staged-skew.json",
+  "markdown_path": ".hbn/results/0029-cross-ia-codex-fix-staged-skew.md",
+  "title": "Re-auditoria curta - fix staged-skew E-FECH-01/02 - Codex",
+  "auditor": "codex-openai",
+  "date": "2026-06-10T15:44:26-03:00",
+  "status": "audit-only",
+  "signals": [
+    "HBN AUDIT-ONLY",
+    "HBN CHECKPOINT CLEAN"
+  ],
+  "scope": "fix staged-skew G-SLF/G-REG",
+  "verdict": {
+    "veto_adocao": false,
+    "veto_adocao_label": "VETO_ADOCAO: NAO",
+    "finding_counts": {
+      "bloqueador": 0,
+      "forte": 0,
+      "marginal": 0
+    },
+    "summary": "Os bloqueadores E-FECH-01 e E-FECH-02 morreram; nao encontrei teatro novo no fix staged-skew."
+  },
+  "preflight": {
+    "pwd": "/Users/macbookpro/Projetos/usehbn",
+    "git_status_short": "",
+    "head": "5f0aea3 checkpoint(protocol): fix staged-skew G-SLF/G-REG (E-FECH-01/02 — guards leem o blob staged) — status: proposed",
+    "next_number": "0029",
+    "tmp_clone": "/tmp/usehbn-audit-codex-fix-skew-RZXqww/usehbn"
+  },
+  "code_anchors": [
+    {
+      "file": "guards/assert-self-path.sh",
+      "lines": "35-40",
+      "evidence": "local added/renamed files come from git diff --cached"
+    },
+    {
+      "file": "guards/assert-self-path.sh",
+      "lines": "49-57",
+      "evidence": "blob_ref returns :path locally and HEAD:path under HBN_DIFF_BASE"
+    },
+    {
+      "file": "guards/assert-self-path.sh",
+      "lines": "98-103",
+      "evidence": "declared path is extracted from git show \"$ref\""
+    },
+    {
+      "file": "guards/assert-registry-line.sh",
+      "lines": "52-59",
+      "evidence": "registry_content reads :REGISTRY.md locally and HEAD:REGISTRY.md under HBN_DIFF_BASE"
+    },
+    {
+      "file": "guards/assert-registry-line.sh",
+      "lines": "113-116",
+      "evidence": "exact REGISTRY match is evaluated against registry_content"
+    },
+    {
+      "file": "guards/lib/common.sh",
+      "lines": "74-82",
+      "evidence": "CI diff path uses HBN_DIFF_BASE...HEAD"
+    }
+  ],
+  "suite": {
+    "command": "bash guards/tests/run-guard-tests.sh",
+    "location": "/tmp/usehbn-audit-codex-fix-skew-RZXqww/usehbn",
+    "exit_code": 0,
+    "passed": 33,
+    "failed": 0,
+    "status": "SUITE VERDE"
+  },
+  "direct_cases": [
+    {
+      "id": "E-FECH-01A",
+      "guard": "G-SLF",
+      "scenario": "staged path mentiroso, working tree corrigida",
+      "expected": "block",
+      "exit_code": 1,
+      "result": "OK"
+    },
+    {
+      "id": "E-FECH-01B",
+      "guard": "G-SLF",
+      "scenario": "staged correto, working tree mentirosa",
+      "expected": "pass",
+      "exit_code": 0,
+      "result": "OK"
+    },
+    {
+      "id": "E-FECH-02A",
+      "guard": "G-REG",
+      "scenario": "linha so na working tree, staged sem linha",
+      "expected": "block",
+      "exit_code": 1,
+      "result": "OK"
+    },
+    {
+      "id": "E-FECH-02B",
+      "guard": "G-REG",
+      "scenario": "linha no staged, working tree sem linha",
+      "expected": "pass",
+      "exit_code": 0,
+      "result": "OK"
+    }
+  ],
+  "ci_cases": [
+    {
+      "id": "CI-SLF-BAD-HEAD",
+      "guard": "G-SLF",
+      "scenario": "HEAD path mentiroso, working tree corrigida",
+      "expected": "block",
+      "exit_code": 1,
+      "result": "OK"
+    },
+    {
+      "id": "CI-SLF-GOOD-HEAD",
+      "guard": "G-SLF",
+      "scenario": "HEAD path correto, working tree mentirosa",
+      "expected": "pass",
+      "exit_code": 0,
+      "result": "OK"
+    },
+    {
+      "id": "CI-REG-BAD-HEAD",
+      "guard": "G-REG",
+      "scenario": "HEAD:REGISTRY.md sem linha, working tree com linha",
+      "expected": "block",
+      "exit_code": 1,
+      "result": "OK"
+    },
+    {
+      "id": "CI-REG-GOOD-HEAD",
+      "guard": "G-REG",
+      "scenario": "HEAD:REGISTRY.md com linha, working tree sem linha",
+      "expected": "pass",
+      "exit_code": 0,
+      "result": "OK"
+    }
+  ],
+  "findings": [],
+  "recommendation_by_hearback": [
+    {
+      "item": "E-FECH-01 / G-SLF",
+      "recommendation": "aprovar o fix staged-skew"
+    },
+    {
+      "item": "E-FECH-02 / G-REG",
+      "recommendation": "aprovar o fix staged-skew"
+    },
+    {
+      "item": "ativacao futura dos guards no runner",
+      "recommendation": "fora do escopo deste parecer"
+    }
+  ],
+  "anti_bias_checklist": {
+    "B1": "li os artefatos pedidos e ancorei em arquivo:linha e comando",
+    "B2": "reexecutei suite e cenarios adversariais em /tmp",
+    "B3": "testei as duas direcoes do skew para cada guard",
+    "B4": "validei caminho local e caminho CI separadamente",
+    "B5": "mantive parecer independente",
+    "B6": "nao implementei, nao adotei, nao ativei guard, nao commitei e nao li o conteudo do parecer concorrente 0028"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "readback_id": "0103-onda-repoint-state-p2c",
+  "execution_id": "onda-repoint-state-p2c-2026-06-30",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "entregue",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0103-onda-repoint-state-p2c.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260630-120000-opus-4-8-despacho-onda-repoint-state-p2c.md",
+  "understanding": "Onda de registro (NAO selagem): a membrana usehbn@v1-estavel foi COMMITADA no repo Credenciamento (commit 8dcaafa; d299335..8dcaafa; push para origin/codex/v12-0-0206-planejamento confirmado) sob o rito do projeto — readback de projeto 0179 safe_track (human_status confirmed), git add scoped (.usehbn-snapshot/ 137 protocolo + 5 meta + scripts/hbn-snapshot/assert-snapshot-integrity.sh + .hbn/active-version), 5 guards do projeto verdes (assert-scope-lock enforcou o escopo do 0179), assert-snapshot-integrity ✓ 137. Esta onda atualiza o STATE do PROTOCOLO para refletir que P2-B parte 2 (lado projeto) esta FECHADA e repoint proxima_acao -> P2-C (runner project-mode + subset bloqueante via shims chamando .usehbn-snapshot/guards/ apos assert-snapshot-integrity + pre-higiene do INDEX da knowledge do projeto). Sem seals_proposal (nada novo selado; P2-B ja vigente via 0101). Atestacao same-fp regenerada com readback_ativo->0103. Ato de autoridade sob G-ORQ-REF (Exit A'). NAO toca o repo Credenciamento neste commit.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio executou no terminal o commit da membrana no Credenciamento (commit 8dcaafa; push para origin/codex/v12-0-0206-planejamento confirmado) e escolheu o rito governado (readback de projeto 0179 safe_track). Orquestrador confirmou no disco: HEAD local==remoto==8dcaafa, membrana TRACKED, assert-snapshot-integrity ✓ 137, unica sobra untracked=.claude/ (gitignored). Hearback humano confirmado para registrar o marco e repoint da proxima_acao para P2-C.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0103-onda-repoint-state-p2c.json",
+      ".hbn/messages/20260630-120000-opus-4-8-despacho-onda-repoint-state-p2c.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": ["main","guards/**","src/**","core/**","methodology/**","schemas/**","docs/brainstorm/**",".hbn/freeze/**",".hbn/hearbacks/**",".hbn/operators/**",".hbn/proposals/**","scripts/**",".hbn/results/**"]
+  },
+  "stop_condition": "STATE atualizado (P2-B parte 2 lado-projeto FECHADA; proxima_acao -> P2-C). NAO commitar nada no repo Credenciamento neste commit; o commit da membrana ja foi feito (8dcaafa). Parar para o gate humano (hearback).",
+  "HBN-Readback": "0103",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-30T12:00:00-03:00",
+  "protocol_version": "0.3.0"
+}

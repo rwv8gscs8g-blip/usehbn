@@ -1,0 +1,17 @@
+{
+  "profile_version": 1,
+  "model_id": "cursor-composer-2-5",
+  "apelido": "cursor",
+  "fornecedor": "Cursor",
+  "context_window_tokens": null,
+  "handoff_threshold": 0.5,
+  "hearback_ref": null,
+  "papeis_aptos": [],
+  "modos": ["agentic-tools", "cli"],
+  "verificado": {},
+  "nao_verificado": ["context_window_tokens", "papéis exercidos neste repo", "estabilidade do modelo subjacente"],
+  "observacoes": "Família = arnês Cursor rodando o modelo PADRÃO Composer 2.5 (Anysphere). ATENÇÃO: trocar o modelo subjacente do Cursor (ex.: para Claude/GPT/Gemini) muda a família efetiva e pode quebrar a independência do cross-audit — o auditor DEVE autodeclarar o modelo real no despacho. Sem papel exercido ainda; promover a accepted após o 1o audit-result.",
+  "ultima_revisao": "2026-06-14",
+  "status": "proposed",
+  "temperatura": "quente"
+}

@@ -1,0 +1,23 @@
+{
+  "profile_version": 1,
+  "model_id": "antigravity",
+  "apelido": "antigravity",
+  "fornecedor": "Google",
+  "context_window_tokens": null,
+  "handoff_threshold": 0.5,
+  "hearback_ref": null,
+  "papeis_aptos": ["auditor-cruzado"],
+  "modos": [],
+  "verificado": {
+    "familia": "guards/data/auditor-families.txt declara antigravity Google; pareceres cross-ia 20260705-222303 e 20260706-224124 usam SOU canonico antigravity/Google"
+  },
+  "nao_verificado": [
+    "context_window_tokens",
+    "modos disponiveis",
+    "versao exata do modelo subjacente"
+  ],
+  "observacoes": "Perfil minimo para satisfazer G-NUM/G-PARALLEL-ID quando STATE referencia antigravity como auditor. Nao concede papel de implementador.",
+  "ultima_revisao": "2026-07-06",
+  "status": "accepted",
+  "temperatura": "quente"
+}

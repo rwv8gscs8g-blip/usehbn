@@ -1,0 +1,38 @@
+{
+  "readback_id": "0090-track-roadmap-5-passos",
+  "execution_id": "track-roadmap-2026-06-24",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "entregue",
+  "zona_livre_curada": true,
+  "zona_livre_nota": "Mauricio aprovou em 2026-06-21 o ROADMAP-macro-pos-blindagem-5-passos como documento de fronteira. Rastreamento sob rito para ancorar a janela antes do W-FREEZE (passo 1). O handoff pos-roadmap fica como contexto de entrada, nao rastreado nesta janela por decisao de Mauricio. Curadoria humana explicita; sem cross-audit/selagem por nao ser mudanca de guard/spec.",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0090-track-roadmap-5-passos.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260624-120000-opus-4-8-despacho-track-roadmap.md",
+  "understanding": "Rastrear sob rito somente o ROADMAP-macro-pos-blindagem-5-passos.md ja aprovado por Mauricio e ancorar o STATE no roadmap (campo roadmap_ativo + proximo_ponto citando o passo 1). O handoff orquestrador pos-roadmap permanece como contexto de entrada e nao e rastreado nesta janela. NAO e selagem: sem seals_proposal, status entregue (G-QUORUM nao opina; freeze-gate nao trata como pendente). G-ZONA-LIVRE coberto por zona_livre_curada+zona_livre_nota. REGISTRY 7-col fronteira/frio para os 3 artefatos governados desta janela. Atestacao 34a7f2f9 regenerada same-fp com readback_ativo->0090 e handoff_mais_recente->despacho 20260624-120000. proxima_acao permanece W-FREEZE (gate humano). Ato de autoridade sob G-ORQ-REF (Exit A').",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "ROADMAP-macro-pos-blindagem-5-passos aprovado por Mauricio em 2026-06-21; direcao corrigida de rastrear sob rito so o roadmap e ancorar o STATE no roadmap antes do W-FREEZE, deixando o handoff pos-roadmap como contexto de entrada nao rastreado nesta janela.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      "docs/brainstorm/rodada-2026-06-21/ROADMAP-macro-pos-blindagem-5-passos.md",
+      ".hbn/messages/20260624-120000-opus-4-8-despacho-track-roadmap.md",
+      ".hbn/readbacks/0090-track-roadmap-5-passos.json",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": ["main","guards/**","src/**","core/**","methodology/**","schemas/**",".hbn/freeze/**"]
+  },
+  "stop_condition": "Track 0090 (rastreamento do ROADMAP-macro-pos-blindagem-5-passos + ancoragem do STATE no roadmap) concluido. NAO iniciar o W-FREEZE (gate humano) neste commit. Handoff pos-roadmap fica como contexto de entrada, nao rastreado nesta janela.",
+  "HBN-Readback": "0090",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-24T12:00:00-03:00",
+  "protocol_version": "0.3.0"
+}

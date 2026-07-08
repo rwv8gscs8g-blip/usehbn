@@ -7,9 +7,39 @@ __pycache__/
 .usehbn/
 .hbn/manifest.json
 .hbn/state.json
+.hbn/relay/RETURN.json
+.hbn/relay/inbox/
 .hbn/readbacks/
-.hbn/results/
+.hbn/results/*
+# Preserve cross-IA review evidence (audit-permanent), keep runtime ERPs ignored
+!.hbn/results/*-cross-ia-*
+# ADR-025 (onda 0006 I-03): resultado governado no formato carimbo
+# AAAAMMDD-HHMMSS-<agente>-<slug> NUNCA fica invisível ao git
+!.hbn/results/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9][0-9][0-9]-*
 dist/
 build/
+node_modules/
+.next/
+.turbo/
+coverage/
+htmlcov/
+tmp/
+temp/
+*.log
 logs/*.json
 state/*.json
+
+# Scratch de suites de guards
+guards/tests/cr-*
+guards/tests/adv-cr*
+guards/tests/tmp-pass.*
+guards/tests/wt-main.*
+
+# Claude Code local-only settings (per-developer, do not commit)
+.claude/settings.local.json
+
+# junk macOS/Office
+.DS_Store
+~$*
+/scratch/
+!/scratch/README.md

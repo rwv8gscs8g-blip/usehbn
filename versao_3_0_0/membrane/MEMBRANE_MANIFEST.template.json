@@ -1,0 +1,13 @@
+{
+  "_comment": "Template do contrato explicito da membrana (TAREFA 6, terceira exuvia). O arquivo real vive em <consumidor>/.usehbn-snapshot/MEMBRANE_MANIFEST.json e e gerado/atualizado EXCLUSIVAMENTE por scripts/hbn-upgrade-snapshot.sh (nunca a mao). Toda divergencia byte-a-byte e bloqueada por assert-snapshot-integrity.sh no consumidor.",
+  "schema_version": 1,
+  "origem": "usehbn",
+  "source_version": "versao_3_0_0",
+  "source_commit": "<sha1-do-commit-do-genoma-de-onde-o-snapshot-foi-extraido>",
+  "generated_at": "<ISO8601-com-offset-local-do-operador>",
+  "surface": ["core", "guards", "schemas"],
+  "files": {
+    "guards/assert-canonical-root.sh": "<sha256-do-conteudo-byte-a-byte>",
+    "core/01-principios.md": "<sha256-do-conteudo-byte-a-byte>"
+  }
+}

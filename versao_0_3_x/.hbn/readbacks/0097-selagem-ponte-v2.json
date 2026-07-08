@@ -1,0 +1,38 @@
+{
+  "readback_id": "0097-selagem-ponte-v2",
+  "execution_id": "selagem-ponte-v2-2026-06-26",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "vigente",
+  "seals_proposal": "0096",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0097-selagem-ponte-v2.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260626-150000-opus-4-8-despacho-selagem-0097.md",
+  "understanding": "Selar a proposta-ponte v2 rastreada em 0096 como vigente apos quorum != OpenAI (antigravity/Google + grok/xAI, ambos APROVA_0096: SIM) e hearback Mauricio confirmado. Declara seals_proposal 0096 e trackea os 2 pareceres (G-QUORUM + G-DIVERSITY). Ato de autoridade sob G-ORQ-REF (Exit A'), com atestacao same-fp regenerada contra readback_ativo 0097. Nao implementar a ponte e nao tocar o Credenciamento; proxima acao e P2-A dry-run do install-snapshot.sh.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Hearback humano Mauricio confirmado para a selagem 0097 (proposta-ponte v2 0096) e tracking dos files_allowed no despacho de 2026-06-26T15:00:00-03:00.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0097-selagem-ponte-v2.json",
+      ".hbn/messages/20260626-150000-opus-4-8-despacho-selagem-0097.md",
+      ".hbn/results/20260626-140000-antigravity-cross-ia-ponte-v2-0096.md",
+      ".hbn/results/20260626-140500-grok-cross-ia-ponte-v2-0096.md",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": ["main", "Credenciamento/**", "guards/**", "src/**", "core/**", "methodology/**", "schemas/**", "docs/brainstorm/**", ".hbn/freeze/**", ".hbn/hearbacks/**", ".hbn/operators/**"]
+  },
+  "stop_condition": "Selagem 0097 concluida: proposta-ponte v2 0096 vigente e pronta para PASSO 2 / P2-A dry-run. NAO implementar a ponte e NAO tocar o Credenciamento neste commit.",
+  "HBN-Readback": "0097",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-26T15:00:02-03:00",
+  "protocol_version": "0.3.0"
+}

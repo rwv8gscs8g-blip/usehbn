@@ -1,0 +1,80 @@
+{
+  "readback_id": "0067-w-ret",
+  "execution_id": "w-ret-2026-06-20",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "implemented_pending_cross_audit",
+  "activation_status": "PROPOSED_UNTIL_CROSS_AUDIT",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0067-w-ret.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260620-100000-opus-4-8-despacho-w-ret.md",
+  "understanding": "Implementar o canal de retorno A+C: todo implementador deve escrever .hbn/relay/RETURN.json ao fim de qualquer execucao, o consumidor descarta ao usar, e a ausencia de recibo novo apos timeout vira erro do harness.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Despacho W-RET de 2026-06-20T10:00:00-03:00, sob bastao token_fp 34a7f2f9, com HBN-Human-Authorization Mauricio e stop_condition para cross-audit antes de selagem.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      "core/relay-return-spec.md",
+      ".gitignore",
+      "agents/codex.md",
+      ".hbn/messages/20260620-100000-opus-4-8-despacho-w-ret.md",
+      ".hbn/readbacks/0067-w-ret.json",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": [
+      "main",
+      "guards/**",
+      "schemas/**",
+      "src/**",
+      "methodology/**",
+      "docs/brainstorm/**",
+      ".hbn/freeze/**",
+      "core/read-list-canonica.txt",
+      "core/orchestrator-profile-spec.md"
+    ]
+  },
+  "done": [
+    "core/relay-return-spec.md criado com caminho do recibo, schema, ciclo de vida e contrato de timeout.",
+    ".gitignore ignora .hbn/relay/RETURN.json e .hbn/relay/inbox/.",
+    "agents/codex.md exige recibo ao final de toda execucao.",
+    ".hbn/relay/STATE.md aponta o proximo ponto para cross-audit do W-RET.",
+    "REGISTRY.md registra despacho, spec e readback 0067 em bloco 7-col fronteira/frio."
+  ],
+  "invariants_to_preserve": [
+    "O recibo .hbn/relay/RETURN.json e efemero e nao entra no commit.",
+    "O consumidor deve descartar o recibo apos uso, movendo para .hbn/relay/inbox/.consumed/<ts>-RETURN.json ou apagando.",
+    "Ausencia de recibo novo apos timeout T e erro do harness, nao espera silenciosa.",
+    "core/read-list-canonica.txt permanece inalterado e resolve 13 itens.",
+    "main permanece em 4db692876381a0d7909985c8500d999f2e677b04.",
+    "Nao selar W-RET nesta entrega; parar para cross-audit != OpenAI."
+  ],
+  "criteria": {
+    "runner": "bash guards/hbn-guards-runner.sh -> Todos os guards passaram",
+    "suite": "bash guards/tests/run-guard-tests.sh -> 0 falharam",
+    "adversarial": "bash guards/tests/adversarial-battery.sh -> BATERIA VERDE",
+    "main": "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04",
+    "trailers_required": {
+      "HBN-Readback": "0067",
+      "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+      "HBN-Token-FP": "34a7f2f9"
+    }
+  },
+  "out_of_scope": [
+    "Selar W-RET antes de cross-audit >=2 familias != OpenAI e novo hearback humano.",
+    "Alterar guards/**, schemas/**, src/**, methodology/**, docs/brainstorm/**, .hbn/freeze/** ou core/read-list-canonica.txt.",
+    "Versionar .hbn/relay/RETURN.json ou .hbn/relay/inbox/."
+  ],
+  "stop_condition": "PARAR no handoff para cross-audit != OpenAI; nao selar W-RET nesta entrega.",
+  "HBN-Readback": "0067",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-20T10:00:00-03:00",
+  "protocol_version": "0.3.0"
+}

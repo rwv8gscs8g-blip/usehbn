@@ -1,0 +1,37 @@
+{
+  "readback_id": "0096-track-ponte-v2",
+  "execution_id": "track-ponte-v2-2026-06-26",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "implemented_pending_cross_audit",
+  "activation_status": "PROPOSED_UNTIL_CROSS_AUDIT",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0096-track-ponte-v2.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260626-130000-opus-4-8-despacho-track-ponte-v2.md",
+  "understanding": "Trackear no protocolo a proposta-ponte v2 consolidada (.hbn/proposals/20260626-120000-opus-4-8-ponte-v2-consolidada.md) como PROPOSTA pendente de ratificacao. A proposta sintetiza 3 consultas (antigravity+grok de desenho; codex de viabilidade=IMPLEMENTAVEL-COM-AJUSTES) + a direcao de Mauricio: membrana duas-camadas, escopo B-subset via git archive do tag v1-estavel + manifesto determinístico, guards no projeto via shims locais com .hbn/active-version=. (protocolo congelado intacto), assert-snapshot-integrity local, router obrigatorio no AGENTS.md, tombstone+untangle humano-gated, canal de feedback inbox; D4 (renomear .hbn/) adiado para P3. NAO implementa a ponte nem toca o Credenciamento. Proxima_acao: cross-audit de ratificacao por >=2 familias !=OpenAI (APROVA_0096), selagem 0097, hearback; depois P2-A (dry-run). Ato de autoridade sob G-ORQ-REF (Exit A').",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio aprovou (2026-06-26) trackear a proposta-ponte v2 e segui-la para ratificacao; decisoes de gate D4-adiado e shim active-version=. confirmadas.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/proposals/20260626-120000-opus-4-8-ponte-v2-consolidada.md",
+      ".hbn/messages/20260626-130000-opus-4-8-despacho-track-ponte-v2.md",
+      ".hbn/readbacks/0096-track-ponte-v2.json",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": ["main","guards/**","src/**","core/**","methodology/**","schemas/**","docs/brainstorm/**",".hbn/freeze/**",".hbn/hearbacks/**",".hbn/operators/**"]
+  },
+  "stop_condition": "Proposta-ponte v2 trackeada como proposta (0096). Parar para cross-audit !=OpenAI + hearback + selagem 0097. NAO implementar a ponte.",
+  "HBN-Readback": "0096",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-26T13:00:00-03:00",
+  "protocol_version": "0.3.0"
+}

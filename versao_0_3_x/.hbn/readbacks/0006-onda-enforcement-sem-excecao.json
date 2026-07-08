@@ -1,0 +1,100 @@
+{
+  "readback_id": "0006-onda-enforcement-sem-excecao",
+  "execution_id": "onda-enforcement-sem-excecao-2026-06-11",
+  "agent_id": "claude-fable-5",
+  "track": "safe_track",
+  "status": "in_execution",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0006-onda-enforcement-sem-excecao.json",
+  "understanding": "Implementar TUDO da onda enforcement-sem-excecao em uma unica passada, como PROPOSTA aprovavel item a item na branch proposta/onda-0006 (um commit por item; aprovacao por cherry-pick do humano na main): I-00 este readback; I-01 knowledge 0019 (severidades/veto) + knowledge 0022 (firewall — autorizada em chat 2026-06-11, referencia quebrada achada no censo) + teste de read-list viva; I-02 ADR-025 naming universal; I-03 G-NUM incondicional + UTC=BLOCK + G-SLF/G-REG/.gitignore; I-04 renomeacao dos untracked 0036/0037 para carimbo real; I-05 canonical-root lacrado (CI=true local=FAIL) + .hbn/alt-roots; I-06 bypass env so com nota staged; I-07 G-STRAY v2 + robustez da suite; I-08 G-EXC + assinatura SSH no G-HRB + G-FAM/G-HRB modo-runner; I-10 rito de entrada checavel no state-report-spec + G-RLT; I-13 G-TOK token de posse do bastao (hook commit-msg); I-12 bateria adversarial executavel; I-09 STATE verdadeiro por ultimo. A linha principal (main) NAO e tocada; nada de merge/push/cherry-pick pelo implementador.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Ordem direta de Mauricio em 2026-06-11: 'prompt para o Fable 5 corrigir TUDO em uma unica passada... vamos commitando uma a uma' — apos os vetos 0036 (Codex) e 0037 (Antigravity) e a consolidacao 20260611-131310. Complementos do gate humano via chat de orquestracao 2026-06-11 (resposta ao relato 140302): (1) alt-roots com glob /sessions/*/mnt/Projetos/usehbn autorizado no I-05; (2) item novo I-13 G-TOK; (3) knowledge 0022 (firewall) autorizada no escopo do I-01 por ser referencia quebrada da mesma classe do F-08.",
+    "note": "Excecao F-01 consciente e NAO-precedente: o mesmo agente desenha e implementa, mas em branch de proposta — a adocao e item a item pelo humano (cherry-pick na main com hook ativo), com cross-audit Codex+Antigravity sobre a branch ANTES dos cherry-picks finais. Cada commit leva trailers HBN-Readback: 0006 e HBN-Agent: fable5-impl-0006."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0006-onda-enforcement-sem-excecao.json",
+      "REGISTRY.md",
+      ".hbn/relay/STATE.md",
+      ".hbn/knowledge/0019-severidades-veto.md",
+      ".hbn/knowledge/0022-firewall-workflow-fast-track.md",
+      "methodology/adr/ADR-025-nome-universal-artefato-ia.md",
+      "methodology/adr/INDEX.md",
+      ".gitignore",
+      ".hbn/alt-roots",
+      ".hbn/stray-allowlist",
+      ".hbn/results/20260611-110642-codex-cross-ia-ativacao-enforcement.md",
+      ".hbn/results/20260611-125809-gemini-3-5-cross-ia-ativacao-enforcement.md",
+      "guards/lib/common.sh",
+      "guards/hbn-guards-runner.sh",
+      "guards/assert-canonical-root.sh",
+      "guards/assert-parallel-id.sh",
+      "guards/assert-self-path.sh",
+      "guards/assert-registry-line.sh",
+      "guards/assert-no-stray-hbn.sh",
+      "guards/assert-hearback-integrity.sh",
+      "guards/assert-role-family.sh",
+      "guards/assert-exception-traceable.sh",
+      "guards/assert-baton-token.sh",
+      "guards/assert-report-fresh.sh",
+      "guards/tests/run-guard-tests.sh",
+      "guards/tests/adversarial-battery.sh",
+      "guards/tests/fixtures/**",
+      "core/state-report-spec.md"
+    ],
+    "files_forbidden": [
+      "src/**",
+      "examples/**",
+      "inbox/**",
+      "site/**",
+      "local-ai/**"
+    ]
+  },
+  "invariants_preserved": [
+    "Firewall 0022: nenhuma escrita de dominio/VBA/produto; esta onda toca apenas guards, suite, knowledge/ADR de protocolo, REGISTRY, STATE e a renomeacao dos pareceres untracked 0036/0037",
+    "main INTOCADA: todo trabalho na branch proposta/onda-0006; adocao = cherry-pick humano item a item com dupla fiscalizacao do hook",
+    "Nunca HBN_GUARDS_BYPASS/GLASSWING_BYPASS; nunca CI=true em commit local; nunca --no-verify — a propria onda lacra esses escapes e o implementador e o primeiro fiscalizado (raiz do sandbox legalizada por .hbn/alt-roots autorizado pelo gate humano, nao por bypass)",
+    "Historia commitada NAO se renomeia (0001..0035); 0036/0037 sao untracked — renomear nao e reescrita de historia",
+    "ADR-020: nenhum guard ativa no runner sem teste negativo verde na suite; suite 100% verde apos cada commit",
+    "Artefato de terceiro (0036/0037): unica alteracao permitida e o campo path: do front-matter, em commit dedicado com diff auditavel (F-07)"
+  ],
+  "action_plan": [
+    "I-00 readback 0006 + linha REGISTRY (este commit)",
+    "I-01 knowledge 0019 + knowledge 0022 + teste read-list viva na suite + linhas REGISTRY",
+    "I-02 ADR-025 (PROPOSED) + INDEX + linha REGISTRY",
+    "I-03 G-NUM regra 1 incondicional + universo .hbn/models+STATE + UTC=BLOCK + G-SLF/G-REG leem legado e exigem carimbo no novo + .gitignore + testes negativos",
+    "I-04 renomear 0036/0037 no filesystem para os carimbos id-global internos reais + corrigir path: + 2 linhas REGISTRY (teste vivo do G-NUM novo)",
+    "I-05 canonical-root: skip so com GITHUB_ACTIONS+HBN_DIFF_BASE; CI=true local FAIL; suporte .hbn/alt-roots (com a raiz do sandbox autorizada pelo gate) + testes",
+    "I-06 guard_check_bypass exige nota ADICIONADA em .hbn/bypasses/ no diff staged; sem nota guards rodam + testes",
+    "I-07 G-STRAY v2 (fail-closed, maxdepth 6, symlink, .hbn/stray-allowlist) + trap global na suite + teste files_forbidden no G-SCO + worktree linkado no G-TMP",
+    "I-08 G-EXC novo (pre-commit valida readback+STATE; trailers no CI) + G-HRB com ssh-keygen -Y verify (.hbn/operators/*.pub; sem chave = comportamento atual + aviso) + G-FAM/G-HRB modo-runner no runner + testes negativos ANTES de ativar",
+    "I-10 state-report-spec: relato de ENTRADA exige bloco RELATO DE LEITURA com citacoes arquivo:linha; G-RLT estendido + teste negativo",
+    "I-13 G-TOK assert-baton-token.sh (hook commit-msg; sha256 do trailer HBN-Token vs campo bastao_token_sha256 do STATE staged) + 4 testes + campo no state-report-spec; hash entra no STATE apos Mauricio gerar o token",
+    "I-12 guards/tests/adversarial-battery.sh: toda burla documentada tentada e BLOQUEADA; saida BURLA x GUARD x RESULTADO",
+    "I-09 STATE verdadeiro (contagens reais, sinais da onda 0006, sinal vermelho de excecao F-01, proxima_acao = aprovacao item a item) — ULTIMO commit; G-EXC entra no runner neste commit junto com o 4o sinal",
+    "I-11 (fora do repo): propostas glacier/zona-de-corte/refatoracao-arvore em /Users/macbookpro/Projetos/usehbn-entregas/onda-0006/",
+    "Fechamento: suite final + bateria adversarial + tabela de aprovacao (chat + arquivo em usehbn-entregas) + relato de estado"
+  ],
+  "out_of_scope": [
+    "Ponte usehbn<->Credenciamento (segue VETADA por 0034/0035)",
+    "Qualquer escrita em main: merge, push, cherry-pick — atos do humano",
+    "Geracao de chave SSH de operador e do token do bastao (atos do humano; guards nascem com os modos 'sem chave/sem campo' explicitos)",
+    "Execucao do glacier-move e da refatoracao da arvore (I-11 entrega PROPOSTAS para auditoria adversarial)",
+    "Linha de correcao F-02 do 0035 no REGISTRY (formato e decisao do humano, consolidacao §F-02)"
+  ],
+  "residual_risks": [
+    "Commits nascem no sandbox Cowork com raiz alternativa autorizada via .hbn/alt-roots (working tree ate o commit do I-05; declarado nos corpos dos commits) — dupla fiscalizacao no cherry-pick na maquina do operador, onde G-CR roda contra a raiz canonica real",
+    "G-EXC ativa apenas no commit I-09 (quando o 4o sinal entra no STATE) — entre I-08 e I-09 o guard existe e tem testes verdes mas nao esta no runner; janela declarada e curta",
+    "Suite vaza diretorios cr-pass.*/tmp-pass.* neste sandbox (rm nega unlink); trap do I-07 tolera rm negado sem quebrar a suite; limpeza final no Terminal do operador",
+    "Renomeacao de guards/assert-* e mudancas de padrao podem conflitar com fluxos nao previstos; rollback por item = nao fazer o cherry-pick daquele item"
+  ],
+  "classification_basis": {
+    "has_guardian_warnings": false,
+    "has_risks": true,
+    "has_constraints": true
+  },
+  "created_at": "2026-06-11T14:24:34-03:00",
+  "protocol_version": "0.3.0"
+}

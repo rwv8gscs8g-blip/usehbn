@@ -1,0 +1,79 @@
+{
+  "readback_id": "0064-w-copy-g-copy",
+  "execution_id": "w-copy-g-copy-2026-06-18",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "implemented_pending_cross_audit",
+  "activation_status": "PROPOSED_UNTIL_CROSS_AUDIT",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0064-w-copy-g-copy.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260618-214500-opus-4-8-despacho-g-copy.md",
+  "understanding": "Implementar G-COPY para que despachos/prompts novos adicionados em .hbn/messages/ e docs/prompts/ com tipo despacho|prompt tenham exatamente um bloco HBN-COPY no corpo, com dest canonico e payload nao-vazio, validando o blob staged/HEAD em vez da working tree. O guard entra no runner nesta entrega, mas fica PROPOSED_UNTIL_CROSS_AUDIT ate suite verde, cross-audit >=2 familias != OpenAI e hearback humano antes da selagem em readback posterior.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Despacho W-COPY/G-COPY de 2026-06-18T21:45:00-03:00, sob bastao token_fp 34a7f2f9, com HBN-Human-Authorization Mauricio e stop_condition para cross-audit antes de selagem.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      "guards/assert-copy-block.sh",
+      "guards/hbn-guards-runner.sh",
+      "guards/tests/run-guard-tests.sh",
+      "guards/tests/adversarial-battery.sh",
+      ".hbn/messages/20260618-214500-opus-4-8-despacho-g-copy.md",
+      ".hbn/readbacks/0064-w-copy-g-copy.json",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": [
+      "main",
+      "core/**",
+      "methodology/**",
+      "schemas/**",
+      "src/**",
+      "docs/brainstorm/**",
+      ".hbn/freeze/**",
+      "guards/data/**"
+    ]
+  },
+  "done": [
+    "guards/assert-copy-block.sh criado e executavel.",
+    "guards/hbn-guards-runner.sh chama G-COPY apos G-PTR.",
+    "guards/tests/run-guard-tests.sh cobre G-COPY com caso bom, 0 blocos, 2 blocos, BEGIN sem END, END antes de BEGIN, dest invalido, dest malformado, payload vazio, skew staged/worktree e nao-colisao com G-PTR.",
+    "guards/tests/adversarial-battery.sh adiciona B55-B62 para as burlas de G-COPY."
+  ],
+  "invariants_to_preserve": [
+    "G-COPY so avalia arquivos adicionados; artefatos tracked legados nao sao retroavaliados.",
+    "O mapa guards/data/auditor-families.txt nao e alterado.",
+    "Validacao local usa git show :path; CI usa HEAD:path no range HBN_DIFF_BASE...HEAD.",
+    "O token HBN-COPY nao pode acionar G-PTR, cujo marcador permanece o literal HBN.",
+    "main permanece em 4db692876381a0d7909985c8500d999f2e677b04.",
+    "Nao selar G-COPY nesta entrega; parar para cross-audit != OpenAI."
+  ],
+  "criteria": {
+    "runner": "bash guards/hbn-guards-runner.sh -> Todos os guards passaram",
+    "suite": "bash guards/tests/run-guard-tests.sh -> 227 passaram, 0 falharam",
+    "adversarial": "bash guards/tests/adversarial-battery.sh -> BATERIA VERDE, incluindo B55-B62",
+    "main": "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04",
+    "trailers_required": {
+      "HBN-Readback": "0064",
+      "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+      "HBN-Token-FP": "34a7f2f9"
+    }
+  },
+  "out_of_scope": [
+    "Selar G-COPY antes de cross-audit >=2 familias != OpenAI e novo hearback humano.",
+    "Iniciar W-ORQ-4 ou W-FREEZE.",
+    "Tocar guards/data/**, core/**, methodology/**, schemas/**, src/**, docs/brainstorm/** ou .hbn/freeze/**."
+  ],
+  "stop_condition": "PARAR no handoff para cross-audit != OpenAI; nao selar G-COPY nesta entrega; nao iniciar W-ORQ-4/W-FREEZE.",
+  "HBN-Readback": "0064",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-18T21:45:00-03:00",
+  "protocol_version": "0.3.0"
+}

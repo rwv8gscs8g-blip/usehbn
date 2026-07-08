@@ -1,0 +1,10 @@
+{
+  "queue_id": "005",
+  "tema": "B3 scripts/with-codex.sh (executor em sandbox de scope)",
+  "origem": "PROMPT_ARQUITETO v1.6 §4 (decomposicao ADR-013/C4 2026-06-10)",
+  "projeto_alvo": "usehbn",
+  "classe": "B",
+  "status": "pending",
+  "bloqueado_por": null,
+  "bloqueio_externo": null
+}

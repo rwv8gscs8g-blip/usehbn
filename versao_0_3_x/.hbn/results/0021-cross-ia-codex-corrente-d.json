@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.0",
+  "auditor": "codex-cli",
+  "session_role": "cross-ia-audit-corrente-d",
+  "reviewed_at": "2026-06-10T14:18:43Z",
+  "preflight": {
+    "pwd_ok": true,
+    "git_status_divergencias": [
+      "Status observado bate com a corrente D esperada; divergencia pequena: ?? PROMPT_D_CHAIN_FABLE5.md aparece como untracked adicional, coerente com reports/20260610-36-proposal-faxina-prompts-raiz.md:13-18."
+    ]
+  },
+  "escopo": {
+    "1_coerencia_completude": {
+      "veredito": "APROVAR_COM_FORTES",
+      "comentario": "Os blocos 0-4 formam um todo coerente em alto nivel: ADR-016/017/018 tem specs, schemas e guards/inbox quando prometidos em REGISTRY.md:95-112. Ha, porem, lacunas de execucao: G-REG nao cobre todos artefatos normativos estaveis; G-FRZ diverge da spec; G-FAM aceita hearback_ref sem validar existencia/conteudo; dual-run nao tem gate versionado, apenas spec/schema."
+    },
+    "2_bastao_state": {
+      "veredito": "APROVAR_COM_MARGINAL",
+      "comentario": "O STATE e barato e suficiente para retomar: aponta prompt-pack, duas auditorias pendentes, H1-H6 pendente e bump adiado em .hbn/relay/STATE.md:14-25. O handoff mais recente corrige a proxima acao em .hbn/messages/20260610-02-handoff-auditoria-cruzada-corrente-d-fable5.md:30-38. Risco marginal: proprietario_bastao/chapeu_atual ainda dizem fable-5/auditor-arquiteto em STATE.md:6-7 e 28-33, enquanto a acao viva e humana + auditores que nao herdam bastao."
+    },
+    "3_numeracao_registry": {
+      "veredito": "APROVAR_COM_FORTE_PARA_H2",
+      "comentario": "Os artefatos 35-52 existem e estao registrados em REGISTRY.md:95-112. A existencia atual dos 7 PROMPT_*.md na raiz e intencional porque a faxina 36 e DRY-RUN. A renumeracao 51-57 -> 53+ esta declarada em REGISTRY.md:119-121 e no prompt-pack:15, mas o comando/bloco da proposal 36 ainda mostra ids 51-57 em reports/20260610-36-proposal-faxina-prompts-raiz.md:48-73; isso deve ser revisado antes de executar H2."
+    },
+    "4_guards": {
+      "veredito": "APROVAR_COM_FORTES_ANTES_DE_ATIVAR",
+      "comentario": "Nenhum guard novo esta no runner, conforme guards/hbn-guards-runner.sh:22-28 e handoff 49:35-40. Testes em /tmp confirmaram: G-REG bloqueia prompt orfao na raiz, mas passa falso negativo para novo core/*-spec.md sem REGISTRY; G-FRZ passa checklist ok e reprova bloqueios, mas tem falso positivo contra obrigatorio=na com justificativa; G-FAM bloqueia fable x opus sem hearback, mas aceita hearback_ref inexistente."
+    },
+    "5_adrs_016_017_018": {
+      "veredito": "APROVAR_COM_FORTES_EM_ADOCAO",
+      "comentario": "ADR-016 e adequado como characterization testing e preserva T3 em methodology/adr/ADR-016-dual-run-caracterizacao.md:53-59. ADR-017 transforma freeze em gate objetivo. ADR-018 e correto no invariante anti-groupthink, mas a excecao fable x opus nao esta bem cercada: o STATE referencia hearback 0001, que cobre C1-C7, nao a excecao corrente D."
+    },
+    "6_faxina_e_bump": {
+      "veredito": "APROVAR_COM_FORTE_PARA_FAXINA",
+      "comentario": "O dry-run foi a decisao correta: mover, nunca deletar, esta declarado em reports/20260610-36-proposal-faxina-prompts-raiz.md:21-27. O bump adiado e aceitavel porque REGISTRY.md:87-89 e STATE.md:4/19 tornam o adiamento explicito; risco baixo de drift se a onda futura de __version__ x PROTOCOL_VERSION for mantida no radar."
+    }
+  },
+  "findings": [
+    {
+      "id": "F-01",
+      "severidade": "FORTE",
+      "artefato": "guards/assert-registry-line.sh",
+      "evidencia": "ADR-011 exige spec core com endereco estavel em REGISTRY quando nasce/muda (methodology/adr/ADR-011-enderecamento-numeracao-temperatura.md:81-85); G-REG so reconhece patterns em guards/assert-registry-line.sh:51-66 e omite core/*.md, .hbn/models/*.json e .github/workflows/*.yml; em /tmp, core/test-registry-fn-spec.md staged sem REGISTRY passou com exit 0.",
+      "descricao": "Falso negativo: um novo spec-core normativo pode ser adicionado sem linha de REGISTRY e o guard ainda aprova.",
+      "recomendacao": "Antes de H1, ampliar is_numbered_artifact ou renomear o guard/contrato para deixar claro que ele nao cobre todos os artefatos governados; incluir teste para core/*.md, .hbn/models/*.json e workflows."
+    },
+    {
+      "id": "F-02",
+      "severidade": "FORTE",
+      "artefato": "guards/freeze-gate.sh",
+      "evidencia": "core/freeze-gate-spec.md:30-31 permite criterio obrigatorio como na com hearback citado na justificativa; schemas/freeze-checklist.schema.json:56-57 so exige justificativa para status=na; guards/freeze-gate.sh:58-60 reprova qualquer obrigatorio cujo status nao seja ok. Em /tmp, checklist schema-ok com obrigatorio=true/status=na/justificativa foi recusado pelo gate.",
+      "descricao": "Falso positivo: o guard bloqueia um caso que a spec/schema aceitam.",
+      "recomendacao": "Antes de H4, escolher um contrato unico: ou mudar a spec/schema para obrigatorio exigir ok sempre, ou ajustar o guard para aceitar na obrigatorio somente com justificativa que cite hearback verificavel."
+    },
+    {
+      "id": "F-03",
+      "severidade": "FORTE",
+      "artefato": "guards/assert-role-family.sh",
+      "evidencia": "ADR-018 exige excecao por hearback explicito registrado em methodology/adr/ADR-018-papeis-chapeus-anti-groupthink.md:46-52; roles spec repete em core/roles-assignment-spec.md:46-49; o guard apenas testa a presenca de hearback_ref em guards/assert-role-family.sh:50 e 75. Em /tmp, hearback_ref=.hbn/hearbacks/9999-inexistente.json passou com exit 0.",
+      "descricao": "A excecao anti-groupthink vira bypass de string nao vazia; o guard nao prova que o hearback existe, esta confirmado ou cobre a excecao.",
+      "recomendacao": "Antes de H5/H6, validar existencia do arquivo, status=confirmed e, no minimo, registrar a excecao em um hearback corrente; opcionalmente exigir campo estruturado de excecoes cobertas."
+    },
+    {
+      "id": "F-04",
+      "severidade": "FORTE",
+      "artefato": ".hbn/relay/STATE.md",
+      "evidencia": "STATE.md:31-33 lista auditores [codex, gemini-3-5, opus-4-8] e hearback_ref=.hbn/hearbacks/0001-consolidacao-c1-c7.json; STATE.md:41-42 diz que a excecao fable x opus esta coberta pelo hearback_ref; porem .hbn/hearbacks/0001-consolidacao-c1-c7.json:2-7 confirma C1-C7 e nao menciona ADR-018, corrente D ou excecao Fable/Opus.",
+      "descricao": "O STATE diz que a excecao Fable x Opus esta coberta por um hearback que nao cobre essa excecao observavelmente.",
+      "recomendacao": "Antes de adotar ADR-018 no STATE, trocar por hearback corrente que cite a excecao ou tirar opus da lista de auditores do campo mecanico, mantendo-o em prosa como validador fixo ate haver decisao estruturada."
+    },
+    {
+      "id": "F-05",
+      "severidade": "FORTE",
+      "artefato": "reports/20260610-36-proposal-faxina-prompts-raiz.md",
+      "evidencia": "REGISTRY.md:111-112 consumiu ids 20260610-51 e 20260610-52; REGISTRY.md:119-121 manda renumerar a faxina para 53+; mas reports/20260610-36-proposal-faxina-prompts-raiz.md:48-73 ainda apresenta comando/bloco copiavel com 51-57.",
+      "descricao": "A proposal contem a regra correta de renumerar, mas o bloco operacional pronto ainda colide com ids ja consumidos.",
+      "recomendacao": "Antes de H2, reemitir o comando e o bloco REGISTRY com ids 53-59 (ou proximos livres no momento), preservando a regra mover/nunca deletar."
+    },
+    {
+      "id": "F-06",
+      "severidade": "MARGINAL",
+      "artefato": "schemas/dual-run-result.schema.json",
+      "evidencia": "core/dual-run-spec.md:45-57 define gate em que diferente sem hearback_ref falha; schemas/dual-run-result.schema.json:52-54 exige diff_resumo e justificativa para diferente, mas nao hearback_ref. Em /tmp, registro diferente sem hearback_ref validou contra o schema.",
+      "descricao": "Schema-valido pode ser confundido com gate-aprovado; a distincao existe na spec, mas nao esta mecanicamente protegida.",
+      "recomendacao": "Em H3, explicitar que schema valida o registro, nao o veredito do gate; antes do primeiro uso operacional, criar script/fixture de gate ou campo de status de gate."
+    },
+    {
+      "id": "F-07",
+      "severidade": "MARGINAL",
+      "artefato": ".hbn/relay/STATE.md",
+      "evidencia": "STATE.md:6-14 declara proprietario_bastao=claude-fable-5, papel_bastao=auditor-arquiteto e proxima_acao de Mauricio; .hbn/messages/20260610-02-handoff-auditoria-cruzada-corrente-d-fable5.md:30-38 diz que Mauricio aplica os prompts e decide H1-H6; prompt-pack 51:23-25 diz que auditores nao implementam/adotam e a decisao e do hearback humano.",
+      "descricao": "O STATE e suficiente para retomar, mas o significado de proprietario_bastao fica ambivalente quando a proxima acao e humana e os auditores nao herdam bastao.",
+      "recomendacao": "Na proxima revisao do relay-spec/STATE, separar dono da proxima acao humana de ultima janela autora, ou declarar explicitamente que fable-5 e apenas o ultimo preparador enquanto Mauricio detem o gate."
+    },
+    {
+      "id": "F-08",
+      "severidade": "MARGINAL",
+      "artefato": "core/cadence-d.md",
+      "evidencia": "ADR-015 diz que documento normativo nao deve escrever numero de modelo e lista diff para core/cadence-d.md em methodology/adr/ADR-015-perfis-de-modelo.md:75-93; core/cadence-d.md:20 ainda contem 'contexto <50%'.",
+      "descricao": "Drift residual de C7: a parametrizacao por perfil foi aceita, mas um hard-coded 50% permanece no documento normativo.",
+      "recomendacao": "Tratar na onda futura ja indicada pela propria ADR-015 ou em microcorrecao T2, sem bloquear a corrente D."
+    }
+  ],
+  "checklist_anti_vies": {
+    "B1": "Sim. Li diretamente a read-list e tambem o handoff 20260610-02 apontado pelo STATE, sem confiar no resumo do handoff/STATE.",
+    "B2": "Parcialmente sim. Executei em copia /tmp: G-REG bloqueou prompt orfao e mostrou falso negativo core/*.md; G-FRZ passou checklist ok e confirmou falso positivo em obrigatorio=na; G-FAM bloqueou fable x opus sem hearback e mostrou bypass com hearback inexistente. A alegacao 4/4 de dual-run nao tem script versionado; verifiquei por leitura e schema.",
+    "B3": "Sim. Procurei falsos negativos, falsos positivos, parsing fragil e contradicoes ADR x spec x schema x guard antes de aprovar.",
+    "B4": "Nao houve zero contradicao; encontrei fortes e reexaminei para nao converter ressalva corrigivel em veto indevido.",
+    "B5": "Risco de vies: recomendar mais automacao de gate poderia preservar relevancia do Codex. Mitigacao: minhas recomendacoes pedem validacao mecanica simples e hearback humano, nao que Codex assuma bastao.",
+    "B6": "Confirmo: auditar nao me da o bastao. Nao propus assumir a proxima acao; a proxima decisao continua sendo hearback humano."
+  },
+  "recomendacao_por_hearback": {
+    "H1": "Aprovar somente apos corrigir G-REG para cobrir artefatos normativos estaveis novos, ou limitar explicitamente seu escopo. Nao ativar no runner antes desse ajuste.",
+    "H2": "Aprovar a faxina, mas antes de executar renumerar o comando e bloco REGISTRY para os proximos ids livres (agora 53-59 se nada novo entrar) e manter mover/nunca deletar.",
+    "H3": "Aprovar ADR-016/spec/schema como padrao; registrar que schema-valido nao e gate-aprovado e que um gate script deve existir antes do primeiro uso operacional de substituicao.",
+    "H4": "Aprovar ADR-017/freeze-gate apos resolver a divergencia obrigatorio=na. Encaminhar inbox 44 ao Credenciamento como proposta, nao imposicao.",
+    "H5": "Aprovar ADR-018 apos cercar a excecao fable x opus com hearback corrente e validavel, ou remover opus do campo mecanico de auditores ate haver excecao explicitamente confirmada.",
+    "H6": "Ativar assert-role-family como passo de handoff somente depois de validar hearback_ref e definir como o STATE YAML sera extraido para o JSON esperado pelo guard."
+  },
+  "veto_adocao": "nao",
+  "resumo_para_humano": "Sem BLOQUEADOR: a corrente D e adotavel com correcoes fortes antes/na adocao. Nao ativar G-REG/G-FAM nem freeze-gate sem os ajustes apontados. A faxina deve renumerar ids antes de executar. ADR-016 e bom como padrao, mas schema nao substitui gate. ADR-018 precisa hearback corrente para a excecao Fable x Opus."
+}

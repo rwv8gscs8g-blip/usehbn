@@ -1,0 +1,11 @@
+{
+  "queue_id": "015",
+  "tema": "E2 migrar guards para canonico",
+  "origem": "PROMPT_ARQUITETO v1.6 §4 (decomposicao ADR-013/C4 2026-06-10)",
+  "projeto_alvo": "usehbn",
+  "classe": "B",
+  "status": "done",
+  "bloqueado_por": null,
+  "bloqueio_externo": null,
+  "nota": "reformulado: Q3 veta integrar CLI; guards promovidos para guards/ (nao cli/) pela C3 2026-06-10 — aguarda hearback"
+}

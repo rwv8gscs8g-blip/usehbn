@@ -1,0 +1,50 @@
+--- guards/tests/run-guard-tests.sh	2026-07-01 17:11:23.397938838 -0300
++++ versao_2_0_0/guards/tests/run-guard-tests.sh	2026-07-01 19:34:45.250016181 -0300
+@@ -3653,10 +3653,11 @@
+ check "ci-battery: ci-entry.sh com invocacao fingida -> BLOCK" block "$(run_ci_battery_guard "$d")"
+ rm -rf "$d"
+ 
+-# --- Read-list viva (onda 0006 I-01 — F-08 dos cross-audits 0036/0037) -------
+-# Todo path .hbn/ | core/ | guards/ | schemas/ CITADO em agents/role-templates.md
+-# e nos 4 specs core do rito deve EXISTIR no disco. A "referência quebrada"
+-# (knowledge 0019/0022 citadas sem existir) vira classe de erro permanente.
++# --- Read-list viva (v2 bootstrap / onda 0006 I-01 — F-08) -------------------
++# Todo path .hbn/ | core/ | guards/ | schemas/ CITADO em BOOT.md, core/*.md
++# e read-list-canonica.txt deve EXISTIR no disco (ou ser dir). A "referência
++# quebrada" (knowledge citada sem existir) vira classe de erro permanente.
++# Em bootstrap alguns ponteiros (ex: .hbn/active-version) ficam no repo pai.
+ echo "== read-list viva (referência citada deve existir) =="
+ readlist_scan() { # <arquivo...> ; rc=0 se todos os paths citados existem
+     local missing=0 f p
+@@ -3665,8 +3666,9 @@
+         while IFS= read -r p; do
+             [[ -z "$p" ]] && continue
+             p="${p%.}"          # pontuação final de frase
+-            [[ "$p" == *NNNN* || "$p" == *AAAAMMDD* || "$p" == *\<* ]] && continue
+-            if compgen -G "$REPO_ROOT/${p}*" >/dev/null; then continue; fi
++            [[ "$p" == *NNNN* || "$p" == *AAAAMMDD* || "$p" == *\<* || "$p" == ".hbn/active-version" ]] && continue
++            local base="${p%/}"
++            if [[ -e "$REPO_ROOT/$p" || -d "$REPO_ROOT/$base" ]] || compgen -G "$REPO_ROOT/${p}*" >/dev/null 2>/dev/null; then continue; fi
+             echo "    referência quebrada: ${p} (citada em $(basename "$f"))"
+             missing=1
+         done < <(grep -ohE '(\.hbn/[A-Za-z0-9_./-]+|core/[A-Za-z0-9_./-]+|guards/[A-Za-z0-9_./-]+|schemas/[A-Za-z0-9_./-]+)' "$f" 2>/dev/null | sort -u)
+@@ -3674,12 +3676,13 @@
+     return $missing
+ }
+ run_readlist() { ( readlist_scan "$@" >/dev/null 2>&1 ); echo $?; }
+-check "readlist: templates+4 specs core sem referência quebrada" pass "$(run_readlist \
+-    "$REPO_ROOT/agents/role-templates.md" \
+-    "$REPO_ROOT/core/start-rite-spec.md" \
+-    "$REPO_ROOT/core/orchestrator-profile-spec.md" \
+-    "$REPO_ROOT/core/pointer-spec.md" \
+-    "$REPO_ROOT/core/state-report-spec.md")"
++check "readlist: BOOT+core+canonica sem referência quebrada (v2)" pass "$(run_readlist \
++    "$REPO_ROOT/BOOT.md" \
++    "$REPO_ROOT/core/02-papeis.md" \
++    "$REPO_ROOT/core/03-rito-da-onda.md" \
++    "$REPO_ROOT/core/04-artefatos.md" \
++    "$REPO_ROOT/core/05-guards.md" \
++    "$REPO_ROOT/core/read-list-canonica.txt")"
+ # caso-ruim (ADR-020): citação de path inexistente DEVE reprovar
+ r="$(mktemp -d)"
+ printf 'leia .hbn/knowledge/9999-inexistente.md antes de tudo\n' > "$r/template-quebrado.md"

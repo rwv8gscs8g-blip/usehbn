@@ -1,0 +1,14 @@
+{
+  "queue_id": "006",
+  "tema": "B4 scripts/hbn-wave.sh (fluxo completo intent->ERP)",
+  "origem": "PROMPT_ARQUITETO v1.6 §4 (decomposicao ADR-013/C4 2026-06-10)",
+  "projeto_alvo": "usehbn",
+  "classe": "B",
+  "status": "pending",
+  "bloqueado_por": [
+    "003",
+    "004",
+    "005"
+  ],
+  "bloqueio_externo": null
+}

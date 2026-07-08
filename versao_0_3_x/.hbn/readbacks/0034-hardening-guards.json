@@ -1,0 +1,80 @@
+{
+  "readback_id": "0034-hardening-guards",
+  "execution_id": "hardening-guards-2026-06-16",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "in_progress",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0034-hardening-guards.json",
+  "understanding": "W2: fechar os bypasses achados nas auditorias profundas, sem depender da chave G-HRB. G-KNOW-INDEX (substring->token inteiro; +anti-ponteiro-morto). G-FRONTDOOR (teto por bytes; contagem robusta por marcador; existencia dos paths da read-list). G-EXC (ancorar trailers no ultimo paragrafo). G-SCRATCH lock/symlink/ignore (fail-closed quando active-version nao resolve; bloqueador achado por grok no P-CAND-04). Corrigir comentario stale do G-REG (esta no runner:61). Cada fix com teste +/- e burla B29-B32. scope_extension forjada fica para onda apos a chave G-HRB. Sem tocar core/runner/outros guards.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio em 2026-06-16: sequencia confirmada hardening->deny->freeze; corrigir os achados das 4 auditorias de forma rapida e definitiva antes de declarar selado/freeze.",
+    "created_at": "2026-06-16T19:30:00-03:00",
+    "note": "Autorizacao humana para safe_track de hardening. Nao autoriza tocar main, merge, --no-verify, git add ., core, runner array, scope_extension (depende de G-HRB), habilitar D-ORQ-WRITE."
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0034-hardening-guards.json",
+      "guards/assert-knowledge-index.sh",
+      "guards/assert-frontdoor.sh",
+      "guards/assert-exception-traceable.sh",
+      "guards/assert-scratch-lock.sh",
+      "guards/assert-scratch-symlink.sh",
+      "guards/assert-scratch-ignore.sh",
+      "guards/assert-registry-line.sh",
+      "guards/README.md",
+      "guards/tests/run-guard-tests.sh",
+      "guards/tests/adversarial-battery.sh",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/messages/20260616-HHMMSS-codex-handoff-w2-hardening.md"
+    ],
+    "files_forbidden": [
+      "main",
+      "src/**",
+      "core/**",
+      "schemas/**",
+      "guards/hbn-guards-runner.sh",
+      "guards/assert-scope-lock.sh"
+    ]
+  },
+  "action_plan": [
+    "C1: abrir readback 0034.",
+    "C2: G-KNOW-INDEX token-match + anti-ponteiro-morto (B29).",
+    "C3: G-FRONTDOOR teto-bytes + contagem robusta + existencia (B30).",
+    "C4: G-EXC ancora no ultimo paragrafo (B31).",
+    "C5: G-SCRATCH fail-closed sem active-version (B32).",
+    "C6: corrige comentario stale do G-REG.",
+    "C7: STATE + handoff."
+  ],
+  "invariants_to_preserve": [
+    "Nao tocar main, runner array, scope-lock, core.",
+    "Cada fix com teste +/- e burla; sem regressao.",
+    "Nao usar git add .; somente paths exatos.",
+    "Handoff dentro do files_allowed.",
+    "Antes de cada commit: runner verde com o indice.",
+    "Trailers CONTIGUOS: HBN-Readback: 0034, HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin), HBN-Token-FP: 34a7f2f9."
+  ],
+  "out_of_scope": [
+    "scope_extension forjada (depende da chave G-HRB).",
+    "deny-by-default, arvores registry-centric, freeze (ondas seguintes).",
+    "Habilitar D-ORQ-WRITE."
+  ],
+  "read_evidence": [
+    ".hbn/results/20260616-204530-grok-cross-ia-p-cand-04.md (fail-open active-version)",
+    ".hbn/results/20260616-155716-cursor-cross-ia-p-cand-04.md (APROVA 0033 SIM, marginais)",
+    "guards/assert-knowledge-index.sh:63 (grep -Fq substring)",
+    "guards/assert-frontdoor.sh:48 (wc -l, nao bytes)",
+    "guards/assert-exception-traceable.sh:154 (%B inteiro)"
+  ],
+  "mechanical_evidence": [
+    "pwd -> /Users/macbookpro/Projetos/usehbn",
+    "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04",
+    "readback ativo atual = 0033"
+  ],
+  "created_at": "2026-06-16T19:30:00-03:00",
+  "protocol_version": "0.3.0"
+}

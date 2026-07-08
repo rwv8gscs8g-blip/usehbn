@@ -1,0 +1,78 @@
+{
+  "readback_id": "0005-ativacao-enforcement",
+  "execution_id": "ativacao-enforcement-hook-runner-guards-2026-06-11",
+  "agent_id": "claude-fable-5",
+  "track": "safe_track",
+  "status": "in_execution",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0005-ativacao-enforcement.json",
+  "understanding": "Ligar o enforcement na tomada: (A) regularizar no REGISTRY os 8 artefatos untracked da onda-ponte (4 proposals + pareceres 0034/0035 .md/.json) corrigindo front-matter nao-conforme (path ausente no 0034.md; path absoluto no proposal do Codex); (B) instalar .git/hooks/pre-commit chamando guards/hbn-guards-runner.sh; (C) adicionar testes negativos dos 5 guards legados na suite (pre-condicao do STATE para ativacao) e ativar G-SLF, G-REG, G-NUM, G-PTR, G-RLT no runner; (D) criar guards/assert-no-stray-hbn.sh (deteccao de .hbn fora de raiz de repo git) com teste negativo e ativa-lo; (E) provar com commits deliberadamente errados que o hook BLOQUEIA; (F) remover o ~/Projetos/.hbn orfao (residuo do incidente opus-4-8). Nada de dominio, VBA, src ou docs de produto e tocado.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Ordem direta em sessao Cowork de 2026-06-11 ~01:30-03:00: 'pare as orientações anteriores e dispare um processo de como ligar na tomada' — apos analise que constatou: hook pre-commit inexistente, assert-canonical-root autoexcluido em CI, guards novos fora do runner, scope vazio no readback 0004.",
+    "note": "Excecao consciente ao propose-only: o humano ordenou execucao direta pela IA nesta onda; cada commit leva trailer HBN-Readback: 0005 e o humano valida no Terminal com o roteiro de verificacao entregue ao final."
+  },
+  "scope": {
+    "files_allowed": [
+      "REGISTRY.md",
+      "guards/hbn-guards-runner.sh",
+      "guards/assert-no-stray-hbn.sh",
+      "guards/tests/run-guard-tests.sh",
+      "guards/tests/fixtures/**",
+      ".hbn/proposals/20260610-221455-antigravity-gemini-ponte-002-008.md",
+      ".hbn/proposals/20260610-221540-codex-ponte-002-008.md",
+      ".hbn/proposals/20260610-221607-fable5-ponte-002-008.md",
+      ".hbn/proposals/20260610-233218-fable5-ponte-consolidada.md",
+      ".hbn/results/0034-*",
+      ".hbn/results/0035-*",
+      ".hbn/relay/STATE.md",
+      ".hbn/readbacks/0005-*.json"
+    ],
+    "files_forbidden": [
+      "src/**",
+      "core/**",
+      "methodology/**",
+      "docs/**",
+      "examples/**",
+      "inbox/**",
+      "skills/**",
+      "site/**",
+      "local-ai/**",
+      "agents/**"
+    ]
+  },
+  "invariants_preserved": [
+    "Firewall 0022: nenhuma escrita de dominio/VBA/produto; esta onda toca apenas guards, suite, REGISTRY, STATE e regularizacao de artefatos ja existentes",
+    "Nenhum conteudo de parecer de terceiros (Codex/Antigravity) e alterado em substancia — apenas front-matter de auto-localizacao (ADR-021), com anotacao no commit",
+    "Nunca HBN_GUARDS_BYPASS=1; em sandbox Cowork usa-se CI=true por commit (semantica documentada do proprio assert-canonical-root:20-23 — raiz canonica e invariante da maquina do operador), com trailer declarando isso",
+    "Suite de testes deve permanecer 100% verde apos cada commit",
+    "Historia preservada: nenhum artefato renomeado ou removido; o .hbn orfao removido esta VAZIO (conferido antes)"
+  ],
+  "action_plan": [
+    "Commit A: readback 0005 (git add -f) + 8 artefatos da ponte + 9 linhas REGISTRY (bloco 6 colunas, created_at do mtime/front-matter real) + fixes de front-matter (0034.md ganha path/id-global/temperatura; proposal Codex path absoluto vira relativo)",
+    "Instalar .git/hooks/pre-commit -> exec guards/hbn-guards-runner.sh (antes do commit A, para todo commit desta onda ja nascer fiscalizado)",
+    "Commit B: secao 'guards legados' na suite (testes negativos G-CR/G-TMP/G-ENV/G-LEG/G-SCO — pre-condicao STATE:17) + ativacao de G-SLF/G-REG/G-NUM/G-PTR/G-RLT no array do runner + STATE atualizado",
+    "Commit C: guards/assert-no-stray-hbn.sh (G-STRAY: .hbn cujo pai nao e raiz de repo git = stray; HBN_SCAN_ROOT parametrizavel p/ teste) + secao na suite + ativacao no runner + linha REGISTRY",
+    "Prova viva: tentativas de commit ruim (.env staged; doc orfao na raiz) DEVEM ser bloqueadas pelo hook; saidas capturadas; estado restaurado",
+    "Remocao do ~/Projetos/.hbn orfao (vazio) e entrega do roteiro de verificacao no Terminal do operador (canonical-root so e conclusivo la)"
+  ],
+  "out_of_scope": [
+    "Ponte usehbn<->Credenciamento (segue VETADA pelo 0034/0035 ate correcao)",
+    "Adendo ADR-011xADR-024 de numeracao multi-familia e relogio (proxima onda, com cross-audit)",
+    "G-STR no runner (recebe atribuicao por argumento — fora do pre-commit por desenho)",
+    "Correcao da autoexclusao do canonical-root em CI (exige desenho: raiz canonica nao e invariante do runner de CI)"
+  ],
+  "residual_risks": [
+    "Commits desta onda nascem do sandbox Cowork com CI=true (canonical-root delegado): a checagem de raiz canonica so e exercida de verdade no Terminal do operador — mitigado pelo roteiro de verificacao final",
+    "Ativacao dos 5 guards pode bloquear fluxos legitimos nao previstos; rollback documentado: remover as linhas novas do array GUARDS do runner (1 edicao)",
+    "Suite ganha ~16 checks novos; contagem do header atualizada para nao repetir o erro de contagem 0030/F-03"
+  ],
+  "classification_basis": {
+    "has_guardian_warnings": false,
+    "has_risks": true,
+    "has_constraints": true
+  },
+  "created_at": "2026-06-11T01:42:00-03:00",
+  "protocol_version": "0.3.0"
+}

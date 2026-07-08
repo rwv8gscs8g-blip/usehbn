@@ -1,0 +1,121 @@
+{
+  "readback_id": "0062-w-orq-3b",
+  "execution_id": "w-orq-3b-2026-06-18",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "implemented_pending_cross_audit",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "erp_status": "executed_pending_cross_audit_handoff",
+  "path": ".hbn/readbacks/0062-w-orq-3b.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260618-134916-opus-4-8-despacho-w-orq-3b.md",
+  "design_ref": "docs/brainstorm/rodada-2026-06-18/W-ORQ-3-DEADLOCK-consolidacao.md",
+  "understanding": "Implementar W-ORQ-3b para sair do deadlock introduzido por W-ORQ-3/G-ORQ-REF: atos de autoridade do orquestrador precisam poder regenerar exatamente a atestacao orq-entrada do mesmo bastao/mesmo fp quando STATE muda por selagem/freeze, mas sem permitir auto-repin, troca de bastao, troca de fp, atestacao decorativa, atestacao extra ou divergencia silenciosa de proveniencia. A solucao escolhida e Exit A': uma triagem de diff fail-closed em guards/assert-orq-entrada-ref.sh, simetrica entre modo local e CI, que decide primeiro se a regeneracao same-fp e permitida; depois a nova atestacao continua sendo validada por guards/assert-orq-entrada.sh. O hearback humano autorizou C1-C7 dentro de files_allowed; a entrega para no handoff para cross-audit.",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Pedido humano em 2026-06-18: 'Hearback confirmado por Mauricio para o readback 0062-w-orq-3b. Pode executar o ERP (C1-C7) dentro do files_allowed, com guards verdes e o dogfood P1 demonstrado, e parar no handoff para cross-audit.'",
+    "scope_of_authorization": "Autorizada a execucao C1-C7 dentro de files_allowed, com guards verdes, dogfood P1 demonstrado, handoff para cross-audit e sem selagem/freeze.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      ".hbn/readbacks/0062-w-orq-3b.json",
+      ".hbn/messages/20260618-134916-opus-4-8-despacho-w-orq-3b.md",
+      "guards/assert-orq-entrada-ref.sh",
+      "guards/assert-orq-entrada.sh",
+      "guards/lib/common.sh",
+      "guards/tests/run-guard-tests.sh",
+      "guards/tests/adversarial-battery.sh",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/messages/20260618-153000-codex-handoff-w-orq-3b.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_allowed_after_hearback": [
+      ".hbn/readbacks/0062-w-orq-3b.json",
+      ".hbn/messages/20260618-134916-opus-4-8-despacho-w-orq-3b.md",
+      "guards/assert-orq-entrada-ref.sh",
+      "guards/assert-orq-entrada.sh",
+      "guards/lib/common.sh",
+      "guards/tests/run-guard-tests.sh",
+      "guards/tests/adversarial-battery.sh",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/messages/20260618-153000-codex-handoff-w-orq-3b.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_touched_in_readback_phase": [
+      ".hbn/readbacks/0062-w-orq-3b.json"
+    ],
+    "files_forbidden": [
+      "main",
+      "src/**",
+      "methodology/**",
+      "docs/brainstorm/**",
+      ".hbn/freeze/**",
+      "core/**",
+      "schemas/**"
+    ]
+  },
+  "invariants_to_preserve": [
+    "main deve permanecer em 4db692876381a0d7909985c8500d999f2e677b04.",
+    "A correcao deve ser fail-closed: ambiguidade, JSON ilegivel, campo nao-string, blob ausente, rename/delete/add de atestacao esperada, multiplas atestacoes ou atestacao extra bloqueiam.",
+    "A excecao so permite alterar a atestacao esperada .hbn/attestations/${token_fp}-orq-entrada.json em ato de autoridade, e somente quando token_fp deriva do bastao_token_sha256 do STATE novo/staged.",
+    "A regeneracao permitida precisa ser real e de mesmo fp: fp do nome, fp do JSON antigo, fp do JSON novo e fp esperado devem coincidir; manifest_sha256 novo deve diferir do antigo; a nova atestacao deve passar guards/assert-orq-entrada.sh.",
+    "O bastao_token_sha256 completo do STATE nao pode mudar no ato de autoridade; colisao ou troca de prefixo de 8 caracteres nao pode passar.",
+    "proprietario_bastao e identidade da nova atestacao devem permanecer consistentes com o HEAD/base; essa checagem e de proveniencia, nao uma nova fonte de autoridade.",
+    "A semantica local e CI deve ser simetrica: local compara HEAD:path contra :path; CI compara commit^:path contra commit:path em cada commit do intervalo HBN_DIFF_BASE..HEAD.",
+    "G-ORQ-REF deve decidir se a regeneracao same-fp e permitida antes de delegar a validade extrativa para G-ORQ-ENTRADA.",
+    "B48-B50 nao podem ser afrouxados; B51 deve ser redefinido sem abrir edicao decorativa; B52-B54 devem cobrir fp trocado, full-SHA trocado com prefixo igual e atestacao extra.",
+    "Sem merge, sem --no-verify, sem git add ., sem tocar core/** ou schemas/** sem novo rito."
+  ],
+  "action_plan_after_hearback": [
+    "C1: inspecionar guards/assert-orq-entrada-ref.sh, guards/assert-orq-entrada.sh e helpers existentes para reaproveitar padroes locais sem ampliar escopo.",
+    "C2: substituir o bloqueio amplo de auto-repin em assert-orq-entrada-ref.sh por triagem de diff Exit A' para atos de autoridade, cobrindo modo local e CI com a mesma semantica.",
+    "C3: adicionar, se couber de forma aditiva e sem mudar core/schema, a checagem de consistencia proprietario_bastao/identidade em assert-orq-entrada.sh contra STATE; se isso exigir mudanca de contrato v2, parar e reescopar.",
+    "C4: ampliar guards/tests/run-guard-tests.sh com P1 e N1-N6, incluindo dogfood staged-first de selagem real same-fp e bloqueios de ausencia de regeneracao, edicao decorativa, fp trocado, atestacao extra, full-SHA trocado e proveniencia divergente.",
+    "C5: atualizar guards/tests/adversarial-battery.sh mantendo B48-B50, redefinindo B51 e adicionando B52-B54; incluir caso CI com HBN_DIFF_BASE para PASS same-fp e BLOCK fp-trocado.",
+    "C6: executar runner, suite e bateria; confirmar explicitamente o dogfood P1 e que main continua em 4db692876381a0d7909985c8500d999f2e677b04.",
+    "C7: preparar STATE, REGISTRY, handoff e regenerar .hbn/attestations/34a7f2f9-orq-entrada.json no mesmo commit da entrega, respeitando que esta entrega nao e ato de autoridade."
+  ],
+  "tests_required_after_hearback": {
+    "runner": "bash guards/hbn-guards-runner.sh -> Todos os guards passaram",
+    "suite": "bash guards/tests/run-guard-tests.sh -> 0 falharam, incluindo P1 e N1-N6",
+    "adversarial": "bash guards/tests/adversarial-battery.sh -> BATERIA VERDE, com B48-B54",
+    "dogfood": "P1 deve demonstrar que uma selagem real same-fp passa sob o G-ORQ-REF corrigido; B48-B50 continuam bloqueados e B51 redefinido continua bloqueado",
+    "main": "git rev-parse main -> 4db692876381a0d7909985c8500d999f2e677b04",
+    "trailers_required": {
+      "HBN-Readback": "0062",
+      "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+      "HBN-Token-FP": "34a7f2f9"
+    }
+  },
+  "out_of_scope": [
+    "Avancar para selagem/freeze antes de cross-audit e novo hearback humano.",
+    "Selar W-ORQ-3b ou produzir readback 0063.",
+    "Fazer merge, tocar main ou usar --no-verify.",
+    "Usar git add .",
+    "Tocar src/**, methodology/**, docs/brainstorm/**, .hbn/freeze/**, core/** ou schemas/**.",
+    "Promover campos de proveniencia a fonte de autoridade mecanica.",
+    "Alterar o contrato orq-entrada.v2 em core/schema sem novo rito."
+  ],
+  "residual_risks": [
+    "A simetria local/CI e a area de maior risco: uma diferenca sutil entre blobs staged e commit^/commit pode reintroduzir bloqueio no push ou abrir passagem local indevida.",
+    "A checagem aditiva de proprietario_bastao/identidade em assert-orq-entrada.sh pode colidir com o contrato v2 atual; se a implementacao exigir semantica nova em core/schema, a execucao deve parar.",
+    "Os testes precisam construir uma selagem realista, nao apenas unitarios isolados, para provar o caminho DYNAMIC readback_ativo que causou o deadlock.",
+    "O worktree ja contem alteracoes e arquivos nao rastreados preexistentes; a execucao deve separar estritamente o escopo da W-ORQ-3b para nao absorver mudancas alheias."
+  ],
+  "read_evidence": [
+    "agents/codex.md",
+    ".hbn/messages/20260618-134916-opus-4-8-despacho-w-orq-3b.md",
+    "docs/brainstorm/rodada-2026-06-18/W-ORQ-3-DEADLOCK-consolidacao.md",
+    ".hbn/readbacks/0061-w-orq-3.json",
+    ".hbn/readbacks/0058-w-orq-2.json",
+    ".hbn/relay/STATE.md"
+  ],
+  "stop_condition": "PARAR no handoff W-ORQ-3b e aguardar cross-audit >=2 familias != OpenAI; nao selar nem iniciar W-FREEZE nesta entrega.",
+  "created_at": "2026-06-18T13:49:16-03:00",
+  "protocol_version": "0.3.0"
+}

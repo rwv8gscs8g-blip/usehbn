@@ -1,0 +1,37 @@
+{
+  "readback_id": "0100-p2b-install-mode",
+  "execution_id": "p2b-install-mode-2026-06-26",
+  "agent_id": "codex",
+  "implementador_id": "codex",
+  "track": "safe_track",
+  "status": "implemented_pending_cross_audit",
+  "activation_status": "PROPOSED_UNTIL_CROSS_AUDIT",
+  "hearback_status": "confirmed",
+  "human_status": "confirmed",
+  "path": ".hbn/readbacks/0100-p2b-install-mode.json",
+  "orq_entrada_ref": ".hbn/attestations/34a7f2f9-orq-entrada.json",
+  "dispatch_ref": ".hbn/messages/20260626-190000-opus-4-8-despacho-p2b-install.md",
+  "understanding": "P2-B parte 1: implementar o modo --install do scripts/hbn-snapshot/install-snapshot.sh (antes fail-closed). O --install cria .usehbn-snapshot/ no --target a partir da tree do tag v1-estavel (git archive), grava PROTOCOL_MANIFEST.sha256 + PROTOCOL_SHA256.txt + VERSION + USEHBN-HEADER.txt + CONSUMER-PROFILE.md, escreve scripts/hbn-snapshot/assert-snapshot-integrity.sh LOCAL no target, cria .hbn/active-version=. e aplica chmod read-only; recusa se snapshot ja existe (use --upgrade). Validado pelo orquestrador no sandbox em target git temporario: dry-run 137/8796b672…; install cria membrana correta; integridade verde pos-install e detecta drift; recusa duplicado. Esta onda NAO toca o Credenciamento (so modifica o script no protocolo). Entrega como PROPOSTA: cross-audit !=OpenAI + selagem 0101 antes do --install real no projeto (P2-B parte 2, humano-gated, firewall 0022). Ato de autoridade sob G-ORQ-REF (Exit A').",
+  "authorization": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Mauricio aprovou implementar o --install agora (P2-B). P2-B parte 1 nao toca o Credenciamento; o install real e ato humano posterior.",
+    "token_fp": "34a7f2f9"
+  },
+  "scope": {
+    "files_allowed": [
+      "scripts/hbn-snapshot/install-snapshot.sh",
+      ".hbn/messages/20260626-190000-opus-4-8-despacho-p2b-install.md",
+      ".hbn/readbacks/0100-p2b-install-mode.json",
+      ".hbn/relay/STATE.md",
+      "REGISTRY.md",
+      ".hbn/attestations/34a7f2f9-orq-entrada.json"
+    ],
+    "files_forbidden": ["main","guards/**","src/**","core/**","methodology/**","schemas/**","docs/brainstorm/**",".hbn/freeze/**",".hbn/hearbacks/**",".hbn/operators/**",".hbn/proposals/**"]
+  },
+  "stop_condition": "--install implementado e validado em target temporario. Parar para cross-audit !=OpenAI + hearback + selagem 0101. NAO rodar --install no Credenciamento neste commit.",
+  "HBN-Readback": "0100",
+  "HBN-Human-Authorization": "Mauricio (Luis Mauricio Junqueira Zanin)",
+  "HBN-Token-FP": "34a7f2f9",
+  "created_at": "2026-06-26T19:00:00-03:00",
+  "protocol_version": "0.3.0"
+}
