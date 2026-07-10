@@ -15,6 +15,27 @@
   "papel": "implementador",
   "track": "safe_track",
   "human_status": "confirmed",
+  "hearback_status": "confirmed",
+  "understanding": "Onda 0003: instituir o padrão universal de proveniência do livro-razão, transcrever os documentos migrados com proveniência canônica, criar MANIFESTO-MIGRACAO.md, incorporar T-AUTO/autocontenção e ativar como estruturais (sem bypass) no runner, no MANIFEST e na suíte os guards assert-doc-provenance.sh (G-PROV) e assert-version-self-contained.sh (G-SELF-CONTAINED). A fonte vigente dos P1-P13 passa a ser core/01-principios.md dentro desta versão.",
+  "invariants_preserved": [
+    "escrita confinada a versao_3_0_0/; glacier versao_0_3_x/ e versao_2_0_0/ intocado (files_forbidden)",
+    "G-PROV e G-SELF-CONTAINED entram como estruturais fail-closed, não honram HBN_GUARDS_BYPASS",
+    "fonte vigente de P1-P13 = core/01-principios.md desta versão; glacier só como histórico/consulta/proveniência",
+    "schemas JSON, fixtures de teste e manifests técnicos como exceções explícitas de G-PROV, registradas no MANIFESTO-MIGRACAO.md",
+    "campos de proveniência ratificados: natureza, migrado_de, id_original, created_at_original, autor_original, transcrito_em, transcrito_por, validacao_ref"
+  ],
+  "action_plan": [
+    "instituir o padrão de proveniência e transcrever os documentos migrados",
+    "criar MANIFESTO-MIGRACAO.md com a seleção migrada e as exceções",
+    "ativar assert-doc-provenance.sh (G-PROV) no runner/MANIFEST/suíte",
+    "ativar assert-version-self-contained.sh (G-SELF-CONTAINED) com 4 casos (interna passa; ../ vigente bloqueia; glacier vigente bloqueia; glacier histórico passa)",
+    "re-auditoria por famílias != OpenAI + hearback humano + commit do operador"
+  ],
+  "classification_basis": {
+    "has_guardian_warnings": true,
+    "has_risks": true,
+    "has_constraints": true
+  },
   "read_list_rite": "Despacho 20260706-000432 (onda 0003) + adendo T-AUTO 20260706-003930 + GATE-DECRETO 20260703-000500 + core/04-artefatos.md + core/05-guards.md + core/06-freeze-fitness-exuvia.md + TRANSICAO.md + REGISTRY.md + assert-frontdoor/common/runner/suite + piso de nao-conformes — lidos do disco",
   "authorization": {
     "human": "Maurício",

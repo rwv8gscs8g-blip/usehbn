@@ -14,6 +14,28 @@
   "papel": "implementador",
   "track": "safe_track",
   "human_status": "confirmed",
+  "hearback_status": "confirmed",
+  "understanding": "Fechamento pós-auditoria da v3.0.0: corrigir os bloqueadores do parecer Grok (furos 3 e 5), alinhar a allowlist única e endurecida do G-HOT-WRITE nas três camadas (guard, hook Cursor, AGENTS.md), fechar o escape de regressão do ponteiro active-version para '.', tornar a membrana um contrato explícito (source_version + source_commit + sha256) e emitir o handoff para o Opus. Sem enfraquecer o default fail-closed.",
+  "invariants_preserved": [
+    "G-HOT-WRITE mantém default fail-closed; nenhuma regra afrouxada",
+    "allowlist de raiz idêntica nas 3 camadas (guards/assert-only-hot-version-writable.sh, .cursor/hooks/hbn-boot-lock.sh, AGENTS.md)",
+    "regressão do ponteiro para '.' bloqueada sem exceção (regra 4c)",
+    "escrita confinada a versao_3_0_0/ exceto os dois shims de raiz cobertos por autorização hot-write-root-shim",
+    "glacier versao_0_3_x/ e versao_2_0_0/ intocado"
+  ],
+  "action_plan": [
+    "alinhar a allowlist única endurecida (Opção A) em guards/assert-only-hot-version-writable.sh",
+    "alinhar o hook Cursor e o AGENTS.md à allowlist estrita",
+    "fechar o furo 5 (regressão do ponteiro para '.')",
+    "tornar a membrana contrato explícito (sha256 byte-a-byte)",
+    "emitir handoff Opus para o credenciamento v206",
+    "auditoria cruzada ≥2 famílias != OpenAI + hearback humano + commit do operador"
+  ],
+  "classification_basis": {
+    "has_guardian_warnings": true,
+    "has_risks": true,
+    "has_constraints": true
+  },
   "read_list_rite": "Despacho 20260705-185849 (grok) + GATE-DECRETO 20260703-000500 + relatório crítico 20260705-001142 + BOOT.md §0 + TRANSICAO.md + ROADMAP.md + readback 0001 + pareceres 20260705-174859 (grok, NAO) e 20260705-183900 (antigravity, SIM) + guards/assert-only-hot-version-writable.sh + scripts/hbn-exuvia-atomic.sh + scripts/hbn-upgrade-snapshot.sh — lidos do disco",
   "authorization": {
     "human": "Maurício",

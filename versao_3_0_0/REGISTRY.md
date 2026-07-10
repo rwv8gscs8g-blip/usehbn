@@ -273,6 +273,16 @@ e `../versao_2_0_0/REGISTRY.md` (história imutável, glacier).
 | 20260707-246 | .hbn/archive/SUPERSEDED-20260705-183900-antigravity-cross-ia-0001.md | result-cross-ia-superseded | frio | fronteira | .hbn/results/20260707-171621-antigravity-cross-ia-0001-v2.md | 2026-07-07T17:20:18-03:00 |
 | 20260707-247 | .hbn/results/20260707-171004-grok-cross-ia-0001-v2.md | result-cross-ia | quente | fronteira | re-ratifica .hbn/results/20260705-174859-grok-cross-ia-0001.md | 2026-07-07T17:20:18-03:00 |
 | 20260707-248 | .hbn/results/20260707-171621-antigravity-cross-ia-0001-v2.md | result-cross-ia | quente | fronteira | re-ratifica .hbn/results/20260705-183900-antigravity-cross-ia-0001.md | 2026-07-07T17:20:18-03:00 |
+| 20260710-09 | .hbn/messages/20260710-041549-claude-opus-4-8-dispatch-jaula-codex.md | dispatch | quente | fronteira |  | 2026-07-10T04:15:49-03:00 |
+| 20260710-10 | .hbn/messages/20260710-041549-claude-opus-4-8-instrucoes-github-gate.md | handoff | quente | fronteira |  | 2026-07-10T04:15:49-03:00 |
+
+Nota Onda 0 (verdade pós-release, 2026-07-10): reconciliação do ledger com a
+selagem 3df71e8/v3.0.0 (STATE, ROADMAP, readbacks 0001/0002/0003 com campos
+required do schema, read-list rehashada) + dispatch da jaula e instruções
+GitHub. Linhas 09-10 nascem neste commit de rito (rides readback 0003). A
+internalização do Decreto/provas em knowledge (0035) e os fixes de CI ficam para
+a Onda-0b, sob readback do implementador — fora do escopo do readback 0003; o
+orquestrador não cria readbacks (Decreto Art. 1). Append-only.
 
 Nota T4 (readback 0002): as linhas 157/158 registram os placeholders procedimentais
 criados ANTES da auditoria independente. Os arquivos foram movidos no disco para

@@ -18,12 +18,16 @@ concorrentes**: a raiz (v0.3.x, `active-version = "."`), a `versao_2_0_0/`
 (primeira exúvia, **nunca ativada** — ficou 4 dias em `status: proposto`) e
 o trabalho novo desta sessão, que nasceu **na raiz** — a versão errada.
 
-Prova documental (leitura obrigatória, fora do genoma):
+Prova documental — **histórico/consulta/proveniência** (não é dependência
+vigente; autocontenção — parecer Cobalto Q1.4; verdade pós-release da Onda 0). O
+resumo normativo + sha256 destes arquivos será internalizado em knowledge na
+Onda-0b, sob readback do implementador (o orquestrador não cria readbacks —
+Decreto Art. 1):
 
-1. Relatório crítico — `~/Projetos/Credenciamento/orquestracao/20260705-001142-claude-opus-4-8-relatorio-critico-versao-errada-e-terceira-exuvia.md`
-2. Parecer antigravity — `.../20260705-002500-cross-ia-antigravity-analise-versao-terceira-exuvia.md`
-3. Parecer grok (adversarial) — `.../20260705-014500-cross-ia-grok-analise-versao-terceira-exuvia.md`
-4. GATE-DECRETO (vinculante) — `.../20260703-000500-GATE-DECRETO-REVOGACAO-PERMISSOES-ORQUESTRADORES-LEITURA-OBRIGATORIA.md`
+1. Relatório crítico — origem histórica `~/Projetos/Credenciamento/orquestracao/20260705-001142-claude-opus-4-8-relatorio-critico-versao-errada-e-terceira-exuvia.md`.
+2. Parecer antigravity — origem histórica `.../20260705-002500-cross-ia-antigravity-analise-versao-terceira-exuvia.md`.
+3. Parecer grok (adversarial) — origem histórica `.../20260705-014500-cross-ia-grok-analise-versao-terceira-exuvia.md`.
+4. GATE-DECRETO (vinculante) — origem histórica `.../20260703-000500-GATE-DECRETO-REVOGACAO-PERMISSOES-ORQUESTRADORES-LEITURA-OBRIGATORIA.md`.
 
 ## As causas mecânicas (não morais)
 

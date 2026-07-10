@@ -114,11 +114,13 @@ Preflight de disco (um comando por vez, cite saídas):
 | **Auditor** (Antigravity/Cursor/Grok/Jules) | Read-only; deposita parecer em `.hbn/results/` | Altera código; usa `--no-verify` |
 | **Arquiteto** (rotativo, ≠ implementador) | Desenha ondas e specs | Implementa o próprio desenho |
 
-O DECRETO do gate (20260703-000500, em `~/Projetos/Credenciamento/orquestracao/`)
-está incorporado: TODAS as permissões de orquestradores estão revogadas;
-cadeia obrigatória = dispatch-artefato → implementação em escopo → auditoria
-cruzada ≥2 famílias → hearback-ARQUIVO do humano → execução com verificação
-mecânica verde. Chat não tem efeito.
+O DECRETO do gate (20260703-000500) está incorporado — norma vigente aqui e em
+`core/02-papeis.md`; origem histórica/proveniência em `~/Projetos/Credenciamento/`
+(resumo normativo + sha256 a internalizar em knowledge na Onda-0b, sob readback
+do implementador): TODAS as permissões de orquestradores estão revogadas; cadeia
+obrigatória = dispatch-artefato → implementação em escopo → auditoria cruzada ≥2
+famílias → hearback-ARQUIVO do humano → execução com verificação mecânica verde.
+Chat não tem efeito.
 
 ## §6 O rito da onda (resumo; passo a passo em core/03-rito-da-onda.md)
 

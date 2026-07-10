@@ -16,21 +16,27 @@
 # transcrito_por: fable-5
 # validacao_ref: 0003-proveniencia-livro-razao
 # ---HBN-FRONT-MATTER-END---
-# G-ORQ-ENTRADA — read-list canonica para bastao de orquestrador (useHBN v2).
+# G-ORQ-ENTRADA — read-list canonica para bastao de orquestrador (useHBN v3).
 # Formato:
-#   <blob_hash_sha1> <path>
+#   <blob_oid git hash-object> <path>
 #   DYNAMIC <campo_do_STATE>
-# ATENCAO (bootstrap): os hashes abaixo estao como PENDENTE_REHASH e DEVEM ser
-# regenerados (git hash-object <path>) na onda nata 3 do desafiante, ANTES do
-# primeiro bastao de orquestrador nesta versao. G-READLIST-RITE exige readback
-# staged com read_list_rite ao alterar este arquivo.
+# REHASH REAL (Onda 0, verdade pos-release): PENDENTE_REHASH eliminado. Os
+# hashes sao blob OIDs de 40 hex (git hash-object do conteudo desta versao,
+# calculado em 2026-07-10). G-READLIST-RITE exige readback staged com
+# read_list_rite + human_status confirmed ao alterar este arquivo (satisfeito
+# nesta onda pelos readbacks 0001/0002/0003 A/M no mesmo commit).
+# NOTA (backlog do core, ver core/05-guards.md linhas 66-73): o conjunto
+# ORQUESTRADOR-READY completo (13 itens resolvidos, incluindo o perfil do
+# orquestrador, ainda AUSENTE) fecha antes do primeiro bastao. Ate la,
+# papel_bastao='nenhum' no STATE e G-ORQ-ENTRADA nao opina; este rehash sana o
+# PENDENTE dos paths ja existentes desta versao.
 
-PENDENTE_REHASH BOOT.md
-PENDENTE_REHASH .hbn/relay/STATE.md
+b02fd9ebfc07fa6f2a54cbc4b63604816d09fb6a BOOT.md
+be3be52575fad280ea600a1155457df319884e0a .hbn/relay/STATE.md
 DYNAMIC handoff_mais_recente
 DYNAMIC readback_ativo
-PENDENTE_REHASH core/02-papeis.md
-PENDENTE_REHASH core/03-rito-da-onda.md
-PENDENTE_REHASH .hbn/knowledge/0001-comandos-atomicos-copiaveis.md
-PENDENTE_REHASH .hbn/knowledge/0024-orquestrador-nao-sela-zona-livre-sem-aprovacao.md
-PENDENTE_REHASH .hbn/knowledge/0025-auditor-read-only-sem-no-verify.md
+c7642e71e0baf50fcdab6d5a6872dbaf0ee75458 core/02-papeis.md
+8d4d93c401d7413c54ebd783d3a9e4978bc61649 core/03-rito-da-onda.md
+2ba8d5f074ab16b610f4b66f4ff6a10d2ca755a7 .hbn/knowledge/0001-comandos-atomicos-copiaveis.md
+fc477a81cd3d836bbda3b49faf32c1a50a53d825 .hbn/knowledge/0024-orquestrador-nao-sela-zona-livre-sem-aprovacao.md
+b219f5856687f788e0fe5a473fdb6acb237a129e .hbn/knowledge/0025-auditor-read-only-sem-no-verify.md

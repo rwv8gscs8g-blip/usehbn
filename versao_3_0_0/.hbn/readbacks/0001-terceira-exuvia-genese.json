@@ -15,6 +15,27 @@
   "track": "safe_track",
   "human_status": "confirmed",
   "hearback_status": "confirmed",
+  "understanding": "Gênese da terceira exúvia: glaciar v0.3.x (Honest Foundation) e v2.0.0 (primeira exúvia nunca ativada), esvaziar a raiz para shim mínimo de roteamento, flipar .hbn/active-version para versao_3_0_0 e nascer a versão quente com cold core + guards estruturais novos (G-HOT-WRITE primeiro/sem bypass, G-NO-PENDING-EXUVIA, membrana explícita, BOOT-LOCK). A transição é atômica: um único commit executado pelo operador humano; a IA prepara staging e para.",
+  "invariants_preserved": [
+    "glacier versao_0_3_x/ e versao_2_0_0/ preservados byte-a-byte (E-PRES: git diff vazio nas superfícies operacionais)",
+    "G-HOT-WRITE roda como PRIMEIRO guard do pre-commit, ignora bypass e auto-aborta se o script sumir",
+    "exúvia é transição atômica de commit único (sem 'proposto' pendurado — G-NO-PENDING-EXUVIA)",
+    "P1-P13 inalterados (core/01-principios.md)",
+    "nenhuma IA commita/sela/tagueia; ato exclusivo do operador humano"
+  ],
+  "action_plan": [
+    "mover v0.3.x da raiz para versao_0_3_x/ (glacier, status congelado)",
+    "congelar versao_2_0_0/ (nunca ativada) como história",
+    "esvaziar a raiz para o shim mínimo (AGENTS.md + .hbn/active-version + workflows + .cursor)",
+    "flipar .hbn/active-version para versao_3_0_0",
+    "materializar cold core + guards estruturais na versao_3_0_0/",
+    "operador humano executa UM commit atômico com runner verde"
+  ],
+  "classification_basis": {
+    "has_guardian_warnings": false,
+    "has_risks": true,
+    "has_constraints": true
+  },
   "read_list_rite": "super-prompt antigravity 2026-07-05 + GATE-DECRETO 20260703-000500 + relatório crítico 20260705-001142 + pareceres 20260705-002500 (antigravity) e 20260705-014500 (grok) + mapa 20260703-170223 (fable-5) — lidos do disco",
   "authorization": {
     "human": "Maurício",

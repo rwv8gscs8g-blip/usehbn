@@ -1,115 +1,132 @@
 ---
-titulo: ROADMAP v3.0.0 — roteiro de retomada da operação para o próximo orquestrador
+titulo: ROADMAP v3.0.0 — retomada pós-selagem (Ondas 0-8 até o corte de leitura)
 tipo: spec
 status: ativo
 temperatura: quente
 path: ROADMAP.md
-created_at: "2026-07-05T02:30:00-03:00"
-autor: fable-5
+created_at: "2026-07-10T04:05:14-03:00"
+autor: claude-opus-4-8
 familia: Anthropic
 natureza: nativo
-alvo: "\"Claude Opus (próximo orquestrador), sob Decreto 20260703-000500 — perfil relator não-decisório; todo ato depende de dispatch-artefato + hearback humano\""
+alvo: "\"Próximo orquestrador (contido, Decreto 20260703-000500) — relator não-decisório; todo ato depende de dispatch-artefato + auditoria cruzada ≥2 famílias + hearback humano. Quem implementa é o implementador designado; quem sela/commita é o gate.\""
 ---
-# ROADMAP v3.0.0 — retomada da operação
+# ROADMAP v3.0.0 — retomada pós-selagem
 
-> Para o próximo orquestrador (Claude Opus): execute as fases NA ORDEM, uma
-> por vez (R3 do BOOT §9). Cada fase fecha com evidência em disco + hearback
-> do gate humano onde indicado. O Decreto está vigente: você RELATA e prepara
-> dispatches; quem decide é o gate; quem implementa é o implementador
-> designado; quem audita são ≥2 famílias independentes.
+> **Estado real (disco):** a terceira exúvia está **SELADA** em `3df71e8`
+> (tag `v3.0.0`), contida em `main@fcd149d` com árvore idêntica
+> (`git diff --exit-code 3df71e8 fcd149d` = vazio). A Fase 1 (ativação +
+> selagem) do roadmap anterior está **CONCLUÍDA**. Este roadmap substitui o
+> plano de ativação pelo roteiro de **fechamento do release** em ondas
+> (síntese 20260710-022436 + relatório de resolução integral), até o corte de
+> leitura (glacier → só v3), que é **NO-GO agora**.
 
-## Fase 1 — Ativação do v3.0.0
+## Verdade de contagem (anti-overclaim)
 
-1. **Auditoria cruzada da terceira exúvia** por 2 famílias independentes
-   (**Gemini** e **Grok**): read-only sobre a working tree preparada;
-   pareceres em `.hbn/results/` com `APROVA_0001 SIM|NAO`. Foco: G-HOT-WRITE,
-   G-NO-PENDING-EXUVIA, rito atômico, membrana, BOOT-LOCK, glacier íntegro.
-2. **Hearback do gate humano**: Maurício confirma o readback
-   `.hbn/readbacks/0001-terceira-exuvia-genese.json`
-   (`human_status: confirmed`) — é essa confirmação que o G-HOT-WRITE exige
-   para o commit de exúvia.
-3. **Flip**: o operador humano executa UM commit atômico contendo todo o
-   staging (glacier `versao_0_3_x/` + congelamento `versao_2_0_0/` + pasta
-   `versao_3_0_0/` + `.hbn/active-version = versao_3_0_0` + raiz esvaziada).
-   Trailers HBN no commit; runner verde; sem `--no-verify`.
-4. Critérios de fitness: `core/exuvia-fitness-criteria.md`. Falhou → congela
-   ou descarta a proposta (G-NO-PENDING-EXUVIA não deixa pendurar).
+- Guards: **47 scripts** `guards/*.sh`; **44 entradas** no `guards/MANIFEST.yaml`;
+  união dos modos do runner (pre-commit/CI/commit-msg) = **40 gates**; 4 fora do
+  runner (`assert-manifest-current`, `assert-profile-authorized`,
+  `assert-start-cast`, `freeze-gate`). A frase antiga "36 guards" está
+  **aposentada** (era do plano de propagação da membrana).
+- Suíte: `guards/tests/run-guard-tests.sh` = **389 checks** (resumo verde
+  quando executada de dentro da versão). Bateria adversarial:
+  `guards/tests/adversarial-battery.sh`.
+- Integridade da exúvia: **PARCIAL** — íntegra como muda de governança (Git
+  atômico, tag, glacier preservado, guards preservados); **não** integral como
+  versão de produto (runtime, CLI, site, examples, testes, packaging ficaram no
+  glacier). Fonte: síntese §3.
 
-## Fase 2 — Propagação da membrana
+## Onda 0 — Verdade pós-release (EM RITO nesta janela)
 
-1. Rodar no genoma: `bash versao_3_0_0/scripts/hbn-upgrade-snapshot.sh
-   --target ~/Projetos/Credenciamento --dry-run` → conferir → `--install`
-   (sem `--dry-run`). O script gera `MEMBRANE_MANIFEST.json`
-   (source_version + source_commit + sha256 byte-a-byte), troca o snapshot
-   atomicamente e instala `assert-snapshot-integrity.sh` no consumidor.
-2. Commit no Credenciamento: ato do operador, sob o rito do projeto.
-3. **Confirmar que todos os 36 guards canônicos** do runner estão
-   classificados e ativos no perfil do consumidor — eliminar a omissão
-   silenciosa (guard não classificado = erro, não skip). Evidência:
-   saída do runner do consumidor listando cada guard com veredicto.
+Reconciliar o livro-razão quente com a selagem. Itens: STATE reescrito para
+selado; 3 readbacks completados aos campos `required` do schema (3/3 OK);
+`read-list-canonica.txt` rehashada (PENDENTE_REHASH eliminado); provas/Decreto
+externos internalizados em `.hbn/knowledge/0035`; refs de TRANSICAO/BOOT
+rebaixadas a histórico; triagem da working tree suja; commit único de rito pelo
+operador. **Gate:** checkout coerente, ledger sem narrativa pré-selagem,
+runner verde. Corte de leitura e exúvia v4 permanecem NO-GO.
 
-## Fase 3 — Ponte de retroalimentação e saneamento do legado
+## Onda 1 — Fechar contenção ANTES de reintroduzir escrita (pré-requisito da jaula)
 
-1. Criar o canal oficial de retroalimentação (3 níveis):
-   - **L1** problema local → knowledge local do projeto;
-   - **L2** melhoria de protocolo → sobe ao genoma via `inbox/`
-     (o antigo `versao_0_3_x/inbox/` é histórico; criar `inbox/` dentro desta
-     versão na primeira onda de desenvolvimento normal, com guard de triagem);
-   - **L3** correção dupla → registrada nos dois lados, com referência
-     cruzada.
-2. Resolver os incidentes abertos da sessão anterior (`110632`, `110633` e
-   irmãos, registrados em `~/Projetos/Credenciamento/.hbn/incidents/`):
-   consolidar o fechamento via hearback do gate; cada incidente fecha com
-   causa, correção e knowledge (ou risco aceito assinado).
+CI (3ª barreira): os 3 fixes de camada (roteamento, onboarding de shims em
+checkout virgem, cwd-bug do `guard_hook_path`) já aplicados nesta sessão
+(`guards/ci-entry.sh`, `guards/lib/common.sh` — endurecimento, sem enfraquecer
+guard). O defeito (d) — falsos positivos de semântica de diff-range — é
+**mudança de TCB**: onda sob rito com auditoria cruzada, nunca fix unilateral.
+Endurecimentos: TCB verificável por baseline imutável; chave do operador ativa
+(hearback assinado); G-ACTOR-WRITE-MATRIX fail-closed; eliminar bypass genérico
+(33 guards) para guard estrutural; BOOT-LOCK universal (shell/Codex/Jules).
+**Gate:** orquestrador adversarial não altera código/TCB/readback sem chave
+humana — bloqueado local e no CI.
 
-## Fase 4 — Congelamento e homologação V206 (Credenciamento)
+## Onda 2 — Contratos e CLI read-only (cut-list itens 1, 5, 7, 9)
 
-1. Validação tela a tela da engine do Codex no projeto Credenciamento.
-2. Validação da importação de VBA.
-3. Gerar o checklist final do Fitness Gate e congelar a versão de liberação
-   `v206` (tag + freeze-gate verde + hearback).
+Package skeleton (`pyproject.toml` moderno único, fonte única de versão), CLI
+mínima read-only (`version`, `inspect`, `doctor`), reconciliar
+`readback.schema.json` com os 3 artefatos + validar todos os schemas com engine
+Draft 2020-12, build wheel/sdist + smoke de instalação, remover promessas
+quentes de comandos inexistentes. **Gate:** instalação limpa em venv
+descartável; CLI não escreve fora de tmpdir; pytest verde dentro da versão.
 
-## Fase 5 — Subida e atualização do GitHub
+## Onda 3 — Runtime mutante fail-closed (itens 2-6, 25) — SÓ APÓS a jaula construída
 
-1. Commitar e fazer push dos DOIS repositórios (`usehbn` e
-   `Credenciamento`) — ato do operador humano, com CI (hbn-shield) verde.
-2. Conferir que o workflow de CI da raiz roteia para a versão ativa
-   (`$(cat .hbn/active-version)/guards/ci-entry.sh`).
+Runtime/protocol/execution/state/trigger/translation rebaseados para
+BOOT/STATE/membrana v3, sob G-RUNTIME-LOCK (item (e) da spec da jaula): toda
+mutação resolve canonical-root/active-version, exige readback + hearback
+assinado + actor-matrix + files_allowed. Vetos herdados do glacier não
+renascem (auto-hearback, confirmação textual, prefix collision, path escape,
+escrita em glacier). **Gate:** o runtime não cria autoridade; só consome
+autoridade humana verificável e deixa evidência em disco.
 
-## Fase 6 — Integração do assistente Jules
+## Onda 4 — Packaging, examples, docs, comunidade (itens 8, 15, 19-23, 26)
 
-1. Configurar a esteira de CI/GitHub Actions para incluir o **Jules** como
-   agente validador automático do protocolo useHBN.
-2. Focos: auto-cura (propor correções, nunca aplicar sem gate), conformidade
-   de regras (rodar a suíte + bateria adversarial) e análise incremental de
-   segurança por PR.
-3. Jules entra no mapa de famílias (`guards/data/auditor-families.txt`) por
-   commit governado, com perfil em `.hbn/models/jules.json`.
+`get-hbn` v3 (ou substituto honesto), examples executáveis, matriz de
+maturidade anti-overclaim, CHANGELOG com lacunas explícitas,
+GOVERNANCE/CONTRIBUTING/CODE_OF_CONDUCT/SECURITY/SUPPORT/MAINTAINERS reescritos,
+ledger de ADRs (16 IDs citados hoje sem alvo). **Gate:** checkout limpo → build
+→ install → version/doctor/inspect → exemplos → testes → links, reproduzível.
 
-## Fase 7 — Ciclo de melhoria recorrente (Wednesday Refinement)
+## Onda 5 — Membrana transacional e consumidor
 
-1. Instituir **quarta-feira** como o dia da bateria de auditoria de
-   segurança: rodar a bateria adversarial completa, revisar exceções G-EXC
-   vivas, refinar regras e limpar logs.
-2. Todo ciclo semanal fecha com knowledge nova ou refinamento de guard —
-   nunca só relatório.
+Unificar/deprecar `install-snapshot`/`hbn-upgrade-snapshot`; implementar o
+`--install` prometido; snapshot+guard extraídos do MESMO commit; rollback
+integral; ensaio em consumidor descartável antes do Credenciamento. **Gate:**
+`MEMBRANE_MANIFEST.json` no consumidor pinado ao commit, rollback provado.
 
-## Fase 8 — Planejamento da versão V207 (exúvia do consumidor)
+## Onda 6 — Site e exposição pública honesta (itens 16-18)
 
-1. Roteirizar o refactoring do VBA do Credenciamento na versão `v207`.
-2. Desenhar a **exúvia local do projeto**: trocar o esqueleto de código
-   legado por arquitetura otimizada baseada nas lições acumuladas
-   (mesmo padrão do genoma: versão nova ao lado, validação, flip atômico,
-   glacier do legado).
-3. Usar `scripts/hbn-exuvia-atomic.sh` como referência do rito; adaptar ao
-   contexto do consumidor.
+Site v3 reescrito (nunca republicar v0.3 como v3), workflow Pages na raiz
+roteado pela versão ativa, CNAME/DNS conferidos pelo gate. Só anuncia o que as
+Ondas 4-5 provaram. **Gate:** deploy reproduzível; claims rastreáveis a testes.
+
+## Onda 7 — Itens B (connectors, bridge, adapters, skill, docs técnicos)
+
+Após contrato do núcleo estável. Autoevolve executor v0 permanece C
+(aposentado): autoaprovação e unlock local nunca renascem.
+
+## Onda 8 — Corte do fio
+
+Manifesto de corte com os 44 itens (decisão A/B/C, origem, hash, sucessor,
+teste); A concluídos, B agendados com dono, C aposentados conscientemente; só
+então instruir IAs a ler exclusivamente a versão quente. **Gate final:** uma IA
+nova instala, opera, audita e entende o estado público lendo só a v3, sem abrir
+glacier ou `~/Projetos/Credenciamento`.
 
 ---
 
-## Invariantes permanentes (valem em toda fase)
+## Frente paralela do gate (GitHub / server-side) — não bloqueia as ondas locais
 
-- UMA fase/onda por vez; o STATE aponta UMA `proxima_acao`.
-- Nenhuma IA commita; nenhum bypass; exceção só via G-EXC com hearback.
+Branch protection em `main` (required check **hbn-shield**, include
+administrators, sem force-push/delete), CODEOWNERS do TCB, pauta de PRs de
+validação do Jules. Detalhe operacional no dispatch de instruções GitHub desta
+janela e no §7 do relatório de resolução.
+
+## Invariantes permanentes (valem em toda onda)
+
+- UMA onda por vez; o STATE aponta UMA `proxima_acao` (R3).
+- Nenhuma IA commita/sela/tagueia; nenhum bypass; exceção só via G-EXC com
+  hearback humano.
 - Escrita SÓ sob `versao_3_0_0/` (G-HOT-WRITE bloqueia o resto).
-- Exúvia futura SÓ pelo rito atômico (`scripts/hbn-exuvia-atomic.sh`).
+- Corte de leitura e exúvia v4 são NO-GO até Ondas 0-1 + jaula construída.
+- Exúvia futura SÓ pelo rito atômico (`scripts/hbn-exuvia-atomic.sh`), com
+  dry-run verde na máquina do operador e commit do operador.
 - Toda mensagem de IA abre com o cabeçalho BOOT-LOCK (`BOOT.md` §0).
