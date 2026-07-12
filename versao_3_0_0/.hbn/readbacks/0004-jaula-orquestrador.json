@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "id": "0004",
+  "titulo": "Readback 0004 — jaula definitiva do orquestrador",
+  "tipo": "readback",
+  "status": "proposto",
+  "temperatura": "quente",
+  "path": ".hbn/readbacks/0004-jaula-orquestrador.json",
+  "created_at": "2026-07-11T15:32:10-03:00",
+  "autor": "codex",
+  "familia": "OpenAI",
+  "papel": "implementador",
+  "hot_version": "versao_3_0_0",
+  "baseline": "51ce570",
+  "confirmacao_disco": true,
+  "dispatch_ref": ".hbn/messages/20260711-161600-claude-opus-4-8-dispatch-jaula-autocontido-codex.md",
+  "objetivo": "Implementar contenção por mecanismo do papel orquestrador, incluindo habitat somente-leitura, ledger externo, shell allowlist, promoção validada, remoção de bypass estrutural, hooks universais, runtime lock, handoff atestado, watchdog recursivo e bateria adversarial JT-01..JT-15.",
+  "scope": {
+    "files_allowed": [
+      "scripts/jaula/**",
+      "guards/hooks/pre-write-gate.sh",
+      "guards/hooks/pre-push",
+      "guards/hook-shims/HASHES.sha256",
+      "guards/assert-runtime-lock.sh",
+      "guards/lib/common.sh",
+      "guards/MANIFEST.yaml",
+      "guards/generate-manifest.sh",
+      "guards/tests/jaula-adversarial-battery.sh",
+      "guards/tests/assert-no-structural-bypass.sh",
+      ".claude/settings.json",
+      "usehbn/_lock.py",
+      "REGISTRY.md",
+      ".hbn/knowledge/INDEX.md",
+      ".hbn/readbacks/0004-jaula-orquestrador.json",
+      ".hbn/messages/*-codex-handoff-jaula.md",
+      ".hbn/results/*-cross-ia-jaula-0004.md",
+      ".hbn/hearbacks/0004-*.json"
+    ],
+    "files_forbidden": [
+      ".hbn/relay/STATE.md",
+      "guards/ci-entry.sh"
+    ],
+    "staging_policy": "cirúrgico, arquivo a arquivo; proibidos git add -A, -u e --all",
+    "commit_policy": "Codex não commita, não tagueia e não faz push; prepara staging e para"
+  },
+  "scope_amendments": [
+    {
+      "ref": ".hbn/hearbacks/0004-jaula-orquestrador-hearback-aditivo-1.json",
+      "status": "confirmado",
+      "allowed_delta": [
+        "versao_3_0_0/guards/generate-manifest.sh"
+      ],
+      "nota": "Ampliação mínima para o gerador emitir e exigir classe; assert-manifest-current.sh não foi necessário."
+    }
+  ],
+  "read_list_rite": [
+    {
+      "path": "versao_3_0_0/BOOT.md",
+      "sha256": "8a957d7faa112a7b8329a127590501befa153ec313a93298e9f4bc33788bf112",
+      "leitura": "integral"
+    },
+    {
+      "path": "versao_3_0_0/.hbn/relay/STATE.md",
+      "sha256": "0101794e8d9fd9ef3944f0fe61d885936b2045cefc38b604458e964a4ddce316",
+      "leitura": "integral"
+    },
+    {
+      "path": "versao_3_0_0/core/02-papeis.md",
+      "sha256": "24cbe86fb056545a34128db7227b9ecdffe552ce24848d612be27b9846e2f2f2",
+      "leitura": "somente cartão IMPLEMENTADOR"
+    }
+  ],
+  "g_exc": {
+    "motivo": "F-01: codex/OpenAI é autor do readback e implementador proposto",
+    "authorization": {
+      "human": "Maurício",
+      "evidence": ".hbn/hearbacks/0004-jaula-orquestrador-hearback.json"
+    },
+    "sinal": "VERMELHO",
+    "estado": "PROPOSED_UNTIL_CROSS_AUDIT"
+  },
+  "preflight": {
+    "active_version": "versao_3_0_0",
+    "head_short": "51ce570",
+    "working_tree": "suja conforme Onda-0b; mudanças preexistentes preservadas",
+    "overlap": "guards/lib/common.sh já modificado por Onda-0b; preservar integralmente o endurecimento de CI e parar se houver conflito real de região"
+  },
+  "criterios_aceitacao": [
+    "JT-01..JT-14 automatizados e verdes; JT-15 documentado como limite residual",
+    "suíte preexistente 389/389 verde sem enfraquecimento de guard",
+    "spawn-orchestrator.sh do zero em menos de 60 segundos",
+    "handoff gerado consome menos de 5% do contexto do orquestrador",
+    "auditoria cruzada por pelo menos duas famílias não OpenAI antes de qualquer commit",
+    "hearback humano assinado antes da implementação e novamente antes do commit do operador"
+  ],
+  "pendencias_para_hearback": [
+    "O §8.1 do despacho exige inserir sinal G-EXC em versao_3_0_0/.hbn/relay/STATE.md, porém esse arquivo não consta do escopo fechado do §7. O implementador manteve STATE intocado. O gate deve decidir expressamente entre ampliar files_allowed em novo readback/hearback ou aceitar o sinal somente neste readback.",
+    "O STATE em disco aponta como próxima ação única o commit humano da Onda 0 antes da construção da jaula. O gate deve confirmar em arquivo que esse pré-requisito foi satisfeito ou autorizar explicitamente a implementação sobre baseline 51ce570.",
+    "O nome/caminho final do hook pre-push deve ser confirmado pelo gate caso a convenção existente exija outro destino dentro das árvores já autorizadas."
+  ],
+  "hearback_required": true,
+  "implementation_started": true,
+  "proposed_commit_trailers": [
+    "HBN-Readback: 0004",
+    "HBN-Hearback: <arquivo-assinado-do-gate>",
+    "HBN-Cross-Audit: <dois-resultados-aprovados-nao-OpenAI>"
+  ],
+  "natureza": "nativo",
+  "track": "safe_track",
+  "human_status": "confirmed",
+  "implementador_id": "codex"
+}

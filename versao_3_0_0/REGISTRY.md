@@ -275,6 +275,28 @@ e `../versao_2_0_0/REGISTRY.md` (história imutável, glacier).
 | 20260707-248 | .hbn/results/20260707-171621-antigravity-cross-ia-0001-v2.md | result-cross-ia | quente | fronteira | re-ratifica .hbn/results/20260705-183900-antigravity-cross-ia-0001.md | 2026-07-07T17:20:18-03:00 |
 | 20260710-09 | .hbn/messages/20260710-041549-claude-opus-4-8-dispatch-jaula-codex.md | dispatch | quente | fronteira |  | 2026-07-10T04:15:49-03:00 |
 | 20260710-10 | .hbn/messages/20260710-041549-claude-opus-4-8-instrucoes-github-gate.md | handoff | quente | fronteira |  | 2026-07-10T04:15:49-03:00 |
+| 20260711-01 | .hbn/readbacks/0004-jaula-orquestrador.json | readback | quente | fronteira |  | 2026-07-11T15:32:10-03:00 |
+| 20260711-02 | .hbn/hearbacks/0004-jaula-orquestrador-hearback.json | hearback | quente | fronteira |  | 2026-07-11T18:20:00-03:00 |
+| 20260711-03 | .hbn/hearbacks/0004-jaula-orquestrador-hearback-aditivo-1.json | hearback | quente | fronteira |  | 2026-07-11T19:05:00-03:00 |
+| 20260711-04 | .hbn/messages/20260711-154525-codex-handoff-jaula.md | handoff | quente | fronteira |  | 2026-07-11T15:45:25-03:00 |
+| 20260711-05 | .hbn/messages/20260711-160117-codex-handoff-jaula.md | handoff | quente | fronteira |  | 2026-07-11T16:01:17-03:00 |
+| 20260711-06 | .hbn/results/20260711-162207-antigravity-cross-ia-jaula-0004.md | result-cross-ia | quente | fronteira |  | 2026-07-11T16:22:07-03:00 |
+| 20260711-07 | .hbn/results/20260711-162330-grok-cross-ia-jaula-0004.md | result-cross-ia | quente | fronteira |  | 2026-07-11T16:23:30-03:00 |
+| 20260711-08 | .claude/settings.json | config-governada | quente | fronteira |  | 2026-07-11T15:45:25-03:00 |
+| 20260711-09 | guards/assert-runtime-lock.sh | guard | quente | fronteira |  | 2026-07-11T15:45:25-03:00 |
+| 20260711-10 | guards/hooks/pre-write-gate.sh | guard-hook | quente | fronteira |  | 2026-07-11T15:45:25-03:00 |
+| 20260711-11 | guards/hooks/pre-push | guard-hook | quente | fronteira |  | 2026-07-11T15:45:25-03:00 |
+| 20260711-12 | guards/tests/assert-no-structural-bypass.sh | guard-test | quente | fronteira |  | 2026-07-11T15:45:25-03:00 |
+| 20260711-13 | guards/tests/jaula-adversarial-battery.sh | guard-test | quente | fronteira |  | 2026-07-11T15:45:25-03:00 |
+| 20260711-14 | scripts/jaula/spawn-orchestrator.sh | script-jaula | quente | fronteira |  | 2026-07-11T15:45:25-03:00 |
+| 20260711-15 | scripts/jaula/promote-ledger.sh | script-jaula | quente | fronteira |  | 2026-07-11T15:45:25-03:00 |
+| 20260711-16 | scripts/jaula/gen-orchestrator-handoff.sh | script-jaula | quente | fronteira |  | 2026-07-11T15:45:25-03:00 |
+| 20260711-17 | scripts/jaula/watchdog.sh | script-jaula | quente | fronteira |  | 2026-07-11T15:45:25-03:00 |
+| 20260711-18 | scripts/jaula/jaula-sh | script-jaula | quente | fronteira |  | 2026-07-11T15:45:25-03:00 |
+| 20260711-19 | scripts/jaula/jaula-lib.sh | script-jaula | quente | fronteira |  | 2026-07-11T15:45:25-03:00 |
+| 20260711-20 | scripts/jaula/BASELINE.sha256 | baseline-hash | quente | fronteira |  | 2026-07-11T15:45:25-03:00 |
+| 20260711-21 | guards/hook-shims/HASHES.sha256 | baseline-hash | quente | fronteira |  | 2026-07-11T15:45:25-03:00 |
+| 20260711-22 | usehbn/_lock.py | runtime-lock | quente | fronteira |  | 2026-07-11T15:45:25-03:00 |
 
 Nota Onda 0 (verdade pós-release, 2026-07-10): reconciliação do ledger com a
 selagem 3df71e8/v3.0.0 (STATE, ROADMAP, readbacks 0001/0002/0003 com campos
