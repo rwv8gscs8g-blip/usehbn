@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Última linha local. O Shield server-side continua sendo a autoridade final.
+set -euo pipefail
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+VERSION_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd -P)"
+
+fail() { printf '[hbn-hook/pre-push] BLOQUEADO: %s\n' "$*" >&2; exit 1; }
+
+[[ "${HBN_ACTOR_ROLE:-}" != orquestrador ]] || fail 'orquestrador nunca faz push'
+case " ${*:-} " in *' --no-verify '*) fail '--no-verify é proibido' ;; esac
+
+bash "${VERSION_ROOT}/guards/assert-runtime-lock.sh" \
+    || fail 'G-RUNTIME-LOCK reprovou'
+bash "${VERSION_ROOT}/guards/tests/assert-no-structural-bypass.sh" \
+    || fail 'anti-bypass estrutural reprovou'
+bash "${VERSION_ROOT}/guards/tests/jaula-adversarial-battery.sh" \
+    || fail 'bateria JT reprovou'
+
+printf '[hbn-hook/pre-push] Shield local verde; o push ainda depende do hbn-shield server-side.\n' >&2

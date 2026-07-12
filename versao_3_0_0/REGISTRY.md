@@ -297,6 +297,8 @@ e `../versao_2_0_0/REGISTRY.md` (história imutável, glacier).
 | 20260711-20 | scripts/jaula/BASELINE.sha256 | baseline-hash | quente | fronteira |  | 2026-07-11T15:45:25-03:00 |
 | 20260711-21 | guards/hook-shims/HASHES.sha256 | baseline-hash | quente | fronteira |  | 2026-07-11T15:45:25-03:00 |
 | 20260711-22 | usehbn/_lock.py | runtime-lock | quente | fronteira |  | 2026-07-11T15:45:25-03:00 |
+| 20260711-23 | .hbn/hearbacks/hb0004-jaula-orquestrador-hearback.json | hearback | quente | fronteira | substitui .hbn/hearbacks/0004-jaula-orquestrador-hearback.json (nunca commitado) | 2026-07-11T18:20:00-03:00 |
+| 20260711-24 | .hbn/hearbacks/hb0004-jaula-orquestrador-hearback-aditivo-1.json | hearback | quente | fronteira | substitui .hbn/hearbacks/0004-jaula-orquestrador-hearback-aditivo-1.json (nunca commitado) | 2026-07-11T19:05:00-03:00 |
 
 Nota Onda 0 (verdade pós-release, 2026-07-10): reconciliação do ledger com a
 selagem 3df71e8/v3.0.0 (STATE, ROADMAP, readbacks 0001/0002/0003 com campos

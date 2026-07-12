@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+# Shell de capacidade mínima do habitat do orquestrador.
+set -euo pipefail
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+# shellcheck source=jaula-lib.sh
+source "${SCRIPT_DIR}/jaula-lib.sh"
+
+deny_token() {
+    case "$1" in
+        *'>'*|*'<'*|*'|'*|*';'*|*'&'*|*'`'*|*'$('*|*'${'*|*'{'*|*'}'*|*'\n'*|*'\r'*) return 0 ;;
+        --no-verify|--force|-f|--exec-path=*|--upload-pack=*|--receive-pack=*) return 0 ;;
+    esac
+    return 1
+}
+
+[[ $# -gt 0 ]] || jaula_die 'uso: jaula-sh <comando> [args...]'
+for token in "$@"; do
+    deny_token "$token" && jaula_die "token de shell/burla recusado: ${token}"
+done
+
+cmd="$1"
+shift
+case "$cmd" in
+    cat|head|tail|wc|sort|cut|tr|rg|grep|sed|find|ls|pwd|file|stat|shasum|sha256sum)
+        exec "$cmd" "$@"
+        ;;
+    git)
+        sub=''
+        for token in "$@"; do
+            case "$token" in
+                -*) ;;
+                *) sub="$token"; break ;;
+            esac
+        done
+        case "$sub" in
+            status|diff|show|log|rev-parse|ls-files|cat-file) exec git "$@" ;;
+            *) jaula_die "git ${sub:-<ausente>} não pertence à allowlist somente-leitura" ;;
+        esac
+        ;;
+    ledger-write)
+        [[ $# -eq 1 ]] || jaula_die 'uso: jaula-sh ledger-write <caminho-relativo> (conteúdo via stdin)'
+        [[ -n "${HBN_JAULA_LEDGER:-}" ]] || jaula_die 'HBN_JAULA_LEDGER não definido'
+        rel="$1"
+        case "$rel" in
+            /*|*..*|*//*|*\\*) jaula_die "caminho de ledger inseguro: ${rel}" ;;
+        esac
+        dest="${HBN_JAULA_LEDGER}/${rel}"
+        mkdir -p "$(dirname "$dest")"
+        [[ ! -L "$dest" ]] || jaula_die 'destino symlink recusado'
+        resolved="$(jaula_realpath_target "$dest")"
+        jaula_path_within "$resolved" "$HBN_JAULA_LEDGER" \
+            || jaula_die 'destino resolve fora do ledger'
+        umask 077
+        tmp="${dest}.tmp.$$"
+        trap 'rm -f "$tmp"' EXIT
+        IFS= read -r -d '' payload || true
+        printf '%s' "$payload" > "$tmp"
+        mv "$tmp" "$dest"
+        trap - EXIT
+        ;;
+    python|python3|pip|pip3|tee|dd|ln|chmod|chflags|mount|umount|rm|mv|cp|install|bash|sh|zsh|env|xargs)
+        jaula_die "comando negado ao papel orquestrador: ${cmd}"
+        ;;
+    *)
+        jaula_die "comando fora da allowlist: ${cmd}"
+        ;;
+esac

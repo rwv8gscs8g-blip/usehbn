@@ -20,6 +20,7 @@ fi
 # Identificação do guard que chama (usar no início do script: GUARD_NAME="assert-canonical-root")
 GUARD_NAME="${GUARD_NAME:-hbn-guard}"
 HBN_HOOK_SHIM_VERSION="M-A-20260614"
+HBN_GUARD_LIB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 
 guard_log() {
     echo "${C_DIM}[hbn-guards/${GUARD_NAME}]${C_END} $*" >&2
@@ -366,9 +367,16 @@ guard_hook_path() {
     repo_root="$(guard_repo_root)" || return 1
     p="$(git rev-parse --git-path "hooks/${hook}" 2>/dev/null || echo "")"
     [[ -z "$p" ]] && return 1
+    # FIX 20260710 (fable5, pre-corte): 'git rev-parse --git-path' devolve
+    # caminho RELATIVO AO CWD, nao a raiz do repo. O join anterior com
+    # repo_root so era correto quando cwd == raiz; com cwd em versao_X/
+    # (contrato canonico do workflow: working-directory versao_3_0_0) o
+    # caminho '../.git/hooks/<hook>' era mangleado para fora do repo e o
+    # pre-flight acusava hook ausente mesmo com shim instalado. Bugfix de
+    # correcao (o check continua identico; apenas resolve o path certo).
     case "$p" in
         /*) printf '%s\n' "$p" ;;
-        *) printf '%s/%s\n' "$repo_root" "$p" ;;
+        *) printf '%s/%s\n' "$(pwd)" "$p" ;;
     esac
 }
 
@@ -393,38 +401,102 @@ guard_check_hooks_current() {
     [[ "$fail" -eq 0 ]]
 }
 
-# Bypass de emergência — alinhado com a convenção GLASSWING_BYPASS já existente.
-# Parâmetro opcional: nome do guard (usado apenas em logs).
-#
-# F-10 (onda 0006 I-06, cross-audit 0036 P1 / 0037 P1): a env de bypass só
-# surte efeito se houver NOTA ADICIONADA em .hbn/bypasses/ no MESMO diff
-# staged (formato <AAAAMMDD-HHMMSS>-<agente>-<motivo>.md). Env sem nota =
-# bypass IGNORADO: os guards rodam normalmente, com aviso. Era a ironia
-# apontada pelos auditores: o mecanismo da auditoria anti-burla (Glasswing)
-# era ele mesmo uma burla silenciosa. CI: nota de bypass sem hearback
-# correspondente = achado (auditoria de trailers, runbook).
+# Bypass por classe. Guard estrutural nunca pode ser desarmado; guard
+# documental exige nota staged que referencia hearback humano já confirmado
+# e assinado. Classe ausente/desconhecida falha fechada como estrutural.
+guard_manifest_class() {
+    local name="$1" root manifest source_manifest
+    root="$(get_canonical_root 2>/dev/null || true)"
+    manifest="${root}/guards/MANIFEST.yaml"
+    source_manifest="${HBN_GUARD_LIB_DIR}/../MANIFEST.yaml"
+    if [[ ! -r "$manifest" && -r "$source_manifest" ]]; then
+        # Compatibilidade de consumidores/fixtures anteriores ao campo classe:
+        # a classificação vem do genoma que forneceu este common.sh. A versão
+        # quente real sempre usa o próprio MANIFEST; ausência em ambos fecha.
+        manifest="$source_manifest"
+    fi
+    [[ -r "$manifest" ]] || { printf 'estrutural\n'; return 0; }
+    awk -v wanted="$name" '
+        $1 == "-" && $2 == "guard:" { in_guard=($3 == wanted); next }
+        in_guard && $1 == "classe:" { print $2; exit }
+    ' "$manifest"
+}
+
+guard_documental_hearback_valid() { # <nota-version-relative>
+    local note="$1" root
+    root="$(get_canonical_root 2>/dev/null || true)"
+    [[ -n "$root" ]] || return 1
+    python3 - "$root" "$note" <<'PY'
+import json, os, re, sys
+root, note_rel = sys.argv[1:]
+note = os.path.realpath(os.path.join(root, note_rel))
+if os.path.commonpath((note, os.path.realpath(root))) != os.path.realpath(root):
+    raise SystemExit(1)
+try:
+    text = open(note, encoding='utf-8').read()
+except OSError:
+    raise SystemExit(1)
+m = re.search(r'^hearback_ref:\s*["\']?([^"\'\s]+)', text, re.M)
+if not m:
+    raise SystemExit(1)
+hb = os.path.realpath(os.path.join(root, m.group(1).lstrip('./')))
+hbdir = os.path.realpath(os.path.join(root, '.hbn', 'hearbacks'))
+if os.path.commonpath((hb, hbdir)) != hbdir:
+    raise SystemExit(1)
+try:
+    data = json.load(open(hb, encoding='utf-8'))
+except (OSError, ValueError):
+    raise SystemExit(1)
+confirmed = data.get('status') in {'confirmed', 'confirmado'}
+signed = bool(data.get('gate', {}).get('assinatura') or data.get('signed_by'))
+raise SystemExit(0 if confirmed and signed else 1)
+PY
+}
+
 guard_check_bypass() {
     local name="${1:-${GUARD_NAME:-hbn-guard}}"
-    local envname=""
+    local envname="" class=""
     if [[ "${HBN_GUARDS_BYPASS:-0}" == "1" ]]; then
         envname="HBN_GUARDS_BYPASS"
     elif [[ "${GLASSWING_BYPASS:-0}" == "1" ]]; then
         envname="GLASSWING_BYPASS"
     fi
     [[ -z "$envname" ]] && return 1
+    class="$(guard_manifest_class "$name")"
+    if [[ "$class" != documental ]]; then
+        guard_warn "${envname}=1 IGNORADO em ${name}: classe '${class:-ausente}' não admite bypass."
+        return 1
+    fi
     local notes
     if hbn_ci_range_mode; then
         notes="$(git diff --name-only --diff-filter=A "${HBN_DIFF_BASE}...HEAD" 2>/dev/null \
+            | guard_paths_to_version_paths \
             | grep -E '^\.hbn/bypasses/[0-9]{8}-[0-9]{6}-[A-Za-z0-9._-]+\.md$' || true)"
     else
         notes="$(git diff --cached --name-only --diff-filter=A 2>/dev/null \
+            | guard_paths_to_version_paths \
             | grep -E '^\.hbn/bypasses/[0-9]{8}-[0-9]{6}-[A-Za-z0-9._-]+\.md$' || true)"
     fi
     if [[ -n "$notes" ]]; then
-        guard_warn "BYPASS ATIVO (${envname}=1) em $name COM nota staged: $(echo "$notes" | xargs). Hearback humano obrigatório na adoção; CI cruza nota×hearback."
-        return 0
+        local note
+        while IFS= read -r note; do
+            if guard_documental_hearback_valid "$note"; then
+                guard_warn "BYPASS DOCUMENTAL ATIVO (${envname}=1) em $name com nota+hearback confirmado: ${note}."
+                return 0
+            fi
+            # Somente para repositório legado sem MANIFEST próprio. Não se
+            # aplica à versão quente classificada nem a guard estrutural.
+            local active_root
+            active_root="$(get_canonical_root 2>/dev/null || true)"
+            if [[ -n "$active_root" && ! -e "$active_root/guards/MANIFEST.yaml" && -r "$HBN_GUARD_LIB_DIR/../MANIFEST.yaml" ]]; then
+                guard_warn "BYPASS DOCUMENTAL LEGADO (${envname}=1) em $name com nota staged; migre o consumidor para MANIFEST classificado + hearback_ref."
+                return 0
+            fi
+        done <<< "$notes"
+        guard_warn "${envname}=1 IGNORADO em $name: nota staged sem hearback_ref humano confirmado e assinado."
+        return 1
     fi
-    guard_warn "${envname}=1 IGNORADO em $name: nenhuma nota ADICIONADA em .hbn/bypasses/<carimbo>-<agente>-<motivo>.md neste diff (F-10, onda 0006). Guards rodam normalmente."
+    guard_warn "${envname}=1 IGNORADO em $name: nenhuma nota documental ADICIONADA neste diff."
     return 1
 }
 

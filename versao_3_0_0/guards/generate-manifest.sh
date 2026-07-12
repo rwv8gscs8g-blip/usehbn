@@ -15,6 +15,18 @@ begin = "# ---HBN-REQUIRES-BEGIN---"
 end = "# ---HBN-REQUIRES-END---"
 install_values = {"skeleton", "copy", "refuse"}
 guard_re = re.compile(r"^(assert|forbid)-[a-z0-9-]+\.sh$|^freeze-gate\.sh$|^validate-dispatch\.sh$")
+classes = {
+    "assert-doc-provenance": "estrutural",
+    "assert-hearback-integrity": "estrutural",
+    "assert-no-pending-exuvia": "estrutural",
+    "assert-no-stray-hbn": "estrutural",
+    "assert-only-hot-version-writable": "estrutural",
+    "assert-orq-entrada-ref": "estrutural",
+    "assert-orq-entrada": "estrutural",
+    "assert-runtime-lock": "estrutural",
+    "assert-self-path": "estrutural",
+    "assert-version-self-contained": "estrutural",
+}
 
 def strip_comment_prefix(line):
     if line.startswith("# "):
@@ -146,11 +158,16 @@ records = []
 for name in guards:
     path = os.path.join(guards_dir, name)
     block = parse_block(extract_block(path), path)
-    records.append((name[:-3] if name.endswith(".sh") else name, f"guards/{name}", block))
+    guard = name[:-3] if name.endswith(".sh") else name
+    classe = classes.get(guard, "documental")
+    if classe not in {"estrutural", "documental"}:
+        raise SystemExit(f"{path}: classe ausente ou invalida: {classe!r}")
+    records.append((guard, classe, f"guards/{name}", block))
 
 print("guards:")
-for guard, path, req in records:
+for guard, classe, path, req in records:
     print(f"  - guard: {guard}")
+    print(f"    classe: {classe}")
     print(f"    path: {path}")
     print("    requires:")
     for group in ("files", "dirs"):

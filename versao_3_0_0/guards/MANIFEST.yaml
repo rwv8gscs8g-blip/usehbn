@@ -1,5 +1,6 @@
 guards:
   - guard: assert-active-version-integrity
+    classe: documental
     path: guards/assert-active-version-integrity.sh
     requires:
       files:
@@ -12,6 +13,7 @@ guards:
       guards: []
       env: []
   - guard: assert-arvore-label
+    classe: documental
     path: guards/assert-arvore-label.sh
     requires:
       files:
@@ -25,6 +27,7 @@ guards:
       guards: []
       env: []
   - guard: assert-audit-diversity
+    classe: documental
     path: guards/assert-audit-diversity.sh
     requires:
       files:
@@ -36,6 +39,7 @@ guards:
       guards: []
       env: []
   - guard: assert-auditor-id
+    classe: documental
     path: guards/assert-auditor-id.sh
     requires:
       files:
@@ -47,6 +51,7 @@ guards:
       guards: []
       env: []
   - guard: assert-baton-token
+    classe: documental
     path: guards/assert-baton-token.sh
     requires:
       files:
@@ -57,6 +62,7 @@ guards:
       guards: []
       env: [HBN_REQUIRE_BATON_TOKEN]
   - guard: assert-canonical-root
+    classe: documental
     path: guards/assert-canonical-root.sh
     requires:
       files: []
@@ -65,6 +71,7 @@ guards:
       guards: []
       env: []
   - guard: assert-ci-battery
+    classe: documental
     path: guards/assert-ci-battery.sh
     requires:
       files:
@@ -78,6 +85,7 @@ guards:
       guards: []
       env: []
   - guard: assert-copy-block
+    classe: documental
     path: guards/assert-copy-block.sh
     requires:
       files:
@@ -89,6 +97,7 @@ guards:
       guards: []
       env: []
   - guard: assert-dispatch-integrity
+    classe: documental
     path: guards/assert-dispatch-integrity.sh
     requires:
       files:
@@ -99,6 +108,7 @@ guards:
       guards: [validate-dispatch]
       env: []
   - guard: assert-doc-provenance
+    classe: estrutural
     path: guards/assert-doc-provenance.sh
     requires:
       files:
@@ -110,6 +120,7 @@ guards:
       guards: []
       env: []
   - guard: assert-exception-traceable
+    classe: documental
     path: guards/assert-exception-traceable.sh
     requires:
       files:
@@ -120,6 +131,7 @@ guards:
       guards: [assert-role-family]
       env: []
   - guard: assert-frontdoor
+    classe: documental
     path: guards/assert-frontdoor.sh
     requires:
       files:
@@ -136,6 +148,7 @@ guards:
       guards: []
       env: []
   - guard: assert-hearback-integrity
+    classe: estrutural
     path: guards/assert-hearback-integrity.sh
     requires:
       files: []
@@ -144,6 +157,7 @@ guards:
       guards: []
       env: []
   - guard: assert-knowledge-index
+    classe: documental
     path: guards/assert-knowledge-index.sh
     requires:
       files: []
@@ -152,6 +166,7 @@ guards:
       guards: []
       env: []
   - guard: assert-manifest-current
+    classe: documental
     path: guards/assert-manifest-current.sh
     requires:
       files:
@@ -163,6 +178,7 @@ guards:
       guards: []
       env: []
   - guard: assert-next-checkpoint
+    classe: documental
     path: guards/assert-next-checkpoint.sh
     requires:
       files:
@@ -176,6 +192,7 @@ guards:
       guards: []
       env: []
   - guard: assert-no-pending-exuvia
+    classe: estrutural
     path: guards/assert-no-pending-exuvia.sh
     requires:
       files:
@@ -186,6 +203,7 @@ guards:
       guards: []
       env: []
   - guard: assert-no-stray-hbn
+    classe: estrutural
     path: guards/assert-no-stray-hbn.sh
     requires:
       files: []
@@ -194,6 +212,7 @@ guards:
       guards: []
       env: []
   - guard: assert-only-hot-version-writable
+    classe: estrutural
     path: guards/assert-only-hot-version-writable.sh
     requires:
       files:
@@ -204,6 +223,7 @@ guards:
       guards: []
       env: []
   - guard: assert-orq-entrada-ref
+    classe: estrutural
     path: guards/assert-orq-entrada-ref.sh
     requires:
       files: []
@@ -212,6 +232,7 @@ guards:
       guards: []
       env: []
   - guard: assert-orq-entrada
+    classe: estrutural
     path: guards/assert-orq-entrada.sh
     requires:
       files: []
@@ -220,6 +241,7 @@ guards:
       guards: []
       env: []
   - guard: assert-parallel-id
+    classe: documental
     path: guards/assert-parallel-id.sh
     requires:
       files:
@@ -235,6 +257,7 @@ guards:
       guards: []
       env: []
   - guard: assert-pointer-honest
+    classe: documental
     path: guards/assert-pointer-honest.sh
     requires:
       files: []
@@ -243,6 +266,7 @@ guards:
       guards: []
       env: []
   - guard: assert-profile-authorized
+    classe: documental
     path: guards/assert-profile-authorized.sh
     requires:
       files:
@@ -253,6 +277,7 @@ guards:
       guards: []
       env: [HBN_CONSUMER_PROFILE, HBN_PROFILE_SNAPSHOT_GUARDS_DIR]
   - guard: assert-quorum-selagem
+    classe: documental
     path: guards/assert-quorum-selagem.sh
     requires:
       files:
@@ -264,6 +289,7 @@ guards:
       guards: []
       env: []
   - guard: assert-readlist-rite
+    classe: documental
     path: guards/assert-readlist-rite.sh
     requires:
       files: []
@@ -272,6 +298,7 @@ guards:
       guards: []
       env: []
   - guard: assert-registry-line
+    classe: documental
     path: guards/assert-registry-line.sh
     requires:
       files: []
@@ -280,6 +307,7 @@ guards:
       guards: []
       env: []
   - guard: assert-report-fresh
+    classe: documental
     path: guards/assert-report-fresh.sh
     requires:
       files: []
@@ -288,6 +316,7 @@ guards:
       guards: []
       env: []
   - guard: assert-role-family
+    classe: documental
     path: guards/assert-role-family.sh
     requires:
       files:
@@ -299,7 +328,23 @@ guards:
       state_fields: [atribuicao]
       guards: []
       env: [HBN_MODELS_DIR]
+  - guard: assert-runtime-lock
+    classe: estrutural
+    path: guards/assert-runtime-lock.sh
+    requires:
+      files:
+        - path: usehbn/_lock.py
+          install: copy
+          source: usehbn/_lock.py
+        - path: scripts/jaula/BASELINE.sha256
+          install: copy
+          source: scripts/jaula/BASELINE.sha256
+      dirs: []
+      state_fields: []
+      guards: []
+      env: []
   - guard: assert-scope-lock
+    classe: documental
     path: guards/assert-scope-lock.sh
     requires:
       files: []
@@ -308,6 +353,7 @@ guards:
       guards: []
       env: []
   - guard: assert-scratch-ignore
+    classe: documental
     path: guards/assert-scratch-ignore.sh
     requires:
       files: []
@@ -316,6 +362,7 @@ guards:
       guards: []
       env: []
   - guard: assert-scratch-lock
+    classe: documental
     path: guards/assert-scratch-lock.sh
     requires:
       files: []
@@ -324,6 +371,7 @@ guards:
       guards: []
       env: []
   - guard: assert-scratch-symlink
+    classe: documental
     path: guards/assert-scratch-symlink.sh
     requires:
       files: []
@@ -332,6 +380,7 @@ guards:
       guards: []
       env: []
   - guard: assert-self-path
+    classe: estrutural
     path: guards/assert-self-path.sh
     requires:
       files: []
@@ -340,6 +389,7 @@ guards:
       guards: []
       env: []
   - guard: assert-start-cast
+    classe: documental
     path: guards/assert-start-cast.sh
     requires:
       files:
@@ -352,6 +402,7 @@ guards:
       guards: [assert-role-family]
       env: [HBN_MODELS_DIR]
   - guard: assert-state-structural
+    classe: documental
     path: guards/assert-state-structural.sh
     requires:
       files:
@@ -365,6 +416,7 @@ guards:
       guards: []
       env: []
   - guard: assert-trailers-contiguous
+    classe: documental
     path: guards/assert-trailers-contiguous.sh
     requires:
       files: []
@@ -373,6 +425,7 @@ guards:
       guards: []
       env: []
   - guard: assert-version-self-contained
+    classe: estrutural
     path: guards/assert-version-self-contained.sh
     requires:
       files: []
@@ -381,6 +434,7 @@ guards:
       guards: []
       env: []
   - guard: assert-zona-livre
+    classe: documental
     path: guards/assert-zona-livre.sh
     requires:
       files: []
@@ -389,6 +443,7 @@ guards:
       guards: []
       env: []
   - guard: forbid-env-files
+    classe: documental
     path: guards/forbid-env-files.sh
     requires:
       files: []
@@ -397,6 +452,7 @@ guards:
       guards: []
       env: []
   - guard: forbid-legacy-paths
+    classe: documental
     path: guards/forbid-legacy-paths.sh
     requires:
       files: []
@@ -405,6 +461,7 @@ guards:
       guards: []
       env: []
   - guard: forbid-tmp-worktree
+    classe: documental
     path: guards/forbid-tmp-worktree.sh
     requires:
       files: []
@@ -413,6 +470,7 @@ guards:
       guards: []
       env: []
   - guard: freeze-gate
+    classe: documental
     path: guards/freeze-gate.sh
     requires:
       files: []
@@ -421,6 +479,7 @@ guards:
       guards: []
       env: []
   - guard: validate-dispatch
+    classe: documental
     path: guards/validate-dispatch.sh
     requires:
       files:
