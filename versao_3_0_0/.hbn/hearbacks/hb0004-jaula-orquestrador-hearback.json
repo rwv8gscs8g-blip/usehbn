@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "id": "0004-hearback",
+  "titulo": "Hearback do gate — Readback 0004 (jaula definitiva do orquestrador)",
+  "tipo": "hearback",
+  "status": "confirmado",
+  "temperatura": "quente",
+  "path": ".hbn/hearbacks/hb0004-jaula-orquestrador-hearback.json",
+  "created_at": "2026-07-11T18:20:00-03:00",
+  "readback_ref": ".hbn/readbacks/0004-jaula-orquestrador.json",
+  "gate": {
+    "human": "Maurício",
+    "email": "mauriciozanin@gmail.com",
+    "assinatura": "Maurício Zanin — gate humano, decisão registrada em sessão Cowork de 2026-07-11",
+    "canal": "chat (transação integral no chat, conforme regra do sistema)"
+  },
+  "decisoes": [
+    {
+      "pendencia": 1,
+      "tema": "Conflito §7×§8 — sinal G-EXC no STATE.md fora do escopo",
+      "decisao": "O sinal G-EXC vale registrado SOMENTE no readback 0004. O STATE.md permanece fora do files_allowed do Codex; a inserção do sinal em sinais_abertos do STATE ocorrerá no commit único de rito do operador. Não ampliar escopo."
+    },
+    {
+      "pendencia": 2,
+      "tema": "Pré-requisito do commit da Onda 0",
+      "decisao": "AUTORIZADO EXPRESSAMENTE implementar a jaula sobre a baseline 51ce570, com a árvore suja descrita no §1 do despacho. O commit da Onda 0 será incorporado ao commit único de rito do operador, junto com o staging da jaula. O Codex NÃO deve tocar nos arquivos da Onda-0b nem no glacier."
+    },
+    {
+      "pendencia": 3,
+      "tema": "Caminho do hook pre-push",
+      "decisao": "Confirmado: versao_3_0_0/guards/hooks/pre-push (mesma árvore dos hooks existentes; incluir hash na baseline HASHES.sha256)."
+    }
+  ],
+  "autorizacao_implementacao": {
+    "autorizado": true,
+    "baseline": "51ce570",
+    "escopo": "files_allowed do readback 0004, sem ampliação",
+    "condicoes": [
+      "Suíte 389/389 verde e JT-01..JT-14 verdes antes de preparar staging",
+      "Staging cirúrgico arquivo a arquivo; PARAR após staging; entregar comando exato de commit ao operador",
+      "Auditoria cruzada ≥2 famílias ≠ OpenAI antes do commit do operador",
+      "Sem --no-verify, sem tag, sem push, sem commit pelo Codex"
+    ]
+  },
+  "g_exc_ack": "Gate ciente e de acordo: F-01 (codex/OpenAI autor+implementador) admitido sob sinal VERMELHO PROPOSED_UNTIL_CROSS_AUDIT, a resolver na auditoria cruzada.",
+  "autor": "mauricio",
+  "familia": "humano",
+  "natureza": "nativo"
+}

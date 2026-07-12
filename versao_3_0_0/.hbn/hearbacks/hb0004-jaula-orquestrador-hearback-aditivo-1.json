@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "id": "0004-hearback-aditivo-1",
+  "titulo": "Aditivo 1 ao hearback 0004 — ampliação de escopo: gerador/validador do MANIFEST",
+  "tipo": "hearback",
+  "status": "confirmado",
+  "temperatura": "quente",
+  "path": ".hbn/hearbacks/hb0004-jaula-orquestrador-hearback-aditivo-1.json",
+  "created_at": "2026-07-11T19:05:00-03:00",
+  "readback_ref": ".hbn/readbacks/0004-jaula-orquestrador.json",
+  "hearback_base": ".hbn/hearbacks/0004-jaula-orquestrador-hearback.json",
+  "handoff_ref": ".hbn/messages/20260711-154525-codex-handoff-jaula.md",
+  "gate": {
+    "human": "Maurício",
+    "email": "mauriciozanin@gmail.com",
+    "assinatura": "Maurício Zanin — gate humano, decisão registrada em sessão Cowork de 2026-07-11",
+    "canal": "chat (transação integral no chat, conforme regra do sistema)"
+  },
+  "decisao": {
+    "tema": "Bloqueio §4(c).1 — generate-manifest.sh fora do files_allowed produziria drift inevitável no MANIFEST classificado",
+    "resolucao": "AMPLIAÇÃO DE ESCOPO AUTORIZADA. Acrescentar ao files_allowed do readback 0004: versao_3_0_0/guards/generate-manifest.sh (emitir e exigir o campo classe) e, SOMENTE se a validação não couber nele, versao_3_0_0/guards/assert-manifest-current.sh. Mudança mínima necessária: não reescrever os scripts; apenas o suporte ao campo classe. Nenhum outro caminho é adicionado."
+  },
+  "autorizacao_continuacao": {
+    "autorizado": true,
+    "baseline": "51ce570",
+    "janela": "nova (limpa), retomando do handoff 20260711-154525-codex-handoff-jaula.md",
+    "condicoes": [
+      "Retomar pela 'Próxima ação exata' do handoff: assert-no-structural-bypass.sh → jaula-adversarial-battery.sh (JT-01..JT-14, JT-15 documentado) → correções → BASELINE.sha256 + HASHES.sha256 → generate-manifest.sh (campo classe) → JT verde → suíte 389/389 verde",
+      "Staging cirúrgico arquivo a arquivo só com tudo verde; PARAR após staging; entregar comando exato de commit ao operador",
+      "Auditoria cruzada ≥2 famílias ≠ OpenAI antes do commit do operador",
+      "Sem --no-verify, sem tag, sem push, sem commit pelo Codex; STATE.md permanece intocado"
+    ]
+  },
+  "autor": "mauricio",
+  "familia": "humano",
+  "natureza": "nativo"
+}
