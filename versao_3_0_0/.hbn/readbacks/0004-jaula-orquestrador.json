@@ -34,7 +34,7 @@
       ".hbn/readbacks/0004-jaula-orquestrador.json",
       ".hbn/messages/*-codex-handoff-jaula.md",
       ".hbn/results/*-cross-ia-jaula-0004.md",
-      ".hbn/hearbacks/0004-*.json"
+      ".hbn/hearbacks/hb0004-*.json"
     ],
     "files_forbidden": [
       ".hbn/relay/STATE.md",
@@ -74,7 +74,7 @@
     "motivo": "F-01: codex/OpenAI é autor do readback e implementador proposto",
     "authorization": {
       "human": "Maurício",
-      "evidence": ".hbn/hearbacks/0004-jaula-orquestrador-hearback.json"
+      "evidence": ".hbn/hearbacks/hb0004-jaula-orquestrador-hearback.json + .hbn/hearbacks/hb0004-jaula-orquestrador-hearback-aditivo-1.json"
     },
     "sinal": "VERMELHO",
     "estado": "PROPOSED_UNTIL_CROSS_AUDIT"
@@ -101,12 +101,20 @@
   "hearback_required": true,
   "implementation_started": true,
   "proposed_commit_trailers": [
-    "HBN-Readback: 0004",
-    "HBN-Hearback: <arquivo-assinado-do-gate>",
-    "HBN-Cross-Audit: <dois-resultados-aprovados-nao-OpenAI>"
+    "HBN-Readback: 0004-jaula-orquestrador",
+    "HBN-Human-Authorization: Mauricio (Luis Mauricio Junqueira Zanin)",
+    "HBN-Token-FP: inactive"
   ],
   "natureza": "nativo",
   "track": "safe_track",
   "human_status": "confirmed",
-  "implementador_id": "codex"
+  "implementador_id": "codex",
+  "scope_extension_hb0004": {
+    "human": "Mauricio (Luis Mauricio Junqueira Zanin)",
+    "evidence": "Decisao do gate em sessao Cowork 2026-07-12: hearbacks renomeados para hb0004-* para resolver conflito G-HRB (commit puro) x G-REGISTRY (linha no mesmo commit) exposto pela onda 0004; linhas 20260711-23/24 no REGISTRY entram no commit da obra.",
+    "created_at": "2026-07-12T10:30:00-03:00",
+    "allowed_delta": [
+      ".hbn/hearbacks/hb0004-*.json"
+    ]
+  }
 }
